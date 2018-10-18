@@ -114,7 +114,9 @@ extension EThree {
             }
         }
     }
+}
 
+extension EThree {
     internal func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
         self.generateBrainKey(password: password) { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {

@@ -38,6 +38,37 @@ import Foundation
 import VirgilCryptoApiImpl
 
 extension EThree {
+    public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]) throws -> String {
+        guard let data = text.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
+        }
+        guard !recipientKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
+            throw EThreeError.missingKeys
+        }
+        let publicKeys = recipientKeys + [selfKeyPair.publicKey]
+        let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
+
+        return encryptedData.base64EncodedString()
+    }
+
+    public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]) throws -> String {
+        guard let data = Data(base64Encoded: encrypted) else {
+            throw EThreeError.strToDataFailed
+        }
+        guard !senderKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
+            throw EThreeError.missingKeys
+        }
+        let publicKeys = senderKeys + [selfKeyPair.publicKey]
+
+        let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
+                                                              usingOneOf: publicKeys)
+        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
+            throw EThreeError.strFromDataFailed
+        }
+
+        return decryptedString
+    }
+
     public func lookupPublicKeys(of identities: [String], completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
         guard !identities.isEmpty else {
             completion([], [])
@@ -70,36 +101,5 @@ extension EThree {
         group.notify(queue: .main) {
             completion(result, errors)
         }
-    }
-
-    public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
-        guard !recipientKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
-            throw EThreeError.missingKeys
-        }
-        let publicKeys = recipientKeys + [selfKeyPair.publicKey]
-        let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
-
-        return encryptedData.base64EncodedString()
-    }
-
-    public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]) throws -> String {
-        guard let data = Data(base64Encoded: encrypted) else {
-            throw EThreeError.strToDataFailed
-        }
-        guard !senderKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
-            throw EThreeError.missingKeys
-        }
-        let publicKeys = senderKeys + [selfKeyPair.publicKey]
-
-        let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
-                                                              usingOneOf: publicKeys)
-        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
-            throw EThreeError.strFromDataFailed
-        }
-
-        return decryptedString
     }
 }

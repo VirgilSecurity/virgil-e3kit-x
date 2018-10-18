@@ -46,6 +46,7 @@ public enum EThreeError: Int, Error {
     case strFromDataFailed = 5
     case missingKeys = 6
     case passwordRequired = 7
+    case notBootstrapped = 8
 }
 
 open class EThree {
@@ -82,45 +83,13 @@ open class EThree {
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    private init(identity: String, cardManager: CardManager) throws {
+    internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
         let keychainStorageParams = try KeychainStorageParams.makeKeychainStorageParams()
         self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
-    }
-
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  completion: @escaping (EThree?, Error?) -> ()) {
-        let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
-            tokenCallback(completion)
-        }
-
-        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "publish")
-        accessTokenProvider.getToken(with: tokenContext) { token, error in
-            guard let identity = token?.identity(), error == nil else {
-                completion(nil, EThreeError.gettingJwtFailed)
-                return
-            }
-            do {
-                let cardCrypto = VirgilCardCrypto()
-                guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-                    completion(nil, EThreeError.verifierInitFailed)
-                    return
-                }
-                let params = CardManagerParams(cardCrypto: cardCrypto,
-                                               accessTokenProvider: accessTokenProvider,
-                                               cardVerifier: verifier)
-                let cardManager = CardManager(params: params)
-
-                let ethree = try EThree(identity: identity, cardManager: cardManager)
-                completion(ethree, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
     }
 }
 

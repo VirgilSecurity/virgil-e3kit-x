@@ -34,8 +34,19 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VirgilE3Kit_h
-#define VirgilE3Kit_h
+import Foundation
 
+extension EThree {
+    public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+        guard let identityKeyPair = self.identityKeyPair, identityKeyPair.isPublished else {
+            completion(EThreeError.notBootstrapped)
+            return
+        }
 
-#endif /* VirgilE3Kit_h */
+        self.publishToKeyknox(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
+    }
+
+    public func changePrivateKeyPassword(from oldOne: String, to newOne: String, completion: @escaping (Error?) -> ()) {
+        self.changeKeyknoxPassword(from: oldOne, to: newOne, completion: completion)
+    }
+}

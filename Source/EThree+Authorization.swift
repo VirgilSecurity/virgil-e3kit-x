@@ -38,31 +38,6 @@ import Foundation
 import VirgilCryptoApiImpl
 
 extension EThree {
-    public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
-        if let identityKeyPair = self.identityKeyPair {
-            guard !identityKeyPair.isPublished else {
-                completion(nil)
-                return
-            }
-            let keyPair = VirgilKeyPair(privateKey: identityKeyPair.privateKey, publicKey: identityKeyPair.publicKey)
-
-            self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
-        } else {
-            self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let cards = cards, error == nil else {
-                    completion(error)
-                    return
-                }
-
-                if cards.isEmpty {
-                    self.signIn(password: password, completion: completion)
-                } else {
-                    self.signUp(password: password, completion: completion)
-                }
-            }
-        }
-    }
-
     internal func signUp(password: String?, completion: @escaping (Error?) -> ()) {
         if let password = password {
             self.signUp(password: password, completion: completion)
