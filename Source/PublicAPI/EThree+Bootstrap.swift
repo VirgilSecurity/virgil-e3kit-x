@@ -38,8 +38,8 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension EThree {
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  completion: @escaping (EThree?, Error?) -> ()) {
+    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                        completion: @escaping (EThree?, Error?) -> ()) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             tokenCallback(completion)
         }
@@ -70,7 +70,7 @@ extension EThree {
         }
     }
 
-    public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
+    @objc public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
         if let identityKeyPair = self.identityKeyPair {
             guard !identityKeyPair.isPublished else {
                 completion(nil)

@@ -38,7 +38,7 @@ import Foundation
 import VirgilCryptoApiImpl
 
 extension EThree {
-    public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]) throws -> String {
+    @objc public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -51,7 +51,7 @@ extension EThree {
         return encryptedData.base64EncodedString()
     }
 
-    public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]) throws -> String {
+    @objc public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]) throws -> String {
         guard let data = Data(base64Encoded: encrypted) else {
             throw EThreeError.strToDataFailed
         }
@@ -69,7 +69,8 @@ extension EThree {
         return decryptedString
     }
 
-    public func lookupPublicKeys(of identities: [String], completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
+   @objc public func lookupPublicKeys(of identities: [String],
+                                      completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
         guard !identities.isEmpty else {
             completion([], [])
             return

@@ -38,7 +38,7 @@ import Foundation
 import VirgilSDK
 import VirgilCryptoApiImpl
 
-public enum EThreeError: Int, Error {
+@objc(VTEEThreeError) public enum EThreeError: Int, Error {
     case gettingJwtFailed = 1
     case verifierInitFailed = 2
     case keyIsNotVirgil = 3
@@ -49,15 +49,15 @@ public enum EThreeError: Int, Error {
     case notBootstrapped = 8
 }
 
-open class EThree {
+@objc(VTEEThree) open class EThree: NSObject {
     public typealias JwtStringCallback = (String?, Error?) -> Void
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
-    public let identity: String
-    public let crypto: VirgilCrypto
-    public let keychainStorage: KeychainStorage
-    public let privateKeyExporter: VirgilPrivateKeyExporter
-    public let cardManager: CardManager
+    @objc public let identity: String
+    @objc public let crypto: VirgilCrypto
+    @objc public let keychainStorage: KeychainStorage
+    @objc public let privateKeyExporter: VirgilPrivateKeyExporter
+    @objc public let cardManager: CardManager
 
     internal struct IdentityKeyPair {
         internal let privateKey: VirgilPrivateKey

@@ -37,7 +37,7 @@
 import Foundation
 
 extension EThree {
-    public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
         guard let identityKeyPair = self.identityKeyPair, identityKeyPair.isPublished else {
             completion(EThreeError.notBootstrapped)
             return
@@ -46,7 +46,8 @@ extension EThree {
         self.publishToKeyknox(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
     }
 
-    public func changePrivateKeyPassword(from oldOne: String, to newOne: String, completion: @escaping (Error?) -> ()) {
+    @objc public func changePrivateKeyPassword(from oldOne: String, to newOne: String,
+                                               completion: @escaping (Error?) -> ()) {
         self.changeKeyknoxPassword(from: oldOne, to: newOne, completion: completion)
     }
 }
