@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		16EC37602177A9C0009D7F00 /* E3Kit */ = {
+		16EC37602177A9C0009D7F00 /* VirgilE3Kit */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 16EC37612177A9C1009D7F00 /* Build configuration list for PBXAggregateTarget "E3Kit" */;
+			buildConfigurationList = 16EC37612177A9C1009D7F00 /* Build configuration list for PBXAggregateTarget "VirgilE3Kit" */;
 			buildPhases = (
 			);
 			dependencies = (
@@ -18,7 +18,7 @@
 				16EC376921786D77009D7F00 /* PBXTargetDependency */,
 				16EC376B21786D77009D7F00 /* PBXTargetDependency */,
 			);
-			name = E3Kit;
+			name = VirgilE3Kit;
 			productName = E3Kit;
 		};
 /* End PBXAggregateTarget section */
@@ -469,11 +469,11 @@
 		16261D5C21787ABE003D7CDA /* VirgilSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDK.xcodeproj; path = "Carthage/Checkouts/sdk-x/VirgilSDK.xcodeproj"; sourceTree = "<group>"; };
 		16261D7D21787AC5003D7CDA /* VirgilSDKKeyknox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDKKeyknox.xcodeproj; path = "Carthage/Checkouts/keyknox-x/VirgilSDKKeyknox.xcodeproj"; sourceTree = "<group>"; };
 		16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDKPythia.xcodeproj; path = "Carthage/Checkouts/pythia-x/VirgilSDKPythia.xcodeproj"; sourceTree = "<group>"; };
-		16EC372E217793BC009D7F00 /* E3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = E3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16EC373E2177A7D7009D7F00 /* E3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = E3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		16EC374B2177A88D009D7F00 /* E3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = E3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		16EC37582177A972009D7F00 /* E3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = E3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -664,7 +664,7 @@
 				16261D5C21787ABE003D7CDA /* VirgilSDK.xcodeproj */,
 				16261D7D21787AC5003D7CDA /* VirgilSDKKeyknox.xcodeproj */,
 				16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */,
-				16EC373721779462009D7F00 /* E3Kit */,
+				16EC373721779462009D7F00 /* VirgilE3Kit */,
 				16EC37382177946B009D7F00 /* Source */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
@@ -674,20 +674,20 @@
 		16EC372F217793BC009D7F00 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16EC372E217793BC009D7F00 /* E3Kit.framework */,
-				16EC373E2177A7D7009D7F00 /* E3Kit.framework */,
-				16EC374B2177A88D009D7F00 /* E3Kit.framework */,
-				16EC37582177A972009D7F00 /* E3Kit.framework */,
+				16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */,
+				16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */,
+				16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */,
+				16EC37582177A972009D7F00 /* VirgilE3Kit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		16EC373721779462009D7F00 /* E3Kit */ = {
+		16EC373721779462009D7F00 /* VirgilE3Kit */ = {
 			isa = PBXGroup;
 			children = (
 				16EC3732217793BC009D7F00 /* Info.plist */,
 			);
-			path = E3Kit;
+			path = VirgilE3Kit;
 			sourceTree = "<group>";
 		};
 		16EC37382177946B009D7F00 /* Source */ = {
@@ -731,9 +731,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		16EC372D217793BC009D7F00 /* E3Kit iOS */ = {
+		16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16EC3734217793BC009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit iOS" */;
+			buildConfigurationList = 16EC3734217793BC009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS" */;
 			buildPhases = (
 				16EC3729217793BC009D7F00 /* Headers */,
 				16EC372A217793BC009D7F00 /* Sources */,
@@ -744,14 +744,14 @@
 			);
 			dependencies = (
 			);
-			name = "E3Kit iOS";
+			name = "VirgilE3Kit iOS";
 			productName = "E3Kit iOS";
-			productReference = 16EC372E217793BC009D7F00 /* E3Kit.framework */;
+			productReference = 16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		16EC373D2177A7D7009D7F00 /* E3Kit watchOS */ = {
+		16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16EC37432177A7D7009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit watchOS" */;
+			buildConfigurationList = 16EC37432177A7D7009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit watchOS" */;
 			buildPhases = (
 				16EC37392177A7D7009D7F00 /* Headers */,
 				16EC373A2177A7D7009D7F00 /* Sources */,
@@ -762,14 +762,14 @@
 			);
 			dependencies = (
 			);
-			name = "E3Kit watchOS";
+			name = "VirgilE3Kit watchOS";
 			productName = "E3Kit watchOS";
-			productReference = 16EC373E2177A7D7009D7F00 /* E3Kit.framework */;
+			productReference = 16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		16EC374A2177A88D009D7F00 /* E3Kit macOS */ = {
+		16EC374A2177A88D009D7F00 /* VirgilE3Kit macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16EC37502177A88D009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit macOS" */;
+			buildConfigurationList = 16EC37502177A88D009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit macOS" */;
 			buildPhases = (
 				16EC37462177A88D009D7F00 /* Headers */,
 				16EC37472177A88D009D7F00 /* Sources */,
@@ -780,14 +780,14 @@
 			);
 			dependencies = (
 			);
-			name = "E3Kit macOS";
+			name = "VirgilE3Kit macOS";
 			productName = "E3Kit macOS";
-			productReference = 16EC374B2177A88D009D7F00 /* E3Kit.framework */;
+			productReference = 16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		16EC37572177A972009D7F00 /* E3Kit tvOS */ = {
+		16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16EC375D2177A972009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit tvOS" */;
+			buildConfigurationList = 16EC375D2177A972009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit tvOS" */;
 			buildPhases = (
 				16EC37532177A972009D7F00 /* Headers */,
 				16EC37542177A972009D7F00 /* Sources */,
@@ -798,9 +798,9 @@
 			);
 			dependencies = (
 			);
-			name = "E3Kit tvOS";
+			name = "VirgilE3Kit tvOS";
 			productName = "E3Kit tvOS";
-			productReference = 16EC37582177A972009D7F00 /* E3Kit.framework */;
+			productReference = 16EC37582177A972009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -817,19 +817,22 @@
 					};
 					16EC373D2177A7D7009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 					16EC374A2177A88D009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 					16EC37572177A972009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 					16EC37602177A9C0009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
 					};
 				};
 			};
-			buildConfigurationList = 16EC37262177938A009D7F00 /* Build configuration list for PBXProject "E3Kit" */;
+			buildConfigurationList = 16EC37262177938A009D7F00 /* Build configuration list for PBXProject "VirgilE3Kit" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -863,11 +866,11 @@
 			);
 			projectRoot = "";
 			targets = (
-				16EC372D217793BC009D7F00 /* E3Kit iOS */,
-				16EC374A2177A88D009D7F00 /* E3Kit macOS */,
-				16EC37572177A972009D7F00 /* E3Kit tvOS */,
-				16EC373D2177A7D7009D7F00 /* E3Kit watchOS */,
-				16EC37602177A9C0009D7F00 /* E3Kit */,
+				16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */,
+				16EC374A2177A88D009D7F00 /* VirgilE3Kit macOS */,
+				16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */,
+				16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */,
+				16EC37602177A9C0009D7F00 /* VirgilE3Kit */,
 			);
 		};
 /* End PBXProject section */
@@ -1290,22 +1293,22 @@
 /* Begin PBXTargetDependency section */
 		16EC376521786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16EC372D217793BC009D7F00 /* E3Kit iOS */;
+			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
 			targetProxy = 16EC376421786D77009D7F00 /* PBXContainerItemProxy */;
 		};
 		16EC376721786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16EC374A2177A88D009D7F00 /* E3Kit macOS */;
+			target = 16EC374A2177A88D009D7F00 /* VirgilE3Kit macOS */;
 			targetProxy = 16EC376621786D77009D7F00 /* PBXContainerItemProxy */;
 		};
 		16EC376921786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16EC37572177A972009D7F00 /* E3Kit tvOS */;
+			target = 16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */;
 			targetProxy = 16EC376821786D77009D7F00 /* PBXContainerItemProxy */;
 		};
 		16EC376B21786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16EC373D2177A7D7009D7F00 /* E3Kit watchOS */;
+			target = 16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */;
 			targetProxy = 16EC376A21786D77009D7F00 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1314,12 +1317,64 @@
 		16EC37272177938A009D7F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		16EC37282177938A009D7F00 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Release;
 		};
@@ -1355,7 +1410,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1382,7 +1437,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1394,8 +1449,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1439,7 +1494,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1460,7 +1515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1471,8 +1526,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1545,7 +1600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1556,8 +1611,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1624,7 +1679,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1634,8 +1689,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1681,7 +1736,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1710,7 +1765,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1722,8 +1777,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1766,7 +1821,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1789,7 +1844,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1800,8 +1855,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1871,7 +1926,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1882,8 +1937,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1949,7 +2004,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = E3Kit/Info.plist;
+				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1959,8 +2014,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.E3Kit;
-				PRODUCT_MODULE_NAME = E3Kit;
-				PRODUCT_NAME = E3Kit;
+				PRODUCT_MODULE_NAME = VirgilE3Kit;
+				PRODUCT_NAME = VirgilE3Kit;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1977,6 +2032,7 @@
 		16EC37622177A9C1009D7F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JWNLQ3HC5A;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1986,6 +2042,7 @@
 		16EC37632177A9C1009D7F00 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JWNLQ3HC5A;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1995,7 +2052,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		16EC37262177938A009D7F00 /* Build configuration list for PBXProject "E3Kit" */ = {
+		16EC37262177938A009D7F00 /* Build configuration list for PBXProject "VirgilE3Kit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC37272177938A009D7F00 /* Debug */,
@@ -2004,7 +2061,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16EC3734217793BC009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit iOS" */ = {
+		16EC3734217793BC009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC3735217793BC009D7F00 /* Debug */,
@@ -2013,7 +2070,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16EC37432177A7D7009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit watchOS" */ = {
+		16EC37432177A7D7009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit watchOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC37442177A7D7009D7F00 /* Debug */,
@@ -2022,7 +2079,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16EC37502177A88D009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit macOS" */ = {
+		16EC37502177A88D009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC37512177A88D009D7F00 /* Debug */,
@@ -2031,7 +2088,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16EC375D2177A972009D7F00 /* Build configuration list for PBXNativeTarget "E3Kit tvOS" */ = {
+		16EC375D2177A972009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC375E2177A972009D7F00 /* Debug */,
@@ -2040,7 +2097,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16EC37612177A9C1009D7F00 /* Build configuration list for PBXAggregateTarget "E3Kit" */ = {
+		16EC37612177A9C1009D7F00 /* Build configuration list for PBXAggregateTarget "VirgilE3Kit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16EC37622177A9C1009D7F00 /* Debug */,
