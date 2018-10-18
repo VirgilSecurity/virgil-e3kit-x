@@ -64,6 +64,10 @@
 		16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
+		16F9EA222178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
+		16F9EA232178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
+		16F9EA242178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
+		16F9EA252178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -489,6 +493,7 @@
 		16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VirgilE3Kit.h; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
+		16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Keyknox.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -712,6 +717,7 @@
 				16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */,
+				16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1294,6 +1300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9EA222178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
@@ -1303,6 +1310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9EA252178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
@@ -1312,6 +1320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9EA232178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
@@ -1321,6 +1330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9EA242178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
