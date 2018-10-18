@@ -53,30 +53,28 @@ open class EThree {
     public let privateKeyExporter: VirgilPrivateKeyExporter
     public let cardManager: CardManager
 
-    struct IdentityKeyPair {
-        let privateKey: VirgilPrivateKey
-        let publicKey: VirgilPublicKey
-        let isPublished: Bool
+    internal struct IdentityKeyPair {
+        internal let privateKey: VirgilPrivateKey
+        internal let publicKey: VirgilPublicKey
+        internal let isPublished: Bool
     }
 
-    enum Keys: String {
+    internal enum Keys: String {
         case isPublished
     }
 
-    var identityKeyPair: IdentityKeyPair? {
-        get {
-            guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-                let key = try? self.privateKeyExporter.importPrivateKey(from: keyEntry.data),
-                let meta = keyEntry.meta,
-                let isPublishedString = meta[Keys.isPublished.rawValue],
-                let identityKey = key as? VirgilPrivateKey,
-                let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
-                    return nil
-            }
-            let isPublished = NSString(string: isPublishedString).boolValue
-
-            return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
+    internal var identityKeyPair: IdentityKeyPair? {
+        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
+            let key = try? self.privateKeyExporter.importPrivateKey(from: keyEntry.data),
+            let meta = keyEntry.meta,
+            let isPublishedString = meta[Keys.isPublished.rawValue],
+            let identityKey = key as? VirgilPrivateKey,
+            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
+                return nil
         }
+        let isPublished = NSString(string: isPublishedString).boolValue
+
+        return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
