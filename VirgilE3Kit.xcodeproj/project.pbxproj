@@ -68,6 +68,10 @@
 		16F9EA232178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
 		16F9EA242178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
 		16F9EA252178B2910021FD9A /* EThree+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */; };
+		16F9EA272178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
+		16F9EA282178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
+		16F9EA292178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
+		16F9EA2A2178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -494,6 +498,7 @@
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
 		16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Keyknox.swift"; sourceTree = "<group>"; };
+		16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -716,6 +721,7 @@
 				16F9EA1721789C3F0021FD9A /* Utils */,
 				16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
+				16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */,
 				16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */,
 				16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */,
 			);
@@ -775,6 +781,7 @@
 				16EC372A217793BC009D7F00 /* Sources */,
 				16EC372B217793BC009D7F00 /* Frameworks */,
 				16EC372C217793BC009D7F00 /* Resources */,
+				16F9EA2B2178C4E00021FD9A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1295,6 +1302,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16F9EA2B2178C4E00021FD9A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		16EC372A217793BC009D7F00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1302,6 +1329,7 @@
 			files = (
 				16F9EA222178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA272178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1312,6 +1340,7 @@
 			files = (
 				16F9EA252178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA2A2178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1322,6 +1351,7 @@
 			files = (
 				16F9EA232178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA282178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1332,6 +1362,7 @@
 			files = (
 				16F9EA242178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA292178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -49,12 +49,6 @@ extension EThree {
             }
 
             do {
-                if let entry = try? syncKeyStorage.retrieveEntry(withName: self.identity) {
-                    // FIXME
-                    completion(entry, NSError())
-                    return
-                }
-
                 let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
 
                 syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in

@@ -45,6 +45,7 @@ public enum EThreeError: Int, Error {
     case strToDataFailed = 4
     case strFromDataFailed = 5
     case missingKeys = 6
+    case passwordRequired = 7
 }
 
 open class EThree {
@@ -81,6 +82,15 @@ open class EThree {
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
+    private init(identity: String, cardManager: CardManager) throws {
+        self.identity = identity
+        self.crypto = VirgilCrypto()
+        let keychainStorageParams = try KeychainStorageParams.makeKeychainStorageParams()
+        self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
+        self.privateKeyExporter = VirgilPrivateKeyExporter()
+        self.cardManager = cardManager
+    }
+
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   completion: @escaping (EThree?, Error?) -> ()) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
@@ -112,13 +122,44 @@ open class EThree {
             }
         }
     }
+}
 
-    private init(identity: String, cardManager: CardManager) throws {
-        self.identity = identity
-        self.crypto = VirgilCrypto()
-        let keychainStorageParams = try KeychainStorageParams.makeKeychainStorageParams()
-        self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
-        self.privateKeyExporter = VirgilPrivateKeyExporter()
-        self.cardManager = cardManager
+extension EThree {
+    internal func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
+        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                     identity: self.identity) { cards, error in
+            guard error == nil else {
+                completion(error)
+                return
+            }
+
+            do {
+                try self.updateLocal(isPublished: true)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+
+    internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
+        let key = try self.privateKeyExporter.importPrivateKey(from: data)
+        guard let virgilPrivateKey = key as? VirgilPrivateKey else {
+            throw EThreeError.keyIsNotVirgil
+        }
+        let publicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
+
+        return VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: publicKey)
+    }
+
+    internal func storeLocal(data: Data, isPublished: Bool) throws {
+        let meta = [Keys.isPublished.rawValue: String(isPublished)]
+        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
+    }
+
+    internal func updateLocal(isPublished: Bool) throws {
+        let meta = [Keys.isPublished.rawValue: String(isPublished)]
+        let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
+        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
     }
 }
