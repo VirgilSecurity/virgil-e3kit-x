@@ -52,6 +52,10 @@
 		16261D032178797E003D7CDA /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFC2178797E003D7CDA /* VirgilSDKKeyknox.framework */; };
 		16261D042178797E003D7CDA /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFD2178797E003D7CDA /* VSCCrypto.framework */; };
 		16261D052178797E003D7CDA /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFE2178797E003D7CDA /* VirgilSDKPythia.framework */; };
+		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; };
+		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; };
+		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; };
+		16F9E9EF217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -474,6 +478,7 @@
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VirgilE3Kit.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,12 +486,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16261CD621787524003D7CDA /* VirgilCryptoAPI.framework in Frameworks */,
+				16261CD521787524003D7CDA /* VirgilCryptoApiImpl.framework in Frameworks */,
+				16261CD821787524003D7CDA /* VirgilCrypto.framework in Frameworks */,
 				16261CCE21787517003D7CDA /* VirgilSDKKeyknox.framework in Frameworks */,
 				16261CCF21787517003D7CDA /* VirgilSDKPythia.framework in Frameworks */,
-				16261CD521787524003D7CDA /* VirgilCryptoApiImpl.framework in Frameworks */,
-				16261CD621787524003D7CDA /* VirgilCryptoAPI.framework in Frameworks */,
 				16261CD721787524003D7CDA /* VirgilSDK.framework in Frameworks */,
-				16261CD821787524003D7CDA /* VirgilCrypto.framework in Frameworks */,
 				16261CD921787524003D7CDA /* VSCCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -665,7 +670,7 @@
 				16261D7D21787AC5003D7CDA /* VirgilSDKKeyknox.xcodeproj */,
 				16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */,
 				16EC373721779462009D7F00 /* VirgilE3Kit */,
-				16EC37382177946B009D7F00 /* Source */,
+				16F9E9E5217889770021FD9A /* Source */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
 			);
@@ -690,9 +695,10 @@
 			path = VirgilE3Kit;
 			sourceTree = "<group>";
 		};
-		16EC37382177946B009D7F00 /* Source */ = {
+		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -704,6 +710,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +718,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9E9EF217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +726,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,6 +734,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
