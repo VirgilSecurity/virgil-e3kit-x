@@ -41,6 +41,10 @@ import VirgilCryptoApiImpl
 public enum EThreeError: Int, Error {
     case gettingJwtFailed = 1
     case verifierInitFailed = 2
+    case keyIsNotVirgil = 3
+    case strToDataFailed = 4
+    case strFromDataFailed = 5
+    case missingKeys = 6
 }
 
 open class EThree {

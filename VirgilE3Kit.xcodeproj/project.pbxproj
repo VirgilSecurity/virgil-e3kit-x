@@ -60,6 +60,10 @@
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA16217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
+		16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
+		16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
+		16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
+		16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -484,6 +488,7 @@
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VirgilE3Kit.h; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
+		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -706,6 +711,7 @@
 				16F9EA1721789C3F0021FD9A /* Utils */,
 				16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
+				16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1289,6 +1295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,6 +1304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1305,6 +1313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,6 +1322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
+				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
