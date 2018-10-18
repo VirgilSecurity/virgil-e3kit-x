@@ -60,6 +60,15 @@
 		165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */; };
 		165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */; };
 		165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */; };
+		165B67EB2179013B00DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */; };
+		165B68012179074E00DDE1F7 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B68002179074E00DDE1F7 /* TestConfig.swift */; };
+		165B680B2179079100DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */; };
+		165B6811217907A300DDE1F7 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B68002179074E00DDE1F7 /* TestConfig.swift */; };
+		165B681B217907C600DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC37582177A972009D7F00 /* VirgilE3Kit.framework */; };
+		165B6821217907D600DDE1F7 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B68002179074E00DDE1F7 /* TestConfig.swift */; };
+		165B6824217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
+		165B6825217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
+		165B6826217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
 		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -433,6 +442,27 @@
 			remoteGlobalIDString = 42A76BBA20AED9D200561EA2;
 			remoteInfo = "VirgilSDKPythia watchOS";
 		};
+		165B67EC2179013B00DDE1F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16EC372D217793BC009D7F00;
+			remoteInfo = "VirgilE3Kit iOS";
+		};
+		165B680C2179079100DDE1F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16EC374A2177A88D009D7F00;
+			remoteInfo = "VirgilE3Kit macOS";
+		};
+		165B681C217907C600DDE1F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16EC37572177A972009D7F00;
+			remoteInfo = "VirgilE3Kit tvOS";
+		};
 		16EC376421786D77009D7F00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
@@ -499,6 +529,11 @@
 		16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDKPythia.xcodeproj; path = "Carthage/Checkouts/pythia-x/VirgilSDKPythia.xcodeproj"; sourceTree = "<group>"; };
 		165B67C22178FC0B00DDE1F7 /* EThree+Bootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Bootstrap.swift"; sourceTree = "<group>"; };
 		165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+KeyBackup.swift"; sourceTree = "<group>"; };
+		165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		165B68002179074E00DDE1F7 /* TestConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfig.swift; sourceTree = "<group>"; };
+		165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		165B6823217908C000DDE1F7 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -512,6 +547,30 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		165B67E32179013B00DDE1F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B67EB2179013B00DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B68032179079000DDE1F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B680B2179079100DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B6813217907C600DDE1F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B681B217907C600DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16EC372B217793BC009D7F00 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -701,6 +760,23 @@
 			path = PublicAPI;
 			sourceTree = "<group>";
 		};
+		165B67E72179013B00DDE1F7 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				165B68222179088D00DDE1F7 /* Data */,
+				165B68002179074E00DDE1F7 /* TestConfig.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		165B68222179088D00DDE1F7 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				165B6823217908C000DDE1F7 /* TestConfig.plist */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		16EC37222177938A009D7F00 = {
 			isa = PBXGroup;
 			children = (
@@ -711,6 +787,7 @@
 				16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */,
 				16EC373721779462009D7F00 /* VirgilE3Kit */,
 				16F9E9E5217889770021FD9A /* Source */,
+				165B67E72179013B00DDE1F7 /* Tests */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
 			);
@@ -723,6 +800,9 @@
 				16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */,
 				16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */,
 				16EC37582177A972009D7F00 /* VirgilE3Kit.framework */,
+				165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */,
+				165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */,
+				165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -785,6 +865,60 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		165B67E52179013B00DDE1F7 /* VirgilE3Kit iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */;
+			buildPhases = (
+				165B67E22179013B00DDE1F7 /* Sources */,
+				165B67E32179013B00DDE1F7 /* Frameworks */,
+				165B67E42179013B00DDE1F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				165B67ED2179013B00DDE1F7 /* PBXTargetDependency */,
+			);
+			name = "VirgilE3Kit iOS Tests";
+			productName = "VirgilE3Kit iOS Tests";
+			productReference = 165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		165B68052179079000DDE1F7 /* VirgilE3Kit macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 165B680E2179079100DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit macOS Tests" */;
+			buildPhases = (
+				165B68022179079000DDE1F7 /* Sources */,
+				165B68032179079000DDE1F7 /* Frameworks */,
+				165B68042179079000DDE1F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				165B680D2179079100DDE1F7 /* PBXTargetDependency */,
+			);
+			name = "VirgilE3Kit macOS Tests";
+			productName = "VirgilE3Kit macOS Tests";
+			productReference = 165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		165B6815217907C600DDE1F7 /* VirgilE3Kit tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 165B681E217907C600DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit tvOS Tests" */;
+			buildPhases = (
+				165B6812217907C600DDE1F7 /* Sources */,
+				165B6813217907C600DDE1F7 /* Frameworks */,
+				165B6814217907C600DDE1F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				165B681D217907C600DDE1F7 /* PBXTargetDependency */,
+			);
+			name = "VirgilE3Kit tvOS Tests";
+			productName = "VirgilE3Kit tvOS Tests";
+			productReference = 165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16EC3734217793BC009D7F00 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS" */;
@@ -864,8 +998,19 @@
 		16EC37232177938A009D7F00 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 1000;
 				TargetAttributes = {
+					165B67E52179013B00DDE1F7 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					165B68052179079000DDE1F7 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					165B6815217907C600DDE1F7 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					16EC372D217793BC009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
@@ -922,8 +1067,11 @@
 			projectRoot = "";
 			targets = (
 				16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */,
+				165B67E52179013B00DDE1F7 /* VirgilE3Kit iOS Tests */,
 				16EC374A2177A88D009D7F00 /* VirgilE3Kit macOS */,
+				165B68052179079000DDE1F7 /* VirgilE3Kit macOS Tests */,
 				16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */,
+				165B6815217907C600DDE1F7 /* VirgilE3Kit tvOS Tests */,
 				16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */,
 				16EC37602177A9C0009D7F00 /* VirgilE3Kit */,
 			);
@@ -1284,6 +1432,30 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		165B67E42179013B00DDE1F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B6824217908C000DDE1F7 /* TestConfig.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B68042179079000DDE1F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B6825217908C000DDE1F7 /* TestConfig.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B6814217907C600DDE1F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B6826217908C000DDE1F7 /* TestConfig.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16EC372C217793BC009D7F00 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1335,6 +1507,30 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		165B67E22179013B00DDE1F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B68012179074E00DDE1F7 /* TestConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B68022179079000DDE1F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B6811217907A300DDE1F7 /* TestConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		165B6812217907C600DDE1F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165B6821217907D600DDE1F7 /* TestConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16EC372A217793BC009D7F00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1390,6 +1586,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		165B67ED2179013B00DDE1F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
+			targetProxy = 165B67EC2179013B00DDE1F7 /* PBXContainerItemProxy */;
+		};
+		165B680D2179079100DDE1F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16EC374A2177A88D009D7F00 /* VirgilE3Kit macOS */;
+			targetProxy = 165B680C2179079100DDE1F7 /* PBXContainerItemProxy */;
+		};
+		165B681D217907C600DDE1F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */;
+			targetProxy = 165B681C217907C600DDE1F7 /* PBXContainerItemProxy */;
+		};
 		16EC376521786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
@@ -1413,6 +1624,279 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		165B67EF2179013B00DDE1F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit iOS Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		165B67F02179013B00DDE1F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit iOS Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		165B680F2179079100DDE1F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit macOS Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		165B68102179079100DDE1F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit macOS Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		165B681F217907C600DDE1F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit tvOS Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+			};
+			name = Debug;
+		};
+		165B6820217907C600DDE1F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "VirgilE3Kit tvOS Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		16EC37272177938A009D7F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2151,6 +2635,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				165B67EF2179013B00DDE1F7 /* Debug */,
+				165B67F02179013B00DDE1F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		165B680E2179079100DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit macOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				165B680F2179079100DDE1F7 /* Debug */,
+				165B68102179079100DDE1F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		165B681E217907C600DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				165B681F217907C600DDE1F7 /* Debug */,
+				165B6820217907C600DDE1F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		16EC37262177938A009D7F00 /* Build configuration list for PBXProject "VirgilE3Kit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
