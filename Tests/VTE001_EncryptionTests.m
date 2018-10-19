@@ -21,9 +21,7 @@ static const NSTimeInterval timeout = 20.;
 
 @property (nonatomic) VTETestsConst *consts;
 @property (nonatomic) VSMVirgilCrypto *crypto;
-@property (nonatomic) VSMVirgilCardCrypto *cardCrypto;
 @property (nonatomic) VTETestUtils *utils;
-@property (nonatomic) VSSCardClient *cardClient;
 @property (nonatomic) VTEEThree *eThree;
 
 @end
@@ -35,14 +33,12 @@ static const NSTimeInterval timeout = 20.;
 
     self.consts = [[VTETestsConst alloc] init];
     self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
-    self.cardCrypto = [[VSMVirgilCardCrypto alloc] initWithVirgilCrypto:self.crypto];
     self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
-    self.cardClient = self.consts.serviceURL == nil ? [[VSSCardClient alloc] init] : [[VSSCardClient alloc] initWithServiceUrl:self.consts.serviceURL];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
     NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithAppName:@"test" tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
         NSError *error;
         NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
 
@@ -76,7 +72,7 @@ static const NSTimeInterval timeout = 20.;
             [identities addObject:card.identity];
             [publicKeys addObject:card.publicKey];
         }
-
+        
         [self.eThree lookupPublicKeysOf:identities completion:^(NSArray<VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
             XCTAssert(error == nil);
             XCTAssert([self.utils isPublicKeysEqualWithPublicKeys1:foundPublicKeys publicKeys2:publicKeys]);
@@ -118,7 +114,7 @@ static const NSTimeInterval timeout = 20.;
         VTEEThree *eThree1 = self.eThree;
 
         NSString *identity = [[NSUUID alloc] init].UUIDString;
-        [VTEEThree initializeWithAppName:@"test" tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
             NSError *error;
             NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
 

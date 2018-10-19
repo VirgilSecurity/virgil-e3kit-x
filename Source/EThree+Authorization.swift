@@ -57,8 +57,6 @@ extension EThree {
                 do {
                     try self.storeLocal(data: data, isPublished: false)
                     self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
-
-                    completion(nil)
                 } catch {
                     completion(error)
                 }
@@ -70,8 +68,9 @@ extension EThree {
                     finishSignUp(entry.data, keyPair)
                 } else {
                     let keyPair = try self.crypto.generateKeyPair()
+                    let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
 
-                    self.publishToKeyknox(key: keyPair.privateKey, usingPassword: password) { entry, error in
+                    syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
                         guard let entry = entry, error == nil else {
                             completion(error)
                             return

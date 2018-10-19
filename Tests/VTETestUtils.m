@@ -87,4 +87,33 @@
     return true;
 }
 
+-(void)setUpSyncKeyStorageWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler {
+    VSSCachingJwtProvider *provider = [[VSSCachingJwtProvider alloc] initWithRenewTokenCallback:^(VSSTokenContext *tokenContext, void(^completionHandler)(NSString *, NSError *)) {
+        NSError *error;
+        NSString *token = [self getTokenStringWithIdentity:identity error:&error];
+
+        completionHandler(token, error);
+    }];
+    VSYBrainKeyContext *context = [VSYBrainKeyContext makeContextWithAccessTokenProvider:provider];
+    VSYBrainKey *brainKey = [[VSYBrainKey alloc] initWithContext:context];
+
+    [brainKey generateKeyPairWithPassword:password brainKeyId:nil completion:^(VSMVirgilKeyPair *keyPair, NSError *error) {
+        VSKSyncKeyStorage *syncKeyStorage = [[VSKSyncKeyStorage alloc] initWithIdentity:identity accessTokenProvider:provider publicKeys:@[keyPair.publicKey] privateKey:keyPair.privateKey error:nil];
+
+        [syncKeyStorage syncWithCompletion:^(NSError *error) {
+            completionHandler(syncKeyStorage, error);
+        }];
+    }];
+}
+
+-(void)clearAllStoragesWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity keychainStorage:(VSSKeychainStorage * __nonnull)keychainStorage completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler {
+    [keychainStorage deleteAllEntriesAndReturnError:nil];
+
+    [self setUpSyncKeyStorageWithPassword:password identity:identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        [syncKeyStorage deleteAllEntriesWithCompletion:^(NSError *error) {
+            completionHandler(syncKeyStorage, error);
+        }];
+    }];
+}
+
 @end

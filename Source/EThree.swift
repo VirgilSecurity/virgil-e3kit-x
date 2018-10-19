@@ -85,19 +85,10 @@ import VirgilCryptoApiImpl
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    internal init(identity: String, cardManager: CardManager, appName: String?) throws {
+    internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
-
-        #if os(iOS) || os(tvOS) || os(watchOS)
-            let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
-        #elseif os(macOS)
-            guard let appName = appName else {
-                throw EThreeError.missingAppName
-            }
-            let storageParams = KeychainStorageParams(appName: appName, trustedApplications: [])
-        #endif
-        
+        let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         self.keychainStorage = KeychainStorage(storageParams: storageParams)
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
