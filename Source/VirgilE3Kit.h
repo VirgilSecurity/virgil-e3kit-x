@@ -34,8 +34,4 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VirgilE3Kit_h
-#define VirgilE3Kit_h
-
-
-#endif /* VirgilE3Kit_h */
+#import "VirgilSDK/VSSKeyStoragePublic.h"

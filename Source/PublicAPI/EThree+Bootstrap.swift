@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension EThree {
-    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+    @objc public static func initialize(appName: String? = nil, tokenCallback: @escaping RenewJwtCallback,
                                         completion: @escaping (EThree?, Error?) -> ()) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             tokenCallback(completion)
@@ -62,7 +62,7 @@ extension EThree {
                                                cardVerifier: verifier)
                 let cardManager = CardManager(params: params)
 
-                let ethree = try EThree(identity: identity, cardManager: cardManager)
+                let ethree = try EThree(identity: identity, cardManager: cardManager, appName: appName)
                 completion(ethree, nil)
             } catch {
                 completion(nil, error)
@@ -87,9 +87,9 @@ extension EThree {
                 }
 
                 if cards.isEmpty {
-                    self.signIn(password: password, completion: completion)
-                } else {
                     self.signUp(password: password, completion: completion)
+                } else {
+                    self.signIn(password: password, completion: completion)
                 }
             }
         }

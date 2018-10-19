@@ -38,26 +38,38 @@ import Foundation
 import VirgilCryptoApiImpl
 
 extension EThree {
-    @objc public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]) throws -> String {
+    @objc public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
-        guard !recipientKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
+        if let recipientKeys = recipientKeys, recipientKeys.isEmpty {
             throw EThreeError.missingKeys
         }
+        let recipientKeys = recipientKeys ?? []
+
+        guard let selfKeyPair = self.identityKeyPair else {
+            throw EThreeError.notBootstrapped
+        }
+        
         let publicKeys = recipientKeys + [selfKeyPair.publicKey]
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 
         return encryptedData.base64EncodedString()
     }
 
-    @objc public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]) throws -> String {
+    @objc public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]? = nil) throws -> String {
         guard let data = Data(base64Encoded: encrypted) else {
             throw EThreeError.strToDataFailed
         }
-        guard !senderKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
+        if let senderKeys = senderKeys, senderKeys.isEmpty {
             throw EThreeError.missingKeys
         }
+        let senderKeys = senderKeys ?? []
+
+        guard let selfKeyPair = self.identityKeyPair else {
+            throw EThreeError.notBootstrapped
+        }
+
         let publicKeys = senderKeys + [selfKeyPair.publicKey]
 
         let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
@@ -72,7 +84,7 @@ extension EThree {
    @objc public func lookupPublicKeys(of identities: [String],
                                       completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
         guard !identities.isEmpty else {
-            completion([], [])
+            completion([], [EThreeError.missingIdentities])
             return
         }
 

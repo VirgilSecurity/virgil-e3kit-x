@@ -47,6 +47,8 @@ import VirgilCryptoApiImpl
     case missingKeys = 6
     case passwordRequired = 7
     case notBootstrapped = 8
+    case missingAppName = 9
+    case missingIdentities = 10
 }
 
 @objc(VTEEThree) open class EThree: NSObject {
@@ -83,11 +85,20 @@ import VirgilCryptoApiImpl
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    internal init(identity: String, cardManager: CardManager) throws {
+    internal init(identity: String, cardManager: CardManager, appName: String?) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
-        let keychainStorageParams = try KeychainStorageParams.makeKeychainStorageParams()
-        self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
+
+        #if os(iOS) || os(tvOS) || os(watchOS)
+            let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
+        #elseif os(macOS)
+            guard let appName = appName else {
+                throw EThreeError.missingAppName
+            }
+            let storageParams = KeychainStorageParams(appName: appName, trustedApplications: [])
+        #endif
+        
+        self.keychainStorage = KeychainStorage(storageParams: storageParams)
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
     }
