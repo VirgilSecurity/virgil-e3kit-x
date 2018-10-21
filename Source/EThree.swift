@@ -133,4 +133,8 @@ extension EThree {
         let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
         try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
     }
+
+    internal func deleteLocal() throws {
+        try self.keychainStorage.deleteEntry(withName: self.identity)
+    }
 }

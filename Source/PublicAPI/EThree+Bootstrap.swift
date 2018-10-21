@@ -94,4 +94,8 @@ extension EThree {
             }
         }
     }
+
+    @objc public func logOut() throws {
+        try self.deleteLocal()
+    }
 }

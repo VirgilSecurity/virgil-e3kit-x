@@ -285,4 +285,29 @@ static const NSTimeInterval timeout = 20.;
     XCTAssert(decrypted == nil);
 }
 
+- (void)test09 {
+    NSError *error;
+    [self.eThree.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
+
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
+    XCTAssert(error == nil);
+
+    VSMVirgilPrivateKeyExporter *exporter = [[VSMVirgilPrivateKeyExporter alloc] initWithVirgilCrypto:self.crypto password:nil];
+    NSData *exportedKey = [exporter exportPrivateKeyWithPrivateKey:keyPair.privateKey error:&error];
+    XCTAssert(error == nil);
+
+    NSDictionary *meta = @{ @"isPublished": @"true"};
+
+    VSSKeychainEntry *entry = [self.eThree.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&error];
+    XCTAssert(error == nil && entry != nil);
+
+    NSString *plainText = [[NSUUID alloc] init].UUIDString;
+    NSString *encrypted = [self.eThree encrypt:plainText for:nil error:&error];
+    XCTAssert(error == nil);
+
+    NSString *decrypted = [self.eThree decrypt:encrypted from:nil error:&error];
+    XCTAssert(error == nil);
+    XCTAssert([decrypted isEqualToString:plainText]);
+}
+
 @end
