@@ -120,10 +120,12 @@ static const NSTimeInterval timeout = 200.;
                 [self.eThree logOutAndReturnError:&err];
                 XCTAssert(err == nil);
 
+                sleep(1);
+
                 [self.eThree bootstrapWithPassword:oldPassword completion:^(NSError *error) {
                     XCTAssert(error != nil);
 
-                    sleep(1);
+                    sleep(2);
 
                     [self.eThree bootstrapWithPassword:newPassword completion:^(NSError *error) {
                         XCTAssert(error == nil);
@@ -196,6 +198,8 @@ static const NSTimeInterval timeout = 200.;
 
                     [self.eThree logOutAndReturnError:&err];
                     XCTAssert(err == nil);
+
+                    sleep(1);
 
                     [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
                         XCTAssert(error == nil);

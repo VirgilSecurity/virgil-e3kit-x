@@ -287,16 +287,14 @@ static const NSTimeInterval timeout = 20.;
             NSData *encryptedData = [self.crypto encrypt:plainData for:foundPublicKeys error:&err];
             XCTAssert(err == nil);
 
-            NSString *encryptedString = [[NSString alloc] initWithData:encryptedData encoding:NSUTF8StringEncoding];
+            NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
             XCTAssert(encryptedString != nil);
 
             NSString *decrypted = [self.eThree decrypt:encryptedString from:@[keyPair.publicKey] error:&err];
-            XCTAssert(err == nil);
-            XCTAssert([decrypted isEqualToString:plainText]);
+            XCTAssert(err != nil && decrypted == nil);
 
+            [ex fulfill];
         }];
-
-        [ex fulfill];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
