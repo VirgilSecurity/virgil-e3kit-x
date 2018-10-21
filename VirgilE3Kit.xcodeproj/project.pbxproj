@@ -92,6 +92,7 @@
 		167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
+		167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1695,6 +1696,7 @@
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA2A2178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
+				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
