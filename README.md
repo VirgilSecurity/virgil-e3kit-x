@@ -128,7 +128,7 @@ EThree.initialize(tokenCallback) { eThree, error in
     guard let eThree = eThree, error == nil else {
       // error handling here
     }
-    eThree.bootstrapUser(password: password) { error in 
+    eThree.bootstrap(password: password) { error in 
         // done
     }
 }
@@ -147,7 +147,7 @@ let messageToEncrypt = "Hello, Bob!"
 // initialize E3Kit
 EThree.initialize(tokenCallback) { eThree, error in 
     // Authenticate user 
-    eThree!.bootstrapUser(password: password) { error in 
+    eThree!.bootstrap(password: password) { error in 
         // Search user's publicKeys to encrypt for
         eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { publicKeys, errors in 
             // encrypt text
