@@ -67,7 +67,7 @@ import VirgilCryptoApiImpl
         self.crypto = VirgilCrypto()
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
-        
+
         let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
         self.localKeyManager = LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter,

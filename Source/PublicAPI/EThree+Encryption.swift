@@ -50,7 +50,7 @@ extension EThree {
         guard let selfKeyPair = self.localKeyManager.identityKeyPair else {
             throw EThreeError.notBootstrapped
         }
-        
+
         let publicKeys = recipientKeys + [selfKeyPair.publicKey]
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 

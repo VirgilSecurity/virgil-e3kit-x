@@ -93,7 +93,7 @@ internal class CloudKeyManager {
 
 extension CloudKeyManager {
     internal func store(key: VirgilPrivateKey, usingPassword password: String,
-                          completion: @escaping (KeychainEntry?, Error?) -> ()) {
+                        completion: @escaping (KeychainEntry?, Error?) -> ()) {
         self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
             guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(nil, error)
@@ -147,14 +147,14 @@ extension CloudKeyManager {
     }
 
     internal func changePassword(from oldPassword: String, to newPassword: String,
-                                        completion: @escaping (Error?) -> ()) {
+                                 completion: @escaping (Error?) -> ()) {
         self.setUpSyncKeyStorage(password: oldPassword) { syncKeyStorage, error in
             guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(error)
                 return
             }
 
-            sleep(1);
+            sleep(1)
 
             self.generateBrainKey(password: newPassword) { brainKeyPair, error in
                 guard let brainKeyPair = brainKeyPair, error == nil else {
