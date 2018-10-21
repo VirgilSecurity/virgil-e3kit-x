@@ -68,7 +68,12 @@ static const NSTimeInterval timeout = 20.;
     self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
     self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
 
-    VSSKeychainStorageParams *params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
+    VSSKeychainStorageParams *params;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAccessGroup:nil accessibility:nil error:nil];
+#elif TARGET_OS_OSX
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
+#endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
