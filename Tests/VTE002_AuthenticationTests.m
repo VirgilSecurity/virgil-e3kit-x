@@ -1,8 +1,37 @@
 //
-//  VTE002_AuthenticationTests.m
-//  VirgilE3Kit
+// Copyright (C) 2015-2018 Virgil Security Inc.
 //
-//  Created by Eugen Pivovarov on 10/19/18.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     (1) Redistributions of source code must retain the above copyright
+//     notice, this list of conditions and the following disclaimer.
+//
+//     (2) Redistributions in binary form must reproduce the above copyright
+//     notice, this list of conditions and the following disclaimer in
+//     the documentation and/or other materials provided with the
+//     distribution.
+//
+//     (3) Neither the name of the copyright holder nor the names of its
+//     contributors may be used to endorse or promote products derived from
+//     this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+// IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//
+// Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
 #import <Foundation/Foundation.h>
@@ -10,13 +39,12 @@
 @import VirgilSDK;
 @import VirgilE3Kit;
 @import VirgilCrypto;
-@import VirgilSDK;
 @import VirgilCryptoApiImpl;
 
 #import "VTETestsConst.h"
 #import "VTETestUtils.h"
 
-static const NSTimeInterval timeout = 200.;
+static const NSTimeInterval timeout = 20.;
 
 @interface VTE002_AuthenticationTests : XCTestCase
 
@@ -104,28 +132,29 @@ static const NSTimeInterval timeout = 200.;
     [self.keychainStorage deleteAllEntriesAndReturnError:&err];
     XCTAssert(err == nil);
 
-    __weak typeof(self) weakSelf = self;
-    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
-        [syncKeyStorage deleteAllEntriesWithCompletion:^(NSError *error) {
+
+        sleep(1);
+
+        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
 
-            sleep(1);
+            NSError *err;
+            VSSKeychainEntry *keychainEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+            XCTAssert(err == nil && keychainEntry != nil);
 
-            [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
+            NSDictionary *dict = keychainEntry.meta;
+            NSString *isPublished = dict[@"isPublished"];
+
+            XCTAssert(isPublished.boolValue == true);
+
+            [syncKeyStorage syncWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 NSError *err;
-                VSSKeychainEntry *keychainEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                XCTAssert(err == nil && keychainEntry != nil);
-
-                NSDictionary *dict = keychainEntry.meta;
-                NSString *isPublished = dict[@"isPublished"];
-
-                XCTAssert(isPublished.boolValue == true);
-
                 VSSKeychainEntry *syncEntry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                XCTAssert(err == nil && keychainEntry != nil);
+                XCTAssert(err == nil && syncEntry != nil);
                 XCTAssert([syncEntry.data isEqualToData:keychainEntry.data]);
 
                 [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {

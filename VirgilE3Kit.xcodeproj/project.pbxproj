@@ -86,6 +86,9 @@
 		165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		165B692B217A8C1900DDE1F7 /* NSBundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */; };
+		167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -619,6 +622,7 @@
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		165B6929217A8BEB00DDE1F7 /* NSBundleIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSBundleIdentifier.h; sourceTree = "<group>"; };
 		165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSBundleIdentifier.m; sourceTree = "<group>"; };
+		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -859,6 +863,7 @@
 				165B68222179088D00DDE1F7 /* Data */,
 				165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */,
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
+				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
 				165B68A62179E48300DDE1F7 /* VTETestUtils.h */,
 				165B68A82179E4AB00DDE1F7 /* VTETestUtils.m */,
 				165B68A72179E49700DDE1F7 /* VTETestsConst.h */,
@@ -1629,6 +1634,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
 				165B686D2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				165B68A92179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				165B6923217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
@@ -1641,6 +1647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				165B686E2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
+				167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
 				165B68AA2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
 				165B692B217A8C1900DDE1F7 /* NSBundleIdentifier.m in Sources */,
@@ -1652,6 +1659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
 				165B686F2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				165B68AB2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
