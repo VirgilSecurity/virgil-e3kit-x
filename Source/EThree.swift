@@ -59,6 +59,7 @@ import VirgilCryptoApiImpl
     @objc public let crypto: VirgilCrypto
     @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     @objc public let cardManager: CardManager
+    
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
 
