@@ -102,6 +102,8 @@ extension EThree {
                 return
             }
 
+            sleep(1);
+
             self.generateBrainKey(password: newPassword) { brainKeyPair, error in
                 guard let brainKeyPair = brainKeyPair, error == nil else {
                     completion(error)
