@@ -97,6 +97,29 @@
 		167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
+		167E1E1F217D253F00F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E1E217D253F00F8AA13 /* AppDelegate.swift */; };
+		167E1E21217D253F00F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E20217D253F00F8AA13 /* ViewController.swift */; };
+		167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E22217D253F00F8AA13 /* Main.storyboard */; };
+		167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E25217D254100F8AA13 /* Assets.xcassets */; };
+		167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */; };
+		167E1E62217D270600F8AA13 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D2021787A8E003D7CDA /* VirgilCrypto.framework */; };
+		167E1E63217D270600F8AA13 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D4F21787A96003D7CDA /* VirgilCryptoAPI.framework */; };
+		167E1E64217D270600F8AA13 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D2E21787A8E003D7CDA /* VirgilCryptoApiImpl.framework */; };
+		167E1E65217D270600F8AA13 /* VirgilSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D6C21787ABF003D7CDA /* VirgilSDK.framework */; };
+		167E1E66217D270600F8AA13 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D8E21787AC5003D7CDA /* VirgilSDKKeyknox.framework */; };
+		167E1E67217D270600F8AA13 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261DAE21787ACF003D7CDA /* VirgilSDKPythia.framework */; };
+		167E1E68217D270600F8AA13 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D3C21787A8E003D7CDA /* VSCCrypto.framework */; };
+		167E1E69217D272900F8AA13 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D2021787A8E003D7CDA /* VirgilCrypto.framework */; };
+		167E1E6A217D272900F8AA13 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D4F21787A96003D7CDA /* VirgilCryptoAPI.framework */; };
+		167E1E6B217D272900F8AA13 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D2E21787A8E003D7CDA /* VirgilCryptoApiImpl.framework */; };
+		167E1E6C217D272900F8AA13 /* VirgilSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D6C21787ABF003D7CDA /* VirgilSDK.framework */; };
+		167E1E6D217D272900F8AA13 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D8E21787AC5003D7CDA /* VirgilSDKKeyknox.framework */; };
+		167E1E6E217D272900F8AA13 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261DAE21787ACF003D7CDA /* VirgilSDKPythia.framework */; };
+		167E1E6F217D272900F8AA13 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261D3C21787A8E003D7CDA /* VSCCrypto.framework */; };
+		167E1E79217D27A500F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E78217D27A500F8AA13 /* AppDelegate.swift */; };
+		167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E7A217D27A500F8AA13 /* ViewController.swift */; };
+		167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7C217D27A500F8AA13 /* Main.storyboard */; };
+		167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7F217D27A600F8AA13 /* Assets.xcassets */; };
 		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -536,6 +559,20 @@
 			remoteGlobalIDString = 42A76B6020AED95200561EA2;
 			remoteInfo = "VirgilSDKPythia macOS";
 		};
+		167E1E60217D255800F8AA13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 167E1E1B217D253F00F8AA13;
+			remoteInfo = "E3Kit TestApp iOS";
+		};
+		167E1E85217D27E300F8AA13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 167E1E75217D27A500F8AA13;
+			remoteInfo = "E3Kit TestApp tvOS";
+		};
 		16EC376421786D77009D7F00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
@@ -629,6 +666,19 @@
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
+		167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		167E1E1E217D253F00F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		167E1E20217D253F00F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		167E1E23217D253F00F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E25217D254100F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		167E1E28217D254100F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		167E1E2A217D254100F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		167E1E78217D27A500F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		167E1E7A217D27A500F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -645,6 +695,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1E62217D270600F8AA13 /* VirgilCrypto.framework in Frameworks */,
+				167E1E63217D270600F8AA13 /* VirgilCryptoAPI.framework in Frameworks */,
+				167E1E64217D270600F8AA13 /* VirgilCryptoApiImpl.framework in Frameworks */,
+				167E1E65217D270600F8AA13 /* VirgilSDK.framework in Frameworks */,
+				167E1E66217D270600F8AA13 /* VirgilSDKKeyknox.framework in Frameworks */,
+				167E1E67217D270600F8AA13 /* VirgilSDKPythia.framework in Frameworks */,
+				167E1E68217D270600F8AA13 /* VSCCrypto.framework in Frameworks */,
 				165B67EB2179013B00DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -668,7 +725,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1E69217D272900F8AA13 /* VirgilCrypto.framework in Frameworks */,
+				167E1E6A217D272900F8AA13 /* VirgilCryptoAPI.framework in Frameworks */,
+				167E1E6B217D272900F8AA13 /* VirgilCryptoApiImpl.framework in Frameworks */,
+				167E1E6C217D272900F8AA13 /* VirgilSDK.framework in Frameworks */,
+				167E1E6D217D272900F8AA13 /* VirgilSDKKeyknox.framework in Frameworks */,
+				167E1E6E217D272900F8AA13 /* VirgilSDKPythia.framework in Frameworks */,
+				167E1E6F217D272900F8AA13 /* VSCCrypto.framework in Frameworks */,
 				165B681B217907C600DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E19217D253F00F8AA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E73217D27A500F8AA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,6 +981,31 @@
 			path = KeyManagement;
 			sourceTree = "<group>";
 		};
+		167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */ = {
+			isa = PBXGroup;
+			children = (
+				167E1E1E217D253F00F8AA13 /* AppDelegate.swift */,
+				167E1E20217D253F00F8AA13 /* ViewController.swift */,
+				167E1E22217D253F00F8AA13 /* Main.storyboard */,
+				167E1E25217D254100F8AA13 /* Assets.xcassets */,
+				167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */,
+				167E1E2A217D254100F8AA13 /* Info.plist */,
+			);
+			path = "E3Kit TestApp iOS";
+			sourceTree = "<group>";
+		};
+		167E1E77217D27A500F8AA13 /* E3Kit TestApp tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				167E1E78217D27A500F8AA13 /* AppDelegate.swift */,
+				167E1E7A217D27A500F8AA13 /* ViewController.swift */,
+				167E1E7C217D27A500F8AA13 /* Main.storyboard */,
+				167E1E7F217D27A600F8AA13 /* Assets.xcassets */,
+				167E1E81217D27A600F8AA13 /* Info.plist */,
+			);
+			path = "E3Kit TestApp tvOS";
+			sourceTree = "<group>";
+		};
 		16EC37222177938A009D7F00 = {
 			isa = PBXGroup;
 			children = (
@@ -914,6 +1017,8 @@
 				16EC373721779462009D7F00 /* VirgilE3Kit */,
 				16F9E9E5217889770021FD9A /* Source */,
 				165B67E72179013B00DDE1F7 /* Tests */,
+				167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */,
+				167E1E77217D27A500F8AA13 /* E3Kit TestApp tvOS */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
 			);
@@ -929,6 +1034,8 @@
 				165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */,
 				165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */,
 				165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */,
+				167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */,
+				167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1004,6 +1111,7 @@
 			);
 			dependencies = (
 				165B67ED2179013B00DDE1F7 /* PBXTargetDependency */,
+				167E1E61217D255800F8AA13 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit iOS Tests";
 			productName = "VirgilE3Kit iOS Tests";
@@ -1047,11 +1155,46 @@
 			);
 			dependencies = (
 				165B681D217907C600DDE1F7 /* PBXTargetDependency */,
+				167E1E86217D27E300F8AA13 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit tvOS Tests";
 			productName = "VirgilE3Kit tvOS Tests";
 			productReference = 165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 167E1E5F217D254100F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp iOS" */;
+			buildPhases = (
+				167E1E18217D253F00F8AA13 /* Sources */,
+				167E1E19217D253F00F8AA13 /* Frameworks */,
+				167E1E1A217D253F00F8AA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp iOS";
+			productName = "E3Kit TestApp iOS";
+			productReference = 167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 167E1E82217D27A600F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp tvOS" */;
+			buildPhases = (
+				167E1E72217D27A500F8AA13 /* Sources */,
+				167E1E73217D27A500F8AA13 /* Frameworks */,
+				167E1E74217D27A500F8AA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp tvOS";
+			productName = "E3Kit TestApp tvOS";
+			productReference = 167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */;
+			productType = "com.apple.product-type.application";
 		};
 		16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */ = {
 			isa = PBXNativeTarget;
@@ -1061,7 +1204,6 @@
 				16EC372A217793BC009D7F00 /* Sources */,
 				16EC372B217793BC009D7F00 /* Frameworks */,
 				16EC372C217793BC009D7F00 /* Resources */,
-				16F9EA2B2178C4E00021FD9A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1139,6 +1281,7 @@
 					165B67E52179013B00DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 167E1E1B217D253F00F8AA13;
 					};
 					165B68052179079000DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
@@ -1147,6 +1290,13 @@
 					165B6815217907C600DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 167E1E75217D27A500F8AA13;
+					};
+					167E1E1B217D253F00F8AA13 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					167E1E75217D27A500F8AA13 = {
+						CreatedOnToolsVersion = 10.0;
 					};
 					16EC372D217793BC009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
@@ -1175,6 +1325,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 16EC37222177938A009D7F00;
 			productRefGroup = 16EC372F217793BC009D7F00 /* Products */;
@@ -1211,6 +1362,8 @@
 				165B6815217907C600DDE1F7 /* VirgilE3Kit tvOS Tests */,
 				16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */,
 				16EC37602177A9C0009D7F00 /* VirgilE3Kit */,
+				167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */,
+				167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1593,6 +1746,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		167E1E1A217D253F00F8AA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */,
+				167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */,
+				167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E74217D27A500F8AA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */,
+				167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16EC372C217793BC009D7F00 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1622,26 +1794,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		16F9EA2B2178C4E00021FD9A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		165B67E22179013B00DDE1F7 /* Sources */ = {
@@ -1678,6 +1830,24 @@
 				165B68AB2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
 				165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E18217D253F00F8AA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E21217D253F00F8AA13 /* ViewController.swift in Sources */,
+				167E1E1F217D253F00F8AA13 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E72217D27A500F8AA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */,
+				167E1E79217D27A500F8AA13 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1790,6 +1960,16 @@
 			name = "VirgilSDKPythia macOS";
 			targetProxy = 165B68882179E1D300DDE1F7 /* PBXContainerItemProxy */;
 		};
+		167E1E61217D255800F8AA13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */;
+			targetProxy = 167E1E60217D255800F8AA13 /* PBXContainerItemProxy */;
+		};
+		167E1E86217D27E300F8AA13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */;
+			targetProxy = 167E1E85217D27E300F8AA13 /* PBXContainerItemProxy */;
+		};
 		16EC376521786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
@@ -1812,12 +1992,40 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		167E1E22217D253F00F8AA13 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E23217D253F00F8AA13 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E28217D254100F8AA13 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		167E1E7C217D27A500F8AA13 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E7D217D27A500F8AA13 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		165B67EF2179013B00DDE1F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1860,6 +2068,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp iOS.app/E3Kit TestApp iOS";
 			};
 			name = Debug;
 		};
@@ -1868,6 +2077,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1905,6 +2115,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp iOS.app/E3Kit TestApp iOS";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2011,6 +2222,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2051,6 +2263,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
@@ -2060,6 +2273,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2092,6 +2306,191 @@
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		167E1E2B217D254100F8AA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		167E1E2C217D254100F8AA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		167E1E83217D27A600F8AA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+			};
+			name = Debug;
+		};
+		167E1E84217D27A600F8AA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -2861,6 +3260,24 @@
 			buildConfigurations = (
 				165B681F217907C600DDE1F7 /* Debug */,
 				165B6820217907C600DDE1F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		167E1E5F217D254100F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				167E1E2B217D254100F8AA13 /* Debug */,
+				167E1E2C217D254100F8AA13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		167E1E82217D27A600F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				167E1E83217D27A600F8AA13 /* Debug */,
+				167E1E84217D27A600F8AA13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

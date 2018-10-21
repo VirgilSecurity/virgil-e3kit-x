@@ -39,6 +39,8 @@ opt_in_rules:
 excluded: 
   - Carthage
   - Tests
+  - E3Kit TestApp iOS
+  - E3Kit TestApp tvOS
 
 warning_threshold: 15
 
