@@ -35,7 +35,6 @@
 //
 
 import VirgilCryptoApiImpl
-import VirgilSDK
 
 internal struct IdentityKeyPair {
     internal let privateKey: VirgilPrivateKey
@@ -67,28 +66,26 @@ internal class LocalKeyManager {
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    internal init(identity: String, privateKeyExporter: VirgilPrivateKeyExporter, crypto: VirgilCrypto) throws {
+    internal init(identity: String, privateKeyExporter: VirgilPrivateKeyExporter,
+                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
         self.identity = identity
         self.privateKeyExporter = privateKeyExporter
         self.crypto = crypto
-
-        let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
-        let keychainStorage = KeychainStorage(storageParams: storageParams)
         self.keychainStorage = keychainStorage
     }
 
-    internal func storeLocal(data: Data, isPublished: Bool) throws {
+    internal func store(data: Data, isPublished: Bool) throws {
         let meta = [Keys.isPublished.rawValue: String(isPublished)]
         _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
     }
 
-    internal func updateLocal(isPublished: Bool) throws {
+    internal func update(isPublished: Bool) throws {
         let meta = [Keys.isPublished.rawValue: String(isPublished)]
         let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
         try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
     }
 
-    internal func deleteLocal() throws {
+    internal func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity)
     }
 }

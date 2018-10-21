@@ -47,7 +47,7 @@ extension EThree {
     }
 
     internal func signUp(password: String, completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+        self.cloudKeyManager.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
             guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(error)
                 return
@@ -55,7 +55,7 @@ extension EThree {
 
             let finishSignUp: (Data, VirgilKeyPair) -> () = { data, keyPair in
                 do {
-                    try self.localKeyManager.storeLocal(data: data, isPublished: false)
+                    try self.localKeyManager.store(data: data, isPublished: false)
                     self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
                 } catch {
                     completion(error)
@@ -97,7 +97,7 @@ extension EThree {
 
                 do {
                     let data = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
-                    try self.localKeyManager.storeLocal(data: data, isPublished: true)
+                    try self.localKeyManager.store(data: data, isPublished: true)
                     completion(nil)
                 } catch {
                     completion(error)
@@ -114,13 +114,13 @@ extension EThree {
             return
         }
 
-        self.fetchFromKeyknox(usingPassword: password) { entry, error in
+        self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
             guard let entry = entry, error == nil else {
                 completion(error)
                 return
             }
             do {
-                try self.localKeyManager.storeLocal(data: entry.data, isPublished: true)
+                try self.localKeyManager.store(data: entry.data, isPublished: true)
                 completion(nil)
             } catch {
                 completion(error)

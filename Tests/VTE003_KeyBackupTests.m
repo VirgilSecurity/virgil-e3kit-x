@@ -176,6 +176,8 @@ static const NSTimeInterval timeout = 200.;
             VSSKeychainEntry *keychainEntry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
             XCTAssert(err == nil && keychainEntry1 != nil);
 
+            sleep(1);
+
             [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
 

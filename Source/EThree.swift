@@ -60,13 +60,20 @@ import VirgilCryptoApiImpl
     @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     @objc public let cardManager: CardManager
     internal let localKeyManager: LocalKeyManager
+    internal let cloudKeyManager: CloudKeyManager
 
     internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
-        self.localKeyManager = try LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter, crypto: self.crypto)
+        
+        let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
+        let keychainStorage = KeychainStorage(storageParams: storageParams)
+        self.localKeyManager = LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter,
+                                               crypto: self.crypto, keychainStorage: keychainStorage)
+        self.cloudKeyManager = CloudKeyManager(identity: identity, accessTokenProvider: cardManager.accessTokenProvider,
+                                               privateKeyExporter: self.privateKeyExporter, keychainStorage: keychainStorage)
     }
 }
 
@@ -80,7 +87,7 @@ extension EThree {
             }
 
             do {
-                try self.localKeyManager.updateLocal(isPublished: true)
+                try self.localKeyManager.update(isPublished: true)
                 completion(nil)
             } catch {
                 completion(error)

@@ -96,6 +96,6 @@ extension EThree {
     }
 
     @objc public func logOut() throws {
-        try self.localKeyManager.deleteLocal()
+        try self.localKeyManager.delete()
     }
 }

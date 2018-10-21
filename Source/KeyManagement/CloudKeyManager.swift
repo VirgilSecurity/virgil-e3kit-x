@@ -35,90 +35,23 @@
 //
 
 import VirgilCryptoApiImpl
-import VirgilSDK
 import VirgilSDKKeyknox
 import VirgilSDKPythia
 
-extension EThree {
-    internal func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String,
-                                   completion: @escaping (KeychainEntry?, Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(nil, error)
-                return
-            }
+internal class CloudKeyManager {
+    internal let identity: String
+    internal let accessTokenProvider: AccessTokenProvider
+    internal let keychainStorage: KeychainStorage
+    internal let privateKeyExporter: VirgilPrivateKeyExporter
 
-            do {
-                let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
-
-                syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
-                    completion(entry, error)
-                }
-            } catch {
-                completion(nil, error)
-            }
-        }
+    internal init(identity: String, accessTokenProvider: AccessTokenProvider,
+                  privateKeyExporter: VirgilPrivateKeyExporter, keychainStorage: KeychainStorage) {
+        self.identity = identity
+        self.accessTokenProvider = accessTokenProvider
+        self.privateKeyExporter = privateKeyExporter
+        self.keychainStorage = keychainStorage
     }
 
-    internal func fetchFromKeyknox(usingPassword password: String,
-                                   completion: @escaping (KeychainEntry?, Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(nil, error)
-                return
-            }
-
-            do {
-                let entry = try syncKeyStorage.retrieveEntry(withName: self.identity)
-
-                completion(entry, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    internal func deleteKeyknoxEntry(password: String, completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
-
-            syncKeyStorage.deleteEntry(withName: self.identity) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-            }
-        }
-    }
-
-    internal func changeKeyknoxPassword(from oldPassword: String, to newPassword: String,
-                                        completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: oldPassword) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
-
-            sleep(1);
-
-            self.generateBrainKey(password: newPassword) { brainKeyPair, error in
-                guard let brainKeyPair = brainKeyPair, error == nil else {
-                    completion(error)
-                    return
-                }
-                syncKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                newPrivateKey: brainKeyPair.privateKey) { error in
-                    completion(error)
-                }
-            }
-        }
-    }
-}
-
-extension EThree {
     internal func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
         self.generateBrainKey(password: password) { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
@@ -139,9 +72,9 @@ extension EThree {
     }
 
     internal func generateSyncKeyStorage(keyPair: VirgilKeyPair) throws -> SyncKeyStorage {
-        let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.cardManager.accessTokenProvider,
+        let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.accessTokenProvider,
                                                   publicKeys: [keyPair.publicKey], privateKey: keyPair.privateKey)
-        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.localKeyManager.keychainStorage,
+        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.keychainStorage,
                                             cloudKeyStorage: cloudKeyStorage)
 
         return syncKeyStorage
@@ -149,11 +82,90 @@ extension EThree {
 
     internal func generateBrainKey(password: String, brainKeyId: String? = nil,
                                    completion: @escaping (VirgilKeyPair?, Error?) -> ()) {
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: cardManager.accessTokenProvider)
+        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: self.accessTokenProvider)
         let brainKey = BrainKey(context: brainKeyContext)
 
         brainKey.generateKeyPair(password: password, brainKeyId: brainKeyId) { brainKeyPair, error in
             completion(brainKeyPair, error)
+        }
+    }
+}
+
+extension CloudKeyManager {
+    internal func store(key: VirgilPrivateKey, usingPassword password: String,
+                          completion: @escaping (KeychainEntry?, Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(nil, error)
+                return
+            }
+
+            do {
+                let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
+
+                syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
+                    completion(entry, error)
+                }
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    internal func retrieve(usingPassword password: String,
+                           completion: @escaping (KeychainEntry?, Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(nil, error)
+                return
+            }
+
+            do {
+                let entry = try syncKeyStorage.retrieveEntry(withName: self.identity)
+
+                completion(entry, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    internal func delete(password: String, completion: @escaping (Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(error)
+                return
+            }
+
+            syncKeyStorage.deleteEntry(withName: self.identity) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+            }
+        }
+    }
+
+    internal func changePassword(from oldPassword: String, to newPassword: String,
+                                        completion: @escaping (Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: oldPassword) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(error)
+                return
+            }
+
+            sleep(1);
+
+            self.generateBrainKey(password: newPassword) { brainKeyPair, error in
+                guard let brainKeyPair = brainKeyPair, error == nil else {
+                    completion(error)
+                    return
+                }
+                syncKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
+                                                newPrivateKey: brainKeyPair.privateKey) { error in
+                                                    completion(error)
+                }
+            }
         }
     }
 }

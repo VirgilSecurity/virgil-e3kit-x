@@ -43,11 +43,11 @@ extension EThree {
             return
         }
 
-        self.publishToKeyknox(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
+        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
     }
 
     @objc public func changePrivateKeyPassword(from oldOne: String, to newOne: String,
                                                completion: @escaping (Error?) -> ()) {
-        self.changeKeyknoxPassword(from: oldOne, to: newOne, completion: completion)
+        self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
     }
 }
