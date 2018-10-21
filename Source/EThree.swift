@@ -57,41 +57,16 @@ import VirgilCryptoApiImpl
 
     @objc public let identity: String
     @objc public let crypto: VirgilCrypto
-    @objc public let keychainStorage: KeychainStorage
     @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     @objc public let cardManager: CardManager
-
-    internal struct IdentityKeyPair {
-        internal let privateKey: VirgilPrivateKey
-        internal let publicKey: VirgilPublicKey
-        internal let isPublished: Bool
-    }
-
-    internal enum Keys: String {
-        case isPublished
-    }
-
-    internal var identityKeyPair: IdentityKeyPair? {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let key = try? self.privateKeyExporter.importPrivateKey(from: keyEntry.data),
-            let meta = keyEntry.meta,
-            let isPublishedString = meta[Keys.isPublished.rawValue],
-            let identityKey = key as? VirgilPrivateKey,
-            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
-                return nil
-        }
-        let isPublished = NSString(string: isPublishedString).boolValue
-
-        return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
-    }
+    internal let localKeyManager: LocalKeyManager
 
     internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
-        let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
-        self.keychainStorage = KeychainStorage(storageParams: storageParams)
         self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
+        self.localKeyManager = try LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter, crypto: self.crypto)
     }
 }
 
@@ -105,7 +80,7 @@ extension EThree {
             }
 
             do {
-                try self.updateLocal(isPublished: true)
+                try self.localKeyManager.updateLocal(isPublished: true)
                 completion(nil)
             } catch {
                 completion(error)
@@ -121,20 +96,5 @@ extension EThree {
         let publicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
 
         return VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: publicKey)
-    }
-
-    internal func storeLocal(data: Data, isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
-    }
-
-    internal func updateLocal(isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
-        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
-    }
-
-    internal func deleteLocal() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
     }
 }

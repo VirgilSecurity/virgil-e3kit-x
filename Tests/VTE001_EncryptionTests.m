@@ -51,6 +51,7 @@ static const NSTimeInterval timeout = 20.;
 @property (nonatomic) VTETestsConst *consts;
 @property (nonatomic) VSMVirgilCrypto *crypto;
 @property (nonatomic) VTETestUtils *utils;
+@property (nonatomic) VSSKeychainStorage *keychainStorage;
 @property (nonatomic) VTEEThree *eThree;
 
 @end
@@ -63,6 +64,9 @@ static const NSTimeInterval timeout = 20.;
     self.consts = [[VTETestsConst alloc] init];
     self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
     self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
+
+    VSSKeychainStorageParams *params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
+    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -298,7 +302,7 @@ static const NSTimeInterval timeout = 20.;
 
 - (void)test08 {
     NSError *error;
-    [self.eThree.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
+    [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     XCTAssert(error == nil);
@@ -316,7 +320,7 @@ static const NSTimeInterval timeout = 20.;
 
 - (void)test09 {
     NSError *error;
-    [self.eThree.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
+    [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     XCTAssert(error == nil);
@@ -327,7 +331,7 @@ static const NSTimeInterval timeout = 20.;
 
     NSDictionary *meta = @{ @"isPublished": @"true"};
 
-    VSSKeychainEntry *entry = [self.eThree.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&error];
+    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&error];
     XCTAssert(error == nil && entry != nil);
 
     NSString *plainText = [[NSUUID alloc] init].UUIDString;

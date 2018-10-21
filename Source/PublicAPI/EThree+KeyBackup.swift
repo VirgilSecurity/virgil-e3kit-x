@@ -38,7 +38,7 @@ import Foundation
 
 extension EThree {
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
-        guard let identityKeyPair = self.identityKeyPair, identityKeyPair.isPublished else {
+        guard let identityKeyPair = self.localKeyManager.identityKeyPair, identityKeyPair.isPublished else {
             completion(EThreeError.notBootstrapped)
             return
         }

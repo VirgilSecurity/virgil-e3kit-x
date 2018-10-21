@@ -71,7 +71,7 @@ extension EThree {
     }
 
     @objc public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
-        if let identityKeyPair = self.identityKeyPair {
+        if let identityKeyPair = self.localKeyManager.identityKeyPair {
             guard !identityKeyPair.isPublished else {
                 completion(nil)
                 return
@@ -96,6 +96,6 @@ extension EThree {
     }
 
     @objc public func logOut() throws {
-        try self.deleteLocal()
+        try self.localKeyManager.deleteLocal()
     }
 }

@@ -55,7 +55,7 @@ extension EThree {
 
             let finishSignUp: (Data, VirgilKeyPair) -> () = { data, keyPair in
                 do {
-                    try self.storeLocal(data: data, isPublished: false)
+                    try self.localKeyManager.storeLocal(data: data, isPublished: false)
                     self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
                 } catch {
                     completion(error)
@@ -97,7 +97,7 @@ extension EThree {
 
                 do {
                     let data = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
-                    try self.storeLocal(data: data, isPublished: true)
+                    try self.localKeyManager.storeLocal(data: data, isPublished: true)
                     completion(nil)
                 } catch {
                     completion(error)
@@ -120,7 +120,7 @@ extension EThree {
                 return
             }
             do {
-                try self.storeLocal(data: entry.data, isPublished: true)
+                try self.localKeyManager.storeLocal(data: entry.data, isPublished: true)
                 completion(nil)
             } catch {
                 completion(error)

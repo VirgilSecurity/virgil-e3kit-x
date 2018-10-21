@@ -141,7 +141,7 @@ extension EThree {
     internal func generateSyncKeyStorage(keyPair: VirgilKeyPair) throws -> SyncKeyStorage {
         let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.cardManager.accessTokenProvider,
                                                   publicKeys: [keyPair.publicKey], privateKey: keyPair.privateKey)
-        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.keychainStorage,
+        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.localKeyManager.keychainStorage,
                                             cloudKeyStorage: cloudKeyStorage)
 
         return syncKeyStorage

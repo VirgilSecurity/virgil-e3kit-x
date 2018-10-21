@@ -265,7 +265,7 @@ static const NSTimeInterval timeout = 20.;
 
         NSDictionary *meta = @{ @"isPublished": @"false"};
 
-        VSSKeychainEntry *entry1 = [self.eThree.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
+        VSSKeychainEntry *entry1 = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
         XCTAssert(err == nil && entry1 != nil);
 
         [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
@@ -313,7 +313,7 @@ static const NSTimeInterval timeout = 20.;
 
         NSDictionary *meta = @{ @"isPublished": @"false"};
 
-        VSSKeychainEntry *entry1 = [self.eThree.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
+        VSSKeychainEntry *entry1 = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
         XCTAssert(err == nil && entry1 != nil);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {

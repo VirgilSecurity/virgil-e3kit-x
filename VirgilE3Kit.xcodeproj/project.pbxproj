@@ -89,6 +89,9 @@
 		167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
+		167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
+		167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -623,6 +626,7 @@
 		165B6929217A8BEB00DDE1F7 /* NSBundleIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSBundleIdentifier.h; sourceTree = "<group>"; };
 		165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSBundleIdentifier.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
+		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -935,6 +939,7 @@
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */,
 				16F9EA212178B2910021FD9A /* EThree+Keyknox.swift */,
+				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1673,6 +1678,7 @@
 			files = (
 				16F9EA222178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
+				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA272178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
@@ -1699,6 +1705,7 @@
 			files = (
 				16F9EA232178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
+				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA282178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
@@ -1712,6 +1719,7 @@
 			files = (
 				16F9EA242178B2910021FD9A /* EThree+Keyknox.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
+				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA292178B6A60021FD9A /* EThree+Authorization.swift in Sources */,

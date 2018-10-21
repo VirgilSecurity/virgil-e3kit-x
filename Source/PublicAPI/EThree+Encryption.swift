@@ -47,7 +47,7 @@ extension EThree {
         }
         let recipientKeys = recipientKeys ?? []
 
-        guard let selfKeyPair = self.identityKeyPair else {
+        guard let selfKeyPair = self.localKeyManager.identityKeyPair else {
             throw EThreeError.notBootstrapped
         }
         
@@ -66,7 +66,7 @@ extension EThree {
         }
         let senderKeys = senderKeys ?? []
 
-        guard let selfKeyPair = self.identityKeyPair else {
+        guard let selfKeyPair = self.localKeyManager.identityKeyPair else {
             throw EThreeError.notBootstrapped
         }
 
