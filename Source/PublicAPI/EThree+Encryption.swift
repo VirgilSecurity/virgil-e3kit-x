@@ -150,10 +150,13 @@ extension EThree {
                     errors.append(error)
                     return
                 }
-                guard let publicKey = cards?.first?.publicKey,
-                    let virgilPublicKey = publicKey as? VirgilPublicKey else {
-                        errors.append(EThreeError.keyIsNotVirgil)
-                        return
+                guard let publicKey = cards?.first?.publicKey else {
+                    errors.append(EThreeError.missingKeys)
+                    return
+                }
+                guard let virgilPublicKey = publicKey as? VirgilPublicKey else {
+                    errors.append(EThreeError.keyIsNotVirgil)
+                    return
                 }
 
                 result.append(virgilPublicKey)

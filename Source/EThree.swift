@@ -89,6 +89,8 @@ import VirgilCryptoApiImpl
                                                crypto: self.crypto, keychainStorage: keychainStorage)
         self.cloudKeyManager = CloudKeyManager(identity: identity, accessTokenProvider: cardManager.accessTokenProvider,
                                                privateKeyExporter: self.privateKeyExporter, keychainStorage: keychainStorage)
+
+        super.init()
     }
 }
 
