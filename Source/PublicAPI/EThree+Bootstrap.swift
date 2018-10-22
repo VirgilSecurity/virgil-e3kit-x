@@ -81,7 +81,7 @@ extension EThree {
     /// - Parameters:
     ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
-    @objc public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
+    @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
         if let identityKeyPair = self.localKeyManager.identityKeyPair {
             guard !identityKeyPair.isPublished else {
                 completion(nil)
