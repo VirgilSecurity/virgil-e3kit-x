@@ -44,7 +44,7 @@
 #import "VTETestsConst.h"
 #import "VTETestUtils.h"
 
-static const NSTimeInterval timeout = 200.;
+static const NSTimeInterval timeout = 20.;
 
 @interface VTE003_KeyBackupTests : XCTestCase
 
@@ -211,6 +211,41 @@ static const NSTimeInterval timeout = 200.;
 
                         [ex fulfill];
                     }];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test04 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"recallPrivateKey should delete Key from Keyknox"];
+
+    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        XCTAssert(error == nil);
+
+        sleep(2);
+
+        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
+            XCTAssert(error == nil);
+
+            sleep(2);
+
+            [self.eThree recallPrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                [syncKeyStorage syncWithCompletion:^(NSError *error) {
+                    XCTAssert(error == nil);
+
+                    NSError *err;
+                    VSSKeychainEntry *entry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                    XCTAssert(err != nil && entry == nil);
+
+                    [ex fulfill];
                 }];
             }];
         }];

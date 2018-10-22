@@ -42,7 +42,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
-    ///   - completion: completion handler with corresponding error
+    ///   - completion: completion handler called with corresponding error
     /// - Important: Requires a bootstrapped user
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
         guard let identityKeyPair = self.localKeyManager.identityKeyPair, identityKeyPair.isPublished else {
@@ -62,5 +62,14 @@ extension EThree {
     @objc public func changePrivateKeyPassword(from oldOne: String, to newOne: String,
                                                completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
+    }
+
+    /// Deletes PrivateKey stored on Virgil's cloud. This will disable user to log in from other devices.
+    ///
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - completion: completion handler called with corresponding error
+    @objc public func recallPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+        self.cloudKeyManager.delete(password: password, completion: completion)
     }
 }

@@ -142,6 +142,8 @@ extension CloudKeyManager {
                     completion(error)
                     return
                 }
+
+                completion(nil)
             }
         }
     }
