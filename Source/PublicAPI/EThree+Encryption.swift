@@ -37,11 +37,17 @@
 import Foundation
 import VirgilCryptoApiImpl
 
+// MARK: - Extension with encrypt-decrypt operations
 extension EThree {
-    @objc public func encrypt(_ text: String, for recipientKeys: [VirgilPublicKey]? = nil) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
+    /// Signs then encrypts data for group of users
+    ///
+    /// - Parameters:
+    ///   - data: data to encrypt
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Requires a bootstrapped user
+    @objc public func encrypt(data: Data, for recipientKeys: [VirgilPublicKey]? = nil) throws -> Data {
         if let recipientKeys = recipientKeys, recipientKeys.isEmpty {
             throw EThreeError.missingKeys
         }
@@ -54,13 +60,18 @@ extension EThree {
         let publicKeys = recipientKeys + [selfKeyPair.publicKey]
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 
-        return encryptedData.base64EncodedString()
+        return encryptedData
     }
 
-    @objc public func decrypt(_ encrypted: String, from senderKeys: [VirgilPublicKey]? = nil) throws -> String {
-        guard let data = Data(base64Encoded: encrypted) else {
-            throw EThreeError.strToDataFailed
-        }
+    /// Decrypts and verifies data from users
+    ///
+    /// - Parameters:
+    ///   - data: data to decrypt
+    ///   - senderKeys: array with senders PublicKeys to verify with
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Requires a bootstrapped user
+    @objc public func decrypt(data: Data, from senderKeys: [VirgilPublicKey]? = nil) throws -> Data {
         if let senderKeys = senderKeys, senderKeys.isEmpty {
             throw EThreeError.missingKeys
         }
@@ -74,6 +85,41 @@ extension EThree {
 
         let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
                                                               usingOneOf: publicKeys)
+
+        return decryptedData
+    }
+
+    /// Signs then encrypts string for group of users
+    ///
+    /// - Parameters:
+    ///   - text: String to encrypt
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with
+    /// - Returns: encrypted base64String
+    /// - Throws: corresponding error
+    /// - Important: Requires a bootstrapped user
+    @objc public func encrypt(text: String, for recipientKeys: [VirgilPublicKey]? = nil) throws -> String {
+        guard let data = text.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        return try self.encrypt(data: data, for: recipientKeys).base64EncodedString()
+    }
+
+    /// Decrypts and verifies base64 string from users
+    ///
+    /// - Parameters:
+    ///   - text: encrypted String
+    ///   - senderKeys: array with senders PublicKeys to verify with
+    /// - Returns: decrypted String
+    /// - Throws: corresponding error
+    /// - Important: Requires a bootstrapped user
+    @objc public func decrypt(text: String, from senderKeys: [VirgilPublicKey]? = nil) throws -> String {
+        guard let data = Data(base64Encoded: text) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        let decryptedData = try self.decrypt(data: data, from: senderKeys)
+
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
         }
@@ -81,8 +127,13 @@ extension EThree {
         return decryptedString
     }
 
-   @objc public func lookupPublicKeys(of identities: [String],
-                                      completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
+    /// Retrieves user public keys from the cloud for encryption/verification.
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to search for
+    ///   - completion: completion handler, called with array with found Public Keys and array with Errors
+    @objc public func lookupPublicKeys(of identities: [String],
+                                       completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
         guard !identities.isEmpty else {
             completion([], [EThreeError.missingIdentities])
             return

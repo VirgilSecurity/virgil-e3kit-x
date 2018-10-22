@@ -169,13 +169,13 @@ static const NSTimeInterval timeout = 20.;
 
                     NSString *plainText = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
-                    NSString *encrypted = [eThree1 encrypt:plainText for:foundPublicKeys error:&err];
+                    NSString *encrypted = [eThree1 encryptWithText:plainText for:foundPublicKeys error:&err];
                     XCTAssert(err == nil);
 
                     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
                     XCTAssert(err == nil);
 
-                    NSString *decrypted = [eThree2 decrypt:encrypted from:@[keyPair.publicKey] error:&err];
+                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:@[keyPair.publicKey] error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
                     [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSArray<VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
@@ -183,7 +183,7 @@ static const NSTimeInterval timeout = 20.;
                         XCTAssert(foundPublicKeys.firstObject != nil);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decrypt:encrypted from:foundPublicKeys error:&err];
+                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:foundPublicKeys error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -207,7 +207,7 @@ static const NSTimeInterval timeout = 20.;
         XCTAssert(error == nil);
 
         NSError *err;
-        NSString *encrypted = [self.eThree encrypt:@"plaintext" for:@[] error:&err];
+        NSString *encrypted = [self.eThree encryptWithText:@"plaintext" for:@[] error:&err];
         XCTAssert(err.code == VTEEThreeErrorMissingKeys && encrypted == nil);
 
         [ex fulfill];
@@ -227,10 +227,10 @@ static const NSTimeInterval timeout = 20.;
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-        NSString *encrypted = [self.eThree encrypt:@"plaintext" for:@[keyPair.publicKey] error:&err];
+        NSString *encrypted = [self.eThree encryptWithText:@"plaintext" for:@[keyPair.publicKey] error:&err];
         XCTAssert(error == nil);
 
-        NSString *decrypted = [self.eThree decrypt:encrypted from:@[] error:&err];
+        NSString *decrypted = [self.eThree decryptWithText:encrypted from:@[] error:&err];
         XCTAssert(err.code == VTEEThreeErrorMissingKeys && decrypted == nil);
 
         [ex fulfill];
@@ -251,10 +251,10 @@ static const NSTimeInterval timeout = 20.;
         NSError *err;
         NSString *plainText = [[NSUUID alloc] init].UUIDString;
 
-        NSString *encrypted = [self.eThree encrypt:plainText for:nil error:&err];
+        NSString *encrypted = [self.eThree encryptWithText:plainText for:nil error:&err];
         XCTAssert(error == nil);
 
-        NSString *decrypted = [self.eThree decrypt:encrypted from:nil error:&err];
+        NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil error:&err];
         XCTAssert(error == nil);
         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -290,7 +290,7 @@ static const NSTimeInterval timeout = 20.;
             NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
             XCTAssert(encryptedString != nil);
 
-            NSString *decrypted = [self.eThree decrypt:encryptedString from:@[keyPair.publicKey] error:&err];
+            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:@[keyPair.publicKey] error:&err];
             XCTAssert(err != nil && decrypted == nil);
 
             [ex fulfill];
@@ -310,13 +310,13 @@ static const NSTimeInterval timeout = 20.;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     XCTAssert(error == nil);
 
-    NSString *encrypted = [self.eThree encrypt:@"plainText" for:@[keyPair.publicKey] error:&error];
+    NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@[keyPair.publicKey] error:&error];
     XCTAssert(error.code == VTEEThreeErrorNotBootstrapped);
     XCTAssert(encrypted == nil);
 
     error = nil;
 
-    NSString *decrypted = [self.eThree decrypt:@"" from:@[keyPair.publicKey] error:&error];
+    NSString *decrypted = [self.eThree decryptWithText:@"" from:@[keyPair.publicKey] error:&error];
     XCTAssert(error.code == VTEEThreeErrorNotBootstrapped);
     XCTAssert(decrypted == nil);
 }
@@ -338,10 +338,10 @@ static const NSTimeInterval timeout = 20.;
     XCTAssert(error == nil && entry != nil);
 
     NSString *plainText = [[NSUUID alloc] init].UUIDString;
-    NSString *encrypted = [self.eThree encrypt:plainText for:nil error:&error];
+    NSString *encrypted = [self.eThree encryptWithText:plainText for:nil error:&error];
     XCTAssert(error == nil);
 
-    NSString *decrypted = [self.eThree decrypt:encrypted from:nil error:&error];
+    NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil error:&error];
     XCTAssert(error == nil);
     XCTAssert([decrypted isEqualToString:plainText]);
 }

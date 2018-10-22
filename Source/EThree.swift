@@ -38,26 +38,40 @@ import Foundation
 import VirgilSDK
 import VirgilCryptoApiImpl
 
+/// Declares error types and codes for EThree
+///
+/// - verifierInitFailed: Initialization of VirgilCardVerifier failed
+/// - keyIsNotVirgil: Casting Key to Virgil Key failed
+/// - strToDataFailed: String to Data failed
+/// - strFromDataFailed: Data to String failed
+/// - missingKeys: missing Private or Public Keys
+/// - passwordRequired: password required
+/// - notBootstrapped: User was not bootstrapped
+/// - missingIdentities: got empty array of identities to lookup for
 @objc(VTEEThreeError) public enum EThreeError: Int, Error {
-    case gettingJwtFailed = 1
-    case verifierInitFailed = 2
-    case keyIsNotVirgil = 3
-    case strToDataFailed = 4
-    case strFromDataFailed = 5
-    case missingKeys = 6
-    case passwordRequired = 7
-    case notBootstrapped = 8
-    case missingAppName = 9
-    case missingIdentities = 10
+    case verifierInitFailed = 1
+    case keyIsNotVirgil = 2
+    case strToDataFailed = 3
+    case strFromDataFailed = 4
+    case missingKeys = 5
+    case passwordRequired = 6
+    case notBootstrapped = 7
+    case missingIdentities = 8
 }
 
 @objc(VTEEThree) open class EThree: NSObject {
+    /// Typealias for callback used below
     public typealias JwtStringCallback = (String?, Error?) -> Void
+    /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
+    /// Identity of user. Obtained from tokenCollback
     @objc public let identity: String
+    /// VirgilCrypto instance
     @objc public let crypto: VirgilCrypto
+    /// VirgilPrivateKeyExporter instance
     @objc public let privateKeyExporter: VirgilPrivateKeyExporter
+    /// CardManager instance
     @objc public let cardManager: CardManager
     
     internal let localKeyManager: LocalKeyManager
