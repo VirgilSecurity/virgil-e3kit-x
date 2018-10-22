@@ -140,7 +140,7 @@ static const NSTimeInterval timeout = 20.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
@@ -183,7 +183,7 @@ static const NSTimeInterval timeout = 20.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
@@ -198,7 +198,7 @@ static const NSTimeInterval timeout = 20.;
             VSSKeychainEntry *noEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
             XCTAssert(err != nil && noEntry == nil);
 
-            sleep(1);
+            sleep(2);
 
             [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
@@ -226,7 +226,7 @@ static const NSTimeInterval timeout = 20.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
@@ -261,7 +261,7 @@ static const NSTimeInterval timeout = 20.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:nil];
@@ -309,7 +309,7 @@ static const NSTimeInterval timeout = 20.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:nil];

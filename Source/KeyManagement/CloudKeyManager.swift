@@ -154,7 +154,7 @@ extension CloudKeyManager {
                 return
             }
 
-            sleep(1)
+            sleep(2)
 
             self.generateBrainKey(password: newPassword) { brainKeyPair, error in
                 guard let brainKeyPair = brainKeyPair, error == nil else {

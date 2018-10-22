@@ -104,12 +104,12 @@ static const NSTimeInterval timeout = 200.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
 
-            sleep(1);
+            sleep(2);
 
             NSString *oldPassword = self.password;
             NSString *newPassword = [[NSUUID alloc] init].UUIDString;
@@ -120,7 +120,7 @@ static const NSTimeInterval timeout = 200.;
                 [self.eThree logOutAndReturnError:&err];
                 XCTAssert(err == nil);
 
-                sleep(1);
+                sleep(2);
 
                 [self.eThree bootstrapWithPassword:oldPassword completion:^(NSError *error) {
                     XCTAssert(error != nil);
@@ -149,12 +149,12 @@ static const NSTimeInterval timeout = 200.;
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(1);
+        sleep(2);
 
         [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
 
-            sleep(1);
+            sleep(2);
 
             [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error != nil);
@@ -183,7 +183,7 @@ static const NSTimeInterval timeout = 200.;
             VSSKeychainEntry *keychainEntry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
             XCTAssert(err == nil && keychainEntry1 != nil);
 
-            sleep(1);
+            sleep(2);
 
             [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
@@ -199,7 +199,7 @@ static const NSTimeInterval timeout = 200.;
                     [self.eThree logOutAndReturnError:&err];
                     XCTAssert(err == nil);
 
-                    sleep(1);
+                    sleep(2);
 
                     [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
                         XCTAssert(error == nil);
