@@ -117,7 +117,7 @@ static const NSTimeInterval timeout = 20.;
                 XCTAssert(error == nil);
 
                 NSError *err;
-                [self.eThree resetLocalKeyAndReturnError:&err];
+                [self.eThree cleanUpAndReturnError:&err];
                 XCTAssert(err == nil);
 
                 sleep(2);
@@ -196,7 +196,7 @@ static const NSTimeInterval timeout = 20.;
                     XCTAssert(err == nil && syncEntry != nil);
                     XCTAssert([syncEntry.data isEqualToData:keychainEntry1.data]);
 
-                    [self.eThree resetLocalKeyAndReturnError:&err];
+                    [self.eThree cleanUpAndReturnError:&err];
                     XCTAssert(err == nil);
 
                     sleep(2);
@@ -235,7 +235,7 @@ static const NSTimeInterval timeout = 20.;
 
             sleep(2);
 
-            [self.eThree resetBackupedKeyWithPassword:self.password completion:^(NSError *error) {
+            [self.eThree rollbackPrivateKeyWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 [syncKeyStorage syncWithCompletion:^(NSError *error) {
