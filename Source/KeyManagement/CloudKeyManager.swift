@@ -35,6 +35,7 @@
 //
 
 import VirgilCryptoApiImpl
+import VirgilSDK
 import VirgilSDKKeyknox
 import VirgilSDKPythia
 
@@ -43,6 +44,7 @@ internal class CloudKeyManager {
     internal let accessTokenProvider: AccessTokenProvider
     internal let keychainStorage: KeychainStorage
     internal let privateKeyExporter: VirgilPrivateKeyExporter
+    internal let brainKey: BrainKey
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
                   privateKeyExporter: VirgilPrivateKeyExporter, keychainStorage: KeychainStorage) {
@@ -50,6 +52,8 @@ internal class CloudKeyManager {
         self.accessTokenProvider = accessTokenProvider
         self.privateKeyExporter = privateKeyExporter
         self.keychainStorage = keychainStorage
+        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: accessTokenProvider)
+        self.brainKey = BrainKey(context: brainKeyContext)
     }
 
     internal func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
@@ -60,7 +64,8 @@ internal class CloudKeyManager {
             }
 
             do {
-                let syncKeyStorage = try self.generateSyncKeyStorage(keyPair: brainKeyPair)
+                let syncKeyStorage = try SyncKeyStorage(identity: self.identity, accessTokenProvider: self.accessTokenProvider,
+                                                        publicKeys: [brainKeyPair.publicKey], privateKey: brainKeyPair.privateKey)
 
                 syncKeyStorage.sync { error in
                     completion(syncKeyStorage, error)
@@ -71,21 +76,9 @@ internal class CloudKeyManager {
         }
     }
 
-    internal func generateSyncKeyStorage(keyPair: VirgilKeyPair) throws -> SyncKeyStorage {
-        let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.accessTokenProvider,
-                                                  publicKeys: [keyPair.publicKey], privateKey: keyPair.privateKey)
-        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.keychainStorage,
-                                            cloudKeyStorage: cloudKeyStorage)
-
-        return syncKeyStorage
-    }
-
     internal func generateBrainKey(password: String, brainKeyId: String? = nil,
                                    completion: @escaping (VirgilKeyPair?, Error?) -> ()) {
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: self.accessTokenProvider)
-        let brainKey = BrainKey(context: brainKeyContext)
-
-        brainKey.generateKeyPair(password: password, brainKeyId: brainKeyId) { brainKeyPair, error in
+        self.brainKey.generateKeyPair(password: password, brainKeyId: brainKeyId) { brainKeyPair, error in
             completion(brainKeyPair, error)
         }
     }
@@ -163,9 +156,10 @@ extension CloudKeyManager {
                     completion(error)
                     return
                 }
+
                 syncKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
                                                 newPrivateKey: brainKeyPair.privateKey) { error in
-                                                    completion(error)
+                    completion(error)
                 }
             }
         }

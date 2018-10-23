@@ -35,6 +35,7 @@
 //
 
 import VirgilCryptoApiImpl
+import VirgilSDK
 
 internal struct IdentityKeyPair {
     internal let privateKey: VirgilPrivateKey
@@ -49,7 +50,7 @@ internal class LocalKeyManager {
     internal let crypto: VirgilCrypto
 
     internal enum Keys: String {
-        case isPublished
+        case isPublished = "isPublished"
     }
 
     internal var identityKeyPair: IdentityKeyPair? {
