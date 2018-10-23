@@ -120,10 +120,6 @@
 		167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E7A217D27A500F8AA13 /* ViewController.swift */; };
 		167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7C217D27A500F8AA13 /* Main.storyboard */; };
 		167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7F217D27A600F8AA13 /* Assets.xcassets */; };
-		16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16F9E9EF217889F20021FD9A /* VirgilE3Kit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F9EA13217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
@@ -684,7 +680,6 @@
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VirgilE3Kit.h; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
 		16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
@@ -1051,7 +1046,6 @@
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				16F9E9EB217889F20021FD9A /* VirgilE3Kit.h */,
 				167E1DED217CFC1000F8AA13 /* KeyManagement */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
@@ -1067,7 +1061,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16F9E9EC217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,7 +1068,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16F9E9EF217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,7 +1075,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16F9E9ED217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,7 +1082,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16F9E9EE217889F20021FD9A /* VirgilE3Kit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

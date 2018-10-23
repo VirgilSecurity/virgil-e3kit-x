@@ -37,7 +37,13 @@
 import VirgilSDK
 import VirgilCryptoApiImpl
 
+// MARK: - Extension with bootstrap operations
 extension EThree {
+    /// Initializes E3Kit with a callback to get Virgil access token
+    ///
+    /// - Parameters:
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - completion: completion handler, called with initialized EThree or corresponding Error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                         completion: @escaping (EThree?, Error?) -> ()) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
@@ -45,10 +51,10 @@ extension EThree {
         }
 
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "publish")
+        let tokenContext = TokenContext(service: "cards", operation: "")
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
-                completion(nil, EThreeError.gettingJwtFailed)
+                completion(nil, error)
                 return
             }
             do {
@@ -70,7 +76,12 @@ extension EThree {
         }
     }
 
-    @objc public func bootstrap(password: String?, completion: @escaping (Error?) -> ()) {
+    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have a private key yet, it creates one and backs it up to the cloud, using the password specified. Without password it wouldn't use cloud to backup or retrieve key
+    ///
+    /// - Parameters:
+    ///   - password: Private Key password
+    ///   - completion: completion handler, called with corresponding error
+    @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
         if let identityKeyPair = self.localKeyManager.identityKeyPair {
             guard !identityKeyPair.isPublished else {
                 completion(nil)
@@ -95,7 +106,10 @@ extension EThree {
         }
     }
 
-    @objc public func logOut() throws {
+    /// Deletes Private Key from local storage
+    ///
+    /// - Throws: KeychainStorageError
+    @objc public func cleanUp() throws {
         try self.localKeyManager.delete()
     }
 }

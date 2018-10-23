@@ -38,7 +38,7 @@ $ brew install carthage
 To integrate VirgilSDK into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/e3kit-x" "master"
+github "VirgilSecurity/e3kit-x" ~> 0.1.0-beta2
 ```
 
 #### Linking against prebuilt binaries
