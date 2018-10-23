@@ -192,7 +192,7 @@ static const NSTimeInterval timeout = 20.;
             VSSKeychainEntry *entry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
             XCTAssert(err == nil);
 
-            [self.eThree logOutAndReturnError:&err];
+            [self.eThree resetLocalKeyAndReturnError:&err];
             XCTAssert(err == nil);
 
             VSSKeychainEntry *noEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
@@ -235,7 +235,7 @@ static const NSTimeInterval timeout = 20.;
             VSSKeychainEntry *entry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
             XCTAssert(err == nil && entry1 != nil);
 
-            [self.eThree logOutAndReturnError:&err];
+            [self.eThree resetLocalKeyAndReturnError:&err];
             XCTAssert(err == nil);
 
             VSSKeychainEntry *noEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];

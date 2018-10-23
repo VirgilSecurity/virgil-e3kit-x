@@ -117,7 +117,7 @@ static const NSTimeInterval timeout = 20.;
                 XCTAssert(error == nil);
 
                 NSError *err;
-                [self.eThree logOutAndReturnError:&err];
+                [self.eThree resetLocalKeyAndReturnError:&err];
                 XCTAssert(err == nil);
 
                 sleep(2);
@@ -196,7 +196,7 @@ static const NSTimeInterval timeout = 20.;
                     XCTAssert(err == nil && syncEntry != nil);
                     XCTAssert([syncEntry.data isEqualToData:keychainEntry1.data]);
 
-                    [self.eThree logOutAndReturnError:&err];
+                    [self.eThree resetLocalKeyAndReturnError:&err];
                     XCTAssert(err == nil);
 
                     sleep(2);
@@ -223,7 +223,7 @@ static const NSTimeInterval timeout = 20.;
 }
 
 - (void)test04 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"recallPrivateKey should delete Key from Keyknox"];
+    XCTestExpectation *ex = [self expectationWithDescription:@"resetBackupedKey should delete Key from Keyknox"];
 
     [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
@@ -235,7 +235,7 @@ static const NSTimeInterval timeout = 20.;
 
             sleep(2);
 
-            [self.eThree recallPrivateKeyWithPassword:self.password completion:^(NSError *error) {
+            [self.eThree resetBackupedKeyWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 [syncKeyStorage syncWithCompletion:^(NSError *error) {

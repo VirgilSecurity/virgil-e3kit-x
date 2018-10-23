@@ -109,7 +109,7 @@ extension EThree {
     /// Deletes Private Key from local storage
     ///
     /// - Throws: KeychainStorageError
-    @objc public func logOut() throws {
+    @objc public func resetLocalKey() throws {
         try self.localKeyManager.delete()
     }
 }
