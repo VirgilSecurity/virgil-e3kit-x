@@ -57,7 +57,7 @@ internal class CloudKeyManager {
     }
 
     internal func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
-        self.generateBrainKey(password: password) { brainKeyPair, error in
+        self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
                 return
@@ -73,13 +73,6 @@ internal class CloudKeyManager {
             } catch {
                 completion(nil, error)
             }
-        }
-    }
-
-    internal func generateBrainKey(password: String, brainKeyId: String? = nil,
-                                   completion: @escaping (VirgilKeyPair?, Error?) -> ()) {
-        self.brainKey.generateKeyPair(password: password, brainKeyId: brainKeyId) { brainKeyPair, error in
-            completion(brainKeyPair, error)
         }
     }
 }
@@ -151,7 +144,7 @@ extension CloudKeyManager {
 
             sleep(2)
 
-            self.generateBrainKey(password: newPassword) { brainKeyPair, error in
+             self.brainKey.generateKeyPair(password: newPassword).start { brainKeyPair, error in
                 guard let brainKeyPair = brainKeyPair, error == nil else {
                     completion(error)
                     return
