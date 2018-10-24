@@ -37,16 +37,16 @@
 import Foundation
 import VirgilCryptoApiImpl
 
-extension EThree {
+extension AuthManager {
     internal func signUp(password: String?, completion: @escaping (Error?) -> ()) {
         if let password = password {
-            self.signUp(password: password, completion: completion)
+            self.signUpWithPassword(password: password, completion: completion)
         } else {
-            self.signUp(completion: completion)
+            self.signUpWithoutPassword(completion: completion)
         }
     }
 
-    internal func signUp(password: String, completion: @escaping (Error?) -> ()) {
+    internal func signUpWithPassword(password: String, completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
             guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(error)
@@ -68,7 +68,7 @@ extension EThree {
                     finishSignUp(entry.data, keyPair)
                 } else {
                     let keyPair = try self.crypto.generateKeyPair()
-                    let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
+                    let exportedIdentityKey = self.crypto.exportPrivateKey(keyPair.privateKey)
 
                     syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
                         guard let entry = entry, error == nil else {
@@ -84,7 +84,7 @@ extension EThree {
         }
     }
 
-    internal func signUp(completion: @escaping (Error?) -> ()) {
+    internal func signUpWithoutPassword(completion: @escaping (Error?) -> ()) {
         do {
             let keyPair = try self.crypto.generateKeyPair()
 
@@ -95,9 +95,11 @@ extension EThree {
                     return
                 }
 
+                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
                 do {
-                    let data = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
                     try self.localKeyManager.store(data: data, isPublished: true)
+
                     completion(nil)
                 } catch {
                     completion(error)
@@ -105,26 +107,6 @@ extension EThree {
             }
         } catch {
             completion(error)
-        }
-    }
-
-    internal func signIn(password: String?, completion: @escaping (Error?) -> ()) {
-        guard let password = password else {
-            completion(EThreeError.passwordRequired)
-            return
-        }
-
-        self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
-            guard let entry = entry, error == nil else {
-                completion(error)
-                return
-            }
-            do {
-                try self.localKeyManager.store(data: entry.data, isPublished: true)
-                completion(nil)
-            } catch {
-                completion(error)
-            }
         }
     }
 }

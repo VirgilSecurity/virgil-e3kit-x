@@ -41,9 +41,11 @@ import VirgilCryptoApiImpl
 extension EThree {
     /// Signs then encrypts data for group of users
     ///
+    /// Important: Avoid key duplication
+    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self.
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -53,7 +55,7 @@ extension EThree {
         }
         let recipientKeys = recipientKeys ?? []
 
-        guard let selfKeyPair = self.localKeyManager.identityKeyPair else {
+        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
             throw EThreeError.notBootstrapped
         }
 
@@ -65,9 +67,11 @@ extension EThree {
 
     /// Decrypts and verifies data from users
     ///
+    /// Important: Avoid key duplication
+    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to decrypt
-    ///   - senderKeys: array with senders PublicKeys to verify with
+    ///   - senderKeys: array with senders PublicKeys to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -77,7 +81,7 @@ extension EThree {
         }
         let senderKeys = senderKeys ?? []
 
-        guard let selfKeyPair = self.localKeyManager.identityKeyPair else {
+        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
             throw EThreeError.notBootstrapped
         }
 
@@ -91,9 +95,11 @@ extension EThree {
 
     /// Signs then encrypts string for group of users
     ///
+    /// Important: Avoid key duplication
+    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: String to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self.
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -107,9 +113,11 @@ extension EThree {
 
     /// Decrypts and verifies base64 string from users
     ///
+    /// Important: Avoid key duplication
+    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: encrypted String
-    ///   - senderKeys: array with senders PublicKeys to verify with
+    ///   - senderKeys: array with senders PublicKeys to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -129,6 +137,7 @@ extension EThree {
 
     /// Retrieves user public keys from the cloud for encryption/verification.
     ///
+    /// Important: Avoid identities duplication
     /// - Parameters:
     ///   - identities: array of identities to search for
     ///   - completion: completion handler, called with array with found Public Keys and array with Errors

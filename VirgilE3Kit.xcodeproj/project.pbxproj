@@ -52,6 +52,17 @@
 		16261D032178797E003D7CDA /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFC2178797E003D7CDA /* VirgilSDKKeyknox.framework */; };
 		16261D042178797E003D7CDA /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFD2178797E003D7CDA /* VSCCrypto.framework */; };
 		16261D052178797E003D7CDA /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFE2178797E003D7CDA /* VirgilSDKPythia.framework */; };
+		1642DB4A2180D603007EBAE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DB492180D603007EBAE4 /* AppDelegate.swift */; };
+		1642DB4C2180D604007EBAE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1642DB4B2180D604007EBAE4 /* Assets.xcassets */; };
+		1642DB4F2180D604007EBAE4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1642DB4D2180D604007EBAE4 /* MainMenu.xib */; };
+		1642DC0B2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */; };
+		1642DC0C2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */; };
+		1642DC0D2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */; };
+		1642DC0E2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */; };
+		1642DC102180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */; };
+		1642DC112180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */; };
+		1642DC122180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */; };
+		1642DC132180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */; };
 		165B67C32178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Bootstrap.swift */; };
 		165B67C42178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Bootstrap.swift */; };
 		165B67C52178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Bootstrap.swift */; };
@@ -85,7 +96,6 @@
 		165B6923217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
-		165B692B217A8C1900DDE1F7 /* NSBundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */; };
 		167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
@@ -128,10 +138,10 @@
 		16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
-		16F9EA272178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
-		16F9EA282178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
-		16F9EA292178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
-		16F9EA2A2178B6A60021FD9A /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */; };
+		16F9EA272178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
+		16F9EA282178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
+		16F9EA292178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
+		16F9EA2A2178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -485,6 +495,13 @@
 			remoteGlobalIDString = 42A76BBA20AED9D200561EA2;
 			remoteInfo = "VirgilSDKPythia watchOS";
 		};
+		1642DB872180D61B007EBAE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1642DB462180D603007EBAE4;
+			remoteInfo = "E3Kit TestApp macOS";
+		};
 		165B67EC2179013B00DDE1F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
@@ -645,6 +662,15 @@
 		16261D5C21787ABE003D7CDA /* VirgilSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDK.xcodeproj; path = "Carthage/Checkouts/sdk-x/VirgilSDK.xcodeproj"; sourceTree = "<group>"; };
 		16261D7D21787AC5003D7CDA /* VirgilSDKKeyknox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDKKeyknox.xcodeproj; path = "Carthage/Checkouts/keyknox-x/VirgilSDKKeyknox.xcodeproj"; sourceTree = "<group>"; };
 		16261D9F21787ACF003D7CDA /* VirgilSDKPythia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VirgilSDKPythia.xcodeproj; path = "Carthage/Checkouts/pythia-x/VirgilSDKPythia.xcodeproj"; sourceTree = "<group>"; };
+		1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1642DB492180D603007EBAE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1642DB4B2180D604007EBAE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1642DB4E2180D604007EBAE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1642DB502180D604007EBAE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1642DB512180D604007EBAE4 /* E3Kit_TestApp_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = E3Kit_TestApp_macOS.entitlements; sourceTree = "<group>"; };
+		1642DB892180D780007EBAE4 /* E3Kit TestApp macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "E3Kit TestApp macOS.entitlements"; sourceTree = "<group>"; };
+		1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+SignIn.swift"; sourceTree = "<group>"; };
+		1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+SignUp.swift"; sourceTree = "<group>"; };
 		165B67C22178FC0B00DDE1F7 /* EThree+Bootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Bootstrap.swift"; sourceTree = "<group>"; };
 		165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+KeyBackup.swift"; sourceTree = "<group>"; };
 		165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -657,8 +683,6 @@
 		165B68A82179E4AB00DDE1F7 /* VTETestUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestUtils.m; sourceTree = "<group>"; };
 		165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestsConst.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
-		165B6929217A8BEB00DDE1F7 /* NSBundleIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSBundleIdentifier.h; sourceTree = "<group>"; };
-		165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSBundleIdentifier.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
@@ -682,10 +706,17 @@
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
-		16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
+		16F9EA262178B6A60021FD9A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1642DB442180D603007EBAE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E32179013B00DDE1F7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -924,6 +955,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1642DB482180D603007EBAE4 /* E3Kit TestApp macOS */ = {
+			isa = PBXGroup;
+			children = (
+				1642DB892180D780007EBAE4 /* E3Kit TestApp macOS.entitlements */,
+				1642DB492180D603007EBAE4 /* AppDelegate.swift */,
+				1642DB4B2180D604007EBAE4 /* Assets.xcassets */,
+				1642DB4D2180D604007EBAE4 /* MainMenu.xib */,
+				1642DB502180D604007EBAE4 /* Info.plist */,
+				1642DB512180D604007EBAE4 /* E3Kit_TestApp_macOS.entitlements */,
+			);
+			path = "E3Kit TestApp macOS";
+			sourceTree = "<group>";
+		};
+		1642DC142180E915007EBAE4 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				16F9EA262178B6A60021FD9A /* AuthManager.swift */,
+				1642DC0A2180E883007EBAE4 /* AuthManager+SignIn.swift */,
+				1642DC0F2180E8E2007EBAE4 /* AuthManager+SignUp.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -937,7 +991,6 @@
 		165B67E72179013B00DDE1F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				165B6928217A8A1000DDE1F7 /* macOS */,
 				165B68222179088D00DDE1F7 /* Data */,
 				165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */,
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
@@ -956,15 +1009,6 @@
 				165B6823217908C000DDE1F7 /* TestConfig.plist */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		165B6928217A8A1000DDE1F7 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				165B6929217A8BEB00DDE1F7 /* NSBundleIdentifier.h */,
-				165B692A217A8C1900DDE1F7 /* NSBundleIdentifier.m */,
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 		167E1DED217CFC1000F8AA13 /* KeyManagement */ = {
@@ -1014,6 +1058,7 @@
 				165B67E72179013B00DDE1F7 /* Tests */,
 				167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */,
 				167E1E77217D27A500F8AA13 /* E3Kit TestApp tvOS */,
+				1642DB482180D603007EBAE4 /* E3Kit TestApp macOS */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
 			);
@@ -1031,6 +1076,7 @@
 				165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */,
 				167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */,
 				167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */,
+				1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1046,10 +1092,10 @@
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				1642DC142180E915007EBAE4 /* Authentication */,
 				167E1DED217CFC1000F8AA13 /* KeyManagement */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
-				16F9EA262178B6A60021FD9A /* EThree+Authorization.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1088,6 +1134,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1642DB862180D604007EBAE4 /* Build configuration list for PBXNativeTarget "E3Kit TestApp macOS" */;
+			buildPhases = (
+				1642DB432180D603007EBAE4 /* Sources */,
+				1642DB442180D603007EBAE4 /* Frameworks */,
+				1642DB452180D603007EBAE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp macOS";
+			productName = "E3Kit TestApp macOS";
+			productReference = 1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		165B67E52179013B00DDE1F7 /* VirgilE3Kit iOS Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */;
@@ -1127,6 +1190,7 @@
 				165B68872179E1D300DDE1F7 /* PBXTargetDependency */,
 				165B68892179E1D300DDE1F7 /* PBXTargetDependency */,
 				165B680D2179079100DDE1F7 /* PBXTargetDependency */,
+				1642DB882180D61B007EBAE4 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit macOS Tests";
 			productName = "VirgilE3Kit macOS Tests";
@@ -1268,6 +1332,14 @@
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 1000;
 				TargetAttributes = {
+					1642DB462180D603007EBAE4 = {
+						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
 					165B67E52179013B00DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
@@ -1276,6 +1348,7 @@
 					165B68052179079000DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 1642DB462180D603007EBAE4;
 					};
 					165B6815217907C600DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
@@ -1354,6 +1427,7 @@
 				16EC37602177A9C0009D7F00 /* VirgilE3Kit */,
 				167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */,
 				167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */,
+				1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1712,6 +1786,15 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1642DB452180D603007EBAE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1642DB4C2180D604007EBAE4 /* Assets.xcassets in Resources */,
+				1642DB4F2180D604007EBAE4 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E42179013B00DDE1F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1786,6 +1869,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1642DB432180D603007EBAE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1642DB4A2180D603007EBAE4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1806,7 +1897,6 @@
 				167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
 				165B68AA2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
-				165B692B217A8C1900DDE1F7 /* NSBundleIdentifier.m in Sources */,
 				165B68AE2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1848,9 +1938,11 @@
 				165B67C32178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1642DC0B2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */,
+				1642DC102180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA272178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
+				16F9EA272178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1862,8 +1954,10 @@
 				165B67C62178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1642DC0E2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */,
+				1642DC132180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA2A2178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
+				16F9EA2A2178B6A60021FD9A /* AuthManager.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
@@ -1876,9 +1970,11 @@
 				165B67C42178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1642DC0C2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */,
+				1642DC112180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA282178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
+				16F9EA282178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1890,9 +1986,11 @@
 				165B67C52178FC0B00DDE1F7 /* EThree+Bootstrap.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1642DC0D2180E883007EBAE4 /* AuthManager+SignIn.swift in Sources */,
+				1642DC122180E8E2007EBAE4 /* AuthManager+SignUp.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA292178B6A60021FD9A /* EThree+Authorization.swift in Sources */,
+				16F9EA292178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1900,6 +1998,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1642DB882180D61B007EBAE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */;
+			targetProxy = 1642DB872180D61B007EBAE4 /* PBXContainerItemProxy */;
+		};
 		165B67ED2179013B00DDE1F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
@@ -1983,6 +2086,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1642DB4D2180D604007EBAE4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1642DB4E2180D604007EBAE4 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		167E1E22217D253F00F8AA13 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2010,6 +2121,98 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1642DB522180D604007EBAE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "E3Kit TestApp macOS/E3Kit TestApp macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		1642DB532180D604007EBAE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "E3Kit TestApp macOS/E3Kit TestApp macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		165B67EF2179013B00DDE1F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2031,7 +2234,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2083,7 +2286,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2127,12 +2330,12 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2158,6 +2361,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp macOS.app/Contents/MacOS/E3Kit TestApp macOS";
 			};
 			name = Debug;
 		};
@@ -2178,12 +2382,12 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2204,6 +2408,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp macOS.app/Contents/MacOS/E3Kit TestApp macOS";
 			};
 			name = Release;
 		};
@@ -2227,7 +2432,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2278,7 +2483,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2325,7 +2530,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2373,7 +2578,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2417,7 +2622,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2465,7 +2670,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2596,7 +2801,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2680,7 +2885,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2759,7 +2964,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2844,7 +3049,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2923,7 +3128,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3008,7 +3213,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3085,7 +3290,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3169,7 +3374,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JWNLQ3HC5A;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3232,6 +3437,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1642DB862180D604007EBAE4 /* Build configuration list for PBXNativeTarget "E3Kit TestApp macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1642DB522180D604007EBAE4 /* Debug */,
+				1642DB532180D604007EBAE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

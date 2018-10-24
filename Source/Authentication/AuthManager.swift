@@ -34,55 +34,48 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import Foundation
 import VirgilCryptoApiImpl
 import VirgilSDK
 
-internal struct IdentityKeyPair {
-    internal let privateKey: VirgilPrivateKey
-    internal let publicKey: VirgilPublicKey
-    internal let isPublished: Bool
-}
-
-internal class LocalKeyManager {
+internal class AuthManager {
     internal let identity: String
-    internal let keychainStorage: KeychainStorage
     internal let crypto: VirgilCrypto
+    internal let cardManager: CardManager
+    internal let localKeyManager: LocalKeyManager
+    internal let cloudKeyManager: CloudKeyManager
 
-    internal enum Keys: String {
-        case isPublished = "isPublished"
-    }
-
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+    internal init(identity: String, crypto: VirgilCrypto, cardManager: CardManager,
+                  localKeyManager: LocalKeyManager, cloudKeyManager: CloudKeyManager) {
         self.identity = identity
         self.crypto = crypto
-        self.keychainStorage = keychainStorage
+        self.cardManager = cardManager
+        self.localKeyManager = localKeyManager
+        self.cloudKeyManager = cloudKeyManager
     }
 
-    internal func retrieveKeyPair() -> IdentityKeyPair? {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
-            let meta = keyEntry.meta,
-            let isPublishedString = meta[Keys.isPublished.rawValue],
-            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
-                return nil
+    internal func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
+        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                     identity: self.identity) { cards, error in
+            guard error == nil else {
+                completion(error)
+                return
+            }
+
+            do {
+                try self.localKeyManager.update(isPublished: true)
+
+                completion(nil)
+            } catch {
+                completion(error)
+            }
         }
-        let isPublished = NSString(string: isPublishedString).boolValue
-
-        return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    internal func store(data: Data, isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
-    }
+    internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
+        let key = try self.crypto.importPrivateKey(from: data)
+        let publicKey = try self.crypto.extractPublicKey(from: key)
 
-    internal func update(isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
-        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
-    }
-
-    internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
+        return VirgilKeyPair(privateKey: key, publicKey: publicKey)
     }
 }

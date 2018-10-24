@@ -38,14 +38,16 @@ import Foundation
 
 // MARK: - Extension with key back-up operations
 extension EThree {
-    /// Encrypts the user's private key using the user's password and backs up the encrypted private key to Virgil's cloud. This enables users to log in from other devices and have access to their private key to decrypt data.
+    /// Encrypts the user's private key using the user's password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices and have
+    /// access to their private key to decrypt data.
     ///
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler called with corresponding error
     /// - Important: Requires a bootstrapped user
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
-        guard let identityKeyPair = self.localKeyManager.identityKeyPair, identityKeyPair.isPublished else {
+        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair(), identityKeyPair.isPublished else {
             completion(EThreeError.notBootstrapped)
             return
         }
@@ -69,7 +71,7 @@ extension EThree {
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler called with corresponding error
-    @objc public func rollbackPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.delete(password: password, completion: completion)
     }
 }

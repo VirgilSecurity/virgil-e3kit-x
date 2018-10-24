@@ -235,7 +235,7 @@ static const NSTimeInterval timeout = 20.;
 
             sleep(2);
 
-            [self.eThree rollbackPrivateKeyWithPassword:self.password completion:^(NSError *error) {
+            [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 [syncKeyStorage syncWithCompletion:^(NSError *error) {

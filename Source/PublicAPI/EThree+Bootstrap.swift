@@ -76,20 +76,16 @@ extension EThree {
         }
     }
 
-    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have a private key yet, it creates one and backs it up to the cloud, using the password specified. Without password it wouldn't use cloud to backup or retrieve key
+    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have
+    /// a private key yet, it creates one and backs it up to the cloud, using the password specified.
+    /// Without password it wouldn't use cloud to backup or retrieve key
     ///
     /// - Parameters:
     ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
     @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
-        if let identityKeyPair = self.localKeyManager.identityKeyPair {
-            guard !identityKeyPair.isPublished else {
-                completion(nil)
-                return
-            }
-            let keyPair = VirgilKeyPair(privateKey: identityKeyPair.privateKey, publicKey: identityKeyPair.publicKey)
-
-            self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
+        if let identityKeyPair = self.localKeyManager.retrieveKeyPair() {
+            self.authManager.signInFromKnownDevice(identityKeyPair: identityKeyPair, completion: completion)
         } else {
             self.cardManager.searchCards(identity: self.identity) { cards, error in
                 guard let cards = cards, error == nil else {
@@ -98,9 +94,14 @@ extension EThree {
                 }
 
                 if cards.isEmpty {
-                    self.signUp(password: password, completion: completion)
+                    self.authManager.signUp(password: password, completion: completion)
                 } else {
-                    self.signIn(password: password, completion: completion)
+                    guard let password = password else {
+                        completion(EThreeError.passwordRequired)
+                        return
+                    }
+
+                    self.authManager.signInFromNewDevice(password: password, completion: completion)
                 }
             }
         }

@@ -69,56 +69,36 @@ import VirgilCryptoApiImpl
     @objc public let identity: String
     /// VirgilCrypto instance
     @objc public let crypto: VirgilCrypto
-    /// VirgilPrivateKeyExporter instance
-    @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     /// CardManager instance
     @objc public let cardManager: CardManager
-    
+
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
+    internal let authManager: AuthManager
 
     internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
-        self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
 
         let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
-        self.localKeyManager = LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter,
-                                               crypto: self.crypto, keychainStorage: keychainStorage)
-        self.cloudKeyManager = CloudKeyManager(identity: identity, accessTokenProvider: cardManager.accessTokenProvider,
-                                               privateKeyExporter: self.privateKeyExporter, keychainStorage: keychainStorage)
+
+        self.localKeyManager = LocalKeyManager(identity: identity,
+                                               crypto: self.crypto,
+                                               keychainStorage: keychainStorage)
+
+        self.cloudKeyManager = CloudKeyManager(identity: identity,
+                                               accessTokenProvider: cardManager.accessTokenProvider,
+                                               crypto: self.crypto,
+                                               keychainStorage: keychainStorage)
+
+        self.authManager = AuthManager(identity: identity,
+                                       crypto: self.crypto,
+                                       cardManager: cardManager,
+                                       localKeyManager: self.localKeyManager,
+                                       cloudKeyManager: self.cloudKeyManager)
 
         super.init()
-    }
-}
-
-extension EThree {
-    internal func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
-        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
-                                     identity: self.identity) { cards, error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-
-            do {
-                try self.localKeyManager.update(isPublished: true)
-                completion(nil)
-            } catch {
-                completion(error)
-            }
-        }
-    }
-
-    internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
-        let key = try self.privateKeyExporter.importPrivateKey(from: data)
-        guard let virgilPrivateKey = key as? VirgilPrivateKey else {
-            throw EThreeError.keyIsNotVirgil
-        }
-        let publicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
-
-        return VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: publicKey)
     }
 }
