@@ -46,7 +46,6 @@ internal struct IdentityKeyPair {
 internal class LocalKeyManager {
     internal let identity: String
     internal let keychainStorage: KeychainStorage
-    internal let privateKeyExporter: VirgilPrivateKeyExporter
     internal let crypto: VirgilCrypto
 
     internal enum Keys: String {
@@ -55,10 +54,9 @@ internal class LocalKeyManager {
 
     internal var identityKeyPair: IdentityKeyPair? {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let key = try? self.privateKeyExporter.importPrivateKey(from: keyEntry.data),
+            let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
             let meta = keyEntry.meta,
             let isPublishedString = meta[Keys.isPublished.rawValue],
-            let identityKey = key as? VirgilPrivateKey,
             let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
                 return nil
         }
@@ -67,10 +65,8 @@ internal class LocalKeyManager {
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
     }
 
-    internal init(identity: String, privateKeyExporter: VirgilPrivateKeyExporter,
-                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
         self.identity = identity
-        self.privateKeyExporter = privateKeyExporter
         self.crypto = crypto
         self.keychainStorage = keychainStorage
     }

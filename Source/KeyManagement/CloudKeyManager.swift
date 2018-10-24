@@ -43,16 +43,16 @@ internal class CloudKeyManager {
     internal let identity: String
     internal let accessTokenProvider: AccessTokenProvider
     internal let keychainStorage: KeychainStorage
-    internal let privateKeyExporter: VirgilPrivateKeyExporter
+    internal let crypto: VirgilCrypto
     internal let brainKey: BrainKey
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
-                  privateKeyExporter: VirgilPrivateKeyExporter, keychainStorage: KeychainStorage) {
+                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
-        self.privateKeyExporter = privateKeyExporter
         self.keychainStorage = keychainStorage
         let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: accessTokenProvider)
+        self.crypto = crypto
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
@@ -88,14 +88,10 @@ extension CloudKeyManager {
                 return
             }
 
-            do {
-                let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
+            let exportedIdentityKey = self.crypto.exportPrivateKey(key)
 
-                syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
-                    completion(entry, error)
-                }
-            } catch {
-                completion(nil, error)
+            syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
+                completion(entry, error)
             }
         }
     }

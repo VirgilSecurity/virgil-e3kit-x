@@ -68,7 +68,7 @@ extension EThree {
                     finishSignUp(entry.data, keyPair)
                 } else {
                     let keyPair = try self.crypto.generateKeyPair()
-                    let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
+                    let exportedIdentityKey = self.crypto.exportPrivateKey(keyPair.privateKey)
 
                     syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
                         guard let entry = entry, error == nil else {
@@ -95,9 +95,11 @@ extension EThree {
                     return
                 }
 
+                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
                 do {
-                    let data = try self.privateKeyExporter.exportPrivateKey(privateKey: keyPair.privateKey)
                     try self.localKeyManager.store(data: data, isPublished: true)
+
                     completion(nil)
                 } catch {
                     completion(error)

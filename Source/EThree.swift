@@ -69,8 +69,6 @@ import VirgilCryptoApiImpl
     @objc public let identity: String
     /// VirgilCrypto instance
     @objc public let crypto: VirgilCrypto
-    /// VirgilPrivateKeyExporter instance
-    @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     /// CardManager instance
     @objc public let cardManager: CardManager
 
@@ -80,18 +78,16 @@ import VirgilCryptoApiImpl
     internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
-        self.privateKeyExporter = VirgilPrivateKeyExporter()
         self.cardManager = cardManager
 
         let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
         self.localKeyManager = LocalKeyManager(identity: identity,
-                                               privateKeyExporter: self.privateKeyExporter,
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
         self.cloudKeyManager = CloudKeyManager(identity: identity,
                                                accessTokenProvider: cardManager.accessTokenProvider,
-                                               privateKeyExporter: self.privateKeyExporter,
+                                               crypto: self.crypto,
                                                keychainStorage: keychainStorage)
 
         super.init()
@@ -117,12 +113,9 @@ extension EThree {
     }
 
     internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
-        let key = try self.privateKeyExporter.importPrivateKey(from: data)
-        guard let virgilPrivateKey = key as? VirgilPrivateKey else {
-            throw EThreeError.keyIsNotVirgil
-        }
-        let publicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
+        let key = try self.crypto.importPrivateKey(from: data)
+        let publicKey = try self.crypto.extractPublicKey(from: key)
 
-        return VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: publicKey)
+        return VirgilKeyPair(privateKey: key, publicKey: publicKey)
     }
 }
