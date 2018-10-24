@@ -46,29 +46,33 @@ extension EThree {
     ///   - completion: completion handler, called with initialized EThree or corresponding Error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                         completion: @escaping (EThree?, Error?) -> ()) {
-        let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
-            tokenCallback(completion)
-        }
-
-        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "")
-        accessTokenProvider.getToken(with: tokenContext) { token, error in
-            guard let identity = token?.identity(), error == nil else {
+        tokenCallback { jwtString, error in
+            guard let jwtString = jwtString, error == nil else {
                 completion(nil, error)
                 return
             }
+
             do {
-                let cardCrypto = VirgilCardCrypto()
-                guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-                    completion(nil, EThreeError.verifierInitFailed)
-                    return
+                let token = try Jwt(stringRepresentation: jwtString)
+
+                let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
+                    tokenCallback(completion)
                 }
+                let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
+
+                let cardCrypto = VirgilCardCrypto()
+
+                guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
+                    throw EThreeError.verifierInitFailed
+                }
+
                 let params = CardManagerParams(cardCrypto: cardCrypto,
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
                 let cardManager = CardManager(params: params)
 
-                let ethree = try EThree(identity: identity, cardManager: cardManager)
+                let ethree = try EThree(identity: token.identity(), cardManager: cardManager)
+
                 completion(ethree, nil)
             } catch {
                 completion(nil, error)
