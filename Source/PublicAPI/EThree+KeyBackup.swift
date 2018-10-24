@@ -71,7 +71,7 @@ extension EThree {
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler called with corresponding error
-    @objc public func rollbackPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.delete(password: password, completion: completion)
     }
 }
