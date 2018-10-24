@@ -65,8 +65,8 @@ script:
 
   # Build with carthage
   - if [ $PUBLISH_CARTHAGE == "YES" ]; then
-    carthage build --no-skip-current --no-use-binaries;
-  fi
+      carthage build --no-skip-current --no-use-binaries;
+    fi
 
 before_deploy:
   - carthage archive
