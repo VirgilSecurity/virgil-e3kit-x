@@ -32,6 +32,7 @@ before_install:
   - xcodebuild -showsdks
 
 script:
+  - mkdir Tests/Data
   - openssl aes-256-cbc -K $encrypted_a7b6c41d0d44_key -iv $encrypted_a7b6c41d0d44_iv -in TestConfig.plist.enc -out Tests/Data/TestConfig.plist -d
 
   - carthage version
