@@ -74,6 +74,7 @@ import VirgilCryptoApiImpl
 
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
+    internal let authManager: AuthManager
 
     internal init(identity: String, cardManager: CardManager) throws {
         self.identity = identity
@@ -82,40 +83,22 @@ import VirgilCryptoApiImpl
 
         let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
+
         self.localKeyManager = LocalKeyManager(identity: identity,
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
+
         self.cloudKeyManager = CloudKeyManager(identity: identity,
                                                accessTokenProvider: cardManager.accessTokenProvider,
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
 
+        self.authManager = AuthManager(identity: identity,
+                                       crypto: self.crypto,
+                                       cardManager: cardManager,
+                                       localKeyManager: self.localKeyManager,
+                                       cloudKeyManager: self.cloudKeyManager)
+
         super.init()
-    }
-}
-
-extension EThree {
-    internal func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
-        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
-                                     identity: self.identity) { cards, error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-
-            do {
-                try self.localKeyManager.update(isPublished: true)
-                completion(nil)
-            } catch {
-                completion(error)
-            }
-        }
-    }
-
-    internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
-        let key = try self.crypto.importPrivateKey(from: data)
-        let publicKey = try self.crypto.extractPublicKey(from: key)
-
-        return VirgilKeyPair(privateKey: key, publicKey: publicKey)
     }
 }
