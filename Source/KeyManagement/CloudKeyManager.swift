@@ -64,8 +64,10 @@ internal class CloudKeyManager {
             }
 
             do {
-                let syncKeyStorage = try SyncKeyStorage(identity: self.identity, accessTokenProvider: self.accessTokenProvider,
-                                                        publicKeys: [brainKeyPair.publicKey], privateKey: brainKeyPair.privateKey)
+                let syncKeyStorage = try SyncKeyStorage(identity: self.identity,
+                                                        accessTokenProvider: self.accessTokenProvider,
+                                                        publicKeys: [brainKeyPair.publicKey],
+                                                        privateKey: brainKeyPair.privateKey)
 
                 syncKeyStorage.sync { error in
                     completion(syncKeyStorage, error)
@@ -144,7 +146,7 @@ extension CloudKeyManager {
 
             sleep(2)
 
-             self.brainKey.generateKeyPair(password: newPassword).start { brainKeyPair, error in
+            self.brainKey.generateKeyPair(password: newPassword).start { brainKeyPair, error in
                 guard let brainKeyPair = brainKeyPair, error == nil else {
                     completion(error)
                     return

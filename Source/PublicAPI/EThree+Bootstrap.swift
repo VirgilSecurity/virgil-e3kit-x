@@ -76,7 +76,9 @@ extension EThree {
         }
     }
 
-    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have a private key yet, it creates one and backs it up to the cloud, using the password specified. Without password it wouldn't use cloud to backup or retrieve key
+    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have
+    /// a private key yet, it creates one and backs it up to the cloud, using the password specified.
+    /// Without password it wouldn't use cloud to backup or retrieve key
     ///
     /// - Parameters:
     ///   - password: Private Key password

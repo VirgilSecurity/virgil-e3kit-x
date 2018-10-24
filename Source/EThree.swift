@@ -73,7 +73,7 @@ import VirgilCryptoApiImpl
     @objc public let privateKeyExporter: VirgilPrivateKeyExporter
     /// CardManager instance
     @objc public let cardManager: CardManager
-    
+
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
 
@@ -85,10 +85,14 @@ import VirgilCryptoApiImpl
 
         let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
-        self.localKeyManager = LocalKeyManager(identity: identity, privateKeyExporter: self.privateKeyExporter,
-                                               crypto: self.crypto, keychainStorage: keychainStorage)
-        self.cloudKeyManager = CloudKeyManager(identity: identity, accessTokenProvider: cardManager.accessTokenProvider,
-                                               privateKeyExporter: self.privateKeyExporter, keychainStorage: keychainStorage)
+        self.localKeyManager = LocalKeyManager(identity: identity,
+                                               privateKeyExporter: self.privateKeyExporter,
+                                               crypto: self.crypto,
+                                               keychainStorage: keychainStorage)
+        self.cloudKeyManager = CloudKeyManager(identity: identity,
+                                               accessTokenProvider: cardManager.accessTokenProvider,
+                                               privateKeyExporter: self.privateKeyExporter,
+                                               keychainStorage: keychainStorage)
 
         super.init()
     }

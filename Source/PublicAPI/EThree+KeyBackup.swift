@@ -38,7 +38,9 @@ import Foundation
 
 // MARK: - Extension with key back-up operations
 extension EThree {
-    /// Encrypts the user's private key using the user's password and backs up the encrypted private key to Virgil's cloud. This enables users to log in from other devices and have access to their private key to decrypt data.
+    /// Encrypts the user's private key using the user's password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices and have
+    /// access to their private key to decrypt data.
     ///
     /// - Parameters:
     ///   - password: String with password
