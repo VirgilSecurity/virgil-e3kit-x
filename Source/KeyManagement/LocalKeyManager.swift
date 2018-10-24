@@ -52,7 +52,13 @@ internal class LocalKeyManager {
         case isPublished = "isPublished"
     }
 
-    internal var identityKeyPair: IdentityKeyPair? {
+    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+        self.identity = identity
+        self.crypto = crypto
+        self.keychainStorage = keychainStorage
+    }
+
+    internal func retrieveKeyPair() -> IdentityKeyPair? {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
             let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
             let meta = keyEntry.meta,
@@ -63,12 +69,6 @@ internal class LocalKeyManager {
         let isPublished = NSString(string: isPublishedString).boolValue
 
         return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
-    }
-
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
     }
 
     internal func store(data: Data, isPublished: Bool) throws {

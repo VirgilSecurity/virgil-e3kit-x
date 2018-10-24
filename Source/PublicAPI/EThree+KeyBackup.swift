@@ -47,7 +47,7 @@ extension EThree {
     ///   - completion: completion handler called with corresponding error
     /// - Important: Requires a bootstrapped user
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
-        guard let identityKeyPair = self.localKeyManager.identityKeyPair, identityKeyPair.isPublished else {
+        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair(), identityKeyPair.isPublished else {
             completion(EThreeError.notBootstrapped)
             return
         }

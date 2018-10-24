@@ -84,7 +84,7 @@ extension EThree {
     ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
     @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
-        if let identityKeyPair = self.localKeyManager.identityKeyPair {
+        if let identityKeyPair = self.localKeyManager.retrieveKeyPair() {
             self.authManager.signInFromKnownDevice(identityKeyPair: identityKeyPair, completion: completion)
         } else {
             self.cardManager.searchCards(identity: self.identity) { cards, error in
