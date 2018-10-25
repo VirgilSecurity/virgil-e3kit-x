@@ -16,7 +16,7 @@ env:
     - MACOS_SDK=macosx10.14
     - TVOS_SDK=appletvsimulator12.0
     - WATCHOS_SDK=watchsimulator5.0
-    - FRAMEWORK_NAME=VirgilSDKKeyknox
+    - FRAMEWORK_NAME=VirgilE3Kit
 
   matrix:
     - DESTINATION="OS=12.0,name=iPhone SE"            SCHEME="$IOS_FRAMEWORK_SCHEME"        SDK="$IOS_SDK"        TWO_STEP_BUILD_ENABLED="YES"    CARTHAGE_PLATFORM_NAME="iOS"        RUN_TESTS="YES"    ADDITIONAL_TESTS_SCHEME="$IOS_TEST_SCHEME"        PUBLISH_CARTHAGE="NO"     POD_LIB_LINT="NO"    SWIFT_LINT="NO"
