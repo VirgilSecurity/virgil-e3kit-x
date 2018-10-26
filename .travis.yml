@@ -68,6 +68,13 @@ script:
     carthage build --no-skip-current --no-use-binaries;
   fi
 
+  # Check pod lib
+  - if [ $POD_LIB_LINT == "YES" ]; then
+      gem install cocoapods --pre;
+      pod repo update;
+      pod lib lint;
+    fi
+
 before_deploy:
   - carthage archive
 
