@@ -1,7 +1,9 @@
 # Virgil E3Kit Objective-C/Swift SDK
 
+[![Build Status](https://api.travis-ci.org/VirgilSecurity/e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/e3kit-x)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Platform](https://img.shields.io/cocoapods/p/VirgilSDK.svg?style=flat)](http://cocoadocs.org/docsets/VirgilSDK)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)
+[![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](http://cocoadocs.org/docsets/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
 
@@ -24,6 +26,30 @@ All frameworks are available for:
 - tvOS 9.0+
 - watchOS 2.0+
 
+### COCOAPODS
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
+```
+
+To integrate Virgil Keyknox into your Xcode project using CocoaPods, specify it in your *Podfile*:
+
+```bash
+target '<Your Target Name>' do
+use_frameworks!
+
+pod 'VirgilE3Kit', '~> 0.1.1'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
 ### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
@@ -38,7 +64,7 @@ $ brew install carthage
 To integrate VirgilSDK into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/e3kit-x" ~> 0.1.0
+github "VirgilSecurity/e3kit-x" ~> 0.1.1
 ```
 
 #### Linking against prebuilt binaries
