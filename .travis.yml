@@ -67,8 +67,8 @@ script:
 
   # Build with carthage
   - if [ $PUBLISH_CARTHAGE == "YES" ]; then
-    carthage build --no-skip-current --no-use-binaries;
-  fi
+      carthage build --no-skip-current --no-use-binaries;
+    fi
 
   # Check pod lib
   - if [ $POD_LIB_LINT == "YES" ]; then

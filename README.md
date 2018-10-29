@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/VirgilSecurity/e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/e3kit-x)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://cocoapods.org/pods/VirgilE3Kit)
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](http://cocoadocs.org/docsets/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
@@ -34,7 +34,7 @@ All frameworks are available for:
 $ gem install cocoapods
 ```
 
-To integrate Virgil Keyknox into your Xcode project using CocoaPods, specify it in your *Podfile*:
+To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in your *Podfile*:
 
 ```bash
 target '<Your Target Name>' do
@@ -61,7 +61,7 @@ $ brew update
 $ brew install carthage
 ```
 
-To integrate VirgilSDK into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
+To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
 github "VirgilSecurity/e3kit-x" ~> 0.1.1
@@ -131,7 +131,7 @@ Run following command:
 $ carthage update --no-build
 ```
 
-This will fetch dependencies into a *Carthage/Checkouts* folder inside your project's folder. Then, drag and drop VirgilCrypto.xcodeproj, VirgilCryptoAPI.xcodeproj and VirgilSDK.xcodeproj from corresponding folders inside Carthage/Checkouts folder to your Xcode Project Navigator sidebar.
+This will fetch dependencies into a *Carthage/Checkouts* folder inside your project's folder. Then, drag and drop VirgilCrypto.xcodeproj, VirgilCryptoAPI.xcodeproj, VirgilSDK.xcodeproj, VirgilSDKKeyknox.xcodeproj, VirgilSDKPythia.xcodeproj and VirgilE3Kit.xcodeproj from corresponding folders inside Carthage/Checkouts folder to your Xcode Project Navigator sidebar.
 
 Next, on your application target's “General” settings tab, in the “Embedded Binaries” section add the following frameworks from subprojects:
  - VirgilSDK
@@ -139,8 +139,9 @@ Next, on your application target's “General” settings tab, in the “Embedde
  - VirgilCryptoApiImpl
  - VirgilCrypto
  - VSCCrypto
- - VirgilPythiaSDK
- - VirgilKeyknoxSDK
+ - VirgilSDKPythia
+ - VirgilSDKKeyknox
+ - VirgilE3Kit
 
 
 #### Bootstrap User
