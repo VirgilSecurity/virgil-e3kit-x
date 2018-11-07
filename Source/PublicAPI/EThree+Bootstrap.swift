@@ -45,8 +45,8 @@ extension EThree {
     ///   - tokenCallback: callback to get Virgil access token
     ///   - completion: completion handler, called with initialized EThree or corresponding Error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                        completion: @escaping (EThree?, Error?) -> (),
-                                        storageParams: KeychainStorageParams? = nil) {
+                                        storageParams: KeychainStorageParams? = nil,
+                                        completion: @escaping (EThree?, Error?) -> ()) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             tokenCallback(completion)
         }
