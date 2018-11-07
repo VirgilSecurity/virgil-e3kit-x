@@ -76,12 +76,12 @@ import VirgilCryptoApiImpl
     internal let cloudKeyManager: CloudKeyManager
     internal let authManager: AuthManager
 
-    internal init(identity: String, cardManager: CardManager) throws {
+    internal init(identity: String, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
         self.cardManager = cardManager
 
-        let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
+        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
         self.localKeyManager = LocalKeyManager(identity: identity,

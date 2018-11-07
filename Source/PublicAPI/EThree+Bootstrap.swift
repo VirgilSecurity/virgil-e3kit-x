@@ -45,13 +45,14 @@ extension EThree {
     ///   - tokenCallback: callback to get Virgil access token
     ///   - completion: completion handler, called with initialized EThree or corresponding Error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                        completion: @escaping (EThree?, Error?) -> ()) {
+                                        completion: @escaping (EThree?, Error?) -> (),
+                                        storageParams: KeychainStorageParams? = nil) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             tokenCallback(completion)
         }
 
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "")
+        let tokenContext = TokenContext(service: "cards", operation: "") 
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
                 completion(nil, error)
@@ -68,7 +69,7 @@ extension EThree {
                                                cardVerifier: verifier)
                 let cardManager = CardManager(params: params)
 
-                let ethree = try EThree(identity: identity, cardManager: cardManager)
+                let ethree = try EThree(identity: identity, cardManager: cardManager, storageParams: storageParams)
                 completion(ethree, nil)
             } catch {
                 completion(nil, error)
