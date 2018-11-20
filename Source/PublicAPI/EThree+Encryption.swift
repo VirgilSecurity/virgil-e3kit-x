@@ -39,6 +39,9 @@ import VirgilCryptoApiImpl
 
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {
+    // Typealias for the valid result of lookupPublicKeys call
+    public typealias LookupResult = [String: VirgilPublicKey]
+
     /// Signs then encrypts data for group of users
     ///
     /// Important: Avoid key duplication
@@ -49,17 +52,23 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
-    @objc public func encrypt(data: Data, for recipientKeys: [VirgilPublicKey]? = nil) throws -> Data {
-        if let recipientKeys = recipientKeys, recipientKeys.isEmpty {
-            throw EThreeError.missingKeys
-        }
-        let recipientKeys = recipientKeys ?? []
-
+    @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
         guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
             throw EThreeError.notBootstrapped
         }
 
-        let publicKeys = recipientKeys + [selfKeyPair.publicKey]
+        var publicKeys: [VirgilPublicKey] = []
+
+        if let recipientKeys = recipientKeys {
+            guard !recipientKeys.isEmpty else {
+                throw EThreeError.missingKeys
+            }
+
+            publicKeys = publicKeys + recipientKeys.values
+        }
+
+        publicKeys = publicKeys + [selfKeyPair.publicKey]
+
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 
         return encryptedData
@@ -98,7 +107,7 @@ extension EThree {
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
-    @objc public func encrypt(text: String, for recipientKeys: [VirgilPublicKey]? = nil) throws -> String {
+    @objc public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -135,16 +144,18 @@ extension EThree {
     /// Important: Avoid identities duplication
     /// - Parameters:
     ///   - identities: array of identities to search for
-    ///   - completion: completion handler, called with array with found Public Keys and array with Errors
+    ///   - completion: completion handler
+    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
+    ///   - errors: array with Errors
     @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping ([VirgilPublicKey], [Error]) -> ()) {
+                                       completion: @escaping (_ lookupResult: LookupResult, _ errors: [Error]) -> ()) {
         guard !identities.isEmpty else {
-            completion([], [EThreeError.missingIdentities])
+            completion([:], [EThreeError.missingIdentities])
             return
         }
 
         let group = DispatchGroup()
-        var result: [VirgilPublicKey] = []
+        var result: LookupResult = [:]
         var errors: [Error] = []
 
         for identity in identities {
@@ -163,7 +174,7 @@ extension EThree {
                     return
                 }
 
-                result.append(virgilPublicKey)
+                result[identity] = virgilPublicKey
 
                 defer { group.leave() }
             }
