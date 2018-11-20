@@ -147,8 +147,8 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to search for
     ///   - completion: completion handler
-    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
-    ///   - errors: array with Errors
+    ///     - lookupResult: dictionary with idenities as keys and found public keys as values
+    ///     - errors: array with Errors
     @objc public func lookupPublicKeys(of identities: [String],
                                        completion: @escaping (_ lookupResult: LookupResult, _ errors: [Error]) -> ()) {
         guard !identities.isEmpty else {
