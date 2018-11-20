@@ -52,7 +52,7 @@ extension EThree {
         }
 
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "") 
+        let tokenContext = TokenContext(service: "cards", operation: "")
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
                 completion(nil, error)

@@ -58,7 +58,7 @@ extension EThree {
             throw EThreeError.notBootstrapped
         }
 
-        var publicKeys: [VirgilPublicKey] = []
+        var publicKeys = [selfKeyPair.publicKey]
 
         if let recipientKeys = recipientKeys {
             guard !recipientKeys.isEmpty else {
@@ -67,8 +67,6 @@ extension EThree {
 
             publicKeys = publicKeys + recipientKeys.values
         }
-
-        publicKeys = publicKeys + [selfKeyPair.publicKey]
 
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 
