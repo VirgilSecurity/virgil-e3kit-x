@@ -174,11 +174,11 @@ let messageToEncrypt = "Hello, Bob!"
 // initialize E3Kit
 EThree.initialize(tokenCallback) { eThree, error in 
     // Authenticate user 
-    eThree!.bootstrap(password: password) { error in 
+    eThree!.bootstrap(password: password) { error in
         // Search user's publicKeys to encrypt for
-        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { publicKeys, errors in 
+        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, errors in 
             // encrypt text
-            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: publicKeys)
+            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult)
         }
     }
 }
