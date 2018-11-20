@@ -117,7 +117,7 @@
 }
 
 -(void)setUpSyncKeyStorageWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler {
-    VSSCachingJwtProvider *provider = [[VSSCachingJwtProvider alloc] initWithRenewTokenCallback:^(VSSTokenContext *tokenContext, void(^completionHandler)(NSString *, NSError *)) {
+    VSSCachingJwtProvider *provider = [[VSSCachingJwtProvider alloc] initWithInitialJwt:nil renewTokenCallback:^(VSSTokenContext *tokenContext, void(^completionHandler)(NSString *, NSError *)) {
         NSError *error;
         NSString *token = [self getTokenStringWithIdentity:identity error:&error];
 
