@@ -48,7 +48,8 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -103,7 +104,8 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: String to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
