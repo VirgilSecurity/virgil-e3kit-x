@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                       	= "VirgilE3Kit"
-  s.version                   	= "0.1.1"
+  s.version                   	= "0.2.0"
   s.license      		= { :type => "BSD", :file => "LICENSE" }
   s.summary      		= "Vigil E3Kit for Apple devices and languages"
   s.homepage     		= "https://github.com/VirgilSecurity/e3kit-x/"
