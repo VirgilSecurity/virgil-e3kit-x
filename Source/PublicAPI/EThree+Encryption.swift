@@ -45,7 +45,7 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self.
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -71,24 +71,19 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to decrypt
-    ///   - senderKeys: array with senders PublicKeys to verify with. Use nil to decrypt and verify from self.
+    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
-    @objc public func decrypt(data: Data, from senderKeys: [VirgilPublicKey]? = nil) throws -> Data {
-        if let senderKeys = senderKeys, senderKeys.isEmpty {
-            throw EThreeError.missingKeys
-        }
-        let senderKeys = senderKeys ?? []
-
+    @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
         guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
             throw EThreeError.notBootstrapped
         }
 
-        let publicKeys = senderKeys + [selfKeyPair.publicKey]
+        let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
         let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
-                                                              usingOneOf: publicKeys)
+                                                              using: senderPublicKey)
 
         return decryptedData
     }
@@ -99,7 +94,7 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: String to encrypt
-    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self.
+    ///   - recipientKeys: array with recipient PublicKeys to sign and encrypt with. Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
@@ -117,16 +112,16 @@ extension EThree {
     /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: encrypted String
-    ///   - senderKeys: array with senders PublicKeys to verify with. Use nil to decrypt and verify from self.
+    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires a bootstrapped user
-    @objc public func decrypt(text: String, from senderKeys: [VirgilPublicKey]? = nil) throws -> String {
+    @objc public func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data, from: senderKeys)
+        let decryptedData = try self.decrypt(data: data, from: senderPublicKey)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
