@@ -65,7 +65,7 @@ extension EThree {
                 throw EThreeError.missingKeys
             }
 
-            publicKeys = publicKeys + recipientKeys.values
+            publicKeys += recipientKeys.values
         }
 
         let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
