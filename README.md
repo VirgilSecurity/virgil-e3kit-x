@@ -15,7 +15,6 @@
 - multidevice support
 - manage users' Public Keys
 
-
 ## Installation
 
 Virgil E3Kit is provided as a set of frameworks. These frameworks are distributed via Carthage.  Also in this guide, you find one more package called VirgilCrypto (Virgil Crypto Library) that is used by the E3Kit to perform cryptographic operations.
