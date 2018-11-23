@@ -84,7 +84,7 @@ static const NSTimeInterval timeout = 20.;
         NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
 
         completionHandler(token, error);
-    } completion:^(VTEEThree *eThree, NSError *error) {
+    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 

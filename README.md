@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/VirgilSecurity/e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/e3kit-x)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://cocoapods.org/pods/VirgilE3Kit)
-[![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](http://cocoadocs.org/docsets/VirgilE3Kit)
+[![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
 
@@ -14,7 +14,6 @@
 ## SDK Features
 - multidevice support
 - manage users' Public Keys
-
 
 ## Installation
 
@@ -40,7 +39,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
 use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.1.1'
+pod 'VirgilE3Kit', '~> 0.2.0'
 end
 ```
 
@@ -64,7 +63,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/e3kit-x" ~> 0.1.1
+github "VirgilSecurity/e3kit-x" ~> 0.2.0
 ```
 
 #### Linking against prebuilt binaries
@@ -174,11 +173,11 @@ let messageToEncrypt = "Hello, Bob!"
 // initialize E3Kit
 EThree.initialize(tokenCallback) { eThree, error in 
     // Authenticate user 
-    eThree!.bootstrap(password: password) { error in 
+    eThree!.bootstrap(password: password) { error in
         // Search user's publicKeys to encrypt for
-        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { publicKeys, errors in 
+        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, errors in 
             // encrypt text
-            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: publicKeys)
+            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult)
         }
     }
 }
