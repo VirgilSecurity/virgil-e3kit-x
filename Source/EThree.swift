@@ -44,19 +44,19 @@ import VirgilCryptoApiImpl
 /// - keyIsNotVirgil: Casting Key to Virgil Key failed
 /// - strToDataFailed: String to Data failed
 /// - strFromDataFailed: Data to String failed
-/// - missingKeys: missing Private or Public Keys
-/// - passwordRequired: password required
-/// - notBootstrapped: User was not bootstrapped
+/// - missingPrivateKey: missing Private Keys. You should call `register()` of `retrievePrivateKey()`
+/// - missingPublicKey: missing Public Key
 /// - missingIdentities: got empty array of identities to lookup for
 @objc(VTEEThreeError) public enum EThreeError: Int, Error {
     case verifierInitFailed = 1
     case keyIsNotVirgil = 2
     case strToDataFailed = 3
     case strFromDataFailed = 4
-    case missingKeys = 5
-    case passwordRequired = 6
-    case notBootstrapped = 7
-    case missingIdentities = 8
+    case missingPrivateKey = 5
+    case missingPublicKey = 6
+    case missingIdentities = 7
+    case userIsAlreadyRegistered = 8
+    case userIsNotRegistered = 9
 }
 
 @objc(VTEEThree) open class EThree: NSObject {

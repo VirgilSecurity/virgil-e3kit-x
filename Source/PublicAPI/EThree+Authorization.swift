@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCryptoApiImpl
 
-// MARK: - Extension with bootstrap operations
+// MARK: - Extension with authorization operations
 extension EThree {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
@@ -77,18 +77,14 @@ extension EThree {
         }
     }
 
-    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have
-    /// a private key yet, it creates one and backs it up to the cloud, using the password specified.
-    /// Without password it wouldn't use cloud to backup or retrieve key
+    /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameters:
-    ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
     @objc public func register(completion: @escaping (Error?) -> ()) {
         self.cardManager.searchCards(identity: self.identity) { cards, error in
             guard cards?.first == nil, error == nil else {
-                // FIXME
-                completion(error ?? NSError())
+                completion(error ?? EThreeError.userIsAlreadyRegistered)
                 return
             }
 
@@ -96,11 +92,14 @@ extension EThree {
         }
     }
 
+    /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
+    /// and saves new Private Key in local storage
+    ///
+    /// - Parameter completion: completion handler, called with corresponding error
     @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
         self.cardManager.searchCards(identity: self.identity) { cards, error in
             guard let card = cards?.first, error != nil else {
-                // FIXME
-                completion(error ?? NSError())
+                completion(error ?? EThreeError.userIsNotRegistered)
                 return
             }
 
