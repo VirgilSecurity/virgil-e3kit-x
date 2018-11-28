@@ -130,10 +130,6 @@
 		16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
 		16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
-		16F9EA272178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
-		16F9EA282178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
-		16F9EA292178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
-		16F9EA2A2178B6A60021FD9A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA262178B6A60021FD9A /* AuthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -696,7 +692,6 @@
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
-		16F9EA262178B6A60021FD9A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -958,14 +953,6 @@
 			path = "E3Kit TestApp macOS";
 			sourceTree = "<group>";
 		};
-		1642DC142180E915007EBAE4 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				16F9EA262178B6A60021FD9A /* AuthManager.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1080,7 +1067,6 @@
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1642DC142180E915007EBAE4 /* Authentication */,
 				167E1DED217CFC1000F8AA13 /* KeyManagement */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
@@ -1928,7 +1914,6 @@
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA272178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1941,7 +1926,6 @@
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA2A2178B6A60021FD9A /* AuthManager.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
@@ -1956,7 +1940,6 @@
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA282178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1970,7 +1953,6 @@
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA292178B6A60021FD9A /* AuthManager.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

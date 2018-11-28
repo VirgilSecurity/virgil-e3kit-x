@@ -96,7 +96,7 @@ extension EThree {
                         return
                     }
 
-                    self.authManager.signUp(completion: completion)
+                    self.publishCardThenSaveLocal(completion: completion)
                 }
             }
         } catch {
@@ -112,31 +112,7 @@ extension EThree {
                 return
             }
 
-            do {
-                let keyPair = try self.crypto.generateKeyPair()
-
-                self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
-                                             identity: self.identity, previousCardId: card.identifier) { rawCard, error in
-                    guard error != nil else {
-                        completion(error)
-                        return
-                    }
-
-                    do {
-                        let data = self.crypto.exportPrivateKey(keyPair.privateKey)
-
-                        try? self.localKeyManager.delete()
-                        try self.localKeyManager.store(data: data)
-
-                        completion(nil)
-                    } catch {
-                        completion(error)
-                    }
-
-                }
-            } catch {
-                completion(error)
-            }
+            self.publishCardThenSaveLocal(previousCardId: card.identifier, completion: completion)
         }
     }
 

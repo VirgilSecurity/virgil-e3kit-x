@@ -74,7 +74,6 @@ import VirgilCryptoApiImpl
 
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
-    internal let authManager: AuthManager
 
     internal init(identity: String, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
@@ -93,12 +92,33 @@ import VirgilCryptoApiImpl
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
 
-        self.authManager = AuthManager(identity: identity,
-                                       crypto: self.crypto,
-                                       cardManager: cardManager,
-                                       localKeyManager: self.localKeyManager,
-                                       cloudKeyManager: self.cloudKeyManager)
-
         super.init()
+    }
+
+    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> ()) {
+        do {
+            let keyPair = try self.crypto.generateKeyPair()
+
+            self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                         identity: self.identity, previousCardId: previousCardId) { cards, error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+
+                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
+                do {
+                    try? self.localKeyManager.delete()
+                    try self.localKeyManager.store(data: data)
+
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            }
+        } catch {
+            completion(error)
+        }
     }
 }
