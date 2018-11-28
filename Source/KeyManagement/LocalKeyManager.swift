@@ -62,6 +62,10 @@ internal class LocalKeyManager {
         _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
     }
 
+    internal func exists() throws -> Bool {
+        return try self.keychainStorage.existsEntry(withName: self.identity)
+    }
+
     internal func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity)
     }
