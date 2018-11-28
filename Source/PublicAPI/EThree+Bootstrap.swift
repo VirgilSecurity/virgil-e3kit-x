@@ -85,22 +85,14 @@ extension EThree {
     ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
     @objc public func register(completion: @escaping (Error?) -> ()) {
-        do {
-            if try self.localKeyManager.exists() {
-                completion(nil)
-            } else {
-                self.cardManager.searchCards(identity: self.identity) { cards, error in
-                    guard cards?.first != nil, error == nil else {
-                        // FIXME
-                        completion(error ?? NSError())
-                        return
-                    }
-
-                    self.publishCardThenSaveLocal(completion: completion)
-                }
+        self.cardManager.searchCards(identity: self.identity) { cards, error in
+            guard cards?.first == nil, error == nil else {
+                // FIXME
+                completion(error ?? NSError())
+                return
             }
-        } catch {
-            completion(error)
+
+            self.publishCardThenSaveLocal(completion: completion)
         }
     }
 
