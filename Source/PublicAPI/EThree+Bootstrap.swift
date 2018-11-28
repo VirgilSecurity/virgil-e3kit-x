@@ -84,26 +84,54 @@ extension EThree {
     /// - Parameters:
     ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
-    @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
+    @objc public func register(completion: @escaping (Error?) -> ()) {
         if let identityKeyPair = self.localKeyManager.retrieveKeyPair() {
-            self.authManager.signInFromKnownDevice(identityKeyPair: identityKeyPair, completion: completion)
+            completion(nil)
         } else {
             self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let cards = cards, error == nil else {
-                    completion(error)
+                guard cards?.first != nil, error == nil else {
+                    // FIXME
+                    completion(error ?? NSError())
                     return
                 }
 
-                if cards.isEmpty {
-                    self.authManager.signUp(password: password, completion: completion)
-                } else {
-                    guard let password = password else {
-                        completion(EThreeError.passwordRequired)
+                self.authManager.signUp(completion: completion)
+            }
+        }
+    }
+
+    @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
+        self.cardManager.searchCards(identity: self.identity) { cards, error in
+            guard let card = cards?.first, error != nil else {
+                // FIXME
+                completion(error ?? NSError())
+                return
+            }
+
+            do {
+                let keyPair = try self.crypto.generateKeyPair()
+
+                self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                             identity: self.identity, previousCardId: card.identifier) { rawCard, error in
+                    guard error != nil else {
+                        completion(error)
                         return
                     }
 
-                    self.authManager.signInFromNewDevice(password: password, completion: completion)
+                    do {
+                        let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
+                        try? self.localKeyManager.delete()
+                        try self.localKeyManager.store(data: data)
+
+                        completion(nil)
+                    } catch {
+                        completion(error)
+                    }
+
                 }
+            } catch {
+                completion(error)
             }
         }
     }

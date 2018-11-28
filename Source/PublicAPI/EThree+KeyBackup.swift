@@ -47,12 +47,28 @@ extension EThree {
     ///   - completion: completion handler called with corresponding error
     /// - Important: Requires a bootstrapped user
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
-        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair(), identityKeyPair.isPublished else {
+        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair() else {
             completion(EThreeError.notBootstrapped)
             return
         }
 
         self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
+    }
+
+    internal func restorePrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+        self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
+            guard let entry = entry, error == nil else {
+                completion(error)
+                return
+            }
+            do {
+                try self.localKeyManager.store(data: entry.data)
+
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
 
     /// Changes the password on a backed-up private key.

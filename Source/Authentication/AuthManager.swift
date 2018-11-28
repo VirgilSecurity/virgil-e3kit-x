@@ -54,28 +54,36 @@ internal class AuthManager {
         self.cloudKeyManager = cloudKeyManager
     }
 
-    internal func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
-        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
-                                     identity: self.identity) { cards, error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-
-            do {
-                try self.localKeyManager.update(isPublished: true)
-
-                completion(nil)
-            } catch {
-                completion(error)
-            }
-        }
-    }
-
     internal func buildKeyPair(from data: Data) throws -> VirgilKeyPair {
         let key = try self.crypto.importPrivateKey(from: data)
         let publicKey = try self.crypto.extractPublicKey(from: key)
 
         return VirgilKeyPair(privateKey: key, publicKey: publicKey)
+    }
+
+    internal func signUp(completion: @escaping (Error?) -> ()) {
+        do {
+            let keyPair = try self.crypto.generateKeyPair()
+
+            self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                         identity: self.identity) { cards, error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+
+                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
+                do {
+                    try self.localKeyManager.store(data: data)
+
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            }
+        } catch {
+            completion(error)
+        }
     }
 }

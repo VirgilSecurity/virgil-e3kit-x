@@ -37,20 +37,10 @@
 import VirgilCryptoApiImpl
 import VirgilSDK
 
-internal struct IdentityKeyPair {
-    internal let privateKey: VirgilPrivateKey
-    internal let publicKey: VirgilPublicKey
-    internal let isPublished: Bool
-}
-
 internal class LocalKeyManager {
     internal let identity: String
     internal let keychainStorage: KeychainStorage
     internal let crypto: VirgilCrypto
-
-    internal enum Keys: String {
-        case isPublished = "isPublished"
-    }
 
     internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
         self.identity = identity
@@ -58,28 +48,18 @@ internal class LocalKeyManager {
         self.keychainStorage = keychainStorage
     }
 
-    internal func retrieveKeyPair() -> IdentityKeyPair? {
+    internal func retrieveKeyPair() -> VirgilKeyPair? {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
             let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
-            let meta = keyEntry.meta,
-            let isPublishedString = meta[Keys.isPublished.rawValue],
             let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
                 return nil
         }
-        let isPublished = NSString(string: isPublishedString).boolValue
 
-        return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
+        return VirgilKeyPair(privateKey: identityKey, publicKey: publicKey)
     }
 
-    internal func store(data: Data, isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
-    }
-
-    internal func update(isPublished: Bool) throws {
-        let meta = [Keys.isPublished.rawValue: String(isPublished)]
-        let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
-        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
+    internal func store(data: Data) throws {
+        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
     }
 
     internal func delete() throws {
