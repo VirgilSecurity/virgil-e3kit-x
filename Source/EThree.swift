@@ -47,6 +47,9 @@ import VirgilCryptoApiImpl
 /// - missingPrivateKey: missing Private Keys. You should call `register()` of `retrievePrivateKey()`
 /// - missingPublicKey: missing Public Key
 /// - missingIdentities: got empty array of identities to lookup for
+/// - userIsAlreadyRegistered: user is already registered
+/// - userIsNotRegistered: user is not registered
+/// - privateKeyExists: private key already exists in local key storage
 @objc(VTEEThreeError) public enum EThreeError: Int, Error {
     case verifierInitFailed = 1
     case keyIsNotVirgil = 2
@@ -57,6 +60,7 @@ import VirgilCryptoApiImpl
     case missingIdentities = 7
     case userIsAlreadyRegistered = 8
     case userIsNotRegistered = 9
+    case privateKeyExists = 10
 }
 
 @objc(VTEEThree) open class EThree: NSObject {

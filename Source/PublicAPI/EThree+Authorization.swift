@@ -97,13 +97,21 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler, called with corresponding error
     @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
-        self.cardManager.searchCards(identity: self.identity) { cards, error in
-            guard let card = cards?.first, error != nil else {
-                completion(error ?? EThreeError.userIsNotRegistered)
+        do {
+            guard try !self.localKeyManager.exists() else {
+                completion(EThreeError.privateKeyExists)
                 return
             }
+            self.cardManager.searchCards(identity: self.identity) { cards, error in
+                guard let card = cards?.first, error != nil else {
+                    completion(error ?? EThreeError.userIsNotRegistered)
+                    return
+                }
 
-            self.publishCardThenSaveLocal(previousCardId: card.identifier, completion: completion)
+                self.publishCardThenSaveLocal(previousCardId: card.identifier, completion: completion)
+            }
+        } catch {
+            completion(error)
         }
     }
 
