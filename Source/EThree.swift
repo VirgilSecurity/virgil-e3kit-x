@@ -117,7 +117,6 @@ import VirgilCryptoApiImpl
                 let data = self.crypto.exportPrivateKey(keyPair.privateKey)
 
                 do {
-                    try? self.localKeyManager.delete()
                     try self.localKeyManager.store(data: data)
 
                     completion(nil)

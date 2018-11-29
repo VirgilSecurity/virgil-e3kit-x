@@ -82,13 +82,21 @@ extension EThree {
     /// - Parameters:
     ///   - completion: completion handler, called with corresponding error
     @objc public func register(completion: @escaping (Error?) -> ()) {
-        self.cardManager.searchCards(identity: self.identity) { cards, error in
-            guard cards?.first == nil, error == nil else {
-                completion(error ?? EThreeError.userIsAlreadyRegistered)
+        do {
+            guard try !self.localKeyManager.exists() else {
+                completion(EThreeError.privateKeyExists)
                 return
             }
+            self.cardManager.searchCards(identity: self.identity) { cards, error in
+                guard cards?.first == nil, error == nil else {
+                    completion(error ?? EThreeError.userIsAlreadyRegistered)
+                    return
+                }
 
-            self.publishCardThenSaveLocal(completion: completion)
+                self.publishCardThenSaveLocal(completion: completion)
+            }
+        } catch {
+            completion(error)
         }
     }
 
