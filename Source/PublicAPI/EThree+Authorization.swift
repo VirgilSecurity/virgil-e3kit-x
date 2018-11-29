@@ -82,20 +82,29 @@ extension EThree {
     /// - Parameters:
     ///   - completion: completion handler, called with corresponding error
     @objc public func register(completion: @escaping (Error?) -> ()) {
+        self.semaphore.wait()
+
         do {
             guard try !self.localKeyManager.exists() else {
+                self.semaphore.signal()
                 completion(EThreeError.privateKeyExists)
                 return
             }
+
             self.cardManager.searchCards(identity: self.identity) { cards, error in
                 guard cards?.first == nil, error == nil else {
+                    self.semaphore.signal()
                     completion(error ?? EThreeError.userIsAlreadyRegistered)
                     return
                 }
 
-                self.publishCardThenSaveLocal(completion: completion)
+                self.publishCardThenSaveLocal {
+                    self.semaphore.signal()
+                    completion($0)
+                }
             }
         } catch {
+            self.semaphore.signal()
             completion(error)
         }
     }
@@ -105,20 +114,28 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler, called with corresponding error
     @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
+        self.semaphore.wait()
+
         do {
             guard try !self.localKeyManager.exists() else {
+                self.semaphore.signal()
                 completion(EThreeError.privateKeyExists)
                 return
             }
             self.cardManager.searchCards(identity: self.identity) { cards, error in
                 guard let card = cards?.first, error != nil else {
+                    self.semaphore.signal()
                     completion(error ?? EThreeError.userIsNotRegistered)
                     return
                 }
 
-                self.publishCardThenSaveLocal(previousCardId: card.identifier, completion: completion)
+                self.publishCardThenSaveLocal(previousCardId: card.identifier) {
+                    self.semaphore.signal()
+                    completion($0)
+                }
             }
         } catch {
+            self.semaphore.signal()
             completion(error)
         }
     }

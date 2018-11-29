@@ -79,6 +79,8 @@ import VirgilCryptoApiImpl
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
 
+    internal let semaphore = DispatchSemaphore(value: 1)
+
     internal init(identity: String, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
         self.crypto = VirgilCrypto()
