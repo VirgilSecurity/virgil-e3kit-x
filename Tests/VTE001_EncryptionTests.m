@@ -72,6 +72,7 @@ static const NSTimeInterval timeout = 20.;
     params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -95,28 +96,24 @@ static const NSTimeInterval timeout = 20.;
     [super tearDown];
 }
 
-- (void)test01 {
+- (void)test_STE_1 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys should return published public keys"];
 
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-        XCTAssert(error == nil);
+    NSMutableArray *identities = [NSMutableArray array];
+    NSMutableArray *publicKeys = [NSMutableArray array];
 
-        NSMutableArray *identities = [NSMutableArray array];
-        NSMutableArray *publicKeys = [NSMutableArray array];
+    for (int i = 0; i < 3; i++) {
+        VSSCard *card = [self.utils publishCardWithIdentity:nil];
+        XCTAssert(card != nil);
+        [identities addObject:card.identity];
+        [publicKeys addObject:card.publicKey];
+    }
 
-        for (int i = 0; i < 3; i++) {
-            VSSCard *card = self.utils.publishRandomCard;
-            XCTAssert(card != nil);
-            [identities addObject:card.identity];
-            [publicKeys addObject:card.publicKey];
-        }
-        
-        [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-            XCTAssert(error == nil);
-            XCTAssert([self.utils isPublicKeysEqualWithPublicKeys1:foundPublicKeys.allValues publicKeys2:publicKeys]);
+    [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
+        XCTAssert(errors.count == 0);
+        XCTAssert([self.utils isPublicKeysEqualWithPublicKeys1:foundPublicKeys.allValues publicKeys2:publicKeys]);
 
-            [ex fulfill];
-        }];
+        [ex fulfill];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
@@ -125,17 +122,13 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test02 {
+- (void)test_STE_2 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys by empty array of identities should throw error"];
 
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-        XCTAssert(error == nil);
+    [self.eThree lookupPublicKeysOf:@[] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
+        XCTAssert(errors.firstObject.code == VTEEThreeErrorMissingIdentities);
 
-        [self.eThree lookupPublicKeysOf:@[] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-            XCTAssert(errors.firstObject.code == VTEEThreeErrorMissingIdentities);
-
-            [ex fulfill];
-        }];
+        [ex fulfill];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
@@ -144,10 +137,10 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test03 {
-    XCTestExpectation *ex = [self expectationWithDescription:@""];
+- (void)test_STE_3 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt should success"];
 
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
         VTEEThree *eThree1 = self.eThree;
 
@@ -160,7 +153,7 @@ static const NSTimeInterval timeout = 20.;
         } storageParams:nil completion:^(VTEEThree *eThree2, NSError *error) {
             XCTAssert(eThree2 != nil && error == nil);
 
-            [eThree2 bootstrapWithPassword:nil completion:^(NSError *error) {
+            [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
@@ -200,15 +193,15 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test04 {
+- (void)test_STE_4 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Encrypt for empty array of keys should throw error"];
 
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
         NSError *err;
         NSString *encrypted = [self.eThree encryptWithText:@"plaintext" for:@{} error:&err];
-        XCTAssert(err.code == VTEEThreeErrorMissingKeys && encrypted == nil);
+        XCTAssert(err.code == VTEEThreeErrorMissingPublicKey && encrypted == nil);
 
         [ex fulfill];
     }];
@@ -219,35 +212,10 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test05 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Should decrypt self encrypted text"];
-
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-        XCTAssert(error == nil);
-
-        NSError *err;
-        NSString *plainText = [[NSUUID alloc] init].UUIDString;
-
-        NSString *encrypted = [self.eThree encryptWithText:plainText for:nil error:&err];
-        XCTAssert(error == nil);
-
-        NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil error:&err];
-        XCTAssert(error == nil);
-        XCTAssert([decrypted isEqualToString:plainText]);
-
-        [ex fulfill];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test06 {
+- (void)test_STE_5 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Should throw error if decrypted text is not verified"];
 
-    [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
         NSError *err;
@@ -280,7 +248,7 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test07 {
+- (void)test_STE_6 {
     NSError *error;
     [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
@@ -288,19 +256,18 @@ static const NSTimeInterval timeout = 20.;
     XCTAssert(error == nil);
 
     NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@{self.eThree.identity: keyPair.publicKey} error:&error];
-    XCTAssert(error.code == VTEEThreeErrorNotBootstrapped);
+    XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(encrypted == nil);
 
     error = nil;
 
     NSString *decrypted = [self.eThree decryptWithText:@"" from:keyPair.publicKey error:&error];
-    XCTAssert(error.code == VTEEThreeErrorNotBootstrapped);
+    XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(decrypted == nil);
 }
 
-- (void)test08 {
+- (void)test_STE_7 {
     NSError *error;
-    [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     XCTAssert(error == nil);

@@ -40,6 +40,7 @@
 @import VirgilE3Kit;
 @import VirgilCrypto;
 @import VirgilCryptoApiImpl;
+@import VirgilE3Kit;
 
 #import "VTETestsConst.h"
 #import "VTETestUtils.h"
@@ -75,6 +76,7 @@ static const NSTimeInterval timeout = 20.;
     params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -98,202 +100,35 @@ static const NSTimeInterval timeout = 20.;
     [super tearDown];
 }
 
-- (void)test01 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap should create local key and publish card"];
+-(void)test_STE_8 {
+    NSError *error;
 
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
+    XCTAssert(entry != nil && error == nil);
 
-        [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-            XCTAssert(error == nil);
+    [self.eThree cleanUpAndReturnError:&error];
+    XCTAssert(error == nil);
 
-            NSError *err;
-            VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && keyEntry != nil);
-
-            NSDictionary *dict = keyEntry.meta;
-            NSString *isPublished = dict[@"isPublished"];
-
-            XCTAssert(isPublished.boolValue == true);
-
-            [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
-                XCTAssert(error == nil && cards.firstObject != nil);
-
-                [ex fulfill];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
+    VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
+    XCTAssert(retrievedEntry == nil && error != nil);
 }
 
-- (void)test02 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap should create local, keyknox key and publish card"];
+- (void)test_STE_9 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Register should create local key and publish card"];
 
-    NSError *err;
-    [self.keychainStorage deleteAllEntriesAndReturnError:&err];
-    XCTAssert(err == nil);
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
-
-        sleep(2);
-
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            NSError *err;
-            VSSKeychainEntry *keychainEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && keychainEntry != nil);
-
-            NSDictionary *dict = keychainEntry.meta;
-            NSString *isPublished = dict[@"isPublished"];
-
-            XCTAssert(isPublished.boolValue == true);
-
-            [syncKeyStorage syncWithCompletion:^(NSError *error) {
-                XCTAssert(error == nil);
-
-                NSError *err;
-                VSSKeychainEntry *syncEntry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                XCTAssert(err == nil && syncEntry != nil);
-                XCTAssert([syncEntry.data isEqualToData:keychainEntry.data]);
-
-                [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
-                    XCTAssert(error == nil && cards.firstObject != nil);
-
-                    [ex fulfill];
-                }];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test03 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap with password should fetch key if it doesn't exists but card does"];
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
-
-        sleep(2);
-
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            NSError *err;
-            VSSKeychainEntry *entry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil);
-
-            [self.eThree cleanUpAndReturnError:&err];
-            XCTAssert(err == nil);
-
-            VSSKeychainEntry *noEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err != nil && noEntry == nil);
-
-            sleep(2);
-
-            [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-                XCTAssert(error == nil);
-
-                NSError *err;
-                VSSKeychainEntry *entry2 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                XCTAssert(err == nil);
-                XCTAssert([entry2.data isEqualToData:entry1.data]);
-                XCTAssert([entry2.meta isEqualToDictionary:entry1.meta]);
-
-                [ex fulfill];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test04 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap without password should throw error if key doesn't exists but card does"];
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
-
-        sleep(2);
-
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            NSError *err;
-            VSSKeychainEntry *entry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && entry1 != nil);
-
-            [self.eThree cleanUpAndReturnError:&err];
-            XCTAssert(err == nil);
-
-            VSSKeychainEntry *noEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err != nil && noEntry == nil);
-
-            [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-                XCTAssert(error != nil);
-
-                [ex fulfill];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test05 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap should publish card if key exists but card doesn't"];
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
-
-        sleep(2);
 
         NSError *err;
-        VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:nil];
+        VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+        XCTAssert(err == nil && keyEntry != nil);
 
-        VSMVirgilPrivateKeyExporter *exporter = [[VSMVirgilPrivateKeyExporter alloc] initWithVirgilCrypto:self.crypto password:nil];
-        NSData *exportedKey = [exporter exportPrivateKeyWithPrivateKey:keyPair.privateKey error:&err];
-        XCTAssert(err == nil);
+        [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+            XCTAssert(error == nil && cards.firstObject != nil);
 
-        NSDictionary *meta = @{ @"isPublished": @"false"};
-
-        VSSKeychainEntry *entry1 = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
-        XCTAssert(err == nil && entry1 != nil);
-
-        [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            NSError *err;
-            VSSKeychainEntry *entry2 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && entry2 != nil);
-            XCTAssert([entry2.data isEqualToData:entry1.data]);
-
-            NSDictionary *dict = entry2.meta;
-            NSString *isPublished = dict[@"isPublished"];
-
-            XCTAssert(isPublished.boolValue == true);
-
-            [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> * returnedCards, NSError *error) {
-                XCTAssert(error == nil);
-                XCTAssert(returnedCards.count == 1);
-
-                [ex fulfill];
-            }];
+            [ex fulfill];
         }];
     }];
 
@@ -303,46 +138,111 @@ static const NSTimeInterval timeout = 20.;
     }];
 }
 
-- (void)test06 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Bootstrap should publish card if key exists but card doesn't"];
+- (void)test_STE_10 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if card already exists"];
 
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
+    XCTAssert(card != nil);
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error != nil && error.code == VTEEThreeErrorUserIsAlreadyRegistered);
+
+        [ex fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+-(void)test_STE_11 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if local key already exists"];
+
+    NSError *error;
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
+    XCTAssert(entry != nil && error == nil);
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
+
+        [ex fulfill];
+    }];
+
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+-(void)test_STE_12 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if card doesn't exists"];
+
+    [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
+        XCTAssert(error != nil && error.code == VTEEThreeErrorUserIsNotRegistered);
+
+        [ex fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+-(void)test_STE_13 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        sleep(2);
+        [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
+            XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
 
-        NSError *err;
-        VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:nil];
+            [ex fulfill];
+        }];
+    }];
 
-        VSMVirgilPrivateKeyExporter *exporter = [[VSMVirgilPrivateKeyExporter alloc] initWithVirgilCrypto:self.crypto password:nil];
-        NSData *exportedKey = [exporter exportPrivateKeyWithPrivateKey:keyPair.privateKey error:&err];
-        XCTAssert(err == nil);
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
 
-        NSDictionary *meta = @{ @"isPublished": @"false"};
+-(void)test_STE_14 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
-        VSSKeychainEntry *entry1 = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&err];
-        XCTAssert(err == nil && entry1 != nil);
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
+    XCTAssert(card != nil);
 
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-            XCTAssert(error == nil);
+    [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+
+        [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+            XCTAssert(error == nil && cards.firstObject != nil);
+
+            XCTAssert([cards.firstObject.previousCardId isEqualToString:card.identifier]);
+            XCTAssert(![cards.firstObject.identifier isEqualToString:card.identifier]);
+
+            VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
+            XCTAssert(retrievedEntry != nil && error == nil);
 
             NSError *err;
-            VSSKeychainEntry *entry2 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && entry2 != nil);
-            XCTAssert([entry2.data isEqualToData:entry1.data]);
+            VSMVirgilPrivateKey *privateKey = [self.crypto importPrivateKeyFrom:retrievedEntry.data password:nil error:&err];
+            VSMVirgilPublicKey *publicKey = [self.crypto extractPublicKeyFrom:privateKey error:&err];
+            XCTAssert(err == nil);
 
-            NSDictionary *dict = entry2.meta;
-            NSString *isPublished = dict[@"isPublished"];
+            NSData *key1 = [self.crypto exportPublicKey:(VSMVirgilPublicKey *)card.publicKey];
+            NSData *key2 = [self.crypto exportPublicKey:publicKey];
+            XCTAssert([key1 isEqualToData:key2]);
 
-            XCTAssert(isPublished.boolValue == true);
-
-            [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> * returnedCards, NSError *error) {
-                XCTAssert(error == nil);
-                XCTAssert(returnedCards.count == 1);
-
-                [ex fulfill];
-            }];
+            [ex fulfill];
         }];
+
+        [ex fulfill];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
