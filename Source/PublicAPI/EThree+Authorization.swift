@@ -123,7 +123,7 @@ extension EThree {
                 return
             }
             self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let card = cards?.first, error != nil else {
+                guard let card = cards?.first, error == nil else {
                     self.semaphore.signal()
                     completion(error ?? EThreeError.userIsNotRegistered)
                     return

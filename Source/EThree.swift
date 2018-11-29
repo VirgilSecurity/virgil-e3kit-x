@@ -101,6 +101,10 @@ import VirgilCryptoApiImpl
         super.init()
     }
 
+    /// Checks existance of private key in keychain storage
+    ///
+    /// - Returns: true if private key exists in keychain storage
+    /// - Throws: KeychainStorageError
     public func hasLocalPrivateKey() throws -> Bool {
         return try self.localKeyManager.exists()
     }
