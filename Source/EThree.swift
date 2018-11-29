@@ -99,6 +99,10 @@ import VirgilCryptoApiImpl
         super.init()
     }
 
+    public func hasLocalPrivateKey() throws -> Bool {
+        return try self.localKeyManager.exists()
+    }
+
     internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> ()) {
         do {
             let keyPair = try self.crypto.generateKeyPair()
