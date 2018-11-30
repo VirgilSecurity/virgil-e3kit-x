@@ -142,14 +142,4 @@
     }];
 }
 
--(void)clearAllStoragesWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity keychainStorage:(VSSKeychainStorage * __nonnull)keychainStorage completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler {
-    [keychainStorage deleteAllEntriesAndReturnError:nil];
-
-    [self setUpSyncKeyStorageWithPassword:password identity:identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        [syncKeyStorage deleteAllEntriesWithCompletion:^(NSError *error) {
-            completionHandler(syncKeyStorage, error);
-        }];
-    }];
-}
-
 @end

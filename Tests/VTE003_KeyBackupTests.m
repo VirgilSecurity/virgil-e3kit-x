@@ -75,6 +75,7 @@ static const NSTimeInterval timeout = 20.;
     params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
@@ -98,116 +99,126 @@ static const NSTimeInterval timeout = 20.;
     [super tearDown];
 }
 
-- (void)test01 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Change password should change brain key to encrypt keys in Keyknox"];
+- (void)test_STE_15 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"BackupPrivateKey tests"];
 
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
+    [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
+        XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
 
         sleep(2);
 
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
+        NSError *err;
+        VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
+        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+        VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&err];
+        XCTAssert(entry != nil && err == nil);
+
+        [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
             XCTAssert(error == nil);
 
             sleep(2);
 
-            NSString *oldPassword = self.password;
-            NSString *newPassword = [[NSUUID alloc] init].UUIDString;
-            [self.eThree changePrivateKeyPasswordFrom:oldPassword to:newPassword completion:^(NSError *error) {
+            __weak typeof(self) weakSelf = self;
+            [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
                 XCTAssert(error == nil);
 
                 NSError *err;
-                [self.eThree cleanUpAndReturnError:&err];
-                XCTAssert(err == nil);
+                VSSKeychainEntry *syncEntry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                XCTAssert(err == nil && syncEntry != nil);
+                XCTAssert([syncEntry.data isEqualToData:data]);
 
                 sleep(2);
 
-                [self.eThree bootstrapWithPassword:oldPassword completion:^(NSError *error) {
+                [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                    XCTAssert(error != nil);
+
+                    [ex fulfill];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test_STE_16 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"RestorePrivateKey tests"];
+
+    NSError *err;
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+
+    __weak typeof(self) weakSelf = self;
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        XCTAssert(error == nil);
+
+        [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
+            XCTAssert(error == nil);
+
+            sleep(2);
+
+            [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                NSError *err;
+                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                XCTAssert(retrievedEntry != nil && err == nil);
+                XCTAssert([retrievedEntry.data isEqualToData:data]);
+
+                sleep(2);
+
+                [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                    XCTAssert(error != nil);
+
+                    [ex fulfill];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test_STE_17 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"ChangePrivateKeyPassword tests"];
+
+    NSError *err;
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+
+    __weak typeof(self) weakSelf = self;
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        XCTAssert(error == nil);
+
+        [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
+            XCTAssert(error == nil);
+
+            sleep(2);
+
+            NSString *newPassword = [[NSUUID alloc] init].UUIDString;
+            [self.eThree changePrivateKeyPasswordFrom:self.password to:newPassword completion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                sleep(2);
+
+                [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
                     XCTAssert(error != nil);
 
                     sleep(2);
 
-                    [self.eThree bootstrapWithPassword:newPassword completion:^(NSError *error) {
-                        XCTAssert(error == nil);
-
-                        [ex fulfill];
-                    }];
-                }];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test02 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Trying to backup already backuped key should cause error"];
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
-
-        sleep(2);
-
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            sleep(2);
-
-            [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                XCTAssert(error != nil);
-
-                [ex fulfill];
-            }];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test03 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Backup Private key should publish key to Keyknox"];
-
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
-
-        [self.eThree bootstrapWithPassword:nil completion:^(NSError *error) {
-            XCTAssert(error == nil);
-
-            NSError *err;
-            VSSKeychainEntry *keychainEntry1 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-            XCTAssert(err == nil && keychainEntry1 != nil);
-
-            sleep(2);
-
-            [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                XCTAssert(error == nil);
-
-                [syncKeyStorage syncWithCompletion:^(NSError *error) {
-                    XCTAssert(error == nil);
-
-                    NSError *err;
-                    VSSKeychainEntry *syncEntry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                    XCTAssert(err == nil && syncEntry != nil);
-                    XCTAssert([syncEntry.data isEqualToData:keychainEntry1.data]);
-
-                    [self.eThree cleanUpAndReturnError:&err];
-                    XCTAssert(err == nil);
-
-                    sleep(2);
-
-                    [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
+                    [self.eThree restorePrivateKeyWithPassword:newPassword completion:^(NSError *error) {
                         XCTAssert(error == nil);
 
                         NSError *err;
-                        VSSKeychainEntry *keychainEntry2 = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                        XCTAssert(err == nil && keychainEntry2 != nil);
-                        XCTAssert([keychainEntry2.data isEqualToData:keychainEntry1.data]);
+                        VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                        XCTAssert(retrievedEntry != nil && err == nil);
+                        XCTAssert([retrievedEntry.data isEqualToData:data]);
 
                         [ex fulfill];
                     }];
@@ -216,36 +227,46 @@ static const NSTimeInterval timeout = 20.;
         }];
     }];
 
+
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
         if (error != nil)
             XCTFail(@"Expectation failed: %@", error);
     }];
 }
 
-- (void)test04 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"resetBackupedKey should delete Key from Keyknox"];
+- (void)test_STE_18 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup tests"];
 
-    [self.utils clearAllStoragesWithPassword:self.password identity:self.eThree.identity keychainStorage:self.keychainStorage completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        XCTAssert(error == nil);
+    [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
+        XCTAssert(error != nil);
+
+        NSError *err;
+        VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
+        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
 
         sleep(2);
 
-        [self.eThree bootstrapWithPassword:self.password completion:^(NSError *error) {
+        __weak typeof(self) weakSelf = self;
+        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
             XCTAssert(error == nil);
 
-            sleep(2);
-
-            [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
+            [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
                 XCTAssert(error == nil);
 
-                [syncKeyStorage syncWithCompletion:^(NSError *error) {
+                sleep(2);
+
+                [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
                     XCTAssert(error == nil);
 
-                    NSError *err;
-                    VSSKeychainEntry *entry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
-                    XCTAssert(err != nil && entry == nil);
+                    [syncKeyStorage syncWithCompletion:^(NSError *error) {
+                        XCTAssert(error == nil);
 
-                    [ex fulfill];
+                        NSError *err;
+                        VSSKeychainEntry *entry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                        XCTAssert(err != nil && entry == nil);
+
+                        [ex fulfill];
+                    }];
                 }];
             }];
         }];

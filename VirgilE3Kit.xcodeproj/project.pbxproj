@@ -85,12 +85,12 @@
 		165B68AD2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
 		165B68AE2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
 		165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
-		165B6923217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
-		165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
-		165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
-		167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
-		167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
-		167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
+		1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
+		1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
+		1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
@@ -1855,10 +1855,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				167E1DAE217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
+				1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				165B686D2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				165B68A92179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
-				165B6923217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
+				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				165B68AD2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1867,10 +1867,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				165B686E2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
-				167E1DAF217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
 				165B68AA2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
-				165B6924217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
+				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				165B68AE2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1879,10 +1879,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				167E1DB0217CE29B00F8AA13 /* VTE003_KeyBackupTests.m in Sources */,
+				1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				165B686F2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				165B68AB2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
-				165B6925217A627100DDE1F7 /* VTE002_AuthenticationTests.m in Sources */,
+				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
