@@ -61,7 +61,7 @@ extension EThree {
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler called with corresponding error
-    internal func restorePrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    @objc public func restorePrivateKey(password: String, completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
             guard let entry = entry, error == nil else {
                 completion(error)
