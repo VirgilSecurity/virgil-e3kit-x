@@ -237,12 +237,10 @@ static const NSTimeInterval timeout = 20.;
 
             NSData *key1 = [self.crypto exportPublicKey:(VSMVirgilPublicKey *)card.publicKey];
             NSData *key2 = [self.crypto exportPublicKey:publicKey];
-            XCTAssert([key1 isEqualToData:key2]);
+            XCTAssert(![key1 isEqualToData:key2]);
 
             [ex fulfill];
         }];
-
-        [ex fulfill];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
