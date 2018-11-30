@@ -202,7 +202,7 @@ static const NSTimeInterval timeout = 20.;
             sleep(2);
 
             NSString *newPassword = [[NSUUID alloc] init].UUIDString;
-            [self.eThree changePrivateKeyPasswordFrom:self.password to:newPassword completion:^(NSError *error) {
+            [self.eThree changePasswordFrom:self.password to:newPassword completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 sleep(2);

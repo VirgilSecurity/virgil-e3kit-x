@@ -56,7 +56,7 @@ internal class CloudKeyManager {
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
+    internal func setUpCloudKeyStorage(password: String, completion: @escaping (CloudKeyStorage?, Error?) -> ()) {
         self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
@@ -64,14 +64,11 @@ internal class CloudKeyManager {
             }
 
             do {
-                let syncKeyStorage = try SyncKeyStorage(identity: self.identity,
-                                                        accessTokenProvider: self.accessTokenProvider,
-                                                        publicKeys: [brainKeyPair.publicKey],
-                                                        privateKey: brainKeyPair.privateKey)
+                let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.accessTokenProvider,
+                                                          publicKeys: [brainKeyPair.publicKey],
+                                                          privateKey: brainKeyPair.privateKey)
 
-                syncKeyStorage.sync { error in
-                    completion(syncKeyStorage, error)
-                }
+                cloudKeyStorage.retrieveCloudEntries { completion(cloudKeyStorage, $0) }
             } catch {
                 completion(nil, error)
             }
@@ -81,31 +78,31 @@ internal class CloudKeyManager {
 
 extension CloudKeyManager {
     internal func store(key: VirgilPrivateKey, usingPassword password: String,
-                        completion: @escaping (KeychainEntry?, Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(nil, error)
+                        completion: @escaping (Error?) -> ()) {
+        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
+            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
+                completion(error)
                 return
             }
 
             let exportedIdentityKey = self.crypto.exportPrivateKey(key)
 
-            syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
-                completion(entry, error)
+            cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { error in
+                completion(error)
             }
         }
     }
 
     internal func retrieve(usingPassword password: String,
-                           completion: @escaping (KeychainEntry?, Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                           completion: @escaping (CloudEntry?, Error?) -> ()) {
+        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
+            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(nil, error)
                 return
             }
 
             do {
-                let entry = try syncKeyStorage.retrieveEntry(withName: self.identity)
+                let entry = try cloudKeyStorage.retrieveEntry(withName: self.identity)
 
                 completion(entry, nil)
             } catch {
@@ -115,13 +112,13 @@ extension CloudKeyManager {
     }
 
     internal func delete(password: String, completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
+            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(error)
                 return
             }
 
-            syncKeyStorage.deleteEntry(withName: self.identity) { error in
+            cloudKeyStorage.deleteEntry(withName: self.identity) { error in
                 guard error == nil else {
                     completion(error)
                     return
@@ -134,8 +131,8 @@ extension CloudKeyManager {
 
     internal func changePassword(from oldPassword: String, to newPassword: String,
                                  completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: oldPassword) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+        self.setUpCloudKeyStorage(password: oldPassword) { cloudKeyStorage, error in
+            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(error)
                 return
             }
@@ -148,8 +145,8 @@ extension CloudKeyManager {
                     return
                 }
 
-                syncKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                newPrivateKey: brainKeyPair.privateKey) { error in
+                cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
+                                                 newPrivateKey: brainKeyPair.privateKey) { error in
                     completion(error)
                 }
             }

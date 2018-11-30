@@ -52,7 +52,7 @@ extension EThree {
             return
         }
 
-        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
+        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password, completion: completion)
     }
 
     /// Restores the encrypted private key from Virgil's cloud, decrypts it using
@@ -83,8 +83,8 @@ extension EThree {
     ///   - oldOne: old password
     ///   - newOne: new password
     ///   - completion: completion handler with corresponding error
-    @objc public func changePrivateKeyPassword(from oldOne: String, to newOne: String,
-                                               completion: @escaping (Error?) -> ()) {
+    @objc public func changePassword(from oldOne: String, to newOne: String,
+                                     completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
     }
 
