@@ -75,17 +75,24 @@
     return jwtToken;
 }
 
-- (VSSCard * __nullable)publishRandomCard {
+- (VSSCard * __nullable)publishCardWithIdentity:(NSString * __nullable)identity {
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:nil];
     NSData *exportedPublicKey = [self.crypto exportPublicKey:keyPair.publicKey];
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
 
-    VSSRawCardContent *content = [[VSSRawCardContent alloc] initWithIdentity:identity publicKey:exportedPublicKey previousCardId:nil version:@"5.0" createdAt:NSDate.date];
+    NSString *localIdentity;
+
+    if (identity != nil) {
+        localIdentity = identity;
+    } else {
+        localIdentity = [[NSUUID alloc] init].UUIDString;
+    }
+
+    VSSRawCardContent *content = [[VSSRawCardContent alloc] initWithIdentity:localIdentity publicKey:exportedPublicKey previousCardId:nil version:@"5.0" createdAt:NSDate.date];
     NSData *snapshot = [content snapshotAndReturnError:nil];
 
     VSSRawSignedModel *rawCard = [[VSSRawSignedModel alloc] initWithContentSnapshot:snapshot];
 
-    NSString *strToken = [self getTokenStringWithIdentity:identity error:nil];
+    NSString *strToken = [self getTokenStringWithIdentity:localIdentity error:nil];
 
     VSMVirgilCardCrypto *cardCrypto = [[VSMVirgilCardCrypto alloc] initWithVirgilCrypto:self.crypto];
     VSSCardClient *cardClient = self.consts.serviceURL == nil ? [[VSSCardClient alloc] init] : [[VSSCardClient alloc] initWithServiceUrl:self.consts.serviceURL];
@@ -130,16 +137,6 @@
         VSKSyncKeyStorage *syncKeyStorage = [[VSKSyncKeyStorage alloc] initWithIdentity:identity accessTokenProvider:provider publicKeys:@[keyPair.publicKey] privateKey:keyPair.privateKey error:nil];
 
         [syncKeyStorage syncWithCompletion:^(NSError *error) {
-            completionHandler(syncKeyStorage, error);
-        }];
-    }];
-}
-
--(void)clearAllStoragesWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity keychainStorage:(VSSKeychainStorage * __nonnull)keychainStorage completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler {
-    [keychainStorage deleteAllEntriesAndReturnError:nil];
-
-    [self setUpSyncKeyStorageWithPassword:password identity:identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
-        [syncKeyStorage deleteAllEntriesWithCompletion:^(NSError *error) {
             completionHandler(syncKeyStorage, error);
         }];
     }];

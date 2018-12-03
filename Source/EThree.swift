@@ -44,19 +44,23 @@ import VirgilCryptoApiImpl
 /// - keyIsNotVirgil: Casting Key to Virgil Key failed
 /// - strToDataFailed: String to Data failed
 /// - strFromDataFailed: Data to String failed
-/// - missingKeys: missing Private or Public Keys
-/// - passwordRequired: password required
-/// - notBootstrapped: User was not bootstrapped
+/// - missingPrivateKey: missing Private Keys. You should call `register()` of `retrievePrivateKey()`
+/// - missingPublicKey: missing Public Key
 /// - missingIdentities: got empty array of identities to lookup for
+/// - userIsAlreadyRegistered: user is already registered
+/// - userIsNotRegistered: user is not registered
+/// - privateKeyExists: private key already exists in local key storage
 @objc(VTEEThreeError) public enum EThreeError: Int, Error {
     case verifierInitFailed = 1
     case keyIsNotVirgil = 2
     case strToDataFailed = 3
     case strFromDataFailed = 4
-    case missingKeys = 5
-    case passwordRequired = 6
-    case notBootstrapped = 7
-    case missingIdentities = 8
+    case missingPrivateKey = 5
+    case missingPublicKey = 6
+    case missingIdentities = 7
+    case userIsAlreadyRegistered = 8
+    case userIsNotRegistered = 9
+    case privateKeyExists = 10
 }
 
 @objc(VTEEThree) open class EThree: NSObject {
@@ -74,7 +78,8 @@ import VirgilCryptoApiImpl
 
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
-    internal let authManager: AuthManager
+
+    internal let semaphore = DispatchSemaphore(value: 1)
 
     internal init(identity: String, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
@@ -93,12 +98,40 @@ import VirgilCryptoApiImpl
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
 
-        self.authManager = AuthManager(identity: identity,
-                                       crypto: self.crypto,
-                                       cardManager: cardManager,
-                                       localKeyManager: self.localKeyManager,
-                                       cloudKeyManager: self.cloudKeyManager)
-
         super.init()
+    }
+
+    /// Checks existance of private key in keychain storage
+    ///
+    /// - Returns: true if private key exists in keychain storage
+    /// - Throws: KeychainStorageError
+    public func hasLocalPrivateKey() throws -> Bool {
+        return try self.localKeyManager.exists()
+    }
+
+    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> ()) {
+        do {
+            let keyPair = try self.crypto.generateKeyPair()
+
+            self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
+                                         identity: self.identity, previousCardId: previousCardId) { cards, error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+
+                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
+
+                do {
+                    try self.localKeyManager.store(data: data)
+
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            }
+        } catch {
+            completion(error)
+        }
     }
 }

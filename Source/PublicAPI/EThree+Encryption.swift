@@ -52,17 +52,17 @@ extension EThree {
     ///                    Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
-    /// - Important: Requires a bootstrapped user
+    /// - Important: Requires private key in local storage
     @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
         guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.notBootstrapped
+            throw EThreeError.missingPrivateKey
         }
 
         var publicKeys = [selfKeyPair.publicKey]
 
         if let recipientKeys = recipientKeys {
             guard !recipientKeys.isEmpty else {
-                throw EThreeError.missingKeys
+                throw EThreeError.missingPublicKey
             }
 
             publicKeys += recipientKeys.values
@@ -82,10 +82,10 @@ extension EThree {
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
-    /// - Important: Requires a bootstrapped user
+    /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
         guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.notBootstrapped
+            throw EThreeError.missingPrivateKey
         }
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
@@ -106,7 +106,7 @@ extension EThree {
     ///                    Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
-    /// - Important: Requires a bootstrapped user
+    /// - Important: Requires private key in local storage
     @objc public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -124,7 +124,7 @@ extension EThree {
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Throws: corresponding error
-    /// - Important: Requires a bootstrapped user
+    /// - Important: Requires private key in local storage
     @objc public func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
@@ -166,7 +166,7 @@ extension EThree {
                     return
                 }
                 guard let publicKey = cards?.first?.publicKey else {
-                    errors.append(EThreeError.missingKeys)
+                    errors.append(EThreeError.missingPublicKey)
                     return
                 }
                 guard let virgilPublicKey = publicKey as? VirgilPublicKey else {

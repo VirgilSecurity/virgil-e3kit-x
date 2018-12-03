@@ -45,14 +45,36 @@ extension EThree {
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler called with corresponding error
-    /// - Important: Requires a bootstrapped user
+    /// - Important: Requires private key in local storage
     @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
-        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair(), identityKeyPair.isPublished else {
-            completion(EThreeError.notBootstrapped)
+        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair() else {
+            completion(EThreeError.missingPrivateKey)
             return
         }
 
-        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password) { completion($1) }
+        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password, completion: completion)
+    }
+
+    /// Restores the encrypted private key from Virgil's cloud, decrypts it using
+    /// the user's password and saves it in local storage
+    ///
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - completion: completion handler called with corresponding error
+    @objc public func restorePrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+        self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
+            guard let entry = entry, error == nil else {
+                completion(error)
+                return
+            }
+            do {
+                try self.localKeyManager.store(data: entry.data)
+
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
 
     /// Changes the password on a backed-up private key.
@@ -61,8 +83,8 @@ extension EThree {
     ///   - oldOne: old password
     ///   - newOne: new password
     ///   - completion: completion handler with corresponding error
-    @objc public func changePrivateKeyPassword(from oldOne: String, to newOne: String,
-                                               completion: @escaping (Error?) -> ()) {
+    @objc public func changePassword(from oldOne: String, to newOne: String,
+                                     completion: @escaping (Error?) -> ()) {
         self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
     }
 

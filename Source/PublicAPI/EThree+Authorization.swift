@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCryptoApiImpl
 
-// MARK: - Extension with bootstrap operations
+// MARK: - Extension with authorization operations
 extension EThree {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
@@ -77,34 +77,66 @@ extension EThree {
         }
     }
 
-    /// Attempts to load the authenticated user's private key from the cloud. If the user doesn't have
-    /// a private key yet, it creates one and backs it up to the cloud, using the password specified.
-    /// Without password it wouldn't use cloud to backup or retrieve key
+    /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameters:
-    ///   - password: Private Key password
     ///   - completion: completion handler, called with corresponding error
-    @objc public func bootstrap(password: String? = nil, completion: @escaping (Error?) -> ()) {
-        if let identityKeyPair = self.localKeyManager.retrieveKeyPair() {
-            self.authManager.signInFromKnownDevice(identityKeyPair: identityKeyPair, completion: completion)
-        } else {
+    @objc public func register(completion: @escaping (Error?) -> ()) {
+        self.semaphore.wait()
+
+        do {
+            guard try !self.localKeyManager.exists() else {
+                self.semaphore.signal()
+                completion(EThreeError.privateKeyExists)
+                return
+            }
+
             self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let cards = cards, error == nil else {
-                    completion(error)
+                guard cards?.first == nil, error == nil else {
+                    self.semaphore.signal()
+                    completion(error ?? EThreeError.userIsAlreadyRegistered)
                     return
                 }
 
-                if cards.isEmpty {
-                    self.authManager.signUp(password: password, completion: completion)
-                } else {
-                    guard let password = password else {
-                        completion(EThreeError.passwordRequired)
-                        return
-                    }
-
-                    self.authManager.signInFromNewDevice(password: password, completion: completion)
+                self.publishCardThenSaveLocal {
+                    self.semaphore.signal()
+                    completion($0)
                 }
             }
+        } catch {
+            self.semaphore.signal()
+            completion(error)
+        }
+    }
+
+    /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
+    /// and saves new Private Key in local storage
+    ///
+    /// - Parameter completion: completion handler, called with corresponding error
+    @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
+        self.semaphore.wait()
+
+        do {
+            guard try !self.localKeyManager.exists() else {
+                self.semaphore.signal()
+                completion(EThreeError.privateKeyExists)
+                return
+            }
+            self.cardManager.searchCards(identity: self.identity) { cards, error in
+                guard let card = cards?.first, error == nil else {
+                    self.semaphore.signal()
+                    completion(error ?? EThreeError.userIsNotRegistered)
+                    return
+                }
+
+                self.publishCardThenSaveLocal(previousCardId: card.identifier) {
+                    self.semaphore.signal()
+                    completion($0)
+                }
+            }
+        } catch {
+            self.semaphore.signal()
+            completion(error)
         }
     }
 

@@ -39,7 +39,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
 use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.2.0'
+pod 'VirgilE3Kit', '~> 0.3.0'
 end
 ```
 
@@ -63,7 +63,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/e3kit-x" ~> 0.2.0
+github "VirgilSecurity/e3kit-x" ~> 0.3.0
 ```
 
 #### Linking against prebuilt binaries
@@ -143,7 +143,7 @@ Next, on your application target's “General” settings tab, in the “Embedde
  - VirgilE3Kit
 
 
-#### Bootstrap User
+#### Register User
 Use the following lines of code to authenticate user.
 
 ```swift
@@ -154,7 +154,7 @@ EThree.initialize(tokenCallback) { eThree, error in
     guard let eThree = eThree, error == nil else {
       // error handling here
     }
-    eThree.bootstrap(password: password) { error in 
+    eThree.register { error in 
         // done
     }
 }
@@ -173,7 +173,7 @@ let messageToEncrypt = "Hello, Bob!"
 // initialize E3Kit
 EThree.initialize(tokenCallback) { eThree, error in 
     // Authenticate user 
-    eThree!.bootstrap(password: password) { error in
+    eThree!.register { error in
         // Search user's publicKeys to encrypt for
         eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, errors in 
             // encrypt text
