@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -39,7 +39,7 @@ import VirgilCryptoApiImpl
 
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {
-    // Typealias for the valid result of lookupPublicKeys call
+    /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]
 
     /// Signs then encrypts data for group of users
@@ -90,7 +90,8 @@ extension EThree {
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
-        let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey,
+        let decryptedData = try self.crypto.decryptThenVerify(data,
+                                                              with: selfKeyPair.privateKey,
                                                               using: senderPublicKey)
 
         return decryptedData
@@ -145,10 +146,11 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to search for
     ///   - completion: completion handler
-    ///     - lookupResult: dictionary with idenities as keys and found public keys as values
-    ///     - errors: array with Errors
+    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
+    ///   - errors: array with errors
     @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ lookupResult: LookupResult, _ errors: [Error]) -> ()) {
+                                       completion: @escaping (_ lookupResult: LookupResult,
+                                                              _ errors: [Error]) -> Void) {
         guard !identities.isEmpty else {
             completion([:], [EThreeError.missingIdentities])
             return
@@ -161,22 +163,24 @@ extension EThree {
         for identity in identities {
             group.enter()
             self.cardManager.searchCards(identity: identity) { cards, error in
+                defer { group.leave() }
+
                 if let error = error {
                     errors.append(error)
                     return
                 }
+
                 guard let publicKey = cards?.first?.publicKey else {
                     errors.append(EThreeError.missingPublicKey)
                     return
                 }
+
                 guard let virgilPublicKey = publicKey as? VirgilPublicKey else {
                     errors.append(EThreeError.keyIsNotVirgil)
                     return
                 }
 
                 result[identity] = virgilPublicKey
-
-                defer { group.leave() }
             }
         }
 

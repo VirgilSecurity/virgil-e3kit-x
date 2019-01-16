@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -43,33 +43,40 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - completion: completion handler, called with initialized EThree or corresponding Error
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - completion: completion handler
+    ///   - ethree: initialized EThree instance
+    ///   - error: corresponding error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                         storageParams: KeychainStorageParams? = nil,
-                                        completion: @escaping (EThree?, Error?) -> ()) {
+                                        completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
         let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             tokenCallback(completion)
         }
 
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
         let tokenContext = TokenContext(service: "cards", operation: "")
+
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
                 completion(nil, error)
                 return
             }
+
             do {
                 let cardCrypto = VirgilCardCrypto()
                 guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
                     completion(nil, EThreeError.verifierInitFailed)
                     return
                 }
+
                 let params = CardManagerParams(cardCrypto: cardCrypto,
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
                 let cardManager = CardManager(params: params)
 
                 let ethree = try EThree(identity: identity, cardManager: cardManager, storageParams: storageParams)
+
                 completion(ethree, nil)
             } catch {
                 completion(nil, error)
@@ -80,8 +87,9 @@ extension EThree {
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameters:
-    ///   - completion: completion handler, called with corresponding error
-    @objc public func register(completion: @escaping (Error?) -> ()) {
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc public func register(completion: @escaping (_ error: Error?) -> Void) {
         self.semaphore.wait()
 
         do {
@@ -112,8 +120,9 @@ extension EThree {
     /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
     /// and saves new Private Key in local storage
     ///
-    /// - Parameter completion: completion handler, called with corresponding error
-    @objc public func rotatePrivateKey(completion: @escaping (Error?) -> ()) {
+    /// - Parameter completion: completion handler
+    ///   - error: corresponding error
+    @objc public func rotatePrivateKey(completion: @escaping (_ error: Error?) -> Void) {
         self.semaphore.wait()
 
         do {

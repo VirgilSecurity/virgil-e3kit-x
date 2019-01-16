@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -51,12 +51,14 @@ internal class CloudKeyManager {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.keychainStorage = keychainStorage
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: accessTokenProvider)
         self.crypto = crypto
+
+        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: accessTokenProvider)
+
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpCloudKeyStorage(password: String, completion: @escaping (CloudKeyStorage?, Error?) -> ()) {
+    internal func setUpCloudKeyStorage(password: String, completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
         self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
@@ -78,7 +80,7 @@ internal class CloudKeyManager {
 
 extension CloudKeyManager {
     internal func store(key: VirgilPrivateKey, usingPassword password: String,
-                        completion: @escaping (Error?) -> ()) {
+                        completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(error)
@@ -94,7 +96,7 @@ extension CloudKeyManager {
     }
 
     internal func retrieve(usingPassword password: String,
-                           completion: @escaping (CloudEntry?, Error?) -> ()) {
+                           completion: @escaping (CloudEntry?, Error?) -> Void) {
         self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(nil, error)
@@ -111,7 +113,7 @@ extension CloudKeyManager {
         }
     }
 
-    internal func delete(password: String, completion: @escaping (Error?) -> ()) {
+    internal func delete(password: String, completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(error)
@@ -130,7 +132,7 @@ extension CloudKeyManager {
     }
 
     internal func changePassword(from oldPassword: String, to newPassword: String,
-                                 completion: @escaping (Error?) -> ()) {
+                                 completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: oldPassword) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
                 completion(error)

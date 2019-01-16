@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -109,12 +109,14 @@ import VirgilCryptoApiImpl
         return try self.localKeyManager.exists()
     }
 
-    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> ()) {
+    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> Void) {
         do {
             let keyPair = try self.crypto.generateKeyPair()
 
-            self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey,
-                                         identity: self.identity, previousCardId: previousCardId) { cards, error in
+            self.cardManager.publishCard(privateKey: keyPair.privateKey,
+                                         publicKey: keyPair.publicKey,
+                                         identity: self.identity,
+                                         previousCardId: previousCardId) { _, error in
                 guard error == nil else {
                     completion(error)
                     return
