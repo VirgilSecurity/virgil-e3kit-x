@@ -71,9 +71,9 @@ static const NSTimeInterval timeout = 20.;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAccessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil trustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesAndReturnError:nil];
