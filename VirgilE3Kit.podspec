@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                       	= "VirgilE3Kit"
-  s.version                   	= "0.3.0"
+  s.version                   	= "0.3.1"
   s.license      		= { :type => "BSD", :file => "LICENSE" }
   s.summary      		= "Vigil E3Kit for Apple devices and languages"
   s.homepage     		= "https://github.com/VirgilSecurity/virgil-e3kit-x/"
@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.source_files  		= 'Source/**/*.{swift}'
   s.dependency "VirgilCryptoApiImpl", "~> 3.1"
   s.dependency "VirgilSDKKeyknox", "~> 0.2"
-  s.dependency "VirgilSDKPythia", "~> 0.3"
+  s.dependency "VirgilSDKPythia", "~> 0.4"
 end
