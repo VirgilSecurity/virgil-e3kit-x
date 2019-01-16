@@ -156,36 +156,29 @@ extension EThree {
             return
         }
 
-        let group = DispatchGroup()
         var result: LookupResult = [:]
         var errors: [Error] = []
 
-        for identity in identities {
-            group.enter()
-            self.cardManager.searchCards(identity: identity) { cards, error in
-                defer { group.leave() }
+        self.cardManager.searchCards(identities: identities) { cards, error in
+            if let error = error {
+                errors.append(error)
+                return
+            }
 
-                if let error = error {
-                    errors.append(error)
-                    return
-                }
+            guard let cards = cards else {
+                return
+            }
 
-                guard let publicKey = cards?.first?.publicKey else {
-                    errors.append(EThreeError.missingPublicKey)
-                    return
-                }
-
-                guard let virgilPublicKey = publicKey as? VirgilPublicKey else {
+            for card in cards {
+                guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
                     errors.append(EThreeError.keyIsNotVirgil)
                     return
                 }
 
-                result[identity] = virgilPublicKey
+                result[card.identity] = virgilPublicKey
             }
-        }
 
-        group.notify(queue: .main) {
-            completion(result, errors)
+            defer { completion(result, errors) }
         }
     }
 }
