@@ -67,9 +67,9 @@ static const NSTimeInterval timeout = 20.;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil trustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesAndReturnError:nil];
@@ -82,7 +82,7 @@ static const NSTimeInterval timeout = 20.;
         NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
 
         completionHandler(token, error);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
+    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 

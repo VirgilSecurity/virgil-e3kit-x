@@ -24,6 +24,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1642DB4A2180D603007EBAE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642DB492180D603007EBAE4 /* AppDelegate.swift */; };
+		1642DB4C2180D604007EBAE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1642DB4B2180D604007EBAE4 /* Assets.xcassets */; };
+		1642DB4F2180D604007EBAE4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1642DB4D2180D604007EBAE4 /* MainMenu.xib */; };
 		165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
 		165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
 		165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
@@ -61,6 +64,15 @@
 		167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
+		167E1E1F217D253F00F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E1E217D253F00F8AA13 /* AppDelegate.swift */; };
+		167E1E21217D253F00F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E20217D253F00F8AA13 /* ViewController.swift */; };
+		167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E22217D253F00F8AA13 /* Main.storyboard */; };
+		167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E25217D254100F8AA13 /* Assets.xcassets */; };
+		167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */; };
+		167E1E79217D27A500F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E78217D27A500F8AA13 /* AppDelegate.swift */; };
+		167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E7A217D27A500F8AA13 /* ViewController.swift */; };
+		167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7C217D27A500F8AA13 /* Main.storyboard */; };
+		167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7F217D27A600F8AA13 /* Assets.xcassets */; };
 		16801EA721EF682B001C0AB3 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD321787524003D7CDA /* VirgilCrypto.framework */; };
 		16801EA821EF682B001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD121787524003D7CDA /* VirgilCryptoAPI.framework */; };
 		16801EA921EF682B001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD021787524003D7CDA /* VirgilCryptoApiImpl.framework */; };
@@ -89,48 +101,6 @@
 		16801EC021EF686A001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFC2178797E003D7CDA /* VirgilSDKKeyknox.framework */; };
 		16801EC121EF686A001C0AB3 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFE2178797E003D7CDA /* VirgilSDKPythia.framework */; };
 		16801EC221EF686A001C0AB3 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CFD2178797E003D7CDA /* VSCCrypto.framework */; };
-		16801EC321EF6A51001C0AB3 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD321787524003D7CDA /* VirgilCrypto.framework */; };
-		16801EC421EF6A51001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD121787524003D7CDA /* VirgilCryptoAPI.framework */; };
-		16801EC521EF6A51001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD021787524003D7CDA /* VirgilCryptoApiImpl.framework */; };
-		16801EC621EF6A51001C0AB3 /* VirgilSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD221787524003D7CDA /* VirgilSDK.framework */; };
-		16801EC721EF6A51001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CCC21787517003D7CDA /* VirgilSDKKeyknox.framework */; };
-		16801EC821EF6A51001C0AB3 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CCD21787517003D7CDA /* VirgilSDKPythia.framework */; };
-		16801EC921EF6A51001C0AB3 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CD421787524003D7CDA /* VSCCrypto.framework */; };
-		16801F0A21EF7341001C0AB3 /* VirgilCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CD321787524003D7CDA /* VirgilCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F0B21EF7341001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CD121787524003D7CDA /* VirgilCryptoAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F0C21EF7341001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CD021787524003D7CDA /* VirgilCryptoApiImpl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F0D21EF7341001C0AB3 /* VirgilSDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CD221787524003D7CDA /* VirgilSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F0E21EF7341001C0AB3 /* VSCCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CD421787524003D7CDA /* VSCCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F0F21EF7341001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CCC21787517003D7CDA /* VirgilSDKKeyknox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1021EF7341001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CCD21787517003D7CDA /* VirgilSDKPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1121EF7417001C0AB3 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CE02178794F003D7CDA /* VirgilCrypto.framework */; };
-		16801F1221EF7417001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CE12178794F003D7CDA /* VirgilCryptoAPI.framework */; };
-		16801F1321EF7417001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CDD2178794F003D7CDA /* VirgilCryptoApiImpl.framework */; };
-		16801F1421EF7417001C0AB3 /* VirgilSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CDC2178794F003D7CDA /* VirgilSDK.framework */; };
-		16801F1521EF7417001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CDF2178794F003D7CDA /* VirgilSDKKeyknox.framework */; };
-		16801F1621EF7417001C0AB3 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CDE2178794F003D7CDA /* VirgilSDKPythia.framework */; };
-		16801F1721EF7417001C0AB3 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CE22178794F003D7CDA /* VSCCrypto.framework */; };
-		16801F1921EF743D001C0AB3 /* VirgilCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CE02178794F003D7CDA /* VirgilCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1A21EF743D001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CE12178794F003D7CDA /* VirgilCryptoAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1B21EF743D001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CDD2178794F003D7CDA /* VirgilCryptoApiImpl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1C21EF743D001C0AB3 /* VirgilSDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CDC2178794F003D7CDA /* VirgilSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1D21EF743D001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CDF2178794F003D7CDA /* VirgilSDKKeyknox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1E21EF743D001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CDE2178794F003D7CDA /* VirgilSDKPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F1F21EF743D001C0AB3 /* VSCCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CE22178794F003D7CDA /* VSCCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2121EF7476001C0AB3 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CED21787969003D7CDA /* VirgilCrypto.framework */; };
-		16801F2221EF7476001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CEB21787969003D7CDA /* VirgilCryptoAPI.framework */; };
-		16801F2321EF7476001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CEF21787969003D7CDA /* VirgilCryptoApiImpl.framework */; };
-		16801F2421EF7476001C0AB3 /* VirgilSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CF021787969003D7CDA /* VirgilSDK.framework */; };
-		16801F2521EF7476001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CEC21787969003D7CDA /* VirgilSDKKeyknox.framework */; };
-		16801F2621EF7476001C0AB3 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CEA21787969003D7CDA /* VirgilSDKPythia.framework */; };
-		16801F2721EF7476001C0AB3 /* VSCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16261CEE21787969003D7CDA /* VSCCrypto.framework */; };
-		16801F2821EF74A0001C0AB3 /* VirgilCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CED21787969003D7CDA /* VirgilCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2921EF74A0001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CEB21787969003D7CDA /* VirgilCryptoAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2A21EF74A0001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CEF21787969003D7CDA /* VirgilCryptoApiImpl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2B21EF74A0001C0AB3 /* VirgilSDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CF021787969003D7CDA /* VirgilSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2C21EF74A0001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CEC21787969003D7CDA /* VirgilSDKKeyknox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2D21EF74A0001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CEA21787969003D7CDA /* VirgilSDKPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		16801F2E21EF74A0001C0AB3 /* VSCCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16261CEE21787969003D7CDA /* VSCCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16F9EA13217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
@@ -142,6 +112,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1642DB872180D61B007EBAE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1642DB462180D603007EBAE4;
+			remoteInfo = "E3Kit TestApp macOS";
+		};
 		165B67EC2179013B00DDE1F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
@@ -162,6 +139,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 16EC37572177A972009D7F00;
 			remoteInfo = "VirgilE3Kit tvOS";
+		};
+		167E1E60217D255800F8AA13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 167E1E1B217D253F00F8AA13;
+			remoteInfo = "E3Kit TestApp iOS";
+		};
+		167E1E85217D27E300F8AA13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16EC37232177938A009D7F00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 167E1E75217D27A500F8AA13;
+			remoteInfo = "E3Kit TestApp tvOS";
 		};
 		16EC376421786D77009D7F00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -194,51 +185,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		16801F0921EF7327001C0AB3 /* CopyFiles */ = {
+		165B6920217A3B8200DDE1F7 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				16801F0A21EF7341001C0AB3 /* VirgilCrypto.framework in CopyFiles */,
-				16801F0B21EF7341001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */,
-				16801F0C21EF7341001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */,
-				16801F0D21EF7341001C0AB3 /* VirgilSDK.framework in CopyFiles */,
-				16801F0E21EF7341001C0AB3 /* VSCCrypto.framework in CopyFiles */,
-				16801F0F21EF7341001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */,
-				16801F1021EF7341001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		16801F1821EF7428001C0AB3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				16801F1921EF743D001C0AB3 /* VirgilCrypto.framework in CopyFiles */,
-				16801F1A21EF743D001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */,
-				16801F1B21EF743D001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */,
-				16801F1C21EF743D001C0AB3 /* VirgilSDK.framework in CopyFiles */,
-				16801F1D21EF743D001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */,
-				16801F1E21EF743D001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */,
-				16801F1F21EF743D001C0AB3 /* VSCCrypto.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		16801F2021EF7468001C0AB3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				16801F2821EF74A0001C0AB3 /* VirgilCrypto.framework in CopyFiles */,
-				16801F2921EF74A0001C0AB3 /* VirgilCryptoAPI.framework in CopyFiles */,
-				16801F2A21EF74A0001C0AB3 /* VirgilCryptoApiImpl.framework in CopyFiles */,
-				16801F2B21EF74A0001C0AB3 /* VirgilSDK.framework in CopyFiles */,
-				16801F2C21EF74A0001C0AB3 /* VirgilSDKKeyknox.framework in CopyFiles */,
-				16801F2D21EF74A0001C0AB3 /* VirgilSDKPythia.framework in CopyFiles */,
-				16801F2E21EF74A0001C0AB3 /* VSCCrypto.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +225,13 @@
 		16261CFC2178797E003D7CDA /* VirgilSDKKeyknox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKKeyknox.framework; path = Carthage/Build/watchOS/VirgilSDKKeyknox.framework; sourceTree = "<group>"; };
 		16261CFD2178797E003D7CDA /* VSCCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCCrypto.framework; path = Carthage/Build/watchOS/VSCCrypto.framework; sourceTree = "<group>"; };
 		16261CFE2178797E003D7CDA /* VirgilSDKPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKPythia.framework; path = Carthage/Build/watchOS/VirgilSDKPythia.framework; sourceTree = "<group>"; };
+		1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1642DB492180D603007EBAE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1642DB4B2180D604007EBAE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1642DB4E2180D604007EBAE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1642DB502180D604007EBAE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1642DB512180D604007EBAE4 /* E3Kit_TestApp_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = E3Kit_TestApp_macOS.entitlements; sourceTree = "<group>"; };
+		1642DB892180D780007EBAE4 /* E3Kit TestApp macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "E3Kit TestApp macOS.entitlements"; sourceTree = "<group>"; };
 		165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
 		165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+KeyBackup.swift"; sourceTree = "<group>"; };
 		165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +247,19 @@
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
+		167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		167E1E1E217D253F00F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		167E1E20217D253F00F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		167E1E23217D253F00F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E25217D254100F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		167E1E28217D254100F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		167E1E2A217D254100F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		167E1E78217D27A500F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		167E1E7A217D27A500F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -298,17 +270,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1642DB442180D603007EBAE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E32179013B00DDE1F7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16801EC321EF6A51001C0AB3 /* VirgilCrypto.framework in Frameworks */,
-				16801EC421EF6A51001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */,
-				16801EC521EF6A51001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */,
-				16801EC621EF6A51001C0AB3 /* VirgilSDK.framework in Frameworks */,
-				16801EC721EF6A51001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */,
-				16801EC821EF6A51001C0AB3 /* VirgilSDKPythia.framework in Frameworks */,
-				16801EC921EF6A51001C0AB3 /* VSCCrypto.framework in Frameworks */,
 				165B67EB2179013B00DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,13 +289,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16801F1121EF7417001C0AB3 /* VirgilCrypto.framework in Frameworks */,
-				16801F1221EF7417001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */,
-				16801F1321EF7417001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */,
-				16801F1421EF7417001C0AB3 /* VirgilSDK.framework in Frameworks */,
-				16801F1521EF7417001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */,
-				16801F1621EF7417001C0AB3 /* VirgilSDKPythia.framework in Frameworks */,
-				16801F1721EF7417001C0AB3 /* VSCCrypto.framework in Frameworks */,
 				165B680B2179079100DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,13 +298,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				165B681B217907C600DDE1F7 /* VirgilE3Kit.framework in Frameworks */,
-				16801F2121EF7476001C0AB3 /* VirgilCrypto.framework in Frameworks */,
-				16801F2221EF7476001C0AB3 /* VirgilCryptoAPI.framework in Frameworks */,
-				16801F2321EF7476001C0AB3 /* VirgilCryptoApiImpl.framework in Frameworks */,
-				16801F2421EF7476001C0AB3 /* VirgilSDK.framework in Frameworks */,
-				16801F2521EF7476001C0AB3 /* VirgilSDKKeyknox.framework in Frameworks */,
-				16801F2621EF7476001C0AB3 /* VirgilSDKPythia.framework in Frameworks */,
-				16801F2721EF7476001C0AB3 /* VSCCrypto.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E19217D253F00F8AA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E73217D27A500F8AA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +409,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1642DB482180D603007EBAE4 /* E3Kit TestApp macOS */ = {
+			isa = PBXGroup;
+			children = (
+				1642DB892180D780007EBAE4 /* E3Kit TestApp macOS.entitlements */,
+				1642DB492180D603007EBAE4 /* AppDelegate.swift */,
+				1642DB4B2180D604007EBAE4 /* Assets.xcassets */,
+				1642DB4D2180D604007EBAE4 /* MainMenu.xib */,
+				1642DB502180D604007EBAE4 /* Info.plist */,
+				1642DB512180D604007EBAE4 /* E3Kit_TestApp_macOS.entitlements */,
+			);
+			path = "E3Kit TestApp macOS";
+			sourceTree = "<group>";
+		};
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,12 +464,40 @@
 			path = KeyManagement;
 			sourceTree = "<group>";
 		};
+		167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */ = {
+			isa = PBXGroup;
+			children = (
+				167E1E1E217D253F00F8AA13 /* AppDelegate.swift */,
+				167E1E20217D253F00F8AA13 /* ViewController.swift */,
+				167E1E22217D253F00F8AA13 /* Main.storyboard */,
+				167E1E25217D254100F8AA13 /* Assets.xcassets */,
+				167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */,
+				167E1E2A217D254100F8AA13 /* Info.plist */,
+			);
+			path = "E3Kit TestApp iOS";
+			sourceTree = "<group>";
+		};
+		167E1E77217D27A500F8AA13 /* E3Kit TestApp tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				167E1E78217D27A500F8AA13 /* AppDelegate.swift */,
+				167E1E7A217D27A500F8AA13 /* ViewController.swift */,
+				167E1E7C217D27A500F8AA13 /* Main.storyboard */,
+				167E1E7F217D27A600F8AA13 /* Assets.xcassets */,
+				167E1E81217D27A600F8AA13 /* Info.plist */,
+			);
+			path = "E3Kit TestApp tvOS";
+			sourceTree = "<group>";
+		};
 		16EC37222177938A009D7F00 = {
 			isa = PBXGroup;
 			children = (
 				16EC373721779462009D7F00 /* VirgilE3Kit */,
 				16F9E9E5217889770021FD9A /* Source */,
 				165B67E72179013B00DDE1F7 /* Tests */,
+				167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */,
+				167E1E77217D27A500F8AA13 /* E3Kit TestApp tvOS */,
+				1642DB482180D603007EBAE4 /* E3Kit TestApp macOS */,
 				16EC372F217793BC009D7F00 /* Products */,
 				16261CCB21787517003D7CDA /* Frameworks */,
 			);
@@ -500,6 +513,9 @@
 				165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */,
 				165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */,
 				165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */,
+				167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */,
+				167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */,
+				1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -556,6 +572,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1642DB862180D604007EBAE4 /* Build configuration list for PBXNativeTarget "E3Kit TestApp macOS" */;
+			buildPhases = (
+				1642DB432180D603007EBAE4 /* Sources */,
+				1642DB442180D603007EBAE4 /* Frameworks */,
+				1642DB452180D603007EBAE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp macOS";
+			productName = "E3Kit TestApp macOS";
+			productReference = 1642DB472180D603007EBAE4 /* E3Kit TestApp macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		165B67E52179013B00DDE1F7 /* VirgilE3Kit iOS Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */;
@@ -563,12 +596,13 @@
 				165B67E22179013B00DDE1F7 /* Sources */,
 				165B67E32179013B00DDE1F7 /* Frameworks */,
 				165B67E42179013B00DDE1F7 /* Resources */,
-				16801F0921EF7327001C0AB3 /* CopyFiles */,
+				165B6920217A3B8200DDE1F7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				165B67ED2179013B00DDE1F7 /* PBXTargetDependency */,
+				167E1E61217D255800F8AA13 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit iOS Tests";
 			productName = "VirgilE3Kit iOS Tests";
@@ -582,12 +616,12 @@
 				165B68022179079000DDE1F7 /* Sources */,
 				165B68032179079000DDE1F7 /* Frameworks */,
 				165B68042179079000DDE1F7 /* Resources */,
-				16801F1821EF7428001C0AB3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				165B680D2179079100DDE1F7 /* PBXTargetDependency */,
+				1642DB882180D61B007EBAE4 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit macOS Tests";
 			productName = "VirgilE3Kit macOS Tests";
@@ -601,17 +635,51 @@
 				165B6812217907C600DDE1F7 /* Sources */,
 				165B6813217907C600DDE1F7 /* Frameworks */,
 				165B6814217907C600DDE1F7 /* Resources */,
-				16801F2021EF7468001C0AB3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				165B681D217907C600DDE1F7 /* PBXTargetDependency */,
+				167E1E86217D27E300F8AA13 /* PBXTargetDependency */,
 			);
 			name = "VirgilE3Kit tvOS Tests";
 			productName = "VirgilE3Kit tvOS Tests";
 			productReference = 165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 167E1E5F217D254100F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp iOS" */;
+			buildPhases = (
+				167E1E18217D253F00F8AA13 /* Sources */,
+				167E1E19217D253F00F8AA13 /* Frameworks */,
+				167E1E1A217D253F00F8AA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp iOS";
+			productName = "E3Kit TestApp iOS";
+			productReference = 167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 167E1E82217D27A600F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp tvOS" */;
+			buildPhases = (
+				167E1E72217D27A500F8AA13 /* Sources */,
+				167E1E73217D27A500F8AA13 /* Frameworks */,
+				167E1E74217D27A500F8AA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "E3Kit TestApp tvOS";
+			productName = "E3Kit TestApp tvOS";
+			productReference = 167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */;
+			productType = "com.apple.product-type.application";
 		};
 		16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */ = {
 			isa = PBXNativeTarget;
@@ -695,17 +763,34 @@
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 1000;
 				TargetAttributes = {
+					1642DB462180D603007EBAE4 = {
+						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
 					165B67E52179013B00DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 167E1E1B217D253F00F8AA13;
 					};
 					165B68052179079000DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 1642DB462180D603007EBAE4;
 					};
 					165B6815217907C600DDE1F7 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1000;
+						TestTargetID = 167E1E75217D27A500F8AA13;
+					};
+					167E1E1B217D253F00F8AA13 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					167E1E75217D27A500F8AA13 = {
+						CreatedOnToolsVersion = 10.0;
 					};
 					16EC372D217793BC009D7F00 = {
 						CreatedOnToolsVersion = 10.0;
@@ -749,11 +834,23 @@
 				165B6815217907C600DDE1F7 /* VirgilE3Kit tvOS Tests */,
 				16EC373D2177A7D7009D7F00 /* VirgilE3Kit watchOS */,
 				16EC37602177A9C0009D7F00 /* VirgilE3Kit */,
+				167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */,
+				167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */,
+				1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1642DB452180D603007EBAE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1642DB4C2180D604007EBAE4 /* Assets.xcassets in Resources */,
+				1642DB4F2180D604007EBAE4 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E42179013B00DDE1F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -775,6 +872,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				165B6826217908C000DDE1F7 /* TestConfig.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E1A217D253F00F8AA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */,
+				167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */,
+				167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E74217D27A500F8AA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */,
+				167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,6 +925,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1642DB432180D603007EBAE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1642DB4A2180D603007EBAE4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -842,6 +966,24 @@
 				165B68AB2179E4AB00DDE1F7 /* VTETestUtils.m in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E18217D253F00F8AA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E21217D253F00F8AA13 /* ViewController.swift in Sources */,
+				167E1E1F217D253F00F8AA13 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		167E1E72217D27A500F8AA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */,
+				167E1E79217D27A500F8AA13 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,6 +1042,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1642DB882180D61B007EBAE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1642DB462180D603007EBAE4 /* E3Kit TestApp macOS */;
+			targetProxy = 1642DB872180D61B007EBAE4 /* PBXContainerItemProxy */;
+		};
 		165B67ED2179013B00DDE1F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 16EC372D217793BC009D7F00 /* VirgilE3Kit iOS */;
@@ -914,6 +1061,16 @@
 			isa = PBXTargetDependency;
 			target = 16EC37572177A972009D7F00 /* VirgilE3Kit tvOS */;
 			targetProxy = 165B681C217907C600DDE1F7 /* PBXContainerItemProxy */;
+		};
+		167E1E61217D255800F8AA13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 167E1E1B217D253F00F8AA13 /* E3Kit TestApp iOS */;
+			targetProxy = 167E1E60217D255800F8AA13 /* PBXContainerItemProxy */;
+		};
+		167E1E86217D27E300F8AA13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 167E1E75217D27A500F8AA13 /* E3Kit TestApp tvOS */;
+			targetProxy = 167E1E85217D27E300F8AA13 /* PBXContainerItemProxy */;
 		};
 		16EC376521786D77009D7F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -937,12 +1094,140 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		1642DB4D2180D604007EBAE4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1642DB4E2180D604007EBAE4 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		167E1E22217D253F00F8AA13 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E23217D253F00F8AA13 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E28217D254100F8AA13 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		167E1E7C217D27A500F8AA13 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E7D217D27A500F8AA13 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		1642DB522180D604007EBAE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "E3Kit TestApp macOS/E3Kit TestApp macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		1642DB532180D604007EBAE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "E3Kit TestApp macOS/E3Kit TestApp macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		165B67EF2179013B00DDE1F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -958,11 +1243,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = MS3LY2W55D;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -989,6 +1270,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp iOS.app/E3Kit TestApp iOS";
 			};
 			name = Debug;
 		};
@@ -997,6 +1279,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1012,12 +1295,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = MS3LY2W55D;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -1038,6 +1317,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp iOS.app/E3Kit TestApp iOS";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1065,10 +1345,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1094,6 +1370,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp macOS.app/Contents/MacOS/E3Kit TestApp macOS";
 			};
 			name = Debug;
 		};
@@ -1121,10 +1398,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -1144,6 +1417,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp macOS.app/Contents/MacOS/E3Kit TestApp macOS";
 			};
 			name = Release;
 		};
@@ -1152,6 +1426,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1167,10 +1442,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1196,6 +1467,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
@@ -1205,6 +1477,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1221,10 +1494,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -1241,6 +1510,191 @@
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		167E1E2B217D254100F8AA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		167E1E2C217D254100F8AA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		167E1E83217D27A600F8AA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+			};
+			name = Debug;
+		};
+		167E1E84217D27A600F8AA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1992,6 +2446,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1642DB862180D604007EBAE4 /* Build configuration list for PBXNativeTarget "E3Kit TestApp macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1642DB522180D604007EBAE4 /* Debug */,
+				1642DB532180D604007EBAE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		165B67EE2179013B00DDE1F7 /* Build configuration list for PBXNativeTarget "VirgilE3Kit iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2015,6 +2478,24 @@
 			buildConfigurations = (
 				165B681F217907C600DDE1F7 /* Debug */,
 				165B6820217907C600DDE1F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		167E1E5F217D254100F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				167E1E2B217D254100F8AA13 /* Debug */,
+				167E1E2C217D254100F8AA13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		167E1E82217D27A600F8AA13 /* Build configuration list for PBXNativeTarget "E3Kit TestApp tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				167E1E83217D27A600F8AA13 /* Debug */,
+				167E1E84217D27A600F8AA13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
