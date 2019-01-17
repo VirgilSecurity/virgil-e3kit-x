@@ -34,4 +34,41 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+#ifndef VTETestCaseBase_h
+#define VTETestCaseBase_h
+
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+
+@import VirgilSDK;
+@import VirgilE3Kit;
+@import VirgilCrypto;
+@import VirgilCryptoApiImpl;
+@import VirgilSDKKeyknox;
+
 #import "VTETestsConst.h"
+
+#if TARGET_OS_IOS
+    #import "VirgilE3Kit_iOS_Tests-Swift.h"
+#elif TARGET_OS_TV
+    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+#elif TARGET_OS_OSX
+    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+#endif
+
+static const NSTimeInterval timeout = 20.;
+
+@interface VTETestCaseBase : XCTestCase
+
+@property (nonatomic) VTETestsConst *consts;
+@property (nonatomic) VSMVirgilCrypto *crypto;
+@property (nonatomic) VTETestUtils *utils;
+@property (nonatomic) VSSKeychainStorage *keychainStorage;
+@property (nonatomic) VTEEThree *eThree;
+@property (nonatomic) NSString *password;
+
+
+@end
+
+
+#endif /* VTETestCaseBase_h */

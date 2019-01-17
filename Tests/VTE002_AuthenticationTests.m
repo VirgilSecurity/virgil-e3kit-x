@@ -34,35 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
-@import VirgilSDK;
-@import VirgilE3Kit;
-@import VirgilCrypto;
-@import VirgilCryptoApiImpl;
-@import VirgilE3Kit;
+#import "VTETestCaseBase.h"
 
-#import "VTETestsConst.h"
-
-#if TARGET_OS_IOS
-    #import "VirgilE3Kit_iOS_Tests-Swift.h"
-#elif TARGET_OS_TV
-    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
-#elif TARGET_OS_OSX
-    #import "VirgilE3Kit_macOS_Tests-Swift.h"
-#endif
-
-static const NSTimeInterval timeout = 20.;
-
-@interface VTE002_AuthenticationTests : XCTestCase
-
-@property (nonatomic) VTETestsConst *consts;
-@property (nonatomic) VSMVirgilCrypto *crypto;
-@property (nonatomic) VTETestUtils *utils;
-@property (nonatomic) VSSKeychainStorage *keychainStorage;
-@property (nonatomic) VTEEThree *eThree;
-@property (nonatomic) NSString *password;
-
+@interface VTE002_AuthenticationTests : VTETestCaseBase
 
 @end
 
@@ -70,36 +44,6 @@ static const NSTimeInterval timeout = 20.;
 
 - (void)setUp {
     [super setUp];
-
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [[VTETestsConst alloc] init];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
-
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
-
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-
-        completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
 }
 
 - (void)tearDown {

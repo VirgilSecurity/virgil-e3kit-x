@@ -50,6 +50,9 @@
 		1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		166ED69E21F0B66F00A9B51F /* VTETestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */; };
+		166ED69F21F0B66F00A9B51F /* VTETestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */; };
+		166ED6A021F0B66F00A9B51F /* VTETestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */; };
 		167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
@@ -306,6 +309,8 @@
 		165B68A72179E49700DDE1F7 /* VTETestsConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestsConst.h; sourceTree = "<group>"; };
 		165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestsConst.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
+		166ED69C21F0B5E800A9B51F /* VTETestCaseBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestCaseBase.h; sourceTree = "<group>"; };
+		166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestCaseBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
@@ -500,14 +505,14 @@
 		165B67E72179013B00DDE1F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				166ED6A121F0B7AA00A9B51F /* Utils */,
 				165B68222179088D00DDE1F7 /* Data */,
 				16BC039D21EFF81D00887DF2 /* BridgingHeader.h */,
 				165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */,
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
 				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
-				165B68A72179E49700DDE1F7 /* VTETestsConst.h */,
-				165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */,
-				16BC03A021EFF81E00887DF2 /* TestUtils.swift */,
+				166ED69C21F0B5E800A9B51F /* VTETestCaseBase.h */,
+				166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -518,6 +523,16 @@
 				165B6823217908C000DDE1F7 /* TestConfig.plist */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		166ED6A121F0B7AA00A9B51F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				165B68A72179E49700DDE1F7 /* VTETestsConst.h */,
+				165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */,
+				16BC03A021EFF81E00887DF2 /* TestUtils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		167E1DED217CFC1000F8AA13 /* KeyManagement */ = {
@@ -957,6 +972,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				166ED69E21F0B66F00A9B51F /* VTETestCaseBase.m in Sources */,
 				1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686D2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
@@ -969,6 +985,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				166ED69F21F0B66F00A9B51F /* VTETestCaseBase.m in Sources */,
 				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686E2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
@@ -981,6 +998,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				166ED6A021F0B66F00A9B51F /* VTETestCaseBase.m in Sources */,
 				1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686F2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,

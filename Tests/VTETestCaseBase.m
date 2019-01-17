@@ -34,4 +34,42 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestsConst.h"
+#import "VTETestCaseBase.h"
+
+@implementation VTETestCaseBase
+
+- (void)setUp {
+    [super setUp];
+
+    self.password = [[NSUUID alloc] init].UUIDString;
+    self.consts = [[VTETestsConst alloc] init];
+    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
+    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
+
+    VSSKeychainStorageParams *params;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
+#elif TARGET_OS_OSX
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
+#endif
+    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
+
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+    NSString *identity = [[NSUUID alloc] init].UUIDString;
+    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
+
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
+        XCTAssert(eThree != nil && error == nil);
+        self.eThree = eThree;
+
+        dispatch_semaphore_signal(sema);
+    }];
+
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+}
+
+@end
