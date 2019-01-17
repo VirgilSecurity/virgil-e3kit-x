@@ -172,7 +172,7 @@ extension EThree {
             for card in cards {
                 guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
                     errors.append(EThreeError.keyIsNotVirgil)
-                    return
+                    continue
                 }
 
                 result[card.identity] = virgilPublicKey
