@@ -43,7 +43,14 @@
 @import VirgilE3Kit;
 
 #import "VTETestsConst.h"
-#import "VTETestUtils.h"
+
+#if TARGET_OS_IOS
+    #import "VirgilE3Kit_iOS_Tests-Swift.h"
+#elif TARGET_OS_TV
+    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+#elif TARGET_OS_OSX
+    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+#endif
 
 static const NSTimeInterval timeout = 20.;
 
@@ -71,9 +78,9 @@ static const NSTimeInterval timeout = 20.;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil accessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil trustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesAndReturnError:nil];
@@ -82,11 +89,10 @@ static const NSTimeInterval timeout = 20.;
 
     NSString *identity = [[NSUUID alloc] init].UUIDString;
     [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSError *error;
-        NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-        completionHandler(token, error);
-    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 
@@ -141,8 +147,9 @@ static const NSTimeInterval timeout = 20.;
 - (void)test_STE_10 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if card already exists"];
 
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
-    XCTAssert(card != nil);
+    NSError *error;
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    XCTAssert(card != nil && error == nil);
 
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error != nil && error.code == VTEEThreeErrorUserIsAlreadyRegistered);
@@ -215,8 +222,9 @@ static const NSTimeInterval timeout = 20.;
 -(void)test_STE_14 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
-    XCTAssert(card != nil);
+    NSError *error;
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    XCTAssert(card != nil && error == nil);
 
     [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);

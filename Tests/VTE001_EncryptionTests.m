@@ -42,7 +42,14 @@
 @import VirgilCryptoApiImpl;
 
 #import "VTETestsConst.h"
-#import "VTETestUtils.h"
+
+#if TARGET_OS_IOS
+    #import "VirgilE3Kit_iOS_Tests-Swift.h"
+#elif TARGET_OS_TV
+    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+#elif TARGET_OS_OSX
+    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+#endif
 
 static const NSTimeInterval timeout = 20.;
 
@@ -67,9 +74,9 @@ static const NSTimeInterval timeout = 20.;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil accessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil trustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesAndReturnError:nil];
@@ -78,11 +85,10 @@ static const NSTimeInterval timeout = 20.;
 
     NSString *identity = [[NSUUID alloc] init].UUIDString;
     [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSError *error;
-        NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-        completionHandler(token, error);
-    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 
@@ -102,16 +108,17 @@ static const NSTimeInterval timeout = 20.;
     NSMutableArray *identities = [NSMutableArray array];
     NSMutableArray *publicKeys = [NSMutableArray array];
 
+    NSError *error;
     for (int i = 0; i < 3; i++) {
-        VSSCard *card = [self.utils publishCardWithIdentity:nil];
-        XCTAssert(card != nil);
+        VSSCard *card = [self.utils publishCardWithIdentity:nil error:&error];
+        XCTAssert(card != nil && error == nil);
         [identities addObject:card.identity];
         [publicKeys addObject:card.publicKey];
     }
 
     [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
         XCTAssert(errors.count == 0);
-        XCTAssert([self.utils isPublicKeysEqualWithPublicKeys1:foundPublicKeys.allValues publicKeys2:publicKeys]);
+        XCTAssert([self.utils isPublicKeysEqualWithKeys1:foundPublicKeys.allValues keys2:publicKeys]);
 
         [ex fulfill];
     }];
@@ -146,11 +153,10 @@ static const NSTimeInterval timeout = 20.;
 
         NSString *identity = [[NSUUID alloc] init].UUIDString;
         [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-            NSError *error;
-            NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
+            NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-            completionHandler(token, error);
-        } storageParams:nil completion:^(VTEEThree *eThree2, NSError *error) {
+            completionHandler(token, nil);
+        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
             XCTAssert(eThree2 != nil && error == nil);
 
             [eThree2 registerWithCompletion:^(NSError *error) {

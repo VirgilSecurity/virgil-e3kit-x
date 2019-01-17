@@ -40,9 +40,17 @@
 @import VirgilE3Kit;
 @import VirgilCrypto;
 @import VirgilCryptoApiImpl;
+@import VirgilSDKKeyknox;
 
 #import "VTETestsConst.h"
-#import "VTETestUtils.h"
+
+#if TARGET_OS_IOS
+    #import "VirgilE3Kit_iOS_Tests-Swift.h"
+#elif TARGET_OS_TV
+    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+#elif TARGET_OS_OSX
+    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+#endif
 
 static const NSTimeInterval timeout = 20.;
 
@@ -70,9 +78,9 @@ static const NSTimeInterval timeout = 20.;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil accessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:nil trustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesAndReturnError:nil];
@@ -81,11 +89,10 @@ static const NSTimeInterval timeout = 20.;
 
     NSString *identity = [[NSUUID alloc] init].UUIDString;
     [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSError *error;
-        NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-        completionHandler(token, error);
-    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 
@@ -119,7 +126,7 @@ static const NSTimeInterval timeout = 20.;
             sleep(2);
 
             __weak typeof(self) weakSelf = self;
-            [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+            [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
                 XCTAssert(error == nil);
 
                 NSError *err;
@@ -138,7 +145,7 @@ static const NSTimeInterval timeout = 20.;
         }];
     }];
 
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:10000 handler:^(NSError *error) {
         if (error != nil)
             XCTFail(@"Expectation failed: %@", error);
     }];
@@ -152,7 +159,7 @@ static const NSTimeInterval timeout = 20.;
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
 
     __weak typeof(self) weakSelf = self;
-    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
         [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
@@ -193,7 +200,7 @@ static const NSTimeInterval timeout = 20.;
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
 
     __weak typeof(self) weakSelf = self;
-    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
         [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
@@ -247,7 +254,7 @@ static const NSTimeInterval timeout = 20.;
         sleep(2);
 
         __weak typeof(self) weakSelf = self;
-        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password identity:self.eThree.identity completionHandler:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
             XCTAssert(error == nil);
 
             [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
