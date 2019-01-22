@@ -64,8 +64,8 @@
         [publicKeys addObject:card.publicKey];
     }
 
-    [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-        XCTAssert(errors.count == 0);
+    [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+        XCTAssert(error == nil);
         XCTAssert([self.utils isPublicKeysEqualWithKeys1:foundPublicKeys.allValues keys2:publicKeys]);
 
         [ex fulfill];
@@ -80,8 +80,8 @@
 - (void)test_STE_2 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys by empty array of identities should throw error"];
 
-    [self.eThree lookupPublicKeysOf:@[] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-        XCTAssert(errors.firstObject.code == VTEEThreeErrorMissingIdentities);
+    [self.eThree lookupPublicKeysOf:@[] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+        XCTAssert(error.code == VTEEThreeErrorMissingIdentities);
 
         [ex fulfill];
     }];
@@ -110,8 +110,8 @@
             [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-                    XCTAssert(errors.count == 0);
+                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+                    XCTAssert(error == nil);
                     XCTAssert(foundPublicKeys.count > 0);
 
                     NSString *plainText = [[NSUUID alloc] init].UUIDString;
@@ -125,8 +125,8 @@
                     NSString *decrypted = [eThree2 decryptWithText:encrypted from:keyPair.publicKey error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
-                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-                        XCTAssert(errors.count == 0);
+                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+                        XCTAssert(error == nil);
                         XCTAssert(foundPublicKeys.count > 0);
 
                         NSError *err;
@@ -178,8 +178,8 @@
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
         XCTAssert(err == nil);
 
-        [self.eThree lookupPublicKeysOf:@[self.eThree.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSArray<NSError *> *errors) {
-            XCTAssert(errors.count == 0);
+        [self.eThree lookupPublicKeysOf:@[self.eThree.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+            XCTAssert(error == nil);
             XCTAssert(foundPublicKeys.count > 0);
 
             NSError *err;

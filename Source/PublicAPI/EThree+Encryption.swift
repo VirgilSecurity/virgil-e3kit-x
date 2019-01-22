@@ -147,38 +147,33 @@ extension EThree {
     ///   - identities: array of identities to search for
     ///   - completion: completion handler
     ///   - lookupResult: dictionary with idenities as keys and found public keys as values
-    ///   - errors: array with errors
+    ///   - error: corresponding error
     @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ lookupResult: LookupResult,
-                                                              _ errors: [Error]) -> Void) {
+                                       completion: @escaping (_ lookupResult: LookupResult?,
+                                                              _ error: Error?) -> Void) {
         guard !identities.isEmpty else {
-            completion([:], [EThreeError.missingIdentities])
+            completion(nil, EThreeError.missingIdentities)
             return
         }
 
-        var result: LookupResult = [:]
-        var errors: [Error] = []
-
         self.cardManager.searchCards(identities: identities) { cards, error in
-            if let error = error {
-                errors.append(error)
+            guard let cards = cards, error == nil else {
+                completion(nil, error)
                 return
             }
 
-            guard let cards = cards else {
-                return
-            }
+            var result: LookupResult = [:]
 
             for card in cards {
                 guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
-                    errors.append(EThreeError.keyIsNotVirgil)
-                    continue
+                    completion(nil, EThreeError.keyIsNotVirgil)
+                    return
                 }
 
                 result[card.identity] = virgilPublicKey
             }
 
-            defer { completion(result, errors) }
+            completion(result, nil)
         }
     }
 }
