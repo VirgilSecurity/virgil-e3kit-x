@@ -1,6 +1,6 @@
 # Virgil E3Kit Objective-C/Swift SDK
 
-[![Build Status](https://api.travis-ci.org/VirgilSecurity/virgil-e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/virgil-e3kit-x)
+[![Build Status](https://api.travis-ci.com/VirgilSecurity/virgil-e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/virgil-e3kit-x)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://cocoapods.org/pods/VirgilE3Kit)
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
@@ -39,7 +39,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
 use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.3.0'
+pod 'VirgilE3Kit', '~> 0.4'
 end
 ```
 
@@ -63,7 +63,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.3.0
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.4
 ```
 
 #### Linking against prebuilt binaries
@@ -71,7 +71,7 @@ github "VirgilSecurity/virgil-e3kit-x" ~> 0.3.0
 To link prebuilt frameworks to your app, run following command:
 
 ```bash
-$ carthage update --no-use-binaries
+$ carthage update
 ```
 
 This will build each dependency or download a pre-compiled framework from github Releases.
@@ -120,28 +120,6 @@ Additionally, you'll need to copy debug symbols for debugging and crash reportin
 
 On your application target’s “Build Phases” settings tab, click the “+” icon and choose “New Copy Files Phase”.
 Click the “Destination” drop-down menu and select “Products Directory”. For each framework, drag and drop corresponding dSYM file.
-
-#### Integrating as subproject
-
-It is possible to use carthage just for fetching the right sources for further integration into your project.
-Run following command:
-
-```bash
-$ carthage update --no-build
-```
-
-This will fetch dependencies into a *Carthage/Checkouts* folder inside your project's folder. Then, drag and drop VirgilCrypto.xcodeproj, VirgilCryptoAPI.xcodeproj, VirgilSDK.xcodeproj, VirgilSDKKeyknox.xcodeproj, VirgilSDKPythia.xcodeproj and VirgilE3Kit.xcodeproj from corresponding folders inside Carthage/Checkouts folder to your Xcode Project Navigator sidebar.
-
-Next, on your application target's “General” settings tab, in the “Embedded Binaries” section add the following frameworks from subprojects:
- - VirgilSDK
- - VirgilCryptoAPI
- - VirgilCryptoApiImpl
- - VirgilCrypto
- - VSCCrypto
- - VirgilSDKPythia
- - VirgilSDKKeyknox
- - VirgilE3Kit
-
 
 #### Register User
 Use the following lines of code to authenticate user.

@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -34,28 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
-@import VirgilSDK;
-@import VirgilE3Kit;
-@import VirgilCrypto;
-@import VirgilCryptoApiImpl;
-@import VirgilE3Kit;
+#import "VTETestCaseBase.h"
 
-#import "VTETestsConst.h"
-#import "VTETestUtils.h"
-
-static const NSTimeInterval timeout = 20.;
-
-@interface VTE002_AuthenticationTests : XCTestCase
-
-@property (nonatomic) VTETestsConst *consts;
-@property (nonatomic) VSMVirgilCrypto *crypto;
-@property (nonatomic) VTETestUtils *utils;
-@property (nonatomic) VSSKeychainStorage *keychainStorage;
-@property (nonatomic) VTEEThree *eThree;
-@property (nonatomic) NSString *password;
-
+@interface VTE002_AuthenticationTests : VTETestCaseBase
 
 @end
 
@@ -63,37 +44,6 @@ static const NSTimeInterval timeout = 20.;
 
 - (void)setUp {
     [super setUp];
-
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [[VTETestsConst alloc] init];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
-
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAccessGroup:nil accessibility:nil error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithTrustedApplications:@[] error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
-
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSError *error;
-        NSString *token = [self.utils getTokenStringWithIdentity:identity error:&error];
-
-        completionHandler(token, error);
-    } storageParams:nil completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
 }
 
 - (void)tearDown {
@@ -141,8 +91,9 @@ static const NSTimeInterval timeout = 20.;
 - (void)test_STE_10 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if card already exists"];
 
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
-    XCTAssert(card != nil);
+    NSError *error;
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    XCTAssert(card != nil && error == nil);
 
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error != nil && error.code == VTEEThreeErrorUserIsAlreadyRegistered);
@@ -215,8 +166,9 @@ static const NSTimeInterval timeout = 20.;
 -(void)test_STE_14 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity];
-    XCTAssert(card != nil);
+    NSError *error;
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    XCTAssert(card != nil && error == nil);
 
     [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);

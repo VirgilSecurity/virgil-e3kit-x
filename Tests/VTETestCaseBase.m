@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -34,36 +34,42 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VTETestUtils_h
-#define VTETestUtils_h
+#import "VTETestCaseBase.h"
 
-#import "VTETestsConst.h"
+@implementation VTETestCaseBase
 
-@import VirgilSDK;
-@import VirgilCryptoApiImpl;
-@import VirgilSDKKeyknox;
-@import VirgilSDKPythia;
+- (void)setUp {
+    [super setUp];
 
-@interface VTETestUtils : NSObject
+    self.password = [[NSUUID alloc] init].UUIDString;
+    self.consts = [[VTETestsConst alloc] init];
+    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
+    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
 
-@property (nonatomic) VSMVirgilCrypto * __nonnull crypto;
-@property (nonatomic) VTETestsConst * __nonnull consts;
+    VSSKeychainStorageParams *params;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
+#elif TARGET_OS_OSX
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
+#endif
+    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
 
-- (NSString * __nonnull)getTokenStringWithIdentity:(NSString * __nonnull)identity error:(NSError * __nullable * __nullable)errorPtr;
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
-- (id<VSSAccessToken> __nonnull)getTokenWithIdentity:(NSString * __nonnull)identity ttl:(NSTimeInterval)ttl error:(NSError * __nullable * __nullable)errorPtr;
+    NSString *identity = [[NSUUID alloc] init].UUIDString;
+    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-- (VSSCard * __nullable)publishCardWithIdentity:(NSString * __nullable)identity;
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
+        XCTAssert(eThree != nil && error == nil);
+        self.eThree = eThree;
 
-- (BOOL)isPublicKeysEqualWithPublicKeys1:(NSArray <VSMVirgilPublicKey *> * __nonnull)publicKeys1 publicKeys2:(NSArray <VSMVirgilPublicKey *> * __nonnull)publicKeys2;
+        dispatch_semaphore_signal(sema);
+    }];
 
-- (void)setUpSyncKeyStorageWithPassword:(NSString * __nonnull)password identity:(NSString * __nonnull)identity completionHandler:(void(^)(VSKSyncKeyStorage * _Nonnull, NSError * _Nonnull))completionHandler;
-
-- (instancetype __nonnull)initWith NS_UNAVAILABLE;
-
-- (instancetype __nonnull)initWithCrypto:(VSMVirgilCrypto * __nonnull)crypto consts:(VTETestsConst * __nonnull)consts;
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+}
 
 @end
-
-
-#endif /* VTETestUtils_h */

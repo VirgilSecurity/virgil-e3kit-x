@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -34,56 +34,22 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#define STRINGIZE(x) #x
-#define STRINGIZE2(x) STRINGIZE(x)
+#ifndef VTETestsConst_h
+#define VTETestsConst_h
 
-#import "VTETestsConst.h"
+#import <Foundation/Foundation.h>
 
-@implementation VTETestsConst
+//In order to make this work, substitute appropriate values
+@interface VTETestsConst : NSObject
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        NSBundle *bundle = [NSBundle bundleForClass:self.class];
-        NSURL *configFileUrl = [bundle URLForResource:@"TestConfig" withExtension:@"plist"];
-        NSDictionary *config = [NSDictionary dictionaryWithContentsOfURL:configFileUrl];
-        _config = config;
-    }
+@property (nonatomic, readonly) NSString * __nonnull apiPublicKeyId;
+@property (nonatomic, readonly) NSString * __nonnull apiPrivateKeyBase64;
+@property (nonatomic, readonly) NSString * __nonnull applicationId;
+@property (nonatomic, readonly) NSURL * __nullable serviceURL;
+@property (nonatomic, readonly) NSString * __nullable servicePublicKey;
 
-    return self;
-}
-
-- (NSString *)apiPublicKeyId {
-    NSString *appToken = self.config[@"ApiPublicKeyId"];
-
-    return appToken;
-}
-
-- (NSString *)apiPrivateKeyBase64 {
-    NSString *appPrivateKey = self.config[@"ApiPrivateKey"];
-
-    return appPrivateKey;
-}
-
-- (NSString *)applicationId {
-    NSString *appId = self.config[@"AppId"];
-
-    return appId;
-}
-
-- (NSURL *)serviceURL {
-    NSString *cardsUrl = self.config[@"ServiceURL"];
-    if (cardsUrl != nil)
-        return [[NSURL alloc] initWithString:cardsUrl];
-
-    return nil;
-}
-
-- (NSString *)servicePublicKey {
-    NSString *servicePublicKey = self.config[@"ServicePublicKey"];
-
-    return servicePublicKey;
-}
+@property (nonatomic, readonly) NSDictionary * __nonnull config;
 
 @end
+
+#endif /* VTETestsConst_h */

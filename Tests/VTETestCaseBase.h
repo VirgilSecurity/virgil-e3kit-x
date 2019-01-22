@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -34,22 +34,41 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VTETestsConst_h
-#define VTETestsConst_h
+#ifndef VTETestCaseBase_h
+#define VTETestCaseBase_h
 
 #import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
 
-//In order to make this work, substitute appropriate values
-@interface VTETestsConst : NSObject
+@import VirgilSDK;
+@import VirgilE3Kit;
+@import VirgilCrypto;
+@import VirgilCryptoApiImpl;
+@import VirgilSDKKeyknox;
 
-@property (nonatomic, readonly) NSString * __nonnull apiPublicKeyId;
-@property (nonatomic, readonly) NSString * __nonnull apiPrivateKeyBase64;
-@property (nonatomic, readonly) NSString * __nonnull applicationId;
-@property (nonatomic, readonly) NSURL * __nullable serviceURL;
-@property (nonatomic, readonly) NSString * __nullable servicePublicKey;
+#import "VTETestsConst.h"
 
-@property (nonatomic, readonly) NSDictionary * __nonnull config;
+#if TARGET_OS_IOS
+    #import "VirgilE3Kit_iOS_Tests-Swift.h"
+#elif TARGET_OS_TV
+    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+#elif TARGET_OS_OSX
+    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+#endif
+
+static const NSTimeInterval timeout = 20.;
+
+@interface VTETestCaseBase : XCTestCase
+
+@property (nonatomic) VTETestsConst *consts;
+@property (nonatomic) VSMVirgilCrypto *crypto;
+@property (nonatomic) VTETestUtils *utils;
+@property (nonatomic) VSSKeychainStorage *keychainStorage;
+@property (nonatomic) VTEEThree *eThree;
+@property (nonatomic) NSString *password;
+
 
 @end
 
-#endif /* VTETestsConst_h */
+
+#endif /* VTETestCaseBase_h */

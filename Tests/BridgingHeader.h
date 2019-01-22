@@ -34,39 +34,4 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoApiImpl
-import VirgilSDK
-
-internal class LocalKeyManager {
-    private let identity: String
-    private let keychainStorage: KeychainStorage
-    private let crypto: VirgilCrypto
-
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
-    }
-
-    internal func retrieveKeyPair() -> VirgilKeyPair? {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
-            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
-                return nil
-        }
-
-        return VirgilKeyPair(privateKey: identityKey, publicKey: publicKey)
-    }
-
-    internal func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-    }
-
-    internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
-    }
-
-    internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
-    }
-}
+#import "VTETestsConst.h"

@@ -34,39 +34,56 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoApiImpl
-import VirgilSDK
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
 
-internal class LocalKeyManager {
-    private let identity: String
-    private let keychainStorage: KeychainStorage
-    private let crypto: VirgilCrypto
+#import "VTETestsConst.h"
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
+@implementation VTETestsConst
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSURL *configFileUrl = [bundle URLForResource:@"TestConfig" withExtension:@"plist"];
+        NSDictionary *config = [NSDictionary dictionaryWithContentsOfURL:configFileUrl];
+        _config = config;
     }
 
-    internal func retrieveKeyPair() -> VirgilKeyPair? {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
-            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
-                return nil
-        }
-
-        return VirgilKeyPair(privateKey: identityKey, publicKey: publicKey)
-    }
-
-    internal func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-    }
-
-    internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
-    }
-
-    internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
-    }
+    return self;
 }
+
+- (NSString *)apiPublicKeyId {
+    NSString *appToken = self.config[@"ApiPublicKeyId"];
+
+    return appToken;
+}
+
+- (NSString *)apiPrivateKeyBase64 {
+    NSString *appPrivateKey = self.config[@"ApiPrivateKey"];
+
+    return appPrivateKey;
+}
+
+- (NSString *)applicationId {
+    NSString *appId = self.config[@"AppId"];
+
+    return appId;
+}
+
+- (NSURL *)serviceURL {
+    NSString *cardsUrl = self.config[@"ServiceURL"];
+    if (cardsUrl != nil)
+        return [[NSURL alloc] initWithString:cardsUrl];
+
+    return nil;
+}
+
+- (NSString *)servicePublicKey {
+    NSString *servicePublicKey = self.config[@"ServicePublicKey"];
+
+    return servicePublicKey;
+}
+
+@end

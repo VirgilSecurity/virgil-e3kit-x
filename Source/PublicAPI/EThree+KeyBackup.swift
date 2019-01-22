@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -44,9 +44,10 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
-    ///   - completion: completion handler called with corresponding error
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func backupPrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    @objc public func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         guard let identityKeyPair = self.localKeyManager.retrieveKeyPair() else {
             completion(EThreeError.missingPrivateKey)
             return
@@ -60,8 +61,9 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
-    ///   - completion: completion handler called with corresponding error
-    @objc public func restorePrivateKey(password: String, completion: @escaping (Error?) -> ()) {
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc public func restorePrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
             guard let entry = entry, error == nil else {
                 completion(error)
@@ -82,9 +84,10 @@ extension EThree {
     /// - Parameters:
     ///   - oldOne: old password
     ///   - newOne: new password
-    ///   - completion: completion handler with corresponding error
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func changePassword(from oldOne: String, to newOne: String,
-                                     completion: @escaping (Error?) -> ()) {
+                                     completion: @escaping (_ error: Error?) -> Void) {
         self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
     }
 
@@ -92,8 +95,9 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
-    ///   - completion: completion handler called with corresponding error
-    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (Error?) -> ()) {
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.cloudKeyManager.delete(password: password, completion: completion)
     }
 }
