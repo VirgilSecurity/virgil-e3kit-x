@@ -26,7 +26,7 @@ env:
 
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_a7b6c41d0d44_key -iv $encrypted_a7b6c41d0d44_iv -in config.tar.enc -out config.tar -d
+  - openssl aes-256-cbc -K $encrypted_a7b6c41d0d44_key -iv $encrypted_a7b6c41d0d44_iv -in TestConfig.plist.enc -out TestConfig.plist -d
   - set -e
   - set -o pipefail
   - brew update
@@ -35,15 +35,8 @@ before_install:
   - xcodebuild -showsdks
 
 script:
-  - tar xvf config.tar
   - mkdir Tests/Data
-
-  - |
-    if [ -n "$TRAVIS_TAG" ]; then
-      mv -f TestConfig_prod.plist Tests/Data/TestConfig.plist
-    else
-      mv -f TestConfig_stg.plist Tests/Data/TestConfig.plist
-    fi
+  - mv -f TestConfig.plist Tests/Data/TestConfig.plist
 
   - carthage version
   - carthage bootstrap
