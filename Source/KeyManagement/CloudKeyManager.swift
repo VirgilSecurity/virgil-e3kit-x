@@ -45,6 +45,7 @@ internal class CloudKeyManager {
     internal let keychainStorage: KeychainStorage
     internal let crypto: VirgilCrypto
     internal let brainKey: BrainKey
+    internal let connection: HttpConnection
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
                   crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
@@ -53,7 +54,11 @@ internal class CloudKeyManager {
         self.keychainStorage = keychainStorage
         self.crypto = crypto
 
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: accessTokenProvider)
+        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
+        self.connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
+
+        let pythiaClient = PythiaClient(connection: self.connection)
+        let brainKeyContext = BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
 
         self.brainKey = BrainKey(context: brainKeyContext)
     }
@@ -66,9 +71,13 @@ internal class CloudKeyManager {
             }
 
             do {
-                let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.accessTokenProvider,
-                                                          publicKeys: [brainKeyPair.publicKey],
-                                                          privateKey: brainKeyPair.privateKey)
+
+                let keyknoxClient = KeyknoxClient(connection: self.connection)
+                let keyknoxManager = try KeyknoxManager(accessTokenProvider: self.accessTokenProvider,
+                                                        keyknoxClient: keyknoxClient,
+                                                        publicKeys: [brainKeyPair.publicKey],
+                                                        privateKey: brainKeyPair.privateKey)
+                let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
 
                 cloudKeyStorage.retrieveCloudEntries { completion(cloudKeyStorage, $0) }
             } catch {
