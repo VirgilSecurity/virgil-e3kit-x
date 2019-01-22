@@ -40,12 +40,12 @@ import VirgilSDKKeyknox
 import VirgilSDKPythia
 
 internal class CloudKeyManager {
-    internal let identity: String
-    internal let accessTokenProvider: AccessTokenProvider
-    internal let keychainStorage: KeychainStorage
-    internal let crypto: VirgilCrypto
-    internal let brainKey: BrainKey
-    internal let connection: HttpConnection
+    private let identity: String
+    private let accessTokenProvider: AccessTokenProvider
+    private let keychainStorage: KeychainStorage
+    private let crypto: VirgilCrypto
+    private let brainKey: BrainKey
+    private let connection: HttpConnection
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
                   crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
