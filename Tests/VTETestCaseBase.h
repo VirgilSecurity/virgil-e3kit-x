@@ -46,8 +46,6 @@
 @import VirgilCryptoApiImpl;
 @import VirgilSDKKeyknox;
 
-#import "VTETestsConst.h"
-
 #if TARGET_OS_IOS
     #import "VirgilE3Kit_iOS_Tests-Swift.h"
 #elif TARGET_OS_TV
@@ -60,7 +58,7 @@ static const NSTimeInterval timeout = 20.;
 
 @interface VTETestCaseBase : XCTestCase
 
-@property (nonatomic) VTETestsConst *consts;
+@property (nonatomic) VTETestConfig *consts;
 @property (nonatomic) VSMVirgilCrypto *crypto;
 @property (nonatomic) VTETestUtils *utils;
 @property (nonatomic) VSSKeychainStorage *keychainStorage;

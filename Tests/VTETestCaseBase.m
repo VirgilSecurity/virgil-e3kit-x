@@ -42,7 +42,7 @@
     [super setUp];
 
     self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [[VTETestsConst alloc] init];
+    self.consts = [VTETestConfig readFromBundle];
     self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
     self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
 
