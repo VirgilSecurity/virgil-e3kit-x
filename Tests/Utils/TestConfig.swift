@@ -34,22 +34,28 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VTETestsConst_h
-#define VTETestsConst_h
+import Foundation
 
-#import <Foundation/Foundation.h>
+@objc(VTETestConfig) public class TestConfig: NSObject, Decodable {
+    @objc public let ApiPublicKeyId: String
+    @objc public let ApiPrivateKey: String
+    @objc public let AppId: String
+    @objc public let ServiceURL: String
 
-//In order to make this work, substitute appropriate values
-@interface VTETestsConst : NSObject
+    @objc init(apiPublicKeyId: String, apiPrivateKey: String, appId: String, serviceURL: String) {
+        self.ApiPublicKeyId = apiPublicKeyId
+        self.ApiPrivateKey = apiPrivateKey
+        self.AppId = appId
+        self.ServiceURL = serviceURL
 
-@property (nonatomic, readonly) NSString * __nonnull apiPublicKeyId;
-@property (nonatomic, readonly) NSString * __nonnull apiPrivateKeyBase64;
-@property (nonatomic, readonly) NSString * __nonnull applicationId;
-@property (nonatomic, readonly) NSURL * __nullable serviceURL;
-@property (nonatomic, readonly) NSString * __nullable servicePublicKey;
+        super.init()
+    }
 
-@property (nonatomic, readonly) NSDictionary * __nonnull config;
+    @objc public static func readFromBundle() -> TestConfig {
+        let bundle = Bundle(for: self)
+        let configFileUrl = bundle.url(forResource: "TestConfig", withExtension: "plist")!
+        let data = try! Data(contentsOf: configFileUrl)
 
-@end
-
-#endif /* VTETestsConst_h */
+        return try! PropertyListDecoder().decode(TestConfig.self, from: data)
+    }
+}

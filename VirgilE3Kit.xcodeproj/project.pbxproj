@@ -24,6 +24,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1658056222301711003BC8A6 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658056122301711003BC8A6 /* TestConfig.swift */; };
+		1658056322301711003BC8A6 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658056122301711003BC8A6 /* TestConfig.swift */; };
+		1658056422301711003BC8A6 /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658056122301711003BC8A6 /* TestConfig.swift */; };
 		165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
 		165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
 		165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */; };
@@ -41,9 +44,6 @@
 		165B686D2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
 		165B686E2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
 		165B686F2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
-		165B68AD2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
-		165B68AE2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
-		165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */; };
 		1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
@@ -299,6 +299,7 @@
 		16261CFC2178797E003D7CDA /* VirgilSDKKeyknox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKKeyknox.framework; path = Carthage/Build/watchOS/VirgilSDKKeyknox.framework; sourceTree = "<group>"; };
 		16261CFD2178797E003D7CDA /* VSCCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCCrypto.framework; path = Carthage/Build/watchOS/VSCCrypto.framework; sourceTree = "<group>"; };
 		16261CFE2178797E003D7CDA /* VirgilSDKPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKPythia.framework; path = Carthage/Build/watchOS/VirgilSDKPythia.framework; sourceTree = "<group>"; };
+		1658056122301711003BC8A6 /* TestConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfig.swift; sourceTree = "<group>"; };
 		165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
 		165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+KeyBackup.swift"; sourceTree = "<group>"; };
 		165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -306,8 +307,6 @@
 		165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		165B6823217908C000DDE1F7 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE001_EncryptionTests.m; sourceTree = "<group>"; };
-		165B68A72179E49700DDE1F7 /* VTETestsConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestsConst.h; sourceTree = "<group>"; };
-		165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestsConst.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestCaseBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestCaseBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestCaseBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestCaseBase.m; sourceTree = "<group>"; };
@@ -327,7 +326,6 @@
 		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16BC039D21EFF81D00887DF2 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		16BC03A021EFF81E00887DF2 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -505,9 +503,8 @@
 		165B67E72179013B00DDE1F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				166ED6A121F0B7AA00A9B51F /* Utils */,
 				165B68222179088D00DDE1F7 /* Data */,
-				16BC039D21EFF81D00887DF2 /* BridgingHeader.h */,
+				166ED6A121F0B7AA00A9B51F /* Utils */,
 				165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */,
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
 				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
@@ -528,8 +525,7 @@
 		166ED6A121F0B7AA00A9B51F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				165B68A72179E49700DDE1F7 /* VTETestsConst.h */,
-				165B68AC2179E4BF00DDE1F7 /* VTETestsConst.m */,
+				1658056122301711003BC8A6 /* TestConfig.swift */,
 				16BC03A021EFF81E00887DF2 /* TestUtils.swift */,
 			);
 			path = Utils;
@@ -977,7 +973,7 @@
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686D2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
-				165B68AD2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
+				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,7 +986,7 @@
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686E2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
-				165B68AE2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
+				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1003,7 +999,7 @@
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				165B686F2179D0F600DDE1F7 /* VTE001_EncryptionTests.m in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
-				165B68AF2179E4BF00DDE1F7 /* VTETestsConst.m in Sources */,
+				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1203,7 +1199,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1254,7 +1250,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1313,7 +1309,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
@@ -1360,7 +1355,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 			};
@@ -1412,7 +1406,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1462,7 +1456,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = Tests/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;

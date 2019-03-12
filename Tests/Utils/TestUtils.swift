@@ -43,29 +43,29 @@ import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
     private let crypto: VirgilCrypto
-    private let consts: VTETestsConst
+    private let consts: TestConfig
 
-    @objc init(crypto: VirgilCrypto, consts: VTETestsConst) {
+    @objc public init(crypto: VirgilCrypto, consts: TestConfig) {
         self.crypto = crypto
         self.consts = consts
     }
 
-    @objc internal func getTokenString(identity: String) -> String {
+    @objc public func getTokenString(identity: String) -> String {
         let jwt = self.getToken(identity: identity, ttl: 1000)
 
         return jwt.stringRepresentation()
     }
 
-    @objc internal func getToken(identity: String, ttl: TimeInterval) -> AccessToken {
+    @objc public func getToken(identity: String, ttl: TimeInterval) -> AccessToken {
         let exporter = VirgilPrivateKeyExporter(virgilCrypto: self.crypto, password: nil)
-        let privateKeyData = Data(base64Encoded: self.consts.apiPrivateKeyBase64)
+        let privateKeyData = Data(base64Encoded: self.consts.ApiPrivateKey)
         let privateKey = try! exporter.importPrivateKey(from: privateKeyData!)
 
         let tokenSigner = VirgilAccessTokenSigner(virgilCrypto: self.crypto)
         let generator = JwtGenerator(apiKey: privateKey,
-                                     apiPublicKeyIdentifier: self.consts.apiPublicKeyId,
+                                     apiPublicKeyIdentifier: self.consts.ApiPublicKeyId,
                                      accessTokenSigner: tokenSigner,
-                                     appId: self.consts.applicationId,
+                                     appId: self.consts.AppId,
                                      ttl: ttl)
 
         let jwt = try! generator.generateToken(identity: identity)
@@ -73,7 +73,7 @@ import VirgilSDKPythia
         return jwt
     }
 
-    @objc internal func publishCard(identity: String?) throws -> Card {
+    @objc public func publishCard(identity: String?) throws -> Card {
         let keyPair = try self.crypto.generateKeyPair()
         let exportedPublicKey = self.crypto.exportPublicKey(keyPair.publicKey)
 
@@ -87,7 +87,8 @@ import VirgilSDKPythia
         let token = self.getTokenString(identity: identity)
 
         let cardCrypto = VirgilCardCrypto(virgilCrypto: self.crypto)
-        let cardClient = self.consts.serviceURL == nil ? CardClient() : CardClient(serviceUrl: self.consts.serviceURL!)
+        let serviceUrl = URL(string: self.consts.ServiceURL)!
+        let cardClient = CardClient(serviceUrl: serviceUrl)
 
         let signer = ModelSigner(cardCrypto: cardCrypto)
 
@@ -99,7 +100,7 @@ import VirgilSDKPythia
         return card
     }
 
-    @objc internal func isPublicKeysEqual(keys1: [VirgilPublicKey], keys2: [VirgilPublicKey]) -> Bool {
+    @objc public func isPublicKeysEqual(keys1: [VirgilPublicKey], keys2: [VirgilPublicKey]) -> Bool {
         for key1 in keys1 {
             let data1 = self.crypto .exportPublicKey(key1)
             var found = false
@@ -119,7 +120,7 @@ import VirgilSDKPythia
         return true
     }
 
-    @objc internal func setUpSyncKeyStorage(password: String,
+    @objc public func setUpSyncKeyStorage(password: String,
                                             keychainStorage: KeychainStorage,
                                             identity: String,
                                             completion: @escaping (SyncKeyStorage?, Error?) -> Void) {

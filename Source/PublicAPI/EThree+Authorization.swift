@@ -70,9 +70,15 @@ extension EThree {
                     return
                 }
 
+                let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
+                let connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
+                let client = CardClient(connection: connection)
+
                 let params = CardManagerParams(cardCrypto: cardCrypto,
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
+                params.cardClient = client
+
                 let cardManager = CardManager(params: params)
 
                 let ethree = try EThree(identity: identity, cardManager: cardManager, storageParams: storageParams)

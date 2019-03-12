@@ -46,6 +46,7 @@ internal class CloudKeyManager {
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
     private let connection: HttpConnection
+    private let keyknoxClient: KeyknoxClient
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
                   crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
@@ -56,6 +57,8 @@ internal class CloudKeyManager {
 
         let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
         self.connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
+
+        self.keyknoxClient = KeyknoxClient(connection: self.connection)
 
         let pythiaClient = PythiaClient(connection: self.connection)
         let brainKeyContext = BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
@@ -71,10 +74,8 @@ internal class CloudKeyManager {
             }
 
             do {
-
-                let keyknoxClient = KeyknoxClient(connection: self.connection)
                 let keyknoxManager = try KeyknoxManager(accessTokenProvider: self.accessTokenProvider,
-                                                        keyknoxClient: keyknoxClient,
+                                                        keyknoxClient: self.keyknoxClient,
                                                         publicKeys: [brainKeyPair.publicKey],
                                                         privateKey: brainKeyPair.privateKey)
                 let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
@@ -136,6 +137,24 @@ extension CloudKeyManager {
                 }
 
                 completion(nil)
+            }
+        }
+    }
+
+    internal func deleteAll(completion: @escaping (Error?) -> Void) {
+        let tokenContext = TokenContext(service: "keyknox", operation: "delete")
+        self.accessTokenProvider.getToken(with: tokenContext) { token, error in
+            guard let token = token, error == nil else {
+                completion(error)
+                return
+            }
+
+            do {
+                _ = try self.keyknoxClient.resetValue(token: token.stringRepresentation())
+
+                completion(nil)
+            } catch {
+                completion(error)
             }
         }
     }

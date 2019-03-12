@@ -91,13 +91,18 @@ extension EThree {
         self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
     }
 
-    /// Deletes PrivateKey stored on Virgil's cloud. This will disable user to log in from other devices.
+    /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///
     /// - Parameters:
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (_ error: Error?) -> Void) {
-        self.cloudKeyManager.delete(password: password, completion: completion)
+    /// - Important: If password specified it will reset entry with current identity. Otherwise it will reset ALL entries.
+    @objc public func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
+        if let password = password {
+            self.cloudKeyManager.delete(password: password, completion: completion)
+        } else {
+            self.cloudKeyManager.deleteAll(completion: completion)
+        }
     }
 }

@@ -153,9 +153,9 @@ EThree.initialize(tokenCallback) { eThree, error in
     // Authenticate user 
     eThree!.register { error in
         // Search user's publicKeys to encrypt for
-        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, errors in 
+        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, error in 
             // encrypt text
-            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult)
+            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult!)
         }
     }
 }
