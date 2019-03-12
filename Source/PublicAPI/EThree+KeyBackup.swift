@@ -97,7 +97,11 @@ extension EThree {
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func resetPrivateKeyBackup(password: String, completion: @escaping (_ error: Error?) -> Void) {
-        self.cloudKeyManager.delete(password: password, completion: completion)
+    @objc public func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
+        if let password = password {
+            self.cloudKeyManager.delete(password: password, completion: completion)
+        } else {
+            self.cloudKeyManager.deleteAll(completion: completion)
+        }
     }
 }

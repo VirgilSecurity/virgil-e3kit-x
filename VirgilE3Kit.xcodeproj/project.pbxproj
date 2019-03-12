@@ -503,8 +503,8 @@
 		165B67E72179013B00DDE1F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				166ED6A121F0B7AA00A9B51F /* Utils */,
 				165B68222179088D00DDE1F7 /* Data */,
+				166ED6A121F0B7AA00A9B51F /* Utils */,
 				165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */,
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
 				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
