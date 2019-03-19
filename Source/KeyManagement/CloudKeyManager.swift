@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoApiImpl
+import VirgilCrypto
 import VirgilSDK
 import VirgilSDKKeyknox
 import VirgilSDKPythia
@@ -49,7 +49,7 @@ internal class CloudKeyManager {
     private let keyknoxClient: KeyknoxClient
 
     internal init(identity: String, accessTokenProvider: AccessTokenProvider,
-                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) throws {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.keychainStorage = keychainStorage
@@ -61,7 +61,7 @@ internal class CloudKeyManager {
         self.keyknoxClient = KeyknoxClient(connection: self.connection)
 
         let pythiaClient = PythiaClient(connection: self.connection)
-        let brainKeyContext = BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
+        let brainKeyContext = try BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
 
         self.brainKey = BrainKey(context: brainKeyContext)
     }
@@ -97,9 +97,11 @@ extension CloudKeyManager {
                 return
             }
 
-            let exportedIdentityKey = self.crypto.exportPrivateKey(key)
+            do {
+                let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-            cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { error in
+                cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey, completion: completion)
+            } catch {
                 completion(error)
             }
         }
@@ -130,14 +132,7 @@ extension CloudKeyManager {
                 return
             }
 
-            cloudKeyStorage.deleteEntry(withName: self.identity) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-
-                completion(nil)
-            }
+            cloudKeyStorage.deleteEntry(withName: self.identity, completion: completion) 
         }
     }
 

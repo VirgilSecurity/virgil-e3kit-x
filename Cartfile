@@ -1,3 +1,2 @@
-github "VirgilSecurity/virgil-keyknox-x" ~> 0.3
-github "VirgilSecurity/virgil-pythia-x" ~> 0.4
-github "VirgilSecurity/virgil-crypto-x" ~> 3.2
+github "VirgilSecurity/virgil-keyknox-x" "develop-v5"
+github "VirgilSecurity/virgil-pythia-x" "develop-v5"

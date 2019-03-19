@@ -36,7 +36,7 @@
 
 import Foundation
 import VirgilSDK
-import VirgilCryptoApiImpl
+import VirgilCrypto
 
 /// Declares error types and codes for EThree
 ///
@@ -81,9 +81,9 @@ import VirgilCryptoApiImpl
 
     internal let semaphore = DispatchSemaphore(value: 1)
 
-    internal init(identity: String, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
+    internal init(identity: String, crypto: VirgilCrypto, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
-        self.crypto = VirgilCrypto()
+        self.crypto = crypto
         self.cardManager = cardManager
 
         let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
@@ -93,10 +93,10 @@ import VirgilCryptoApiImpl
                                                crypto: self.crypto,
                                                keychainStorage: keychainStorage)
 
-        self.cloudKeyManager = CloudKeyManager(identity: identity,
-                                               accessTokenProvider: cardManager.accessTokenProvider,
-                                               crypto: self.crypto,
-                                               keychainStorage: keychainStorage)
+        self.cloudKeyManager = try CloudKeyManager(identity: identity,
+                                                   accessTokenProvider: cardManager.accessTokenProvider,
+                                                   crypto: self.crypto,
+                                                   keychainStorage: keychainStorage)
 
         super.init()
     }
@@ -122,9 +122,9 @@ import VirgilCryptoApiImpl
                     return
                 }
 
-                let data = self.crypto.exportPrivateKey(keyPair.privateKey)
-
                 do {
+                    let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
+                    
                     try self.localKeyManager.store(data: data)
 
                     completion(nil)

@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoApiImpl
+import VirgilCrypto
 import VirgilSDK
 
 internal class LocalKeyManager {
@@ -50,12 +50,11 @@ internal class LocalKeyManager {
 
     internal func retrieveKeyPair() -> VirgilKeyPair? {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let identityKey = try? self.crypto.importPrivateKey(from: keyEntry.data),
-            let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
+            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
                 return nil
         }
 
-        return VirgilKeyPair(privateKey: identityKey, publicKey: publicKey)
+        return keyPair
     }
 
     internal func store(data: Data) throws {
