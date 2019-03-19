@@ -61,7 +61,8 @@ internal class CloudKeyManager {
         self.keyknoxClient = KeyknoxClient(connection: self.connection)
 
         let pythiaClient = PythiaClient(connection: self.connection)
-        let brainKeyContext = try BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
+        let brainKeyContext = try BrainKeyContext(client: pythiaClient,
+                                                  accessTokenProvider: accessTokenProvider)
 
         self.brainKey = BrainKey(context: brainKeyContext)
     }
@@ -132,7 +133,7 @@ extension CloudKeyManager {
                 return
             }
 
-            cloudKeyStorage.deleteEntry(withName: self.identity, completion: completion) 
+            cloudKeyStorage.deleteEntry(withName: self.identity, completion: completion)
         }
     }
 
@@ -154,7 +155,8 @@ extension CloudKeyManager {
         }
     }
 
-    internal func changePassword(from oldPassword: String, to newPassword: String,
+    internal func changePassword(from oldPassword: String,
+                                 to newPassword: String,
                                  completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: oldPassword) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
@@ -171,9 +173,8 @@ extension CloudKeyManager {
                 }
 
                 cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                 newPrivateKey: brainKeyPair.privateKey) { error in
-                    completion(error)
-                }
+                                                 newPrivateKey: brainKeyPair.privateKey,
+                                                 completion: completion)
             }
         }
     }

@@ -81,7 +81,10 @@ import VirgilCrypto
 
     internal let semaphore = DispatchSemaphore(value: 1)
 
-    internal init(identity: String, crypto: VirgilCrypto, cardManager: CardManager, storageParams: KeychainStorageParams? = nil) throws {
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  cardManager: CardManager,
+                  storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
         self.crypto = crypto
         self.cardManager = cardManager
@@ -124,7 +127,7 @@ import VirgilCrypto
 
                 do {
                     let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
-                    
+
                     try self.localKeyManager.store(data: data)
 
                     completion(nil)
