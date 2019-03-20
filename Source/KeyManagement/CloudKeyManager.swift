@@ -48,8 +48,10 @@ internal class CloudKeyManager {
     private let connection: HttpConnection
     private let keyknoxClient: KeyknoxClient
 
-    internal init(identity: String, accessTokenProvider: AccessTokenProvider,
-                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) throws {
+    internal init(identity: String,
+                  accessTokenProvider: AccessTokenProvider,
+                  crypto: VirgilCrypto,
+                  keychainStorage: KeychainStorage) throws {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.keychainStorage = keychainStorage
@@ -67,7 +69,8 @@ internal class CloudKeyManager {
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpCloudKeyStorage(password: String, completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
+    internal func setUpCloudKeyStorage(password: String,
+                                       completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
         self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
@@ -90,7 +93,8 @@ internal class CloudKeyManager {
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, usingPassword password: String,
+    internal func store(key: VirgilPrivateKey,
+                        usingPassword password: String,
                         completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
