@@ -11,7 +11,6 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target   = "2.0"
   s.source       		= { :git => "https://github.com/VirgilSecurity/virgil-e3kit-x.git", :tag => s.version }
   s.source_files  		= 'Source/**/*.{swift}'
-  s.dependency "VirgilCryptoApiImpl", "~> 3.2"
-  s.dependency "VirgilSDKKeyknox", "~> 0.3"
-  s.dependency "VirgilSDKPythia", "~> 0.4"
+  s.dependency "VirgilSDKKeyknox", "~> 0.4.0"
+  s.dependency "VirgilSDKPythia", "~> 0.5.0"
 end
