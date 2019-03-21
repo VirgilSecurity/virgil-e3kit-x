@@ -64,10 +64,10 @@ cat >"${DOCS_DIR}/index.html" <<EOL
 <html>
    <head>
         <meta charset="utf-8">
-        <title>Virgil Security E3Kit</title>
+        <title>Virgil Security iOS E3Kit</title>
    </head>
    <body>
-        Virgil Security E3Kit
+        Virgil Security iOS E3Kit
         <ul>
 EOL
 
