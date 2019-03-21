@@ -65,6 +65,11 @@ script:
       carthage archive;
     fi
 
+  # Generate and publish docs
+  - if [[ $PUBLISH_DOCS = "YES" && $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+      ./CI/publish-docs.sh;
+    fi
+
 deploy:
   # Upload framework to gh-releases for carthage
   - provider: releases
@@ -75,3 +80,21 @@ deploy:
       repo: $REPO
       tags: true
       condition: $PUBLISH_CARTHAGE = "YES"
+
+  # Publish pod
+  - provider: script
+    script: bash CI/publish-cocoapods.sh
+    on:
+      repo: $REPO
+      tags: true
+      condition: $PUBLISH_POD == "YES" && $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+
+
+  # Upload docs to gh-pages
+  - provider: pages
+    skip_cleanup: true
+    github-token: $GITHUB_ACCESS_TOKEN
+    local_dir: "docs"
+    on:
+      repo: $REPO
+      tags: true
+      condition: $PUBLISH_DOCS = "YES" && $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+
