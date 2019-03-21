@@ -79,6 +79,7 @@ This will build each dependency or download a pre-compiled framework from github
 ##### Building for iOS/tvOS/watchOS
 
 On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
+ - VirgilE3Kit
  - VirgilPythiaSDK
  - VirgilKeyknoxSDK
  - VirgilSDK
@@ -99,6 +100,7 @@ On your application targets’ “Build Phases” settings tab, click the “+�
 and add the paths to the frameworks you want to use under “Input Files”, e.g.:
 
 ```
+$(SRCROOT)/Carthage/Build/iOS/VirgilE3Kit.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilPythiaSDK.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilKeyknoxSDK.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilSDK.framework
@@ -114,6 +116,7 @@ $(SRCROOT)/Carthage/Build/iOS/VSCPythia.framework
 ##### Building for macOS
 
 On your application target's “General” settings tab, in the “Embedded Binaries” section, drag and drop following frameworks from the Carthage/Build folder on disk:
+ - VirgilE3Kit
  - VirgilPythiaSDK
  - VirgilKeyknoxSDK
  - VirgilSDK
