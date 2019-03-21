@@ -63,6 +63,7 @@ import VirgilCrypto
     case privateKeyExists = 10
 }
 
+/// Main class containing all features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
     /// Typealias for callback used below
     public typealias JwtStringCallback = (String?, Error?) -> Void
