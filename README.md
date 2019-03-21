@@ -79,13 +79,16 @@ This will build each dependency or download a pre-compiled framework from github
 ##### Building for iOS/tvOS/watchOS
 
 On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
- - VirgilSDK
- - VirgilCryptoAPI
- - VirgilCryptoApiImpl
- - VirgilCrypto
- - VSCCrypto
  - VirgilPythiaSDK
  - VirgilKeyknoxSDK
+ - VirgilSDK
+ - VirgilCryptoAPI
+ - VirgilCrypto
+ - VirgilCryptoFoundation
+ - VirgilCryptoPythia
+ - VSCCommon
+ - VSCFoundation
+ - VSCPythia
 
 On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase.” Create a Run Script in which you specify your shell (ex: */bin/sh*), add the following contents to the script area below the shell:
 
@@ -96,25 +99,31 @@ On your application targets’ “Build Phases” settings tab, click the “+�
 and add the paths to the frameworks you want to use under “Input Files”, e.g.:
 
 ```
-$(SRCROOT)/Carthage/Build/iOS/VirgilSDK.framework
-$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoAPI.framework
-$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoAPIImpl.framework
-$(SRCROOT)/Carthage/Build/iOS/VirgilCrypto.framework
-$(SRCROOT)/Carthage/Build/iOS/VSCCrypto.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilPythiaSDK.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilKeyknoxSDK.framework
+$(SRCROOT)/Carthage/Build/iOS/VirgilSDK.framework
+$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoAPI.framework
+$(SRCROOT)/Carthage/Build/iOS/VirgilCrypto.framework
+$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoFoundation.framework
+$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoPythia.framework
+$(SRCROOT)/Carthage/Build/iOS/VSCCommon.framework
+$(SRCROOT)/Carthage/Build/iOS/VSCFoundation.framework
+$(SRCROOT)/Carthage/Build/iOS/VSCPythia.framework
 ```
 
 ##### Building for macOS
 
 On your application target's “General” settings tab, in the “Embedded Binaries” section, drag and drop following frameworks from the Carthage/Build folder on disk:
- - VirgilSDK
- - VirgilCryptoAPI
- - VirgilCryptoApiImpl
- - VirgilCrypto
- - VSCCrypto
  - VirgilPythiaSDK
  - VirgilKeyknoxSDK
+ - VirgilSDK
+ - VirgilCryptoAPI
+ - VirgilCrypto
+ - VirgilCryptoFoundation
+ - VirgilCryptoPythia
+ - VSCCommon
+ - VSCFoundation
+ - VSCPythia
 
 Additionally, you'll need to copy debug symbols for debugging and crash reporting on macOS.
 
