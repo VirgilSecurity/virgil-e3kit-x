@@ -97,7 +97,8 @@ extension EThree {
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    /// - Important: If password specified it will reset entry with current identity. Otherwise it will reset ALL entries.
+    /// - Important: If password specified it will reset entry with current identity.
+    ///              Otherwise it will reset ALL entries.
     @objc public func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
         if let password = password {
             self.cloudKeyManager.delete(password: password, completion: completion)

@@ -35,7 +35,7 @@
 //
 
 import VirgilSDK
-import VirgilCryptoApiImpl
+import VirgilCrypto
 
 // MARK: - Extension with authorization operations
 extension EThree {
@@ -64,7 +64,9 @@ extension EThree {
             }
 
             do {
-                let cardCrypto = VirgilCardCrypto()
+                let crypto = try VirgilCrypto()
+                let cardCrypto = VirgilCardCrypto(virgilCrypto: crypto)
+
                 guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
                     completion(nil, EThreeError.verifierInitFailed)
                     return
@@ -81,7 +83,10 @@ extension EThree {
 
                 let cardManager = CardManager(params: params)
 
-                let ethree = try EThree(identity: identity, cardManager: cardManager, storageParams: storageParams)
+                let ethree = try EThree(identity: identity,
+                                        crypto: crypto,
+                                        cardManager: cardManager,
+                                        storageParams: storageParams)
 
                 completion(ethree, nil)
             } catch {
@@ -137,6 +142,7 @@ extension EThree {
                 completion(EThreeError.privateKeyExists)
                 return
             }
+
             self.cardManager.searchCards(identity: self.identity) { cards, error in
                 guard let card = cards?.first, error == nil else {
                     self.semaphore.signal()

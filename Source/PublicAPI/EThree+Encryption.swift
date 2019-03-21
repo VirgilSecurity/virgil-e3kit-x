@@ -35,7 +35,7 @@
 //
 
 import Foundation
-import VirgilCryptoApiImpl
+import VirgilCrypto
 
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {

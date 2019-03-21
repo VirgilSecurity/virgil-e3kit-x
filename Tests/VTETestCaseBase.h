@@ -43,7 +43,7 @@
 @import VirgilSDK;
 @import VirgilE3Kit;
 @import VirgilCrypto;
-@import VirgilCryptoApiImpl;
+@import VirgilCrypto;
 @import VirgilSDKKeyknox;
 
 #if TARGET_OS_IOS

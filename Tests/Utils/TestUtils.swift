@@ -36,7 +36,7 @@
 
 import Foundation
 import VirgilE3Kit
-import VirgilCryptoApiImpl
+import VirgilCrypto
 import VirgilSDK
 import VirgilSDKKeyknox
 import VirgilSDKPythia
@@ -57,7 +57,7 @@ import VirgilSDKPythia
     }
 
     @objc public func getToken(identity: String, ttl: TimeInterval) -> AccessToken {
-        let exporter = VirgilPrivateKeyExporter(virgilCrypto: self.crypto, password: nil)
+        let exporter = VirgilPrivateKeyExporter(virgilCrypto: self.crypto)
         let privateKeyData = Data(base64Encoded: self.consts.ApiPrivateKey)
         let privateKey = try! exporter.importPrivateKey(from: privateKeyData!)
 
@@ -75,7 +75,7 @@ import VirgilSDKPythia
 
     @objc public func publishCard(identity: String?) throws -> Card {
         let keyPair = try self.crypto.generateKeyPair()
-        let exportedPublicKey = self.crypto.exportPublicKey(keyPair.publicKey)
+        let exportedPublicKey = try self.crypto.exportPublicKey(keyPair.publicKey)
 
         let identity = identity ?? UUID().uuidString
 
@@ -102,11 +102,11 @@ import VirgilSDKPythia
 
     @objc public func isPublicKeysEqual(keys1: [VirgilPublicKey], keys2: [VirgilPublicKey]) -> Bool {
         for key1 in keys1 {
-            let data1 = self.crypto .exportPublicKey(key1)
+            let data1 = try! self.crypto.exportPublicKey(key1)
             var found = false
 
             for key2 in keys2 {
-                let data2 = self.crypto.exportPublicKey(key2)
+                let data2 = try! self.crypto.exportPublicKey(key2)
                 if data1 == data2 {
                     found = true
                 }
@@ -121,16 +121,16 @@ import VirgilSDKPythia
     }
 
     @objc public func setUpSyncKeyStorage(password: String,
-                                            keychainStorage: KeychainStorage,
-                                            identity: String,
-                                            completion: @escaping (SyncKeyStorage?, Error?) -> Void) {
+                                          keychainStorage: KeychainStorage,
+                                          identity: String,
+                                          completion: @escaping (SyncKeyStorage?, Error?) -> Void) {
         let provider = CachingJwtProvider(renewTokenCallback: { tokenContext, completion in
             let token = self.getTokenString(identity: identity)
 
             completion(token, nil);
         })
 
-        let context = BrainKeyContext.makeContext(accessTokenProvider: provider)
+        let context = try! BrainKeyContext.makeContext(accessTokenProvider: provider)
         let brainKey = BrainKey(context: context)
 
         brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
