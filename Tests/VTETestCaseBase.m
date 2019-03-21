@@ -43,7 +43,7 @@
 
     self.password = [[NSUUID alloc] init].UUIDString;
     self.consts = [VTETestConfig readFromBundle];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSCKeyTypeFAST_EC_ED25519 useSHA256Fingerprints:false];
+    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
     self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
 
     VSSKeychainStorageParams *params;

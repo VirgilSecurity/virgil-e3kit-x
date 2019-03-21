@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoApiImpl
+import VirgilCrypto
 import VirgilSDK
 import VirgilSDKKeyknox
 import VirgilSDKPythia
@@ -48,8 +48,10 @@ internal class CloudKeyManager {
     private let connection: HttpConnection
     private let keyknoxClient: KeyknoxClient
 
-    internal init(identity: String, accessTokenProvider: AccessTokenProvider,
-                  crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+    internal init(identity: String,
+                  accessTokenProvider: AccessTokenProvider,
+                  crypto: VirgilCrypto,
+                  keychainStorage: KeychainStorage) throws {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.keychainStorage = keychainStorage
@@ -61,12 +63,14 @@ internal class CloudKeyManager {
         self.keyknoxClient = KeyknoxClient(connection: self.connection)
 
         let pythiaClient = PythiaClient(connection: self.connection)
-        let brainKeyContext = BrainKeyContext(client: pythiaClient, accessTokenProvider: accessTokenProvider)
+        let brainKeyContext = try BrainKeyContext(client: pythiaClient,
+                                                  accessTokenProvider: accessTokenProvider)
 
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpCloudKeyStorage(password: String, completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
+    internal func setUpCloudKeyStorage(password: String,
+                                       completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
         self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
@@ -89,7 +93,8 @@ internal class CloudKeyManager {
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, usingPassword password: String,
+    internal func store(key: VirgilPrivateKey,
+                        usingPassword password: String,
                         completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
@@ -97,9 +102,11 @@ extension CloudKeyManager {
                 return
             }
 
-            let exportedIdentityKey = self.crypto.exportPrivateKey(key)
+            do {
+                let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-            cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { error in
+                cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey, completion: completion)
+            } catch {
                 completion(error)
             }
         }
@@ -130,14 +137,7 @@ extension CloudKeyManager {
                 return
             }
 
-            cloudKeyStorage.deleteEntry(withName: self.identity) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-
-                completion(nil)
-            }
+            cloudKeyStorage.deleteEntry(withName: self.identity, completion: completion)
         }
     }
 
@@ -159,7 +159,8 @@ extension CloudKeyManager {
         }
     }
 
-    internal func changePassword(from oldPassword: String, to newPassword: String,
+    internal func changePassword(from oldPassword: String,
+                                 to newPassword: String,
                                  completion: @escaping (Error?) -> Void) {
         self.setUpCloudKeyStorage(password: oldPassword) { cloudKeyStorage, error in
             guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
@@ -176,9 +177,8 @@ extension CloudKeyManager {
                 }
 
                 cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                 newPrivateKey: brainKeyPair.privateKey) { error in
-                    completion(error)
-                }
+                                                 newPrivateKey: brainKeyPair.privateKey,
+                                                 completion: completion)
             }
         }
     }

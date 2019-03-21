@@ -54,7 +54,8 @@
     NSError *error;
 
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
-    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
+    XCTAssert(error == nil);
     VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
     XCTAssert(entry != nil && error == nil);
 
@@ -112,7 +113,7 @@
 
     NSError *error;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
-    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
     VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
     XCTAssert(entry != nil && error == nil);
 
@@ -183,12 +184,12 @@
             XCTAssert(retrievedEntry != nil && error == nil);
 
             NSError *err;
-            VSMVirgilPrivateKey *privateKey = [self.crypto importPrivateKeyFrom:retrievedEntry.data password:nil error:&err];
-            VSMVirgilPublicKey *publicKey = [self.crypto extractPublicKeyFrom:privateKey error:&err];
+            VSMVirgilKeyPair *keyPair = [self.crypto importPrivateKeyFrom:retrievedEntry.data error:&err];
             XCTAssert(err == nil);
 
-            NSData *key1 = [self.crypto exportPublicKey:(VSMVirgilPublicKey *)card.publicKey];
-            NSData *key2 = [self.crypto exportPublicKey:publicKey];
+            NSData *key1 = [self.crypto exportPublicKey:(VSMVirgilPublicKey *)card.publicKey error:&err];
+            NSData *key2 = [self.crypto exportPublicKey:keyPair.publicKey error:&err];
+            XCTAssert(err == nil);
             XCTAssert(![key1 isEqualToData:key2]);
 
             [ex fulfill];

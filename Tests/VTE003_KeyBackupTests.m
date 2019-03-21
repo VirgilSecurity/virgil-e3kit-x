@@ -60,7 +60,7 @@
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
         VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&err];
         XCTAssert(entry != nil && err == nil);
 
@@ -100,7 +100,7 @@
 
     NSError *err;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
     __weak typeof(self) weakSelf = self;
     [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
@@ -141,7 +141,7 @@
 
     NSError *err;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+    NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
     __weak typeof(self) weakSelf = self;
     [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
@@ -193,7 +193,7 @@
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
         sleep(2);
 
@@ -237,7 +237,7 @@
 
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey];
+        NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
         sleep(2);
 
