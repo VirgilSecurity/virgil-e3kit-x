@@ -38,6 +38,7 @@
 # Settings
 DOCS_DIR="${TRAVIS_BUILD_DIR}/docs"
 mkdir -p ${DOCS_DIR}
+REPO_PATH=https://github.com/${REPO}.git
 git clone -b gh-pages "${REPO_PATH}" --single-branch ${DOCS_DIR}
 
 INFOPLIST_FILE_PATH="${TRAVIS_BUILD_DIR}/VirgilE3Kit/Info.plist"
@@ -64,10 +65,10 @@ cat >"${DOCS_DIR}/index.html" <<EOL
 <html>
    <head>
         <meta charset="utf-8">
-        <title>Virgil Security E3Kit</title>
+        <title>Virgil Security iOS E3Kit</title>
    </head>
    <body>
-        Virgil Security E3Kit
+        Virgil Security iOS E3Kit
         <ul>
 EOL
 
