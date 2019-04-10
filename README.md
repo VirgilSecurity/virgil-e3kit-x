@@ -21,7 +21,7 @@ Virgil E3Kit is provided as a set of frameworks. These frameworks are distribute
 
 All frameworks are available for:
 - iOS 9.0+
-- macOS 10.10+
+- macOS 10.11+
 - tvOS 9.0+
 - watchOS 2.0+
 
