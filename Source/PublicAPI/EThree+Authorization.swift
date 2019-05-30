@@ -164,7 +164,7 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler
     ///   - error: corresponding error
-    @objc public func deregister(completion: @escaping (_ error: Error?) -> Void) {
+    @objc public func unregister(completion: @escaping (_ error: Error?) -> Void) {
         self.semaphore.wait()
         self.cardManager.searchCards(identity: self.identity) { cards, error in
             guard let card = cards?.first, error == nil else {

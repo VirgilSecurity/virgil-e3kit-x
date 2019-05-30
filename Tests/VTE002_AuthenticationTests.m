@@ -205,13 +205,13 @@
 -(void)test_STE_20 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Delete Account should revoke Virgil Card"];
 
-    [self.eThree deregisterWithCompletion:^(NSError *error) {
+    [self.eThree unregisterWithCompletion:^(NSError *error) {
         XCTAssert(error != nil);
 
         [self.eThree registerWithCompletion:^(NSError *error) {
             XCTAssert(error == nil);
 
-            [self.eThree deregisterWithCompletion:^(NSError *error) {
+            [self.eThree unregisterWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
