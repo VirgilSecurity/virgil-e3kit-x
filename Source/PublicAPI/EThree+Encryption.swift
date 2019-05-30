@@ -44,15 +44,15 @@ extension EThree {
 
     /// Signs then encrypts data for group of users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to encrypt
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
         guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
             throw EThreeError.missingPrivateKey
@@ -75,8 +75,6 @@ extension EThree {
 
     /// Decrypts and verifies data from users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to decrypt
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
@@ -99,15 +97,15 @@ extension EThree {
 
     /// Signs then encrypts string for group of users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: String to encrypt
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
     @objc public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -118,8 +116,6 @@ extension EThree {
 
     /// Decrypts and verifies base64 string from users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: encrypted String
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
