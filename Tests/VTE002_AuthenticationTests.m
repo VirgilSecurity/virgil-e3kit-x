@@ -202,4 +202,34 @@
     }];
 }
 
+-(void)test_STE_20 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Delete Account should revoke Virgil Card"];
+
+    [self.eThree deleteAccountWithCompletion:^(NSError *error) {
+        XCTAssert(error != nil);
+
+        [self.eThree registerWithCompletion:^(NSError *error) {
+            XCTAssert(error == nil);
+
+            [self.eThree deleteAccountWithCompletion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
+                XCTAssert(retrievedEntry == nil && error != nil);
+
+                [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+                    XCTAssert(error == nil && cards.firstObject == nil);
+
+                    [ex fulfill];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
 @end

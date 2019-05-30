@@ -161,6 +161,33 @@ extension EThree {
         }
     }
 
+    /// Revokes Card from Virgil Cards Service, deletes Private Key from local storage
+    ///
+    /// - Parameter completion: completion handler
+    ///   - error: corresponding error
+    @objc public func deleteAccount(completion: @escaping (_ error: Error?) -> Void) {
+        self.cardManager.searchCards(identity: self.identity) { cards, error in
+            guard let card = cards?.first, error == nil else {
+                completion(error ?? EThreeError.userIsNotRegistered)
+                return
+            }
+
+            self.cardManager.revokeCard(withId: card.identifier) { error in
+                do {
+                    if let error = error {
+                        throw error
+                    }
+
+                    try self.localKeyManager.delete()
+
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            }
+        }
+    }
+
     /// Deletes Private Key from local storage
     ///
     /// - Throws: KeychainStorageError
