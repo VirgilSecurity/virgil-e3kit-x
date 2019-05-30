@@ -164,9 +164,11 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler
     ///   - error: corresponding error
-    @objc public func deleteAccount(completion: @escaping (_ error: Error?) -> Void) {
+    @objc public func deregister(completion: @escaping (_ error: Error?) -> Void) {
+        self.semaphore.wait()
         self.cardManager.searchCards(identity: self.identity) { cards, error in
             guard let card = cards?.first, error == nil else {
+                self.semaphore.signal()
                 completion(error ?? EThreeError.userIsNotRegistered)
                 return
             }
@@ -179,8 +181,10 @@ extension EThree {
 
                     try self.localKeyManager.delete()
 
+                    self.semaphore.signal()
                     completion(nil)
                 } catch {
+                    self.semaphore.signal()
                     completion(error)
                 }
             }
