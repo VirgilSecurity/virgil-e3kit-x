@@ -59,6 +59,7 @@ import Foundation
     case userIsAlreadyRegistered = 8
     case userIsNotRegistered = 9
     case privateKeyExists = 10
+    case duplicateCards = 11
 
     public var localizedDescription: String {
         switch self {
@@ -82,6 +83,8 @@ import Foundation
             return "User is not registered"
         case .privateKeyExists:
             return "Private key already exists in local key storage"
+        case .duplicateCards:
+            return "Found duplicated Cards"
         }
     }
 }

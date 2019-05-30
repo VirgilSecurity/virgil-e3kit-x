@@ -156,6 +156,13 @@ extension EThree {
 
             var result: LookupResult = [:]
 
+            let identities = cards.map { $0.identity }
+
+            guard Set(identities).count == cards.count else {
+                completion(result, EThreeError.duplicateCards)
+                return
+            }
+
             for card in cards {
                 guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
                     completion(nil, EThreeError.keyIsNotVirgil)
