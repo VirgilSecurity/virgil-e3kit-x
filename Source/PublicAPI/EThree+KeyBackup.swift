@@ -48,12 +48,13 @@ extension EThree {
     ///   - error: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
-        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            completion(EThreeError.missingPrivateKey)
-            return
-        }
+        do {
+            let identityKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password, completion: completion)
+            self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password, completion: completion)
+        } catch {
+            completion(error)
+        }
     }
 
     /// Restores the encrypted private key from Virgil's cloud, decrypts it using

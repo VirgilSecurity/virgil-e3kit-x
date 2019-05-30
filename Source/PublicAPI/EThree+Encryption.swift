@@ -54,9 +54,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
-        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.missingPrivateKey
-        }
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -82,9 +80,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
-        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.missingPrivateKey
-        }
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 

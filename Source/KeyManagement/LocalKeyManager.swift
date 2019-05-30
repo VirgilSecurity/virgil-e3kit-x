@@ -48,10 +48,10 @@ internal class LocalKeyManager {
         self.keychainStorage = keychainStorage
     }
 
-    internal func retrieveKeyPair() -> VirgilKeyPair? {
+    internal func retrieveKeyPair() throws -> VirgilKeyPair {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
             let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                return nil
+                throw EThreeError.missingPrivateKey
         }
 
         return keyPair

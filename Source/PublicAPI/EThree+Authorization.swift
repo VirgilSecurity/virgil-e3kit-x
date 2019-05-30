@@ -68,8 +68,7 @@ extension EThree {
                 let cardCrypto = VirgilCardCrypto(virgilCrypto: crypto)
 
                 guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-                    completion(nil, EThreeError.verifierInitFailed)
-                    return
+                    throw EThreeError.verifierInitFailed
                 }
 
                 let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
