@@ -57,9 +57,7 @@ internal class CloudKeyManager {
         self.keychainStorage = keychainStorage
         self.crypto = crypto
 
-        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-        self.connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
-
+        self.connection = EThree.getConnection()
         self.keyknoxClient = KeyknoxClient(connection: self.connection)
 
         let pythiaClient = PythiaClient(connection: self.connection)
@@ -78,7 +76,6 @@ internal class CloudKeyManager {
                                                 privateKey: brainKeyPair.privateKey)
 
         let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
-
 
         try cloudKeyStorage.retrieveCloudEntries().startSync().getResult()
 

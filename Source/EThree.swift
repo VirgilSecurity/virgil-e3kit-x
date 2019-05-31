@@ -79,12 +79,11 @@ import VirgilCrypto
         super.init()
     }
 
-    /// Checks existance of private key in keychain storage
-    ///
-    /// - Returns: true if private key exists in keychain storage
-    /// - Throws: KeychainStorageError
-    public func hasLocalPrivateKey() throws -> Bool {
-        return try self.localKeyManager.exists()
+    internal static func getConnection() -> HttpConnection {
+        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
+        let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]
+
+        return HttpConnection(adapters: adapters)
     }
 
     internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {

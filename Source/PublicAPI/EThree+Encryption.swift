@@ -134,12 +134,8 @@ extension EThree {
 
     /// Retrieves user public keys from the cloud for encryption/verification.
     ///
-    /// Important: Avoid identities duplication
-    /// - Parameters:
-    ///   - identities: array of identities to search for
-    ///   - completion: completion handler
-    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
-    ///   - error: corresponding error
+    /// - Parameter identities: array of identities to search for
+    /// - Returns: CallbackOperation<Void>
     public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {

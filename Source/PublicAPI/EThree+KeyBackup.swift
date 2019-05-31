@@ -38,14 +38,12 @@ import VirgilSDK
 
 // MARK: - Extension with key back-up operations
 extension EThree {
-    /// Encrypts the user's private key using the user's password and backs up the encrypted
-    /// private key to Virgil's cloud. This enables users to log in from other devices and have
-    /// access to their private key to decrypt data.
+    /// Encrypts user's private key using password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices
+    /// and have access to their private key to decrypt data.
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
     public func backupPrivateKey(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
@@ -61,13 +59,11 @@ extension EThree {
         }
     }
 
-    /// Restores the encrypted private key from Virgil's cloud, decrypts it using
-    /// the user's password and saves it in local storage
+    /// Restores encrypted private key from Virgil's cloud, decrypts it using
+    /// user's password and saves it in local storage
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
     public func restorePrivateKey(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -87,8 +83,7 @@ extension EThree {
     /// - Parameters:
     ///   - oldOne: old password
     ///   - newOne: new password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
+    /// - Returns: CallbackOperation<Void>
     public func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -103,12 +98,8 @@ extension EThree {
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
-    /// - Important: If password specified it will reset entry with current identity.
-    ///              Otherwise it will reset ALL entries.
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
     public func resetPrivateKeyBackup(password: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {

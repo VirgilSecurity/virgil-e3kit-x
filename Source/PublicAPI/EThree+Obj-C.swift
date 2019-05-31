@@ -36,6 +36,7 @@
 
 import VirgilSDK
 
+// MARK: - Extension with Objective-C compatible Queries
 extension EThree {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
@@ -83,9 +84,9 @@ extension EThree {
         }
     }
 
-    /// Encrypts the user's private key using the user's password and backs up the encrypted
-    /// private key to Virgil's cloud. This enables users to log in from other devices and have
-    /// access to their private key to decrypt data.
+    /// Encrypts user's private key using password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices
+    /// and have access to their private key to decrypt data.
     ///
     /// - Parameters:
     ///   - password: String with password
@@ -98,8 +99,8 @@ extension EThree {
         }
     }
 
-    /// Restores the encrypted private key from Virgil's cloud, decrypts it using
-    /// the user's password and saves it in local storage
+    /// Restores encrypted private key from Virgil's cloud, decrypts it using
+    /// user's password and saves it in local storage
     ///
     /// - Parameters:
     ///   - password: String with password
@@ -141,7 +142,6 @@ extension EThree {
 
     /// Retrieves user public keys from the cloud for encryption/verification.
     ///
-    /// Important: Avoid identities duplication
     /// - Parameters:
     ///   - identities: array of identities to search for
     ///   - completion: completion handler

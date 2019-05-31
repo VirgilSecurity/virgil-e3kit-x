@@ -44,18 +44,16 @@ extension EThree {
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
     ///   - storageParams: `KeychainStorageParams` with specific parameters
-    ///   - completion: completion handler
-    ///   - ethree: initialized EThree instance
-    ///   - error: corresponding error
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                        storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
         return CallbackOperation { _, completion in
             do {
                 let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
 
                 let tokenContext = TokenContext(service: "cards", operation: "")
 
-                let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext, accessTokenProvider: accessTokenProvider)
+                let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext,
+                                                                             accessTokenProvider: accessTokenProvider)
 
                 let token = try getTokenOperation.startSync().getResult()
 
@@ -70,8 +68,7 @@ extension EThree {
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
 
-                let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-                let connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
+                let connection = EThree.getConnection()
                 let client = CardClient(connection: connection)
                 params.cardClient = client
 
@@ -91,9 +88,7 @@ extension EThree {
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
-    /// - Parameters:
-    ///   - completion: completion handler
-    ///   - error: corresponding error
+    /// - Returns: CallbackOperation<Void>
     public func register() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
@@ -121,8 +116,7 @@ extension EThree {
     /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
     /// and saves new Private Key in local storage
     ///
-    /// - Parameter completion: completion handler
-    ///   - error: corresponding error
+    /// - Returns: CallbackOperation<Void>
     public func rotatePrivateKey() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
@@ -149,8 +143,7 @@ extension EThree {
 
     /// Revokes Card from Virgil Cards Service, deletes Private Key from local storage
     ///
-    /// - Parameter completion: completion handler
-    ///   - error: corresponding error
+    /// - Returns: CallbackOperation<Void>
     public func unregister() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
@@ -171,6 +164,14 @@ extension EThree {
                 }
             }
         }
+    }
+
+    /// Checks existance of private key in keychain storage
+    ///
+    /// - Returns: true if private key exists in keychain storage
+    /// - Throws: KeychainStorageError
+    public func hasLocalPrivateKey() throws -> Bool {
+        return try self.localKeyManager.exists()
     }
 
     /// Deletes Private Key from local storage

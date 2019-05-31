@@ -530,6 +530,7 @@
 				165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */,
 				165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */,
 				16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */,
+				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
 			path = PublicAPI;
 			sourceTree = "<group>";
@@ -643,7 +644,6 @@
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
-				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
