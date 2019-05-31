@@ -34,7 +34,7 @@ script:
 
   - |
     if [ $SWIFT_LINT == "YES" ]; then
-      brew outdated swiftlint || brew upgrade swiftlint
+      brew update && brew outdated swiftlint || brew upgrade swiftlint
       swiftlint
     fi
 
@@ -60,7 +60,7 @@ script:
 
   # Build with carthage
   - if [ $PUBLISH_CARTHAGE == "YES" ]; then
-      brew update && brew upgrade carthage || true;
+      brew outdated carthage || brew upgrade carthage;
       carthage build --no-skip-current;
       carthage archive;
     fi
