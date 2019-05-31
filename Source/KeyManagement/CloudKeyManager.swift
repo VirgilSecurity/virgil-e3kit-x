@@ -45,7 +45,6 @@ internal class CloudKeyManager {
     private let keychainStorage: KeychainStorage
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
-    private let connection: HttpConnection
     private let keyknoxClient: KeyknoxClient
 
     internal init(identity: String,
@@ -57,11 +56,10 @@ internal class CloudKeyManager {
         self.keychainStorage = keychainStorage
         self.crypto = crypto
 
-        self.connection = EThree.getConnection()
-        self.keyknoxClient = KeyknoxClient(connection: self.connection)
+        let connection = EThree.getConnection()
+        self.keyknoxClient = KeyknoxClient(connection: connection)
 
-        let pythiaClient = PythiaClient(connection: self.connection)
-        let brainKeyContext = try BrainKeyContext(client: pythiaClient,
+        let brainKeyContext = try BrainKeyContext(client: PythiaClient(connection: connection),
                                                   accessTokenProvider: accessTokenProvider)
 
         self.brainKey = BrainKey(context: brainKeyContext)
