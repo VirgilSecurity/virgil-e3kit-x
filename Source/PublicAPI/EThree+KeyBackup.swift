@@ -34,47 +34,46 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 
 // MARK: - Extension with key back-up operations
 extension EThree {
-    /// Encrypts the user's private key using the user's password and backs up the encrypted
-    /// private key to Virgil's cloud. This enables users to log in from other devices and have
-    /// access to their private key to decrypt data.
+    /// Encrypts user's private key using password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices
+    /// and have access to their private key to decrypt data.
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    @objc public func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
-        guard let identityKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            completion(EThreeError.missingPrivateKey)
-            return
-        }
+    public func backupPrivateKey(password: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let identityKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password, completion: completion)
+                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
     }
 
-    /// Restores the encrypted private key from Virgil's cloud, decrypts it using
-    /// the user's password and saves it in local storage
+    /// Restores encrypted private key from Virgil's cloud, decrypts it using
+    /// user's password and saves it in local storage
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
-    @objc public func restorePrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
-        self.cloudKeyManager.retrieve(usingPassword: password) { entry, error in
-            guard let entry = entry, error == nil else {
-                completion(error)
-                return
-            }
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
+    public func restorePrivateKey(password: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
             do {
+                let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
+
                 try self.localKeyManager.store(data: entry.data)
 
-                completion(nil)
+                completion((), nil)
             } catch {
-                completion(error)
+                completion(nil, error)
             }
         }
     }
@@ -84,26 +83,36 @@ extension EThree {
     /// - Parameters:
     ///   - oldOne: old password
     ///   - newOne: new password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
-    @objc public func changePassword(from oldOne: String, to newOne: String,
-                                     completion: @escaping (_ error: Error?) -> Void) {
-        self.cloudKeyManager.changePassword(from: oldOne, to: newOne, completion: completion)
+    /// - Returns: CallbackOperation<Void>
+    public func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                try self.cloudKeyManager.changePassword(from: oldOne, to: newOne)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
     }
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///
-    /// - Parameters:
-    ///   - password: String with password
-    ///   - completion: completion handler
-    ///   - error: corresponding error
-    /// - Important: If password specified it will reset entry with current identity.
-    ///              Otherwise it will reset ALL entries.
-    @objc public func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
-        if let password = password {
-            self.cloudKeyManager.delete(password: password, completion: completion)
-        } else {
-            self.cloudKeyManager.deleteAll(completion: completion)
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
+    public func resetPrivateKeyBackup(password: String? = nil) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                if let password = password {
+                    try self.cloudKeyManager.delete(password: password)
+                } else {
+                    try self.cloudKeyManager.deleteAll()
+                }
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 }

@@ -34,34 +34,8 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
 import VirgilSDK
 import VirgilCrypto
-
-/// Declares error types and codes for EThree
-///
-/// - verifierInitFailed: Initialization of VirgilCardVerifier failed
-/// - keyIsNotVirgil: Casting Key to Virgil Key failed
-/// - strToDataFailed: String to Data failed
-/// - strFromDataFailed: Data to String failed
-/// - missingPrivateKey: missing Private Keys. You should call `register()` of `retrievePrivateKey()`
-/// - missingPublicKey: missing Public Key
-/// - missingIdentities: got empty array of identities to lookup for
-/// - userIsAlreadyRegistered: user is already registered
-/// - userIsNotRegistered: user is not registered
-/// - privateKeyExists: private key already exists in local key storage
-@objc(VTEEThreeError) public enum EThreeError: Int, Error {
-    case verifierInitFailed = 1
-    case keyIsNotVirgil = 2
-    case strToDataFailed = 3
-    case strFromDataFailed = 4
-    case missingPrivateKey = 5
-    case missingPublicKey = 6
-    case missingIdentities = 7
-    case userIsAlreadyRegistered = 8
-    case userIsNotRegistered = 9
-    case privateKeyExists = 10
-}
 
 /// Main class containing all features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
@@ -80,7 +54,7 @@ import VirgilCrypto
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
 
-    internal let semaphore = DispatchSemaphore(value: 1)
+    internal let queue = DispatchQueue(label: "EThreeQueue")
 
     internal init(identity: String,
                   crypto: VirgilCrypto,
@@ -105,39 +79,23 @@ import VirgilCrypto
         super.init()
     }
 
-    /// Checks existance of private key in keychain storage
-    ///
-    /// - Returns: true if private key exists in keychain storage
-    /// - Throws: KeychainStorageError
-    public func hasLocalPrivateKey() throws -> Bool {
-        return try self.localKeyManager.exists()
+    internal static func getConnection() -> HttpConnection {
+        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
+        let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]
+
+        return HttpConnection(adapters: adapters)
     }
 
-    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> Void) {
-        do {
-            let keyPair = try self.crypto.generateKeyPair()
+    internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {
+        let keyPair = try self.crypto.generateKeyPair()
 
-            self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                         publicKey: keyPair.publicKey,
-                                         identity: self.identity,
-                                         previousCardId: previousCardId) { _, error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
+        _ = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+                                             publicKey: keyPair.publicKey,
+                                             identity: self.identity,
+                                             previousCardId: previousCardId).startSync().getResult()
 
-                do {
-                    let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
+        let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
-                    try self.localKeyManager.store(data: data)
-
-                    completion(nil)
-                } catch {
-                    completion(error)
-                }
-            }
-        } catch {
-            completion(error)
-        }
+        try self.localKeyManager.store(data: data)
     }
 }

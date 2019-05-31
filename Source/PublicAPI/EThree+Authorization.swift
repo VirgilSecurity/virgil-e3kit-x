@@ -44,46 +44,37 @@ extension EThree {
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
     ///   - storageParams: `KeychainStorageParams` with specific parameters
-    ///   - completion: completion handler
-    ///   - ethree: initialized EThree instance
-    ///   - error: corresponding error
-    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                        storageParams: KeychainStorageParams? = nil,
-                                        completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
-        let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
-            tokenCallback(completion)
-        }
-
-        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
-        let tokenContext = TokenContext(service: "cards", operation: "")
-
-        accessTokenProvider.getToken(with: tokenContext) { token, error in
-            guard let identity = token?.identity(), error == nil else {
-                completion(nil, error)
-                return
-            }
-
+    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+        return CallbackOperation { _, completion in
             do {
+                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+                let tokenContext = TokenContext(service: "cards", operation: "")
+
+                let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext,
+                                                                             accessTokenProvider: accessTokenProvider)
+
+                let token = try getTokenOperation.startSync().getResult()
+
                 let crypto = try VirgilCrypto()
                 let cardCrypto = VirgilCardCrypto(virgilCrypto: crypto)
 
                 guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-                    completion(nil, EThreeError.verifierInitFailed)
-                    return
+                    throw EThreeError.verifierInitFailed
                 }
-
-                let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-                let connection = HttpConnection(adapters: [VirgilAgentAdapter(product: "e3kit", version: version)])
-                let client = CardClient(connection: connection)
 
                 let params = CardManagerParams(cardCrypto: cardCrypto,
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
+
+                let connection = EThree.getConnection()
+                let client = CardClient(connection: connection)
                 params.cardClient = client
 
                 let cardManager = CardManager(params: params)
 
-                let ethree = try EThree(identity: identity,
+                let ethree = try EThree(identity: token.identity(),
                                         crypto: crypto,
                                         cardManager: cardManager,
                                         storageParams: storageParams)
@@ -97,68 +88,90 @@ extension EThree {
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
-    /// - Parameters:
-    ///   - completion: completion handler
-    ///   - error: corresponding error
-    @objc public func register(completion: @escaping (_ error: Error?) -> Void) {
-        self.semaphore.wait()
+    /// - Returns: CallbackOperation<Void>
+    public func register() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.queue.async {
+                do {
+                    guard try !self.localKeyManager.exists() else {
+                        throw EThreeError.privateKeyExists
+                    }
 
-        do {
-            guard try !self.localKeyManager.exists() else {
-                self.semaphore.signal()
-                completion(EThreeError.privateKeyExists)
-                return
-            }
+                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
 
-            self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard cards?.first == nil, error == nil else {
-                    self.semaphore.signal()
-                    completion(error ?? EThreeError.userIsAlreadyRegistered)
-                    return
-                }
+                    guard cards.isEmpty else {
+                        throw EThreeError.userIsAlreadyRegistered
+                    }
 
-                self.publishCardThenSaveLocal {
-                    self.semaphore.signal()
-                    completion($0)
+                    try self.publishCardThenSaveLocal()
+
+                    completion((), nil)
+                } catch {
+                    completion(nil, error)
                 }
             }
-        } catch {
-            self.semaphore.signal()
-            completion(error)
         }
     }
 
     /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
     /// and saves new Private Key in local storage
     ///
-    /// - Parameter completion: completion handler
-    ///   - error: corresponding error
-    @objc public func rotatePrivateKey(completion: @escaping (_ error: Error?) -> Void) {
-        self.semaphore.wait()
+    /// - Returns: CallbackOperation<Void>
+    public func rotatePrivateKey() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.queue.async {
+                do {
+                    guard try !self.localKeyManager.exists() else {
+                        throw EThreeError.privateKeyExists
+                    }
 
-        do {
-            guard try !self.localKeyManager.exists() else {
-                self.semaphore.signal()
-                completion(EThreeError.privateKeyExists)
-                return
-            }
+                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
 
-            self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let card = cards?.first, error == nil else {
-                    self.semaphore.signal()
-                    completion(error ?? EThreeError.userIsNotRegistered)
-                    return
-                }
+                    guard let card = cards.first else {
+                        throw EThreeError.userIsNotRegistered
+                    }
 
-                self.publishCardThenSaveLocal(previousCardId: card.identifier) {
-                    self.semaphore.signal()
-                    completion($0)
+                    try self.publishCardThenSaveLocal(previousCardId: card.identifier)
+
+                    completion((), nil)
+                } catch {
+                    completion(nil, error)
                 }
             }
-        } catch {
-            self.semaphore.signal()
-            completion(error)
         }
+    }
+
+    /// Revokes Card from Virgil Cards Service, deletes Private Key from local storage
+    ///
+    /// - Returns: CallbackOperation<Void>
+    public func unregister() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.queue.async {
+                do {
+                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
+
+                    guard let card = cards.first else {
+                        throw EThreeError.userIsNotRegistered
+                    }
+
+                    try self.cardManager.revokeCard(withId: card.identifier).startSync().getResult()
+
+                    try self.localKeyManager.delete()
+
+                    completion((), nil)
+                } catch {
+                    completion(nil, error)
+                }
+            }
+        }
+    }
+
+    /// Checks existance of private key in keychain storage
+    ///
+    /// - Returns: true if private key exists in keychain storage
+    /// - Throws: KeychainStorageError
+    public func hasLocalPrivateKey() throws -> Bool {
+        return try self.localKeyManager.exists()
     }
 
     /// Deletes Private Key from local storage

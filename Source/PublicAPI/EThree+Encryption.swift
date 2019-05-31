@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with encrypt-decrypt operations
@@ -44,19 +44,17 @@ extension EThree {
 
     /// Signs then encrypts data for group of users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to encrypt
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
-        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.missingPrivateKey
-        }
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -75,8 +73,6 @@ extension EThree {
 
     /// Decrypts and verifies data from users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - data: data to decrypt
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
@@ -84,9 +80,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
-        guard let selfKeyPair = self.localKeyManager.retrieveKeyPair() else {
-            throw EThreeError.missingPrivateKey
-        }
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
@@ -99,15 +93,15 @@ extension EThree {
 
     /// Signs then encrypts string for group of users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: String to encrypt
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
     @objc public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -118,8 +112,6 @@ extension EThree {
 
     /// Decrypts and verifies base64 string from users
     ///
-    /// Important: Avoid key duplication
-    /// Note: Automatically includes self key to recipientsKeys.
     /// - Parameters:
     ///   - text: encrypted String
     ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
@@ -142,38 +134,35 @@ extension EThree {
 
     /// Retrieves user public keys from the cloud for encryption/verification.
     ///
-    /// Important: Avoid identities duplication
-    /// - Parameters:
-    ///   - identities: array of identities to search for
-    ///   - completion: completion handler
-    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
-    ///   - error: corresponding error
-    @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ lookupResult: LookupResult?,
-                                                              _ error: Error?) -> Void) {
-        guard !identities.isEmpty else {
-            completion(nil, EThreeError.missingIdentities)
-            return
-        }
-
-        self.cardManager.searchCards(identities: identities) { cards, error in
-            guard let cards = cards, error == nil else {
-                completion(nil, error)
-                return
-            }
-
-            var result: LookupResult = [:]
-
-            for card in cards {
-                guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
-                    completion(nil, EThreeError.keyIsNotVirgil)
-                    return
+    /// - Parameter identities: array of identities to search for
+    /// - Returns: CallbackOperation<Void>
+    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+        return CallbackOperation { _, completion in
+            do {
+                guard !identities.isEmpty else {
+                    throw EThreeError.missingIdentities
                 }
 
-                result[card.identity] = virgilPublicKey
-            }
+                let cards = try self.cardManager.searchCards(identities: identities).startSync().getResult()
 
-            completion(result, nil)
+                var result: LookupResult = [:]
+
+                for card in cards {
+                    guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
+                        throw EThreeError.keyIsNotVirgil
+                    }
+
+                    guard result[card.identity] == nil else {
+                        throw EThreeError.duplicateCards
+                    }
+
+                    result[card.identity] = virgilPublicKey
+                }
+
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 }
