@@ -54,7 +54,7 @@ import VirgilCrypto
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
 
-    internal let semaphore = DispatchSemaphore(value: 1)
+    internal let queue = DispatchQueue(label: "EThreeQueue")
 
     internal init(identity: String,
                   crypto: VirgilCrypto,
@@ -87,31 +87,16 @@ import VirgilCrypto
         return try self.localKeyManager.exists()
     }
 
-    internal func publishCardThenSaveLocal(previousCardId: String? = nil, completion: @escaping (Error?) -> Void) {
-        do {
-            let keyPair = try self.crypto.generateKeyPair()
+    internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {
+        let keyPair = try self.crypto.generateKeyPair()
 
-            self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                         publicKey: keyPair.publicKey,
-                                         identity: self.identity,
-                                         previousCardId: previousCardId) { _, error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
+        _ = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+                                             publicKey: keyPair.publicKey,
+                                             identity: self.identity,
+                                             previousCardId: previousCardId).startSync().getResult()
 
-                do {
-                    let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
+        let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
-                    try self.localKeyManager.store(data: data)
-
-                    completion(nil)
-                } catch {
-                    completion(error)
-                }
-            }
-        } catch {
-            completion(error)
-        }
+        try self.localKeyManager.store(data: data)
     }
 }

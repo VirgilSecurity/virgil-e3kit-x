@@ -69,117 +69,64 @@ internal class CloudKeyManager {
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpCloudKeyStorage(password: String,
-                                       completion: @escaping (CloudKeyStorage?, Error?) -> Void) {
-        self.brainKey.generateKeyPair(password: password).start { brainKeyPair, error in
-            guard let brainKeyPair = brainKeyPair, error == nil else {
-                completion(nil, error)
-                return
-            }
+    internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().getResult()
 
-            do {
-                let keyknoxManager = try KeyknoxManager(accessTokenProvider: self.accessTokenProvider,
-                                                        keyknoxClient: self.keyknoxClient,
-                                                        publicKeys: [brainKeyPair.publicKey],
-                                                        privateKey: brainKeyPair.privateKey)
-                let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
+        let keyknoxManager = try KeyknoxManager(accessTokenProvider: self.accessTokenProvider,
+                                                keyknoxClient: self.keyknoxClient,
+                                                publicKeys: [brainKeyPair.publicKey],
+                                                privateKey: brainKeyPair.privateKey)
 
-                cloudKeyStorage.retrieveCloudEntries { completion(cloudKeyStorage, $0) }
-            } catch {
-                completion(nil, error)
-            }
-        }
+        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
+
+
+        try cloudKeyStorage.retrieveCloudEntries().startSync().getResult()
+
+        return cloudKeyStorage
     }
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey,
-                        usingPassword password: String,
-                        completion: @escaping (Error?) -> Void) {
-        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
-            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
+    internal func store(key: VirgilPrivateKey, usingPassword password: String) throws {
+        let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
-            do {
-                let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
+        let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-                cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey, completion: completion)
-            } catch {
-                completion(error)
-            }
-        }
+        _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().getResult()
     }
 
-    internal func retrieve(usingPassword password: String,
-                           completion: @escaping (CloudEntry?, Error?) -> Void) {
-        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
-            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
-                completion(nil, error)
-                return
-            }
+    internal func retrieve(usingPassword password: String) throws -> CloudEntry {
+        let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
-            do {
-                let entry = try cloudKeyStorage.retrieveEntry(withName: self.identity)
-
-                completion(entry, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        return try cloudKeyStorage.retrieveEntry(withName: self.identity)
     }
 
-    internal func delete(password: String, completion: @escaping (Error?) -> Void) {
-        self.setUpCloudKeyStorage(password: password) { cloudKeyStorage, error in
-            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
+    internal func delete(password: String) throws {
+        let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
-            cloudKeyStorage.deleteEntry(withName: self.identity, completion: completion)
-        }
+        try cloudKeyStorage.deleteEntry(withName: self.identity).startSync().getResult()
     }
 
-    internal func deleteAll(completion: @escaping (Error?) -> Void) {
+    internal func deleteAll() throws {
         let tokenContext = TokenContext(service: "keyknox", operation: "delete")
-        self.accessTokenProvider.getToken(with: tokenContext) { token, error in
-            guard let token = token, error == nil else {
-                completion(error)
-                return
-            }
 
-            do {
-                _ = try self.keyknoxClient.resetValue(token: token.stringRepresentation())
+        let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext,
+                                                                     accessTokenProvider: self.accessTokenProvider)
 
-                completion(nil)
-            } catch {
-                completion(error)
-            }
-        }
+        let token = try getTokenOperation.startSync().getResult()
+
+        _ = try self.keyknoxClient.resetValue(token: token.stringRepresentation())
     }
 
     internal func changePassword(from oldPassword: String,
-                                 to newPassword: String,
-                                 completion: @escaping (Error?) -> Void) {
-        self.setUpCloudKeyStorage(password: oldPassword) { cloudKeyStorage, error in
-            guard let cloudKeyStorage = cloudKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
+                                 to newPassword: String) throws {
+        let cloudKeyStorage = try self.setUpCloudKeyStorage(password: oldPassword)
 
-            sleep(2)
+        sleep(2)
 
-            self.brainKey.generateKeyPair(password: newPassword).start { brainKeyPair, error in
-                guard let brainKeyPair = brainKeyPair, error == nil else {
-                    completion(error)
-                    return
-                }
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().getResult()
 
-                cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                 newPrivateKey: brainKeyPair.privateKey,
-                                                 completion: completion)
-            }
-        }
+        try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
+                                             newPrivateKey: brainKeyPair.privateKey).startSync().getResult()
     }
 }

@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with encrypt-decrypt operations
@@ -140,39 +140,33 @@ extension EThree {
     ///   - completion: completion handler
     ///   - lookupResult: dictionary with idenities as keys and found public keys as values
     ///   - error: corresponding error
-    @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ lookupResult: LookupResult?,
-                                                              _ error: Error?) -> Void) {
-        guard !identities.isEmpty else {
-            completion(nil, EThreeError.missingIdentities)
-            return
-        }
-
-        self.cardManager.searchCards(identities: identities) { cards, error in
-            guard let cards = cards, error == nil else {
-                completion(nil, error)
-                return
-            }
-
-            var result: LookupResult = [:]
-
-            let identities = cards.map { $0.identity }
-
-            guard Set(identities).count == cards.count else {
-                completion(result, EThreeError.duplicateCards)
-                return
-            }
-
-            for card in cards {
-                guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
-                    completion(nil, EThreeError.keyIsNotVirgil)
-                    return
+    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+        return CallbackOperation { _, completion in
+            do {
+                guard !identities.isEmpty else {
+                    throw EThreeError.missingIdentities
                 }
 
-                result[card.identity] = virgilPublicKey
-            }
+                let cards = try self.cardManager.searchCards(identities: identities).startSync().getResult()
 
-            completion(result, nil)
+                var result: LookupResult = [:]
+
+                for card in cards {
+                    guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
+                        throw EThreeError.keyIsNotVirgil
+                    }
+
+                    guard result[card.identity] == nil else {
+                        throw EThreeError.duplicateCards
+                    }
+
+                    result[card.identity] = virgilPublicKey
+                }
+
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 }
