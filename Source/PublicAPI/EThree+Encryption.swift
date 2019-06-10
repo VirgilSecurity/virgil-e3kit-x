@@ -91,6 +91,43 @@ extension EThree {
         return decryptedData
     }
 
+    /// Encrypts data stream
+    ///
+    /// - Parameters:
+    ///   - stream: data stream to be encrypted
+    ///   - outputStream: stream with encrypted data
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
+    /// - Throws: corresponding error
+    @objc public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
+                              for recipientKeys: LookupResult? = nil) throws {
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
+        var publicKeys = [selfKeyPair.publicKey]
+
+        if let recipientKeys = recipientKeys {
+            guard !recipientKeys.isEmpty else {
+                throw EThreeError.missingPublicKey
+            }
+
+            publicKeys += recipientKeys.values
+        }
+
+        try self.crypto.encrypt(stream, to: outputStream, for: publicKeys)
+    }
+
+    /// Decrypts data stream
+    ///
+    /// - Parameters:
+    ///   - stream: stream with encrypted data
+    ///   - outputStream: stream with decrypted data
+    /// - Throws: corresponding error
+    @objc public func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
+        try self.crypto.decrypt(stream, to: outputStream, with: selfKeyPair.privateKey)
+    }
+
     /// Signs then encrypts string for group of users
     ///
     /// - Parameters:
