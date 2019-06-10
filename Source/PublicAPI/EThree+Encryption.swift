@@ -99,6 +99,9 @@ extension EThree {
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
     @objc public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
                               for recipientKeys: LookupResult? = nil) throws {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
@@ -122,6 +125,7 @@ extension EThree {
     ///   - stream: stream with encrypted data
     ///   - outputStream: stream with decrypted data
     /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
     @objc public func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
