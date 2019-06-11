@@ -266,5 +266,45 @@
     }];
 }
 
+- (void)test_STE_22 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Should encrypt then decrypt streams"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+
+        NSError *err;
+        NSUUID *identifier = [[NSUUID alloc] init];
+        uuid_t uuid;
+        [identifier getUUIDBytes:uuid];
+        NSData *data = [NSData dataWithBytes:uuid length:100];
+        XCTAssert(data != nil);
+
+        NSInputStream *inputStream1 = [[NSInputStream alloc] initWithData:data];
+        NSOutputStream *outputStream1 = [[NSOutputStream alloc] initToMemory];
+
+        [self.eThree encrypt:inputStream1 to:outputStream1 for:nil error:&err];
+        XCTAssert(err == nil);
+
+        NSData *encryptedData = [outputStream1 propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+
+        NSInputStream *inputStream2 = [[NSInputStream alloc] initWithData:encryptedData];
+        NSOutputStream *outputStream2 = [[NSOutputStream alloc] initToMemory];
+
+        [self.eThree decrypt:inputStream2 to:outputStream2 error:&err];
+        XCTAssert(err == nil);
+
+        NSData *decryptedData = [outputStream2 propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+
+        XCTAssert([data isEqualToData:decryptedData]);
+
+        [ex fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
 
 @end
