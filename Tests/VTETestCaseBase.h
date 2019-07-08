@@ -37,12 +37,10 @@
 #ifndef VTETestCaseBase_h
 #define VTETestCaseBase_h
 
-#import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
 @import VirgilSDK;
 @import VirgilE3Kit;
-@import VirgilCrypto;
 @import VirgilCrypto;
 @import VirgilSDKKeyknox;
 
