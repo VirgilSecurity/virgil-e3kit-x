@@ -37,19 +37,10 @@
 import Foundation
 
 @objc(VTETestConfig) public class TestConfig: NSObject, Decodable {
-    @objc public let ApiPublicKeyId: String
+    @objc public let ApiKeyId: String
     @objc public let ApiPrivateKey: String
     @objc public let AppId: String
     @objc public let ServiceURL: String
-
-    @objc init(apiPublicKeyId: String, apiPrivateKey: String, appId: String, serviceURL: String) {
-        self.ApiPublicKeyId = apiPublicKeyId
-        self.ApiPrivateKey = apiPrivateKey
-        self.AppId = appId
-        self.ServiceURL = serviceURL
-
-        super.init()
-    }
 
     @objc public static func readFromBundle() -> TestConfig {
         let bundle = Bundle(for: self)

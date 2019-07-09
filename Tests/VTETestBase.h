@@ -34,15 +34,14 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VTETestCaseBase_h
-#define VTETestCaseBase_h
+#ifndef VTETestBase_h
+#define VTETestBase_h
 
 #import <XCTest/XCTest.h>
 
 @import VirgilSDK;
 @import VirgilE3Kit;
 @import VirgilCrypto;
-@import VirgilSDKKeyknox;
 
 #if TARGET_OS_IOS
     #import "VirgilE3Kit_iOS_Tests-Swift.h"
@@ -54,7 +53,7 @@
 
 static const NSTimeInterval timeout = 20.;
 
-@interface VTETestCaseBase : XCTestCase
+@interface VTETestBase : XCTestCase
 
 @property (nonatomic) VTETestConfig *consts;
 @property (nonatomic) VSMVirgilCrypto *crypto;
@@ -67,4 +66,4 @@ static const NSTimeInterval timeout = 20.;
 @end
 
 
-#endif /* VTETestCaseBase_h */
+#endif /* VTETestBase_h */

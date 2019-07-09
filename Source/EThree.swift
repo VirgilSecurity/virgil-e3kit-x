@@ -57,11 +57,11 @@ import VirgilCrypto
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
     internal init(identity: String,
-                  crypto: VirgilCrypto,
+                  accessTokenProvider: AccessTokenProvider,
                   cardManager: CardManager,
                   storageParams: KeychainStorageParams? = nil) throws {
         self.identity = identity
-        self.crypto = crypto
+        self.crypto = cardManager.crypto
         self.cardManager = cardManager
 
         let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
@@ -72,7 +72,7 @@ import VirgilCrypto
                                                keychainStorage: keychainStorage)
 
         self.cloudKeyManager = try CloudKeyManager(identity: identity,
-                                                   accessTokenProvider: cardManager.accessTokenProvider,
+                                                   accessTokenProvider: accessTokenProvider,
                                                    crypto: self.crypto,
                                                    keychainStorage: keychainStorage)
 
@@ -92,7 +92,7 @@ import VirgilCrypto
         _ = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                              publicKey: keyPair.publicKey,
                                              identity: self.identity,
-                                             previousCardId: previousCardId).startSync().getResult()
+                                             previousCardId: previousCardId).startSync().get()
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 

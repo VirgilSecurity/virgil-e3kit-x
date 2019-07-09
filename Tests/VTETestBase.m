@@ -34,9 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestCaseBase.h"
+#import "VTETestBase.h"
 
-@implementation VTETestCaseBase
+@implementation VTETestBase
 
 - (void)setUp {
     [super setUp];

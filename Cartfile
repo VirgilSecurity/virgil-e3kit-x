@@ -1,2 +1,1 @@
-github "VirgilSecurity/virgil-keyknox-x" ~> 0.4.2
-github "VirgilSecurity/virgil-pythia-x" ~> 0.5.2
+github "VirgilSecurity/virgil-pythia-x" "develop"

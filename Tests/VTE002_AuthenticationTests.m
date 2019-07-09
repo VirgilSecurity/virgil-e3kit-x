@@ -34,9 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestCaseBase.h"
+#import "VTETestBase.h"
 
-@interface VTE002_AuthenticationTests : VTETestCaseBase
+@interface VTE002_AuthenticationTests : VTETestBase
 
 @end
 
@@ -76,7 +76,7 @@
         VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
         XCTAssert(err == nil && keyEntry != nil);
 
-        [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+        [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
             XCTAssert(error == nil && cards.firstObject != nil);
 
             [ex fulfill];
@@ -174,7 +174,7 @@
     [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+        [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
             XCTAssert(error == nil && cards.firstObject != nil);
 
             XCTAssert([cards.firstObject.previousCardId isEqualToString:card.identifier]);
@@ -217,7 +217,7 @@
                 VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
                 XCTAssert(retrievedEntry == nil && error != nil);
 
-                [self.eThree.cardManager searchCardsWithIdentity:self.eThree.identity completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+                [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
                     XCTAssert(error == nil && cards.firstObject == nil);
 
                     [ex fulfill];

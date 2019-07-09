@@ -34,9 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestCaseBase.h"
+#import "VTETestBase.h"
 
-@interface VTE003_KeyBackupTests : VTETestCaseBase
+@interface VTE003_KeyBackupTests : VTETestBase
 
 @end
 
@@ -70,7 +70,7 @@
             sleep(2);
 
             __weak typeof(self) weakSelf = self;
-            [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+            [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
                 XCTAssert(error == nil);
 
                 NSError *err;
@@ -103,7 +103,7 @@
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
     __weak typeof(self) weakSelf = self;
-    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
         [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
@@ -144,7 +144,7 @@
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
     __weak typeof(self) weakSelf = self;
-    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+    [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
 
         [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
@@ -198,7 +198,7 @@
         sleep(2);
 
         __weak typeof(self) weakSelf = self;
-        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
             XCTAssert(error == nil);
 
             [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
@@ -242,7 +242,7 @@
         sleep(2);
 
         __weak typeof(self) weakSelf = self;
-        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSKSyncKeyStorage *syncKeyStorage, NSError *error) {
+        [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
             XCTAssert(error == nil);
 
             [syncKeyStorage storeEntryWithName:self.eThree.identity data:data meta:nil completion:^(VSSKeychainEntry *entry, NSError *error) {
