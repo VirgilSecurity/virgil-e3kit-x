@@ -39,7 +39,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
 use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.5'
+pod 'VirgilE3Kit', '~> 0.6'
 end
 ```
 
@@ -63,7 +63,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.5
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.6
 ```
 
 #### Linking against prebuilt binaries
@@ -81,9 +81,7 @@ This will build each dependency or download a pre-compiled framework from github
 On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
  - VirgilE3Kit
  - VirgilPythiaSDK
- - VirgilKeyknoxSDK
  - VirgilSDK
- - VirgilCryptoAPI
  - VirgilCrypto
  - VirgilCryptoFoundation
  - VirgilCryptoPythia
@@ -102,9 +100,7 @@ and add the paths to the frameworks you want to use under “Input Files”, e.g
 ```
 $(SRCROOT)/Carthage/Build/iOS/VirgilE3Kit.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilPythiaSDK.framework
-$(SRCROOT)/Carthage/Build/iOS/VirgilKeyknoxSDK.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilSDK.framework
-$(SRCROOT)/Carthage/Build/iOS/VirgilCryptoAPI.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilCrypto.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilCryptoFoundation.framework
 $(SRCROOT)/Carthage/Build/iOS/VirgilCryptoPythia.framework
@@ -118,9 +114,7 @@ $(SRCROOT)/Carthage/Build/iOS/VSCPythia.framework
 On your application target's “General” settings tab, in the “Embedded Binaries” section, drag and drop following frameworks from the Carthage/Build folder on disk:
  - VirgilE3Kit
  - VirgilPythiaSDK
- - VirgilKeyknoxSDK
  - VirgilSDK
- - VirgilCryptoAPI
  - VirgilCrypto
  - VirgilCryptoFoundation
  - VirgilCryptoPythia
