@@ -59,10 +59,10 @@ import VirgilSDKPythia
         let keyPair = try! self.crypto.importPrivateKey(from: privateKeyData!)
 
         let generator = try! JwtGenerator(apiKey: keyPair.privateKey,
-                                         apiPublicKeyIdentifier: self.consts.ApiKeyId,
-                                         crypto: self.crypto,
-                                         appId: self.consts.AppId,
-                                         ttl: ttl)
+                                          apiPublicKeyIdentifier: self.consts.ApiKeyId,
+                                          crypto: self.crypto,
+                                          appId: self.consts.AppId,
+                                          ttl: ttl)
 
         let jwt = try! generator.generateToken(identity: identity)
 

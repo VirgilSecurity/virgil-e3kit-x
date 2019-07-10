@@ -85,8 +85,8 @@ extension EThree {
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
         let decryptedData = try self.crypto.decryptAndVerify(data,
-                                                              with: selfKeyPair.privateKey,
-                                                              using: senderPublicKey)
+                                                             with: selfKeyPair.privateKey,
+                                                             using: senderPublicKey)
 
         return decryptedData
     }
