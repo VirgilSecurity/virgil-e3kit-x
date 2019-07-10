@@ -36,7 +36,6 @@
 
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKKeyknox
 import VirgilSDKPythia
 
 internal class CloudKeyManager {
@@ -57,25 +56,31 @@ internal class CloudKeyManager {
         self.crypto = crypto
 
         let connection = EThree.getConnection()
-        self.keyknoxClient = KeyknoxClient(connection: connection)
+        self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
+                                           serviceUrl: KeyknoxClient.defaultURL,
+                                           connection: connection,
+                                           retryConfig: ExpBackoffRetry.Config())
 
-        let brainKeyContext = try BrainKeyContext(client: PythiaClient(connection: connection),
-                                                  accessTokenProvider: accessTokenProvider)
+        let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,
+                                        serviceUrl: PythiaClient.defaultURL,
+                                        connection: connection,
+                                        retryConfig: ExpBackoffRetry.Config())
+
+        let brainKeyContext = try BrainKeyContext(client: pythiaClient)
 
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().getResult()
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
-        let keyknoxManager = try KeyknoxManager(accessTokenProvider: self.accessTokenProvider,
-                                                keyknoxClient: self.keyknoxClient,
+        let keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient,
                                                 publicKeys: [brainKeyPair.publicKey],
                                                 privateKey: brainKeyPair.privateKey)
 
         let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
 
-        try cloudKeyStorage.retrieveCloudEntries().startSync().getResult()
+        try cloudKeyStorage.retrieveCloudEntries().startSync().get()
 
         return cloudKeyStorage
     }
@@ -87,7 +92,7 @@ extension CloudKeyManager {
 
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-        _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().getResult()
+        _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().get()
     }
 
     internal func retrieve(usingPassword password: String) throws -> CloudEntry {
@@ -99,18 +104,11 @@ extension CloudKeyManager {
     internal func delete(password: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
-        try cloudKeyStorage.deleteEntry(withName: self.identity).startSync().getResult()
+        try cloudKeyStorage.deleteEntry(withName: self.identity).startSync().get()
     }
 
     internal func deleteAll() throws {
-        let tokenContext = TokenContext(service: "keyknox", operation: "delete")
-
-        let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext,
-                                                                     accessTokenProvider: self.accessTokenProvider)
-
-        let token = try getTokenOperation.startSync().getResult()
-
-        _ = try self.keyknoxClient.resetValue(token: token.stringRepresentation())
+        _ = try self.keyknoxClient.resetValue()
     }
 
     internal func changePassword(from oldPassword: String,
@@ -119,9 +117,9 @@ extension CloudKeyManager {
 
         sleep(2)
 
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().getResult()
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
 
         try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                             newPrivateKey: brainKeyPair.privateKey).startSync().getResult()
+                                             newPrivateKey: brainKeyPair.privateKey).startSync().get()
     }
 }

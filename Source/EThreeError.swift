@@ -48,9 +48,8 @@ import Foundation
 /// - userIsAlreadyRegistered: User is already registered
 /// - userIsNotRegistered: User is not registered
 /// - privateKeyExists: Private key already exists in local key storage
-@objc(VTEEThreeError) public enum EThreeError: Int, Error {
+@objc(VTEEThreeError) public enum EThreeError: Int, LocalizedError {
     case verifierInitFailed = 1
-    case keyIsNotVirgil = 2
     case strToDataFailed = 3
     case strFromDataFailed = 4
     case missingPrivateKey = 5
@@ -61,12 +60,11 @@ import Foundation
     case privateKeyExists = 10
     case duplicateCards = 11
 
-    public var localizedDescription: String {
+    /// Human-readable localized description
+    public var errorDescription: String? {
         switch self {
         case .verifierInitFailed:
             return "Initialization of VirgilCardVerifier failed"
-        case .keyIsNotVirgil:
-            return "Casting Key to Virgil Key failed"
         case .strToDataFailed:
             return "String to Data failed"
         case .strFromDataFailed:

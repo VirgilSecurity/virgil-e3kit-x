@@ -34,11 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
 import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKKeyknox
 import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
@@ -56,17 +54,15 @@ import VirgilSDKPythia
         return jwt.stringRepresentation()
     }
 
-    @objc public func getToken(identity: String, ttl: TimeInterval) -> AccessToken {
-        let exporter = VirgilPrivateKeyExporter(virgilCrypto: self.crypto)
+    @objc public func getToken(identity: String, ttl: TimeInterval = 1000) -> AccessToken {
         let privateKeyData = Data(base64Encoded: self.consts.ApiPrivateKey)
-        let privateKey = try! exporter.importPrivateKey(from: privateKeyData!)
+        let keyPair = try! self.crypto.importPrivateKey(from: privateKeyData!)
 
-        let tokenSigner = VirgilAccessTokenSigner(virgilCrypto: self.crypto)
-        let generator = JwtGenerator(apiKey: privateKey,
-                                     apiPublicKeyIdentifier: self.consts.ApiPublicKeyId,
-                                     accessTokenSigner: tokenSigner,
-                                     appId: self.consts.AppId,
-                                     ttl: ttl)
+        let generator = try! JwtGenerator(apiKey: keyPair.privateKey,
+                                          apiPublicKeyIdentifier: self.consts.ApiKeyId,
+                                          crypto: self.crypto,
+                                          appId: self.consts.AppId,
+                                          ttl: ttl)
 
         let jwt = try! generator.generateToken(identity: identity)
 
@@ -84,18 +80,23 @@ import VirgilSDKPythia
 
         let rawCard = RawSignedModel(contentSnapshot: snapshot)
 
-        let token = self.getTokenString(identity: identity)
+        let token = self.getToken(identity: identity)
 
-        let cardCrypto = VirgilCardCrypto(virgilCrypto: self.crypto)
         let serviceUrl = URL(string: self.consts.ServiceURL)!
-        let cardClient = CardClient(serviceUrl: serviceUrl)
 
-        let signer = ModelSigner(cardCrypto: cardCrypto)
+        let provider = ConstAccessTokenProvider(accessToken: token)
+
+        let cardClient = CardClient(accessTokenProvider: provider,
+                                    serviceUrl: serviceUrl,
+                                    connection: nil,
+                                    retryConfig: ExpBackoffRetry.Config())
+
+        let signer = ModelSigner(crypto: self.crypto)
 
         try! signer.selfSign(model: rawCard, privateKey: keyPair.privateKey)
 
-        let responseRawCard = try cardClient.publishCard(model: rawCard, token: token)
-        let card = try CardManager.parseCard(from: responseRawCard, cardCrypto: cardCrypto)
+        let responseRawCard = try cardClient.publishCard(model: rawCard)
+        let card = try CardManager.parseCard(from: responseRawCard, crypto: crypto)
 
         return card
     }
@@ -135,6 +136,7 @@ import VirgilSDKPythia
 
         brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
             let cloudKeyStorage = try! CloudKeyStorage(accessTokenProvider: provider,
+                                                       crypto: self.crypto,
                                                        publicKeys: [keyPair!.publicKey],
                                                        privateKey: keyPair!.privateKey)
             let syncKeyStorage = SyncKeyStorage(identity: identity, keychainStorage: keychainStorage, cloudKeyStorage: cloudKeyStorage)

@@ -66,7 +66,7 @@ extension EThree {
             publicKeys += recipientKeys.values
         }
 
-        let encryptedData = try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
+        let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
 
         return encryptedData
     }
@@ -84,9 +84,9 @@ extension EThree {
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
-        let decryptedData = try self.crypto.decryptThenVerify(data,
-                                                              with: selfKeyPair.privateKey,
-                                                              using: senderPublicKey)
+        let decryptedData = try self.crypto.decryptAndVerify(data,
+                                                             with: selfKeyPair.privateKey,
+                                                             using: senderPublicKey)
 
         return decryptedData
     }
@@ -184,20 +184,16 @@ extension EThree {
                     throw EThreeError.missingIdentities
                 }
 
-                let cards = try self.cardManager.searchCards(identities: identities).startSync().getResult()
+                let cards = try self.cardManager.searchCards(identities: identities).startSync().get()
 
                 var result: LookupResult = [:]
 
                 for card in cards {
-                    guard let virgilPublicKey = card.publicKey as? VirgilPublicKey else {
-                        throw EThreeError.keyIsNotVirgil
-                    }
-
                     guard result[card.identity] == nil else {
                         throw EThreeError.duplicateCards
                     }
 
-                    result[card.identity] = virgilPublicKey
+                    result[card.identity] = card.publicKey
                 }
 
                 completion(result, nil)

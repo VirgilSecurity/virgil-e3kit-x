@@ -52,30 +52,34 @@ extension EThree {
 
                 let tokenContext = TokenContext(service: "cards", operation: "")
 
-                let getTokenOperation = OperationUtils.makeGetTokenOperation(tokenContext: tokenContext,
-                                                                             accessTokenProvider: accessTokenProvider)
+                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
+                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
+                }
 
-                let token = try getTokenOperation.startSync().getResult()
+                let token = try getTokenOperation.startSync().get()
 
                 let crypto = try VirgilCrypto()
-                let cardCrypto = VirgilCardCrypto(virgilCrypto: crypto)
 
-                guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
+                guard let verifier = VirgilCardVerifier(crypto: crypto) else {
                     throw EThreeError.verifierInitFailed
                 }
 
-                let params = CardManagerParams(cardCrypto: cardCrypto,
+                let params = CardManagerParams(crypto: crypto,
                                                accessTokenProvider: accessTokenProvider,
                                                cardVerifier: verifier)
 
                 let connection = EThree.getConnection()
-                let client = CardClient(connection: connection)
+                let client = CardClient(accessTokenProvider: accessTokenProvider,
+                                        serviceUrl: CardClient.defaultURL,
+                                        connection: connection,
+                                        retryConfig: ExpBackoffRetry.Config())
+
                 params.cardClient = client
 
                 let cardManager = CardManager(params: params)
 
                 let ethree = try EThree(identity: token.identity(),
-                                        crypto: crypto,
+                                        accessTokenProvider: accessTokenProvider,
                                         cardManager: cardManager,
                                         storageParams: storageParams)
 
@@ -97,7 +101,7 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard cards.isEmpty else {
                         throw EThreeError.userIsAlreadyRegistered
@@ -125,7 +129,7 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered
@@ -148,13 +152,13 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    let cards = try self.cardManager.searchCards(identity: self.identity).startSync().getResult()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered
                     }
 
-                    try self.cardManager.revokeCard(withId: card.identifier).startSync().getResult()
+                    try self.cardManager.revokeCard(withId: card.identifier).startSync().get()
 
                     try self.localKeyManager.delete()
 

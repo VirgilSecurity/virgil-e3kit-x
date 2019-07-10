@@ -34,39 +34,42 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#ifndef VTETestCaseBase_h
-#define VTETestCaseBase_h
+#import "VTETestBase.h"
 
-#import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
+@implementation VTETestBase
 
-@import VirgilSDK;
-@import VirgilE3Kit;
-@import VirgilCrypto;
-@import VirgilCrypto;
-@import VirgilSDKKeyknox;
+- (void)setUp {
+    [super setUp];
 
-#if TARGET_OS_IOS
-    #import "VirgilE3Kit_iOS_Tests-Swift.h"
-#elif TARGET_OS_TV
-    #import "VirgilE3Kit_tvOS_Tests-Swift.h"
+    self.password = [[NSUUID alloc] init].UUIDString;
+    self.consts = [VTETestConfig readFromBundle];
+    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
+    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
+
+    VSSKeychainStorageParams *params;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    #import "VirgilE3Kit_macOS_Tests-Swift.h"
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
 #endif
+    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
+    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
 
-static const NSTimeInterval timeout = 20.;
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
-@interface VTETestCaseBase : XCTestCase
+    NSString *identity = [[NSUUID alloc] init].UUIDString;
+    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-@property (nonatomic) VTETestConfig *consts;
-@property (nonatomic) VSMVirgilCrypto *crypto;
-@property (nonatomic) VTETestUtils *utils;
-@property (nonatomic) VSSKeychainStorage *keychainStorage;
-@property (nonatomic) VTEEThree *eThree;
-@property (nonatomic) NSString *password;
+        completionHandler(token, nil);
+    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
+        XCTAssert(eThree != nil && error == nil);
+        self.eThree = eThree;
 
+        dispatch_semaphore_signal(sema);
+    }];
+
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+}
 
 @end
-
-
-#endif /* VTETestCaseBase_h */

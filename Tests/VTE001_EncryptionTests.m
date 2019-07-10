@@ -34,9 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestCaseBase.h"
+#import "VTETestBase.h"
 
-@interface VTE001_EncryptionTests : VTETestCaseBase
+@interface VTE001_EncryptionTests : VTETestBase
 
 @end
 
@@ -226,8 +226,7 @@
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     XCTAssert(error == nil);
 
-    VSMVirgilPrivateKeyExporter *exporter = [[VSMVirgilPrivateKeyExporter alloc] initWithVirgilCrypto:self.crypto];
-    NSData *exportedKey = [exporter exportPrivateKeyWithPrivateKey:keyPair.privateKey error:&error];
+    NSData *exportedKey = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
     XCTAssert(error == nil);
 
     NSDictionary *meta = @{ @"isPublished": @"true"};
