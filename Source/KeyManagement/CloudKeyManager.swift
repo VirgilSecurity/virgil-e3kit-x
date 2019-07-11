@@ -56,6 +56,7 @@ internal class CloudKeyManager {
         self.crypto = crypto
 
         let connection = EThree.getConnection()
+
         self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
                                            serviceUrl: KeyknoxClient.defaultURL,
                                            connection: connection,

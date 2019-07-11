@@ -56,27 +56,74 @@ import VirgilCrypto
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
-    internal init(identity: String,
-                  accessTokenProvider: AccessTokenProvider,
-                  cardManager: CardManager,
-                  storageParams: KeychainStorageParams? = nil) throws {
-        self.identity = identity
-        self.crypto = cardManager.crypto
-        self.cardManager = cardManager
+    private var ticketStorage: TicketStorage?
+
+    internal convenience init(identity: String,
+                              accessTokenProvider: AccessTokenProvider,
+                              storageParams: KeychainStorageParams? = nil) throws {
+        let crypto = try VirgilCrypto()
+
+        guard let verifier = VirgilCardVerifier(crypto: crypto) else {
+            throw EThreeError.verifierInitFailed
+        }
+
+        let params = CardManagerParams(crypto: crypto,
+                                       accessTokenProvider: accessTokenProvider,
+                                       cardVerifier: verifier)
+
+        let client = CardClient(accessTokenProvider: accessTokenProvider,
+                                serviceUrl: CardClient.defaultURL,
+                                connection: EThree.getConnection(),
+                                retryConfig: ExpBackoffRetry.Config())
+
+        params.cardClient = client
+
+        let cardManager = CardManager(params: params)
 
         let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
-        self.localKeyManager = LocalKeyManager(identity: identity,
-                                               crypto: self.crypto,
-                                               keychainStorage: keychainStorage)
+        let localKeyManager = LocalKeyManager(identity: identity,
+                                              crypto: crypto,
+                                              keychainStorage: keychainStorage)
 
-        self.cloudKeyManager = try CloudKeyManager(identity: identity,
-                                                   accessTokenProvider: accessTokenProvider,
-                                                   crypto: self.crypto,
-                                                   keychainStorage: keychainStorage)
+        let cloudKeyManager = try CloudKeyManager(identity: identity,
+                                                  accessTokenProvider: accessTokenProvider,
+                                                  crypto: crypto,
+                                                  keychainStorage: keychainStorage)
+
+        self.init(identity: identity,
+                  cardManager: cardManager,
+                  localKeyManager: localKeyManager,
+                  cloudKeyManager: cloudKeyManager,
+                  ticketStorage: nil)
+    }
+
+    internal init(identity: String,
+                  cardManager: CardManager,
+                  localKeyManager: LocalKeyManager,
+                  cloudKeyManager: CloudKeyManager,
+                  ticketStorage: TicketStorage?) {
+        self.identity = identity
+        self.crypto = cardManager.crypto
+        self.cardManager = cardManager
+        self.localKeyManager = localKeyManager
+        self.cloudKeyManager = cloudKeyManager
+        self.ticketStorage = ticketStorage
 
         super.init()
+    }
+
+    internal func getTicketStorage() throws -> TicketStorage {
+        guard let storage = self.ticketStorage else {
+            throw NSError()
+        }
+
+        return storage
+    }
+
+    internal func computeSessionId(from identifier: Data) -> Data {
+        return self.crypto.computeHash(for: identifier).subdata(in: 0..<32)
     }
 
     internal static func getConnection() -> HttpConnection {

@@ -24,6 +24,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1629F5CE22D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
+		1629F5CF22D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
+		1629F5D022D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
+		1629F5D122D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
+		1629F5D422D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
+		1629F5D522D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
+		1629F5D622D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
+		1629F5D722D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
 		162D2B6622410C7200CE7FC2 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B5822410C6500CE7FC2 /* VirgilCrypto.framework */; };
 		162D2B6822410C7200CE7FC2 /* VirgilCryptoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B5722410C6500CE7FC2 /* VirgilCryptoFoundation.framework */; };
 		162D2B6922410C7200CE7FC2 /* VirgilCryptoPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */; };
@@ -141,10 +149,10 @@
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA16217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
-		16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
-		16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
-		16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
-		16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */; };
+		16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
+		16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
+		16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
+		16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +276,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketStorage.swift; sourceTree = "<group>"; };
+		1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Groups.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
 		162D2B5122410C6500CE7FC2 /* VirgilSDKPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKPythia.framework; path = Carthage/Build/Mac/VirgilSDKPythia.framework; sourceTree = "<group>"; };
@@ -344,7 +354,7 @@
 		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
-		16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Encryption.swift"; sourceTree = "<group>"; };
+		16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Pear-To-Peer.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -501,7 +511,8 @@
 			children = (
 				165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */,
 				165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */,
-				16F9EA1B2178AED60021FD9A /* EThree+Encryption.swift */,
+				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
+				1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */,
 				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
 			path = PublicAPI;
@@ -541,6 +552,7 @@
 		167E1DED217CFC1000F8AA13 /* KeyManagement */ = {
 			isa = PBXGroup;
 			children = (
+				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
 			);
@@ -1035,14 +1047,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1629F5D422D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				1629F5CE22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA1C2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
+				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,14 +1064,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1629F5D722D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				1629F5D122D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				165B67C62178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
-				16F9EA1F2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
+				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,14 +1081,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1629F5D522D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				1629F5CF22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA1D2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
+				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1080,14 +1098,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1629F5D622D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				1629F5D022D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
-				16F9EA1E2178AED60021FD9A /* EThree+Encryption.swift in Sources */,
+				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

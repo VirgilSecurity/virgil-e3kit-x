@@ -58,29 +58,8 @@ extension EThree {
 
                 let token = try getTokenOperation.startSync().get()
 
-                let crypto = try VirgilCrypto()
-
-                guard let verifier = VirgilCardVerifier(crypto: crypto) else {
-                    throw EThreeError.verifierInitFailed
-                }
-
-                let params = CardManagerParams(crypto: crypto,
-                                               accessTokenProvider: accessTokenProvider,
-                                               cardVerifier: verifier)
-
-                let connection = EThree.getConnection()
-                let client = CardClient(accessTokenProvider: accessTokenProvider,
-                                        serviceUrl: CardClient.defaultURL,
-                                        connection: connection,
-                                        retryConfig: ExpBackoffRetry.Config())
-
-                params.cardClient = client
-
-                let cardManager = CardManager(params: params)
-
                 let ethree = try EThree(identity: token.identity(),
                                         accessTokenProvider: accessTokenProvider,
-                                        cardManager: cardManager,
                                         storageParams: storageParams)
 
                 completion(ethree, nil)
