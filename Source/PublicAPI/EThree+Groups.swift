@@ -59,6 +59,8 @@ extension EThree {
 
         // Store this ticket
         try ticketStorage.store(ticket: ratchetMessage)
+
+        // TODO: Share ticket to participants
     }
 
     public func hasGroup(withId identifier: Data) throws -> Bool {
@@ -69,37 +71,16 @@ extension EThree {
         return !ticketStorage.retrieveTickets(sessionId: sessionId).isEmpty
     }
 
-    public func encryptForGroup(withId identifier: Data, message: Data) throws -> Data {
-        let session = try self.getSession(withId: identifier)
+    public func updateLocalTickets() -> CallbackOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let ticketStorage = try self.getTicketStorage()
 
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-        // FIXME
-        let selfCardId = "FIXME"
-
-        guard let myId = Data(hexEncodedString: selfCardId) else {
-            throw NSError()
+                ticketStorage.sync().start(completion: completion)
+            } catch {
+                completion(nil, error)
+            }
         }
-
-        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key, senderId: myId)
-
-        return encrypted.serialize()
-    }
-
-    public func decryptFromGroup(withId identifier: Data, message: Data, author senderCard: Card) throws -> Data {
-        let session = try self.getSession(withId: identifier)
-
-        let encrypted = try GroupSessionMessage.deserialize(input: message)
-
-        // TODO: Compare epoch of message and epoch of latest ticket in storage
-
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-        guard let senderId = Data(hexEncodedString: senderCard.identifier) else {
-            throw NSError()
-        }
-
-        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key, senderId: senderId)
     }
 
     private func getSession(withId identifier: Data) throws -> GroupSession {
@@ -124,5 +105,62 @@ extension EThree {
         }
 
         return session
+    }
+}
+
+extension EThree {
+    public func encryptForGroup(withId identifier: Data, message: Data) throws -> Data {
+        let session = try self.getSession(withId: identifier)
+
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
+        // FIXME
+        let selfCardId = "FIXME"
+
+        guard let myId = Data(hexEncodedString: selfCardId) else {
+            throw NSError()
+        }
+
+        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key, senderId: myId)
+
+        return encrypted.serialize()
+    }
+
+    public func decryptFromGroup(withId identifier: Data, data: Data, author senderCard: Card) throws -> Data {
+        let session = try self.getSession(withId: identifier)
+
+        let encrypted = try GroupSessionMessage.deserialize(input: data)
+
+        // TODO: Compare epoch of message and epoch of latest ticket in storage
+
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
+        guard let senderId = Data(hexEncodedString: senderCard.identifier) else {
+            throw NSError()
+        }
+
+        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key, senderId: senderId)
+    }
+
+    public func encryptForGroup(withId identifier: Data, text: String) throws -> String {
+        guard let data = text.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        return try self.encryptForGroup(withId: identifier, message: data).base64EncodedString()
+    }
+
+    public func decryptFromGroup(withId identifier: Data, text: String, author senderCard: Card) throws -> String {
+        guard let data = Data(base64Encoded: text) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        let decryptedData = try self.decryptFromGroup(withId: identifier, data: data, author: senderCard)
+
+        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
+            throw EThreeError.strFromDataFailed
+        }
+
+        return decryptedString
     }
 }

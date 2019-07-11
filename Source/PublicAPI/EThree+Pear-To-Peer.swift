@@ -40,7 +40,7 @@ import VirgilCrypto
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {
     /// Typealias for the valid result of lookupPublicKeys call
-    public typealias LookupResult = [String: VirgilPublicKey]
+    public typealias LookupResult = [String: Card]
 
     /// Signs then encrypts data for group of users
     ///
@@ -53,17 +53,19 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
+    @objc public func encrypt(data: Data, for recipientCards: LookupResult? = nil) throws -> Data {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
-        if let recipientKeys = recipientKeys {
-            guard !recipientKeys.isEmpty else {
+        if let recipientCards = recipientCards {
+            guard !recipientCards.isEmpty else {
                 throw EThreeError.missingPublicKey
             }
 
-            publicKeys += recipientKeys.values
+            let recipientKeys = recipientCards.values.map { $0.publicKey }
+
+            publicKeys += recipientKeys
         }
 
         let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
@@ -103,17 +105,19 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
-                              for recipientKeys: LookupResult? = nil) throws {
+                              for recipientCards: LookupResult? = nil) throws {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
-        if let recipientKeys = recipientKeys {
-            guard !recipientKeys.isEmpty else {
+        if let recipientCards = recipientCards {
+            guard !recipientCards.isEmpty else {
                 throw EThreeError.missingPublicKey
             }
 
-            publicKeys += recipientKeys.values
+            let recipientKeys = recipientCards.values.map { $0.publicKey }
+
+            publicKeys += recipientKeys
         }
 
         try self.crypto.encrypt(stream, to: outputStream, for: publicKeys)
@@ -177,7 +181,7 @@ extension EThree {
     ///
     /// - Parameter identities: array of identities to search for
     /// - Returns: CallbackOperation<Void>
-    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+    public func lookupCards(of identities: [String]) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
                 guard !identities.isEmpty else {
@@ -193,10 +197,28 @@ extension EThree {
                         throw EThreeError.duplicateCards
                     }
 
-                    result[card.identity] = card.publicKey
+                    result[card.identity] = card
                 }
 
                 completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func lookupCard(identity: String? = nil) -> GenericOperation<Card> {
+        return CallbackOperation { _, completion in
+            do {
+                let identity = identity ?? self.identity
+
+                let cards = try self.lookupCards(of: [identity]).startSync().get()
+
+                guard let selfCard = cards[identity] else {
+                    throw NSError()
+                }
+
+                completion(selfCard, nil)
             } catch {
                 completion(nil, error)
             }

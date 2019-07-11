@@ -147,9 +147,9 @@ extension EThree {
     ///   - completion: completion handler
     ///   - lookupResult: dictionary with idenities as keys and found public keys as values
     ///   - error: corresponding error
-    @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ lookupResult: LookupResult?,
-                                                              _ error: Error?) -> Void) {
-        self.lookupPublicKeys(of: identities).start(completion: completion)
+    @objc public func lookupCards(of identities: [String],
+                                  completion: @escaping (_ lookupResult: LookupResult?,
+                                                         _ error: Error?) -> Void) {
+        self.lookupCards(of: identities).start(completion: completion)
     }
 }
