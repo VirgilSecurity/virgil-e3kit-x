@@ -1,1 +1,2 @@
 github "VirgilSecurity/virgil-pythia-x" ~> 0.6.0
+github "VirgilSecurity/virgil-sdk-x" "develop-keyknox-extension"

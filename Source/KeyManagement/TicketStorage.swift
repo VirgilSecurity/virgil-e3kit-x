@@ -41,7 +41,7 @@ public protocol TicketStorage: class {
 
     func sync() -> CallbackOperation<Void>
 
-    func store(ticket: GroupSessionMessage) throws
+    func store(_ tickets: [GroupSessionMessage]) throws
 
     func retrieveTicket(sessionId: Data, epoch: Int) -> GroupSessionMessage?
 

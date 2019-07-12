@@ -41,19 +41,19 @@ import VirgilSDKPythia
 internal class CloudKeyManager {
     private let identity: String
     private let accessTokenProvider: AccessTokenProvider
-    private let keychainStorage: KeychainStorage
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
-    private let keyknoxClient: KeyknoxClient
 
-    internal init(identity: String,
-                  accessTokenProvider: AccessTokenProvider,
-                  crypto: VirgilCrypto,
-                  keychainStorage: KeychainStorage) throws {
-        self.identity = identity
+    internal let keyknoxClient: KeyknoxClient
+    internal let keyknoxManager: KeyknoxManager
+    internal let localKeyManager: LocalKeyManager
+
+    internal init(accessTokenProvider: AccessTokenProvider, localKeyManager: LocalKeyManager) throws {
         self.accessTokenProvider = accessTokenProvider
-        self.keychainStorage = keychainStorage
-        self.crypto = crypto
+        self.localKeyManager = localKeyManager
+
+        self.identity = localKeyManager.identity
+        self.crypto = localKeyManager.crypto
 
         let connection = EThree.getConnection()
 
@@ -70,16 +70,16 @@ internal class CloudKeyManager {
         let brainKeyContext = try BrainKeyContext(client: pythiaClient)
 
         self.brainKey = BrainKey(context: brainKeyContext)
+
+        self.keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
-        let keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient,
-                                                publicKeys: [brainKeyPair.publicKey],
-                                                privateKey: brainKeyPair.privateKey)
-
-        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager)
+        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: self.keyknoxManager,
+                                              publicKeys: [brainKeyPair.publicKey],
+                                              privateKey: brainKeyPair.privateKey)
 
         try cloudKeyStorage.retrieveCloudEntries().startSync().get()
 
@@ -109,7 +109,7 @@ extension CloudKeyManager {
     }
 
     internal func deleteAll() throws {
-        _ = try self.keyknoxClient.resetValue()
+        _ = try self.keyknoxClient.resetValue(identities: [], root1: nil, root2: nil, key: nil)
     }
 
     internal func changePassword(from oldPassword: String,

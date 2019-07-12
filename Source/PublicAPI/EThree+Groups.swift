@@ -39,48 +39,88 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {
-    public func createGroup(withId identifier: Data, participants: LookupResult) throws {
-        let sessionId = self.computeSessionId(from: identifier)
-
-        // Check if tickets with id exists in storage
-        let ticketStorage = try self.getTicketStorage()
-
-        guard ticketStorage.retrieveTickets(sessionId: sessionId).isEmpty else {
-            throw NSError()
-        }
-
-        // Create ticket
-        let ticket = GroupSessionTicket()
-        ticket.setRng(rng: self.crypto.rng)
-        try ticket.setupDefaults()
-
-        try ticket.setupTicketAsNew(sessionId: identifier)
-        let ratchetMessage = ticket.getTicketMessage()
-
-        // Store this ticket
-        try ticketStorage.store(ticket: ratchetMessage)
-
-        // TODO: Share ticket to participants
-    }
-
-    public func hasGroup(withId identifier: Data) throws -> Bool {
-        let ticketStorage = try self.getTicketStorage()
-
-        let sessionId = self.computeSessionId(from: identifier)
-
-        return !ticketStorage.retrieveTickets(sessionId: sessionId).isEmpty
-    }
-
-    public func updateLocalTickets() -> CallbackOperation<Void> {
+    public func createGroup(withId identifier: Data, participants: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let ticketStorage = try self.getTicketStorage()
+                let sessionId = self.computeSessionId(from: identifier)
 
-                ticketStorage.sync().start(completion: completion)
+                // Create ticket
+                let ticketMessage = try self.generateNewTicket(sessionId: sessionId)
+
+                // Store this ticket
+                try self.cloudKeyManager.store(ticket: ticketMessage,
+                                               sharedWith: Array(participants.values),
+                                               overwrite: true)
+
+                // TODO: store ticket locally
+                let ticketStorage = try self.getTicketStorage()
+                try ticketStorage.store([ticketMessage])
             } catch {
                 completion(nil, error)
             }
         }
+    }
+
+    // TODO: Remove initiator = store sessionId - initiators in Keyknox?
+    public func updateGroup(withId identifier: Data, initiator: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = self.computeSessionId(from: identifier)
+
+                let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
+
+                // TODO: store ticket locally
+                let ticketStorage = try self.getTicketStorage()
+                try ticketStorage.store(tickets)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func changeMembersInGroup(withId identifier: Data, newMembers: LookupResult) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = self.computeSessionId(from: identifier)
+
+                let session = try self.getSession(withId: sessionId)
+
+                // TODO: Add participants array to ticket?
+
+                // Need to know old members to know if there's needed to reencrypt all tickets.
+
+
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+//    public func removeMembersFromGroup(withId identifier: Data, newMembers: LookupResult) -> GenericOperation<Void> {
+//        return CallbackOperation { _, completion in
+//            do {
+//                let sessionId = self.computeSessionId(from: identifier)
+//
+//                let ticketMessage = try self.generateNewTicket(sessionId: sessionId)
+//
+//                try self.cloudKeyManager.store(ticket: ticketMessage,
+//                                               sharedWith: Array(newMembers.values),
+//                                               overwrite: true)
+//
+//                // TODO: Local storage
+//            } catch {
+//                completion(nil, error)
+//            }
+//        }
+//    }
+
+    private func generateNewTicket(sessionId: Data) throws -> GroupSessionMessage {
+        let ticket = GroupSessionTicket()
+        ticket.setRng(rng: self.crypto.rng)
+        try ticket.setupDefaults()
+
+        try ticket.setupTicketAsNew(sessionId: sessionId)
+        return ticket.getTicketMessage()
     }
 
     private func getSession(withId identifier: Data) throws -> GroupSession {
@@ -106,6 +146,14 @@ extension EThree {
 
         return session
     }
+
+    //    public func hasGroup(withId identifier: Data) throws -> Bool {
+    //        let ticketStorage = try self.getTicketStorage()
+    //
+    //        let sessionId = self.computeSessionId(from: identifier)
+    //
+    //        return !ticketStorage.retrieveTickets(sessionId: sessionId).isEmpty
+    //    }
 }
 
 extension EThree {

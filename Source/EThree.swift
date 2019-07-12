@@ -87,10 +87,8 @@ import VirgilCrypto
                                               crypto: crypto,
                                               keychainStorage: keychainStorage)
 
-        let cloudKeyManager = try CloudKeyManager(identity: identity,
-                                                  accessTokenProvider: accessTokenProvider,
-                                                  crypto: crypto,
-                                                  keychainStorage: keychainStorage)
+        let cloudKeyManager = try CloudKeyManager(accessTokenProvider: accessTokenProvider,
+                                                  localKeyManager: localKeyManager)
 
         self.init(identity: identity,
                   cardManager: cardManager,

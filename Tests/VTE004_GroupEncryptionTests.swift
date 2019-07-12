@@ -77,12 +77,12 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
             let groupIdentifier = try self.crypto.generateRandomData(ofSize: 100)
 
-            try ethree1.createGroup(withId: groupIdentifier, participants: participants)
+            try ethree1.createGroup(withId: groupIdentifier, participants: participants).startSync().get()
 
             let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
             let encrypted = try ethree1.encryptForGroup(withId: groupIdentifier, text: message)
 
-            try ethree2.updateLocalTickets().startSync().get()
+            try ethree2.updateGroup(withId: groupIdentifier, initiator: ethree1.identity).startSync().get()
 
             let decrypted = try ethree2.decryptFromGroup(withId: groupIdentifier,
                                                          text: encrypted,
