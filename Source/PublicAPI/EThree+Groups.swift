@@ -44,27 +44,24 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                // Create ticket
                 let ticket = try self.generateNewTicket(sessionId: sessionId, participants: Array(participants.keys))
 
-                // Store and share this ticket to cloud
                 try self.cloudKeyManager.store(ticket: ticket,
                                                sharedWith: Array(participants.values),
                                                overwrite: true)
 
-                // Store ticket locally
                 try self.getTicketStorage().store(tickets: [ticket])
             } catch {
                 completion(nil, error)
             }
         }
     }
-//
-//    public func hasGroup(withId identifier: Data) throws -> Bool {
-//        let sessionId = self.computeSessionId(from: identifier)
-//
-//        return try !self.getTicketStorage().retrieveTickets(sessionId: sessionId).isEmpty
-//    }
+
+    public func hasGroup(withId identifier: Data) throws -> Bool {
+        let sessionId = self.computeSessionId(from: identifier)
+
+        return try !self.getTicketStorage().retrieveTickets(sessionId: sessionId).isEmpty
+    }
 
     // TODO: Remove initiator = store sessionId - initiators in Keyknox?
     public func updateGroup(withId identifier: Data, initiator: String) -> GenericOperation<Void> {
@@ -74,7 +71,6 @@ extension EThree {
 
                 let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
 
-                // Store ticket locally
                 try self.getTicketStorage().store(tickets: tickets)
             } catch {
                 completion(nil, error)
@@ -95,7 +91,6 @@ extension EThree {
                     throw NSError()
                 }
 
-                // TODO: Check if someone was deleted
                 let oldParticipants = ticket.participants
                 let newParticipants = Array(newMembers.keys)
 
@@ -107,7 +102,6 @@ extension EThree {
 
                 if !deleteSet.isEmpty {
                     let ticket = try self.generateNewTicket(sessionId: sessionId, participants: newParticipants)
-
 
                     try self.cloudKeyManager.store(ticket: ticket,
                                                    sharedWith: Array(newMembers.values),
