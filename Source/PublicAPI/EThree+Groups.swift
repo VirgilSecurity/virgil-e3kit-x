@@ -45,21 +45,26 @@ extension EThree {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 // Create ticket
-                let ticketMessage = try self.generateNewTicket(sessionId: sessionId)
+                let ticket = try self.generateNewTicket(sessionId: sessionId, participants: Array(participants.keys))
 
                 // Store and share this ticket to cloud
-                try self.cloudKeyManager.store(ticket: ticketMessage,
+                try self.cloudKeyManager.store(ticket: ticket,
                                                sharedWith: Array(participants.values),
                                                overwrite: true)
 
                 // Store ticket locally
-                let ticketStorage = try self.getTicketStorage()
-                try ticketStorage.store(tickets: [ticketMessage])
+                try self.getTicketStorage().store(tickets: [ticket])
             } catch {
                 completion(nil, error)
             }
         }
     }
+//
+//    public func hasGroup(withId identifier: Data) throws -> Bool {
+//        let sessionId = self.computeSessionId(from: identifier)
+//
+//        return try !self.getTicketStorage().retrieveTickets(sessionId: sessionId).isEmpty
+//    }
 
     // TODO: Remove initiator = store sessionId - initiators in Keyknox?
     public func updateGroup(withId identifier: Data, initiator: String) -> GenericOperation<Void> {
@@ -70,8 +75,7 @@ extension EThree {
                 let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
 
                 // Store ticket locally
-                let ticketStorage = try self.getTicketStorage()
-                try ticketStorage.store(tickets: tickets)
+                try self.getTicketStorage().store(tickets: tickets)
             } catch {
                 completion(nil, error)
             }
@@ -85,10 +89,38 @@ extension EThree {
 
                 let session = try self.getSession(withId: sessionId)
 
-                // TODO: Add participants array to ticket?
+                let currentEpoch = session.getCurrentEpoch()
 
-                // Need to know old members to know if there's needed to reencrypt all tickets.
+                guard let ticket = try self.getTicketStorage().retrieveTicket(sessionId: sessionId, epoch: currentEpoch) else {
+                    throw NSError()
+                }
 
+                // TODO: Check if someone was deleted
+                let oldParticipants = ticket.participants
+                let newParticipants = Array(newMembers.keys)
+
+                let oldSet: Set<String> = Set(oldParticipants)
+                let newSet: Set<String> = Set(newParticipants)
+
+                let deleteSet = oldSet.subtracting(newSet)
+                let addSet = newSet.subtracting(oldSet)
+
+                if !deleteSet.isEmpty {
+                    let ticket = try self.generateNewTicket(sessionId: sessionId, participants: newParticipants)
+
+
+                    try self.cloudKeyManager.store(ticket: ticket,
+                                                   sharedWith: Array(newMembers.values),
+                                                   overwrite: true)
+
+                    try self.getTicketStorage().store(tickets: [ticket])
+                } else if !addSet.isEmpty {
+                    try self.cloudKeyManager.store(ticket: ticket,
+                                                   sharedWith: Array(newMembers.values),
+                                                   overwrite: false)
+                } else {
+                    throw NSError()
+                }
 
             } catch {
                 completion(nil, error)
@@ -96,31 +128,16 @@ extension EThree {
         }
     }
 
-//    public func removeMembersFromGroup(withId identifier: Data, newMembers: LookupResult) -> GenericOperation<Void> {
-//        return CallbackOperation { _, completion in
-//            do {
-//                let sessionId = self.computeSessionId(from: identifier)
-//
-//                let ticketMessage = try self.generateNewTicket(sessionId: sessionId)
-//
-//                try self.cloudKeyManager.store(ticket: ticketMessage,
-//                                               sharedWith: Array(newMembers.values),
-//                                               overwrite: true)
-//
-//                // TODO: Local storage
-//            } catch {
-//                completion(nil, error)
-//            }
-//        }
-//    }
-
-    private func generateNewTicket(sessionId: Data) throws -> GroupSessionMessage {
+    private func generateNewTicket(sessionId: Data, participants: [String]) throws -> Ticket {
         let ticket = GroupSessionTicket()
         ticket.setRng(rng: self.crypto.rng)
         try ticket.setupDefaults()
 
         try ticket.setupTicketAsNew(sessionId: sessionId)
-        return ticket.getTicketMessage()
+
+        let ticketMessage = ticket.getTicketMessage()
+
+        return Ticket(groupMessage: ticketMessage, participants: participants)
     }
 
     private func getSession(withId identifier: Data) throws -> GroupSession {
@@ -141,19 +158,11 @@ extension EThree {
         try session.setupDefaults()
 
         try tickets.forEach {
-            try session.addEpoch(message: $0)
+            try session.addEpoch(message: $0.groupMessage)
         }
 
         return session
     }
-
-    //    public func hasGroup(withId identifier: Data) throws -> Bool {
-    //        let ticketStorage = try self.getTicketStorage()
-    //
-    //        let sessionId = self.computeSessionId(from: identifier)
-    //
-    //        return !ticketStorage.retrieveTickets(sessionId: sessionId).isEmpty
-    //    }
 }
 
 extension EThree {

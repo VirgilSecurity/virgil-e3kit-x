@@ -36,9 +36,8 @@
 
 import VirgilCrypto
 import VirgilSDK
-import VirgilCryptoFoundation
 
-public class FileTicketStorage: NSObject, TicketStorage {
+class FileTicketStorage: NSObject, TicketStorage {
     private let fileSystem: FileSystem
     private let queue = DispatchQueue(label: "FileTicketStorageQueue")
 
@@ -52,22 +51,22 @@ public class FileTicketStorage: NSObject, TicketStorage {
         super.init()
     }
 
-    @objc public func store(ticket: GroupSessionMessage) throws {
+    func store(ticket: Ticket) throws {
         try self.queue.sync {
-            let data = ticket.serialize()
-            let subdir = ticket.getSessionId().hexEncodedString()
-            let name = String(ticket.getEpoch())
+            let data = try ticket.serialize()
+            let subdir = ticket.groupMessage.getSessionId().hexEncodedString()
+            let name = String(ticket.groupMessage.getEpoch())
 
             try self.fileSystem.write(data: data, name: name, subdir: subdir)
         }
     }
 
-    @objc public func store(tickets: [GroupSessionMessage]) throws {
+    func store(tickets: [Ticket]) throws {
         try tickets.forEach { try self.store(ticket: $0) }
     }
 
-    @objc public func retrieveTickets(sessionId: Data) -> [GroupSessionMessage] {
-        var result: [GroupSessionMessage] = []
+    func retrieveTickets(sessionId: Data) -> [Ticket] {
+        var result: [Ticket] = []
 
         let subdir = sessionId.hexEncodedString()
 
@@ -76,7 +75,7 @@ public class FileTicketStorage: NSObject, TicketStorage {
         }
 
         entries.forEach {
-            if let ticket = try? GroupSessionMessage.deserialize(input: $0) {
+            if let ticket = try? Ticket.deserialize($0) {
                 result.append(ticket)
             }
         }
@@ -84,14 +83,26 @@ public class FileTicketStorage: NSObject, TicketStorage {
         return result
     }
 
-    public func deleteTickets(sessionId: Data) throws {
+    func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket? {
+        let subdir = sessionId.hexEncodedString()
+        let name = String(epoch)
+
+        guard let data = try? self.fileSystem.read(name: name, subdir: subdir), !data.isEmpty else {
+            return nil
+        }
+
+
+        return try? Ticket.deserialize(data)
+    }
+
+    func deleteTickets(sessionId: Data) throws {
         try self.queue.sync {
             let subdir = sessionId.hexEncodedString()
             try self.fileSystem.delete(subdir: subdir)
         }
     }
 
-    @objc public func reset() throws {
+    func reset() throws {
         try self.queue.sync {
             try self.fileSystem.delete()
         }

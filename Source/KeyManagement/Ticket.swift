@@ -36,16 +36,46 @@
 
 import VirgilCryptoFoundation
 
-protocol TicketStorage: class {
-    func store(ticket: Ticket) throws
+internal class Ticket: Codable {
+    internal let groupMessage: GroupSessionMessage
+    internal let participants: [String]
 
-    func store(tickets: [Ticket]) throws
+    enum CodingKeys: String, CodingKey {
+        case groupMessage
+        case participants
+    }
 
-    func retrieveTickets(sessionId: Data) -> [Ticket]
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
 
-    func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket?
+        let groupMessageData = self.groupMessage.serialize()
 
-    func deleteTickets(sessionId: Data) throws
+        try container.encode(groupMessageData, forKey: .groupMessage)
+        try container.encode(participants, forKey: .participants)
+    }
 
-    func reset() throws
+    required convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let groupMessageData = try container.decode(Data.self, forKey: .groupMessage)
+
+        let groupMessage = try GroupSessionMessage.deserialize(input: groupMessageData)
+
+        let participants = try container.decode([String].self, forKey: .participants)
+
+        self.init(groupMessage: groupMessage, participants: participants)
+    }
+
+    static func deserialize(_ data: Data) throws -> Ticket {
+        return try JSONDecoder().decode(Ticket.self, from: data)
+    }
+
+    func serialize() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    internal init(groupMessage: GroupSessionMessage, participants: [String]) {
+        self.groupMessage = groupMessage
+        self.participants = participants
+    }
 }

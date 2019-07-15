@@ -34,18 +34,17 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoFoundation
 import VirgilSDK
 
 extension CloudKeyManager {
-    private static let groupSessionsRoot = "group-sessions-root"
+    private static let groupSessionsRoot = "group-sessions"
 
-    public func store(ticket: GroupSessionMessage, sharedWith cards: [Card], overwrite: Bool) throws {
+    public func store(ticket: Ticket, sharedWith cards: [Card], overwrite: Bool) throws {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        let sessionId = ticket.getSessionId().hexEncodedString()
-        let epoch = ticket.getEpoch()
-        let ticketData = ticket.serialize()
+        let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()
+        let epoch = ticket.groupMessage.getEpoch()
+        let ticketData = try ticket.serialize()
 
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
@@ -65,7 +64,7 @@ extension CloudKeyManager {
             .get()
     }
 
-    public func retrieveTickets(sessionId: Data, identity: String) throws -> [GroupSessionMessage] {
+    public func retrieveTickets(sessionId: Data, identity: String) throws -> [Ticket] {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
@@ -74,7 +73,7 @@ extension CloudKeyManager {
                                                     root1: CloudKeyManager.groupSessionsRoot,
                                                     root2: sessionId)
 
-        var tickets: [GroupSessionMessage] = []
+        var tickets: [Ticket] = []
         for epoch in epochs {
             let response = try self.keyknoxManager
                 .pullValue(identity: identity,
@@ -86,7 +85,7 @@ extension CloudKeyManager {
                 .startSync()
                 .get()
 
-            let ticket = try GroupSessionMessage.deserialize(input: response.value)
+            let ticket = try Ticket.deserialize(response.value)
             tickets.append(ticket)
         }
 
