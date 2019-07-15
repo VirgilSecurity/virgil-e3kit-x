@@ -47,14 +47,14 @@ extension EThree {
                 // Create ticket
                 let ticketMessage = try self.generateNewTicket(sessionId: sessionId)
 
-                // Store this ticket
+                // Store and share this ticket to cloud
                 try self.cloudKeyManager.store(ticket: ticketMessage,
                                                sharedWith: Array(participants.values),
                                                overwrite: true)
 
-                // TODO: store ticket locally
+                // Store ticket locally
                 let ticketStorage = try self.getTicketStorage()
-                try ticketStorage.store([ticketMessage])
+                try ticketStorage.store(tickets: [ticketMessage])
             } catch {
                 completion(nil, error)
             }
@@ -69,9 +69,9 @@ extension EThree {
 
                 let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
 
-                // TODO: store ticket locally
+                // Store ticket locally
                 let ticketStorage = try self.getTicketStorage()
-                try ticketStorage.store(tickets)
+                try ticketStorage.store(tickets: tickets)
             } catch {
                 completion(nil, error)
             }

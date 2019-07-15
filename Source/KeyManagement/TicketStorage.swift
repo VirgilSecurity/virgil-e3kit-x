@@ -35,19 +35,13 @@
 //
 
 import VirgilCryptoFoundation
-import VirgilSDK
 
 public protocol TicketStorage: class {
+    func store(ticket: GroupSessionMessage) throws
 
-    func sync() -> CallbackOperation<Void>
-
-    func store(_ tickets: [GroupSessionMessage]) throws
-
-    func retrieveTicket(sessionId: Data, epoch: Int) -> GroupSessionMessage?
+    func store(tickets: [GroupSessionMessage]) throws
 
     func retrieveTickets(sessionId: Data) -> [GroupSessionMessage]
-
-    func deleteTicket(sessionId: Data, epoch: Int) throws
 
     func deleteTickets(sessionId: Data) throws
 

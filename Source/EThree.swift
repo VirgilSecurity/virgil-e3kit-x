@@ -90,11 +90,16 @@ import VirgilCrypto
         let cloudKeyManager = try CloudKeyManager(accessTokenProvider: accessTokenProvider,
                                                   localKeyManager: localKeyManager)
 
+        var ticketStorage: TicketStorage?
+        if let selfKeyPair = try? localKeyManager.retrieveKeyPair() {
+            ticketStorage = try FileTicketStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+        }
+
         self.init(identity: identity,
                   cardManager: cardManager,
                   localKeyManager: localKeyManager,
                   cloudKeyManager: cloudKeyManager,
-                  ticketStorage: nil)
+                  ticketStorage: ticketStorage)
     }
 
     internal init(identity: String,
