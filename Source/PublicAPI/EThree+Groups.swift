@@ -136,11 +136,9 @@ extension EThree {
 
     private func getSession(withId identifier: Data) throws -> GroupSession {
         // Retrieve tickets from storage with identifier
-        let ticketStorage = try self.getTicketStorage()
-
         let sessionId = self.computeSessionId(from: identifier)
 
-        let tickets = ticketStorage.retrieveTickets(sessionId: sessionId)
+        let tickets = try self.getTicketStorage().retrieveTickets(sessionId: sessionId)
 
         guard !tickets.isEmpty else {
             throw NSError()
@@ -182,7 +180,9 @@ extension EThree {
 
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
-        // TODO: Compare epoch of message and epoch of latest ticket in storage
+        guard encrypted.getEpoch() == session.getCurrentEpoch() else {
+            throw NSError()
+        }
 
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
