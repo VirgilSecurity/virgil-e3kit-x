@@ -78,6 +78,20 @@ extension EThree {
         }
     }
 
+    public func deleteGroup(withId identifier: Data) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = self.computeSessionId(from: identifier)
+
+                try self.cloudKeyManager.deleteTickets(sessionId: sessionId)
+
+                try self.getTicketStorage().deleteTickets(sessionId: sessionId)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     public func changeMembersInGroup(withId identifier: Data, newMembers: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {

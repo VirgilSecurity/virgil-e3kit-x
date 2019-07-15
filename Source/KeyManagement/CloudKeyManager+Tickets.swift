@@ -91,4 +91,8 @@ extension CloudKeyManager {
 
         return tickets
     }
+
+    public func deleteTickets(sessionId: Data) throws {
+        // TODO: Implements
+    }
 }
