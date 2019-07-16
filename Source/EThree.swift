@@ -53,6 +53,7 @@ import VirgilCrypto
 
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
+    internal let groupSessionManager: GroupSessionManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
@@ -99,6 +100,7 @@ import VirgilCrypto
                   cardManager: cardManager,
                   localKeyManager: localKeyManager,
                   cloudKeyManager: cloudKeyManager,
+                  groupSessionManager: GroupSessionManager(crypto: crypto),
                   ticketStorage: ticketStorage)
     }
 
@@ -106,12 +108,14 @@ import VirgilCrypto
                   cardManager: CardManager,
                   localKeyManager: LocalKeyManager,
                   cloudKeyManager: CloudKeyManager,
+                  groupSessionManager: GroupSessionManager,
                   ticketStorage: TicketStorage?) {
         self.identity = identity
         self.crypto = cardManager.crypto
         self.cardManager = cardManager
         self.localKeyManager = localKeyManager
         self.cloudKeyManager = cloudKeyManager
+        self.groupSessionManager = groupSessionManager
         self.ticketStorage = ticketStorage
 
         super.init()

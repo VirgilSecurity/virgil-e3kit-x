@@ -39,7 +39,9 @@ import VirgilCryptoFoundation
 
 extension EThree {
     public func encryptForGroup(withId identifier: Data, message: Data) throws -> Data {
-        let session = try self.getSession(withId: identifier)
+        let sessionId = self.computeSessionId(from: identifier)
+
+        let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: self.getTicketStorage())
 
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
@@ -56,7 +58,9 @@ extension EThree {
     }
 
     public func decryptFromGroup(withId identifier: Data, data: Data, author senderCard: Card) throws -> Data {
-        let session = try self.getSession(withId: identifier)
+        let sessionId = self.computeSessionId(from: identifier)
+
+        let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: self.getTicketStorage())
 
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 

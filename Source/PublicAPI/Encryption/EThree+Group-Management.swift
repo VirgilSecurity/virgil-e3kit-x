@@ -38,7 +38,7 @@ import VirgilCrypto
 import VirgilCryptoFoundation
 import VirgilSDK
 
-extension EThree {
+extension EThree {    
     public func createGroup(withId identifier: Data, participants: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -72,6 +72,8 @@ extension EThree {
                 let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
 
                 try self.getTicketStorage().store(tickets: tickets)
+
+                self.groupSessionManager.resetCache(sessionId: sessionId)
             } catch {
                 completion(nil, error)
             }
@@ -86,6 +88,8 @@ extension EThree {
                 try self.cloudKeyManager.deleteTickets(sessionId: sessionId)
 
                 try self.getTicketStorage().deleteTickets(sessionId: sessionId)
+
+                self.groupSessionManager.resetCache(sessionId: sessionId)
             } catch {
                 completion(nil, error)
             }
@@ -96,8 +100,9 @@ extension EThree {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
+                let ticketStorage = try self.getTicketStorage()
 
-                let session = try self.getSession(withId: sessionId)
+                let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: ticketStorage)
 
                 let currentEpoch = session.getCurrentEpoch()
 
@@ -134,26 +139,5 @@ extension EThree {
                 completion(nil, error)
             }
         }
-    }
-
-    internal func getSession(withId identifier: Data) throws -> GroupSession {
-        // Retrieve tickets from storage with identifier
-        let sessionId = self.computeSessionId(from: identifier)
-
-        let tickets = try self.getTicketStorage().retrieveTickets(sessionId: sessionId)
-
-        guard !tickets.isEmpty else {
-            throw NSError()
-        }
-
-        // Use ticket/tickets to generate session
-        let session = GroupSession()
-        session.setRng(rng: self.crypto.rng)
-
-        try tickets.forEach {
-            try session.addEpoch(message: $0.groupMessage)
-        }
-
-        return session
     }
 }
