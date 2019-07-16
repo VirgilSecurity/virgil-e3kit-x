@@ -104,8 +104,9 @@ extension CloudKeyManager {
                                                     root1: CloudKeyManager.groupSessionsRoot,
                                                     root2: sessionId)
 
+        // TODO: save hash
         for epoch in epochs {
-            let response = try self.keyknoxManager
+            _ = try self.keyknoxManager
                 .updateRecipients(identities: identities,
                                   root1: CloudKeyManager.groupSessionsRoot,
                                   root2: sessionId,
@@ -121,6 +122,21 @@ extension CloudKeyManager {
     }
 
     public func deleteTickets(sessionId: Data) throws {
-        // TODO: Implements
+        let sessionId = sessionId.hexEncodedString()
+
+        let epochs = try self.keyknoxClient.getKeys(identity: nil,
+                                                    root1: CloudKeyManager.groupSessionsRoot,
+                                                    root2: sessionId)
+
+        // TODO: save hash
+        for epoch in epochs {
+            _ = try self.keyknoxManager
+                .resetValue(identities: [],
+                            root1: CloudKeyManager.groupSessionsRoot,
+                            root2: sessionId,
+                            key: epoch)
+                .startSync()
+                .get()
+        }
     }
 }

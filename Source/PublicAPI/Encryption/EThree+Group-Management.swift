@@ -122,7 +122,6 @@ extension EThree {
                     throw NSError()
                 }
 
-
                 if !addSet.isEmpty {
                     let addedCards = Array(addSet).map { newMembers[$0]! }
 
