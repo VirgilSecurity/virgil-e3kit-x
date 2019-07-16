@@ -28,10 +28,10 @@
 		1629F5CF22D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
 		1629F5D022D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
 		1629F5D122D6288C00DB5ECE /* TicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */; };
-		1629F5D422D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
-		1629F5D522D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
-		1629F5D622D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
-		1629F5D722D62A8300DB5ECE /* EThree+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */; };
+		1629F5D422D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */; };
+		1629F5D522D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */; };
+		1629F5D622D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */; };
+		1629F5D722D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */; };
 		162D2B6622410C7200CE7FC2 /* VirgilCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B5822410C6500CE7FC2 /* VirgilCrypto.framework */; };
 		162D2B6822410C7200CE7FC2 /* VirgilCryptoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B5722410C6500CE7FC2 /* VirgilCryptoFoundation.framework */; };
 		162D2B6922410C7200CE7FC2 /* VirgilCryptoPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */; };
@@ -103,6 +103,14 @@
 		167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E7A217D27A500F8AA13 /* ViewController.swift */; };
 		167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7C217D27A500F8AA13 /* Main.storyboard */; };
 		167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7F217D27A600F8AA13 /* Assets.xcassets */; };
+		1685844122DDD98E008EAC34 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Lookup.swift */; };
+		1685844222DDD98E008EAC34 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Lookup.swift */; };
+		1685844322DDD98E008EAC34 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Lookup.swift */; };
+		1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Lookup.swift */; };
+		1685844622DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */; };
+		1685844722DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */; };
+		1685844822DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */; };
+		1685844922DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */; };
 		16AD1102224127BF00435A28 /* VirgilCryptoPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */; };
 		16AD1104224127BF00435A28 /* VSCFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FA224127BF00435A28 /* VSCFoundation.framework */; };
 		16AD1105224127BF00435A28 /* VirgilCryptoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FB224127BF00435A28 /* VirgilCryptoFoundation.framework */; };
@@ -289,7 +297,7 @@
 
 /* Begin PBXFileReference section */
 		1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketStorage.swift; sourceTree = "<group>"; };
-		1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Groups.swift"; sourceTree = "<group>"; };
+		1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group-Management.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
 		162D2B5122410C6500CE7FC2 /* VirgilSDKPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilSDKPythia.framework; path = Carthage/Build/Mac/VirgilSDKPythia.framework; sourceTree = "<group>"; };
@@ -330,6 +338,8 @@
 		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1685844022DDD98E008EAC34 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
+		1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group-Encryption.swift"; sourceTree = "<group>"; };
 		16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/iOS/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
 		16AD10F9224127BF00435A28 /* VirgilCryptoAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoAPI.framework; path = Carthage/Build/iOS/VirgilCryptoAPI.framework; sourceTree = "<group>"; };
 		16AD10FA224127BF00435A28 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/iOS/VSCFoundation.framework; sourceTree = "<group>"; };
@@ -525,11 +535,11 @@
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
+				1685843F22DDD961008EAC34 /* Encryption */,
 				165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */,
 				165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */,
-				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
-				1629F5D322D62A8300DB5ECE /* EThree+Groups.swift */,
 				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
+				1685844022DDD98E008EAC34 /* EThree+Lookup.swift */,
 			);
 			path = PublicAPI;
 			sourceTree = "<group>";
@@ -569,9 +579,6 @@
 		167E1DED217CFC1000F8AA13 /* KeyManagement */ = {
 			isa = PBXGroup;
 			children = (
-				1632AE9622DCDFB000950B48 /* Ticket.swift */,
-				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
-				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
@@ -602,6 +609,26 @@
 				167E1E81217D27A600F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp tvOS";
+			sourceTree = "<group>";
+		};
+		1685843F22DDD961008EAC34 /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
+				1629F5D322D62A8300DB5ECE /* EThree+Group-Management.swift */,
+				1685844522DDDCE1008EAC34 /* EThree+Group-Encryption.swift */,
+			);
+			path = Encryption;
+			sourceTree = "<group>";
+		};
+		1685844A22DDE12C008EAC34 /* GroupTickets */ = {
+			isa = PBXGroup;
+			children = (
+				1632AE9622DCDFB000950B48 /* Ticket.swift */,
+				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
+				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
+			);
+			path = GroupTickets;
 			sourceTree = "<group>";
 		};
 		16EC37222177938A009D7F00 = {
@@ -644,6 +671,7 @@
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				1685844A22DDE12C008EAC34 /* GroupTickets */,
 				167E1DED217CFC1000F8AA13 /* KeyManagement */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
@@ -1067,7 +1095,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1629F5D422D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
+				1629F5D422D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */,
+				1685844622DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */,
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1629F5CE22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9222DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
@@ -1077,6 +1106,7 @@
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
+				1685844122DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16EDEEC022D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1087,7 +1117,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1629F5D722D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
+				1629F5D722D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */,
+				1685844922DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1629F5D122D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9522DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
@@ -1097,6 +1128,7 @@
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
+				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
 				16EDEEC322D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1107,7 +1139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1629F5D522D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
+				1629F5D522D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */,
+				1685844722DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */,
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1629F5CF22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9322DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
@@ -1117,6 +1150,7 @@
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
+				1685844222DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16EDEEC122D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1127,7 +1161,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1629F5D622D62A8300DB5ECE /* EThree+Groups.swift in Sources */,
+				1629F5D622D62A8300DB5ECE /* EThree+Group-Management.swift in Sources */,
+				1685844822DDDCE1008EAC34 /* EThree+Group-Encryption.swift in Sources */,
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1629F5D022D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9422DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
@@ -1137,6 +1172,7 @@
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
+				1685844322DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16EDEEC222D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,

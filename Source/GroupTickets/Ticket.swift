@@ -35,6 +35,7 @@
 //
 
 import VirgilCryptoFoundation
+import VirgilCrypto
 
 internal class Ticket: Codable {
     internal let groupMessage: GroupSessionMessage
@@ -77,5 +78,17 @@ internal class Ticket: Codable {
     internal init(groupMessage: GroupSessionMessage, participants: [String]) {
         self.groupMessage = groupMessage
         self.participants = participants
+    }
+
+    internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: [String]) throws {
+        let ticket = GroupSessionTicket()
+        ticket.setRng(rng: crypto.rng)
+        try ticket.setupDefaults()
+
+        try ticket.setupTicketAsNew(sessionId: sessionId)
+
+        let ticketMessage = ticket.getTicketMessage()
+
+        self.init(groupMessage: ticketMessage, participants: participants)
     }
 }

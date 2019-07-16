@@ -44,7 +44,7 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let ticket = try self.generateNewTicket(sessionId: sessionId, participants: Array(participants.keys))
+                let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: Array(participants.keys))
 
                 try self.cloudKeyManager.store(ticket: ticket,
                                                sharedWith: Array(participants.values),
@@ -115,7 +115,7 @@ extension EThree {
                 let addSet = newSet.subtracting(oldSet)
 
                 if !deleteSet.isEmpty {
-                    let ticket = try self.generateNewTicket(sessionId: sessionId, participants: newParticipants)
+                    let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: newParticipants)
 
                     try self.cloudKeyManager.store(ticket: ticket,
                                                    sharedWith: Array(newMembers.values),
@@ -136,19 +136,7 @@ extension EThree {
         }
     }
 
-    private func generateNewTicket(sessionId: Data, participants: [String]) throws -> Ticket {
-        let ticket = GroupSessionTicket()
-        ticket.setRng(rng: self.crypto.rng)
-        try ticket.setupDefaults()
-
-        try ticket.setupTicketAsNew(sessionId: sessionId)
-
-        let ticketMessage = ticket.getTicketMessage()
-
-        return Ticket(groupMessage: ticketMessage, participants: participants)
-    }
-
-    private func getSession(withId identifier: Data) throws -> GroupSession {
+    internal func getSession(withId identifier: Data) throws -> GroupSession {
         // Retrieve tickets from storage with identifier
         let sessionId = self.computeSessionId(from: identifier)
 
@@ -168,64 +156,5 @@ extension EThree {
         }
 
         return session
-    }
-}
-
-extension EThree {
-    public func encryptForGroup(withId identifier: Data, message: Data) throws -> Data {
-        let session = try self.getSession(withId: identifier)
-
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-        // FIXME
-        let selfCardId = "FIXME"
-
-        guard let myId = Data(hexEncodedString: selfCardId) else {
-            throw NSError()
-        }
-
-        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key, senderId: myId)
-
-        return encrypted.serialize()
-    }
-
-    public func decryptFromGroup(withId identifier: Data, data: Data, author senderCard: Card) throws -> Data {
-        let session = try self.getSession(withId: identifier)
-
-        let encrypted = try GroupSessionMessage.deserialize(input: data)
-
-        guard encrypted.getEpoch() == session.getCurrentEpoch() else {
-            throw NSError()
-        }
-
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-        guard let senderId = Data(hexEncodedString: senderCard.identifier) else {
-            throw NSError()
-        }
-
-        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key, senderId: senderId)
-    }
-
-    public func encryptForGroup(withId identifier: Data, text: String) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        return try self.encryptForGroup(withId: identifier, message: data).base64EncodedString()
-    }
-
-    public func decryptFromGroup(withId identifier: Data, text: String, author senderCard: Card) throws -> String {
-        guard let data = Data(base64Encoded: text) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        let decryptedData = try self.decryptFromGroup(withId: identifier, data: data, author: senderCard)
-
-        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
-            throw EThreeError.strFromDataFailed
-        }
-
-        return decryptedString
     }
 }
