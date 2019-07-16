@@ -149,7 +149,6 @@ extension EThree {
         // Use ticket/tickets to generate session
         let session = GroupSession()
         session.setRng(rng: self.crypto.rng)
-        try session.setupDefaults()
 
         try tickets.forEach {
             try session.addEpoch(message: $0.groupMessage)

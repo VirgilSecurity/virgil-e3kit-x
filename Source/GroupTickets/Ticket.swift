@@ -83,7 +83,6 @@ internal class Ticket: Codable {
     internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: [String]) throws {
         let ticket = GroupSessionTicket()
         ticket.setRng(rng: crypto.rng)
-        try ticket.setupDefaults()
 
         try ticket.setupTicketAsNew(sessionId: sessionId)
 
