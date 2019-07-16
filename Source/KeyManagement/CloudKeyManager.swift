@@ -46,6 +46,8 @@ internal class CloudKeyManager {
 
     internal let keyknoxClient: KeyknoxClient
     internal let keyknoxManager: KeyknoxManager
+
+    // FIXME: Remove
     internal let localKeyManager: LocalKeyManager
 
     internal init(accessTokenProvider: AccessTokenProvider, localKeyManager: LocalKeyManager) throws {

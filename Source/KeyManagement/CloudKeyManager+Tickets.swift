@@ -92,6 +92,34 @@ extension CloudKeyManager {
         return tickets
     }
 
+    public func updateRecipients(sessionId: Data, newRecipients cards: [Card]) throws {
+        let sessionId = sessionId.hexEncodedString()
+
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
+        let identities = cards.map { $0.identity }
+        let publicKeys = cards.map { $0.publicKey }
+
+        let epochs = try self.keyknoxClient.getKeys(identity: nil,
+                                                    root1: CloudKeyManager.groupSessionsRoot,
+                                                    root2: sessionId)
+
+        for epoch in epochs {
+            let response = try self.keyknoxManager
+                .updateRecipients(identities: identities,
+                                  root1: CloudKeyManager.groupSessionsRoot,
+                                  root2: sessionId,
+                                  key: epoch,
+                                  oldPublicKeys: [selfKeyPair.publicKey],
+                                  oldPrivateKey: selfKeyPair.privateKey,
+                                  overwrite: false,
+                                  newPublicKeys: publicKeys + [selfKeyPair.publicKey],
+                                  newPrivateKey: selfKeyPair.privateKey)
+                .startSync()
+                .get()
+        }
+    }
+
     public func deleteTickets(sessionId: Data) throws {
         // TODO: Implements
     }

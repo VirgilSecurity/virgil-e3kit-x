@@ -63,7 +63,6 @@ extension EThree {
         return try !self.getTicketStorage().retrieveTickets(sessionId: sessionId).isEmpty
     }
 
-    // TODO: Remove initiator = store sessionId - initiators in Keyknox?
     public func updateGroup(withId identifier: Data, initiator: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -119,6 +118,17 @@ extension EThree {
                 let deleteSet = oldSet.subtracting(newSet)
                 let addSet = newSet.subtracting(oldSet)
 
+                if deleteSet.isEmpty && addSet.isEmpty {
+                    throw NSError()
+                }
+
+
+                if !addSet.isEmpty {
+                    let addedCards = Array(addSet).map { newMembers[$0]! }
+
+                    try self.cloudKeyManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
+                }
+
                 if !deleteSet.isEmpty {
                     let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: newParticipants)
 
@@ -127,14 +137,7 @@ extension EThree {
                                                    overwrite: true)
 
                     try self.getTicketStorage().store(tickets: [ticket])
-                } else if !addSet.isEmpty {
-                    try self.cloudKeyManager.store(ticket: ticket,
-                                                   sharedWith: Array(newMembers.values),
-                                                   overwrite: false)
-                } else {
-                    throw NSError()
                 }
-
             } catch {
                 completion(nil, error)
             }

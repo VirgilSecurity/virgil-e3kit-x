@@ -61,7 +61,6 @@ internal class GroupSessionManager {
     }
 
     internal func getSession(withId sessionId: Data, ticketStorage: TicketStorage) throws -> GroupSession {
-
         if let session = self.cache[sessionId] {
             return session
         }
