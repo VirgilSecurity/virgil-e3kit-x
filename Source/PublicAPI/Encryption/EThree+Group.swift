@@ -96,9 +96,7 @@ extension EThree {
 
                 try self.getTicketStorage().store(tickets: tickets)
 
-                guard let group = try self.retrieveGroup(id: sessionId) else {
-                    throw NSError()
-                }
+                let group = try Group(crypto: self.crypto, tickets: tickets, localKeyManager: self.localKeyManager)
 
                 completion(group, nil)
             } catch {
