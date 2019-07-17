@@ -78,9 +78,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
             // User1 creates group, encrypts
-            try ethree1.createGroup(id: groupId, participants: participants).startSync().get()
-
-            let group1 = try ethree1.retrieveGroup(id: groupId)!
+            let group1 = try ethree1.createGroup(id: groupId, participants: participants).startSync().get()
 
             let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
             let encrypted = try group1.encrypt(text: message)
@@ -111,8 +109,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
-            try ethree1.createGroup(id: groupId, participants: participants).startSync().get()
-            var group1 = try ethree1.retrieveGroup(id: groupId)!
+            var group1 = try ethree1.createGroup(id: groupId, participants: participants).startSync().get()
 
             try ethree2.updateGroup(id: groupId, initiator: ethree1.identity).startSync().get()
             var group2 = try ethree2.retrieveGroup(id: groupId)!

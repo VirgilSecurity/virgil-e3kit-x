@@ -39,8 +39,9 @@ import VirgilSDK
 import VirgilCrypto
 
 public class Group {
-    internal let session: GroupSession
     public let participants: [String]
+
+    internal let session: GroupSession
 
     private let localKeyManager: LocalKeyManager
 

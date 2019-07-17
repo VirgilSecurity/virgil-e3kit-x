@@ -39,7 +39,7 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {    
-    public func createGroup(id identifier: Data, participants: LookupResult) -> GenericOperation<Void> {
+    public func createGroup(id identifier: Data, participants: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
@@ -52,7 +52,9 @@ extension EThree {
 
                 try self.getTicketStorage().store(tickets: [ticket])
 
-                completion((), nil)
+                let group = try Group(crypto: self.crypto, tickets: [ticket], localKeyManager: self.localKeyManager)
+
+                completion(group, nil)
             } catch {
                 completion(nil, error)
             }

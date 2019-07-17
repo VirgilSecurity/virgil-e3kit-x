@@ -538,8 +538,8 @@
 				1685843F22DDD961008EAC34 /* Encryption */,
 				165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */,
 				165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */,
-				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 				1685844022DDD98E008EAC34 /* EThree+Lookup.swift */,
+				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
 			path = PublicAPI;
 			sourceTree = "<group>";
