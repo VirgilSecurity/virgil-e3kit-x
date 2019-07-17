@@ -34,27 +34,46 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
 import VirgilCryptoFoundation
+import VirgilSDK
+import VirgilCrypto
 
-extension EThree {
-    public func encryptForGroup(withId identifier: Data, message: Data) throws -> Data {
-        let sessionId = self.computeSessionId(from: identifier)
+public class Group {
+    internal let session: GroupSession
+    public let participants: [String]
 
-        let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: self.getTicketStorage())
+    private let localKeyManager: LocalKeyManager
 
+    internal init(crypto: VirgilCrypto, tickets: [Ticket], localKeyManager: LocalKeyManager) throws {
+        let session = GroupSession()
+        session.setRng(rng: crypto.rng)
+
+        guard !tickets.isEmpty else {
+            throw NSError()
+        }
+
+        try tickets.forEach {
+            try session.addEpoch(message: $0.groupMessage)
+        }
+
+        guard let currentTicket = tickets.first(where: { $0.groupMessage.getEpoch() == session.getCurrentEpoch() }) else {
+            throw NSError()
+        }
+
+        self.session = session
+        self.participants = currentTicket.participants
+        self.localKeyManager = localKeyManager
+    }
+
+    public func encrypt(data: Data) throws -> Data {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key)
+        let encrypted = try session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
 
         return encrypted.serialize()
     }
 
-    public func decryptFromGroup(withId identifier: Data, data: Data, author senderCard: Card) throws -> Data {
-        let sessionId = self.computeSessionId(from: identifier)
-
-        let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: self.getTicketStorage())
-
+    public func decrypt(data: Data) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
         guard encrypted.getEpoch() == session.getCurrentEpoch() else {
@@ -66,20 +85,20 @@ extension EThree {
         return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key)
     }
 
-    public func encryptForGroup(withId identifier: Data, text: String) throws -> String {
+    public func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
 
-        return try self.encryptForGroup(withId: identifier, message: data).base64EncodedString()
+        return try self.encrypt(data: data).base64EncodedString()
     }
 
-    public func decryptFromGroup(withId identifier: Data, text: String, author senderCard: Card) throws -> String {
+    public func decrypt(text: String) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decryptFromGroup(withId: identifier, data: data, author: senderCard)
+        let decryptedData = try self.decrypt(data: data)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
@@ -88,3 +107,4 @@ extension EThree {
         return decryptedString
     }
 }
+

@@ -39,7 +39,7 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {    
-    public func createGroup(withId identifier: Data, participants: LookupResult) -> GenericOperation<Void> {
+    public func createGroup(id identifier: Data, participants: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
@@ -51,19 +51,27 @@ extension EThree {
                                                overwrite: true)
 
                 try self.getTicketStorage().store(tickets: [ticket])
+
+                completion((), nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    public func hasGroup(withId identifier: Data) throws -> Bool {
+    public func retrieveGroup(id identifier: Data) throws -> Group? {
         let sessionId = self.computeSessionId(from: identifier)
 
-        return try !self.getTicketStorage().retrieveTickets(sessionId: sessionId).isEmpty
+        let tickets = try self.getTicketStorage().retrieveTickets(sessionId: sessionId)
+
+        guard !tickets.isEmpty else {
+            return nil
+        }
+
+        return try Group(crypto: self.crypto, tickets: tickets, localKeyManager: self.localKeyManager)
     }
 
-    public func updateGroup(withId identifier: Data, initiator: String) -> GenericOperation<Void> {
+    public func updateGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
@@ -72,14 +80,34 @@ extension EThree {
 
                 try self.getTicketStorage().store(tickets: tickets)
 
-                self.groupSessionManager.resetCache(sessionId: sessionId)
+                completion((), nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    public func deleteGroup(withId identifier: Data) -> GenericOperation<Void> {
+    public func updateGroup(group: Group, initiator: String) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = group.session.getSessionId()
+
+                let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
+
+                try self.getTicketStorage().store(tickets: tickets)
+
+                guard let group = try self.retrieveGroup(id: sessionId) else {
+                    throw NSError()
+                }
+
+                completion(group, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
@@ -88,28 +116,19 @@ extension EThree {
 
                 try self.getTicketStorage().deleteTickets(sessionId: sessionId)
 
-                self.groupSessionManager.resetCache(sessionId: sessionId)
+                completion((), nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    public func changeMembersInGroup(withId identifier: Data, newMembers: LookupResult) -> GenericOperation<Void> {
+    public func changeMembers(group: Group, newMembers: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
-                let sessionId = self.computeSessionId(from: identifier)
-                let ticketStorage = try self.getTicketStorage()
+                let sessionId = group.session.getSessionId()
 
-                let session = try self.groupSessionManager.getSession(withId: sessionId, ticketStorage: ticketStorage)
-
-                let currentEpoch = session.getCurrentEpoch()
-
-                guard let ticket = try self.getTicketStorage().retrieveTicket(sessionId: sessionId, epoch: currentEpoch) else {
-                    throw NSError()
-                }
-
-                let oldParticipants = ticket.participants
+                let oldParticipants = group.participants
                 let newParticipants = Array(newMembers.keys)
 
                 let oldSet: Set<String> = Set(oldParticipants)
@@ -129,7 +148,8 @@ extension EThree {
                 }
 
                 if !deleteSet.isEmpty {
-                    let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: newParticipants)
+                    let ticketMessage = try group.session.createGroupTicket().getTicketMessage()
+                    let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
 
                     try self.cloudKeyManager.store(ticket: ticket,
                                                    sharedWith: Array(newMembers.values),
@@ -137,6 +157,12 @@ extension EThree {
 
                     try self.getTicketStorage().store(tickets: [ticket])
                 }
+
+                guard let group = try self.retrieveGroup(id: sessionId) else {
+                    throw NSError()
+                }
+
+                completion(group, nil)
             } catch {
                 completion(nil, error)
             }
