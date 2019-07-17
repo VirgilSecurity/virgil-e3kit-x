@@ -45,14 +45,7 @@ extension EThree {
 
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        // FIXME
-        let selfCardId = "FIXME"
-
-        guard let myId = Data(hexEncodedString: selfCardId) else {
-            throw NSError()
-        }
-
-        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key, senderId: myId)
+        let encrypted = try session.encrypt(plainText: message, privateKey: selfKeyPair.privateKey.key)
 
         return encrypted.serialize()
     }
@@ -70,11 +63,7 @@ extension EThree {
 
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        guard let senderId = Data(hexEncodedString: senderCard.identifier) else {
-            throw NSError()
-        }
-
-        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key, senderId: senderId)
+        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key)
     }
 
     public func encryptForGroup(withId identifier: Data, text: String) throws -> String {
