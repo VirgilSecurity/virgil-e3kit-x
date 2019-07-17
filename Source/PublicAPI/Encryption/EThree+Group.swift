@@ -87,7 +87,7 @@ extension EThree {
         }
     }
 
-    public func updateGroup(group: Group, initiator: String) -> GenericOperation<Group> {
+    public func updateGroup(_ group: Group, initiator: String) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = group.session.getSessionId()

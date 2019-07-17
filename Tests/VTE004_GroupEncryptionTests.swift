@@ -124,8 +124,8 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
             group1 = try ethree1.changeMembers(group: group1, newMembers: newParticipants).startSync().get()
 
-            group2 = try ethree2.updateGroup(group: group2, initiator: ethree1.identity).startSync().get()
-            group3 = try ethree3.updateGroup(group: group3, initiator: ethree1.identity).startSync().get()
+            group2 = try ethree2.updateGroup(group2, initiator: ethree1.identity).startSync().get()
+            group3 = try ethree3.updateGroup(group3, initiator: ethree1.identity).startSync().get()
             try ethree4.updateGroup(id: groupId, initiator: ethree1.identity).startSync().get()
             let group4 = try ethree4.retrieveGroup(id: groupId)!
 
