@@ -138,6 +138,7 @@ EThree.initialize(tokenCallback) { eThree, error in
     guard let eThree = eThree, error == nil else {
       // error handling here
     }
+    
     eThree.register { error in 
         // done
     }
@@ -151,20 +152,77 @@ Virgil E3Kit lets you use a user's Private key and his or her Public Keys to sig
 ```swift
 import VirgilE3Kit
 
-// prepare a message
-let messageToEncrypt = "Hello, Bob!"
+// TODO: init and register user (see Register User)
 
-// initialize E3Kit
-EThree.initialize(tokenCallback) { eThree, error in 
-    // Authenticate user 
-    eThree!.register { error in
-        // Search user's publicKeys to encrypt for
-        eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, error in 
-            // encrypt text
-            let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult!)
-        }
+// prepare a message
+let messageToEncrypt = "Hello, Alice and Den!"
+
+// Search user's publicKeys to encrypt for
+eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, error in 
+    guard let lookupResult = lookupResult, error == nil else {
+        // Error handling here
     }
+    
+    // encrypt text
+    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult!)
 }
+```
+
+Decrypt and verify the signed & encrypted data using sender's public key and receiver's private key:
+
+```swift
+import VirgilE3Kit
+
+// TODO: init and register user (see Register User)
+
+// Lookup user public key
+eThree.lookupPublicKeys(of: [bobUID]) { lookupResult, error in
+    guard let lookupResult = lookupResult, error == nil else {
+        // Error handling here
+    }
+    
+    // Decrypt text and verify if it was really written by Bob
+    let originText = try! eThree.decrypt(text: encryptedText, from: lookupResult[bobUID])
+}
+```
+
+#### Encrypt & decrypt large files
+
+If the data that needs to be encrypted is too large for your RAM to encrypt all at once, use the following snippets to encrypt and decrypt streams.
+
+Encryption:
+```swift
+import VirgilE3Kit
+
+// TODO: init and register user (see Register User)
+// TODO: Get users UIDs
+
+let usersToEncryptTo = [user1UID, user2UID, user3UID]
+
+// Lookup user public keys
+eThree.lookupPublicKeys(of: usersToEncryptTo) { lookupResult, error in
+    guard let lookupResult = lookupResult, error == nil else {
+        // Error handling here
+    }
+    
+    let fileURL = Bundle.main.url(forResource: "data", withExtension: "txt")!
+    let inputStream = InputStream(url: fileURL)!
+    let outputStream = OutputStream.toMemory()
+    
+    try eThree.encrypt(inputStream, to: outputStream, for: lookupResult)
+}
+```
+
+Decryption:
+> Stream encryption doesn’t sign the data. This is why decryption doesn’t need VirgilPublicKey for verification unlike the general data decryption.
+```swift
+import VirgilE3Kit
+
+// TODO: init and register user (see Register User)
+
+let outputStream = OutputStream.toMemory()
+
+try eThree.decrypt(encryptedStream, to: outputStream)
 ```
 
 ## License
