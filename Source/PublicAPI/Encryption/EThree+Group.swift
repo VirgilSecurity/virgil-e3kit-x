@@ -44,15 +44,22 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
+                let ticketStorage = try self.getTicketStorage()
+
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: Array(participants.keys))
 
-                try self.cloudKeyManager.store(ticket: ticket,
-                                               sharedWith: Array(participants.values),
-                                               overwrite: true)
+                try self.cloudTicketManager.store(ticket: ticket,
+                                                  sharedWith: Array(participants.values),
+                                                  overwrite: true,
+                                                  selfKeyPair: self.localKeyManager.retrieveKeyPair())
 
-                try self.getTicketStorage().store(tickets: [ticket])
+                try ticketStorage.store(tickets: [ticket])
 
-                let group = try Group(crypto: self.crypto, tickets: [ticket], localKeyManager: self.localKeyManager)
+                let group = try Group(crypto: self.crypto,
+                                      tickets: [ticket],
+                                      localKeyManager: self.localKeyManager,
+                                      localTicketsManager: ticketStorage,
+                                      cloudTicketManager: self.cloudTicketManager)
 
                 completion(group, nil)
             } catch {
@@ -64,13 +71,19 @@ extension EThree {
     public func retrieveGroup(id identifier: Data) throws -> Group? {
         let sessionId = self.computeSessionId(from: identifier)
 
-        let tickets = try self.getTicketStorage().retrieveTickets(sessionId: sessionId)
+        let ticketStorage = try self.getTicketStorage()
+
+        let tickets = ticketStorage.retrieveTickets(sessionId: sessionId)
 
         guard !tickets.isEmpty else {
             return nil
         }
 
-        return try Group(crypto: self.crypto, tickets: tickets, localKeyManager: self.localKeyManager)
+        return try Group(crypto: self.crypto,
+                         tickets: tickets,
+                         localKeyManager: self.localKeyManager,
+                         localTicketsManager: ticketStorage,
+                         cloudTicketManager: self.cloudTicketManager)
     }
 
     public func updateGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
@@ -78,29 +91,13 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
+                let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
+                                                                          identity: initiator,
+                                                                          selfKeyPair: self.localKeyManager.retrieveKeyPair())
 
                 try self.getTicketStorage().store(tickets: tickets)
 
                 completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    public func updateGroup(_ group: Group, initiator: String) -> GenericOperation<Group> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = group.session.getSessionId()
-
-                let tickets = try self.cloudKeyManager.retrieveTickets(sessionId: sessionId, identity: initiator)
-
-                try self.getTicketStorage().store(tickets: tickets)
-
-                let group = try Group(crypto: self.crypto, tickets: tickets, localKeyManager: self.localKeyManager)
-
-                completion(group, nil)
             } catch {
                 completion(nil, error)
             }
@@ -112,57 +109,11 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                try self.cloudKeyManager.deleteTickets(sessionId: sessionId)
+                try self.cloudTicketManager.deleteTickets(sessionId: sessionId)
 
                 try self.getTicketStorage().deleteTickets(sessionId: sessionId)
 
                 completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    public func changeMembers(group: Group, newMembers: LookupResult) -> GenericOperation<Group> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = group.session.getSessionId()
-
-                let oldParticipants = group.participants
-                let newParticipants = Array(newMembers.keys)
-
-                let oldSet: Set<String> = Set(oldParticipants)
-                let newSet: Set<String> = Set(newParticipants)
-
-                let deleteSet = oldSet.subtracting(newSet)
-                let addSet = newSet.subtracting(oldSet)
-
-                if deleteSet.isEmpty && addSet.isEmpty {
-                    throw NSError()
-                }
-
-                if !addSet.isEmpty {
-                    let addedCards = Array(addSet).map { newMembers[$0]! }
-
-                    try self.cloudKeyManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
-                }
-
-                if !deleteSet.isEmpty {
-                    let ticketMessage = try group.session.createGroupTicket().getTicketMessage()
-                    let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
-
-                    try self.cloudKeyManager.store(ticket: ticket,
-                                                   sharedWith: Array(newMembers.values),
-                                                   overwrite: true)
-
-                    try self.getTicketStorage().store(tickets: [ticket])
-                }
-
-                guard let group = try self.retrieveGroup(id: sessionId) else {
-                    throw NSError()
-                }
-
-                completion(group, nil)
             } catch {
                 completion(nil, error)
             }

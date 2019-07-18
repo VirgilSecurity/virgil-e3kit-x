@@ -40,22 +40,16 @@ import VirgilSDKPythia
 
 internal class CloudKeyManager {
     private let identity: String
-    private let accessTokenProvider: AccessTokenProvider
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
+    private let keyknoxClient: KeyknoxClient
 
-    internal let keyknoxClient: KeyknoxClient
-    internal let keyknoxManager: KeyknoxManager
+    internal let accessTokenProvider: AccessTokenProvider
 
-    // FIXME: Remove
-    internal let localKeyManager: LocalKeyManager
-
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyManager: LocalKeyManager) throws {
+    internal init(identity: String, crypto: VirgilCrypto, accessTokenProvider: AccessTokenProvider) throws {
+        self.identity = identity
+        self.crypto = crypto
         self.accessTokenProvider = accessTokenProvider
-        self.localKeyManager = localKeyManager
-
-        self.identity = localKeyManager.identity
-        self.crypto = localKeyManager.crypto
 
         let connection = EThree.getConnection()
 
@@ -72,14 +66,14 @@ internal class CloudKeyManager {
         let brainKeyContext = try BrainKeyContext(client: pythiaClient)
 
         self.brainKey = BrainKey(context: brainKeyContext)
-
-        self.keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
-        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: self.keyknoxManager,
+        let keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient)
+
+        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager,
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
 

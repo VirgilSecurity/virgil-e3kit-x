@@ -39,9 +39,6 @@ import VirgilCrypto
 
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {
-    /// Typealias for the valid result of lookupPublicKeys call
-    public typealias LookupResult = [String: Card]
-
     /// Signs then encrypts data for group of users
     ///
     /// - Parameters:

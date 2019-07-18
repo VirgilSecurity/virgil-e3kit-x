@@ -44,9 +44,8 @@ internal protocol LocalKeyManagerDelegate: class {
 }
 
 internal class LocalKeyManager {
-    internal let identity: String
-    internal let crypto: VirgilCrypto
-
+    private let identity: String
+    private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
 
     internal weak var delegate: LocalKeyManagerDelegate?

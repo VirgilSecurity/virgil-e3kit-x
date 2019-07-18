@@ -111,6 +111,10 @@
 		1685845C22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
 		1685845D22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
 		1685845E22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
+		1685846A22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
+		1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
+		1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
+		1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
 		16AD1102224127BF00435A28 /* VirgilCryptoPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */; };
 		16AD1104224127BF00435A28 /* VSCFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FA224127BF00435A28 /* VSCFoundation.framework */; };
 		16AD1105224127BF00435A28 /* VirgilCryptoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FB224127BF00435A28 /* VirgilCryptoFoundation.framework */; };
@@ -161,10 +165,6 @@
 		16ED974522D7732800B90EC8 /* VTE004_GroupEncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupEncryptionTests.swift */; };
 		16ED974622D7732900B90EC8 /* VTE004_GroupEncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupEncryptionTests.swift */; };
 		16ED974722D7732A00B90EC8 /* VTE004_GroupEncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupEncryptionTests.swift */; };
-		16EDEEC022D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */; };
-		16EDEEC122D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */; };
-		16EDEEC222D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */; };
-		16EDEEC322D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */; };
 		16F9EA13217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
@@ -340,6 +340,7 @@
 		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1685844022DDD98E008EAC34 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
 		1685845A22DE2D23008EAC34 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		1685846922E0875D008EAC34 /* CloudTicketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTicketManager.swift; sourceTree = "<group>"; };
 		16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/iOS/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
 		16AD10F9224127BF00435A28 /* VirgilCryptoAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoAPI.framework; path = Carthage/Build/iOS/VirgilCryptoAPI.framework; sourceTree = "<group>"; };
 		16AD10FA224127BF00435A28 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/iOS/VSCFoundation.framework; sourceTree = "<group>"; };
@@ -378,7 +379,6 @@
 		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16ED974022D772F800B90EC8 /* VTE004_GroupEncryptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE004_GroupEncryptionTests.swift; sourceTree = "<group>"; };
-		16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloudKeyManager+Tickets.swift"; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Pear-To-Peer.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -576,14 +576,16 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		167E1DED217CFC1000F8AA13 /* KeyManagement */ = {
+		167E1DED217CFC1000F8AA13 /* Storages */ = {
 			isa = PBXGroup;
 			children = (
+				1685846922E0875D008EAC34 /* CloudTicketManager.swift */,
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
-				16EDEEBF22D8977600469DEF /* CloudKeyManager+Tickets.swift */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
+				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
+				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
 			);
-			path = KeyManagement;
+			path = Storages;
 			sourceTree = "<group>";
 		};
 		167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */ = {
@@ -620,15 +622,13 @@
 			path = Encryption;
 			sourceTree = "<group>";
 		};
-		1685844A22DDE12C008EAC34 /* Groups */ = {
+		1685844A22DDE12C008EAC34 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				1685845A22DE2D23008EAC34 /* Group.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
-				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
-				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
 			);
-			path = Groups;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		16EC37222177938A009D7F00 = {
@@ -671,8 +671,8 @@
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1685844A22DDE12C008EAC34 /* Groups */,
-				167E1DED217CFC1000F8AA13 /* KeyManagement */,
+				1685844A22DDE12C008EAC34 /* Models */,
+				167E1DED217CFC1000F8AA13 /* Storages */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
@@ -1104,11 +1104,11 @@
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				1685846A22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685844122DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
-				16EDEEC022D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,11 +1126,11 @@
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
-				16EDEEC322D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1148,11 +1148,11 @@
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685844222DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
-				16EDEEC122D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1170,11 +1170,11 @@
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685844322DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
-				16EDEEC222D8977600469DEF /* CloudKeyManager+Tickets.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

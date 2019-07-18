@@ -53,6 +53,7 @@ import VirgilCrypto
 
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
+    internal let cloudTicketManager: CloudTicketManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
@@ -87,8 +88,9 @@ import VirgilCrypto
                                               crypto: crypto,
                                               keychainStorage: keychainStorage)
 
-        let cloudKeyManager = try CloudKeyManager(accessTokenProvider: accessTokenProvider,
-                                                  localKeyManager: localKeyManager)
+        let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
+
+        let cloudTicketManager = try CloudTicketManager(accessTokenProvider: accessTokenProvider)
 
         var ticketStorage: TicketStorage?
         if let selfKeyPair = try? localKeyManager.retrieveKeyPair() {
@@ -99,6 +101,7 @@ import VirgilCrypto
                   cardManager: cardManager,
                   localKeyManager: localKeyManager,
                   cloudKeyManager: cloudKeyManager,
+                  cloudTicketManager: cloudTicketManager,
                   ticketStorage: ticketStorage)
     }
 
@@ -106,12 +109,14 @@ import VirgilCrypto
                   cardManager: CardManager,
                   localKeyManager: LocalKeyManager,
                   cloudKeyManager: CloudKeyManager,
+                  cloudTicketManager: CloudTicketManager,
                   ticketStorage: TicketStorage?) {
         self.identity = identity
         self.crypto = cardManager.crypto
         self.cardManager = cardManager
         self.localKeyManager = localKeyManager
         self.cloudKeyManager = cloudKeyManager
+        self.cloudTicketManager = cloudTicketManager
         self.ticketStorage = ticketStorage
 
         super.init()
