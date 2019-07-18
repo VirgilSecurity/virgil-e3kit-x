@@ -39,7 +39,7 @@ import VirgilSDK
 
 extension Group {
     // FIXME: Remove initiator ?
-    public func update(initiator: String) -> GenericOperation<Void> {
+    public func update(initiator card: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
@@ -47,7 +47,8 @@ extension Group {
                 let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
                 let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
-                                                                          identity: initiator,
+                                                                          identity: card.identity,
+                                                                          identityPublicKey: card.publicKey,
                                                                           selfKeyPair: selfKeyPair)
 
                 try self.localTicketsManager.store(tickets: tickets)

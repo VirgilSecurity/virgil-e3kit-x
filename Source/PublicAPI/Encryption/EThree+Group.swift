@@ -87,13 +87,14 @@ extension EThree {
                          cloudTicketManager: self.cloudTicketManager)
     }
 
-    public func fetchGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
+    public func fetchGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
-                                                                          identity: initiator,
+                                                                          identity: card.identity,
+                                                                          identityPublicKey: card.publicKey,
                                                                           selfKeyPair: self.localKeyManager.retrieveKeyPair())
 
                 try self.getTicketStorage().store(tickets: tickets)

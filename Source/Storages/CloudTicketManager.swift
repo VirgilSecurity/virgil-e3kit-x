@@ -84,7 +84,10 @@ extension CloudTicketManager {
             .get()
     }
 
-    public func retrieveTickets(sessionId: Data, identity: String, selfKeyPair: VirgilKeyPair) throws -> [Ticket] {
+    public func retrieveTickets(sessionId: Data,
+                                identity: String,
+                                identityPublicKey: VirgilPublicKey,
+                                selfKeyPair: VirgilKeyPair) throws -> [Ticket] {
         let sessionId = sessionId.hexEncodedString()
 
         let epochs = try self.keyknoxClient.getKeys(identity: identity,
@@ -98,7 +101,7 @@ extension CloudTicketManager {
                            root1: CloudTicketManager.groupSessionsRoot,
                            root2: sessionId,
                            key: epoch,
-                           publicKeys: [selfKeyPair.publicKey],
+                           publicKeys: [identityPublicKey],
                            privateKey: selfKeyPair.privateKey)
                 .startSync()
                 .get()
