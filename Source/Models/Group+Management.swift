@@ -79,7 +79,7 @@ extension Group {
         }
     }
 
-    public func changeMembers(to newMembers: EThree.LookupResult) -> GenericOperation<Void> {
+    public func changeParticipants(to lookup: EThree.LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 // self.update(initiator: ) ?
@@ -88,8 +88,8 @@ extension Group {
 
                 let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-                let oldParticipants = self.participants
-                let newParticipants = Array(newMembers.keys)
+                let oldParticipants = self.participants + [self.localKeyManager.identity]
+                let newParticipants = Array(lookup.keys)
 
                 let oldSet: Set<String> = Set(oldParticipants)
                 let newSet: Set<String> = Set(newParticipants)
@@ -102,7 +102,7 @@ extension Group {
                 }
 
                 if !addSet.isEmpty {
-                    let addedCards = Array(addSet).map { newMembers[$0]! }
+                    let addedCards = Array(addSet).map { lookup[$0]! }
 
                     try self.cloudTicketManager.updateRecipients(sessionId: sessionId,
                                                                  newRecipients: addedCards,
@@ -114,8 +114,7 @@ extension Group {
                     let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
 
                     try self.cloudTicketManager.store(ticket: ticket,
-                                                      sharedWith: Array(newMembers.values),
-                                                      overwrite: true,
+                                                      sharedWith: Array(lookup.values),
                                                       selfKeyPair: selfKeyPair)
 
                     try self.localTicketsManager.store(tickets: [ticket])

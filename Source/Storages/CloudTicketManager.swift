@@ -61,7 +61,7 @@ internal class CloudTicketManager {
 }
 
 extension CloudTicketManager {
-    public func store(ticket: Ticket, sharedWith cards: [Card], overwrite: Bool, selfKeyPair: VirgilKeyPair) throws {
+    public func store(ticket: Ticket, sharedWith cards: [Card], selfKeyPair: VirgilKeyPair) throws {
         let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()
         let epoch = ticket.groupMessage.getEpoch()
         let ticketData = try ticket.serialize()
@@ -77,7 +77,7 @@ extension CloudTicketManager {
                        key: "\(epoch)",
                 data: ticketData,
                 previousHash: nil,
-                overwrite: overwrite,
+                overwrite: true,
                 publicKeys: publicKeys + [selfKeyPair.publicKey],
                 privateKey: selfKeyPair.privateKey)
             .startSync()
@@ -140,19 +140,9 @@ extension CloudTicketManager {
     public func deleteTickets(sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
 
-        let epochs = try self.keyknoxClient.getKeys(identity: nil,
-                                                    root1: CloudTicketManager.groupSessionsRoot,
-                                                    root2: sessionId)
-
-        // TODO: save hash
-        for epoch in epochs {
-            _ = try self.keyknoxManager
-                .resetValue(identities: [],
-                            root1: CloudTicketManager.groupSessionsRoot,
-                            root2: sessionId,
-                            key: epoch)
-                .startSync()
-                .get()
-        }
+        _ = try self.keyknoxClient.resetValue(identities: [],
+                                              root1: CloudTicketManager.groupSessionsRoot,
+                                              root2: sessionId,
+                                              key: nil)
     }
 }

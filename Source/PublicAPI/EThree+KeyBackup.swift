@@ -71,6 +71,8 @@ extension EThree {
 
                 try self.localKeyManager.store(data: entry.data)
 
+                try self.privateKeyChanged()
+
                 completion((), nil)
             } catch {
                 completion(nil, error)

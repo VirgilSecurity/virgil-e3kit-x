@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 /// Main class containing all features of E3Kit
-@objc(VTEEThree) open class EThree: NSObject, LocalKeyManagerDelegate {
+@objc(VTEEThree) open class EThree: NSObject {
     /// Typealias for callback used below
     public typealias JwtStringCallback = (String?, Error?) -> Void
     /// Typealias for callback used below
@@ -120,8 +120,6 @@ import VirgilCrypto
         self.ticketStorage = ticketStorage
 
         super.init()
-
-        self.localKeyManager.delegate = self
     }
 
     func privateKeyChanged() throws {
@@ -166,5 +164,7 @@ import VirgilCrypto
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
         try self.localKeyManager.store(data: data)
+
+        try self.privateKeyChanged()
     }
 }

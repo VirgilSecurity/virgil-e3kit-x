@@ -141,6 +141,8 @@ extension EThree {
 
                     try self.localKeyManager.delete()
 
+                    try self.privateKeyDeleted()
+
                     completion((), nil)
                 } catch {
                     completion(nil, error)
@@ -162,5 +164,7 @@ extension EThree {
     /// - Throws: KeychainStorageError
     @objc public func cleanUp() throws {
         try self.localKeyManager.delete()
+
+        try self.privateKeyDeleted()
     }
 }

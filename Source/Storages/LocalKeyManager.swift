@@ -37,18 +37,10 @@
 import VirgilCrypto
 import VirgilSDK
 
-internal protocol LocalKeyManagerDelegate: class {
-    func privateKeyChanged() throws
-
-    func privateKeyDeleted() throws
-}
-
 internal class LocalKeyManager {
-    private let identity: String
+    internal let identity: String
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
-
-    internal weak var delegate: LocalKeyManagerDelegate?
 
     internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
         self.identity = identity
@@ -67,8 +59,6 @@ internal class LocalKeyManager {
 
     internal func store(data: Data) throws {
         _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-
-        try self.delegate?.privateKeyChanged()
     }
 
     internal func exists() throws -> Bool {
@@ -77,7 +67,5 @@ internal class LocalKeyManager {
 
     internal func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity)
-
-        try self.delegate?.privateKeyDeleted()
     }
 }

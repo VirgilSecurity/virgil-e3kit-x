@@ -52,7 +52,6 @@ extension EThree {
 
                 try self.cloudTicketManager.store(ticket: ticket,
                                                   sharedWith: Array(lookup.values),
-                                                  overwrite: true,
                                                   selfKeyPair: self.localKeyManager.retrieveKeyPair())
 
                 try ticketStorage.store(tickets: [ticket])
@@ -88,7 +87,7 @@ extension EThree {
                          cloudTicketManager: self.cloudTicketManager)
     }
 
-    public func updateGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
+    public func fetchGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
