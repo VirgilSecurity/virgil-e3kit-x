@@ -115,6 +115,10 @@
 		1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
 		1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
 		1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
+		1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
+		1685847022E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
+		1685847122E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
+		1685847222E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
 		16AD1102224127BF00435A28 /* VirgilCryptoPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */; };
 		16AD1104224127BF00435A28 /* VSCFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FA224127BF00435A28 /* VSCFoundation.framework */; };
 		16AD1105224127BF00435A28 /* VirgilCryptoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AD10FB224127BF00435A28 /* VirgilCryptoFoundation.framework */; };
@@ -341,6 +345,7 @@
 		1685844022DDD98E008EAC34 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
 		1685845A22DE2D23008EAC34 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		1685846922E0875D008EAC34 /* CloudTicketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTicketManager.swift; sourceTree = "<group>"; };
+		1685846E22E091E0008EAC34 /* Group+Management.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Management.swift"; sourceTree = "<group>"; };
 		16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/iOS/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
 		16AD10F9224127BF00435A28 /* VirgilCryptoAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoAPI.framework; path = Carthage/Build/iOS/VirgilCryptoAPI.framework; sourceTree = "<group>"; };
 		16AD10FA224127BF00435A28 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/iOS/VSCFoundation.framework; sourceTree = "<group>"; };
@@ -626,6 +631,7 @@
 			isa = PBXGroup;
 			children = (
 				1685845A22DE2D23008EAC34 /* Group.swift */,
+				1685846E22E091E0008EAC34 /* Group+Management.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
 			);
 			path = Models;
@@ -1101,6 +1107,7 @@
 				1629F5CE22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9222DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1123,6 +1130,7 @@
 				1629F5D122D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9522DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C62178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1145,6 +1153,7 @@
 				1629F5CF22D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9322DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1167,6 +1176,7 @@
 				1629F5D022D6288C00DB5ECE /* TicketStorage.swift in Sources */,
 				1632AE9422DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,

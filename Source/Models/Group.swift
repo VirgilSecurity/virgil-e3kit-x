@@ -39,14 +39,14 @@ import VirgilSDK
 import VirgilCrypto
 
 public class Group {
-    private let crypto: VirgilCrypto
+    internal let crypto: VirgilCrypto
 
     internal let localKeyManager: LocalKeyManager
     internal let localTicketsManager: TicketStorage
     internal let cloudTicketManager: CloudTicketManager
 
-    internal private(set) var session: GroupSession
-    public private(set) var participants: [String]
+    internal var session: GroupSession
+    public internal(set) var participants: [String]
 
     internal init(crypto: VirgilCrypto,
                   tickets: [Ticket],
@@ -116,113 +116,6 @@ public class Group {
         }
 
         return decryptedString
-    }
-}
-
-extension Group {
-    // FIXME: Remove initiator
-    public func update(initiator: String) -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = self.session.getSessionId()
-
-                let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-                let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
-                                                                          identity: initiator,
-                                                                          selfKeyPair: selfKeyPair)
-
-                try self.localTicketsManager.store(tickets: tickets)
-
-                // FIXME
-                let session = GroupSession()
-                session.setRng(rng: self.crypto.rng)
-
-                guard !tickets.isEmpty else {
-                    throw NSError()
-                }
-
-                try tickets.forEach {
-                    try session.addEpoch(message: $0.groupMessage)
-                }
-
-                guard let currentTicket = tickets.first(where: { $0.groupMessage.getEpoch() == session.getCurrentEpoch() }) else {
-                    throw NSError()
-                }
-
-                self.session = session
-                self.participants = currentTicket.participants
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    public func changeMembers(to newMembers: EThree.LookupResult) -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = self.session.getSessionId()
-
-                let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-                let oldParticipants = self.participants
-                let newParticipants = Array(newMembers.keys)
-
-                let oldSet: Set<String> = Set(oldParticipants)
-                let newSet: Set<String> = Set(newParticipants)
-
-                let deleteSet = oldSet.subtracting(newSet)
-                let addSet = newSet.subtracting(oldSet)
-
-                if deleteSet.isEmpty && addSet.isEmpty {
-                    throw NSError()
-                }
-
-                if !addSet.isEmpty {
-                    let addedCards = Array(addSet).map { newMembers[$0]! }
-
-                    try self.cloudTicketManager.updateRecipients(sessionId: sessionId,
-                                                                 newRecipients: addedCards,
-                                                                 selfKeyPair: selfKeyPair)
-                }
-
-                if !deleteSet.isEmpty {
-                    let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
-                    let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
-
-                    try self.cloudTicketManager.store(ticket: ticket,
-                                                      sharedWith: Array(newMembers.values),
-                                                      overwrite: true,
-                                                      selfKeyPair: selfKeyPair)
-
-                    try self.localTicketsManager.store(tickets: [ticket])
-
-                    try self.session.addEpoch(message: ticket.groupMessage)
-                }
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    public func delete() -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = self.session.getSessionId()
-
-                try self.cloudTicketManager.deleteTickets(sessionId: sessionId)
-
-                try self.localTicketsManager.deleteTickets(sessionId: sessionId)
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
     }
 }
 
