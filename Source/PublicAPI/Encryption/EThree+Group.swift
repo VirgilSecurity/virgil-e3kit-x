@@ -39,17 +39,19 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {    
-    public func createGroup(id identifier: Data, participants: LookupResult) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 let ticketStorage = try self.getTicketStorage()
 
-                let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: Array(participants.keys))
+                let participants = Array(lookup.keys) + [self.identity]
+
+                let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
                 try self.cloudTicketManager.store(ticket: ticket,
-                                                  sharedWith: Array(participants.values),
+                                                  sharedWith: Array(lookup.values),
                                                   overwrite: true,
                                                   selfKeyPair: self.localKeyManager.retrieveKeyPair())
 
