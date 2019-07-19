@@ -79,21 +79,19 @@ public class Group {
     public func encrypt(data: Data) throws -> Data {
         let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-        let encrypted = try session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
+        let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
 
         return encrypted.serialize()
     }
 
-    public func decrypt(data: Data) throws -> Data {
+    public func decrypt(data: Data, from senderCard: Card) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
         guard encrypted.getEpoch() == session.getCurrentEpoch() else {
             throw NSError()
         }
 
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
-
-        return try session.decrypt(message: encrypted, publicKey: selfKeyPair.publicKey.key)
+        return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
     }
 
     public func encrypt(text: String) throws -> String {
@@ -104,12 +102,12 @@ public class Group {
         return try self.encrypt(data: data).base64EncodedString()
     }
 
-    public func decrypt(text: String) throws -> String {
+    public func decrypt(text: String, from senderCard: Card) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data)
+        let decryptedData = try self.decrypt(data: data, from: senderCard)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed

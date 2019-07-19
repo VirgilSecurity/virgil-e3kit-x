@@ -90,7 +90,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
             let group2 = try ethree2.retrieveGroup(id: groupId)!
 
-            let decrypted = try group2.decrypt(text: encrypted)
+            let decrypted = try group2.decrypt(text: encrypted, from: cards[ethree1.identity]!)
 
             XCTAssert(message == decrypted)
         } catch {
@@ -142,11 +142,11 @@ class VTE004_GroupEncryptionTests: XCTestCase {
             let encrypted = try group1.encrypt(text: message)
 
             // Other Users try to decrypt
-            let decrypted2 = try group2.decrypt(text: encrypted)
+            let decrypted2 = try group2.decrypt(text: encrypted, from: cards[ethree1.identity]!)
 
-            let notDecrypted3 = try? group3.decrypt(text: encrypted)
+            let notDecrypted3 = try? group3.decrypt(text: encrypted, from: cards[ethree1.identity]!)
 
-            let decrypted4 = try group4.decrypt(text: encrypted)
+            let decrypted4 = try group4.decrypt(text: encrypted, from: cards[ethree1.identity]!)
 
             XCTAssert(decrypted2 == message)
             XCTAssert(notDecrypted3 == nil)
