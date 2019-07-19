@@ -44,23 +44,60 @@ extension EThree {
     ///
     /// - Parameter identities: array of identities to search for
     /// - Returns: CallbackOperation<Void>
-    public func lookupCards(of identities: [String]) -> GenericOperation<LookupResult> {
+    public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
                 guard !identities.isEmpty else {
                     throw EThreeError.missingIdentities
                 }
 
-                let cards = try self.cardManager.searchCards(identities: identities).startSync().get()
-
                 var result: LookupResult = [:]
 
-                for card in cards {
-                    guard result[card.identity] == nil else {
-                        throw EThreeError.duplicateCards
-                    }
+                var identitiesSet = Set(identities)
 
-                    result[card.identity] = card
+                if !forceReload {
+                    for identity in identitiesSet {
+                        if let card = self.cardStorage.retrieveCard(identity: identity) {
+                            identitiesSet.remove(identity)
+                            result[identity] = card
+                        }
+                    }
+                }
+
+                if !identitiesSet.isEmpty {
+                    let cards = try self.cardManager.searchCards(identities: Array(identitiesSet)).startSync().get()
+
+                    for card in cards {
+                        guard result[card.identity] == nil else {
+                            throw EThreeError.duplicateCards
+                        }
+
+                        result[card.identity] = card
+                    }
+                }
+
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
+        return CallbackOperation { _, completion in
+            do {
+                var card: Card?
+
+                if !forceReload {
+                    card = self.cardStorage.retrieveCard(identity: identity)
+                }
+
+                if card == nil {
+                    card = try self.cardManager.searchCards(identities: [identity]).startSync().get().first
+                }
+
+                guard let result = card else {
+                    throw NSError()
                 }
 
                 completion(result, nil)

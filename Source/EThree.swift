@@ -59,6 +59,9 @@ import VirgilCrypto
 
     private var ticketStorage: TicketStorage?
 
+    // FIXME
+    internal var cardStorage: CardStorage!
+
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
                               storageParams: KeychainStorageParams? = nil) throws {
