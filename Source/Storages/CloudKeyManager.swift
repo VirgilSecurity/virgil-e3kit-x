@@ -105,7 +105,7 @@ extension CloudKeyManager {
     }
 
     internal func deleteAll() throws {
-        _ = try self.keyknoxClient.resetValue(identities: [], root1: nil, root2: nil, key: nil)
+        _ = try self.keyknoxClient.resetValue(root1: nil, root2: nil, key: nil)
     }
 
     internal func changePassword(from oldPassword: String,

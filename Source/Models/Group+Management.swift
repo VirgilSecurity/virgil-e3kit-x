@@ -92,8 +92,8 @@ extension Group {
                 let oldParticipants = self.participants + [self.localKeyManager.identity]
                 let newParticipants = Array(lookup.keys)
 
-                let oldSet: Set<String> = Set(oldParticipants)
-                let newSet: Set<String> = Set(newParticipants)
+                let oldSet = Set(oldParticipants)
+                let newSet = Set(newParticipants)
 
                 let deleteSet = oldSet.subtracting(newSet)
                 let addSet = newSet.subtracting(oldSet)
