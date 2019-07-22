@@ -51,7 +51,6 @@ extension Group {
                                      identity: card.identity,
                                      identityPublicKey: card.publicKey,
                                      selfKeyPair: selfKeyPair)
-                    .sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
                 try self.localTicketStorage.store(tickets: cloudTickets)
 

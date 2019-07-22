@@ -83,6 +83,10 @@
 		1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
 		1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */; };
+		1665EE1022E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
+		1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
+		1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
+		1665EE1322E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
@@ -328,6 +332,7 @@
 		165B6823217908C000DDE1F7 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE001_EncryptionTests.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
+		1665EE0F22E6080300774788 /* FileCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCardStorage.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
@@ -577,6 +582,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		1665EE1422E60A0300774788 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
+				1685847822E1DF81008EAC34 /* CardStorage.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		166ED6A121F0B7AA00A9B51F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -589,12 +603,12 @@
 		167E1DED217CFC1000F8AA13 /* Storages */ = {
 			isa = PBXGroup;
 			children = (
+				1665EE1422E60A0300774788 /* Protocols */,
 				1685846922E0875D008EAC34 /* CloudTicketManager.swift */,
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
-				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
 				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
-				1685847822E1DF81008EAC34 /* CardStorage.swift */,
+				1665EE0F22E6080300774788 /* FileCardStorage.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -1114,6 +1128,7 @@
 				1632AE9222DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
+				1665EE1022E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1138,6 +1153,7 @@
 				1632AE9522DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C62178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
+				1665EE1322E6080300774788 /* FileCardStorage.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1162,6 +1178,7 @@
 				1632AE9322DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
+				1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1186,6 +1203,7 @@
 				1632AE9422DCA93F00950B48 /* FileTicketStorage.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
+				1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,

@@ -72,6 +72,8 @@ extension EThree {
                             throw EThreeError.duplicateCards
                         }
 
+                        try self.cardStorage.store(card: card)
+
                         result[card.identity] = card
                     }
                 }

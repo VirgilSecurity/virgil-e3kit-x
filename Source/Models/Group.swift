@@ -67,7 +67,7 @@ public class Group {
         self.cloudTicketManager = cloudTicketManager
     }
 
-    internal static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {
+    private static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {
         let session = GroupSession()
         session.setRng(rng: crypto.rng)
 
@@ -104,9 +104,9 @@ public class Group {
                 throw NSError()
             }
 
-            let session = try self.generateSession(from: [ticket])
+            let tempSession = try self.generateSession(from: [ticket])
 
-            return try session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+            return try tempSession.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
         }
     }
 
