@@ -62,6 +62,8 @@ import VirgilCrypto
     // FIXME
     internal var cardStorage: CardStorage!
 
+    internal static let maxTicketsInGroup: Int = 50
+
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
                               storageParams: KeychainStorageParams? = nil) throws {

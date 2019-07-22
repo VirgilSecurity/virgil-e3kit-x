@@ -41,7 +41,7 @@ protocol TicketStorage: class {
 
     func store(tickets: [Ticket]) throws
 
-    func retrieveTickets(sessionId: Data) -> [Ticket]
+    func retrieveLastTickets(sessionId: Data, count: Int) throws -> [Ticket]
 
     func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket?
 

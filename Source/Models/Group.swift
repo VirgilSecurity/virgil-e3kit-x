@@ -42,7 +42,7 @@ public class Group {
     internal let crypto: VirgilCrypto
 
     internal let localKeyManager: LocalKeyManager
-    internal let localTicketsManager: TicketStorage
+    internal let localTicketStorage: TicketStorage
     internal let cloudTicketManager: CloudTicketManager
 
     internal var session: GroupSession
@@ -51,29 +51,35 @@ public class Group {
     internal init(crypto: VirgilCrypto,
                   tickets: [Ticket],
                   localKeyManager: LocalKeyManager,
-                  localTicketsManager: TicketStorage,
+                  localTicketStorage: TicketStorage,
                   cloudTicketManager: CloudTicketManager) throws {
-        let session = GroupSession()
-        session.setRng(rng: crypto.rng)
+        let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
-        guard !tickets.isEmpty else {
+        guard let lastTicket = tickets.last else {
             throw NSError()
         }
+
+        self.crypto = crypto
+        self.participants = lastTicket.participants
+        self.session = try Group.generateSession(from: tickets, crypto: crypto)
+        self.localKeyManager = localKeyManager
+        self.localTicketStorage = localTicketStorage
+        self.cloudTicketManager = cloudTicketManager
+    }
+
+    internal static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {
+        let session = GroupSession()
+        session.setRng(rng: crypto.rng)
 
         try tickets.forEach {
             try session.addEpoch(message: $0.groupMessage)
         }
 
-        guard let currentTicket = tickets.first(where: { $0.groupMessage.getEpoch() == session.getCurrentEpoch() }) else {
-            throw NSError()
-        }
+        return session
+    }
 
-        self.crypto = crypto
-        self.session = session
-        self.participants = currentTicket.participants
-        self.localKeyManager = localKeyManager
-        self.localTicketsManager = localTicketsManager
-        self.cloudTicketManager = cloudTicketManager
+    internal func generateSession(from tickets: [Ticket]) throws -> GroupSession {
+        return try Group.generateSession(from: tickets, crypto: self.crypto)
     }
 
     public func encrypt(data: Data) throws -> Data {
@@ -87,7 +93,21 @@ public class Group {
     public func decrypt(data: Data, from senderCard: Card) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
-        return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+
+        do {
+            return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+        } catch {
+            let sessionId = encrypted.getSessionId()
+            let messageEpoch = encrypted.getEpoch()
+
+            guard let ticket = self.localTicketStorage.retrieveTicket(sessionId: sessionId, epoch: messageEpoch) else {
+                throw NSError()
+            }
+
+            let session = try self.generateSession(from: [ticket])
+
+            return try session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+        }
     }
 
     public func encrypt(text: String) throws -> String {

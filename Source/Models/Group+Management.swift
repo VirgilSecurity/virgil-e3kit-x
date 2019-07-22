@@ -46,32 +46,26 @@ extension Group {
 
                 let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
 
-                let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
-                                                                          identity: card.identity,
-                                                                          identityPublicKey: card.publicKey,
-                                                                          selfKeyPair: selfKeyPair)
+                let cloudTickets = try self.cloudTicketManager
+                    .retrieveTickets(sessionId: sessionId,
+                                     identity: card.identity,
+                                     identityPublicKey: card.publicKey,
+                                     selfKeyPair: selfKeyPair)
+                    .sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
-                try self.localTicketsManager.store(tickets: tickets)
+                try self.localTicketStorage.store(tickets: cloudTickets)
 
-                // FIXME
-                let session = GroupSession()
-                session.setRng(rng: self.crypto.rng)
+                let tickets = try self.localTicketStorage.retrieveLastTickets(sessionId: sessionId,
+                                                                              count: EThree.maxTicketsInGroup)
 
-                guard !tickets.isEmpty else {
+                // TODO: tickets deletion
+                guard let lastTicket = tickets.last else {
                     completion((), nil)
                     return
                 }
 
-                try tickets.forEach {
-                    try session.addEpoch(message: $0.groupMessage)
-                }
-
-                guard let currentTicket = tickets.first(where: { $0.groupMessage.getEpoch() == session.getCurrentEpoch() }) else {
-                    throw NSError()
-                }
-
-                self.session = session
-                self.participants = currentTicket.participants
+                self.session = try self.generateSession(from: tickets)
+                self.participants = lastTicket.participants
 
                 completion((), nil)
             } catch {
@@ -118,7 +112,7 @@ extension Group {
                                                       sharedWith: Array(lookup.values),
                                                       selfKeyPair: selfKeyPair)
 
-                    try self.localTicketsManager.store(tickets: [ticket])
+                    try self.localTicketStorage.store(tickets: [ticket])
 
                     try self.session.addEpoch(message: ticket.groupMessage)
                 }
@@ -137,7 +131,7 @@ extension Group {
 
                 try self.cloudTicketManager.deleteTickets(sessionId: sessionId)
 
-                try self.localTicketsManager.deleteTickets(sessionId: sessionId)
+                try self.localTicketStorage.deleteTickets(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

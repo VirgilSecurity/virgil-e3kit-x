@@ -65,19 +65,29 @@ class FileTicketStorage: NSObject, TicketStorage {
         try tickets.forEach { try self.store(ticket: $0) }
     }
 
-    func retrieveTickets(sessionId: Data) -> [Ticket] {
+    func retrieveLastTickets(sessionId: Data, count: Int) throws -> [Ticket] {
         var result: [Ticket] = []
 
         let subdir = sessionId.hexEncodedString()
 
-        guard let entries = try? self.fileSystem.read(subdir: subdir), !entries.isEmpty else {
-            return result
-        }
+        let epochs = try self.fileSystem
+            .getFileNames(subdir: subdir)
+            .map({ (name: String) -> UInt32 in
+                guard let epoch = UInt32(name) else {
+                    throw NSError()
+                }
 
-        entries.forEach {
-            if let ticket = try? Ticket.deserialize($0) {
-                result.append(ticket)
+                return epoch
+            })
+            .sorted()
+            .suffix(count)
+
+        try epochs.forEach {
+            guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: $0) else {
+                throw NSError()
             }
+
+            result.append(ticket)
         }
 
         return result

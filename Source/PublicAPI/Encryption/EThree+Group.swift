@@ -59,7 +59,7 @@ extension EThree {
                 let group = try Group(crypto: self.crypto,
                                       tickets: [ticket],
                                       localKeyManager: self.localKeyManager,
-                                      localTicketsManager: ticketStorage,
+                                      localTicketStorage: ticketStorage,
                                       cloudTicketManager: self.cloudTicketManager)
 
                 completion(group, nil)
@@ -74,7 +74,7 @@ extension EThree {
 
         let ticketStorage = try self.getTicketStorage()
 
-        let tickets = ticketStorage.retrieveTickets(sessionId: sessionId)
+        let tickets = try ticketStorage.retrieveLastTickets(sessionId: sessionId, count: EThree.maxTicketsInGroup)
 
         guard !tickets.isEmpty else {
             return nil
@@ -83,7 +83,7 @@ extension EThree {
         return try Group(crypto: self.crypto,
                          tickets: tickets,
                          localKeyManager: self.localKeyManager,
-                         localTicketsManager: ticketStorage,
+                         localTicketStorage: ticketStorage,
                          cloudTicketManager: self.cloudTicketManager)
     }
 
