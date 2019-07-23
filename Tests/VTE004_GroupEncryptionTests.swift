@@ -66,35 +66,30 @@ class VTE004_GroupEncryptionTests: XCTestCase {
     }
 
     func test_1_encrypt_decrypt() {
-        do {
-            let ethree1 = try self.setUpDevice()
-            let ethree2 = try self.setUpDevice()
-            let ethree3 = try self.setUpDevice()
+        let ethree1 = try! self.setUpDevice()
+        let ethree2 = try! self.setUpDevice()
+        let ethree3 = try! self.setUpDevice()
 
-            let identities = [ethree2.identity, ethree3.identity]
+        let identities = [ethree2.identity, ethree3.identity]
 
-            let groupId = try self.crypto.generateRandomData(ofSize: 100)
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-            // User1 creates group, encrypts
-            let group1 = try ethree1.createGroup(id: groupId, with: identities).startSync().get()
+        // User1 creates group, encrypts
+        let group1 = try! ethree1.createGroup(id: groupId, with: identities).startSync().get()
 
-            let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
-            let encrypted = try group1.encrypt(text: message)
+        let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
+        let encrypted = try! group1.encrypt(text: message)
 
-            // User2 updates group, decrypts
-            try ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        // User2 updates group, decrypts
+        try! ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
 
-            let group2 = try ethree2.retrieveGroup(id: groupId)!
+        let group2 = try! ethree2.retrieveGroup(id: groupId)!
 
-            let card = try ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-            let decrypted = try group2.decrypt(text: encrypted, from: card)
+        let decrypted = try! group2.decrypt(text: encrypted, from: card)
 
-            XCTAssert(message == decrypted)
-        } catch {
-            print(error.localizedDescription)
-            XCTFail()
-        }
+        XCTAssert(message == decrypted)
     }
 
     func test_2_change_participants() {

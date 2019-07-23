@@ -39,13 +39,7 @@ import VirgilSDK
 protocol CardStorage: class {
     func store(card: Card) throws
 
-    func store(cards: [Card]) throws
-
     func retrieveCard(identity: String) -> Card?
-
-    func retrieveCards(identities: [String]) -> [Card]
-
-    func deleteCards(identities: [String]) throws
 
     func reset() throws
 }

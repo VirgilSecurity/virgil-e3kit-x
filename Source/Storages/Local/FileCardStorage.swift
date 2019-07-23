@@ -52,23 +52,25 @@ class FileCardStorage: NSObject, CardStorage {
     }
 
     func store(card: Card) throws {
+        try self.queue.sync {
+            let data = try JSONEncoder().encode(card.getRawCard())
 
-    }
-
-    func store(cards: [Card]) throws {
-
+            try self.fileSystem.write(data: data, name: card.identity)
+        }
     }
 
     func retrieveCard(identity: String) -> Card? {
-        return nil
-    }
+        guard
+            let data = try? self.fileSystem.read(name: identity),
+            !data.isEmpty,
+            let crypto = self.fileSystem.credentials?.crypto,
+            let rawCard = try? JSONDecoder().decode(RawSignedModel.self, from: data),
+            let card = try? CardManager.parseCard(from: rawCard, crypto: crypto)
+        else {
+            return nil
+        }
 
-    func retrieveCards(identities: [String]) -> [Card] {
-        return []
-    }
-
-    func deleteCards(identities: [String]) throws {
-
+        return card
     }
 
     func reset() throws {
