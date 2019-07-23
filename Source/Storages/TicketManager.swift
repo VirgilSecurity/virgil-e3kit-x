@@ -34,50 +34,47 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
 import VirgilSDK
 
-class FileCardStorage: NSObject, CardStorage {
-    private let fileSystem: FileSystem
-    private let queue = DispatchQueue(label: "FileCardStorageQueue")
+internal class TicketManager {
+    internal let localStorage: TicketStorage
+    internal let cloudStorage: CloudTicketStorage
 
-    @objc public init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
-        let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
-        self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
-                                     userIdentifier: identity,
-                                     pathComponents: ["CARDS"],
-                                     credentials: credentials)
-
-        super.init()
+    internal init(localStorage: TicketStorage, cloudStorage: CloudTicketStorage) {
+        self.localStorage = localStorage
+        self.cloudStorage = cloudStorage
     }
 
-    func store(card: Card) throws {
-        try self.queue.sync {
-            let data = try JSONEncoder().encode(card.getRawCard())
+    internal func store(ticket: Ticket, sharedWith cards: [Card]) throws {
+        try self.cloudStorage.store(ticket: ticket, sharedWith: cards)
 
-            try self.fileSystem.write(data: data, name: card.identity)
-        }
+        try self.localStorage.store(tickets: [ticket])
     }
 
-    func retrieve(identity: String) -> Card? {
-        guard
-            let data = try? self.fileSystem.read(name: identity),
-            !data.isEmpty,
-            let crypto = self.fileSystem.credentials?.crypto,
-            let rawCard = try? JSONDecoder().decode(RawSignedModel.self, from: data),
-            let card = try? CardManager.parseCard(from: rawCard, crypto: crypto)
-        else {
-            return nil
-        }
+    internal func pull(sessionId: Data, from card: Card) throws {
+        let tickets = try self.cloudStorage.retrieve(sessionId: sessionId,
+                                                     identity: card.identity,
+                                                     identityPublicKey: card.publicKey)
 
-        return card
+        try self.localStorage.store(tickets: tickets)
     }
 
-    func reset() throws {
-        try self.queue.sync {
-            try self.fileSystem.delete()
-        }
+    internal func updateRecipients(sessionId: Data, newRecipients: [Card]) throws {
+        try self.cloudStorage.updateRecipients(sessionId: sessionId,
+                                                     newRecipients: newRecipients)
+    }
+
+    internal func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket] {
+        return try self.localStorage.retrieveLast(count: count, sessionId: sessionId)
+    }
+
+    internal func retrieve(sessionId: Data, epoch: UInt32) -> Ticket? {
+        return self.localStorage.retrieve(sessionId: sessionId, epoch: epoch)
+    }
+
+    internal func delete(sessionId: Data) throws {
+        try self.cloudStorage.delete(sessionId: sessionId)
+
+        try self.localStorage.delete(sessionId: sessionId)
     }
 }
-
-

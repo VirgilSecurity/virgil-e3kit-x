@@ -38,15 +38,17 @@ import VirgilCrypto
 import VirgilSDK
 import VirgilSDKPythia
 
-internal class CloudTicketManager {
+internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
 
     private let accessTokenProvider: AccessTokenProvider
+    private let localKeyManager: LocalKeyManager
 
     internal let keyknoxManager: KeyknoxManager
 
-    internal init(accessTokenProvider: AccessTokenProvider) throws {
+    internal init(accessTokenProvider: AccessTokenProvider, localKeyManager: LocalKeyManager) throws {
         self.accessTokenProvider = accessTokenProvider
+        self.localKeyManager = localKeyManager
 
         let connection = EThree.getConnection()
 
@@ -59,8 +61,10 @@ internal class CloudTicketManager {
     }
 }
 
-extension CloudTicketManager {
-    public func store(ticket: Ticket, sharedWith cards: [Card], selfKeyPair: VirgilKeyPair) throws {
+extension CloudTicketStorage {
+    public func store(ticket: Ticket, sharedWith cards: [Card]) throws {
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
         let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()
         let epoch = ticket.groupMessage.getEpoch()
         let ticketData = try ticket.serialize()
@@ -71,7 +75,7 @@ extension CloudTicketManager {
         // FIXME: previous hash
         _ = try self.keyknoxManager
             .pushValue(identities: identities,
-                       root1: CloudTicketManager.groupSessionsRoot,
+                       root1: CloudTicketStorage.groupSessionsRoot,
                        root2: sessionId,
                        key: "\(epoch)",
                 data: ticketData,
@@ -83,14 +87,15 @@ extension CloudTicketManager {
             .get()
     }
 
-    public func retrieveTickets(sessionId: Data,
-                                identity: String,
-                                identityPublicKey: VirgilPublicKey,
-                                selfKeyPair: VirgilKeyPair) throws -> [Ticket] {
+    public func retrieve(sessionId: Data,
+                         identity: String,
+                         identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+
         let sessionId = sessionId.hexEncodedString()
 
         let epochs = try self.keyknoxManager.getKeys(identity: identity,
-                                                     root1: CloudTicketManager.groupSessionsRoot,
+                                                     root1: CloudTicketStorage.groupSessionsRoot,
                                                      root2: sessionId)
             .startSync()
             .get()
@@ -99,7 +104,7 @@ extension CloudTicketManager {
         for epoch in epochs {
             let response = try self.keyknoxManager
                 .pullValue(identity: identity,
-                           root1: CloudTicketManager.groupSessionsRoot,
+                           root1: CloudTicketStorage.groupSessionsRoot,
                            root2: sessionId,
                            key: epoch,
                            publicKeys: [identityPublicKey],
@@ -114,14 +119,16 @@ extension CloudTicketManager {
         return tickets
     }
 
-    public func updateRecipients(sessionId: Data, newRecipients cards: [Card], selfKeyPair: VirgilKeyPair) throws {
+    public func updateRecipients(sessionId: Data, newRecipients cards: [Card]) throws {
+        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        
         let sessionId = sessionId.hexEncodedString()
 
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
         let epochs = try self.keyknoxManager.getKeys(identity: nil,
-                                                     root1: CloudTicketManager.groupSessionsRoot,
+                                                     root1: CloudTicketStorage.groupSessionsRoot,
                                                      root2: sessionId)
             .startSync()
             .get()
@@ -130,7 +137,7 @@ extension CloudTicketManager {
         for epoch in epochs {
             _ = try self.keyknoxManager
                 .updateRecipients(identities: identities,
-                                  root1: CloudTicketManager.groupSessionsRoot,
+                                  root1: CloudTicketStorage.groupSessionsRoot,
                                   root2: sessionId,
                                   key: epoch,
                                   oldPublicKeys: [selfKeyPair.publicKey],
@@ -143,10 +150,10 @@ extension CloudTicketManager {
         }
     }
 
-    public func deleteTickets(sessionId: Data) throws {
+    public func delete(sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
 
-        _ = try self.keyknoxManager.resetValue(root1: CloudTicketManager.groupSessionsRoot,
+        _ = try self.keyknoxManager.resetValue(root1: CloudTicketStorage.groupSessionsRoot,
                                                root2: sessionId,
                                                key: nil)
             .startSync()

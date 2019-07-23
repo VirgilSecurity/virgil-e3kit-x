@@ -44,18 +44,12 @@ extension Group {
             do {
                 let sessionId = self.session.getSessionId()
 
-                let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
                 let card = try self.lookupManager.lookupCard(of: initiator).startSync().get()
 
-                let cloudTickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
-                                                                               identity: card.identity,
-                                                                               identityPublicKey: card.publicKey,
-                                                                               selfKeyPair: selfKeyPair)
+                try self.ticketManager.pull(sessionId: sessionId, from: card)
 
-                try self.localTicketStorage.store(tickets: cloudTickets)
-
-                let tickets = try self.localTicketStorage.retrieveLastTickets(sessionId: sessionId,
-                                                                              count: EThree.maxTicketsInGroup)
+                let tickets = try self.ticketManager.retrieveLast(count: EThree.maxTicketsInGroup,
+                                                                  sessionId: sessionId)
 
                 // TODO: tickets deletion
                 guard let lastTicket = tickets.last else {
@@ -80,7 +74,6 @@ extension Group {
 
                 let sessionId = self.session.getSessionId()
 
-                let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
                 let lookup = try self.lookupManager.lookupCards(of: newParticipants).startSync().get()
 
                 let oldParticipants = self.participants + [self.localKeyManager.identity]
@@ -98,20 +91,14 @@ extension Group {
                 if !addSet.isEmpty {
                     let addedCards = Array(addSet).map { lookup[$0]! }
 
-                    try self.cloudTicketManager.updateRecipients(sessionId: sessionId,
-                                                                 newRecipients: addedCards,
-                                                                 selfKeyPair: selfKeyPair)
+                    try self.ticketManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
                 }
 
                 if !deleteSet.isEmpty {
                     let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
                     let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
 
-                    try self.cloudTicketManager.store(ticket: ticket,
-                                                      sharedWith: Array(lookup.values),
-                                                      selfKeyPair: selfKeyPair)
-
-                    try self.localTicketStorage.store(tickets: [ticket])
+                    try self.ticketManager.store(ticket: ticket, sharedWith: Array(lookup.values))
 
                     try self.session.addEpoch(message: ticket.groupMessage)
                 }
@@ -128,9 +115,7 @@ extension Group {
             do {
                 let sessionId = self.session.getSessionId()
 
-                try self.cloudTicketManager.deleteTickets(sessionId: sessionId)
-
-                try self.localTicketStorage.deleteTickets(sessionId: sessionId)
+                try self.ticketManager.delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

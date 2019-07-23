@@ -41,11 +41,11 @@ protocol TicketStorage: class {
 
     func store(tickets: [Ticket]) throws
 
-    func retrieveLastTickets(sessionId: Data, count: Int) throws -> [Ticket]
+    func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket]
 
-    func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket?
+    func retrieve(sessionId: Data, epoch: UInt32) -> Ticket?
 
-    func deleteTickets(sessionId: Data) throws
+    func delete(sessionId: Data) throws
 
     func reset() throws
 }

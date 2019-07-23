@@ -65,7 +65,7 @@ class FileTicketStorage: NSObject, TicketStorage {
         try tickets.forEach { try self.store(ticket: $0) }
     }
 
-    func retrieveLastTickets(sessionId: Data, count: Int) throws -> [Ticket] {
+    func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket] {
         var result: [Ticket] = []
 
         let subdir = sessionId.hexEncodedString()
@@ -83,7 +83,7 @@ class FileTicketStorage: NSObject, TicketStorage {
             .suffix(count)
 
         try epochs.forEach {
-            guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: $0) else {
+            guard let ticket = self.retrieve(sessionId: sessionId, epoch: $0) else {
                 throw NSError()
             }
 
@@ -93,7 +93,7 @@ class FileTicketStorage: NSObject, TicketStorage {
         return result
     }
 
-    func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket? {
+    func retrieve(sessionId: Data, epoch: UInt32) -> Ticket? {
         let subdir = sessionId.hexEncodedString()
         let name = String(epoch)
 
@@ -105,7 +105,7 @@ class FileTicketStorage: NSObject, TicketStorage {
         return try? Ticket.deserialize(data)
     }
 
-    func deleteTickets(sessionId: Data) throws {
+    func delete(sessionId: Data) throws {
         try self.queue.sync {
             let subdir = sessionId.hexEncodedString()
             try self.fileSystem.delete(subdir: subdir)

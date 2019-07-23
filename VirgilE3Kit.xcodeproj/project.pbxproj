@@ -91,6 +91,10 @@
 		1665EE1E22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE1F22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE2022E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
+		1665EE2B22E74CCC00774788 /* TicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE2A22E74CCC00774788 /* TicketManager.swift */; };
+		1665EE2C22E74CCC00774788 /* TicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE2A22E74CCC00774788 /* TicketManager.swift */; };
+		1665EE2D22E74CCC00774788 /* TicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE2A22E74CCC00774788 /* TicketManager.swift */; };
+		1665EE2E22E74CCC00774788 /* TicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE2A22E74CCC00774788 /* TicketManager.swift */; };
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
@@ -338,6 +342,7 @@
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		1665EE0F22E6080300774788 /* FileCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCardStorage.swift; sourceTree = "<group>"; };
 		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
+		1665EE2A22E74CCC00774788 /* TicketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
@@ -631,6 +636,7 @@
 				1665EE2122E7220500774788 /* Cloud */,
 				1665EE2222E7220B00774788 /* Local */,
 				1665EE1C22E720A500774788 /* LookupManager.swift */,
+				1665EE2A22E74CCC00774788 /* TicketManager.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -1152,6 +1158,7 @@
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1022E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				1665EE2B22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
@@ -1178,6 +1185,7 @@
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1322E6080300774788 /* FileCardStorage.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
+				1665EE2E22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
@@ -1204,6 +1212,7 @@
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				1665EE2C22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
@@ -1230,6 +1239,7 @@
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				1665EE2D22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,

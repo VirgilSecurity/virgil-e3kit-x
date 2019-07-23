@@ -51,6 +51,7 @@ internal class LookupManager {
     // TODO: Add splitting on each 50 identities
     // TODO: Remove LookupResult ?
     // TODO: Add method on updating general local storage entries
+    // TODO: Remove GenericOperations
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
@@ -64,7 +65,7 @@ internal class LookupManager {
 
                 if !forceReload {
                     for identity in identitiesSet {
-                        if let card = self.cardStorage.retrieveCard(identity: identity) {
+                        if let card = self.cardStorage.retrieve(identity: identity) {
                             identitiesSet.remove(identity)
                             result[identity] = card
                         }
@@ -98,7 +99,7 @@ internal class LookupManager {
                 var card: Card?
 
                 if !forceReload {
-                    card = self.cardStorage.retrieveCard(identity: identity)
+                    card = self.cardStorage.retrieve(identity: identity)
                 }
 
                 if card == nil {

@@ -42,8 +42,7 @@ public class Group {
     internal let crypto: VirgilCrypto
 
     internal let localKeyManager: LocalKeyManager
-    internal let localTicketStorage: TicketStorage
-    internal let cloudTicketManager: CloudTicketManager
+    internal let ticketManager: TicketManager
     internal let lookupManager: LookupManager
 
     internal var session: GroupSession
@@ -52,8 +51,7 @@ public class Group {
     internal init(crypto: VirgilCrypto,
                   tickets: [Ticket],
                   localKeyManager: LocalKeyManager,
-                  localTicketStorage: TicketStorage,
-                  cloudTicketManager: CloudTicketManager,
+                  ticketManager: TicketManager,
                   lookupManager: LookupManager) throws {
         let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
@@ -65,8 +63,7 @@ public class Group {
         self.participants = lastTicket.participants
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyManager = localKeyManager
-        self.localTicketStorage = localTicketStorage
-        self.cloudTicketManager = cloudTicketManager
+        self.ticketManager = ticketManager
         self.lookupManager = lookupManager
     }
 
@@ -103,7 +100,7 @@ public class Group {
             let sessionId = encrypted.getSessionId()
             let messageEpoch = encrypted.getEpoch()
 
-            guard let ticket = self.localTicketStorage.retrieveTicket(sessionId: sessionId, epoch: messageEpoch) else {
+            guard let ticket = self.ticketManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
                 throw NSError()
             }
 
