@@ -42,13 +42,13 @@ internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
 
     private let accessTokenProvider: AccessTokenProvider
-    private let localKeyManager: LocalKeyManager
+    private let localKeyStorage: LocalKeyStorage
 
     internal let keyknoxManager: KeyknoxManager
 
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyManager: LocalKeyManager) throws {
+    internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
         self.accessTokenProvider = accessTokenProvider
-        self.localKeyManager = localKeyManager
+        self.localKeyStorage = localKeyStorage
 
         let connection = EThree.getConnection()
 
@@ -63,7 +63,7 @@ internal class CloudTicketStorage {
 
 extension CloudTicketStorage {
     public func store(ticket: Ticket, sharedWith cards: [Card]) throws {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()
         let epoch = ticket.groupMessage.getEpoch()
@@ -90,7 +90,7 @@ extension CloudTicketStorage {
     public func retrieve(sessionId: Data,
                          identity: String,
                          identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
 
@@ -120,7 +120,7 @@ extension CloudTicketStorage {
     }
 
     public func updateRecipients(sessionId: Data, newRecipients cards: [Card]) throws {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
         
         let sessionId = sessionId.hexEncodedString()
 

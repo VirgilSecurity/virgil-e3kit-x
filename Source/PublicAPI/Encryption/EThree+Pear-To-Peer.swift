@@ -51,7 +51,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for recipientCards: LookupResult? = nil) throws -> Data {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -79,7 +79,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
 
@@ -103,7 +103,7 @@ extension EThree {
     /// - Note: Avoid key duplication
     @objc public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
                               for recipientCards: LookupResult? = nil) throws {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -128,7 +128,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         try self.crypto.decrypt(stream, to: outputStream, with: selfKeyPair.privateKey)
     }

@@ -37,7 +37,7 @@
 import VirgilCrypto
 import VirgilSDK
 
-internal class LocalKeyManager {
+internal class LocalKeyStorage {
     internal let identity: String
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage

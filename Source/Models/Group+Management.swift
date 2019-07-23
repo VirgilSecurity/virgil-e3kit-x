@@ -76,7 +76,7 @@ extension Group {
 
                 let lookup = try self.lookupManager.lookupCards(of: newParticipants)
 
-                let oldParticipants = self.participants + [self.localKeyManager.identity]
+                let oldParticipants = self.participants + [self.localKeyStorage.identity]
 
                 let oldSet = Set(oldParticipants)
                 let newSet = Set(newParticipants)

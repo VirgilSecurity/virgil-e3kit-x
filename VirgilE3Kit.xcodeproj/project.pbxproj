@@ -98,10 +98,10 @@
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
-		167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
-		167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
-		167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
-		167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */; };
+		167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
+		167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
+		167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
+		167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
@@ -346,7 +346,7 @@
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
-		167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyManager.swift; sourceTree = "<group>"; };
+		167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
 		167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		167E1E1E217D253F00F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -605,7 +605,7 @@
 			isa = PBXGroup;
 			children = (
 				1665EE2322E7222F00774788 /* Protocols */,
-				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
+				167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */,
 				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
 				1665EE0F22E6080300774788 /* FileCardStorage.swift */,
 			);
@@ -1157,7 +1157,7 @@
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1022E6080300774788 /* FileCardStorage.swift in Sources */,
-				167E1DE4217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1665EE2B22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1193,7 +1193,7 @@
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				1685847C22E1DF81008EAC34 /* CardStorage.swift in Sources */,
 				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
-				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
+				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
 			);
@@ -1211,7 +1211,7 @@
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */,
-				167E1DE5217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1665EE2C22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1238,7 +1238,7 @@
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
 				1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */,
-				167E1DE6217CF0B100F8AA13 /* LocalKeyManager.swift in Sources */,
+				167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1665EE2D22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,

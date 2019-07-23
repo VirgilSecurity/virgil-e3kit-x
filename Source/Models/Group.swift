@@ -41,7 +41,7 @@ import VirgilCrypto
 public class Group {
     internal let crypto: VirgilCrypto
 
-    internal let localKeyManager: LocalKeyManager
+    internal let localKeyStorage: LocalKeyStorage
     internal let ticketManager: TicketManager
     internal let lookupManager: LookupManager
 
@@ -50,7 +50,7 @@ public class Group {
 
     internal init(crypto: VirgilCrypto,
                   tickets: [Ticket],
-                  localKeyManager: LocalKeyManager,
+                  localKeyStorage: LocalKeyStorage,
                   ticketManager: TicketManager,
                   lookupManager: LookupManager) throws {
         let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
@@ -62,7 +62,7 @@ public class Group {
         self.crypto = crypto
         self.participants = lastTicket.participants
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
-        self.localKeyManager = localKeyManager
+        self.localKeyStorage = localKeyStorage
         self.ticketManager = ticketManager
         self.lookupManager = lookupManager
     }
@@ -83,7 +83,7 @@ public class Group {
     }
 
     public func encrypt(data: Data) throws -> Data {
-        let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
 

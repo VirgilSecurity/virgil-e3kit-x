@@ -57,7 +57,7 @@ extension EThree {
 
                 let group = try Group(crypto: self.crypto,
                                       tickets: [ticket],
-                                      localKeyManager: self.localKeyManager,
+                                      localKeyStorage: self.localKeyStorage,
                                       ticketManager: ticketManager,
                                       lookupManager: lookupManager)
 
@@ -81,7 +81,7 @@ extension EThree {
 
         return try Group(crypto: self.crypto,
                          tickets: tickets,
-                         localKeyManager: self.localKeyManager,
+                         localKeyStorage: self.localKeyStorage,
                          ticketManager: ticketManager,
                          lookupManager: self.getLookupManager())
     }
