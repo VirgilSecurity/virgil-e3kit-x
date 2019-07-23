@@ -44,7 +44,7 @@ extension Group {
             do {
                 let sessionId = self.session.getSessionId()
 
-                let card = try self.lookupManager.lookupCard(of: initiator).startSync().get()
+                let card = try self.lookupManager.lookupCard(of: initiator)
 
                 try self.ticketManager.pull(sessionId: sessionId, from: card)
 
@@ -74,7 +74,7 @@ extension Group {
 
                 let sessionId = self.session.getSessionId()
 
-                let lookup = try self.lookupManager.lookupCards(of: newParticipants).startSync().get()
+                let lookup = try self.lookupManager.lookupCards(of: newParticipants)
 
                 let oldParticipants = self.participants + [self.localKeyManager.identity]
 

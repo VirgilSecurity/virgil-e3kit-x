@@ -51,69 +51,56 @@ internal class LookupManager {
     // TODO: Add splitting on each 50 identities
     // TODO: Remove LookupResult ?
     // TODO: Add method on updating general local storage entries
-    // TODO: Remove GenericOperations
-    public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
-        return CallbackOperation { _, completion in
-            do {
-                guard !identities.isEmpty else {
-                    throw EThreeError.missingIdentities
+    public func lookupCards(of identities: [String], forceReload: Bool = false) throws -> LookupResult {
+        guard !identities.isEmpty else {
+            throw EThreeError.missingIdentities
+        }
+
+        var result: LookupResult = [:]
+
+        var identitiesSet = Set(identities)
+
+        if !forceReload {
+            for identity in identitiesSet {
+                if let card = self.cardStorage.retrieve(identity: identity) {
+                    identitiesSet.remove(identity)
+                    result[identity] = card
                 }
-
-                var result: LookupResult = [:]
-
-                var identitiesSet = Set(identities)
-
-                if !forceReload {
-                    for identity in identitiesSet {
-                        if let card = self.cardStorage.retrieve(identity: identity) {
-                            identitiesSet.remove(identity)
-                            result[identity] = card
-                        }
-                    }
-                }
-
-                if !identitiesSet.isEmpty {
-                    let cards = try self.cardManager.searchCards(identities: Array(identitiesSet)).startSync().get()
-
-                    for card in cards {
-                        guard result[card.identity] == nil else {
-                            throw EThreeError.duplicateCards
-                        }
-
-                        try self.cardStorage.store(card: card)
-
-                        result[card.identity] = card
-                    }
-                }
-
-                completion(result, nil)
-            } catch {
-                completion(nil, error)
             }
         }
+
+        if !identitiesSet.isEmpty {
+            let cards = try self.cardManager.searchCards(identities: Array(identitiesSet)).startSync().get()
+
+            for card in cards {
+                guard result[card.identity] == nil else {
+                    throw EThreeError.duplicateCards
+                }
+
+                try self.cardStorage.store(card: card)
+
+                result[card.identity] = card
+            }
+        }
+
+        return result
     }
 
-    public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
-        return CallbackOperation { _, completion in
-            do {
-                var card: Card?
+    public func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
+        var card: Card?
 
-                if !forceReload {
-                    card = self.cardStorage.retrieve(identity: identity)
-                }
-
-                if card == nil {
-                    card = try self.cardManager.searchCards(identities: [identity]).startSync().get().first
-                }
-
-                guard let result = card else {
-                    throw NSError()
-                }
-
-                completion(result, nil)
-            } catch {
-                completion(nil, error)
-            }
+        if !forceReload {
+            card = self.cardStorage.retrieve(identity: identity)
         }
+
+        if card == nil {
+            card = try self.cardManager.searchCards(identities: [identity]).startSync().get().first
+        }
+
+        guard let result = card else {
+            throw NSError()
+        }
+
+        return result
     }
 }

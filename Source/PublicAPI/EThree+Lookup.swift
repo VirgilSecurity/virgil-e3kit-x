@@ -47,7 +47,9 @@ extension EThree {
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                try self.getLookupManager().lookupCards(of: identities).start(completion: completion)
+                let cards = try self.getLookupManager().lookupCards(of: identities)
+
+                completion(cards, nil)
             } catch {
                 completion(nil, error)
             }
@@ -57,7 +59,9 @@ extension EThree {
     public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
-                try self.getLookupManager().lookupCard(of: identity).start(completion: completion)
+                let card = try self.getLookupManager().lookupCard(of: identity)
+
+                completion(card, nil)
             } catch {
                 completion(nil, error)
             }

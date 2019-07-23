@@ -123,10 +123,10 @@
 		1685845C22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
 		1685845D22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
 		1685845E22DE2D23008EAC34 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685845A22DE2D23008EAC34 /* Group.swift */; };
-		1685846A22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
-		1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
-		1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
-		1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketManager.swift */; };
+		1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketStorage.swift */; };
+		1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketStorage.swift */; };
+		1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketStorage.swift */; };
+		1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846922E0875D008EAC34 /* CloudTicketStorage.swift */; };
 		1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
 		1685847022E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
 		1685847122E091E0008EAC34 /* Group+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685846E22E091E0008EAC34 /* Group+Management.swift */; };
@@ -363,7 +363,7 @@
 		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1685844022DDD98E008EAC34 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
 		1685845A22DE2D23008EAC34 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
-		1685846922E0875D008EAC34 /* CloudTicketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTicketManager.swift; sourceTree = "<group>"; };
+		1685846922E0875D008EAC34 /* CloudTicketStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTicketStorage.swift; sourceTree = "<group>"; };
 		1685846E22E091E0008EAC34 /* Group+Management.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Management.swift"; sourceTree = "<group>"; };
 		1685847822E1DF81008EAC34 /* CardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStorage.swift; sourceTree = "<group>"; };
 		16AD10F8224127BF00435A28 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/iOS/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -596,7 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
-				1685846922E0875D008EAC34 /* CloudTicketManager.swift */,
+				1685846922E0875D008EAC34 /* CloudTicketStorage.swift */,
 			);
 			path = Cloud;
 			sourceTree = "<group>";
@@ -1161,7 +1161,7 @@
 				1665EE2B22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
-				1685846A22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
+				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685847922E1DF81008EAC34 /* CardStorage.swift in Sources */,
@@ -1188,7 +1188,7 @@
 				1665EE2E22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
-				1685846D22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
+				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				1685847C22E1DF81008EAC34 /* CardStorage.swift in Sources */,
@@ -1215,7 +1215,7 @@
 				1665EE2C22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
-				1685846B22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
+				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685847A22E1DF81008EAC34 /* CardStorage.swift in Sources */,
@@ -1242,7 +1242,7 @@
 				1665EE2D22E74CCC00774788 /* TicketManager.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
-				1685846C22E0875D008EAC34 /* CloudTicketManager.swift in Sources */,
+				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1685847B22E1DF81008EAC34 /* CardStorage.swift in Sources */,

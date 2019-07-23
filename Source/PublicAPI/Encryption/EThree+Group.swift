@@ -49,7 +49,7 @@ extension EThree {
 
                 let participants = identities + [self.identity]
 
-                let lookup = try lookupManager.lookupCards(of: identities).startSync().get()
+                let lookup = try lookupManager.lookupCards(of: identities)
 
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
@@ -91,7 +91,7 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let card = try self.getLookupManager().lookupCard(of: initiator).startSync().get()
+                let card = try self.getLookupManager().lookupCard(of: initiator)
 
                 try self.getTicketManager().pull(sessionId: sessionId, from: card)
 
