@@ -51,9 +51,9 @@ internal class CloudTicketManager {
         let connection = EThree.getConnection()
 
         let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                           serviceUrl: KeyknoxClient.defaultURL,
-                                           connection: connection,
-                                           retryConfig: ExpBackoffRetry.Config())
+                                          serviceUrl: KeyknoxClient.defaultURL,
+                                          connection: connection,
+                                          retryConfig: ExpBackoffRetry.Config())
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
     }
