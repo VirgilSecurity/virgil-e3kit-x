@@ -36,18 +36,56 @@
 
 import VirgilSDK
 
-extension EThree {
-    /// Typealias for the valid result of lookupPublicKeys call
-//    public typealias LookupResult = [String: Card]
-    
-    /// Retrieves user public keys from the cloud for encryption/verification.
-    ///
-    /// - Parameter identities: array of identities to search for
-    /// - Returns: CallbackOperation<Void>
+public typealias LookupResult = [String: Card]
+
+internal class LookupManager {
+    internal let cardStorage: CardStorage
+    internal let cardManager: CardManager
+
+    internal init(cardStorage: CardStorage, cardManager: CardManager) {
+        self.cardStorage = cardStorage
+        self.cardManager = cardManager
+    }
+
+    // TODO: Add check that all identities was found
+    // TODO: Add splitting on each 50 identities
+    // TODO: Remove LookupResult ?
+    // TODO: Add method on updating general local storage entries
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                try self.getLookupManager().lookupCards(of: identities).start(completion: completion)
+                guard !identities.isEmpty else {
+                    throw EThreeError.missingIdentities
+                }
+
+                var result: LookupResult = [:]
+
+                var identitiesSet = Set(identities)
+
+                if !forceReload {
+                    for identity in identitiesSet {
+                        if let card = self.cardStorage.retrieveCard(identity: identity) {
+                            identitiesSet.remove(identity)
+                            result[identity] = card
+                        }
+                    }
+                }
+
+                if !identitiesSet.isEmpty {
+                    let cards = try self.cardManager.searchCards(identities: Array(identitiesSet)).startSync().get()
+
+                    for card in cards {
+                        guard result[card.identity] == nil else {
+                            throw EThreeError.duplicateCards
+                        }
+
+                        try self.cardStorage.store(card: card)
+
+                        result[card.identity] = card
+                    }
+                }
+
+                completion(result, nil)
             } catch {
                 completion(nil, error)
             }
@@ -57,7 +95,21 @@ extension EThree {
     public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
-                try self.getLookupManager().lookupCard(of: identity).start(completion: completion)
+                var card: Card?
+
+                if !forceReload {
+                    card = self.cardStorage.retrieveCard(identity: identity)
+                }
+
+                if card == nil {
+                    card = try self.cardManager.searchCards(identities: [identity]).startSync().get().first
+                }
+
+                guard let result = card else {
+                    throw NSError()
+                }
+
+                completion(result, nil)
             } catch {
                 completion(nil, error)
             }

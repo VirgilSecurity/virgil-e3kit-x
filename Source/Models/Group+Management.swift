@@ -39,18 +39,18 @@ import VirgilSDK
 
 extension Group {
     // FIXME: Remove initiator ?
-    public func update(initiator card: Card) -> GenericOperation<Void> {
+    public func update(initiator: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
 
                 let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+                let card = try self.lookupManager.lookupCard(of: initiator).startSync().get()
 
-                let cloudTickets = try self.cloudTicketManager
-                    .retrieveTickets(sessionId: sessionId,
-                                     identity: card.identity,
-                                     identityPublicKey: card.publicKey,
-                                     selfKeyPair: selfKeyPair)
+                let cloudTickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
+                                                                               identity: card.identity,
+                                                                               identityPublicKey: card.publicKey,
+                                                                               selfKeyPair: selfKeyPair)
 
                 try self.localTicketStorage.store(tickets: cloudTickets)
 
@@ -73,7 +73,7 @@ extension Group {
         }
     }
 
-    public func changeParticipants(to lookup: EThree.LookupResult) -> GenericOperation<Void> {
+    public func changeParticipants(to newParticipants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 // self.update(initiator: ) ?
@@ -81,9 +81,9 @@ extension Group {
                 let sessionId = self.session.getSessionId()
 
                 let selfKeyPair = try self.localKeyManager.retrieveKeyPair()
+                let lookup = try self.lookupManager.lookupCards(of: newParticipants).startSync().get()
 
                 let oldParticipants = self.participants + [self.localKeyManager.identity]
-                let newParticipants = Array(lookup.keys)
 
                 let oldSet = Set(oldParticipants)
                 let newSet = Set(newParticipants)

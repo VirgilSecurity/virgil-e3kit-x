@@ -39,14 +39,17 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {    
-    public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with identities: [String]) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 let ticketStorage = try self.getTicketStorage()
+                let lookupManager = try self.getLookupManager()
 
-                let participants = Array(lookup.keys) + [self.identity]
+                let participants = identities + [self.identity]
+
+                let lookup = try lookupManager.lookupCards(of: identities).startSync().get()
 
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
@@ -60,7 +63,8 @@ extension EThree {
                                       tickets: [ticket],
                                       localKeyManager: self.localKeyManager,
                                       localTicketStorage: ticketStorage,
-                                      cloudTicketManager: self.cloudTicketManager)
+                                      cloudTicketManager: self.cloudTicketManager,
+                                      lookupManager: lookupManager)
 
                 completion(group, nil)
             } catch {
@@ -84,13 +88,16 @@ extension EThree {
                          tickets: tickets,
                          localKeyManager: self.localKeyManager,
                          localTicketStorage: ticketStorage,
-                         cloudTicketManager: self.cloudTicketManager)
+                         cloudTicketManager: self.cloudTicketManager,
+                         lookupManager: self.getLookupManager())
     }
 
-    public func fetchGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Void> {
+    public func fetchGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
+
+                let card = try self.getLookupManager().lookupCard(of: initiator).startSync().get()
 
                 let tickets = try self.cloudTicketManager.retrieveTickets(sessionId: sessionId,
                                                                           identity: card.identity,

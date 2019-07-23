@@ -44,6 +44,7 @@ public class Group {
     internal let localKeyManager: LocalKeyManager
     internal let localTicketStorage: TicketStorage
     internal let cloudTicketManager: CloudTicketManager
+    internal let lookupManager: LookupManager
 
     internal var session: GroupSession
     public internal(set) var participants: [String]
@@ -52,7 +53,8 @@ public class Group {
                   tickets: [Ticket],
                   localKeyManager: LocalKeyManager,
                   localTicketStorage: TicketStorage,
-                  cloudTicketManager: CloudTicketManager) throws {
+                  cloudTicketManager: CloudTicketManager,
+                  lookupManager: LookupManager) throws {
         let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {
@@ -65,6 +67,7 @@ public class Group {
         self.localKeyManager = localKeyManager
         self.localTicketStorage = localTicketStorage
         self.cloudTicketManager = cloudTicketManager
+        self.lookupManager = lookupManager
     }
 
     private static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {

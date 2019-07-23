@@ -87,6 +87,10 @@
 		1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
 		1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
 		1665EE1322E6080300774788 /* FileCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE0F22E6080300774788 /* FileCardStorage.swift */; };
+		1665EE1D22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
+		1665EE1E22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
+		1665EE1F22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
+		1665EE2022E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
@@ -333,6 +337,7 @@
 		165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE001_EncryptionTests.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		1665EE0F22E6080300774788 /* FileCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCardStorage.swift; sourceTree = "<group>"; };
+		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
@@ -582,7 +587,27 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		1665EE1422E60A0300774788 /* Protocols */ = {
+		1665EE2122E7220500774788 /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
+				1685846922E0875D008EAC34 /* CloudTicketManager.swift */,
+			);
+			path = Cloud;
+			sourceTree = "<group>";
+		};
+		1665EE2222E7220B00774788 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				1665EE2322E7222F00774788 /* Protocols */,
+				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
+				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
+				1665EE0F22E6080300774788 /* FileCardStorage.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		1665EE2322E7222F00774788 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				1629F5CD22D6288C00DB5ECE /* TicketStorage.swift */,
@@ -603,12 +628,9 @@
 		167E1DED217CFC1000F8AA13 /* Storages */ = {
 			isa = PBXGroup;
 			children = (
-				1665EE1422E60A0300774788 /* Protocols */,
-				1685846922E0875D008EAC34 /* CloudTicketManager.swift */,
-				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
-				167E1DE3217CF0B100F8AA13 /* LocalKeyManager.swift */,
-				1632AE9122DCA93F00950B48 /* FileTicketStorage.swift */,
-				1665EE0F22E6080300774788 /* FileCardStorage.swift */,
+				1665EE2122E7220500774788 /* Cloud */,
+				1665EE2222E7220B00774788 /* Local */,
+				1665EE1C22E720A500774788 /* LookupManager.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -1139,6 +1161,7 @@
 				1685844122DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,6 +1187,7 @@
 				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyManager.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,6 +1213,7 @@
 				1685844222DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1214,6 +1239,7 @@
 				1685844322DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

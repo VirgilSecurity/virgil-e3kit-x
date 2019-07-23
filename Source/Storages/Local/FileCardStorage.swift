@@ -37,7 +37,7 @@
 import VirgilCrypto
 import VirgilSDK
 
-class FileCardStorage: NSObject {
+class FileCardStorage: NSObject, CardStorage {
     private let fileSystem: FileSystem
     private let queue = DispatchQueue(label: "FileCardStorageQueue")
 
@@ -49,6 +49,30 @@ class FileCardStorage: NSObject {
                                      credentials: credentials)
 
         super.init()
+    }
+
+    func store(card: Card) throws {
+
+    }
+
+    func store(cards: [Card]) throws {
+
+    }
+
+    func retrieveCard(identity: String) -> Card? {
+        return nil
+    }
+
+    func retrieveCards(identities: [String]) -> [Card] {
+        return []
+    }
+
+    func deleteCards(identities: [String]) throws {
+
+    }
+
+    func reset() throws {
+
     }
 }
 

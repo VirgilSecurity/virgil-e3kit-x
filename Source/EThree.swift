@@ -51,18 +51,16 @@ import VirgilCrypto
     /// CardManager instance
     @objc public let cardManager: CardManager
 
+    internal static let maxTicketsInGroup: Int = 50
+
     internal let localKeyManager: LocalKeyManager
     internal let cloudKeyManager: CloudKeyManager
     internal let cloudTicketManager: CloudTicketManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
+    private var lookupManager: LookupManager?
     private var ticketStorage: TicketStorage?
-
-    // FIXME
-    internal var cardStorage: CardStorage!
-
-    internal static let maxTicketsInGroup: Int = 50
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
@@ -98,8 +96,12 @@ import VirgilCrypto
         let cloudTicketManager = try CloudTicketManager(accessTokenProvider: accessTokenProvider)
 
         var ticketStorage: TicketStorage?
+        var lookupManager: LookupManager?
         if let selfKeyPair = try? localKeyManager.retrieveKeyPair() {
             ticketStorage = try FileTicketStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+
+            let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+            lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
         }
 
         self.init(identity: identity,
@@ -107,6 +109,7 @@ import VirgilCrypto
                   localKeyManager: localKeyManager,
                   cloudKeyManager: cloudKeyManager,
                   cloudTicketManager: cloudTicketManager,
+                  lookupManager: lookupManager,
                   ticketStorage: ticketStorage)
     }
 
@@ -115,6 +118,7 @@ import VirgilCrypto
                   localKeyManager: LocalKeyManager,
                   cloudKeyManager: CloudKeyManager,
                   cloudTicketManager: CloudTicketManager,
+                  lookupManager: LookupManager?,
                   ticketStorage: TicketStorage?) {
         self.identity = identity
         self.crypto = cardManager.crypto
@@ -122,6 +126,7 @@ import VirgilCrypto
         self.localKeyManager = localKeyManager
         self.cloudKeyManager = cloudKeyManager
         self.cloudTicketManager = cloudTicketManager
+        self.lookupManager = lookupManager
         self.ticketStorage = ticketStorage
 
         super.init()
@@ -131,12 +136,16 @@ import VirgilCrypto
         let selfKeyPair = try localKeyManager.retrieveKeyPair()
 
         self.ticketStorage = try FileTicketStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+
+        let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+        self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
     }
 
     func privateKeyDeleted() throws {
         try self.ticketStorage?.reset()
 
         self.ticketStorage = nil
+        self.lookupManager = nil
     }
 
     internal func getTicketStorage() throws -> TicketStorage {
@@ -145,6 +154,14 @@ import VirgilCrypto
         }
 
         return storage
+    }
+
+    internal func getLookupManager() throws -> LookupManager {
+        guard let manager = self.lookupManager else {
+            throw NSError()
+        }
+
+        return manager
     }
 
     internal func computeSessionId(from identifier: Data) -> Data {
