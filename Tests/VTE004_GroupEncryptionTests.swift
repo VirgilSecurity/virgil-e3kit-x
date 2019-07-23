@@ -49,7 +49,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         self.testUtils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    private func setUpDevice() throws -> (EThree) {
+    private func setUpDevice() -> (EThree) {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -58,17 +58,17 @@ class VTE004_GroupEncryptionTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try EThree.initialize(tokenCallback: tokenCallback).startSync().get()
+        let ethree = try! EThree.initialize(tokenCallback: tokenCallback).startSync().get()
 
-        try ethree.register().startSync().get()
+        try! ethree.register().startSync().get()
 
         return ethree
     }
 
     func test_1_encrypt_decrypt() {
-        let ethree1 = try! self.setUpDevice()
-        let ethree2 = try! self.setUpDevice()
-        let ethree3 = try! self.setUpDevice()
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
 
         let identities = [ethree2.identity, ethree3.identity]
 
@@ -93,59 +93,54 @@ class VTE004_GroupEncryptionTests: XCTestCase {
     }
 
     func test_2_change_participants() {
-        do {
-            let ethree1 = try self.setUpDevice()
-            let ethree2 = try self.setUpDevice()
-            let ethree3 = try self.setUpDevice()
-            let ethree4 = try self.setUpDevice()
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+        let ethree4 = self.setUpDevice()
 
-            // User 1 creates group
-            let identities = [ethree2.identity, ethree3.identity]
+        // User 1 creates group
+        let identities = [ethree2.identity, ethree3.identity]
 
-            let groupId = try self.crypto.generateRandomData(ofSize: 100)
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-            let group1 = try ethree1.createGroup(id: groupId, with: identities).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: identities).startSync().get()
 
-            // User 2 and User 3 update it
-            try ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
-            let group2 = try ethree2.retrieveGroup(id: groupId)!
+        // User 2 and User 3 update it
+        try! ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.retrieveGroup(id: groupId)!
 
-            try ethree3.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
-            let group3 = try ethree3.retrieveGroup(id: groupId)!
+        try! ethree3.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let group3 = try! ethree3.retrieveGroup(id: groupId)!
 
-            // User 1 removes User3 and adds User 4
-            let newIdentities = [ethree2.identity, ethree4.identity]
+        // User 1 removes User3 and adds User 4
+        let newIdentities = [ethree2.identity, ethree4.identity]
 
-            try group1.changeParticipants(to: newIdentities).startSync().get()
+        try! group1.changeParticipants(to: newIdentities).startSync().get()
 
-            // Other Users update groups
-            try group2.update(initiator: ethree1.identity).startSync().get()
-            try group3.update(initiator: ethree1.identity).startSync().get()
+        // Other Users update groups
+        try! group2.update(initiator: ethree1.identity).startSync().get()
+        try! group3.update(initiator: ethree1.identity).startSync().get()
 
-            try ethree4.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
-            let group4 = try ethree4.retrieveGroup(id: groupId)!
+        try! ethree4.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let group4 = try! ethree4.retrieveGroup(id: groupId)!
 
-            // User 1 encrypts message for group
-            let message = "Hello, \(ethree2.identity)!"
+        // User 1 encrypts message for group
+        let message = "Hello, \(ethree2.identity)!"
 
-            let encrypted = try group1.encrypt(text: message)
+        let encrypted = try! group1.encrypt(text: message)
 
-            // Other Users try to decrypt
-            let card = try ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        // Other Users try! to decrypt
+        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-            let decrypted2 = try group2.decrypt(text: encrypted, from: card)
+        let decrypted2 = try! group2.decrypt(text: encrypted, from: card)
 
-            let notDecrypted3 = try? group3.decrypt(text: encrypted, from: card)
+        let notDecrypted3 = try? group3.decrypt(text: encrypted, from: card)
 
-            let decrypted4 = try group4.decrypt(text: encrypted, from: card)
+        let decrypted4 = try! group4.decrypt(text: encrypted, from: card)
 
-            XCTAssert(decrypted2 == message)
-            XCTAssert(notDecrypted3 == nil)
-            XCTAssert(decrypted4 == message)
-        } catch {
-            print(error.localizedDescription)
-            XCTFail()
-        }
+        XCTAssert(decrypted2 == message)
+        XCTAssert(notDecrypted3 == nil)
+        XCTAssert(decrypted4 == message)
     }
 }
 
