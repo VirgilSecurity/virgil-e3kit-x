@@ -98,7 +98,7 @@ extension Group {
                     let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
                     let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
 
-                    try self.ticketManager.store(ticket: ticket, sharedWith: Array(lookup.values))
+                    try self.ticketManager.store(ticket, sharedWith: Array(lookup.values))
 
                     try self.session.addEpoch(message: ticket.groupMessage)
                 }

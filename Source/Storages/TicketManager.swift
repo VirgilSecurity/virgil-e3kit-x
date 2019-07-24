@@ -45,7 +45,7 @@ internal class TicketManager {
         self.cloudStorage = cloudStorage
     }
 
-    internal func store(ticket: Ticket, sharedWith cards: [Card]) throws {
+    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
         try self.cloudStorage.store(ticket: ticket, sharedWith: cards)
 
         try self.localStorage.store(tickets: [ticket])
@@ -61,7 +61,7 @@ internal class TicketManager {
 
     internal func updateRecipients(sessionId: Data, newRecipients: [Card]) throws {
         try self.cloudStorage.updateRecipients(sessionId: sessionId,
-                                                     newRecipients: newRecipients)
+                                               newRecipients: newRecipients)
     }
 
     internal func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket] {

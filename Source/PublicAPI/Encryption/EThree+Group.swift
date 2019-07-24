@@ -53,7 +53,7 @@ extension EThree {
 
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
-                try ticketManager.store(ticket: ticket, sharedWith: Array(lookup.values))
+                try ticketManager.store(ticket, sharedWith: Array(lookup.values))
 
                 let group = try Group(crypto: self.crypto,
                                       tickets: [ticket],
