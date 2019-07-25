@@ -81,7 +81,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let encrypted = try! group1.encrypt(text: message)
 
         // User2 updates group, decrypts
-        try! ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        try! ethree2.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
 
         let group2 = try! ethree2.retrieveGroup(id: groupId)!
 
@@ -106,10 +106,10 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let group1 = try! ethree1.createGroup(id: groupId, with: identities).startSync().get()
 
         // User 2 and User 3 update it
-        try! ethree2.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        try! ethree2.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
         let group2 = try! ethree2.retrieveGroup(id: groupId)!
 
-        try! ethree3.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        try! ethree3.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
         let group3 = try! ethree3.retrieveGroup(id: groupId)!
 
         // User 1 removes User3 and adds User 4
@@ -121,7 +121,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         try! group2.update().startSync().get()
         try! group3.update().startSync().get()
 
-        try! ethree4.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        try! ethree4.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
         let group4 = try! ethree4.retrieveGroup(id: groupId)!
 
         // User 1 encrypts message for group

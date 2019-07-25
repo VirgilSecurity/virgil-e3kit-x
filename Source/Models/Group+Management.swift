@@ -70,8 +70,6 @@ extension Group {
     public func changeParticipants(to newParticipants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.update().startSync().get()
-
                 let sessionId = self.session.getSessionId()
 
                 let lookup = try self.lookupManager.lookupCards(of: newParticipants)

@@ -75,7 +75,7 @@ extension EThree {
 
         let groupManager = try self.getGroupManager()
 
-        guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+        guard let group = groupManager.retrieve(sessionId: sessionId) else {
             throw NSError()
         }
 
@@ -91,14 +91,21 @@ extension EThree {
                          lookupManager: self.getLookupManager())
     }
 
-    public func fetchGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
+    public func pullGroup(id identifier: Data, initiator: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
+                let groupManager = try self.getGroupManager()
+
+                guard let initiator = initiator ??
+                    groupManager.localStorage.retrieveInfo(sessionId: sessionId)?.initiator else {
+                        throw NSError()
+                }
+
                 let card = try self.getLookupManager().lookupCard(of: initiator)
 
-                try self.getGroupManager().pull(sessionId: sessionId, from: card)
+                try groupManager.pull(sessionId: sessionId, from: card)
 
                 completion((), nil)
             } catch {
