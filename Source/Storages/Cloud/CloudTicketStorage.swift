@@ -37,6 +37,7 @@
 import VirgilCrypto
 import VirgilSDK
 import VirgilSDKPythia
+import VirgilCryptoFoundation
 
 internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
@@ -65,9 +66,11 @@ extension CloudTicketStorage {
     public func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()
-        let epoch = ticket.groupMessage.getEpoch()
-        let ticketData = try ticket.serialize()
+        let groupMessage = ticket.groupMessage
+
+        let sessionId = groupMessage.getSessionId().hexEncodedString()
+        let epoch = groupMessage.getEpoch()
+        let ticketData = groupMessage.serialize()
 
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
@@ -112,7 +115,10 @@ extension CloudTicketStorage {
                 .startSync()
                 .get()
 
-            let ticket = try Ticket.deserialize(response.value)
+            let groupMessage = try GroupSessionMessage.deserialize(input: response.value)
+            let participants = response.identities + [identity]
+            let ticket = Ticket(groupMessage: groupMessage, participants: participants)
+
             tickets.append(ticket)
         }
 
