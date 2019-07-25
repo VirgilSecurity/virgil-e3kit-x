@@ -42,13 +42,14 @@ internal class LookupManager {
     internal let cardStorage: FileCardStorage
     internal let cardManager: CardManager
 
+    internal let maxSearchCount = 50
+
     internal init(cardStorage: FileCardStorage, cardManager: CardManager) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
     }
 
     // TODO: Add check that all identities was found
-    // TODO: Add splitting on each 50 identities
     // TODO: Remove LookupResult ?
     // TODO: Add method on updating general local storage entries
     public func lookupCards(of identities: [String], forceReload: Bool = false) throws -> LookupResult {
@@ -70,16 +71,20 @@ internal class LookupManager {
         }
 
         if !identitiesSet.isEmpty {
-            let cards = try self.cardManager.searchCards(identities: Array(identitiesSet)).startSync().get()
+            let identitiesChunks = Array(identitiesSet).chunked(into: self.maxSearchCount)
 
-            for card in cards {
-                guard result[card.identity] == nil else {
-                    throw EThreeError.duplicateCards
+            for identities in identitiesChunks {
+                let cards = try self.cardManager.searchCards(identities: identities).startSync().get()
+
+                for card in cards {
+                    guard result[card.identity] == nil else {
+                        throw EThreeError.duplicateCards
+                    }
+
+                    try self.cardStorage.store(card: card)
+
+                    result[card.identity] = card
                 }
-
-                try self.cardStorage.store(card: card)
-
-                result[card.identity] = card
             }
         }
 
