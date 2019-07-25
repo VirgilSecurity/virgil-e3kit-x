@@ -55,15 +55,13 @@ import VirgilCrypto
 
     @objc public let accessTokenProvider: AccessTokenProvider
 
-    internal static let maxTicketsInGroup: Int = 50
-
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
     private var lookupManager: LookupManager?
-    private var ticketManager: TicketManager?
+    private var groupManager: GroupManager?
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
@@ -96,13 +94,13 @@ import VirgilCrypto
 
         let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
 
-        var ticketManager: TicketManager?
+        var groupManager: GroupManager?
         var lookupManager: LookupManager?
         if let selfKeyPair = try? localKeyStorage.retrieveKeyPair() {
 
-            let ticketStorage = try FileTicketStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+            let ticketStorage = try FileGroupStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
             let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-            ticketManager = TicketManager(localStorage: ticketStorage, cloudStorage: cloudTicketStorage)
+            groupManager = GroupManager(identity: identity, localStorage: ticketStorage, cloudStorage: cloudTicketStorage)
 
             let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
             lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
@@ -114,7 +112,7 @@ import VirgilCrypto
                   localKeyStorage: localKeyStorage,
                   cloudKeyManager: cloudKeyManager,
                   lookupManager: lookupManager,
-                  ticketManager: ticketManager)
+                  groupManager: groupManager)
     }
 
     internal init(identity: String,
@@ -123,14 +121,14 @@ import VirgilCrypto
                   localKeyStorage: LocalKeyStorage,
                   cloudKeyManager: CloudKeyManager,
                   lookupManager: LookupManager?,
-                  ticketManager: TicketManager?) {
+                  groupManager: GroupManager?) {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
-        self.ticketManager = ticketManager
+        self.groupManager = groupManager
 
         super.init()
     }
@@ -138,23 +136,23 @@ import VirgilCrypto
     func privateKeyChanged() throws {
         let selfKeyPair = try localKeyStorage.retrieveKeyPair()
 
-        let localStorage = try FileTicketStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+        let localStorage = try FileGroupStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
         let cloudStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-        self.ticketManager = TicketManager(localStorage: localStorage, cloudStorage: cloudStorage)
+        self.groupManager = GroupManager(identity: self.identity, localStorage: localStorage, cloudStorage: cloudStorage)
 
-        let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
+        let cardStorage = try FileCardStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
         self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
     }
 
     func privateKeyDeleted() throws {
-        try self.ticketManager?.localStorage.reset()
+        try self.groupManager?.localStorage.reset()
 
-        self.ticketManager = nil
+        self.groupManager = nil
         self.lookupManager = nil
     }
 
-    internal func getTicketManager() throws -> TicketManager {
-        guard let storage = self.ticketManager else {
+    internal func getGroupManager() throws -> GroupManager {
+        guard let storage = self.groupManager else {
             throw NSError()
         }
 

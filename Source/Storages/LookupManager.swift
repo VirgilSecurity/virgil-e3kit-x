@@ -39,10 +39,10 @@ import VirgilSDK
 public typealias LookupResult = [String: Card]
 
 internal class LookupManager {
-    internal let cardStorage: CardStorage
+    internal let cardStorage: FileCardStorage
     internal let cardManager: CardManager
 
-    internal init(cardStorage: CardStorage, cardManager: CardManager) {
+    internal init(cardStorage: FileCardStorage, cardManager: CardManager) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
     }

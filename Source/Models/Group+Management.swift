@@ -38,26 +38,26 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension Group {
-    // FIXME: Remove initiator ?
-    public func update(initiator: String) -> GenericOperation<Void> {
+    public func update() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
 
-                let card = try self.lookupManager.lookupCard(of: initiator)
+                let card = try self.lookupManager.lookupCard(of: self.initiator)
 
-                try self.ticketManager.pull(sessionId: sessionId, from: card)
+                try self.groupManager.pull(sessionId: sessionId, from: card)
 
-                let tickets = try self.ticketManager.retrieveLast(count: EThree.maxTicketsInGroup,
-                                                                  sessionId: sessionId)
+                guard let group = self.groupManager.retrieve(sessionId: sessionId) else {
+                    throw NSError()
+                }
 
                 // TODO: tickets deletion
-                guard let lastTicket = tickets.last else {
+                guard let lastTicket = group.tickets.last else {
                     completion((), nil)
                     return
                 }
 
-                self.session = try self.generateSession(from: tickets)
+                self.session = try self.generateSession(from: group.tickets)
                 self.participants = lastTicket.participants
 
                 completion((), nil)
@@ -70,7 +70,7 @@ extension Group {
     public func changeParticipants(to newParticipants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                // self.update(initiator: ) ?
+                try self.update().startSync().get()
 
                 let sessionId = self.session.getSessionId()
 
@@ -91,14 +91,14 @@ extension Group {
                 if !addSet.isEmpty {
                     let addedCards = Array(addSet).map { lookup[$0]! }
 
-                    try self.ticketManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
+                    try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
                 }
 
                 if !deleteSet.isEmpty {
                     let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
                     let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
 
-                    try self.ticketManager.store(ticket, sharedWith: Array(lookup.values))
+                    try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
 
                     try self.session.addEpoch(message: ticket.groupMessage)
                 }
@@ -115,7 +115,7 @@ extension Group {
             do {
                 let sessionId = self.session.getSessionId()
 
-                try self.ticketManager.delete(sessionId: sessionId)
+                try self.groupManager.delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

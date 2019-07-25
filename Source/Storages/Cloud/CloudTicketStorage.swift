@@ -62,7 +62,7 @@ internal class CloudTicketStorage {
 }
 
 extension CloudTicketStorage {
-    public func store(ticket: Ticket, sharedWith cards: [Card]) throws {
+    public func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = ticket.groupMessage.getSessionId().hexEncodedString()

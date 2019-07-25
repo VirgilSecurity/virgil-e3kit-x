@@ -44,7 +44,7 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let ticketManager = try self.getTicketManager()
+                let groupManager = try self.getGroupManager()
                 let lookupManager = try self.getLookupManager()
 
                 let participants = identities + [self.identity]
@@ -53,12 +53,14 @@ extension EThree {
 
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
-                try ticketManager.store(ticket, sharedWith: Array(lookup.values))
+                try groupManager.store(ticket, sharedWith: Array(lookup.values))
 
-                let group = try Group(crypto: self.crypto,
+                // TODO: What if jwt identity doesn't match app identity
+                let group = try Group(initiator: self.identity,
                                       tickets: [ticket],
+                                      crypto: self.crypto,
                                       localKeyStorage: self.localKeyStorage,
-                                      ticketManager: ticketManager,
+                                      groupManager: groupManager,
                                       lookupManager: lookupManager)
 
                 completion(group, nil)
@@ -71,18 +73,21 @@ extension EThree {
     public func retrieveGroup(id identifier: Data) throws -> Group? {
         let sessionId = self.computeSessionId(from: identifier)
 
-        let ticketManager = try self.getTicketManager()
+        let groupManager = try self.getGroupManager()
 
-        let tickets = try ticketManager.retrieveLast(count: EThree.maxTicketsInGroup, sessionId: sessionId)
+        guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+            throw NSError()
+        }
 
-        guard !tickets.isEmpty else {
+        guard !group.tickets.isEmpty else {
             return nil
         }
 
-        return try Group(crypto: self.crypto,
-                         tickets: tickets,
+        return try Group(initiator: group.info.initiator,
+                         tickets: group.tickets,
+                         crypto: self.crypto,
                          localKeyStorage: self.localKeyStorage,
-                         ticketManager: ticketManager,
+                         groupManager: groupManager,
                          lookupManager: self.getLookupManager())
     }
 
@@ -93,7 +98,7 @@ extension EThree {
 
                 let card = try self.getLookupManager().lookupCard(of: initiator)
 
-                try self.getTicketManager().pull(sessionId: sessionId, from: card)
+                try self.getGroupManager().pull(sessionId: sessionId, from: card)
 
                 completion((), nil)
             } catch {
@@ -107,7 +112,7 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                try self.getTicketManager().delete(sessionId: sessionId)
+                try self.getGroupManager().delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

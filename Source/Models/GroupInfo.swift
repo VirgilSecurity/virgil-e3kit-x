@@ -34,18 +34,16 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCryptoFoundation
+import Foundation
 
-protocol TicketStorage: class {
-    func store(ticket: Ticket) throws
+struct GroupInfo: Codable {
+    let initiator: String
 
-    func store(tickets: [Ticket]) throws
+    static func deserialize(_ data: Data) throws -> GroupInfo {
+        return try JSONDecoder().decode(GroupInfo.self, from: data)
+    }
 
-    func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket]
-
-    func retrieve(sessionId: Data, epoch: UInt32) -> Ticket?
-
-    func delete(sessionId: Data) throws
-
-    func reset() throws
+    func serialize() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
 }

@@ -34,12 +34,9 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
 
-protocol CardStorage: class {
-    func store(card: Card) throws
-
-    func retrieve(identity: String) -> Card?
-
-    func reset() throws
+internal struct RawGroup {
+    let info: GroupInfo
+    let tickets: [Ticket]
 }

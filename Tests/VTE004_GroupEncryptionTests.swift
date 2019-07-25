@@ -118,8 +118,8 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         try! group1.changeParticipants(to: newIdentities).startSync().get()
 
         // Other Users update groups
-        try! group2.update(initiator: ethree1.identity).startSync().get()
-        try! group3.update(initiator: ethree1.identity).startSync().get()
+        try! group2.update().startSync().get()
+        try! group3.update().startSync().get()
 
         try! ethree4.fetchGroup(id: groupId, initiator: ethree1.identity).startSync().get()
         let group4 = try! ethree4.retrieveGroup(id: groupId)!

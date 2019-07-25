@@ -36,19 +36,27 @@
 
 import VirgilSDK
 
-internal class TicketManager {
-    internal let localStorage: TicketStorage
+internal class GroupManager {
+    internal let identity: String
+    internal let localStorage: FileGroupStorage
     internal let cloudStorage: CloudTicketStorage
 
-    internal init(localStorage: TicketStorage, cloudStorage: CloudTicketStorage) {
+    internal let maxTicketsInGroup: Int = 50
+
+    internal init(identity: String,
+                  localStorage: FileGroupStorage,
+                  cloudStorage: CloudTicketStorage) {
+        self.identity = identity
         self.localStorage = localStorage
         self.cloudStorage = cloudStorage
     }
 
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
-        try self.cloudStorage.store(ticket: ticket, sharedWith: cards)
+        let group = RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
 
-        try self.localStorage.store(tickets: [ticket])
+        try self.cloudStorage.store(ticket, sharedWith: cards)
+
+        try self.localStorage.store(group)
     }
 
     internal func pull(sessionId: Data, from card: Card) throws {
@@ -56,20 +64,21 @@ internal class TicketManager {
                                                      identity: card.identity,
                                                      identityPublicKey: card.publicKey)
 
-        try self.localStorage.store(tickets: tickets)
+        let group = RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
+
+        try self.localStorage.store(group)
     }
 
     internal func updateRecipients(sessionId: Data, newRecipients: [Card]) throws {
-        try self.cloudStorage.updateRecipients(sessionId: sessionId,
-                                               newRecipients: newRecipients)
+        try self.cloudStorage.updateRecipients(sessionId: sessionId, newRecipients: newRecipients)
     }
 
-    internal func retrieveLast(count: Int, sessionId: Data) throws -> [Ticket] {
-        return try self.localStorage.retrieveLast(count: count, sessionId: sessionId)
-    }
-
-    internal func retrieve(sessionId: Data, epoch: UInt32) -> Ticket? {
-        return self.localStorage.retrieve(sessionId: sessionId, epoch: epoch)
+    internal func retrieve(sessionId: Data, epoch: UInt32? = nil) -> RawGroup? {
+        if let epoch = epoch {
+            return self.localStorage.retrieve(sessionId: sessionId, epoch: epoch)
+        } else {
+            return self.localStorage.retrieve(sessionId: sessionId, lastTicketsCount: self.maxTicketsInGroup)
+        }
     }
 
     internal func delete(sessionId: Data) throws {

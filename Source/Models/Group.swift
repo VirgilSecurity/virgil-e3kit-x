@@ -39,19 +39,22 @@ import VirgilSDK
 import VirgilCrypto
 
 public class Group {
+    public let initiator: String
+    public internal(set) var participants: [String]
+
     internal let crypto: VirgilCrypto
 
     internal let localKeyStorage: LocalKeyStorage
-    internal let ticketManager: TicketManager
+    internal let groupManager: GroupManager
     internal let lookupManager: LookupManager
 
     internal var session: GroupSession
-    public internal(set) var participants: [String]
 
-    internal init(crypto: VirgilCrypto,
+    internal init(initiator: String,
                   tickets: [Ticket],
+                  crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
-                  ticketManager: TicketManager,
+                  groupManager: GroupManager,
                   lookupManager: LookupManager) throws {
         let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
@@ -59,11 +62,12 @@ public class Group {
             throw NSError()
         }
 
-        self.crypto = crypto
+        self.initiator = initiator
         self.participants = lastTicket.participants
+        self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyStorage = localKeyStorage
-        self.ticketManager = ticketManager
+        self.groupManager = groupManager
         self.lookupManager = lookupManager
     }
 
@@ -100,11 +104,11 @@ public class Group {
             let sessionId = encrypted.getSessionId()
             let messageEpoch = encrypted.getEpoch()
 
-            guard let ticket = self.ticketManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
+            guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
                 throw NSError()
             }
 
-            let tempSession = try self.generateSession(from: [ticket])
+            let tempSession = try self.generateSession(from: group.tickets)
 
             return try tempSession.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
         }
