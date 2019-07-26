@@ -97,7 +97,6 @@ public class Group {
     public func decrypt(data: Data, from senderCard: Card) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
-
         do {
             return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
         } catch {
