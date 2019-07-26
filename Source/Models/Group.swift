@@ -40,7 +40,7 @@ import VirgilCrypto
 
 public class Group {
     public let initiator: String
-    public internal(set) var participants: [String]
+    public internal(set) var participants: Set<String>
 
     internal let crypto: VirgilCrypto
 
@@ -63,7 +63,7 @@ public class Group {
         }
 
         self.initiator = initiator
-        self.participants = Array(lastTicket.participants)
+        self.participants = lastTicket.participants
         self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyStorage = localKeyStorage

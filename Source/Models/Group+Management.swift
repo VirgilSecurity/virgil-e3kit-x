@@ -58,7 +58,7 @@ extension Group {
                 }
 
                 self.session = try self.generateSession(from: group.tickets)
-                self.participants = Array(lastTicket.participants)
+                self.participants = lastTicket.participants
 
                 completion((), nil)
             } catch {
