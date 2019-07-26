@@ -39,7 +39,7 @@ import VirgilCrypto
 
 internal class Ticket: Codable {
     internal let groupMessage: GroupSessionMessage
-    internal let participants: [String]
+    internal let participants: Set<String>
 
     enum CodingKeys: String, CodingKey {
         case groupMessage
@@ -62,7 +62,7 @@ internal class Ticket: Codable {
 
         let groupMessage = try GroupSessionMessage.deserialize(input: groupMessageData)
 
-        let participants = try container.decode([String].self, forKey: .participants)
+        let participants = try container.decode(Set<String>.self, forKey: .participants)
 
         self.init(groupMessage: groupMessage, participants: participants)
     }
@@ -75,12 +75,12 @@ internal class Ticket: Codable {
         return try JSONEncoder().encode(self)
     }
 
-    internal init(groupMessage: GroupSessionMessage, participants: [String]) {
+    internal init(groupMessage: GroupSessionMessage, participants: Set<String>) {
         self.groupMessage = groupMessage
         self.participants = participants
     }
 
-    internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: [String]) throws {
+    internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: Set<String>) throws {
         let ticket = GroupSessionTicket()
         ticket.setRng(rng: crypto.rng)
 

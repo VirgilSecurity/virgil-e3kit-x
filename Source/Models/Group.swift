@@ -63,7 +63,7 @@ public class Group {
         }
 
         self.initiator = initiator
-        self.participants = lastTicket.participants
+        self.participants = Array(lastTicket.participants)
         self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyStorage = localKeyStorage

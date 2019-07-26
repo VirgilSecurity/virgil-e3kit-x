@@ -116,7 +116,7 @@ extension CloudTicketStorage {
                 .get()
 
             let groupMessage = try GroupSessionMessage.deserialize(input: response.value)
-            let participants = response.identities + [identity]
+            let participants = Set(response.identities + [identity])
             let ticket = Ticket(groupMessage: groupMessage, participants: participants)
 
             tickets.append(ticket)

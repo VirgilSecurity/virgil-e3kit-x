@@ -47,15 +47,18 @@ extension EThree {
                 let groupManager = try self.getGroupManager()
                 let lookupManager = try self.getLookupManager()
 
-                let participants = identities + [self.identity]
+                let participants = Set(identities + [self.identity])
 
                 let lookup = try lookupManager.lookupCards(of: identities)
+
+                guard Set(lookup.keys) == Set(identities) else {
+                    throw NSError()
+                }
 
                 let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
 
                 try groupManager.store(ticket, sharedWith: Array(lookup.values))
 
-                // TODO: What if jwt identity doesn't match app identity
                 let group = try Group(initiator: self.identity,
                                       tickets: [ticket],
                                       crypto: self.crypto,

@@ -58,7 +58,7 @@ extension Group {
                 }
 
                 self.session = try self.generateSession(from: group.tickets)
-                self.participants = lastTicket.participants
+                self.participants = Array(lastTicket.participants)
 
                 completion((), nil)
             } catch {
@@ -72,17 +72,19 @@ extension Group {
             do {
                 let sessionId = self.session.getSessionId()
 
-                let lookup = try self.lookupManager.lookupCards(of: newParticipants)
-
-                let oldParticipants = self.participants + [self.localKeyStorage.identity]
-
-                let oldSet = Set(oldParticipants)
+                let oldSet = Set(self.participants)
                 let newSet = Set(newParticipants)
 
                 let deleteSet = oldSet.subtracting(newSet)
                 let addSet = newSet.subtracting(oldSet)
 
                 if deleteSet.isEmpty && addSet.isEmpty {
+                    throw NSError()
+                }
+
+                let lookup = try self.lookupManager.lookupCards(of: newParticipants)
+
+                guard Set(lookup.keys) == newSet else {
                     throw NSError()
                 }
 
@@ -94,7 +96,7 @@ extension Group {
 
                 if !deleteSet.isEmpty {
                     let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
-                    let ticket = Ticket(groupMessage: ticketMessage, participants: newParticipants)
+                    let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
 
                     try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
 
