@@ -37,13 +37,6 @@
 import VirgilSDK
 
 extension EThree {
-    /// Typealias for the valid result of lookupPublicKeys call
-//    public typealias LookupResult = [String: Card]
-    
-    /// Retrieves user public keys from the cloud for encryption/verification.
-    ///
-    /// - Parameter identities: array of identities to search for
-    /// - Returns: CallbackOperation<Void>
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {

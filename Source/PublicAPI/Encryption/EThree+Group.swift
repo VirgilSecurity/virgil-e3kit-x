@@ -94,16 +94,30 @@ extension EThree {
                          lookupManager: self.getLookupManager())
     }
 
-    public func pullGroup(id identifier: Data, initiator: String) -> GenericOperation<Void> {
+    public func pullGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let card = try self.getLookupManager().lookupCard(of: initiator)
+                let groupManager = try self.getGroupManager()
+                let lookupManager = try self.getLookupManager()
 
-                try self.getGroupManager().pull(sessionId: sessionId, from: card)
+                let card = try lookupManager.lookupCard(of: initiator)
 
-                completion((), nil)
+                try groupManager.pull(sessionId: sessionId, from: card)
+
+                guard let rawGroup = groupManager.retrieve(sessionId: sessionId) else {
+                    throw NSError()
+                }
+
+                let group = try Group(initiator: rawGroup.info.initiator,
+                                      tickets: rawGroup.tickets,
+                                      crypto: self.crypto,
+                                      localKeyStorage: self.localKeyStorage,
+                                      groupManager: groupManager,
+                                      lookupManager: lookupManager)
+
+                completion(group, nil)
             } catch {
                 completion(nil, error)
             }
