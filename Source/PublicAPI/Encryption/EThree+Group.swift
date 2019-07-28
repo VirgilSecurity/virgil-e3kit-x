@@ -39,7 +39,7 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension EThree {    
-    public func createGroup(id identifier: Data, with identities: [String]) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
@@ -47,15 +47,13 @@ extension EThree {
                 let groupManager = try self.getGroupManager()
                 let lookupManager = try self.getLookupManager()
 
-                let participants = Set(identities + [self.identity])
+                var lookup = lookup
+                let selfCard = try lookupManager.lookupCard(of: self.identity)
+                lookup[self.identity] = selfCard
 
-                let lookup = try lookupManager.lookupCards(of: identities)
-
-                guard Set(lookup.keys) == Set(identities) else {
-                    throw NSError()
-                }
-
-                let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
+                let ticket = try Ticket(crypto: self.crypto,
+                                        sessionId: sessionId,
+                                        participants: Set(lookup.keys))
 
                 try groupManager.store(ticket, sharedWith: Array(lookup.values))
 
@@ -64,7 +62,7 @@ extension EThree {
                                       crypto: self.crypto,
                                       localKeyStorage: self.localKeyStorage,
                                       groupManager: groupManager,
-                                      lookupManager: lookupManager)
+                                      lookupManager: self.getLookupManager())
 
                 completion(group, nil)
             } catch {
@@ -94,15 +92,13 @@ extension EThree {
                          lookupManager: self.getLookupManager())
     }
 
-    public func pullGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
+    public func pullGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 let groupManager = try self.getGroupManager()
                 let lookupManager = try self.getLookupManager()
-
-                let card = try lookupManager.lookupCard(of: initiator)
 
                 try groupManager.pull(sessionId: sessionId, from: card)
 

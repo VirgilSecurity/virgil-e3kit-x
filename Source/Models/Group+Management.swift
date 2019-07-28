@@ -67,24 +67,18 @@ extension Group {
         }
     }
 
-    public func changeParticipants(to newParticipants: [String]) -> GenericOperation<Void> {
+    public func changeParticipants(to lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
 
                 let oldSet = Set(self.participants)
-                let newSet = Set(newParticipants)
+                let newSet = Set(lookup.keys)
 
                 let deleteSet = oldSet.subtracting(newSet)
                 let addSet = newSet.subtracting(oldSet)
 
                 if deleteSet.isEmpty && addSet.isEmpty {
-                    throw NSError()
-                }
-
-                let lookup = try self.lookupManager.lookupCards(of: newParticipants)
-
-                guard Set(lookup.keys) == newSet else {
                     throw NSError()
                 }
 

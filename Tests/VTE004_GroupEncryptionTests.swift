@@ -75,13 +75,15 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
         // User1 creates group, encrypts
-        let group1 = try! ethree1.createGroup(id: groupId, with: identities).startSync().get()
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
         let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
         let encrypted = try! group1.encrypt(text: message)
 
         // User2 updates group, decrypts
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
@@ -98,26 +100,30 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
         // User 1 creates group
         let identities = [ethree2.identity, ethree3.identity]
-
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let group1 = try! ethree1.createGroup(id: groupId, with: identities).startSync().get()
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
         // User 2 and User 3 update it
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-        let group3 = try! ethree3.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+
+        let group3 = try! ethree3.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         // User 1 removes User3 and adds User 4
         let newIdentities = [ethree2.identity, ethree4.identity]
+        let newLookup = try! ethree1.lookupCards(of: newIdentities).startSync().get()
 
-        try! group1.changeParticipants(to: newIdentities).startSync().get()
+        try! group1.changeParticipants(to: newLookup).startSync().get()
 
         // Other Users update groups
         try! group2.update().startSync().get()
         try! group3.update().startSync().get()
 
-        let group4 = try! ethree4.pullGroup(id: groupId, initiator: ethree1.identity).startSync().get()
+        let group4 = try! ethree4.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         // User 1 encrypts message for group
         let message = "Hello, \(ethree2.identity)!"
@@ -125,13 +131,11 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let encrypted = try! group1.encrypt(text: message)
 
         // Other Users try! to decrypt
-        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let decrypted2 = try! group2.decrypt(text: encrypted, from: ethree1Card)
 
-        let decrypted2 = try! group2.decrypt(text: encrypted, from: card)
+        let notDecrypted3 = try? group3.decrypt(text: encrypted, from: ethree1Card)
 
-        let notDecrypted3 = try? group3.decrypt(text: encrypted, from: card)
-
-        let decrypted4 = try! group4.decrypt(text: encrypted, from: card)
+        let decrypted4 = try! group4.decrypt(text: encrypted, from: ethree1Card)
 
         XCTAssert(decrypted2 == message)
         XCTAssert(notDecrypted3 == nil)
