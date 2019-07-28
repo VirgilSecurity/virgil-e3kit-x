@@ -67,6 +67,61 @@ extension Group {
         }
     }
 
+    public func add(participants lookup: LookupResult) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let oldSet = self.participants
+                let newSet = oldSet.union(lookup.keys)
+
+                guard newSet != oldSet else {
+                    throw NSError()
+                }
+
+                let addSet = newSet.subtracting(oldSet)
+
+                let addedCards: [Card] = try addSet.map {
+                    guard let card = lookup[$0] else {
+                        throw NSError()
+                    }
+
+                    return card
+                }
+
+                let sessionId = self.session.getSessionId()
+
+                try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func remove(participants lookup: LookupResult) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let oldSet = self.participants
+                let newSet = oldSet.subtracting(lookup.keys)
+
+                guard newSet != oldSet else {
+                    throw NSError()
+                }
+
+                let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
+                let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
+
+                try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
+
+                try self.session.addEpoch(message: ticket.groupMessage)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     public func changeParticipants(to lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
