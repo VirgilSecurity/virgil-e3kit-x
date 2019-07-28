@@ -148,8 +148,16 @@ extension EThree {
     ///   - lookupResult: dictionary with idenities as keys and found public keys as values
     ///   - error: corresponding error
     @objc public func lookupCards(of identities: [String],
+                                  forceReload: Bool = false,
                                   completion: @escaping (_ lookupResult: LookupResult?,
                                                          _ error: Error?) -> Void) {
-        self.lookupCards(of: identities).start(completion: completion)
+        self.lookupCards(of: identities, forceReload: forceReload).start(completion: completion)
+    }
+
+    @objc public func lookupCard(of identitiy: String,
+                                 forceReload: Bool = false,
+                                 completion: @escaping (_ lookupResult: Card?,
+                                                        _ error: Error?) -> Void) {
+        self.lookupCard(of: identity, forceReload: forceReload).start(completion: completion)
     }
 }
