@@ -101,26 +101,6 @@ import VirgilSDKPythia
         return card
     }
 
-    @objc public func isPublicKeysEqual(keys1: [VirgilPublicKey], keys2: [VirgilPublicKey]) -> Bool {
-        for key1 in keys1 {
-            let data1 = try! self.crypto.exportPublicKey(key1)
-            var found = false
-
-            for key2 in keys2 {
-                let data2 = try! self.crypto.exportPublicKey(key2)
-                if data1 == data2 {
-                    found = true
-                }
-            }
-
-            if (!found) {
-                return false
-            }
-        }
-
-        return true
-    }
-
     @objc public func setUpSyncKeyStorage(password: String,
                                           keychainStorage: KeychainStorage,
                                           identity: String,
@@ -143,5 +123,62 @@ import VirgilSDKPythia
 
             syncKeyStorage.sync { completion(syncKeyStorage, $0) }
         }
+    }
+}
+
+extension TestUtils {
+    @objc public func isCardsEqual(card1: Card?, card2: Card?) -> Bool {
+        if card1 == card2 {
+            return true
+        }
+
+        guard let card1 = card1, let card2 = card2 else {
+            return false
+        }
+
+        let selfSignature1 = card1.signatures.first { $0.signer == "self" }
+        let selfSignature2 = card2.signatures.first { $0.signer == "self" }
+
+        return card1.identifier == card2.identifier &&
+            card1.identity == card2.identity &&
+            card1.version == card2.version &&
+            card1.isOutdated == card2.isOutdated &&
+            card1.createdAt == card2.createdAt &&
+            card1.previousCardId == card2.previousCardId &&
+            self.isCardsEqual(card1: card1.previousCard, card2: card2.previousCard) &&
+            self.isCardSignaturesEqual(signature1: selfSignature1, signature2: selfSignature2)
+    }
+
+    @objc public func isCardSignaturesEqual(signature1: CardSignature?, signature2: CardSignature?) -> Bool {
+        if signature1 == signature2 {
+            return true
+        }
+
+        guard let signature1 = signature1, let signature2 = signature2 else {
+            return false
+        }
+
+        return signature1.signer == signature2.signer &&
+            signature1.signature == signature2.signature &&
+            signature1.snapshot == signature2.snapshot &&
+            signature1.extraFields == signature2.extraFields
+    }
+
+    @objc public func isCardsEqual(cards1: [Card], cards2: [Card]) -> Bool {
+        for card1 in cards1 {
+
+            var found = false
+            for card2 in cards2 {
+                if self.isCardsEqual(card1: card1, card2: card2) {
+                    found = true
+                }
+            }
+
+            if (!found) {
+                return false
+            }
+        }
+
+        return true
     }
 }

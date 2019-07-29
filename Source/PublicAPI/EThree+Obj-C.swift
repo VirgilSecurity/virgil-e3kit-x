@@ -154,7 +154,7 @@ extension EThree {
         self.lookupCards(of: identities, forceReload: forceReload).start(completion: completion)
     }
 
-    @objc public func lookupCard(of identitiy: String,
+    @objc public func lookupCard(of identity: String,
                                  forceReload: Bool = false,
                                  completion: @escaping (_ lookupResult: Card?,
                                                         _ error: Error?) -> Void) {

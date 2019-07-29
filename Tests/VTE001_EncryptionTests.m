@@ -54,21 +54,26 @@
     XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys should return published public keys"];
 
     NSMutableArray *identities = [NSMutableArray array];
-    NSMutableArray *publicKeys = [NSMutableArray array];
+    NSMutableArray *cards = [NSMutableArray array];
 
     NSError *error;
     for (int i = 0; i < 3; i++) {
         VSSCard *card = [self.utils publishCardWithIdentity:nil error:&error];
         XCTAssert(card != nil && error == nil);
         [identities addObject:card.identity];
-        [publicKeys addObject:card.publicKey];
+        [cards addObject:card];
     }
 
-    [self.eThree lookupPublicKeysOf:identities completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
+    [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
-        XCTAssert([self.utils isPublicKeysEqualWithKeys1:foundPublicKeys.allValues keys2:publicKeys]);
 
-        [ex fulfill];
+        [self.eThree lookupCardsOf:identities forceReload:false completion:^(NSDictionary<NSString *, VSSCard *> *foundCards, NSError *error) {
+            XCTAssert(error == nil);
+
+            XCTAssert([self.utils isCardsEqualWithCards1:cards cards2:foundCards.allValues]);
+
+            [ex fulfill];
+        }];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
@@ -80,10 +85,15 @@
 - (void)test_STE_2 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys by empty array of identities should throw error"];
 
-    [self.eThree lookupPublicKeysOf:@[] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
-        XCTAssert(error.code == VTEEThreeErrorMissingIdentities);
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
 
-        [ex fulfill];
+
+        [self.eThree lookupCardsOf:@[] forceReload:false completion:^(NSDictionary<NSString *, VSSCard *> *foundCard, NSError *error) {
+            XCTAssert(error.code == VTEEThreeErrorMissingIdentities);
+
+            [ex fulfill];
+        }];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
@@ -110,27 +120,25 @@
             [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
-                    XCTAssert(error == nil);
-                    XCTAssert(foundPublicKeys.count > 0);
+                [eThree1 lookupCardOf:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                    XCTAssert(card != nil && error == nil);
 
                     NSString *plainText = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
-                    NSString *encrypted = [eThree1 encryptWithText:plainText for:foundPublicKeys error:&err];
+                    NSString *encrypted = [eThree1 encryptWithText:plainText for:@{card.identity: card} error:&err];
                     XCTAssert(err == nil);
 
-                    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
+                    VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
                     XCTAssert(err == nil);
 
-                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:keyPair.publicKey error:&err];
+                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
-                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
-                        XCTAssert(error == nil);
-                        XCTAssert(foundPublicKeys.count > 0);
+                    [eThree2 lookupCardOf:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                        XCTAssert(card != nil && error == nil);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:foundPublicKeys[eThree1.identity] error:&err];
+                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:card error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -172,24 +180,23 @@
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        NSError *err;
         NSString *plainText = [[NSUUID alloc] init].UUIDString;
         NSData *plainData = [plainText dataUsingEncoding:NSUTF8StringEncoding];
-        VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
-        XCTAssert(err == nil);
 
-        [self.eThree lookupPublicKeysOf:@[self.eThree.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
-            XCTAssert(error == nil);
-            XCTAssert(foundPublicKeys.count > 0);
+        [self.eThree lookupCardOf:self.eThree.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+            XCTAssert(card != nil && error == nil);
 
             NSError *err;
-            NSData *encryptedData = [self.crypto encrypt:plainData for:foundPublicKeys.allValues error:&err];
+            NSData *encryptedData = [self.crypto encrypt:plainData for:@[card.publicKey] error:&err];
             XCTAssert(err == nil);
 
             NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
             XCTAssert(encryptedString != nil);
 
-            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:keyPair.publicKey error:&err];
+            VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
+            XCTAssert(err == nil);
+
+            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:otherCard error:&err];
             XCTAssert(err != nil && decrypted == nil);
 
             [ex fulfill];
@@ -206,16 +213,16 @@
     NSError *error;
     [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
-    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
+    VSSCard *card = [self.utils publishCardWithIdentity:nil error:&error];
     XCTAssert(error == nil);
 
-    NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@{self.eThree.identity: keyPair.publicKey} error:&error];
+    NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@{self.eThree.identity: card} error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(encrypted == nil);
 
     error = nil;
 
-    NSString *decrypted = [self.eThree decryptWithText:@"" from:keyPair.publicKey error:&error];
+    NSString *decrypted = [self.eThree decryptWithText:@"" from:card error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(decrypted == nil);
 }
@@ -253,10 +260,14 @@
 
     XCTAssert(error == nil);
 
-    [self.eThree lookupPublicKeysOf:@[card2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *foundPublicKeys, NSError *error) {
-        XCTAssert(error.code == VTEEThreeErrorDuplicateCards);
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
 
-        [ex fulfill];
+        [self.eThree lookupCardOf:card2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+            XCTAssert(error.code == VTEEThreeErrorDuplicateCards);
+
+            [ex fulfill];
+        }];
     }];
 
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {

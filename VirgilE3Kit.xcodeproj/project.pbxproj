@@ -183,6 +183,9 @@
 		16BB9B4722EF1C320057D6B2 /* CardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B4522EF1C320057D6B2 /* CardStorage.swift */; };
 		16BB9B4822EF1C320057D6B2 /* CardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B4522EF1C320057D6B2 /* CardStorage.swift */; };
 		16BB9B4922EF1C320057D6B2 /* CardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B4522EF1C320057D6B2 /* CardStorage.swift */; };
+		16BB9B4B22EF30BB0057D6B2 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
+		16BB9B4C22EF30BB0057D6B2 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
+		16BB9B4D22EF30BC0057D6B2 /* VTE001_EncryptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */; };
 		16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
@@ -1118,6 +1121,7 @@
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
+				16BB9B4C22EF30BB0057D6B2 /* VTE001_EncryptionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1131,6 +1135,7 @@
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
+				16BB9B4B22EF30BB0057D6B2 /* VTE001_EncryptionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1144,6 +1149,7 @@
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
+				16BB9B4D22EF30BC0057D6B2 /* VTE001_EncryptionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

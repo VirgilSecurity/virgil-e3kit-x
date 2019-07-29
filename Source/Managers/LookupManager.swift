@@ -119,20 +119,12 @@ internal class LookupManager {
     }
 
     public func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
-        var card: Card?
+        let cards = try self.lookupCards(of: [identity])
 
-        if !forceReload {
-            card = self.cardStorage.retrieve(identity: identity)
-        }
-
-        if card == nil {
-            card = try self.cardManager.searchCards(identities: [identity]).startSync().get().first
-        }
-
-        guard let result = card else {
+        guard let card = cards[identity] else {
             throw NSError()
         }
 
-        return result
+        return card
     }
 }

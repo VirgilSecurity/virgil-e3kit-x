@@ -39,6 +39,18 @@ import VirgilCrypto
 
 // MARK: - Extension with encrypt-decrypt operations
 extension EThree {
+    public func encrypt(data: Data, for recipientCard: Card) throws -> Data {
+        return try self.encrypt(data: data, for: [recipientCard.identity: recipientCard])
+    }
+
+    public func encrypt(text: String, for recipientCard: Card) throws -> String {
+        return try self.encrypt(text: text, for: [recipientCard.identity: recipientCard])
+    }
+
+    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for recipientCard: Card) throws {
+        try self.encrypt(stream, to: outputStream, for: [recipientCard.identity: recipientCard])
+    }
+
     /// Signs then encrypts data for group of users
     ///
     /// - Parameters:
@@ -100,7 +112,8 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
+    @objc public func encrypt(_ stream: InputStream,
+                              to outputStream: OutputStream,
                               for recipientCards: LookupResult? = nil) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
@@ -143,12 +156,12 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
+    @objc public func encrypt(text: String, for recipientCards: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
 
-        return try self.encrypt(data: data, for: recipientKeys).base64EncodedString()
+        return try self.encrypt(data: data, for: recipientCards).base64EncodedString()
     }
 
     /// Decrypts and verifies base64 string from users
