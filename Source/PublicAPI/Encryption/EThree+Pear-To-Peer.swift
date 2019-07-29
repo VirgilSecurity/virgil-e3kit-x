@@ -78,15 +78,14 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
+    @objc public func decrypt(data: Data, from senderCard: Card? = nil) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let senderPublicKey = senderPublicKey ?? selfKeyPair.publicKey
+        let senderPublicKey = senderCard?.publicKey ?? selfKeyPair.publicKey
 
         let decryptedData = try self.crypto.decryptAndVerify(data,
                                                              with: selfKeyPair.privateKey,
                                                              using: senderPublicKey)
-
         return decryptedData
     }
 
@@ -160,12 +159,12 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
+    @objc public func decrypt(text: String, from senderCard: Card? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data, from: senderPublicKey)
+        let decryptedData = try self.decrypt(data: data, from: senderCard)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
