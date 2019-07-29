@@ -34,56 +34,14 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
 import VirgilSDK
 
-class FileCardStorage: NSObject, CardStorage {
-    private let fileSystem: FileSystem
-    private let queue = DispatchQueue(label: "FileCardStorageQueue")
+internal protocol CardStorage: class {
+    func store(card: Card) throws
 
-    @objc public init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
-        let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
-        self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
-                                     userIdentifier: identity,
-                                     pathComponents: ["CARDS"],
-                                     credentials: credentials)
+    func retrieve(identity: String) -> Card?
 
-        super.init()
-    }
+    func delete(identity: String) throws
 
-    func store(card: Card) throws {
-        try self.queue.sync {
-            let data = try JSONEncoder().encode(card.getRawCard())
-
-            try self.fileSystem.write(data: data, name: card.identity)
-        }
-    }
-
-    func retrieve(identity: String) -> Card? {
-        guard
-            let data = try? self.fileSystem.read(name: identity),
-            !data.isEmpty,
-            let crypto = self.fileSystem.credentials?.crypto,
-            let rawCard = try? JSONDecoder().decode(RawSignedModel.self, from: data),
-            let card = try? CardManager.parseCard(from: rawCard, crypto: crypto)
-        else {
-            return nil
-        }
-
-        return card
-    }
-
-    func delete(identity: String) throws {
-        try self.queue.sync {
-            try self.fileSystem.delete(name: identity)
-        }
-    }
-
-    func reset() throws {
-        try self.queue.sync {
-            try self.fileSystem.delete()
-        }
-    }
+    func reset() throws
 }
-
-
