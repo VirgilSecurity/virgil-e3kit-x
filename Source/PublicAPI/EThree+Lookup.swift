@@ -37,6 +37,30 @@
 import VirgilSDK
 
 extension EThree {
+    public func lookupCachedCards(of identities: [String]) -> GenericOperation<LookupResult> {
+        return CallbackOperation { _, completion in
+            do {
+                let cards = try self.getLookupManager().lookupCachedCards(of: identities)
+
+                completion(cards, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func lookupCachedCard(of identity: String) -> GenericOperation<Card> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.getLookupManager().lookupCachedCard(of: identity)
+
+                completion(card, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {

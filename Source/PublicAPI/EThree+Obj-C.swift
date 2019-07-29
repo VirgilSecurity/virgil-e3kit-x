@@ -160,4 +160,16 @@ extension EThree {
                                                         _ error: Error?) -> Void) {
         self.lookupCard(of: identity, forceReload: forceReload).start(completion: completion)
     }
+
+    @objc public func lookupCachedCards(of identities: [String],
+                                        completion: @escaping (_ lookupResult: LookupResult?,
+                                                               _ error: Error?) -> Void) {
+        self.lookupCachedCards(of: identities).start(completion: completion)
+    }
+
+    @objc public func lookupCachedCard(of identitiy: String,
+                                       completion: @escaping (_ lookupResult: Card?,
+                                                              _ error: Error?) -> Void) {
+        self.lookupCachedCard(of: identity).start(completion: completion)
+    }
 }
