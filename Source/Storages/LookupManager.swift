@@ -49,9 +49,32 @@ internal class LookupManager {
         self.cardManager = cardManager
     }
 
-    // TODO: Add check that all identities was found
-    // TODO: Remove LookupResult ?
-    // TODO: Add method on updating general local storage entries
+    public func lookupCachedCards(of identities: [String]) throws -> LookupResult {
+        guard !identities.isEmpty else {
+            throw EThreeError.missingIdentities
+        }
+
+        var result: LookupResult = [:]
+
+        for identity in Set(identities) {
+            guard let card = self.cardStorage.retrieve(identity: identity) else {
+                throw NSError()
+            }
+
+            result[identity] = card
+        }
+
+        return result
+    }
+
+    public func lookupCachedCard(of identity: String) throws -> Card {
+        guard let card = self.cardStorage.retrieve(identity: identity) else {
+            throw NSError()
+        }
+
+        return card
+    }
+
     public func lookupCards(of identities: [String], forceReload: Bool = false) throws -> LookupResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
@@ -86,6 +109,10 @@ internal class LookupManager {
                     result[card.identity] = card
                 }
             }
+        }
+
+        guard Set(result.keys) == Set(identities) else {
+            throw NSError()
         }
 
         return result
