@@ -64,6 +64,10 @@ internal class GroupManager {
                                                      identity: card.identity,
                                                      identityPublicKey: card.publicKey)
 
+        guard !tickets.isEmpty else {
+            throw NSError()
+        }
+
         let group = RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
 
         try self.localStorage.store(group)

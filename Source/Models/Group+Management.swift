@@ -51,10 +51,8 @@ extension Group {
                     throw NSError()
                 }
 
-                // TODO: tickets deletion
                 guard let lastTicket = group.tickets.last else {
-                    completion((), nil)
-                    return
+                    throw NSError()
                 }
 
                 self.session = try self.generateSession(from: group.tickets)
