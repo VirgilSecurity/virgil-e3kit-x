@@ -98,7 +98,6 @@ extension EThree {
                 let sessionId = self.computeSessionId(from: identifier)
 
                 let groupManager = try self.getGroupManager()
-                let lookupManager = try self.getLookupManager()
 
                 try groupManager.pull(sessionId: sessionId, from: card)
 
@@ -111,7 +110,7 @@ extension EThree {
                                       crypto: self.crypto,
                                       localKeyStorage: self.localKeyStorage,
                                       groupManager: groupManager,
-                                      lookupManager: lookupManager)
+                                      lookupManager: try self.getLookupManager())
 
                 completion(group, nil)
             } catch {

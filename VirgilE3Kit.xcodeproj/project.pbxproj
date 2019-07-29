@@ -630,8 +630,6 @@
 			children = (
 				1665EE2122E7220500774788 /* Cloud */,
 				1665EE2222E7220B00774788 /* Local */,
-				1665EE1C22E720A500774788 /* LookupManager.swift */,
-				16AD62D922E87E4700CDF90A /* GroupManager.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -675,9 +673,9 @@
 			children = (
 				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
 				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
+				1632AE9622DCDFB000950B48 /* Ticket.swift */,
 				1685845A22DE2D23008EAC34 /* Group.swift */,
 				1685846E22E091E0008EAC34 /* Group+Management.swift */,
-				1632AE9622DCDFB000950B48 /* Ticket.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -688,6 +686,15 @@
 				16AD62E422E9FD5400CDF90A /* Array+Chunks.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		16BB9B4422EF1A4E0057D6B2 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1665EE1C22E720A500774788 /* LookupManager.swift */,
+				16AD62D922E87E4700CDF90A /* GroupManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		16EC37222177938A009D7F00 = {
@@ -731,9 +738,10 @@
 			isa = PBXGroup;
 			children = (
 				1685844A22DDE12C008EAC34 /* Models */,
+				16BB9B4422EF1A4E0057D6B2 /* Managers */,
 				167E1DED217CFC1000F8AA13 /* Storages */,
-				16AD62E322E9FD3600CDF90A /* Utils */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
+				16AD62E322E9FD3600CDF90A /* Utils */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
 			);
