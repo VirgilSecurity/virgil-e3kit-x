@@ -168,11 +168,9 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        // User1 creates group, encrypts
         let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        // User2 updates group, decrypts
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
         do {
@@ -192,17 +190,46 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        // User1 creates group, encrypts
         let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        // User2 updates group, decrypts
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
         let nonExistentGroupId = try! self.crypto.generateRandomData(ofSize: 100)
 
         do {
             _ = try ethree3.pullGroup(id: nonExistentGroupId, initiator: ethree1Card).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+    }
+
+    func test_5__pull_or_update_deleted_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let identities = [ethree2.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+
+        try! group1.delete().startSync().get()
+
+        do {
+            try group2.update().startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+
+        do {
+            _ = try ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
             XCTFail()
         } catch {
             // FIXME
