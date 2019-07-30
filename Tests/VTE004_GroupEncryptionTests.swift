@@ -65,7 +65,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         return ethree
     }
 
-    func test_1_encrypt_decrypt() {
+    func test_1__encrypt_decrypt__should_succeed() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -78,12 +78,16 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
+        let participants = Set(identities).union([ethree1.identity])
+        XCTAssert(group1.participants == participants)
+
         let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
         let encrypted = try! group1.encrypt(text: message)
 
         // User2 updates group, decrypts
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
         let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        XCTAssert(group2.participants == participants)
 
         let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
@@ -92,7 +96,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         XCTAssert(message == decrypted)
     }
 
-    func test_2_change_participants() {
+    func test_2__add_remove_participants__should_succeed() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -114,16 +118,29 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let group3 = try! ethree3.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         // User 1 removes User3 and adds User 4
-        let newIdentities = [ethree2.identity, ethree4.identity]
-        let newLookup = try! ethree1.lookupCards(of: newIdentities).startSync().get()
+        let ethree4Card = try! ethree1.lookupCard(of: ethree4.identity).startSync().get()
 
-        try! group1.changeParticipants(to: newLookup).startSync().get()
+        try! group1.add(participant: ethree4Card).startSync().get()
+        try! group1.remove(participant: lookup[ethree3.identity]!).startSync().get()
+
+        let newIdentities = [ethree2.identity, ethree4.identity]
+        let participants = Set(newIdentities).union([ethree1.identity])
+        XCTAssert(group1.participants == participants)
 
         // Other Users update groups
         try! group2.update().startSync().get()
-        try! group3.update().startSync().get()
+
+        do {
+            try group3.update().startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+
+        XCTAssert(group2.participants == participants)
 
         let group4 = try! ethree4.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        XCTAssert(group4.participants == participants)
 
         // User 1 encrypts message for group
         let message = "Hello, \(ethree2.identity)!"
@@ -140,6 +157,56 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         XCTAssert(decrypted2 == message)
         XCTAssert(notDecrypted3 == nil)
         XCTAssert(decrypted4 == message)
+    }
+
+    func test_3__pull_alien_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let identities = [ethree2.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        // User1 creates group, encrypts
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        // User2 updates group, decrypts
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        do {
+            _ = try ethree3.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+    }
+
+    func test_4__pull_nonexistent_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let identities = [ethree2.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        // User1 creates group, encrypts
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        // User2 updates group, decrypts
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        let nonExistentGroupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        do {
+            _ = try ethree3.pullGroup(id: nonExistentGroupId, initiator: ethree1Card).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
     }
 }
 

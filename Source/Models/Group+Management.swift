@@ -85,9 +85,7 @@ extension Group {
                     return card
                 }
 
-                let sessionId = self.session.getSessionId()
-
-                try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
+                try self.shareTickets(for: addedCards)
 
                 completion((), nil)
             } catch {
@@ -106,12 +104,9 @@ extension Group {
                     throw NSError()
                 }
 
-                let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
-                let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
+                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet))
 
-                try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
-
-                try self.session.addEpoch(message: ticket.groupMessage)
+                try self.addNewTicket(for: newSetLookup)
 
                 completion((), nil)
             } catch {
@@ -120,41 +115,12 @@ extension Group {
         }
     }
 
-    public func changeParticipants(to lookup: LookupResult) -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let sessionId = self.session.getSessionId()
+    public func add(participant card: Card) -> GenericOperation<Void> {
+        return self.add(participants: [card.identity: card])
+    }
 
-                let oldSet = Set(self.participants)
-                let newSet = Set(lookup.keys)
-
-                let deleteSet = oldSet.subtracting(newSet)
-                let addSet = newSet.subtracting(oldSet)
-
-                if deleteSet.isEmpty && addSet.isEmpty {
-                    throw NSError()
-                }
-
-                if !addSet.isEmpty {
-                    let addedCards = Array(addSet).map { lookup[$0]! }
-
-                    try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: addedCards)
-                }
-
-                if !deleteSet.isEmpty {
-                    let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
-                    let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
-
-                    try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
-
-                    try self.session.addEpoch(message: ticket.groupMessage)
-                }
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
+    public func remove(participant card: Card) -> GenericOperation<Void> {
+        return self.remove(participants: [card.identity: card])
     }
 
     public func delete() -> GenericOperation<Void> {
@@ -169,5 +135,29 @@ extension Group {
                 completion(nil, error)
             }
         }
+    }
+}
+
+extension Group {
+    private func shareTickets(for cards: [Card]) throws {
+        let sessionId = self.session.getSessionId()
+
+        try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: cards)
+
+        let newParticipants = cards.map { $0.identity }
+        self.participants = self.participants.union(newParticipants)
+    }
+
+    private func addNewTicket(for lookup: LookupResult) throws {
+        let newSet = Set(lookup.keys)
+
+        let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
+        let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
+
+        try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
+
+        try self.session.addEpoch(message: ticket.groupMessage)
+
+        self.participants = newSet.union([self.initiator])
     }
 }
