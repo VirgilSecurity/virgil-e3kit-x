@@ -42,8 +42,8 @@ public class Group {
     public let initiator: String
     public internal(set) var participants: Set<String>
 
+    internal let selfIdentity: String
     internal let crypto: VirgilCrypto
-
     internal let localKeyStorage: LocalKeyStorage
     internal let groupManager: GroupManager
     internal let lookupManager: LookupManager
@@ -63,6 +63,7 @@ public class Group {
         }
 
         self.initiator = initiator
+        self.selfIdentity = localKeyStorage.identity
         self.participants = lastTicket.participants
         self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)

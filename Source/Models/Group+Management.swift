@@ -68,6 +68,10 @@ extension Group {
     public func add(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
+                guard self.selfIdentity == self.initiator else {
+                    throw NSError()
+                }
+
                 let oldSet = self.participants
                 let newSet = oldSet.union(lookup.keys)
 
@@ -97,6 +101,10 @@ extension Group {
     public func remove(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
+                guard self.selfIdentity == self.initiator else {
+                    throw NSError()
+                }
+
                 let oldSet = self.participants
                 let newSet = oldSet.subtracting(lookup.keys)
 
@@ -126,6 +134,10 @@ extension Group {
     public func delete() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
+                guard self.selfIdentity == self.initiator else {
+                    throw NSError()
+                }
+                
                 let sessionId = self.session.getSessionId()
 
                 try self.groupManager.delete(sessionId: sessionId)

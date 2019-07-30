@@ -38,6 +38,8 @@ import VirgilCrypto
 import VirgilSDK
 
 class FileGroupStorage: NSObject{
+    internal let identity: String
+
     private let fileSystem: FileSystem
     private let queue = DispatchQueue(label: "FileGroupStorageQueue")
 
@@ -45,6 +47,8 @@ class FileGroupStorage: NSObject{
     private let ticketsSubdir = "TICKETS"
 
     @objc public init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
+        self.identity = identity
+
         let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
         self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,

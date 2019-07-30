@@ -43,10 +43,9 @@ internal class GroupManager {
 
     internal let maxTicketsInGroup: Int = 50
 
-    internal init(identity: String,
-                  localStorage: FileGroupStorage,
+    internal init(localStorage: FileGroupStorage,
                   cloudStorage: CloudTicketStorage) {
-        self.identity = identity
+        self.identity = localStorage.identity
         self.localStorage = localStorage
         self.cloudStorage = cloudStorage
     }

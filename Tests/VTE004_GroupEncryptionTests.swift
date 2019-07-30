@@ -68,9 +68,8 @@ class VTE004_GroupEncryptionTests: XCTestCase {
     func test_1__encrypt_decrypt__should_succeed() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
-        let ethree3 = self.setUpDevice()
 
-        let identities = [ethree2.identity, ethree3.identity]
+        let identities = [ethree2.identity]
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
@@ -81,7 +80,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let participants = Set(identities).union([ethree1.identity])
         XCTAssert(group1.participants == participants)
 
-        let message = "Hello, \(ethree2.identity), \(ethree3.identity)!"
+        let message = "Hello, \(ethree2.identity))!"
         let encrypted = try! group1.encrypt(text: message)
 
         // User2 updates group, decrypts
@@ -229,11 +228,68 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         }
 
         do {
+            try group1.update().startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+
+        do {
             _ = try ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
             XCTFail()
         } catch {
             // FIXME
         }
+
+        do {
+            _ = try ethree1.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+    }
+
+    func test_6__change_group_by_noninitiator__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+        let ethree4 = self.setUpDevice()
+
+        let identities = [ethree2.identity, ethree3.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+
+        do {
+            try group2.delete().startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+
+        do {
+            try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+
+        do {
+            let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
+            try group2.add(participant: ethree4Card).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
+    }
+
+    func test_7__group_should_contain_at_least_two_participants() {
+
     }
 }
 

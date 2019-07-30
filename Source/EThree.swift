@@ -100,7 +100,7 @@ import VirgilCrypto
 
             let ticketStorage = try FileGroupStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
             let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-            groupManager = GroupManager(identity: identity, localStorage: ticketStorage, cloudStorage: cloudTicketStorage)
+            groupManager = GroupManager(localStorage: ticketStorage, cloudStorage: cloudTicketStorage)
 
             let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
             lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
@@ -138,7 +138,7 @@ import VirgilCrypto
 
         let localStorage = try FileGroupStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
         let cloudStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-        self.groupManager = GroupManager(identity: self.identity, localStorage: localStorage, cloudStorage: cloudStorage)
+        self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
 
         let cardStorage = try FileCardStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
         self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
