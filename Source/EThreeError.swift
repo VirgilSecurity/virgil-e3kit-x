@@ -52,6 +52,7 @@ import Foundation
     case verifierInitFailed = 1
     case strToDataFailed = 3
     case strFromDataFailed = 4
+
     case missingPrivateKey = 5
     case missingPublicKey = 6
     case missingIdentities = 7
@@ -59,6 +60,16 @@ import Foundation
     case userIsNotRegistered = 9
     case privateKeyExists = 10
     case duplicateCards = 11
+
+    case missingCachedCard = 12
+    case cardWasNotFound = 13
+
+    case missingCachedGroup = 14
+    case groupWasDeleted = 15
+    case groupPermissionDenied = 16
+    case groupWasNotFound = 17
+    case invalidGroup = 18
+    case invalidChangeParticipants = 19
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -83,6 +94,22 @@ import Foundation
             return "Private key already exists in local key storage"
         case .duplicateCards:
             return "Found duplicated Cards"
+        case .missingCachedGroup:
+            return "Group with provided id not found locally. Try to call pullGroup first"
+        case .groupWasDeleted:
+            return "Group was deleted"
+        case .groupPermissionDenied:
+            return "Only group initiator can do changed on group"
+        case .missingCachedCard:
+            return "Card with provided identity was not found locally. Try to call lookupCard first"
+        case .cardWasNotFound:
+            return "Card for one or more of provided identities was now found"
+        case .groupWasNotFound:
+            return "Group with provided id was not found"
+        case .invalidGroup:
+            return "Group is invalid"
+        case .invalidChangeParticipants:
+            return "Invalid change of group participants. e.g. Add participant, who is already in group or remove somebody, who is not"
         }
     }
 }

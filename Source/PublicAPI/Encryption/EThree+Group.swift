@@ -77,7 +77,7 @@ extension EThree {
         let groupManager = try self.getGroupManager()
 
         guard let group = groupManager.retrieve(sessionId: sessionId) else {
-            throw NSError()
+            throw EThreeError.missingCachedGroup
         }
 
         guard !group.tickets.isEmpty else {
@@ -102,7 +102,7 @@ extension EThree {
                 try groupManager.pull(sessionId: sessionId, from: card)
 
                 guard let rawGroup = groupManager.retrieve(sessionId: sessionId) else {
-                    throw NSError()
+                    throw EThreeError.groupWasNotFound
                 }
 
                 let group = try Group(initiator: rawGroup.info.initiator,

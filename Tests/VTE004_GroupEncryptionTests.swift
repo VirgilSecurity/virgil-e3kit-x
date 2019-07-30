@@ -268,23 +268,23 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         do {
             try group2.delete().startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
         }
 
         do {
             try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
         }
 
         do {
             let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
             try group2.add(participant: ethree4Card).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
         }
     }
 

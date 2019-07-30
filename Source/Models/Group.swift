@@ -59,7 +59,7 @@ public class Group {
         let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {
-            throw NSError()
+            throw EThreeError.invalidGroup
         }
 
         self.initiator = initiator
@@ -105,7 +105,7 @@ public class Group {
             let messageEpoch = encrypted.getEpoch()
 
             guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
-                throw NSError()
+                throw EThreeError.missingCachedGroup
             }
 
             let tempSession = try self.generateSession(from: group.tickets)

@@ -56,12 +56,8 @@ internal class LookupManager {
 
         var result: LookupResult = [:]
 
-        for identity in Set(identities) {
-            guard let card = self.cardStorage.retrieve(identity: identity) else {
-                throw NSError()
-            }
-
-            result[identity] = card
+        try identities.forEach {
+            result[$0] = try self.lookupCachedCard(of: $0)
         }
 
         return result
@@ -69,7 +65,7 @@ internal class LookupManager {
 
     public func lookupCachedCard(of identity: String) throws -> Card {
         guard let card = self.cardStorage.retrieve(identity: identity) else {
-            throw NSError()
+            throw EThreeError.missingCachedCard
         }
 
         return card
@@ -112,7 +108,7 @@ internal class LookupManager {
         }
 
         guard Set(result.keys) == Set(identities) else {
-            throw NSError()
+            throw EThreeError.cardWasNotFound
         }
 
         return result
@@ -122,7 +118,7 @@ internal class LookupManager {
         let cards = try self.lookupCards(of: [identity])
 
         guard let card = cards[identity] else {
-            throw NSError()
+            throw EThreeError.cardWasNotFound
         }
 
         return card

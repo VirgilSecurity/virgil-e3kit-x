@@ -153,7 +153,7 @@ import VirgilCrypto
 
     internal func getGroupManager() throws -> GroupManager {
         guard let storage = self.groupManager else {
-            throw NSError()
+            throw EThreeError.missingPrivateKey
         }
 
         return storage
@@ -161,7 +161,7 @@ import VirgilCrypto
 
     internal func getLookupManager() throws -> LookupManager {
         guard let manager = self.lookupManager else {
-            throw NSError()
+            throw EThreeError.missingPrivateKey
         }
 
         return manager

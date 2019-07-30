@@ -48,11 +48,11 @@ extension Group {
                 try self.groupManager.pull(sessionId: sessionId, from: card)
 
                 guard let group = self.groupManager.retrieve(sessionId: sessionId) else {
-                    throw NSError()
+                    throw EThreeError.groupWasDeleted
                 }
 
                 guard let lastTicket = group.tickets.last else {
-                    throw NSError()
+                    throw EThreeError.invalidGroup
                 }
 
                 self.session = try self.generateSession(from: group.tickets)
@@ -69,14 +69,14 @@ extension Group {
         return CallbackOperation { _, completion in
             do {
                 guard self.selfIdentity == self.initiator else {
-                    throw NSError()
+                    throw EThreeError.groupPermissionDenied
                 }
 
                 let oldSet = self.participants
                 let newSet = oldSet.union(lookup.keys)
 
                 guard newSet != oldSet else {
-                    throw NSError()
+                    throw EThreeError.invalidChangeParticipants
                 }
 
                 let addSet = newSet.subtracting(oldSet)
@@ -102,14 +102,14 @@ extension Group {
         return CallbackOperation { _, completion in
             do {
                 guard self.selfIdentity == self.initiator else {
-                    throw NSError()
+                    throw EThreeError.groupPermissionDenied
                 }
 
                 let oldSet = self.participants
                 let newSet = oldSet.subtracting(lookup.keys)
 
                 guard newSet != oldSet else {
-                    throw NSError()
+                    throw EThreeError.invalidChangeParticipants
                 }
 
                 let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet))
@@ -135,7 +135,7 @@ extension Group {
         return CallbackOperation { _, completion in
             do {
                 guard self.selfIdentity == self.initiator else {
-                    throw NSError()
+                    throw EThreeError.groupPermissionDenied
                 }
                 
                 let sessionId = self.session.getSessionId()
