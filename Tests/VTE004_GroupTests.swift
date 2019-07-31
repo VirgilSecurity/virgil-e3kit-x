@@ -39,7 +39,7 @@ import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
 
-class VTE004_GroupEncryptionTests: XCTestCase {
+class VTE004_GroupTests: XCTestCase {
     var testUtils: TestUtils!
     let crypto = try! VirgilCrypto()
 
@@ -85,7 +85,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
         // User2 updates group, decrypts
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
         XCTAssert(group2.participants == participants)
 
         let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
@@ -112,9 +112,9 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         // User 2 and User 3 update it
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
-        let group3 = try! ethree3.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group3 = try! ethree3.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         // User 1 removes User3 and adds User 4
         let ethree4Card = try! ethree1.lookupCard(of: ethree4.identity).startSync().get()
@@ -138,7 +138,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
 
         XCTAssert(group2.participants == participants)
 
-        let group4 = try! ethree4.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group4 = try! ethree4.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
         XCTAssert(group4.participants == participants)
 
         // User 1 encrypts message for group
@@ -173,10 +173,10 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
         do {
-            _ = try ethree3.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            _ = try ethree3.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
         }
     }
 
@@ -197,10 +197,10 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let nonExistentGroupId = try! self.crypto.generateRandomData(ofSize: 100)
 
         do {
-            _ = try ethree3.pullGroup(id: nonExistentGroupId, initiator: ethree1Card).startSync().get()
+            _ = try ethree3.loadGroup(id: nonExistentGroupId, initiator: ethree1Card).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
         }
     }
 
@@ -216,36 +216,36 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         try! group1.delete().startSync().get()
 
         do {
             try group2.update().startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasDeleted {} catch {
+            XCTFail()
         }
 
         do {
             try group1.update().startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasDeleted {} catch {
+            XCTFail()
         }
 
         do {
-            _ = try ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            _ = try ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
         }
 
         do {
-            _ = try ethree1.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            _ = try ethree1.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
         }
     }
 
@@ -263,7 +263,7 @@ class VTE004_GroupEncryptionTests: XCTestCase {
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.pullGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         do {
             try group2.delete().startSync().get()
@@ -289,7 +289,18 @@ class VTE004_GroupEncryptionTests: XCTestCase {
     }
 
     func test_7__group_should_contain_at_least_two_participants() {
+        let ethree1 = self.setUpDevice()
 
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree1.identity]).startSync().get()
+
+        do {
+            _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+            XCTFail()
+        } catch {
+            // FIXME
+        }
     }
 }
 

@@ -37,6 +37,12 @@
 import VirgilCrypto
 import VirgilSDK
 
+public enum FileGroupStorageError: Int, LocalizedError {
+    case invalidRawGroup = 1
+    case invalidFileName = 2
+    case emptyFile = 3
+}
+
 class FileGroupStorage: NSObject{
     internal let identity: String
 
@@ -61,7 +67,7 @@ class FileGroupStorage: NSObject{
     func store(_ group: RawGroup) throws {
         try self.queue.sync {
             guard let ticket = group.tickets.last else {
-                throw NSError()
+                throw FileGroupStorageError.invalidRawGroup
             }
 
             let subdir = ticket.groupMessage.getSessionId().hexEncodedString()
@@ -153,7 +159,7 @@ extension FileGroupStorage {
             .getFileNames(subdir: subdir)
             .map({ (name: String) -> UInt32 in
                 guard let epoch = UInt32(name) else {
-                    throw NSError()
+                    throw FileGroupStorageError.invalidFileName
                 }
 
                 return epoch
@@ -163,7 +169,7 @@ extension FileGroupStorage {
 
         try epochs.forEach {
             guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: $0) else {
-                throw NSError()
+                throw FileGroupStorageError.emptyFile
             }
 
             result.append(ticket)

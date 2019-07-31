@@ -49,6 +49,7 @@ import Foundation
 /// - userIsNotRegistered: User is not registered
 /// - privateKeyExists: Private key already exists in local key storage
 @objc(VTEEThreeError) public enum EThreeError: Int, LocalizedError {
+    // FIXME: Split it into several errors ?
     case verifierInitFailed = 1
     case strToDataFailed = 3
     case strFromDataFailed = 4
@@ -59,8 +60,8 @@ import Foundation
     case userIsAlreadyRegistered = 8
     case userIsNotRegistered = 9
     case privateKeyExists = 10
-    case duplicateCards = 11
 
+    case duplicateCards = 11
     case missingCachedCard = 12
     case cardWasNotFound = 13
 
@@ -70,6 +71,7 @@ import Foundation
     case groupWasNotFound = 17
     case invalidGroup = 18
     case invalidChangeParticipants = 19
+    case inconsistentState = 20
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -110,6 +112,8 @@ import Foundation
             return "Group is invalid"
         case .invalidChangeParticipants:
             return "Invalid change of group participants. e.g. Add participant, who is already in group or remove somebody, who is not"
+        case .inconsistentState:
+            return ""
         }
     }
 }

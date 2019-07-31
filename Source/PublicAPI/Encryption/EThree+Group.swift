@@ -71,7 +71,7 @@ extension EThree {
         }
     }
 
-    public func retrieveGroup(id identifier: Data) throws -> Group? {
+    public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = self.computeSessionId(from: identifier)
 
         let groupManager = try self.getGroupManager()
@@ -92,7 +92,7 @@ extension EThree {
                          lookupManager: self.getLookupManager())
     }
 
-    public func pullGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
+    public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.computeSessionId(from: identifier)

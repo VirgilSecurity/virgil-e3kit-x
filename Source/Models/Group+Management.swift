@@ -83,7 +83,7 @@ extension Group {
 
                 let addedCards: [Card] = try addSet.map {
                     guard let card = lookup[$0] else {
-                        throw NSError()
+                        throw EThreeError.inconsistentState
                     }
 
                     return card
