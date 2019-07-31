@@ -67,6 +67,7 @@ internal class GroupManager {
 
         guard !tickets.isEmpty else {
             try self.localStorage.delete(sessionId: sessionId)
+            
             throw EThreeError.groupWasNotFound
         }
 

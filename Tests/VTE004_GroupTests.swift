@@ -204,7 +204,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_5__pull_or_update_deleted_group__should_throw_error() {
+    func test_5__actions_on_deleted_group__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -320,6 +320,11 @@ class VTE004_GroupTests: XCTestCase {
         }
 
         // TODO: Test upper bound
+    }
+
+    func test__9__getGroup__should_return_cached_group() {
+        // TODO: Implement
+        XCTFail()
     }
 }
 

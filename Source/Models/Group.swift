@@ -52,19 +52,20 @@ public class Group {
 
     internal var session: GroupSession
 
-    internal init(initiator: String,
-                  tickets: [Ticket],
+    internal init(rawGroup: RawGroup,
                   crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
                   groupManager: GroupManager,
                   lookupManager: LookupManager) throws {
-        let tickets = tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
+        let tickets = rawGroup.tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {
             throw EThreeError.invalidGroup
         }
 
-        self.initiator = initiator
+        try Group.validateParticipantsCount(lastTicket.participants.count)
+
+        self.initiator = rawGroup.info.initiator
         self.selfIdentity = localKeyStorage.identity
         self.participants = lastTicket.participants
         self.crypto = crypto

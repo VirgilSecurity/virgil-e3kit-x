@@ -48,7 +48,7 @@ import VirgilCrypto
     @objc public let identity: String
     /// VirgilCrypto instance
     @objc public var crypto: VirgilCrypto {
-        return cardManager.crypto
+        return self.cardManager.crypto
     }
     /// CardManager instance
     @objc public let cardManager: CardManager
@@ -120,11 +120,11 @@ import VirgilCrypto
     }
 
     internal func getGroupManager() throws -> GroupManager {
-        guard let storage = self.groupManager else {
+        guard let manager = self.groupManager else {
             throw EThreeError.missingPrivateKey
         }
 
-        return storage
+        return manager
     }
 
     internal func getLookupManager() throws -> LookupManager {
@@ -157,8 +157,7 @@ extension EThree {
     }
 
     internal func initGroup(from rawGroup: RawGroup) throws -> Group {
-        return try Group(initiator: rawGroup.info.initiator,
-                         tickets: rawGroup.tickets,
+        return try Group(rawGroup: rawGroup,
                          crypto: self.crypto,
                          localKeyStorage: self.localKeyStorage,
                          groupManager: self.getGroupManager(),

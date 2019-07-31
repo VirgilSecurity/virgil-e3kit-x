@@ -573,10 +573,11 @@
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
-				1685843F22DDD961008EAC34 /* Encryption */,
 				165B67C22178FC0B00DDE1F7 /* EThree+Authorization.swift */,
 				165B67C72178FCA600DDE1F7 /* EThree+KeyBackup.swift */,
 				1685844022DDD98E008EAC34 /* EThree+Lookup.swift */,
+				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
+				1629F5D322D62A8300DB5ECE /* EThree+Group.swift */,
 				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
 			path = PublicAPI;
@@ -666,15 +667,6 @@
 				167E1E81217D27A600F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp tvOS";
-			sourceTree = "<group>";
-		};
-		1685843F22DDD961008EAC34 /* Encryption */ = {
-			isa = PBXGroup;
-			children = (
-				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
-				1629F5D322D62A8300DB5ECE /* EThree+Group.swift */,
-			);
-			path = Encryption;
 			sourceTree = "<group>";
 		};
 		1685844A22DDE12C008EAC34 /* Models */ = {
