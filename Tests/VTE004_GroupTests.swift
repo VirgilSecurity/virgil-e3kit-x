@@ -223,14 +223,14 @@ class VTE004_GroupTests: XCTestCase {
         do {
             try group2.update().startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasDeleted {} catch {
+        } catch EThreeError.groupWasNotFound {} catch {
             XCTFail()
         }
 
         do {
             try group1.update().startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasDeleted {} catch {
+        } catch EThreeError.groupWasNotFound {} catch {
             XCTFail()
         }
 
