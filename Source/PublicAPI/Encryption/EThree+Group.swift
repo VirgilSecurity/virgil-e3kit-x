@@ -124,6 +124,14 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
+                guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+                    throw EThreeError.groupWasNotFound
+                }
+
+                guard self.identity == rawGroup.info.initiator else {
+                    throw EThreeError.groupPermissionDenied
+                }
+
                 try self.getGroupManager().delete(sessionId: sessionId)
 
                 completion((), nil)

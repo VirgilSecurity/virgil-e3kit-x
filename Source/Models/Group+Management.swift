@@ -130,24 +130,6 @@ extension Group {
     public func remove(participant card: Card) -> GenericOperation<Void> {
         return self.remove(participants: [card.identity: card])
     }
-
-    public func delete() -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                guard self.selfIdentity == self.initiator else {
-                    throw EThreeError.groupPermissionDenied
-                }
-                
-                let sessionId = self.session.getSessionId()
-
-                try self.groupManager.delete(sessionId: sessionId)
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
 }
 
 extension Group {

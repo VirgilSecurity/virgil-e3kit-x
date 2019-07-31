@@ -218,7 +218,7 @@ class VTE004_GroupTests: XCTestCase {
         let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
-        try! group1.delete().startSync().get()
+        try! ethree1.deleteGroup(id: groupId).startSync().get()
 
         do {
             try group2.update().startSync().get()
@@ -266,7 +266,7 @@ class VTE004_GroupTests: XCTestCase {
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         do {
-            try group2.delete().startSync().get()
+            try ethree2.deleteGroup(id: groupId).startSync().get()
             XCTFail()
         } catch EThreeError.groupPermissionDenied {} catch {
             XCTFail()
