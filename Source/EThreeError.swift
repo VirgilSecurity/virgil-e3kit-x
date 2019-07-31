@@ -71,6 +71,7 @@ import Foundation
     case invalidGroup = 17
     case invalidChangeParticipants = 18
     case inconsistentState = 19
+    case invalidParticipantsCount = 20
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -111,6 +112,8 @@ import Foundation
             return "Invalid change of group participants. e.g. Add participant, who is already in group or remove somebody, who is not"
         case .inconsistentState:
             return ""
+        case .invalidParticipantsCount:
+            return "Please check valid participants count range in Group.ValidParticipatnsCountRange"
         }
     }
 }

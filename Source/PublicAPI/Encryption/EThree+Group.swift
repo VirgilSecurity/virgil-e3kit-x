@@ -44,18 +44,22 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let groupManager = try self.getGroupManager()
-                let lookupManager = try self.getLookupManager()
-
                 var lookup = lookup
-                let selfCard = try lookupManager.lookupCard(of: self.identity)
-                lookup[self.identity] = selfCard
+
+                if lookup[self.identity] == nil {
+                    let selfCard = try self.getLookupManager().lookupCard(of: self.identity)
+                    lookup[self.identity] = selfCard
+                }
+
+                guard Group.ValidParticipatnsCountRange ~= lookup.keys.count else {
+                    throw EThreeError.invalidParticipantsCount
+                }
 
                 let ticket = try Ticket(crypto: self.crypto,
                                         sessionId: sessionId,
                                         participants: Set(lookup.keys))
 
-                let rawGroup = try groupManager.store(ticket, sharedWith: Array(lookup.values))
+                let rawGroup = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
 
                 let group = try self.initGroup(from: rawGroup)
 
@@ -81,9 +85,7 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                let groupManager = try self.getGroupManager()
-
-                let rawGroup = try groupManager.pull(sessionId: sessionId, from: card)
+                let rawGroup = try self.getGroupManager().pull(sessionId: sessionId, from: card)
 
                 let group = try self.initGroup(from: rawGroup)
 

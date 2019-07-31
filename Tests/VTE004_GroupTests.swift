@@ -288,7 +288,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_7__group_should_contain_at_least_two_participants() {
+    func test_7__create_with_invalid_participants_count_should_throw_error() {
         let ethree1 = self.setUpDevice()
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
@@ -298,9 +298,28 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
             XCTFail()
-        } catch {
-            // FIXME
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
         }
+
+        // TODO: Test upper bound
+    }
+
+    func test_8__change_participants_count_to_invalid__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree1.identity]).startSync().get()
+
+        do {
+            _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+            XCTFail()
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
+        }
+
+        // TODO: Test upper bound
     }
 }
 

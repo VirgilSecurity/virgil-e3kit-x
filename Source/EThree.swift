@@ -94,70 +94,29 @@ import VirgilCrypto
 
         let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
 
-        var groupManager: GroupManager?
-        var lookupManager: LookupManager?
-        if let selfKeyPair = try? localKeyStorage.retrieveKeyPair() {
-
-            let ticketStorage = try FileGroupStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
-            let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-            groupManager = GroupManager(localStorage: ticketStorage, cloudStorage: cloudTicketStorage)
-
-            let cardStorage = try FileCardStorage(identity: identity, crypto: crypto, identityKeyPair: selfKeyPair)
-            lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
-        }
-
-        self.init(identity: identity,
-                  cardManager: cardManager,
-                  accessTokenProvider: accessTokenProvider,
-                  localKeyStorage: localKeyStorage,
-                  cloudKeyManager: cloudKeyManager,
-                  lookupManager: lookupManager,
-                  groupManager: groupManager)
+        try self.init(identity: identity,
+                      cardManager: cardManager,
+                      accessTokenProvider: accessTokenProvider,
+                      localKeyStorage: localKeyStorage,
+                      cloudKeyManager: cloudKeyManager)
     }
 
     internal init(identity: String,
                   cardManager: CardManager,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
-                  cloudKeyManager: CloudKeyManager,
-                  lookupManager: LookupManager?,
-                  groupManager: GroupManager?) {
+                  cloudKeyManager: CloudKeyManager) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
         self.cloudKeyManager = cloudKeyManager
-        self.lookupManager = lookupManager
-        self.groupManager = groupManager
 
         super.init()
-    }
 
-    func privateKeyChanged() throws {
-        let selfKeyPair = try localKeyStorage.retrieveKeyPair()
-
-        let localStorage = try FileGroupStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
-        let cloudStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider, localKeyStorage: localKeyStorage)
-        self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
-
-        let cardStorage = try FileCardStorage(identity: self.identity, crypto: crypto, identityKeyPair: selfKeyPair)
-        self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: cardManager)
-    }
-
-    func privateKeyDeleted() throws {
-        try self.groupManager?.localStorage.reset()
-
-        self.groupManager = nil
-        self.lookupManager = nil
-    }
-
-    internal func initGroup(from rawGroup: RawGroup) throws -> Group {
-        return try Group(initiator: rawGroup.info.initiator,
-                         tickets: rawGroup.tickets,
-                         crypto: self.crypto,
-                         localKeyStorage: self.localKeyStorage,
-                         groupManager: self.getGroupManager(),
-                         lookupManager: self.getLookupManager())
+        if try localKeyStorage.exists() {
+            try privateKeyChanged()
+        }
     }
 
     internal func getGroupManager() throws -> GroupManager {
@@ -174,6 +133,36 @@ import VirgilCrypto
         }
 
         return manager
+    }
+
+}
+
+extension EThree {
+    func privateKeyChanged() throws {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let localStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
+        let cloudStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
+        self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
+
+        let cardStorage = try FileCardStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
+        self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: self.cardManager)
+    }
+
+    func privateKeyDeleted() throws {
+        try self.groupManager?.localStorage.reset()
+
+        self.groupManager = nil
+        self.lookupManager = nil
+    }
+
+    internal func initGroup(from rawGroup: RawGroup) throws -> Group {
+        return try Group(initiator: rawGroup.info.initiator,
+                         tickets: rawGroup.tickets,
+                         crypto: self.crypto,
+                         localKeyStorage: self.localKeyStorage,
+                         groupManager: self.getGroupManager(),
+                         lookupManager: self.getLookupManager())
     }
 
     internal func computeSessionId(from identifier: Data) -> Data {
