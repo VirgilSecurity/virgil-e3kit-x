@@ -83,7 +83,6 @@ extension CloudTicketStorage {
                        key: "\(epoch)",
                 data: ticketData,
                 previousHash: nil,
-                overwrite: false,
                 publicKeys: publicKeys + [selfKeyPair.publicKey],
                 privateKey: selfKeyPair.privateKey)
             .startSync()
@@ -148,7 +147,6 @@ extension CloudTicketStorage {
                                   key: epoch,
                                   oldPublicKeys: [selfKeyPair.publicKey],
                                   oldPrivateKey: selfKeyPair.privateKey,
-                                  overwrite: false,
                                   newPublicKeys: publicKeys + [selfKeyPair.publicKey],
                                   newPrivateKey: selfKeyPair.privateKey)
                 .startSync()
