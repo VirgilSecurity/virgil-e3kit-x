@@ -44,18 +44,13 @@ extension EThree {
             do {
                 let sessionId = self.computeSessionId(from: identifier)
 
-                var lookup = lookup
+                let participants = Set(lookup.keys + [self.identity])
 
-                if lookup[self.identity] == nil {
-                    let selfCard = try self.getLookupManager().lookupCard(of: self.identity)
-                    lookup[self.identity] = selfCard
-                }
-
-                try Group.validateParticipantsCount(lookup.keys.count)
+                try Group.validateParticipantsCount(participants.count)
 
                 let ticket = try Ticket(crypto: self.crypto,
                                         sessionId: sessionId,
-                                        participants: Set(lookup.keys))
+                                        participants: participants)
 
                 let rawGroup = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
 
