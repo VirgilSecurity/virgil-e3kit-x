@@ -50,15 +50,17 @@ internal class GroupManager {
         self.cloudStorage = cloudStorage
     }
 
-    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
-        let group = RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
+    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> RawGroup {
+        let group = try RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
 
         try self.cloudStorage.store(ticket, sharedWith: cards)
 
         try self.localStorage.store(group)
+
+        return group
     }
 
-    internal func pull(sessionId: Data, from card: Card) throws {
+    internal func pull(sessionId: Data, from card: Card) throws -> RawGroup {
         let tickets = try self.cloudStorage.retrieve(sessionId: sessionId,
                                                      identity: card.identity,
                                                      identityPublicKey: card.publicKey)
@@ -68,9 +70,11 @@ internal class GroupManager {
             throw EThreeError.groupWasNotFound
         }
 
-        let group = RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
+        let group = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
 
         try self.localStorage.store(group)
+
+        return group
     }
 
     internal func updateRecipients(sessionId: Data, newRecipients: [Card]) throws {

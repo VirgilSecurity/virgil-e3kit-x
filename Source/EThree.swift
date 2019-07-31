@@ -151,6 +151,15 @@ import VirgilCrypto
         self.lookupManager = nil
     }
 
+    internal func initGroup(from rawGroup: RawGroup) throws -> Group {
+        return try Group(initiator: rawGroup.info.initiator,
+                         tickets: rawGroup.tickets,
+                         crypto: self.crypto,
+                         localKeyStorage: self.localKeyStorage,
+                         groupManager: self.getGroupManager(),
+                         lookupManager: self.getLookupManager())
+    }
+
     internal func getGroupManager() throws -> GroupManager {
         guard let storage = self.groupManager else {
             throw EThreeError.missingPrivateKey

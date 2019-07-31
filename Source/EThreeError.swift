@@ -66,12 +66,11 @@ import Foundation
     case cardWasNotFound = 13
 
     case missingCachedGroup = 14
-    case groupWasDeleted = 15
-    case groupPermissionDenied = 16
-    case groupWasNotFound = 17
-    case invalidGroup = 18
-    case invalidChangeParticipants = 19
-    case inconsistentState = 20
+    case groupPermissionDenied = 15
+    case groupWasNotFound = 16
+    case invalidGroup = 17
+    case invalidChangeParticipants = 18
+    case inconsistentState = 19
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -98,8 +97,6 @@ import Foundation
             return "Found duplicated Cards"
         case .missingCachedGroup:
             return "Group with provided id not found locally. Try to call pullGroup first"
-        case .groupWasDeleted:
-            return "Group was deleted"
         case .groupPermissionDenied:
             return "Only group initiator can do changed on group"
         case .missingCachedCard:

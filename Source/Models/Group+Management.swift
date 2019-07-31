@@ -45,11 +45,7 @@ extension Group {
 
                 let card = try self.lookupManager.lookupCard(of: self.initiator)
 
-                try self.groupManager.pull(sessionId: sessionId, from: card)
-
-                guard let group = self.groupManager.retrieve(sessionId: sessionId) else {
-                    throw EThreeError.groupWasDeleted
-                }
+                let group = try self.groupManager.pull(sessionId: sessionId, from: card)
 
                 guard let lastTicket = group.tickets.last else {
                     throw EThreeError.invalidGroup
@@ -148,7 +144,7 @@ extension Group {
         let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
         let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
 
-        try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
+        _ = try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
 
         try self.session.addEpoch(message: ticket.groupMessage)
 

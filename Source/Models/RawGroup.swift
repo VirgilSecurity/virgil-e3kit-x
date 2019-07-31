@@ -36,7 +36,20 @@
 
 import Foundation
 
+public enum RawGroupError: Int, LocalizedError {
+    case invalidRawGroup
+}
+
 internal struct RawGroup {
     let info: GroupInfo
     let tickets: [Ticket]
+
+    internal init(info: GroupInfo, tickets: [Ticket]) throws {
+        guard !tickets.isEmpty else {
+            throw RawGroupError.invalidRawGroup
+        }
+
+        self.info = info
+        self.tickets = tickets
+    }
 }

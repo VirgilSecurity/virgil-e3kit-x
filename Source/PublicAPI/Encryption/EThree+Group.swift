@@ -55,14 +55,9 @@ extension EThree {
                                         sessionId: sessionId,
                                         participants: Set(lookup.keys))
 
-                try groupManager.store(ticket, sharedWith: Array(lookup.values))
+                let rawGroup = try groupManager.store(ticket, sharedWith: Array(lookup.values))
 
-                let group = try Group(initiator: self.identity,
-                                      tickets: [ticket],
-                                      crypto: self.crypto,
-                                      localKeyStorage: self.localKeyStorage,
-                                      groupManager: groupManager,
-                                      lookupManager: self.getLookupManager())
+                let group = try self.initGroup(from: rawGroup)
 
                 completion(group, nil)
             } catch {
@@ -74,22 +69,11 @@ extension EThree {
     public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = self.computeSessionId(from: identifier)
 
-        let groupManager = try self.getGroupManager()
-
-        guard let group = groupManager.retrieve(sessionId: sessionId) else {
+        guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
             throw EThreeError.missingCachedGroup
         }
 
-        guard !group.tickets.isEmpty else {
-            return nil
-        }
-
-        return try Group(initiator: group.info.initiator,
-                         tickets: group.tickets,
-                         crypto: self.crypto,
-                         localKeyStorage: self.localKeyStorage,
-                         groupManager: groupManager,
-                         lookupManager: self.getLookupManager())
+        return try self.initGroup(from: rawGroup)
     }
 
     public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
@@ -99,18 +83,9 @@ extension EThree {
 
                 let groupManager = try self.getGroupManager()
 
-                try groupManager.pull(sessionId: sessionId, from: card)
+                let rawGroup = try groupManager.pull(sessionId: sessionId, from: card)
 
-                guard let rawGroup = groupManager.retrieve(sessionId: sessionId) else {
-                    throw EThreeError.groupWasNotFound
-                }
-
-                let group = try Group(initiator: rawGroup.info.initiator,
-                                      tickets: rawGroup.tickets,
-                                      crypto: self.crypto,
-                                      localKeyStorage: self.localKeyStorage,
-                                      groupManager: groupManager,
-                                      lookupManager: try self.getLookupManager())
+                let group = try self.initGroup(from: rawGroup)
 
                 completion(group, nil)
             } catch {
