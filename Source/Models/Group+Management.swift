@@ -71,9 +71,7 @@ extension Group {
                 let oldSet = self.participants
                 let newSet = oldSet.union(lookup.keys)
 
-                guard Group.ValidParticipatnsCountRange ~= newSet.count else {
-                    throw EThreeError.invalidParticipantsCount
-                }
+                try Group.validateParticipantsCount(newSet.count)
 
                 guard newSet != oldSet else {
                     throw EThreeError.invalidChangeParticipants
@@ -108,9 +106,7 @@ extension Group {
                 let oldSet = self.participants
                 let newSet = oldSet.subtracting(lookup.keys)
 
-                guard Group.ValidParticipatnsCountRange ~= newSet.count else {
-                    throw EThreeError.invalidParticipantsCount
-                }
+                try Group.validateParticipantsCount(newSet.count)
 
                 guard newSet != oldSet else {
                     throw EThreeError.invalidChangeParticipants

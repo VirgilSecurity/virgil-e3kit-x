@@ -51,9 +51,7 @@ extension EThree {
                     lookup[self.identity] = selfCard
                 }
 
-                guard Group.ValidParticipatnsCountRange ~= lookup.keys.count else {
-                    throw EThreeError.invalidParticipantsCount
-                }
+                try Group.validateParticipantsCount(lookup.keys.count)
 
                 let ticket = try Ticket(crypto: self.crypto,
                                         sessionId: sessionId,

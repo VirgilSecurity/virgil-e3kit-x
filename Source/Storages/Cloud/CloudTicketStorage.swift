@@ -75,7 +75,6 @@ extension CloudTicketStorage {
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
-        // FIXME: previous hash
         _ = try self.keyknoxManager
             .pushValue(identities: identities,
                        root1: CloudTicketStorage.groupSessionsRoot,
@@ -138,7 +137,6 @@ extension CloudTicketStorage {
             .startSync()
             .get()
 
-        // TODO: save hash
         for epoch in epochs {
             _ = try self.keyknoxManager
                 .updateRecipients(identities: identities,

@@ -74,6 +74,12 @@ public class Group {
         self.lookupManager = lookupManager
     }
 
+    internal static func validateParticipantsCount(_ count: Int) throws {
+        guard Group.ValidParticipatnsCountRange ~= count else {
+            throw EThreeError.invalidParticipantsCount
+        }
+    }
+
     private static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {
         let session = GroupSession()
         session.setRng(rng: crypto.rng)
