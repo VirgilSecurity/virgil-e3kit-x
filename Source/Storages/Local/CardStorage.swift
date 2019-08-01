@@ -39,9 +39,7 @@ import VirgilSDK
 internal protocol CardStorage: class {
     func store(card: Card) throws
 
-    func retrieve(identity: String) -> Card?
+    func retrieveAll() -> [Card]
 
-    func delete(identity: String) throws
-
-    func reset() throws
+    func searchCards(identities: String) -> [Card]
 }
