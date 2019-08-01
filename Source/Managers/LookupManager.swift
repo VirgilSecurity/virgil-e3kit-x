@@ -42,11 +42,37 @@ internal class LookupManager {
     internal let cardStorage: FileCardStorage
     internal let cardManager: CardManager
 
+    var sqlCardStorage: CardStorage!
+
     internal let maxSearchCount = 50
 
     internal init(cardStorage: FileCardStorage, cardManager: CardManager) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
+    }
+
+    private func scheduleUpdateCachedCards() throws {
+        // TODO: This should be done in background queue
+
+        let cards = self.sqlCardStorage.retrieveAll()
+
+        let cardsChunked = cards.chunked(into: 100)
+
+        for cards in cardsChunked {
+            let cardIds = cards.map { $0.identifier }
+
+            let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
+
+            let outdatedCards = cards.filter { outdatedIds.contains($0.identifier) }
+
+            let outdatedIdentities = outdatedCards.map { $0.identity }
+
+            let newCards = try Array(self.lookupCards(of: outdatedIdentities).values)
+
+            try newCards.forEach {
+                try self.sqlCardStorage.store(card: $0)
+            }
+        }
     }
 
     public func lookupCachedCards(of identities: [String]) throws -> LookupResult {

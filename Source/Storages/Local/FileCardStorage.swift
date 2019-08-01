@@ -37,7 +37,7 @@
 import VirgilCrypto
 import VirgilSDK
 
-class FileCardStorage: NSObject, CardStorage {
+class FileCardStorage: NSObject {
     private let fileSystem: FileSystem
     private let queue = DispatchQueue(label: "FileCardStorageQueue")
 
