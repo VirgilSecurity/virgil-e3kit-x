@@ -134,7 +134,6 @@ import VirgilCrypto
 
         return manager
     }
-
 }
 
 extension EThree {

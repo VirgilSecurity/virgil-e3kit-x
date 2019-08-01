@@ -80,10 +80,10 @@ extension CloudTicketStorage {
                        root1: CloudTicketStorage.groupSessionsRoot,
                        root2: sessionId,
                        key: "\(epoch)",
-                data: ticketData,
-                previousHash: nil,
-                publicKeys: publicKeys + [selfKeyPair.publicKey],
-                privateKey: selfKeyPair.privateKey)
+                       data: ticketData,
+                       previousHash: nil,
+                       publicKeys: publicKeys + [selfKeyPair.publicKey],
+                       privateKey: selfKeyPair.privateKey)
             .startSync()
             .get()
     }
