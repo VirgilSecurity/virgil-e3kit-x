@@ -90,9 +90,7 @@ internal class SQLiteCardStorage {
         self.crypto = crypto
         self.verifier = verifier
         self.db = try SQLiteDB(prefix: "VIRGIL_SQLITE", userIdentifier: userIdentifier, name: "cards.sqlite")
-    }
-
-    internal func setupTable() throws {
+        
         try self.db.executeNoResult(statement: CardsStatement.createTable.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexId.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexIdentity.rawValue)

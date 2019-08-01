@@ -107,8 +107,6 @@ class VTE005_SQLiteTests: XCTestCase {
                                              crypto: crypto,
                                              verifier: verifier)
         
-        try! storage.setupTable()
-        
         self.checkCardsById(storage: storage)
     }
     
@@ -144,9 +142,7 @@ class VTE005_SQLiteTests: XCTestCase {
         let storage = try! SQLiteCardStorage(userIdentifier: identity,
                                              crypto: crypto,
                                              verifier: verifier)
-        
-        try! storage.setupTable()
-        
+
         self.checkCardsByIdentity(storage: storage)
     }
     
@@ -163,8 +159,6 @@ class VTE005_SQLiteTests: XCTestCase {
         let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        try! storage1.setupTable()
         
         let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
                                               crypto: crypto,
@@ -193,8 +187,6 @@ class VTE005_SQLiteTests: XCTestCase {
         let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        try! storage1.setupTable()
         
         let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
                                               crypto: crypto,
@@ -232,8 +224,6 @@ class VTE005_SQLiteTests: XCTestCase {
                                               crypto: crypto,
                                               verifier: verifier)
         
-        try! storage1.setupTable()
-        
         let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
@@ -265,8 +255,6 @@ class VTE005_SQLiteTests: XCTestCase {
         let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        try! storage1.setupTable()
         
         let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
                                               crypto: crypto,
