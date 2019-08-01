@@ -34,38 +34,47 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import XCTest
+import VirgilE3Kit
+import VirgilCrypto
 import VirgilSDK
 
-extension EThree {
-    @objc public func lookupCachedCards(of identities: [String]) throws -> LookupResult {
-        return try self.lookupManager.lookupCachedCards(of: identities)
+class VTE006_LookupManagerTests: XCTestCase {
+    var testUtils: TestUtils!
+    let crypto = try! VirgilCrypto()
+
+    override func setUp() {
+        let consts = TestConfig.readFromBundle()
+
+        self.testUtils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    @objc public func lookupCachedCard(of identity: String) -> Card? {
-        return  try? self.lookupManager.lookupCachedCard(of: identity)
-    }
+    private func setUpDevice() -> (EThree) {
+        let identity = UUID().uuidString
 
-    public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
-        return CallbackOperation { _, completion in
-            do {
-                let cards = try self.lookupManager.lookupCards(of: identities, forceReload: forceReload)
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.testUtils.getTokenString(identity: identity)
 
-                completion(cards, nil)
-            } catch {
-                completion(nil, error)
-            }
+            completion(token, nil)
         }
+
+        let ethree = try! EThree.initialize(tokenCallback: tokenCallback).startSync().get()
+
+        try! ethree.register().startSync().get()
+
+        return ethree
     }
 
-    public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
-        return CallbackOperation { _, completion in
-            do {
-                let card = try self.lookupManager.lookupCard(of: identity, forceReload: forceReload)
+    func test_1() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
 
-                completion(card, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        XCTAssert(ethree1.lookupCachedCard(of: ethree2.identity) == nil)
+
+        let card2 = try! ethree1.lookupCard(of: ethree2.identity).startSync().get()
+
+        let cachedCard2 = ethree1.lookupCachedCard(of: ethree2.identity)
+
+        XCTAssert(cachedCard2?.identifier == card2.identifier)
     }
 }

@@ -43,7 +43,6 @@ internal class LookupManager {
     internal let cardManager: CardManager
 
     internal let maxSearchCount = 50
-    // FIXME
     internal let maxGetOutdatedCount = 1000
 
     internal let queue = DispatchQueue(label: "LookupManager")
@@ -88,8 +87,14 @@ internal class LookupManager {
 
         var result: LookupResult = [:]
 
-        try identities.forEach {
-            result[$0] = try self.lookupCachedCard(of: $0)
+        let cards = try self.cardStorage.searchCards(identities: identities)
+
+        for identity in identities {
+            guard let card = cards.first(where: { $0.identity == identity }) else {
+                throw EThreeError.missingCachedCard
+            }
+
+            result[identity] = card
         }
 
         return result
