@@ -40,7 +40,7 @@ extension EThree {
     public func lookupCachedCards(of identities: [String]) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.getLookupManager().lookupCachedCards(of: identities)
+                let cards = try self.lookupManager.lookupCachedCards(of: identities)
 
                 completion(cards, nil)
             } catch {
@@ -52,7 +52,7 @@ extension EThree {
     public func lookupCachedCard(of identity: String) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
-                let card = try self.getLookupManager().lookupCachedCard(of: identity)
+                let card = try self.lookupManager.lookupCachedCard(of: identity)
 
                 completion(card, nil)
             } catch {
@@ -64,7 +64,7 @@ extension EThree {
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.getLookupManager().lookupCards(of: identities, forceReload: forceReload)
+                let cards = try self.lookupManager.lookupCards(of: identities, forceReload: forceReload)
 
                 completion(cards, nil)
             } catch {
@@ -76,7 +76,7 @@ extension EThree {
     public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
-                let card = try self.getLookupManager().lookupCard(of: identity, forceReload: forceReload)
+                let card = try self.lookupManager.lookupCard(of: identity, forceReload: forceReload)
 
                 completion(card, nil)
             } catch {

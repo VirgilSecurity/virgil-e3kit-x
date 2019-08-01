@@ -57,10 +57,10 @@ import VirgilCrypto
 
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
+    internal let lookupManager: LookupManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
-    private var lookupManager: LookupManager?
     private var groupManager: GroupManager?
 
     internal convenience init(identity: String,
@@ -94,41 +94,41 @@ import VirgilCrypto
 
         let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
 
+        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
+        let lookupManager = LookupManager(cardStorage: sqliteCardStorage, cardManager: cardManager)
+
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
                       localKeyStorage: localKeyStorage,
-                      cloudKeyManager: cloudKeyManager)
+                      cloudKeyManager: cloudKeyManager,
+                      lookupManager: lookupManager)
     }
 
     internal init(identity: String,
                   cardManager: CardManager,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
-                  cloudKeyManager: CloudKeyManager) throws {
+                  cloudKeyManager: CloudKeyManager,
+                  lookupManager: LookupManager) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
         self.cloudKeyManager = cloudKeyManager
+        self.lookupManager = lookupManager
 
         super.init()
 
         if try localKeyStorage.exists() {
             try privateKeyChanged()
         }
+
+        lookupManager.startUpdateCachedCards()
     }
 
     internal func getGroupManager() throws -> GroupManager {
         guard let manager = self.groupManager else {
-            throw EThreeError.missingPrivateKey
-        }
-
-        return manager
-    }
-
-    internal func getLookupManager() throws -> LookupManager {
-        guard let manager = self.lookupManager else {
             throw EThreeError.missingPrivateKey
         }
 
@@ -143,16 +143,12 @@ extension EThree {
         let localStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
         let cloudStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
         self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
-
-        let cardStorage = try FileCardStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
-        self.lookupManager = LookupManager(cardStorage: cardStorage, cardManager: self.cardManager)
     }
 
     func privateKeyDeleted() throws {
         try self.groupManager?.localStorage.reset()
 
         self.groupManager = nil
-        self.lookupManager = nil
     }
 
     internal func initGroup(from rawGroup: RawGroup) throws -> Group {
@@ -160,7 +156,7 @@ extension EThree {
                          crypto: self.crypto,
                          localKeyStorage: self.localKeyStorage,
                          groupManager: self.getGroupManager(),
-                         lookupManager: self.getLookupManager())
+                         lookupManager: self.lookupManager)
     }
 
     internal func computeSessionId(from identifier: Data) -> Data {

@@ -39,38 +39,44 @@ import VirgilSDK
 public typealias LookupResult = [String: Card]
 
 internal class LookupManager {
-    internal let cardStorage: FileCardStorage
+    internal let cardStorage: SQLiteCardStorage
     internal let cardManager: CardManager
 
-    var sqlCardStorage: CardStorage!
-
     internal let maxSearchCount = 50
+    // FIXME
+    internal let maxGetOutdatedCount = 1000
 
-    internal init(cardStorage: FileCardStorage, cardManager: CardManager) {
+    internal let queue = DispatchQueue(label: "LookupManager")
+
+    internal init(cardStorage: SQLiteCardStorage, cardManager: CardManager) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
     }
 
-    private func scheduleUpdateCachedCards() throws {
-        // TODO: This should be done in background queue
+    internal func startUpdateCachedCards() {
+        self.queue.async {
+            do {
+                Log.debug("Updating cached cards started")
 
-        let cards = self.sqlCardStorage.retrieveAll()
+                let cardIds = try self.cardStorage.getNewestCardIds()
 
-        let cardsChunked = cards.chunked(into: 100)
+                let cardIdsChunked = cardIds.chunked(into: self.maxGetOutdatedCount)
 
-        for cards in cardsChunked {
-            let cardIds = cards.map { $0.identifier }
+                for cardIds in cardIdsChunked {
+                    let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
 
-            let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
+                    try outdatedIds.forEach {
+                        Log.debug("Cached card with id: \($0) expired")
+                        let card = try self.cardManager.getCard(withId: $0).startSync().get()
 
-            let outdatedCards = cards.filter { outdatedIds.contains($0.identifier) }
+                        try self.cardStorage.storeCard(card)
+                        Log.debug("Cached card with id: \($0) updated to card with id \(card.identifier)")
+                    }
+                }
 
-            let outdatedIdentities = outdatedCards.map { $0.identity }
-
-            let newCards = try Array(self.lookupCards(of: outdatedIdentities).values)
-
-            try newCards.forEach {
-                try self.sqlCardStorage.store(card: $0)
+                Log.debug("Updating cached card finished")
+            } catch {
+                Log.error("Updating cached cards failed: \(error.localizedDescription)")
             }
         }
     }
@@ -90,7 +96,13 @@ internal class LookupManager {
     }
 
     public func lookupCachedCard(of identity: String) throws -> Card {
-        guard let card = self.cardStorage.retrieve(identity: identity) else {
+        let cards = try self.cardStorage.searchCards(identities: [identity])
+
+        guard cards.count < 2 else {
+            throw NSError()
+        }
+
+        guard let card = cards.first else {
             throw EThreeError.missingCachedCard
         }
 
@@ -107,8 +119,10 @@ internal class LookupManager {
         var identitiesSet = Set(identities)
 
         if !forceReload {
+            let cards = try self.cardStorage.searchCards(identities: Array(identitiesSet))
+
             for identity in identitiesSet {
-                if let card = self.cardStorage.retrieve(identity: identity) {
+                if let card = cards.first(where: { $0.identity == identity }) {
                     identitiesSet.remove(identity)
                     result[identity] = card
                 }
@@ -126,7 +140,7 @@ internal class LookupManager {
                         throw EThreeError.duplicateCards
                     }
 
-                    try self.cardStorage.store(card: card)
+                    try self.cardStorage.storeCard(card)
 
                     result[card.identity] = card
                 }
