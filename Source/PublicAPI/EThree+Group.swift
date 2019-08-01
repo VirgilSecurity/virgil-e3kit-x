@@ -67,7 +67,7 @@ extension EThree {
         let sessionId = self.computeSessionId(from: identifier)
 
         guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
-            throw EThreeError.missingCachedGroup
+            return nil
         }
 
         return try self.initGroup(from: rawGroup)
