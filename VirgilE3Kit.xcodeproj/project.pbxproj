@@ -66,9 +66,6 @@
 		165B67EB2179013B00DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */; };
 		165B680B2179079100DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */; };
 		165B681B217907C600DDE1F7 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EC37582177A972009D7F00 /* VirgilE3Kit.framework */; };
-		165B6824217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
-		165B6825217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
-		165B6826217908C000DDE1F7 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B6823217908C000DDE1F7 /* TestConfig.plist */; };
 		1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
 		1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */; };
@@ -204,6 +201,39 @@
 		16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
 		16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
 		16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
+		420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
+		420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
+		420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
+		420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
+		420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
+		420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
+		420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
+		420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
+		4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
+		4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
+		4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
+		4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
+		4203280522F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
+		4203280622F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
+		4203280722F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
+		4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
+		4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
+		4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
+		4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
+		4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
+		4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
+		4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
+		4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
+		42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
+		42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
+		42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
+		42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
+		42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
+		42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
+		42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
+		42D84ABA22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
+		42D84ABB22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
+		42D84ABC22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -346,7 +376,6 @@
 		165B67E62179013B00DDE1F7 /* VirgilE3Kit iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		165B68062179079000DDE1F7 /* VirgilE3Kit macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		165B6816217907C600DDE1F7 /* VirgilE3Kit tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirgilE3Kit tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		165B6823217908C000DDE1F7 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE001_EncryptionTests.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		1665EE0F22E6080300774788 /* FileCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCardStorage.swift; sourceTree = "<group>"; };
@@ -419,6 +448,15 @@
 		16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE004_GroupTests.swift; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Pear-To-Peer.swift"; sourceTree = "<group>"; };
+		420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
+		420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTypesSQLiteExtension.swift; sourceTree = "<group>"; };
+		420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SQLiteDB+GenericExtension.swift"; sourceTree = "<group>"; };
+		4203280422F1E6C200872D9C /* cards.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = cards.sqlite; sourceTree = "<group>"; };
+		4203280822F2FBB500872D9C /* SQLiteStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStatement.swift; sourceTree = "<group>"; };
+		4203280D22F2FBD900872D9C /* SQLiteBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteBindings.swift; sourceTree = "<group>"; };
+		42D84AB022F078510012D103 /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
+		42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE005_SQLiteTests.swift; sourceTree = "<group>"; };
+		42D84AB922F082510012D103 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -592,6 +630,7 @@
 				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
 				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
 				16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */,
+				42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -601,7 +640,8 @@
 		165B68222179088D00DDE1F7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				165B6823217908C000DDE1F7 /* TestConfig.plist */,
+				4203280422F1E6C200872D9C /* cards.sqlite */,
+				42D84AB922F082510012D103 /* TestConfig.plist */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -618,6 +658,7 @@
 		1665EE2222E7220B00774788 /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				42D84AAF22F078420012D103 /* SQLite */,
 				16BB9B4522EF1C320057D6B2 /* CardStorage.swift */,
 				1665EE0F22E6080300774788 /* FileCardStorage.swift */,
 				16AD62D422E87C6A00CDF90A /* FileGroupStorage.swift */,
@@ -747,6 +788,19 @@
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		42D84AAF22F078420012D103 /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				42D84AB022F078510012D103 /* SQLiteDB.swift */,
+				4203280D22F2FBD900872D9C /* SQLiteBindings.swift */,
+				420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */,
+				420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */,
+				420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */,
+				4203280822F2FBB500872D9C /* SQLiteStatement.swift */,
+			);
+			path = SQLite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1033,7 +1087,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				165B6824217908C000DDE1F7 /* TestConfig.plist in Resources */,
+				42D84ABA22F082510012D103 /* TestConfig.plist in Resources */,
+				4203280522F1E6C200872D9C /* cards.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,7 +1096,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				165B6825217908C000DDE1F7 /* TestConfig.plist in Resources */,
+				42D84ABB22F082510012D103 /* TestConfig.plist in Resources */,
+				4203280622F1E6C200872D9C /* cards.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,7 +1105,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				165B6826217908C000DDE1F7 /* TestConfig.plist in Resources */,
+				42D84ABC22F082510012D103 /* TestConfig.plist in Resources */,
+				4203280722F1E6C200872D9C /* cards.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,6 +1167,7 @@
 				166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974722D7732A00B90EC8 /* VTE004_GroupTests.swift in Sources */,
+				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1124,6 +1182,7 @@
 				166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974622D7732900B90EC8 /* VTE004_GroupTests.swift in Sources */,
+				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1138,6 +1197,7 @@
 				166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974522D7732800B90EC8 /* VTE004_GroupTests.swift in Sources */,
+				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1167,12 +1227,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
+				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845B22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
+				420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				1665EE1022E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
@@ -1182,9 +1245,12 @@
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16BB9B4622EF1C320057D6B2 /* CardStorage.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844122DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
+				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1196,12 +1262,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
+				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C62178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
+				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				1665EE1322E6080300774788 /* FileCardStorage.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
@@ -1211,9 +1280,12 @@
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16BB9B4922EF1C320057D6B2 /* CardStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				16AD62E222E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
+				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1225,12 +1297,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
+				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845C22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
+				420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				1665EE1122E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
@@ -1240,9 +1315,12 @@
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16BB9B4722EF1C320057D6B2 /* CardStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844222DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
+				420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
@@ -1254,12 +1332,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
+				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845D22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
+				420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				1665EE1222E6080300774788 /* FileCardStorage.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
@@ -1269,9 +1350,12 @@
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16BB9B4822EF1C320057D6B2 /* CardStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844322DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
+				420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
