@@ -90,14 +90,24 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func decrypt(data: Data, from senderCard: Card? = nil) throws -> Data {
+    @objc public func decrypt(data: Data, from senderCard: Card? = nil, date: Date? = nil) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let senderPublicKey = senderCard?.publicKey ?? selfKeyPair.publicKey
+        var card = try senderCard ?? self.lookupManager.lookupCachedCard(of: self.identity)
+
+        if let date = date {
+            while let previousCard = card.previousCard {
+                guard card.createdAt > date else {
+                    break
+                }
+
+                card = previousCard
+            }
+        }
 
         let decryptedData = try self.crypto.decryptAndVerify(data,
                                                              with: selfKeyPair.privateKey,
-                                                             using: senderPublicKey)
+                                                             using: card.publicKey)
         return decryptedData
     }
 
@@ -172,12 +182,12 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func decrypt(text: String, from senderCard: Card? = nil) throws -> String {
+    @objc public func decrypt(text: String, from senderCard: Card? = nil, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data, from: senderCard)
+        let decryptedData = try self.decrypt(data: data, from: senderCard, date: date)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed

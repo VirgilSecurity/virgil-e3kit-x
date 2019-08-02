@@ -106,6 +106,8 @@ import VirgilCrypto
                                           cardManager: cardManager,
                                           changedKeyDelegate: changedKeyDelegate)
 
+        _ = try lookupManager.lookupCard(of: identity)
+
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
@@ -130,7 +132,7 @@ import VirgilCrypto
         super.init()
 
         if try localKeyStorage.exists() {
-            try privateKeyChanged()
+            try self.privateKeyChanged()
         }
 
         lookupManager.startUpdateCachedCards()
@@ -183,14 +185,16 @@ extension EThree {
     internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {
         let keyPair = try self.crypto.generateKeyPair()
 
-        _ = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                             publicKey: keyPair.publicKey,
-                                             identity: self.identity,
-                                             previousCardId: previousCardId).startSync().get()
+        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+                                                    publicKey: keyPair.publicKey,
+                                                    identity: self.identity,
+                                                    previousCardId: previousCardId).startSync().get()
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
         try self.localKeyStorage.store(data: data)
+
+        try self.lookupManager.cardStorage.storeCard(card)
 
         try self.privateKeyChanged()
     }
