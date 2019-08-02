@@ -147,8 +147,9 @@ extension EThree {
 
     func privateKeyDeleted() throws {
         try self.groupManager?.localStorage.reset()
-
         self.groupManager = nil
+
+        try self.lookupManager.cardStorage.reset()
     }
 
     internal func initGroup(from rawGroup: RawGroup) throws -> Group {
