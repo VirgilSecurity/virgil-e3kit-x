@@ -39,7 +39,7 @@ import VirgilSDK
 import VirgilCrypto
 
 public class Group {
-    public static let ValidParticipatnsCountRange = 2...250
+    public static let ValidParticipatnsCountRange = 2...240
 
     public let initiator: String
     public internal(set) var participants: Set<String>
@@ -94,55 +94,6 @@ public class Group {
 
     internal func generateSession(from tickets: [Ticket]) throws -> GroupSession {
         return try Group.generateSession(from: tickets, crypto: self.crypto)
-    }
-
-    public func encrypt(data: Data) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
-        let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
-
-        return encrypted.serialize()
-    }
-
-    public func decrypt(data: Data, from senderCard: Card) throws -> Data {
-        let encrypted = try GroupSessionMessage.deserialize(input: data)
-
-        do {
-            return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
-        } catch {
-            let sessionId = encrypted.getSessionId()
-            let messageEpoch = encrypted.getEpoch()
-
-            guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
-                throw EThreeError.missingCachedGroup
-            }
-
-            let tempSession = try self.generateSession(from: group.tickets)
-
-            return try tempSession.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
-        }
-    }
-
-    public func encrypt(text: String) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        return try self.encrypt(data: data).base64EncodedString()
-    }
-
-    public func decrypt(text: String, from senderCard: Card) throws -> String {
-        guard let data = Data(base64Encoded: text) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        let decryptedData = try self.decrypt(data: data, from: senderCard)
-
-        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
-            throw EThreeError.strFromDataFailed
-        }
-
-        return decryptedString
     }
 }
 
