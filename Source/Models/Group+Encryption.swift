@@ -46,11 +46,22 @@ extension Group {
         return encrypted.serialize()
     }
 
-    public func decrypt(data: Data, from senderCard: Card) throws -> Data {
+    public func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
+        var card = senderCard
+        if let date = date {
+            while let previousCard = card.previousCard {
+                guard card.createdAt > date else {
+                    break
+                }
+
+                card = previousCard
+            }
+        }
+
         do {
-            return try self.session.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+            return try self.session.decrypt(message: encrypted, publicKey: card.publicKey.key)
         } catch {
             let sessionId = encrypted.getSessionId()
             let messageEpoch = encrypted.getEpoch()
@@ -61,7 +72,7 @@ extension Group {
 
             let tempSession = try self.generateSession(from: group.tickets)
 
-            return try tempSession.decrypt(message: encrypted, publicKey: senderCard.publicKey.key)
+            return try tempSession.decrypt(message: encrypted, publicKey: card.publicKey.key)
         }
     }
 
@@ -73,12 +84,12 @@ extension Group {
         return try self.encrypt(data: data).base64EncodedString()
     }
 
-    public func decrypt(text: String, from senderCard: Card) throws -> String {
+    public func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data, from: senderCard)
+        let decryptedData = try self.decrypt(data: data, from: senderCard, date: date)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
