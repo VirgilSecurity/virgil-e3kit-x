@@ -47,7 +47,7 @@ internal class LookupManager {
 
     internal let changedKeyDelegate: ChangedKeyDelegate?
 
-    internal let queue = DispatchQueue(label: "LookupManager")
+    internal let queue = DispatchQueue(label: "LookupManager", qos: .background)
 
     internal init(cardStorage: SQLiteCardStorage,
                   cardManager: CardManager,
