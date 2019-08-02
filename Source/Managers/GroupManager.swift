@@ -41,7 +41,7 @@ internal class GroupManager {
     internal let localStorage: FileGroupStorage
     internal let cloudStorage: CloudTicketStorage
 
-    internal let maxTicketsInGroup: Int = 50
+    internal static let MaxTicketsInGroup: Int = 50
 
     internal init(localStorage: FileGroupStorage,
                   cloudStorage: CloudTicketStorage) {
@@ -86,7 +86,7 @@ internal class GroupManager {
         if let epoch = epoch {
             return self.localStorage.retrieve(sessionId: sessionId, epoch: epoch)
         } else {
-            return self.localStorage.retrieve(sessionId: sessionId, lastTicketsCount: self.maxTicketsInGroup)
+            return self.localStorage.retrieve(sessionId: sessionId, lastTicketsCount: GroupManager.MaxTicketsInGroup)
         }
     }
 

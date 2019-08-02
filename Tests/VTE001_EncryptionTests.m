@@ -131,14 +131,14 @@
                     VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
                     XCTAssert(err == nil);
 
-                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard error:&err];
+                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard date:nil error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
                     [eThree2 lookupCardOf:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                         XCTAssert(card != nil && error == nil);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:card error:&err];
+                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:card date:nil error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -196,7 +196,7 @@
             VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
             XCTAssert(err == nil);
 
-            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:otherCard error:&err];
+            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:otherCard date:nil error:&err];
             XCTAssert(err != nil && decrypted == nil);
 
             [ex fulfill];
@@ -222,7 +222,7 @@
 
     error = nil;
 
-    NSString *decrypted = [self.eThree decryptWithText:@"" from:card error:&error];
+    NSString *decrypted = [self.eThree decryptWithText:@"" from:card date:nil error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(decrypted == nil);
 }
@@ -245,7 +245,7 @@
     NSString *encrypted = [self.eThree encryptWithText:plainText for:nil error:&error];
     XCTAssert(error == nil);
 
-    NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil error:&error];
+    NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil date:nil error:&error];
     XCTAssert(error == nil);
     XCTAssert([decrypted isEqualToString:plainText]);
 }

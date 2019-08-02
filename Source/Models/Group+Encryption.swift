@@ -60,19 +60,36 @@ extension Group {
             }
         }
 
+        let sessionId = encrypted.getSessionId()
+
+        guard self.session.getSessionId() == sessionId else {
+            throw NSError()
+        }
+
+        let messageEpoch = encrypted.getEpoch()
+        let currentEpoch = self.session.getCurrentEpoch()
+
+        guard currentEpoch >= messageEpoch else {
+            throw NSError()
+        }
+
         do {
-            return try self.session.decrypt(message: encrypted, publicKey: card.publicKey.key)
-        } catch {
-            let sessionId = encrypted.getSessionId()
-            let messageEpoch = encrypted.getEpoch()
+            if currentEpoch - messageEpoch < GroupManager.MaxTicketsInGroup {
+                return try self.session.decrypt(message: encrypted, publicKey: card.publicKey.key)
+            } else {
+                let sessionId = encrypted.getSessionId()
+                let messageEpoch = encrypted.getEpoch()
 
-            guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
-                throw EThreeError.missingCachedGroup
+                guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
+                    throw EThreeError.missingCachedGroup
+                }
+
+                let tempSession = try self.generateSession(from: group.tickets)
+
+                return try tempSession.decrypt(message: encrypted, publicKey: card.publicKey.key)
             }
-
-            let tempSession = try self.generateSession(from: group.tickets)
-
-            return try tempSession.decrypt(message: encrypted, publicKey: card.publicKey.key)
+        } catch FoundationError.errorInvalidSignature {
+            throw EThreeError.verificationFailed
         }
     }
 

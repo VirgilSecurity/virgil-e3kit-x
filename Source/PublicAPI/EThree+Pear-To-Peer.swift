@@ -105,10 +105,13 @@ extension EThree {
             }
         }
 
-        let decryptedData = try self.crypto.decryptAndVerify(data,
-                                                             with: selfKeyPair.privateKey,
-                                                             using: card.publicKey)
-        return decryptedData
+        do {
+            return try self.crypto.decryptAndVerify(data,
+                                                    with: selfKeyPair.privateKey,
+                                                    using: card.publicKey)
+        } catch VirgilCryptoError.signatureNotVerified {
+            throw EThreeError.verificationFailed
+        }
     }
 
     /// Encrypts data stream

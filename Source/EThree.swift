@@ -106,8 +106,6 @@ import VirgilCrypto
                                           cardManager: cardManager,
                                           changedKeyDelegate: changedKeyDelegate)
 
-        _ = try lookupManager.lookupCard(of: identity)
-
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
@@ -148,12 +146,18 @@ import VirgilCrypto
 }
 
 extension EThree {
-    func privateKeyChanged() throws {
+    func privateKeyChanged(newCard: Card? = nil) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let localStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
         let cloudStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
         self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
+
+        if let newCard = newCard {
+            try self.lookupManager.cardStorage.storeCard(newCard)
+        } else {
+            _ = try lookupManager.lookupCard(of: self.identity)
+        }
     }
 
     func privateKeyDeleted() throws {
@@ -194,8 +198,6 @@ extension EThree {
 
         try self.localKeyStorage.store(data: data)
 
-        try self.lookupManager.cardStorage.storeCard(card)
-
-        try self.privateKeyChanged()
+        try self.privateKeyChanged(newCard: card)
     }
 }
