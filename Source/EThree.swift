@@ -46,14 +46,20 @@ import VirgilCrypto
 
     /// Identity of user. Obtained from tokenCollback
     @objc public let identity: String
-    /// VirgilCrypto instance
-    @objc public var crypto: VirgilCrypto {
-        return self.cardManager.crypto
-    }
+
     /// CardManager instance
     @objc public let cardManager: CardManager
 
     @objc public let accessTokenProvider: AccessTokenProvider
+
+    /// VirgilCrypto instance
+    @objc public var crypto: VirgilCrypto {
+        return self.cardManager.crypto
+    }
+
+    @objc public var changedKeyDelegate: ChangedKeyDelegate? {
+        return self.lookupManager.changedKeyDelegate
+    }
 
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
@@ -65,7 +71,8 @@ import VirgilCrypto
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
-                              storageParams: KeychainStorageParams? = nil) throws {
+                              changedKeyDelegate: ChangedKeyDelegate?,
+                              storageParams: KeychainStorageParams?) throws {
         let crypto = try VirgilCrypto()
 
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
@@ -95,7 +102,9 @@ import VirgilCrypto
         let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
 
         let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
-        let lookupManager = LookupManager(cardStorage: sqliteCardStorage, cardManager: cardManager)
+        let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
+                                          cardManager: cardManager,
+                                          changedKeyDelegate: changedKeyDelegate)
 
         try self.init(identity: identity,
                       cardManager: cardManager,

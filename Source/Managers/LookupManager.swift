@@ -45,11 +45,16 @@ internal class LookupManager {
     internal let maxSearchCount = 50
     internal let maxGetOutdatedCount = 1000
 
+    internal let changedKeyDelegate: ChangedKeyDelegate?
+
     internal let queue = DispatchQueue(label: "LookupManager")
 
-    internal init(cardStorage: SQLiteCardStorage, cardManager: CardManager) {
+    internal init(cardStorage: SQLiteCardStorage,
+                  cardManager: CardManager,
+                  changedKeyDelegate: ChangedKeyDelegate?) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
+        self.changedKeyDelegate = changedKeyDelegate
     }
 
     internal func startUpdateCachedCards() {
@@ -64,12 +69,22 @@ internal class LookupManager {
                 for cardIds in cardIdsChunked {
                     let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
 
-                    try outdatedIds.forEach {
-                        Log.debug("Cached card with id: \($0) expired")
-                        let card = try self.cardManager.getCard(withId: $0).startSync().get()
+                    for outdatedId in  outdatedIds {
+                        Log.debug("Cached card with id: \(outdatedId) expired")
 
-                        try self.cardStorage.storeCard(card)
-                        Log.debug("Cached card with id: \($0) updated to card with id \(card.identifier)")
+                        if let changedKeyDelegate = self.changedKeyDelegate {
+                            guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
+                                throw NSError()
+                            }
+
+                            changedKeyDelegate.keyChanged(identity: outdatedCard.identity)
+                        }
+
+                        let newCard = try self.cardManager.getCard(withId: outdatedId).startSync().get()
+
+                        try self.cardStorage.storeCard(newCard)
+
+                        Log.debug("Cached card with id: \(outdatedId) updated to card with id \(newCard.identifier)")
                     }
                 }
 

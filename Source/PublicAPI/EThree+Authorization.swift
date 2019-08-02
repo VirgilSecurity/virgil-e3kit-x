@@ -45,6 +45,7 @@ extension EThree {
     ///   - tokenCallback: callback to get Virgil access token
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
         return CallbackOperation { _, completion in
             do {
@@ -60,6 +61,7 @@ extension EThree {
 
                 let ethree = try EThree(identity: token.identity(),
                                         accessTokenProvider: accessTokenProvider,
+                                        changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
                 completion(ethree, nil)

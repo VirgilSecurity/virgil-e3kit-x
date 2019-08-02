@@ -182,6 +182,9 @@
 		16BB9B5222F341150057D6B2 /* VTE006_LookupManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5122F341150057D6B2 /* VTE006_LookupManagerTests.swift */; };
 		16BB9B5322F341150057D6B2 /* VTE006_LookupManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5122F341150057D6B2 /* VTE006_LookupManagerTests.swift */; };
 		16BB9B5422F341150057D6B2 /* VTE006_LookupManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5122F341150057D6B2 /* VTE006_LookupManagerTests.swift */; };
+		16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */; };
+		16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */; };
+		16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */; };
 		16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
@@ -437,6 +440,7 @@
 		16AD62E422E9FD5400CDF90A /* Array+Chunks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunks.swift"; sourceTree = "<group>"; };
 		16BB9B4522EF1C320057D6B2 /* CardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStorage.swift; sourceTree = "<group>"; };
 		16BB9B5122F341150057D6B2 /* VTE006_LookupManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_LookupManagerTests.swift; sourceTree = "<group>"; };
+		16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedKeyDelegate.swift; sourceTree = "<group>"; };
 		16BC03A021EFF81E00887DF2 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		16D63E51229FFBF7004C53AD /* EThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeError.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -785,6 +789,7 @@
 				16AD62E322E9FD3600CDF90A /* Utils */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
+				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1230,6 +1235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
@@ -1298,6 +1304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
@@ -1332,6 +1339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
