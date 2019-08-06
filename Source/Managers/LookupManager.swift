@@ -175,7 +175,7 @@ internal class LookupManager {
     }
 
     public func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
-        let cards = try self.lookupCards(of: [identity])
+        let cards = try self.lookupCards(of: [identity], forceReload: forceReload)
 
         guard let card = cards[identity] else {
             throw EThreeError.cardWasNotFound

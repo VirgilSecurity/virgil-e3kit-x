@@ -42,7 +42,7 @@ extension EThree {
     public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
-                let sessionId = self.computeSessionId(from: identifier)
+                let sessionId = try self.computeSessionId(from: identifier)
 
                 let participants = Set(lookup.keys + [self.identity])
 
@@ -64,7 +64,7 @@ extension EThree {
     }
 
     public func getGroup(id identifier: Data) throws -> Group? {
-        let sessionId = self.computeSessionId(from: identifier)
+        let sessionId = try self.computeSessionId(from: identifier)
 
         guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
             return nil
@@ -76,7 +76,7 @@ extension EThree {
     public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
-                let sessionId = self.computeSessionId(from: identifier)
+                let sessionId = try self.computeSessionId(from: identifier)
 
                 let rawGroup = try self.getGroupManager().pull(sessionId: sessionId, from: card)
 
@@ -92,7 +92,7 @@ extension EThree {
     public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let sessionId = self.computeSessionId(from: identifier)
+                let sessionId = try self.computeSessionId(from: identifier)
 
                 guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
                     throw EThreeError.groupWasNotFound

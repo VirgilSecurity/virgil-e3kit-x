@@ -175,7 +175,11 @@ extension EThree {
                          lookupManager: self.lookupManager)
     }
 
-    internal func computeSessionId(from identifier: Data) -> Data {
+    internal func computeSessionId(from identifier: Data) throws -> Data {
+        guard identifier.count > 10 else {
+            throw EThreeError.shortGroupId
+        }
+
         return self.crypto.computeHash(for: identifier).subdata(in: 0..<32)
     }
 

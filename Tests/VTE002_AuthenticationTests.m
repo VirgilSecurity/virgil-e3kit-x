@@ -93,7 +93,7 @@
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if card already exists"];
 
     NSError *error;
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity previousCardId:nil];
     XCTAssert(card != nil && error == nil);
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -168,7 +168,7 @@
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
     NSError *error;
-    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity error:&error];
+    VSSCard *card = [self.utils publishCardWithIdentity:self.eThree.identity previousCardId:nil];
     XCTAssert(card != nil && error == nil);
 
     [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {

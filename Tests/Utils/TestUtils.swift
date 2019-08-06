@@ -69,14 +69,17 @@ import VirgilSDKPythia
         return jwt
     }
 
-    @objc public func publishCard(identity: String?) throws -> Card {
-        let keyPair = try self.crypto.generateKeyPair()
-        let exportedPublicKey = try self.crypto.exportPublicKey(keyPair.publicKey)
+    @objc public func publishCard(identity: String? = nil, previousCardId: String? = nil) -> Card {
+        let keyPair = try! self.crypto.generateKeyPair()
+        let exportedPublicKey = try! self.crypto.exportPublicKey(keyPair.publicKey)
 
         let identity = identity ?? UUID().uuidString
 
-        let content = RawCardContent(identity: identity, publicKey: exportedPublicKey, createdAt: Date())
-        let snapshot = try content.snapshot()
+        let content = RawCardContent(identity: identity,
+                                     publicKey: exportedPublicKey,
+                                     previousCardId: previousCardId,
+                                     createdAt: Date())
+        let snapshot = try! content.snapshot()
 
         let rawCard = RawSignedModel(contentSnapshot: snapshot)
 
@@ -95,8 +98,8 @@ import VirgilSDKPythia
 
         try! signer.selfSign(model: rawCard, privateKey: keyPair.privateKey)
 
-        let responseRawCard = try cardClient.publishCard(model: rawCard)
-        let card = try CardManager.parseCard(from: responseRawCard, crypto: crypto)
+        let responseRawCard = try! cardClient.publishCard(model: rawCard)
+        let card = try! CardManager.parseCard(from: responseRawCard, crypto: crypto)
 
         return card
     }

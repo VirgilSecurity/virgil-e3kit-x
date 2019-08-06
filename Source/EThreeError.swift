@@ -73,6 +73,7 @@ import Foundation
     case inconsistentState = 19
     case invalidParticipantsCount = 20
     case verificationFailed = 21
+    case shortGroupId = 22
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -117,6 +118,8 @@ import Foundation
             return "Please check valid participants count range in Group.ValidParticipatnsCountRange"
         case .verificationFailed:
             return "Verification of message failed. This may be caused by rotating sender key. Try lookup new one"
+        case .shortGroupId:
+            return "Group Id should be >10"
         }
     }
 }

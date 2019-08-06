@@ -50,58 +50,6 @@
     [super tearDown];
 }
 
-- (void)test_STE_1 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys should return published public keys"];
-
-    NSMutableArray *identities = [NSMutableArray array];
-    NSMutableArray *cards = [NSMutableArray array];
-
-    NSError *error;
-    for (int i = 0; i < 3; i++) {
-        VSSCard *card = [self.utils publishCardWithIdentity:nil error:&error];
-        XCTAssert(card != nil && error == nil);
-        [identities addObject:card.identity];
-        [cards addObject:card];
-    }
-
-    [self.eThree registerWithCompletion:^(NSError *error) {
-        XCTAssert(error == nil);
-
-        [self.eThree lookupCardsOf:identities forceReload:false completion:^(NSDictionary<NSString *, VSSCard *> *foundCards, NSError *error) {
-            XCTAssert(error == nil);
-
-            XCTAssert([self.utils isCardsEqualWithCards1:cards cards2:foundCards.allValues]);
-
-            [ex fulfill];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
-- (void)test_STE_2 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Look up keys by empty array of identities should throw error"];
-
-    [self.eThree registerWithCompletion:^(NSError *error) {
-        XCTAssert(error == nil);
-
-
-        [self.eThree lookupCardsOf:@[] forceReload:false completion:^(NSDictionary<NSString *, VSSCard *> *foundCard, NSError *error) {
-            XCTAssert(error.code == VTEEThreeErrorMissingIdentities);
-
-            [ex fulfill];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
 - (void)test_STE_3 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt should success"];
 
@@ -128,7 +76,7 @@
                     NSString *encrypted = [eThree1 encryptWithText:plainText for:@{card.identity: card} error:&err];
                     XCTAssert(err == nil);
 
-                    VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
+                    VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
                     XCTAssert(err == nil);
 
                     NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard date:nil error:&err];
@@ -193,7 +141,7 @@
             NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
             XCTAssert(encryptedString != nil);
 
-            VSSCard *otherCard = [self.utils publishCardWithIdentity:nil error:&err];
+            VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
             XCTAssert(err == nil);
 
             NSString *decrypted = [self.eThree decryptWithText:encryptedString from:otherCard date:nil error:&err];
@@ -213,7 +161,7 @@
     NSError *error;
     [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
 
-    VSSCard *card = [self.utils publishCardWithIdentity:nil error:&error];
+    VSSCard *card = [self.utils publishCardWithIdentity:nil previousCardId:nil];
     XCTAssert(error == nil);
 
     NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@{self.eThree.identity: card} error:&error];
@@ -255,8 +203,8 @@
 
     NSError *error;
 
-    VSSCard *card1 = [self.utils publishCardWithIdentity:nil error:&error];
-    VSSCard *card2 = [self.utils publishCardWithIdentity:card1.identity error:&error];
+    VSSCard *card1 = [self.utils publishCardWithIdentity:nil previousCardId:nil];
+    VSSCard *card2 = [self.utils publishCardWithIdentity:card1.identity previousCardId:nil];
 
     XCTAssert(error == nil);
 
