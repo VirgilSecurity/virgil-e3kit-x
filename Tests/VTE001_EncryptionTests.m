@@ -264,5 +264,88 @@
     }];
 }
 
+- (void)test_STE_37 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Decrypt text, which was encrypted with old card"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+        VTEEThree *eThree1 = self.eThree;
+
+        NSString *identity = [[NSUUID alloc] init].UUIDString;
+        [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+            NSString *token = [self.utils getTokenStringWithIdentity:identity];
+
+            completionHandler(token, nil);
+        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+            XCTAssert(eThree2 != nil && error == nil);
+
+            [eThree2 registerWithCompletion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                [eThree1 lookupCardOf:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                    XCTAssert(card != nil && error == nil);
+
+                    NSDate *date1 = [[NSDate alloc] init];
+
+                    NSString *plainText1 = [[NSUUID alloc] init].UUIDString;
+                    NSError *err;
+                    NSString *encrypted1 = [eThree1 encryptWithText:plainText1 for:@{card.identity: card} error:&err];
+                    XCTAssert(err == nil);
+
+                    [eThree1 cleanUpAndReturnError:&err];
+
+                    [eThree1 rotatePrivateKeyWithCompletion:^(NSError *error) {
+                        XCTAssert(error == nil);
+
+                        NSDate *date2 = [[NSDate alloc] init];
+
+                        NSString *plainText2 = [[NSUUID alloc] init].UUIDString;
+                        NSError *err;
+                        NSString *encrypted2 = [eThree1 encryptWithText:plainText2 for:@{card.identity: card} error:&err];
+                        XCTAssert(err == nil);
+
+                        [eThree2 lookupCardOf:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                            XCTAssert(card != nil && error == nil);
+
+                            NSError *err;
+                            NSString *tmp1 = [eThree2 decryptWithText:encrypted1 from:card date:nil error:&err];
+                            XCTAssert(err != nil && tmp1 == nil);
+
+                            err = nil;
+
+                            NSString *tmp2 = [eThree2 decryptWithText:encrypted1 from:card date:date2 error:&err];
+                            XCTAssert(err != nil && tmp2 == nil);
+
+                            err = nil;
+
+                            NSString *decrypted1 = [eThree2 decryptWithText:encrypted1 from:card date:date1 error:&err];
+                            XCTAssert(err == nil);
+
+                            NSString *tmp3 = [eThree2 decryptWithText:encrypted2 from:card date:date1 error:&err];
+                            XCTAssert(err != nil && tmp3 == nil);
+
+                            err = nil;
+
+                            NSString *decrypted2 = [eThree2 decryptWithText:encrypted2 from:card date:date2 error:&err];
+                            XCTAssert(err == nil);
+
+
+                            XCTAssert([decrypted1 isEqualToString:plainText1]);
+                            XCTAssert([decrypted2 isEqualToString:plainText2]);
+
+                            [ex fulfill];
+                        }];
+                    }];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
 
 @end
