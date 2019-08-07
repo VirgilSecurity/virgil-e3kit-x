@@ -35,64 +35,93 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 internal class GroupManager {
     internal let identity: String
-    internal let localStorage: FileGroupStorage
-    internal let cloudStorage: CloudTicketStorage
+    internal let localGroupStorage: FileGroupStorage
+    internal let cloudTicketStorage: CloudTicketStorage
+
+    internal let localKeyStorage: LocalKeyStorage
+    internal let lookupManager: LookupManager
+    internal let crypto: VirgilCrypto
 
     internal static let MaxTicketsInGroup: Int = 50
 
-    internal init(localStorage: FileGroupStorage,
-                  cloudStorage: CloudTicketStorage) {
-        self.identity = localStorage.identity
-        self.localStorage = localStorage
-        self.cloudStorage = cloudStorage
+    internal init(localGroupStorage: FileGroupStorage,
+                  cloudTicketStorage: CloudTicketStorage,
+                  localKeyStorage: LocalKeyStorage,
+                  lookupManager: LookupManager,
+                  crypto: VirgilCrypto) {
+        self.identity = localGroupStorage.identity
+        self.localGroupStorage = localGroupStorage
+        self.cloudTicketStorage = cloudTicketStorage
+        self.localKeyStorage = localKeyStorage
+        self.lookupManager = lookupManager
+        self.crypto = crypto
     }
 
-    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> RawGroup {
-        let group = try RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
-
-        try self.cloudStorage.store(ticket, sharedWith: cards)
-
-        try self.localStorage.store(group)
-
-        return group
+    private func parse(_ rawGroup: RawGroup) throws -> Group {
+        return try Group(rawGroup: rawGroup,
+                         crypto: self.crypto,
+                         localKeyStorage: self.localKeyStorage,
+                         groupManager: self,
+                         lookupManager: self.lookupManager)
     }
 
-    internal func pull(sessionId: Data, from card: Card) throws -> RawGroup {
-        let tickets = try self.cloudStorage.retrieve(sessionId: sessionId,
-                                                     identity: card.identity,
-                                                     identityPublicKey: card.publicKey)
+    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> Group {
+        let rawGroup = try RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
+
+        try self.cloudTicketStorage.store(ticket, sharedWith: cards)
+
+        try self.localGroupStorage.store(rawGroup)
+
+        return try self.parse(rawGroup)
+    }
+
+    internal func pull(sessionId: Data, from card: Card) throws -> Group {
+        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
+                                                           identity: card.identity,
+                                                           identityPublicKey: card.publicKey)
 
         guard !tickets.isEmpty else {
-            try self.localStorage.delete(sessionId: sessionId)
+            try self.localGroupStorage.delete(sessionId: sessionId)
             
             throw EThreeError.groupWasNotFound
         }
 
-        let group = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
+        let rawGroup = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
 
-        try self.localStorage.store(group)
+        try self.localGroupStorage.store(rawGroup)
 
-        return group
+        return try self.parse(rawGroup)
     }
 
     internal func updateRecipients(sessionId: Data, newRecipients: [Card]) throws {
-        try self.cloudStorage.updateRecipients(sessionId: sessionId, newRecipients: newRecipients)
+        try self.cloudTicketStorage.updateRecipients(sessionId: sessionId, newRecipients: newRecipients)
     }
 
-    internal func retrieve(sessionId: Data, epoch: UInt32? = nil) -> RawGroup? {
-        if let epoch = epoch {
-            return self.localStorage.retrieve(sessionId: sessionId, epoch: epoch)
-        } else {
-            return self.localStorage.retrieve(sessionId: sessionId, lastTicketsCount: GroupManager.MaxTicketsInGroup)
+    internal func retrieve(sessionId: Data) -> Group? {
+        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
+                                                             lastTicketsCount: GroupManager.MaxTicketsInGroup) else {
+            return nil
         }
+
+        return try? self.parse(rawGroup)
     }
+
+    internal func retrieve(sessionId: Data, epoch: UInt32) -> Group? {
+        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
+            return nil
+        }
+
+        return try? self.parse(rawGroup)
+    }
+
 
     internal func delete(sessionId: Data) throws {
-        try self.cloudStorage.delete(sessionId: sessionId)
+        try self.cloudTicketStorage.delete(sessionId: sessionId)
 
-        try self.localStorage.delete(sessionId: sessionId)
+        try self.localGroupStorage.delete(sessionId: sessionId)
     }
 }

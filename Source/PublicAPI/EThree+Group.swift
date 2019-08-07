@@ -52,9 +52,7 @@ extension EThree {
                                         sessionId: sessionId,
                                         participants: participants)
 
-                let rawGroup = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
-
-                let group = try self.initGroup(from: rawGroup)
+                let group = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
 
                 completion(group, nil)
             } catch {
@@ -66,11 +64,7 @@ extension EThree {
     public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)
 
-        guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
-            return nil
-        }
-
-        return try self.initGroup(from: rawGroup)
+        return try self.getGroupManager().retrieve(sessionId: sessionId)
     }
 
     public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
@@ -78,9 +72,7 @@ extension EThree {
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                let rawGroup = try self.getGroupManager().pull(sessionId: sessionId, from: card)
-
-                let group = try self.initGroup(from: rawGroup)
+                let group = try self.getGroupManager().pull(sessionId: sessionId, from: card)
 
                 completion(group, nil)
             } catch {
@@ -94,11 +86,11 @@ extension EThree {
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                guard let rawGroup = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+                guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
                     throw EThreeError.groupWasNotFound
                 }
 
-                guard self.identity == rawGroup.info.initiator else {
+                guard self.identity == group.initiator else {
                     throw EThreeError.groupPermissionDenied
                 }
 

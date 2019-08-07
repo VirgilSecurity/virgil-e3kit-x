@@ -47,12 +47,8 @@ extension Group {
 
                 let group = try self.groupManager.pull(sessionId: sessionId, from: card)
 
-                guard let lastTicket = group.tickets.last else {
-                    throw EThreeError.invalidGroup
-                }
-
-                self.session = try self.generateSession(from: group.tickets)
-                self.participants = lastTicket.participants
+                self.session = group.session
+                self.participants = group.participants
 
                 completion((), nil)
             } catch {

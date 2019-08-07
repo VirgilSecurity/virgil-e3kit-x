@@ -80,13 +80,11 @@ extension Group {
                 let sessionId = encrypted.getSessionId()
                 let messageEpoch = encrypted.getEpoch()
 
-                guard let group = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
+                guard let tempGroup = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
                     throw EThreeError.missingCachedGroup
                 }
 
-                let tempSession = try self.generateSession(from: group.tickets)
-
-                return try tempSession.decrypt(message: encrypted, publicKey: card.publicKey.key)
+                return try tempGroup.decrypt(data: data, from: senderCard)
             }
         } catch FoundationError.errorInvalidSignature {
             throw EThreeError.verificationFailed

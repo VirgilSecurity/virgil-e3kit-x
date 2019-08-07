@@ -149,9 +149,13 @@ extension EThree {
     func privateKeyChanged(newCard: Card? = nil) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let localStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
-        let cloudStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
-        self.groupManager = GroupManager(localStorage: localStorage, cloudStorage: cloudStorage)
+        let localGroupStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
+        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                         cloudTicketStorage: cloudTicketStorage,
+                                         localKeyStorage: self.localKeyStorage,
+                                         lookupManager: self.lookupManager,
+                                         crypto: self.crypto)
 
         if let newCard = newCard {
             try self.lookupManager.cardStorage.storeCard(newCard)
@@ -161,18 +165,10 @@ extension EThree {
     }
 
     func privateKeyDeleted() throws {
-        try self.groupManager?.localStorage.reset()
+        try self.groupManager?.localGroupStorage.reset()
         self.groupManager = nil
 
         try self.lookupManager.cardStorage.reset()
-    }
-
-    internal func initGroup(from rawGroup: RawGroup) throws -> Group {
-        return try Group(rawGroup: rawGroup,
-                         crypto: self.crypto,
-                         localKeyStorage: self.localKeyStorage,
-                         groupManager: self.getGroupManager(),
-                         lookupManager: self.lookupManager)
     }
 
     internal func computeSessionId(from identifier: Data) throws -> Data {
