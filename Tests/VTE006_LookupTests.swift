@@ -37,6 +37,7 @@
 import XCTest
 import VirgilE3Kit
 import VirgilCrypto
+import VirgilSDK
 
 class VTE006_LookupTests: XCTestCase {
     var utils: TestUtils!
@@ -173,5 +174,21 @@ class VTE006_LookupTests: XCTestCase {
         let cachedCard = newEThree.lookupCachedCard(of: card.identity)!
 
         XCTAssert(cachedCard.identifier == newCard.identifier)
+    }
+
+    func test_STE_38() {
+        let ethree = self.setUpDevice()
+
+        var cards: [Card] = []
+
+        for _ in 0..<120 {
+            cards.append(self.utils.publishCard())
+        }
+
+        let identities = cards.map { $0.identity }
+
+        let lookup = try! ethree.lookupCards(of: identities).startSync().get()
+
+        XCTAssert(lookup.count == 120)
     }
 }

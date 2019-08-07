@@ -198,32 +198,6 @@
     XCTAssert([decrypted isEqualToString:plainText]);
 }
 
-- (void)test_STE_21 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Should throw error on duplicate cards"];
-
-    NSError *error;
-
-    VSSCard *card1 = [self.utils publishCardWithIdentity:nil previousCardId:nil];
-    VSSCard *card2 = [self.utils publishCardWithIdentity:card1.identity previousCardId:nil];
-
-    XCTAssert(error == nil);
-
-    [self.eThree registerWithCompletion:^(NSError *error) {
-        XCTAssert(error == nil);
-
-        [self.eThree lookupCardOf:card2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
-            XCTAssert(error.code == VTEEThreeErrorDuplicateCards);
-
-            [ex fulfill];
-        }];
-    }];
-
-    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
-        if (error != nil)
-            XCTFail(@"Expectation failed: %@", error);
-    }];
-}
-
 - (void)test_STE_22 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Should encrypt then decrypt streams"];
 

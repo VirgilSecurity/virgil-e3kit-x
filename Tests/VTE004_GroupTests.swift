@@ -35,25 +35,26 @@
 //
 
 import XCTest
-import VirgilE3Kit
+@testable import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
+import VirgilCryptoFoundation
 
 class VTE004_GroupTests: XCTestCase {
-    var testUtils: TestUtils!
+    var utils: TestUtils!
     let crypto = try! VirgilCrypto()
 
     override func setUp() {
         let consts = TestConfig.readFromBundle()
 
-        self.testUtils = TestUtils(crypto: self.crypto, consts: consts)
+        self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
     private func setUpDevice() -> (EThree) {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.testUtils.getTokenString(identity: identity)
+            let token = self.utils.getTokenString(identity: identity)
 
             completion(token, nil)
         }
@@ -64,6 +65,310 @@ class VTE004_GroupTests: XCTestCase {
 
         return ethree
     }
+
+    func test_STE_26__create_with_invalid_participants_count__should_throw_error() {
+        let ethree = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let card = try! ethree.lookupCard(of: ethree.identity).startSync().get()
+
+        do {
+            _ = try ethree.createGroup(id: groupId, with: [ethree.identity: card]).startSync().get()
+            XCTFail()
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
+        }
+
+        var lookup: [String: Card] = [:]
+        for _ in 0..<140 {
+            let identity = UUID().uuidString
+            lookup[identity] = card
+        }
+
+        do {
+            _ = try ethree.createGroup(id: groupId, with: lookup).startSync().get()
+            XCTFail()
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
+        }
+
+        let newLookup = Dictionary(dictionaryLiteral: lookup.first!)
+
+        let group = try! ethree.createGroup(id: groupId, with: newLookup).startSync().get()
+
+        XCTAssert(group.participants.count == 2)
+        XCTAssert(group.participants.contains(ethree.identity))
+        XCTAssert(group.participants.contains(newLookup.keys.first!))
+    }
+
+    func test_STE_27__createGroup__should_add_self() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree1.identity, ethree2.identity]).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+        let group2 = try! ethree1.createGroup(id: groupId, with: [ethree1.identity: lookup[ethree1.identity]!]).startSync().get()
+
+        XCTAssert(group2.participants.contains(ethree1.identity))
+        XCTAssert(group1.participants == group2.participants)
+    }
+
+    func test_STE_28__groupId__should_not_be_short() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 5)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        do {
+            _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+            XCTFail()
+        } catch EThreeError.shortGroupId {} catch {
+            XCTFail()
+        }
+    }
+
+    func test_STE_29__get_group() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        XCTAssert(try! ethree1.getGroup(id: groupId) == nil)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        let group = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let cachedGroup = try! ethree1.getGroup(id: groupId)!
+
+        XCTAssert(cachedGroup.participants == group.participants)
+        XCTAssert(cachedGroup.initiator == group.initiator)
+    }
+
+    func test_STE_30__load_group() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card).startSync().get()
+
+        XCTAssert(group1.participants == group2.participants)
+        XCTAssert(group1.initiator == group2.initiator)
+    }
+
+    func test_STE_31__load_alien_or_unexistent_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        do {
+            _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        let lookup = try! ethree1.lookupCards(of: [ethree3.identity]).startSync().get()
+
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        do {
+            _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+    }
+
+    func test_STE_32__actions_on_deleted_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        try! ethree1.deleteGroup(id: groupId).startSync().get()
+
+        XCTAssert(try! ethree1.getGroup(id: groupId) == nil)
+
+        do {
+            _ = try ethree1.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        do {
+            try group2.update().startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        do {
+            _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
+    }
+
+    func test_STE_33__add_more_than_max__should_throw_error() {
+        let ethree = self.setUpDevice()
+
+        var participants: Set<String> = Set()
+
+        for _ in 0..<140 {
+            let identity = UUID().uuidString
+            participants.insert(identity)
+        }
+
+        let sessionId = try! self.crypto.generateRandomData(ofSize: 32)
+
+        let ticket = try! Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
+        let rawGroup = try! RawGroup(info: GroupInfo(initiator: participants.first!), tickets: [ticket])
+
+        let group = try! Group(rawGroup: rawGroup,
+                               crypto: self.crypto,
+                               localKeyStorage: ethree.localKeyStorage,
+                               groupManager: try! ethree.getGroupManager(),
+                               lookupManager: ethree.lookupManager)
+
+        let card = self.utils.publishCard()
+
+        do {
+            try group.add(participant: card).startSync().get()
+            XCTFail()
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
+        }
+    }
+
+    func test_STE_34__remove_last_participant__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        do {
+            try group1.remove(participant: lookup[ethree2.identity]!).startSync().get()
+            XCTFail()
+        } catch EThreeError.invalidParticipantsCount {} catch {
+            XCTFail()
+        }
+    }
+
+    func test_STE_35__remove() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity, ethree3.identity]).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+        let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        try! group1.remove(participant: lookup[ethree2.identity]!).startSync().get()
+
+        XCTAssert(!group1.participants.contains(ethree2.identity))
+
+        try! group3.update().startSync().get()
+
+        XCTAssert(!group3.participants.contains(ethree2.identity))
+
+        do {
+            try group2.update().startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        do {
+            _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupWasNotFound {} catch {
+            XCTFail()
+        }
+
+        XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
+    }
+
+    func test_36__change_group_by_noninitiator__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+        let ethree4 = self.setUpDevice()
+
+        let identities = [ethree2.identity, ethree3.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
+
+        do {
+            try ethree2.deleteGroup(id: groupId).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
+        }
+
+        do {
+            try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
+        }
+
+        do {
+            let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
+            try group2.add(participant: ethree4Card).startSync().get()
+            XCTFail()
+        } catch EThreeError.groupPermissionDenied {} catch {
+            XCTFail()
+        }
+    }
+
+
+    // FIXME
 
     func test_1__encrypt_decrypt__should_succeed() {
         let ethree1 = self.setUpDevice()
@@ -158,173 +463,77 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(decrypted4 == message)
     }
 
-    func test_3__pull_alien_group__should_throw_error() {
+    func test__10__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
 
-        let identities = [ethree2.identity]
-
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity, ethree3.identity]).startSync().get()
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+        let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        let encrypted = try! group3.encrypt(text: "Some text")
 
         do {
-            _ = try ethree3.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-            XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+            _ = try group2.decrypt(text: encrypted, from: card1)
+        } catch FoundationError.errorInvalidSignature {} catch {
             XCTFail()
         }
     }
 
-    func test_4__pull_nonexistent_group__should_throw_error() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
-        let ethree3 = self.setUpDevice()
-
-        let identities = [ethree2.identity]
-
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
-        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-
-        let nonExistentGroupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        do {
-            _ = try ethree3.loadGroup(id: nonExistentGroupId, initiator: ethree1Card).startSync().get()
-            XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
-            XCTFail()
-        }
-    }
-
-    func test_5__actions_on_deleted_group__should_throw_error() {
+    func test__10_1__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
-        let identities = [ethree2.identity]
-
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-        try! ethree1.deleteGroup(id: groupId).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
 
-        do {
-            try group2.update().startSync().get()
-            XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
-            XCTFail()
-        }
+        let card2 = try! ethree1.lookupCard(of: ethree2.identity).startSync().get()
 
-        do {
-            try group1.update().startSync().get()
-            XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
-            XCTFail()
-        }
+        try! ethree2.cleanUp()
+        try! ethree2.rotatePrivateKey().startSync().get()
+
+        let encrypted = try! group2.encrypt(text: "Some text")
 
         do {
-            _ = try ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
+            _ = try group1.decrypt(text: encrypted, from: card2)
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
-            XCTFail()
-        }
-
-        do {
-            _ = try ethree1.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-            XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch FoundationError.errorInvalidSignature {} catch {
             XCTFail()
         }
     }
 
-    func test_6__change_group_by_noninitiator__should_throw_error() {
+    func test__11__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
-        let ethree3 = self.setUpDevice()
-        let ethree4 = self.setUpDevice()
 
-        let identities = [ethree2.identity, ethree3.identity]
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
 
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+        let encrypted = try! ethree2.encrypt(text: "Some text", for: card1)
 
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
-        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+        try! ethree2.cleanUp()
+        try! ethree2.rotatePrivateKey().startSync().get()
 
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
+        let card2 = try! ethree1.lookupCard(of: ethree2.identity).startSync().get()
 
         do {
-            try ethree2.deleteGroup(id: groupId).startSync().get()
-            XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
-            XCTFail()
-        }
+            _ = try ethree1.decrypt(text: encrypted, from: card2)
 
-        do {
-            try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
             XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
+        } catch VirgilCryptoError.signatureNotVerified {} catch {
             XCTFail()
         }
-
-        do {
-            let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
-            try group2.add(participant: ethree4Card).startSync().get()
-            XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
-            XCTFail()
-        }
-    }
-
-    func test_7__create_with_invalid_participants_count_should_throw_error() {
-        let ethree1 = self.setUpDevice()
-
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        let lookup = try! ethree1.lookupCards(of: [ethree1.identity]).startSync().get()
-
-        do {
-            _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-            XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
-            XCTFail()
-        }
-
-        // TODO: Test upper bound
-    }
-
-    func test_8__change_participants_count_to_invalid__should_throw_error() {
-        let ethree1 = self.setUpDevice()
-
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        let lookup = try! ethree1.lookupCards(of: [ethree1.identity]).startSync().get()
-
-        do {
-            _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-            XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
-            XCTFail()
-        }
-
-        // TODO: Test upper bound
-    }
-
-    func test__9__getGroup__should_return_cached_group() {
-        // TODO: Implement
-        XCTFail()
     }
 }
 
