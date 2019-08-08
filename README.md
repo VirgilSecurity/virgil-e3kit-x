@@ -167,7 +167,7 @@ EThree.initialize(tokenCallback) { eThree, error in
 }
 ```
 
-## Enable Group Chat (Swift)
+## Enable Group Chat
 In this section, you'll find out how to build a group chat using the Virgil E3Kit SDK.
 
 We assume that your users have installed and initialized the E3Kit SDK, and have registered their Cards on the Virgil Cloud.
