@@ -127,7 +127,7 @@ Additionally, you'll need to copy debug symbols for debugging and crash reportin
 On your application target’s “Build Phases” settings tab, click the “+” icon and choose “New Copy Files Phase”.
 Click the “Destination” drop-down menu and select “Products Directory”. For each framework, drag and drop corresponding dSYM file.
 
-#### Register User
+## Register User
 Use the following lines of code to authenticate user.
 
 ```swift
@@ -144,7 +144,7 @@ EThree.initialize(tokenCallback) { eThree, error in
 }
 ```
 
-#### Encrypt & decrypt
+## Encrypt & decrypt
 
 Virgil E3Kit lets you use a user's Private key and his or her Public Keys to sign, then encrypt text.
 
@@ -165,6 +165,156 @@ EThree.initialize(tokenCallback) { eThree, error in
         }
     }
 }
+```
+
+## Enable Group Chat (Swift)
+In this section, you'll find out how to build a group chat using the Virgil E3Kit SDK.
+
+We assume that your users have installed and initialized the E3Kit SDK, and have registered their Cards on the Virgil Cloud.
+
+
+### Create Group Chat
+Let's imagine Alice wants to start a group chat with Bob and Carol. First, Alice creates a new group ticket by running the `createGroup` feature and the E3Kit stores the ticket on the Virgil Cloud. This ticket holds a shared root key for future group encryption.
+
+Alice has to specify a `sessionId` (a unique 32-byte session identifier) and `participants`. We recommend tying this identifier to your unique transport channel id. If your channel id is not 32-bytes you can use SHA-256 to derive a session id from it.
+```swift 
+public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = try self.computeSessionId(from: identifier)
+
+                let participants = Set(lookup.keys + [self.identity])
+
+                try Group.validateParticipantsCount(participants.count)
+
+                let ticket = try Ticket(crypto: self.crypto,
+                                        sessionId: sessionId,
+                                        participants: participants)
+
+                let group = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
+
+                completion(group, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+```
+
+### Start Group Chat Session
+
+Now, other participants, Bob and Carol, want to join the Alice's group and have to start the group session by loading the group ticket using the `loadGroup` method. This function requires specifying the group chat session ID, from the chat owner's Virgil Cards.
+```swift
+public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = try self.computeSessionId(from: identifier)
+
+                let group = try self.getGroupManager().pull(sessionId: sessionId, from: card)
+
+                completion(group, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+```
+
+Also, use the loadGroup method when signing in from a new device.  Then, use the getGroup method to work with the group session locally.
+```swift
+public func getGroup(id identifier: Data) throws -> Group? {
+    let sessionId = try self.computeSessionId(from: identifier)
+
+    return try self.getGroupManager().retrieve(sessionId: sessionId)
+}
+```
+
+
+### Encrypt and Decrypt Messages
+To encrypt and decrypt messages, use the `encrypt` and `decrypt` E3Kit functions, which allows you to work with data and strings.
+
+Use the following code-snippets to encrypt messages:
+```swift
+public func encrypt(data: Data) throws -> Data {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
+
+        return encrypted.serialize()
+    }
+```
+
+Use the following code-snippets to decrypt messages:
+```swift
+public func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
+        let encrypted = try GroupSessionMessage.deserialize(input: data)
+
+        var card = senderCard
+        if let date = date {
+            while let previousCard = card.previousCard {
+                guard card.createdAt > date else {
+                    break
+                }
+
+                card = previousCard
+            }
+        }
+```
+At the decrypt step, you also use `lookupCards` method to verify that the message hasn't been tempered with.
+
+
+### Manage Group Chat
+E3Kit also allows you to perform other operations, like participants management, while you work with group chat.
+
+#### Update Group Chat
+In the event of changes in your group, i.e. adding a new member, or deleting an existing one, each group chat member has to update the encryption key by calling the `update` E3Kit method. This method requires specifying the group `session id` and group owner's Card.
+```swift
+public func update() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = self.session.getSessionId()
+
+                let card = try self.lookupManager.lookupCard(of: self.initiator)
+
+                let group = try self.groupManager.pull(sessionId: sessionId, from: card)
+
+                self.session = group.session
+                self.participants = group.participants
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+```
+
+#### Add New Chat Member
+To add a new chat member, the chat owner has to use the `add` method and specify the new member's `identity`.
+```swift
+
+public func add(participant card: Card) -> GenericOperation<Void> {
+        return self.add(participants: [card.identity: card])
+    }
+```
+
+#### Delete Chat Member
+To delete a chat member, the chat owner has to use the `delete` method and specify the member's `identity`.
+```swift
+public func remove(participant card: Card) -> GenericOperation<Void> {
+        return self.remove(participants: [card.identity: card])
+    }
+```
+
+#### Delete Group Chat
+To delete a chat, the chat owner has to use the `deleteGroup` method and specify the `sessionId`.
+```swift
+public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = try self.computeSessionId(from: identifier)
+
+                guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+                    throw EThreeError.groupWasNotFound
+                }
 ```
 
 ## License
