@@ -49,7 +49,7 @@ class VTE006_LookupTests: XCTestCase {
         self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    private func setUpDevice(identity: String? = nil, delegate: ChangedKeyDelegate? = nil) -> (EThree) {
+    private func setUpDevice(identity: String? = nil) -> (EThree) {
         let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -58,8 +58,7 @@ class VTE006_LookupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree.initialize(tokenCallback: tokenCallback,
-                                            changedKeyDelegate: delegate)
+        let ethree = try! EThree.initialize(tokenCallback: tokenCallback)
             .startSync()
             .get()
 
@@ -152,7 +151,7 @@ class VTE006_LookupTests: XCTestCase {
 
         let delegate = dummyClass(identity: card.identity)
 
-        let ethree = self.setUpDevice(delegate: delegate)
+        let ethree = self.setUpDevice()
 
         _ = try! ethree.lookupCard(of: card.identity).startSync().get()
 
@@ -165,7 +164,7 @@ class VTE006_LookupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let newEThree = try! EThree.initialize(tokenCallback: tokenCallback).startSync().get()
+        let newEThree = try! EThree.initialize(tokenCallback: tokenCallback, changedKeyDelegate: delegate).startSync().get()
 
         sleep(3)
 

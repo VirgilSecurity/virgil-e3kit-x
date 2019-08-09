@@ -72,15 +72,15 @@ internal class LookupManager {
                     for outdatedId in  outdatedIds {
                         Log.debug("Cached card with id: \(outdatedId) expired")
 
-                        if let changedKeyDelegate = self.changedKeyDelegate {
-                            guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
-                                throw NSError()
-                            }
+                        guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
+                            throw NSError()
+                        }
 
+                        if let changedKeyDelegate = self.changedKeyDelegate {
                             changedKeyDelegate.keyChanged(identity: outdatedCard.identity)
                         }
 
-                        let newCard = try self.cardManager.getCard(withId: outdatedId).startSync().get()
+                        let newCard = try self.lookupCard(of: outdatedCard.identity, forceReload: true)
 
                         try self.cardStorage.storeCard(newCard)
 

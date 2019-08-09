@@ -80,7 +80,7 @@ extension CloudTicketStorage {
         let publicKeys = cards.map { $0.publicKey }
 
         _ = try self.keyknoxManager
-            .pushValue(identities: identities,
+            .pushValue(identities: identities + [self.identity],
                        root1: CloudTicketStorage.groupSessionsRoot,
                        root2: sessionId,
                        key: "\(epoch)",
@@ -118,7 +118,7 @@ extension CloudTicketStorage {
                 .get()
 
             let groupMessage = try GroupSessionMessage.deserialize(input: response.value)
-            let participants = Set(response.identities + [identity])
+            let participants = Set(response.identities)
             let ticket = Ticket(groupMessage: groupMessage, participants: participants)
 
             tickets.append(ticket)
