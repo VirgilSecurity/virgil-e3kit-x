@@ -175,29 +175,6 @@
     XCTAssert(decrypted == nil);
 }
 
-- (void)test_STE_7 {
-    NSError *error;
-
-    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
-    XCTAssert(error == nil);
-
-    NSData *exportedKey = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
-    XCTAssert(error == nil);
-
-    NSDictionary *meta = @{ @"isPublished": @"true"};
-
-    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:exportedKey withName:self.eThree.identity meta:meta error:&error];
-    XCTAssert(error == nil && entry != nil);
-
-    NSString *plainText = [[NSUUID alloc] init].UUIDString;
-    NSString *encrypted = [self.eThree encryptWithText:plainText for:nil error:&error];
-    XCTAssert(error == nil);
-
-    NSString *decrypted = [self.eThree decryptWithText:encrypted from:nil date:nil error:&error];
-    XCTAssert(error == nil);
-    XCTAssert([decrypted isEqualToString:plainText]);
-}
-
 - (void)test_STE_22 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Should encrypt then decrypt streams"];
 
