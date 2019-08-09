@@ -102,6 +102,8 @@
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
+    VSSCard *card __unused = [self.utils publishCardWithIdentity:self.eThree.identity previousCardId:nil];
+
     __weak typeof(self) weakSelf = self;
     [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
@@ -143,6 +145,8 @@
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
 
+    VSSCard *card __unused = [self.utils publishCardWithIdentity:self.eThree.identity previousCardId:nil];
+    
     __weak typeof(self) weakSelf = self;
     [weakSelf.utils setUpSyncKeyStorageWithPassword:self.password keychainStorage:self.keychainStorage identity:self.eThree.identity completion:^(VSSSyncKeyStorage *syncKeyStorage, NSError *error) {
         XCTAssert(error == nil);
@@ -230,7 +234,7 @@
 }
 
 - (void)test_STE_19 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup wihtout pasword test"];
+    XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup without pasword test"];
 
     [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
         XCTAssert(error != nil);
