@@ -42,7 +42,7 @@ internal class CloudKeyManager {
     private let identity: String
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
-    private let keyknoxClient: KeyknoxClient
+    private let keyknoxManager: KeyknoxManager
 
     internal let accessTokenProvider: AccessTokenProvider
 
@@ -53,10 +53,12 @@ internal class CloudKeyManager {
 
         let connection = EThree.getConnection()
 
-        self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                           serviceUrl: KeyknoxClient.defaultURL,
-                                           connection: connection,
-                                           retryConfig: ExpBackoffRetry.Config())
+        let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
+                                          serviceUrl: KeyknoxClient.defaultURL,
+                                          connection: connection,
+                                          retryConfig: ExpBackoffRetry.Config())
+        
+        self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
 
         let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,
                                         serviceUrl: PythiaClient.defaultURL,
@@ -71,10 +73,7 @@ internal class CloudKeyManager {
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
-        let keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient)
-
-        let cloudKeyStorage = CloudKeyStorage(identity: self.identity,
-                                              keyknoxManager: keyknoxManager,
+        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: self.keyknoxManager,
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
 
@@ -106,9 +105,7 @@ extension CloudKeyManager {
     }
 
     internal func deleteAll() throws {
-        _ = try self.keyknoxClient.resetValue(identity: self.identity,
-                                              root1: CloudKeyStorage.root1,
-                                              root2: CloudKeyStorage.root2, key: nil)
+        _ = try self.keyknoxManager.resetValue().startSync().get()
     }
 
     internal func changePassword(from oldPassword: String,
