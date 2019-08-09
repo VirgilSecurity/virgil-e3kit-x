@@ -81,7 +81,7 @@ class VTE004_GroupTests: XCTestCase {
         }
 
         var lookup: [String: Card] = [:]
-        for _ in 0..<140 {
+        for _ in 0..<100 {
             let identity = UUID().uuidString
             lookup[identity] = card
         }
@@ -106,12 +106,13 @@ class VTE004_GroupTests: XCTestCase {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+        let groupId1 = try! self.crypto.generateRandomData(ofSize: 100)
+        let groupId2 = try! self.crypto.generateRandomData(ofSize: 100)
 
         let lookup = try! ethree1.lookupCards(of: [ethree1.identity, ethree2.identity]).startSync().get()
 
-        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-        let group2 = try! ethree1.createGroup(id: groupId, with: [ethree1.identity: lookup[ethree1.identity]!]).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId1, with: lookup).startSync().get()
+        let group2 = try! ethree1.createGroup(id: groupId2, with: [ethree2.identity: lookup[ethree2.identity]!]).startSync().get()
 
         XCTAssert(group2.participants.contains(ethree1.identity))
         XCTAssert(group1.participants == group2.participants)
@@ -328,7 +329,35 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_36__change_group_by_noninitiator__should_throw_error() {
+    func test_STE_0__add() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        let card3 = try! ethree1.lookupCard(of: ethree3.identity).startSync().get()
+        try! group1.add(participant: card3).startSync().get()
+
+        let participants = Set([ethree1.identity, ethree2.identity, ethree3.identity])
+        XCTAssert(group1.participants == participants)
+
+        try! group2.update().startSync().get()
+
+        let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        XCTAssert(group2.participants == participants)
+        XCTAssert(group3.participants == participants)
+    }
+
+    func test_STE_36__change_group_by_noninitiator__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -427,8 +456,7 @@ class VTE004_GroupTests: XCTestCase {
         try! group1.add(participant: ethree4Card).startSync().get()
         try! group1.remove(participant: lookup[ethree3.identity]!).startSync().get()
 
-        let newIdentities = [ethree2.identity, ethree4.identity]
-        let participants = Set(newIdentities).union([ethree1.identity])
+        let participants = Set([ethree2.identity, ethree4.identity, ethree1.identity])
         XCTAssert(group1.participants == participants)
 
         // Other Users update groups

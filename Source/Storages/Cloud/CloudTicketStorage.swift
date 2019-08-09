@@ -47,6 +47,10 @@ internal class CloudTicketStorage {
 
     internal let keyknoxManager: KeyknoxManager
 
+    private var identity: String {
+        return self.localKeyStorage.identity
+    }
+
     internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
@@ -131,7 +135,7 @@ extension CloudTicketStorage {
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
-        let epochs = try self.keyknoxManager.getKeys(identity: nil,
+        let epochs = try self.keyknoxManager.getKeys(identity: self.identity,
                                                      root1: CloudTicketStorage.groupSessionsRoot,
                                                      root2: sessionId)
             .startSync()
@@ -139,7 +143,8 @@ extension CloudTicketStorage {
 
         for epoch in epochs {
             _ = try self.keyknoxManager
-                .updateRecipients(identities: identities,
+                .updateRecipients(fromIdentity: self.identity,
+                                  identities: identities,
                                   root1: CloudTicketStorage.groupSessionsRoot,
                                   root2: sessionId,
                                   key: epoch,
@@ -152,10 +157,22 @@ extension CloudTicketStorage {
         }
     }
 
+    public func removeAccess(identity: String, to sessionId: Data) throws {
+        let sessionId = sessionId.hexEncodedString()
+
+        _ = try self.keyknoxManager.resetValue(identity: identity,
+                                               root1: CloudTicketStorage.groupSessionsRoot,
+                                               root2: sessionId,
+                                               key: nil)
+            .startSync()
+            .get()
+    }
+
     public func delete(sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
 
-        _ = try self.keyknoxManager.resetValue(root1: CloudTicketStorage.groupSessionsRoot,
+        _ = try self.keyknoxManager.resetValue(identity: nil,
+                                               root1: CloudTicketStorage.groupSessionsRoot,
                                                root2: sessionId,
                                                key: nil)
             .startSync()

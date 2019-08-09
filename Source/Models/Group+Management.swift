@@ -112,6 +112,10 @@ extension Group {
 
                 try self.addNewTicket(for: newSetLookup)
 
+                let removedSet = oldSet.subtracting(newSet)
+
+                try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
+
                 completion((), nil)
             } catch {
                 completion(nil, error)

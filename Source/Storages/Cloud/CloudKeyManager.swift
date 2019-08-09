@@ -73,7 +73,8 @@ internal class CloudKeyManager {
 
         let keyknoxManager = try KeyknoxManager(keyknoxClient: self.keyknoxClient)
 
-        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager,
+        let cloudKeyStorage = CloudKeyStorage(identity: self.identity,
+                                              keyknoxManager: keyknoxManager,
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
 
@@ -105,7 +106,9 @@ extension CloudKeyManager {
     }
 
     internal func deleteAll() throws {
-        _ = try self.keyknoxClient.resetValue(root1: nil, root2: nil, key: nil)
+        _ = try self.keyknoxClient.resetValue(identity: self.identity,
+                                              root1: CloudKeyStorage.root1,
+                                              root2: CloudKeyStorage.root2, key: nil)
     }
 
     internal func changePassword(from oldPassword: String,

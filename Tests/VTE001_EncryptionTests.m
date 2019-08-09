@@ -260,6 +260,11 @@
                     XCTAssert(card != nil && error == nil);
 
                     NSDate *date1 = [[NSDate alloc] init];
+                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                    [formatter setDateFormat:@"HH:mm:ss.SS"];
+                    NSLog(@"AAA %@",[formatter stringFromDate:date1]);
+
+                    sleep(1);
 
                     NSString *plainText1 = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
@@ -272,6 +277,7 @@
                         XCTAssert(error == nil);
 
                         NSDate *date2 = [[NSDate alloc] init];
+                        NSLog(@"AAA %@",[formatter stringFromDate:date1]);
 
                         NSString *plainText2 = [[NSUUID alloc] init].UUIDString;
                         NSError *err;
@@ -292,6 +298,7 @@
 
                             err = nil;
 
+                            NSLog(@"AAA %@",[formatter stringFromDate:card.createdAt]);
                             NSString *decrypted1 = [eThree2 decryptWithText:encrypted1 from:card date:date1 error:&err];
                             XCTAssert(err == nil);
 

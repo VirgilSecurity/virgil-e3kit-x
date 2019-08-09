@@ -39,7 +39,7 @@ import VirgilSDK
 import VirgilCrypto
 
 public class Group {
-    public static let ValidParticipatnsCountRange = 2...240
+    public static let ValidParticipatnsCountRange = 2...100
 
     public let initiator: String
     public internal(set) var participants: Set<String>

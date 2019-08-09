@@ -118,6 +118,11 @@ internal class GroupManager {
         return try? self.parse(rawGroup)
     }
 
+    internal func removeAccess(identities: Set<String>, to sessionId: Data) throws {
+        try identities.forEach {
+            try self.cloudTicketStorage.removeAccess(identity: $0, to: sessionId)
+        }
+    }
 
     internal func delete(sessionId: Data) throws {
         try self.cloudTicketStorage.delete(sessionId: sessionId)
