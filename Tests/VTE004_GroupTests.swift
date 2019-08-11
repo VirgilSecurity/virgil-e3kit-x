@@ -245,7 +245,7 @@ class VTE004_GroupTests: XCTestCase {
 
         var participants: Set<String> = Set()
 
-        for _ in 0..<140 {
+        for _ in 0..<100 {
             let identity = UUID().uuidString
             participants.insert(identity)
         }
@@ -253,7 +253,7 @@ class VTE004_GroupTests: XCTestCase {
         let sessionId = try! self.crypto.generateRandomData(ofSize: 32)
 
         let ticket = try! Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
-        let rawGroup = try! RawGroup(info: GroupInfo(initiator: participants.first!), tickets: [ticket])
+        let rawGroup = try! RawGroup(info: GroupInfo(initiator: ethree.identity), tickets: [ticket])
 
         let group = try! Group(rawGroup: rawGroup,
                                crypto: self.crypto,
@@ -338,9 +338,10 @@ class VTE004_GroupTests: XCTestCase {
 
         let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
 
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
 
         let card3 = try! ethree1.lookupCard(of: ethree3.identity).startSync().get()

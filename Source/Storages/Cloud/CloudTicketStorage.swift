@@ -149,19 +149,26 @@ extension CloudTicketStorage {
             .get()
 
         for epoch in epochs {
-            // FIXME
-            let value = try self.keyknoxManager.pullValue(publicKeys: [selfKeyPair.publicKey],
-                                                          privateKey: selfKeyPair.privateKey)
+            let pullParams = KeyknoxPullParams(identity: identity,
+                                               root: CloudTicketStorage.groupSessionsRoot,
+                                               path: sessionId,
+                                               key: epoch)
+            let response = try self.keyknoxManager
+                .pullValue(params: pullParams,
+                           publicKeys: [selfKeyPair.publicKey],
+                           privateKey: selfKeyPair.privateKey)
                 .startSync()
                 .get()
             
-            let params = KeyknoxPushParams(identities: identities,
-                              root: CloudTicketStorage.groupSessionsRoot, path: sessionId, key: epoch)
+            let updateParams = KeyknoxPushParams(identities: identities,
+                                                 root: CloudTicketStorage.groupSessionsRoot,
+                                                 path: sessionId,
+                                                 key: epoch)
             
-            _ = try self.keyknoxManager.updateRecipients(params: params,
-                                                         value: value.value,
-                                                         previousHash: value.keyknoxHash,
-                                                         newPublicKeys: publicKeys +    [selfKeyPair.publicKey],
+            _ = try self.keyknoxManager.updateRecipients(params: updateParams,
+                                                         value: response.value,
+                                                         previousHash: response.keyknoxHash,
+                                                         newPublicKeys: publicKeys + [selfKeyPair.publicKey],
                                                          newPrivateKey: selfKeyPair.privateKey)
                 .startSync()
                 .get()
