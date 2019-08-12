@@ -87,7 +87,7 @@ internal class GroupManager {
         guard !tickets.isEmpty else {
             try self.localGroupStorage.delete(sessionId: sessionId)
 
-            throw EThreeError.groupWasNotFound
+            throw GroupError.groupWasNotFound
         }
 
         let rawGroup = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)

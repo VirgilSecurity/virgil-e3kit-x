@@ -39,7 +39,6 @@ import Foundation
 /// Declares error types and codes for EThree
 ///
 /// - verifierInitFailed: Initialization of VirgilCardVerifier failed
-/// - keyIsNotVirgil: Casting Key to Virgil Key failed
 /// - strToDataFailed: String to Data failed
 /// - strFromDataFailed: Data to String failed
 /// - missingPrivateKey: No private key on device. You should call `register()` of `retrievePrivateKey()`
@@ -48,30 +47,18 @@ import Foundation
 /// - userIsAlreadyRegistered: User is already registered
 /// - userIsNotRegistered: User is not registered
 /// - privateKeyExists: Private key already exists in local key storage
+/// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try lookup new one
 @objc(VTEEThreeError) public enum EThreeError: Int, LocalizedError {
     case verifierInitFailed = 1
     case strToDataFailed = 3
     case strFromDataFailed = 4
-
     case missingPrivateKey = 5
     case missingPublicKey = 6
     case missingIdentities = 7
     case userIsAlreadyRegistered = 8
     case userIsNotRegistered = 9
     case privateKeyExists = 10
-
-    // FIXME: Split to another Error enum?
-    case missingCachedGroup = 14
-    case groupPermissionDenied = 15
-    case groupWasNotFound = 16
-    case invalidGroup = 17
-    case invalidChangeParticipants = 18
-    case inconsistentState = 19
-    case invalidParticipantsCount = 20
-    case verificationFailed = 21
-    case shortGroupId = 22
-    case messageNotFromThisGroup = 23
-    case groupIsOutdated = 24
+    case verificationFailed = 11
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -94,28 +81,8 @@ import Foundation
             return "User is not registered"
         case .privateKeyExists:
             return "Private key already exists in local key storage"
-        case .missingCachedGroup:
-            return "Group with provided id not found locally. Try to call pullGroup first"
-        case .groupPermissionDenied:
-            return "Only group initiator can do changed on group"
-        case .groupWasNotFound:
-            return "Group with provided id was not found"
-        case .invalidGroup:
-            return "Group is invalid"
-        case .invalidChangeParticipants:
-            return "Invalid change of group participants. e.g. Add smb who is already in group or remove smb who is not"
-        case .inconsistentState:
-            return ""
-        case .invalidParticipantsCount:
-            return "Please check valid participants count range in Group.ValidParticipatnsCountRange"
         case .verificationFailed:
             return "Verification of message failed. This may be caused by rotating sender key. Try lookup new one"
-        case .shortGroupId:
-            return "Group Id should be >10"
-        case .messageNotFromThisGroup:
-            return "Message was encrypted in group with different identifier"
-        case .groupIsOutdated:
-            return "Group is not up to date. Call update or loadGroup"
         }
     }
 }

@@ -80,6 +80,10 @@
 		1661D7722301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
 		1661D7732301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
 		1661D7742301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
+		1661D7772301E96600BC435C /* GroupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7762301E96600BC435C /* GroupError.swift */; };
+		1661D7782301E96600BC435C /* GroupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7762301E96600BC435C /* GroupError.swift */; };
+		1661D7792301E96600BC435C /* GroupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7762301E96600BC435C /* GroupError.swift */; };
+		1661D77A2301E96600BC435C /* GroupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7762301E96600BC435C /* GroupError.swift */; };
 		1665EE1D22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE1E22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE1F22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
@@ -389,6 +393,7 @@
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		1661D76A23018DD900BC435C /* Group+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Objc-C.swift"; sourceTree = "<group>"; };
 		1661D7702301ADCD00BC435C /* LookupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupError.swift; sourceTree = "<group>"; };
+		1661D7762301E96600BC435C /* GroupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupError.swift; sourceTree = "<group>"; };
 		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
@@ -666,6 +671,7 @@
 				16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */,
 				1685846E22E091E0008EAC34 /* Group+Management.swift */,
 				1661D76A23018DD900BC435C /* Group+Objc-C.swift */,
+				1661D7762301E96600BC435C /* GroupError.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -997,6 +1003,7 @@
 				16EC37472177A88D009D7F00 /* Sources */,
 				16EC37482177A88D009D7F00 /* Frameworks */,
 				16EC37492177A88D009D7F00 /* Resources */,
+				1661D7752301B06A00BC435C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1182,6 +1189,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1661D7752301B06A00BC435C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1272,6 +1299,7 @@
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67C82178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
@@ -1306,6 +1334,7 @@
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
+				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
@@ -1344,6 +1373,7 @@
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67C92178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
@@ -1381,6 +1411,7 @@
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				165B67CA2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,

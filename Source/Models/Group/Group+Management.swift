@@ -77,14 +77,14 @@ extension Group {
                 try Group.validateParticipantsCount(newSet.count)
 
                 guard newSet != oldSet else {
-                    throw EThreeError.invalidChangeParticipants
+                    throw GroupError.invalidChangeParticipants
                 }
 
                 let addSet = newSet.subtracting(oldSet)
 
                 let addedCards: [Card] = try addSet.map {
                     guard let card = lookup[$0] else {
-                        throw EThreeError.inconsistentState
+                        throw GroupError.inconsistentState
                     }
 
                     return card
@@ -134,7 +134,7 @@ extension Group {
                 try Group.validateParticipantsCount(newSet.count)
 
                 guard newSet != oldSet else {
-                    throw EThreeError.invalidChangeParticipants
+                    throw GroupError.invalidChangeParticipants
                 }
 
                 let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet))

@@ -76,14 +76,14 @@ extension Group {
         }
 
         guard self.session.getSessionId() == encrypted.getSessionId() else {
-            throw EThreeError.messageNotFromThisGroup
+            throw GroupError.messageNotFromThisGroup
         }
 
         let messageEpoch = encrypted.getEpoch()
         let currentEpoch = self.session.getCurrentEpoch()
 
         guard currentEpoch >= messageEpoch else {
-            throw EThreeError.groupIsOutdated
+            throw GroupError.groupIsOutdated
         }
 
         do {
@@ -94,7 +94,7 @@ extension Group {
                 let messageEpoch = encrypted.getEpoch()
 
                 guard let tempGroup = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
-                    throw EThreeError.missingCachedGroup
+                    throw GroupError.missingCachedGroup
                 }
 
                 return try tempGroup.decrypt(data: data, from: senderCard)

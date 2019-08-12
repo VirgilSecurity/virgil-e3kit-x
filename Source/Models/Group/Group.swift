@@ -64,7 +64,7 @@ import VirgilCrypto
         let tickets = rawGroup.tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {
-            throw EThreeError.invalidGroup
+            throw GroupError.invalidGroup
         }
 
         try Group.validateParticipantsCount(lastTicket.participants.count)
@@ -83,7 +83,7 @@ import VirgilCrypto
 
     internal static func validateParticipantsCount(_ count: Int) throws {
         guard Group.ValidParticipatnsCountRange ~= count else {
-            throw EThreeError.invalidParticipantsCount
+            throw GroupError.invalidParticipantsCount
         }
     }
 
@@ -100,7 +100,7 @@ import VirgilCrypto
 
     internal func checkPermissions() throws {
         guard self.selfIdentity == self.initiator else {
-            throw EThreeError.groupPermissionDenied
+            throw GroupError.groupPermissionDenied
         }
     }
 

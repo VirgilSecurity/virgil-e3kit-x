@@ -40,6 +40,7 @@ import VirgilSDK
 extension EThree {
     /// Creates group, saves in cloud and locally
     ///
+    /// - Note: identifier length should be > 10
     /// - Parameters:
     ///   - identifier: identifier of group
     ///   - lookup: Cards of participants. Result of lookupCards call
@@ -107,7 +108,7 @@ extension EThree {
                 let sessionId = try self.computeSessionId(from: identifier)
 
                 guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
-                    throw EThreeError.groupWasNotFound
+                    throw GroupError.missingCachedGroup
                 }
 
                 try group.checkPermissions()

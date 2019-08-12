@@ -180,7 +180,7 @@ extension EThree {
 
     internal func computeSessionId(from identifier: Data) throws -> Data {
         guard identifier.count > 10 else {
-            throw EThreeError.shortGroupId
+            throw GroupError.shortGroupId
         }
 
         return self.crypto.computeHash(for: identifier).subdata(in: 0..<32)
