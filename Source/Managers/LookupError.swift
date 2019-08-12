@@ -36,10 +36,25 @@
 
 import Foundation
 
-/// This protocol can be used to track Users keys rotations
-@objc public protocol ChangedKeyDelegate {
-    /// This function is called when some local card became outdated
-    ///
-    /// - Parameter identity: <#identity description#>
-    func keyChanged(identity: String)
+/// Declares error types and codes for `LookupManager`
+///
+/// - duplicateCards: Found duplicated Cards
+/// - missingCachedCard: Card with provided identity was not found locally. Try to call lookupCard first
+/// - cardWasNotFound: Card for one or more of provided identities was not found
+@objc(VTELookupError) public enum LookupError: Int, LocalizedError {
+    case duplicateCards = 1
+    case missingCachedCard = 2
+    case cardWasNotFound = 3
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .duplicateCards:
+            return "Found duplicated Cards"
+        case .missingCachedCard:
+            return "Card with provided identity was not found locally. Try to call lookupCard first"
+        case .cardWasNotFound:
+            return "Card for one or more of provided identities was not found"
+        }
+    }
 }

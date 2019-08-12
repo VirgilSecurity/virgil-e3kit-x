@@ -50,6 +50,7 @@ import VirgilCrypto
     /// CardManager instance
     @objc public let cardManager: CardManager
 
+    /// AccessTokenProvider
     @objc public let accessTokenProvider: AccessTokenProvider
 
     /// VirgilCrypto instance
@@ -57,6 +58,7 @@ import VirgilCrypto
         return self.cardManager.crypto
     }
 
+    /// ChangedKeyDelegate to notify changing of User's keys
     @objc public var changedKeyDelegate: ChangedKeyDelegate? {
         return self.lookupManager.changedKeyDelegate
     }

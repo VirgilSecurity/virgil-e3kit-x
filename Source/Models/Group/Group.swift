@@ -35,22 +35,26 @@
 //
 
 import VirgilCryptoFoundation
-import VirgilSDK
 import VirgilCrypto
 
+/// Class representing Group
 @objc(VTEGroup) public class Group: NSObject {
+    /// Range of valid participants count
     public static let ValidParticipatnsCountRange = 2...100
 
+    /// Initiator
     @objc public let initiator: String
+    /// Participants
     @objc public internal(set) var participants: Set<String>
 
-    internal let selfIdentity: String
-    internal let crypto: VirgilCrypto
     internal let localKeyStorage: LocalKeyStorage
     internal let groupManager: GroupManager
     internal let lookupManager: LookupManager
 
     internal var session: GroupSession
+
+    private let selfIdentity: String
+    private let crypto: VirgilCrypto
 
     internal init(rawGroup: RawGroup,
                   crypto: VirgilCrypto,

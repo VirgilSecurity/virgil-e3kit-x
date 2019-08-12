@@ -36,8 +36,19 @@
 
 import Foundation
 
+/// Declares error types and codes for `RawGroup`
+///
+/// - emptyTickets: Tickets are empty
 @objc(VTERawGroupError) public enum RawGroupError: Int, LocalizedError {
-    case invalidRawGroup = 1
+    case emptyTickets = 1
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .emptyTickets:
+            return "Tickets are empty"
+        }
+    }
 }
 
 internal struct RawGroup {
@@ -46,7 +57,7 @@ internal struct RawGroup {
 
     internal init(info: GroupInfo, tickets: [Ticket]) throws {
         guard !tickets.isEmpty else {
-            throw RawGroupError.invalidRawGroup
+            throw RawGroupError.emptyTickets
         }
 
         self.info = info

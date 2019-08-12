@@ -37,8 +37,19 @@
 import Foundation
 import SQLite3
 
+/// Represents error of SQLite Binding
+///
+/// - invalidString: Invalid String
 @objc(VTESQLiteBindingError) public enum SQLiteBindingError: Int, LocalizedError {
     case invalidString = 1
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .invalidString:
+            return "Invalid String"
+        }
+    }
 }
 
 extension Data: DbInValue, DbOutValue {

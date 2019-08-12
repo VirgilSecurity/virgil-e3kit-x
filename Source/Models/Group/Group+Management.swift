@@ -37,7 +37,11 @@
 import VirgilCryptoFoundation
 import VirgilSDK
 
+// MARK: - Extension with group management operations
 extension Group {
+    /// Updates group
+    ///
+    /// - Returns: CallbackOperation<Void>
     public func update() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -57,6 +61,11 @@ extension Group {
         }
     }
 
+    /// Adds new participants to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameter lookup: Cards of users to add. Result of lookupCards call
+    /// - Returns: CallbackOperation<Void>
     public func add(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -90,6 +99,10 @@ extension Group {
         }
     }
 
+    /// Share group access and history on new Card of existing participant
+    ///
+    /// - Parameter participant: participant Card
+    /// - Returns: CallbackOperation<Void>
     public func reAdd(participant: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -105,6 +118,11 @@ extension Group {
         }
     }
 
+    /// Removes participants from group
+    ///
+    /// - Note: Removed participant will not be able to decrypt previous history again after group update
+    /// - Parameter lookup: Cards of users to remove. Result of lookupCards call
+    /// - Returns: CallbackOperation<Void>
     public func remove(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -134,10 +152,19 @@ extension Group {
         }
     }
 
+    /// Adds new participant to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameter card: Card of user to add
+    /// - Returns: CallbackOperation<Void>
     public func add(participant card: Card) -> GenericOperation<Void> {
         return self.add(participants: [card.identity: card])
     }
 
+    /// Removes participant from group
+    ///
+    /// - Parameter card: Card of user to remove
+    /// - Returns: CallbackOperation<Void>
     public func remove(participant card: Card) -> GenericOperation<Void> {
         return self.remove(participants: [card.identity: card])
     }

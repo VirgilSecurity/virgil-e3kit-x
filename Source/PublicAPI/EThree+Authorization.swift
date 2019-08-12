@@ -43,6 +43,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
@@ -161,7 +162,7 @@ extension EThree {
         return try self.localKeyStorage.exists()
     }
 
-    /// Deletes Private Key from local storage
+    /// Deletes Private Key from local storage, cleand local cards storage
     ///
     /// - Throws: KeychainStorageError
     @objc public func cleanUp() throws {

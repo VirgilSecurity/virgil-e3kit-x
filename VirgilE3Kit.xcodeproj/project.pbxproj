@@ -76,6 +76,10 @@
 		1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D76A23018DD900BC435C /* Group+Objc-C.swift */; };
 		1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D76A23018DD900BC435C /* Group+Objc-C.swift */; };
 		1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D76A23018DD900BC435C /* Group+Objc-C.swift */; };
+		1661D7712301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
+		1661D7722301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
+		1661D7732301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
+		1661D7742301ADCD00BC435C /* LookupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661D7702301ADCD00BC435C /* LookupError.swift */; };
 		1665EE1D22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE1E22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
 		1665EE1F22E720A500774788 /* LookupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1665EE1C22E720A500774788 /* LookupManager.swift */; };
@@ -384,6 +388,7 @@
 		165B686C2179D0F600DDE1F7 /* VTE001_EncryptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE001_EncryptionTests.m; sourceTree = "<group>"; };
 		165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE002_AuthenticationTests.m; sourceTree = "<group>"; };
 		1661D76A23018DD900BC435C /* Group+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Objc-C.swift"; sourceTree = "<group>"; };
+		1661D7702301ADCD00BC435C /* LookupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupError.swift; sourceTree = "<group>"; };
 		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
@@ -749,6 +754,7 @@
 		16BB9B4422EF1A4E0057D6B2 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1661D7702301ADCD00BC435C /* LookupError.swift */,
 				1665EE1C22E720A500774788 /* LookupManager.swift */,
 				16AD62D922E87E4700CDF90A /* GroupManager.swift */,
 			);
@@ -991,7 +997,6 @@
 				16EC37472177A88D009D7F00 /* Sources */,
 				16EC37482177A88D009D7F00 /* Frameworks */,
 				16EC37492177A88D009D7F00 /* Resources */,
-				1661D769230182B500BC435C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1177,26 +1182,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		1661D769230182B500BC435C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1270,6 +1255,7 @@
 			files = (
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1661D7712301ADCD00BC435C /* LookupError.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
@@ -1304,6 +1290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1661D7742301ADCD00BC435C /* LookupError.swift in Sources */,
 				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
@@ -1340,6 +1327,7 @@
 			files = (
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1661D7722301ADCD00BC435C /* LookupError.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
@@ -1376,6 +1364,7 @@
 			files = (
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1661D7732301ADCD00BC435C /* LookupError.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,

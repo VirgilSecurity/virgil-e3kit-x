@@ -37,20 +37,8 @@
 import VirgilSDK
 import VirgilCrypto
 
-// MARK: - Extension with encrypt-decrypt operations
+// MARK: - Extension with pear-to-pear encrypt and decrypt operations
 extension EThree {
-    public func encrypt(data: Data, for recipientCard: Card) throws -> Data {
-        return try self.encrypt(data: data, for: [recipientCard.identity: recipientCard])
-    }
-
-    public func encrypt(text: String, for recipientCard: Card) throws -> String {
-        return try self.encrypt(text: text, for: [recipientCard.identity: recipientCard])
-    }
-
-    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for recipientCard: Card) throws {
-        try self.encrypt(stream, to: outputStream, for: [recipientCard.identity: recipientCard])
-    }
-
     /// Signs then encrypts data for group of users
     ///
     /// - Parameters:
@@ -197,5 +185,44 @@ extension EThree {
         }
 
         return decryptedString
+    }
+
+    /// Signs and encrypts data for user
+    ///
+    /// - Parameters:
+    ///   - data: data to encrypt
+    ///   - recipientCard: user Card to encrypt for
+    /// - Returns: encrypted data
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    public func encrypt(data: Data, for recipientCard: Card) throws -> Data {
+        return try self.encrypt(data: data, for: [recipientCard.identity: recipientCard])
+    }
+
+    /// Signs and encrypts string for user
+    ///
+    /// - Parameters:
+    ///   - text: String to encrypt
+    ///   - recipientCard: user Card to encrypt for
+    /// - Returns: encrypted String
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    public func encrypt(text: String, for recipientCard: Card) throws -> String {
+        return try self.encrypt(text: text, for: [recipientCard.identity: recipientCard])
+    }
+
+    /// Encrypts data stream
+    ///
+    /// - Parameters:
+    ///   - stream: data stream to be encrypted
+    ///   - outputStream: stream with encrypted data
+    ///   - recipientCard: user Card to encrypt for
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for recipientCard: Card) throws {
+        try self.encrypt(stream, to: outputStream, for: [recipientCard.identity: recipientCard])
     }
 }

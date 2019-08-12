@@ -37,9 +37,23 @@
 import VirgilSDK
 import VirgilCrypto
 
+/// Represents error of `SQLiteCardStorage`
+///
+/// - inconsistentDb: Storage turned into inconsistency state
+/// - emptyIdentities: Empty identities
 @objc(VTESQLiteCardStorageError) public enum SQLiteCardStorageError: Int, LocalizedError {
     case inconsistentDb = 1
     case emptyIdentities = 2
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .inconsistentDb:
+            return "Storage turned into inconsistency state"
+        case .emptyIdentities:
+            return "Empty identities"
+        }
+    }
 }
 
 // swiftlint:disable identifier_name

@@ -34,11 +34,16 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
-import VirgilCryptoFoundation
 import VirgilSDK
 
-extension EThree {    
+// MARK: - Extension with group operations
+extension EThree {
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - lookup: Cards of participants. Result of lookupCards call
+    /// - Returns: CallbackOperation<Group>
     public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
@@ -61,13 +66,23 @@ extension EThree {
         }
     }
 
-    // FIXME: objc
+    /// Returnes cached local group
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: Group if exists, nil otherwise
+    /// - Throws: corresponding error
     public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)
 
         return try self.getGroupManager().retrieve(sessionId: sessionId)
     }
 
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    /// - Returns: CallbackOperation<Group>
     public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
@@ -82,6 +97,10 @@ extension EThree {
         }
     }
 
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: CallbackOperation
     public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {

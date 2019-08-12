@@ -36,12 +36,13 @@
 
 import VirgilSDK
 
-// MARK: - Extension with Objective-C compatible Queries
+// MARK: - Extension with Objective-C compatible operations
 extension EThree {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     ///   - completion: completion handler
     ///   - ethree: initialized EThree instance
@@ -140,12 +141,13 @@ extension EThree {
         }
     }
 
-    /// Retrieves user public keys from the cloud for encryption/verification.
+    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
     ///
     /// - Parameters:
     ///   - identities: array of identities to search for
+    ///   - forceReload: will not use local cached cards if true
     ///   - completion: completion handler
-    ///   - lookupResult: dictionary with idenities as keys and found public keys as values
+    ///   - lookupResult: dictionary with idenities as keys and found Cards as values
     ///   - error: corresponding error
     @objc public func lookupCards(of identities: [String],
                                   forceReload: Bool = false,
@@ -154,13 +156,29 @@ extension EThree {
         self.lookupCards(of: identities, forceReload: forceReload).start(completion: completion)
     }
 
+    /// Retrieves user Card from the Virgil Cloud or local storage if exists
+    ///
+    /// - Parameters:
+    ///   - identity: identity to search from
+    ///   - forceReload: will not use local cached card if true
+    ///   - completion: completion handler
+    ///   - card: found Card
+    ///   - error: corresponding error
     @objc public func lookupCard(of identity: String,
                                  forceReload: Bool = false,
-                                 completion: @escaping (_ lookupResult: Card?,
+                                 completion: @escaping (_ card: Card?,
                                                         _ error: Error?) -> Void) {
         self.lookupCard(of: identity, forceReload: forceReload).start(completion: completion)
     }
 
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - lookup: Cards of participants. Result of lookupCards call
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
     @objc public func createGroup(id identifier: Data,
                                   with lookup: LookupResult,
                                   completion: @escaping (_ group: Group?,
@@ -168,6 +186,14 @@ extension EThree {
         self.createGroup(id: identifier, with: lookup).start(completion: completion)
     }
 
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
     @objc public func loadGroup(id identifier: Data,
                                 initiator card: Card,
                                 completion: @escaping (_ group: Group?,
@@ -175,6 +201,12 @@ extension EThree {
         self.loadGroup(id: identifier, initiator: card).start(completion: completion)
     }
 
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameters
+    ///   - identifier: identifier of group
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)

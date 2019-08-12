@@ -37,9 +37,23 @@
 import VirgilCrypto
 import VirgilSDK
 
+/// Declares error types and codes for `FileGroupStorage`
+///
+/// - invalidFileName:
+/// - emptyFile:
 @objc(VTEFileGroupStorageError) public enum FileGroupStorageError: Int, LocalizedError {
     case invalidFileName = 1
     case emptyFile = 2
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .invalidFileName:
+            return "Invalid file name"
+        case .emptyFile:
+            return "File is empty"
+        }
+    }
 }
 
 internal class FileGroupStorage {
@@ -65,7 +79,7 @@ internal class FileGroupStorage {
     internal func store(_ group: RawGroup) throws {
         try self.queue.sync {
             guard let ticket = group.tickets.last else {
-                throw RawGroupError.invalidRawGroup
+                throw RawGroupError.emptyTickets
             }
 
             let subdir = ticket.groupMessage.getSessionId().hexEncodedString()

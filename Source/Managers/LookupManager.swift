@@ -36,25 +36,8 @@
 
 import VirgilSDK
 
+/// Typealias for the result of lookupCards call
 public typealias LookupResult = [String: Card]
-
-@objc(VTELookupError) public enum LookupError: Int, LocalizedError {
-    case duplicateCards = 1
-    case missingCachedCard = 2
-    case cardWasNotFound = 3
-
-    /// Human-readable localized description
-    public var errorDescription: String? {
-        switch self {
-        case .duplicateCards:
-            return "Found duplicated Cards"
-        case .missingCachedCard:
-            return "Card with provided identity was not found locally. Try to call lookupCard first"
-        case .cardWasNotFound:
-            return "Card for one or more of provided identities was now found"
-        }
-    }
-}
 
 internal class LookupManager {
     internal let cardStorage: SQLiteCardStorage
@@ -112,7 +95,9 @@ internal class LookupManager {
             }
         }
     }
+}
 
+extension LookupManager {
     internal func lookupCachedCards(of identities: [String]) throws -> LookupResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities

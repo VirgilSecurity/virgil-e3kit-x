@@ -39,7 +39,9 @@ import SQLite3
 
 // swiftlint:disable identifier_name
 
+/// Represents error of SQLite
 @objc(VTESQLiteError) public class SQLiteError: NSObject, LocalizedError {
+    // Code of error
     public let errorNum: Int32?
 
     internal init(errorNum: Int32? = nil) {
@@ -48,6 +50,7 @@ import SQLite3
         super.init()
     }
 
+    /// Error description
     @objc public var errorDescription: String? {
         guard let errorNum = self.errorNum else {
             return "Unknown SQLite error."

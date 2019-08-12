@@ -36,13 +36,26 @@
 
 import VirgilSDK
 
+// MARK: - Extension with Objective-C compatible operations
 extension Group {
+    /// Updates group
+    ///
+    /// - Parameters:
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func update(completion: @escaping (_ error: Error?) -> Void) {
         self.update().start { _, error in
             completion(error)
         }
     }
 
+    /// Adds new participants to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameters:
+    ///   - lookup: Cards of users to add. Result of lookupCards call
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func add(participants lookup: LookupResult,
                           completion: @escaping (_ error: Error?) -> Void) {
         self.add(participants: lookup).start { _, error in
@@ -50,6 +63,13 @@ extension Group {
         }
     }
 
+    /// Adds new participant to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameters:
+    ///   - card: Card of user to add
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func add(participant card: Card,
                           completion: @escaping (_ error: Error?) -> Void) {
         self.add(participant: card).start { _, error in
@@ -57,12 +77,25 @@ extension Group {
         }
     }
 
+    /// Share group access and history on new Card of existing participant
+    ///
+    /// - Parameters:
+    ///   - participant: participant Card
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func reAdd(participant: Card, completion: @escaping (_ error: Error?) -> Void) {
         self.reAdd(participant: participant).start { _, error in
             completion(error)
         }
     }
 
+    /// Removes participants from group
+    ///
+    /// - Note: Removed participant will not be able to decrypt previous history again after group update
+    /// - Parameters:
+    ///   - lookup: Cards of users to remove. Result of lookupCards call
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func remove(participants lookup: LookupResult,
                              completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participants: lookup).start { _, error in
@@ -70,6 +103,12 @@ extension Group {
         }
     }
 
+    /// Removes participant from group
+    ///
+    /// - Parameters:
+    ///   - card: Card of user to remove
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func remove(participant card: Card,
                              completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participant: card).start { _, error in

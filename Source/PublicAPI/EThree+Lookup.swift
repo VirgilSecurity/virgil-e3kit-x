@@ -36,15 +36,31 @@
 
 import VirgilSDK
 
+// MARK: - Extension with cards lookup operations
 extension EThree {
+    /// Returnes cards from local storage with given identities
+    ///
+    /// - Parameter identities: identities
+    /// - Returns: `LookupResult`
+    /// - Throws: corresponding error
     @objc public func lookupCachedCards(of identities: [String]) throws -> LookupResult {
         return try self.lookupManager.lookupCachedCards(of: identities)
     }
 
+    /// Returnes card from local storage with given identity
+    ///
+    /// - Parameter identity: identity
+    /// - Returns: Card if it exists, nil otherwise
     @objc public func lookupCachedCard(of identity: String) -> Card? {
         return  try? self.lookupManager.lookupCachedCard(of: identity)
     }
 
+    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to search for
+    ///   - forceReload: will not use local cached cards if true
+    /// - Returns: CallbackOperation<LookupResult>
     public func lookupCards(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
@@ -57,6 +73,12 @@ extension EThree {
         }
     }
 
+    /// Retrieves user Card from the Virgil Cloud or local storage if exists
+    ///
+    /// - Parameters:
+    ///   - identity: identity to search from
+    ///   - forceReload: will not use local cached card if true
+    /// - Returns: CallbackOperation<Card>
     public func lookupCard(of identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
