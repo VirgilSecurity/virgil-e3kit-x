@@ -221,7 +221,7 @@ let encrypted = try! group.encrypt(text: messageToEncrypt)
 Use the following code-snippets to decrypt messages:
 ```swift
 
-let decrypted = try! group.decrypt(text: encrypted, from: lookupResult["Alice"])
+let decrypted = try! group.decrypt(text: encrypted, from: lookupResult["Alice"]!)
 ```
 At the decrypt step, you also use `lookupCards` method to verify that the message hasn't been tempered with.
 
@@ -246,7 +246,7 @@ group.update { error in
 To add a new chat member, the chat owner has to use the `add` method and specify the new member's Card. New member will be able to decrypt all previous messages history.
 ```swift
 
-group.add(participant: lookupResult["Den"]) { error in 
+group.add(participant: lookupResult["Den"]!) { error in 
     guard error == nil else {
         // Error handling
     }
@@ -259,7 +259,7 @@ group.add(participant: lookupResult["Den"]) { error in
 To remove participant, group owner has to use the `remove` method and specify the member's Card. Removed participants won't be able to load or update this group.
 ```swift
 
-group.remove(participant: lookupResult["Den"]) { error in 
+group.remove(participant: lookupResult["Den"]!) { error in 
     guard error == nil else {
         // Error handling
     }
