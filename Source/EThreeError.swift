@@ -60,6 +60,7 @@ import Foundation
     case userIsNotRegistered = 9
     case privateKeyExists = 10
 
+    // FIXME: Split to another Error enum?
     case missingCachedGroup = 14
     case groupPermissionDenied = 15
     case groupWasNotFound = 16
@@ -69,6 +70,8 @@ import Foundation
     case invalidParticipantsCount = 20
     case verificationFailed = 21
     case shortGroupId = 22
+    case messageNotFromThisGroup = 23
+    case groupIsOutdated = 24
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -109,6 +112,10 @@ import Foundation
             return "Verification of message failed. This may be caused by rotating sender key. Try lookup new one"
         case .shortGroupId:
             return "Group Id should be >10"
+        case .messageNotFromThisGroup:
+            return "Message was encrypted in group with different identifier"
+        case .groupIsOutdated:
+            return "Group is not up to date. Call update or loadGroup"
         }
     }
 }

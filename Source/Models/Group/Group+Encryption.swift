@@ -60,17 +60,15 @@ extension Group {
             }
         }
 
-        let sessionId = encrypted.getSessionId()
-
-        guard self.session.getSessionId() == sessionId else {
-            throw NSError()
+        guard self.session.getSessionId() == encrypted.getSessionId() else {
+            throw EThreeError.messageNotFromThisGroup
         }
 
         let messageEpoch = encrypted.getEpoch()
         let currentEpoch = self.session.getCurrentEpoch()
 
         guard currentEpoch >= messageEpoch else {
-            throw NSError()
+            throw EThreeError.groupIsOutdated
         }
 
         do {

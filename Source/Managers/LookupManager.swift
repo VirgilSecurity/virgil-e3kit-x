@@ -91,7 +91,7 @@ internal class LookupManager {
                         Log.debug("Cached card with id: \(outdatedId) expired")
 
                         guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
-                            throw NSError()
+                            throw LookupError.missingCachedCard
                         }
 
                         if let changedKeyDelegate = self.changedKeyDelegate {
@@ -137,7 +137,7 @@ internal class LookupManager {
         let cards = try self.cardStorage.searchCards(identities: [identity])
 
         guard cards.count < 2 else {
-            throw NSError()
+            throw LookupError.duplicateCards
         }
 
         guard let card = cards.first else {
