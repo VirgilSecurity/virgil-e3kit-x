@@ -37,12 +37,12 @@
 import VirgilCrypto
 import VirgilSDK
 
-public enum FileGroupStorageError: Int, LocalizedError {
+@objc(VTEFileGroupStorageError) public enum FileGroupStorageError: Int, LocalizedError {
     case invalidFileName = 1
     case emptyFile = 2
 }
 
-class FileGroupStorage: NSObject{
+internal class FileGroupStorage {
     internal let identity: String
 
     private let fileSystem: FileSystem
@@ -51,7 +51,7 @@ class FileGroupStorage: NSObject{
     private let groupInfoName = "GROUP-INFO"
     private let ticketsSubdir = "TICKETS"
 
-    @objc public init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
+    internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
         self.identity = identity
 
         let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
@@ -60,10 +60,9 @@ class FileGroupStorage: NSObject{
                                      pathComponents: ["GROUPS"],
                                      credentials: credentials)
 
-        super.init()
     }
 
-    func store(_ group: RawGroup) throws {
+    internal func store(_ group: RawGroup) throws {
         try self.queue.sync {
             guard let ticket = group.tickets.last else {
                 throw RawGroupError.invalidRawGroup
@@ -77,11 +76,11 @@ class FileGroupStorage: NSObject{
         }
     }
 
-    func retrieveInfo(sessionId: Data) -> GroupInfo? {
+    internal func retrieveInfo(sessionId: Data) -> GroupInfo? {
         return self.retrieveGroupInfo(sessionId: sessionId)
     }
 
-    func retrieve(sessionId: Data, lastTicketsCount count: Int) -> RawGroup? {
+    internal func retrieve(sessionId: Data, lastTicketsCount count: Int) -> RawGroup? {
         guard let tickets = try? self.retrieveLastTickets(count: count, sessionId: sessionId),
             let groupInfo = self.retrieveGroupInfo(sessionId: sessionId) else {
                 return nil
@@ -90,7 +89,7 @@ class FileGroupStorage: NSObject{
         return try? RawGroup(info: groupInfo, tickets: tickets)
     }
 
-    func retrieve(sessionId: Data, epoch: UInt32) -> RawGroup? {
+    internal func retrieve(sessionId: Data, epoch: UInt32) -> RawGroup? {
         guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: epoch),
             let groupInfo = self.retrieveGroupInfo(sessionId: sessionId) else {
                 return nil
@@ -99,13 +98,13 @@ class FileGroupStorage: NSObject{
         return try? RawGroup(info: groupInfo, tickets: [ticket])
     }
 
-    func delete(sessionId: Data) throws {
+    internal func delete(sessionId: Data) throws {
         try self.queue.sync {
             try self.fileSystem.delete(subdir: sessionId.hexEncodedString())
         }
     }
 
-    func reset() throws {
+    internal func reset() throws {
         try self.queue.sync {
             try self.fileSystem.delete()
         }

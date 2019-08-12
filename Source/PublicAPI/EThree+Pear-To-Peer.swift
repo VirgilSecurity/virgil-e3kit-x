@@ -55,7 +55,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///   - recipientKeys: result of lookupCards call recipient PublicKeys to sign and encrypt with.
     ///                    Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error

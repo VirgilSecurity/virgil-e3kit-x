@@ -41,12 +41,12 @@ internal class Ticket: Codable {
     internal let groupMessage: GroupSessionMessage
     internal let participants: Set<String>
 
-    enum CodingKeys: String, CodingKey {
-        case groupMessage
-        case participants
+    private enum CodingKeys: String, CodingKey {
+        case groupMessage = "group_message"
+        case participants = "participants"
     }
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         let groupMessageData = self.groupMessage.serialize()
@@ -55,7 +55,7 @@ internal class Ticket: Codable {
         try container.encode(participants, forKey: .participants)
     }
 
-    required convenience init(from decoder: Decoder) throws {
+    internal required convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         let groupMessageData = try container.decode(Data.self, forKey: .groupMessage)
@@ -67,11 +67,11 @@ internal class Ticket: Codable {
         self.init(groupMessage: groupMessage, participants: participants)
     }
 
-    static func deserialize(_ data: Data) throws -> Ticket {
+    internal static func deserialize(_ data: Data) throws -> Ticket {
         return try JSONDecoder().decode(Ticket.self, from: data)
     }
 
-    func serialize() throws -> Data {
+    internal func serialize() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 

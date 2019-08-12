@@ -61,6 +61,7 @@ extension EThree {
         }
     }
 
+    // FIXME: objc
     public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)
 

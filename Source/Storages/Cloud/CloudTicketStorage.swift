@@ -44,8 +44,7 @@ internal class CloudTicketStorage {
 
     private let accessTokenProvider: AccessTokenProvider
     private let localKeyStorage: LocalKeyStorage
-
-    internal let keyknoxManager: KeyknoxManager
+    private let keyknoxManager: KeyknoxManager
 
     private var identity: String {
         return self.localKeyStorage.identity
@@ -67,7 +66,7 @@ internal class CloudTicketStorage {
 }
 
 extension CloudTicketStorage {
-    public func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
+    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let groupMessage = ticket.groupMessage
@@ -78,7 +77,7 @@ extension CloudTicketStorage {
 
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
-        
+
         let params = KeyknoxPushParams(identities: identities + [self.identity],
                                        root: CloudTicketStorage.groupSessionsRoot,
                                        path: sessionId,
@@ -94,13 +93,13 @@ extension CloudTicketStorage {
             .get()
     }
 
-    public func retrieve(sessionId: Data,
-                         identity: String,
-                         identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
+    internal func retrieve(sessionId: Data,
+                           identity: String,
+                           identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
-        
+
         let params = KeyknoxGetKeysParams(identity: identity,
                                           root: CloudTicketStorage.groupSessionsRoot,
                                           path: sessionId)
@@ -132,7 +131,7 @@ extension CloudTicketStorage {
         return tickets
     }
 
-    public func addRecipients(_ cards: [Card], sessionId: Data) throws {
+    internal func addRecipients(_ cards: [Card], sessionId: Data) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
@@ -175,7 +174,7 @@ extension CloudTicketStorage {
         }
     }
 
-    public func reAddRecipient(_ card: Card, sessionId: Data) throws {
+    internal func reAddRecipient(_ card: Card, sessionId: Data) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let path = sessionId.hexEncodedString()
@@ -217,9 +216,9 @@ extension CloudTicketStorage {
         }
     }
 
-    public func removeRecipient(identity: String, sessionId: Data) throws {
+    internal func removeRecipient(identity: String, sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
-        
+
         let params = KeyknoxDeleteRecipientParams(identity: identity,
                                                   root: CloudTicketStorage.groupSessionsRoot,
                                                   path: sessionId)
@@ -229,9 +228,9 @@ extension CloudTicketStorage {
             .get()
     }
 
-    public func delete(sessionId: Data) throws {
+    internal func delete(sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
-        
+
         let params = KeyknoxResetParams(root: CloudTicketStorage.groupSessionsRoot, path: sessionId)
 
         _ = try self.keyknoxManager.resetValue(params: params)

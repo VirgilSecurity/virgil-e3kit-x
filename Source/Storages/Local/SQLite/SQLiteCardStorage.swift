@@ -37,10 +37,12 @@
 import VirgilSDK
 import VirgilCrypto
 
-public enum SQLiteCardStorageError: Error {
-    case inconsistentDb
-    case emptyIdentities
+@objc(VTESQLiteCardStorageError) public enum SQLiteCardStorageError: Int, LocalizedError {
+    case inconsistentDb = 1
+    case emptyIdentities = 2
 }
+
+// swiftlint:disable identifier_name
 
 internal class SQLiteCardStorage {
     private enum CardsStatement: String {
@@ -89,7 +91,7 @@ internal class SQLiteCardStorage {
         self.crypto = crypto
         self.verifier = verifier
         self.db = try SQLiteDB(prefix: "VIRGIL_SQLITE", userIdentifier: userIdentifier, name: "cards.sqlite")
-        
+
         try self.db.executeNoResult(statement: CardsStatement.createTable.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexId.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexIdentity.rawValue)

@@ -160,4 +160,24 @@ extension EThree {
                                                         _ error: Error?) -> Void) {
         self.lookupCard(of: identity, forceReload: forceReload).start(completion: completion)
     }
+
+    @objc public func createGroup(id identifier: Data,
+                                  with lookup: LookupResult,
+                                  completion: @escaping (_ group: Group?,
+                                                         _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: lookup).start(completion: completion)
+    }
+
+    @objc public func loadGroup(id identifier: Data,
+                                initiator card: Card,
+                                completion: @escaping (_ group: Group?,
+                                                       _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+    }
+
+    @objc public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteGroup(id: identifier).start { _, error in
+            completion(error)
+        }
+    }
 }

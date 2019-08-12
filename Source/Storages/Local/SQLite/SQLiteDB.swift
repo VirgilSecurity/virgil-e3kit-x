@@ -37,6 +37,8 @@
 import Foundation
 import SQLite3
 
+// swiftlint:disable identifier_name
+
 public class SQLiteError: LocalizedError {
     public let errorNum: Int32?
 

@@ -38,11 +38,11 @@ import VirgilCryptoFoundation
 import VirgilSDK
 import VirgilCrypto
 
-public class Group {
+@objc(VTEGroup) public class Group: NSObject {
     public static let ValidParticipatnsCountRange = 2...100
 
-    public let initiator: String
-    public internal(set) var participants: Set<String>
+    @objc public let initiator: String
+    @objc public internal(set) var participants: Set<String>
 
     internal let selfIdentity: String
     internal let crypto: VirgilCrypto
@@ -73,6 +73,8 @@ public class Group {
         self.localKeyStorage = localKeyStorage
         self.groupManager = groupManager
         self.lookupManager = lookupManager
+
+        super.init()
     }
 
     internal static func validateParticipantsCount(_ count: Int) throws {
@@ -102,4 +104,3 @@ public class Group {
         return try Group.generateSession(from: tickets, crypto: self.crypto)
     }
 }
-

@@ -99,7 +99,9 @@ import VirgilCrypto
                                               crypto: crypto,
                                               keychainStorage: keychainStorage)
 
-        let cloudKeyManager = try CloudKeyManager(identity: identity, crypto: crypto, accessTokenProvider: accessTokenProvider)
+        let cloudKeyManager = try CloudKeyManager(identity: identity,
+                                                  crypto: crypto,
+                                                  accessTokenProvider: accessTokenProvider)
 
         let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
         let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
@@ -146,11 +148,14 @@ import VirgilCrypto
 }
 
 extension EThree {
-    func privateKeyChanged(newCard: Card? = nil) throws {
+    internal func privateKeyChanged(newCard: Card? = nil) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let localGroupStorage = try FileGroupStorage(identity: self.identity, crypto: self.crypto, identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider, localKeyStorage: self.localKeyStorage)
+        let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage)
         self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
                                          cloudTicketStorage: cloudTicketStorage,
                                          localKeyStorage: self.localKeyStorage,
@@ -164,7 +169,7 @@ extension EThree {
         }
     }
 
-    func privateKeyDeleted() throws {
+    internal func privateKeyDeleted() throws {
         try self.groupManager?.localGroupStorage.reset()
         self.groupManager = nil
 
@@ -192,7 +197,9 @@ extension EThree {
         let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
                                                     identity: self.identity,
-                                                    previousCardId: previousCardId).startSync().get()
+                                                    previousCardId: previousCardId)
+            .startSync()
+            .get()
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 

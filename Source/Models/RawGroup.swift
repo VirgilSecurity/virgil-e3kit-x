@@ -36,13 +36,13 @@
 
 import Foundation
 
-public enum RawGroupError: Int, LocalizedError {
-    case invalidRawGroup
+@objc(VTERawGroupError) public enum RawGroupError: Int, LocalizedError {
+    case invalidRawGroup = 1
 }
 
 internal struct RawGroup {
-    let info: GroupInfo
-    let tickets: [Ticket]
+    internal let info: GroupInfo
+    internal let tickets: [Ticket]
 
     internal init(info: GroupInfo, tickets: [Ticket]) throws {
         guard !tickets.isEmpty else {

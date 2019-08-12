@@ -42,9 +42,9 @@ internal class GroupManager {
     internal let localGroupStorage: FileGroupStorage
     internal let cloudTicketStorage: CloudTicketStorage
 
-    internal let localKeyStorage: LocalKeyStorage
-    internal let lookupManager: LookupManager
-    internal let crypto: VirgilCrypto
+    private let localKeyStorage: LocalKeyStorage
+    private let lookupManager: LookupManager
+    private let crypto: VirgilCrypto
 
     internal static let MaxTicketsInGroup: Int = 50
 
@@ -86,7 +86,7 @@ internal class GroupManager {
 
         guard !tickets.isEmpty else {
             try self.localGroupStorage.delete(sessionId: sessionId)
-            
+
             throw EThreeError.groupWasNotFound
         }
 

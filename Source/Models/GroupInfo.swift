@@ -36,14 +36,14 @@
 
 import Foundation
 
-struct GroupInfo: Codable {
-    let initiator: String
+internal struct GroupInfo: Codable {
+    internal let initiator: String
 
-    static func deserialize(_ data: Data) throws -> GroupInfo {
+    internal static func deserialize(_ data: Data) throws -> GroupInfo {
         return try JSONDecoder().decode(GroupInfo.self, from: data)
     }
 
-    func serialize() throws -> Data {
+    internal func serialize() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 }

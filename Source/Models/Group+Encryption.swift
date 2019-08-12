@@ -38,7 +38,7 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 extension Group {
-    public func encrypt(data: Data) throws -> Data {
+    @objc public func encrypt(data: Data) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
@@ -46,7 +46,7 @@ extension Group {
         return encrypted.serialize()
     }
 
-    public func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
+    @objc public func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
         var card = senderCard
@@ -91,7 +91,7 @@ extension Group {
         }
     }
 
-    public func encrypt(text: String) throws -> String {
+    @objc public func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -99,7 +99,7 @@ extension Group {
         return try self.encrypt(data: data).base64EncodedString()
     }
 
-    public func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
+    @objc public func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }

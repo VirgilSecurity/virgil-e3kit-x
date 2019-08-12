@@ -399,7 +399,6 @@ class VTE004_GroupTests: XCTestCase {
 
 
     // FIXME
-
     func test_1__encrypt_decrypt__should_succeed() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
@@ -453,7 +452,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try group1.decrypt(text: encrypted, from: card2)
             XCTFail()
-        } catch FoundationError.errorInvalidSignature {} catch {
+        } catch EThreeError.verificationFailed {} catch {
             XCTFail()
         }
     }

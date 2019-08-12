@@ -117,6 +117,8 @@ extension CloudKeyManager {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
 
         try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                             newPrivateKey: brainKeyPair.privateKey).startSync().get()
+                                             newPrivateKey: brainKeyPair.privateKey)
+            .startSync()
+            .get()
     }
 }
