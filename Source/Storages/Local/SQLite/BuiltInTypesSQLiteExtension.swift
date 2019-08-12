@@ -37,8 +37,8 @@
 import Foundation
 import SQLite3
 
-public enum SQLiteBindingError: Error {
-    case invalidString
+@objc(VTESQLiteBindingError) public enum SQLiteBindingError: Int, LocalizedError {
+    case invalidString = 1
 }
 
 extension Data: DbInValue, DbOutValue {
