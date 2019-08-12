@@ -132,14 +132,14 @@ extension CloudTicketStorage {
         return tickets
     }
 
-    public func updateRecipients(sessionId: Data, newRecipients cards: [Card]) throws {
+    public func addRecipients(_ cards: [Card], sessionId: Data) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-        
+
         let sessionId = sessionId.hexEncodedString()
 
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
-        
+
         let params = KeyknoxGetKeysParams(identity: identity,
                                           root: CloudTicketStorage.groupSessionsRoot,
                                           path: sessionId)
@@ -149,7 +149,7 @@ extension CloudTicketStorage {
             .get()
 
         for epoch in epochs {
-            let pullParams = KeyknoxPullParams(identity: identity,
+            let pullParams = KeyknoxPullParams(identity: self.identity,
                                                root: CloudTicketStorage.groupSessionsRoot,
                                                path: sessionId,
                                                key: epoch)
@@ -159,12 +159,12 @@ extension CloudTicketStorage {
                            privateKey: selfKeyPair.privateKey)
                 .startSync()
                 .get()
-            
+
             let updateParams = KeyknoxPushParams(identities: identities,
                                                  root: CloudTicketStorage.groupSessionsRoot,
                                                  path: sessionId,
                                                  key: epoch)
-            
+
             _ = try self.keyknoxManager.updateRecipients(params: updateParams,
                                                          value: response.value,
                                                          previousHash: response.keyknoxHash,
@@ -175,7 +175,49 @@ extension CloudTicketStorage {
         }
     }
 
-    public func removeAccess(identity: String, to sessionId: Data) throws {
+    public func reAddRecipient(_ card: Card, sessionId: Data) throws {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let path = sessionId.hexEncodedString()
+
+        let params = KeyknoxGetKeysParams(identity: self.identity,
+                                          root: CloudTicketStorage.groupSessionsRoot,
+                                          path: path)
+
+        let epochs = try self.keyknoxManager.getKeys(params: params)
+            .startSync()
+            .get()
+
+        for epoch in epochs {
+            let pullParams = KeyknoxPullParams(identity: card.identity,
+                                               root: CloudTicketStorage.groupSessionsRoot,
+                                               path: path,
+                                               key: epoch)
+            let response = try self.keyknoxManager
+                .pullValue(params: pullParams,
+                           publicKeys: [selfKeyPair.publicKey],
+                           privateKey: selfKeyPair.privateKey)
+                .startSync()
+                .get()
+
+            try self.removeRecipient(identity: card.identity, sessionId: sessionId)
+
+            let updateParams = KeyknoxPushParams(identities: [card.identity],
+                                                 root: CloudTicketStorage.groupSessionsRoot,
+                                                 path: path,
+                                                 key: epoch)
+
+            _ = try self.keyknoxManager.updateRecipients(params: updateParams,
+                                                         value: response.value,
+                                                         previousHash: response.keyknoxHash,
+                                                         newPublicKeys: [card.publicKey, selfKeyPair.publicKey],
+                                                         newPrivateKey: selfKeyPair.privateKey)
+                .startSync()
+                .get()
+        }
+    }
+
+    public func removeRecipient(identity: String, sessionId: Data) throws {
         let sessionId = sessionId.hexEncodedString()
         
         let params = KeyknoxDeleteRecipientParams(identity: identity,

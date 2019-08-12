@@ -329,7 +329,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_STE_0__add() {
+    func test_STE_37__add() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -430,92 +430,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(message == decrypted)
     }
 
-    func test_2__add_remove_participants__should_succeed() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
-        let ethree3 = self.setUpDevice()
-        let ethree4 = self.setUpDevice()
-
-        // User 1 creates group
-        let identities = [ethree2.identity, ethree3.identity]
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
-
-        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-
-        // User 2 and User 3 update it
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-
-        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-
-        let group3 = try! ethree3.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-
-        // User 1 removes User3 and adds User 4
-        let ethree4Card = try! ethree1.lookupCard(of: ethree4.identity).startSync().get()
-
-        try! group1.add(participant: ethree4Card).startSync().get()
-        try! group1.remove(participant: lookup[ethree3.identity]!).startSync().get()
-
-        let participants = Set([ethree2.identity, ethree4.identity, ethree1.identity])
-        XCTAssert(group1.participants == participants)
-
-        // Other Users update groups
-        try! group2.update().startSync().get()
-
-        do {
-            try group3.update().startSync().get()
-            XCTFail()
-        } catch {
-            // FIXME
-        }
-
-        XCTAssert(group2.participants == participants)
-
-        let group4 = try! ethree4.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-        XCTAssert(group4.participants == participants)
-
-        // User 1 encrypts message for group
-        let message = "Hello, \(ethree2.identity)!"
-
-        let encrypted = try! group1.encrypt(text: message)
-
-        // Other Users try! to decrypt
-        let decrypted2 = try! group2.decrypt(text: encrypted, from: ethree1Card)
-
-        let notDecrypted3 = try? group3.decrypt(text: encrypted, from: ethree1Card)
-
-        let decrypted4 = try! group4.decrypt(text: encrypted, from: ethree1Card)
-
-        XCTAssert(decrypted2 == message)
-        XCTAssert(notDecrypted3 == nil)
-        XCTAssert(decrypted4 == message)
-    }
-
     func test__10__decrypt_with_old_card__should_throw_error() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
-        let ethree3 = self.setUpDevice()
-
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity, ethree3.identity]).startSync().get()
-        _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
-        let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
-
-        let encrypted = try! group3.encrypt(text: "Some text")
-
-        do {
-            _ = try group2.decrypt(text: encrypted, from: card1)
-        } catch FoundationError.errorInvalidSignature {} catch {
-            XCTFail()
-        }
-    }
-
-    func test__10_1__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -539,28 +454,6 @@ class VTE004_GroupTests: XCTestCase {
             _ = try group1.decrypt(text: encrypted, from: card2)
             XCTFail()
         } catch FoundationError.errorInvalidSignature {} catch {
-            XCTFail()
-        }
-    }
-
-    func test__11__decrypt_with_old_card__should_throw_error() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
-
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-
-        let encrypted = try! ethree2.encrypt(text: "Some text", for: card1)
-
-        try! ethree2.cleanUp()
-        try! ethree2.rotatePrivateKey().startSync().get()
-
-        let card2 = try! ethree1.lookupCard(of: ethree2.identity).startSync().get()
-
-        do {
-            _ = try ethree1.decrypt(text: encrypted, from: card2)
-
-            XCTFail()
-        } catch VirgilCryptoError.signatureNotVerified {} catch {
             XCTFail()
         }
     }

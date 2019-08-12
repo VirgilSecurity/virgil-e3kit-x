@@ -60,9 +60,7 @@ extension Group {
     public func add(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                guard self.selfIdentity == self.initiator else {
-                    throw EThreeError.groupPermissionDenied
-                }
+                try self.checkPermissions()
 
                 let oldSet = self.participants
                 let newSet = oldSet.union(lookup.keys)
@@ -92,12 +90,25 @@ extension Group {
         }
     }
 
+    public func reAdd(participant: Card) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                try self.checkPermissions()
+
+                try self.groupManager.reAddAccess(to: participant,
+                                                  sessionId: self.session.getSessionId())
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     public func remove(participants lookup: LookupResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                guard self.selfIdentity == self.initiator else {
-                    throw EThreeError.groupPermissionDenied
-                }
+                try self.checkPermissions()
 
                 let oldSet = self.participants
                 let newSet = oldSet.subtracting(lookup.keys)
@@ -136,7 +147,7 @@ extension Group {
     private func shareTickets(for cards: [Card]) throws {
         let sessionId = self.session.getSessionId()
 
-        try self.groupManager.updateRecipients(sessionId: sessionId, newRecipients: cards)
+        try self.groupManager.addAccess(to: cards, sessionId: sessionId)
 
         let newParticipants = cards.map { $0.identity }
         self.participants = self.participants.union(newParticipants)

@@ -92,6 +92,12 @@ public class Group {
         return session
     }
 
+    internal func checkPermissions() throws {
+        guard self.selfIdentity == self.initiator else {
+            throw EThreeError.groupPermissionDenied
+        }
+    }
+
     internal func generateSession(from tickets: [Ticket]) throws -> GroupSession {
         return try Group.generateSession(from: tickets, crypto: self.crypto)
     }

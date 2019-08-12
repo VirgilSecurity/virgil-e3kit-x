@@ -90,9 +90,7 @@ extension EThree {
                     throw EThreeError.groupWasNotFound
                 }
 
-                guard self.identity == group.initiator else {
-                    throw EThreeError.groupPermissionDenied
-                }
+                try group.checkPermissions()
 
                 try self.getGroupManager().delete(sessionId: sessionId)
 
