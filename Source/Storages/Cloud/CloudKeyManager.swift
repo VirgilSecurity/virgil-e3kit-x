@@ -57,7 +57,7 @@ internal class CloudKeyManager {
                                           serviceUrl: KeyknoxClient.defaultURL,
                                           connection: connection,
                                           retryConfig: ExpBackoffRetry.Config())
-        
+
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
 
         let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,

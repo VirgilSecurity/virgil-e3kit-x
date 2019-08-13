@@ -169,13 +169,13 @@ extension FileGroupStorage {
 
         let epochs = try self.fileSystem
             .getFileNames(subdir: subdir)
-            .map({ (name: String) -> UInt32 in
+            .map { (name: String) -> UInt32 in
                 guard let epoch = UInt32(name) else {
                     throw FileGroupStorageError.invalidFileName
                 }
 
                 return epoch
-            })
+            }
             .sorted()
             .suffix(count)
 
