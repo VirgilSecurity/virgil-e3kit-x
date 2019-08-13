@@ -212,4 +212,20 @@ extension EThree {
             completion(error)
         }
     }
+
+    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to search for
+    ///   - forceReload: will not use local cached cards if true
+    ///   - lookupResult: dictionary with idenities as keys and found cards as values
+    ///   - error: corresponding error
+    /// - Returns: CallbackOperation<LookupResult>
+    @available(*, deprecated, renamed: "lookupCards")
+    @objc public func lookupPublicKeys(of identities: [String],
+                                       forceReload: Bool = false,
+                                       completion: @escaping (_ lookupResult: LookupResult?,
+                                                              _ error: Error?) -> Void) {
+        self.lookupPublicKeys(of: identities, forceReload: forceReload).start(completion: completion)
+    }
 }
