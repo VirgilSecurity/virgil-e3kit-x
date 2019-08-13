@@ -170,7 +170,7 @@ EThree.initialize(tokenCallback) { eThree, error in
 ## Enable Group Chat
 In this section, you'll find out how to build a group chat using the Virgil E3Kit.
 
-We assume that your users have installed and initialized the E3Kit, and have registered their Cards on the Virgil Cloud.
+We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
 
 
 ### Create Group Chat
@@ -198,7 +198,7 @@ ethree.loadGroup(id: groupId, initiator: lookupResult["Alice"]!) { group, error 
 }
 ```
 
-Use the loadGroup method when signing in from a new device or in order to load up to date group. Then, use the getGroup method to work with the group locally.
+Use the loadGroup method to load and save group locally. Then, you can use the getGroup method to retrieve group instance from local storage.
 ```swift
 let group = try! ethree.getGroup(id: groupId)
 ```
