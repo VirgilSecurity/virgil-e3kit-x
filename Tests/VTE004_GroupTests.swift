@@ -397,39 +397,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-
-    // FIXME
-    func test_1__encrypt_decrypt__should_succeed() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
-
-        let identities = [ethree2.identity]
-
-        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
-
-        // User1 creates group, encrypts
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
-        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
-
-        let participants = Set(identities).union([ethree1.identity])
-        XCTAssert(group1.participants == participants)
-
-        let message = "Hello, \(ethree2.identity))!"
-        let encrypted = try! group1.encrypt(text: message)
-
-        // User2 updates group, decrypts
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-        let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
-        XCTAssert(group2.participants == participants)
-
-        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
-
-        let decrypted = try! group2.decrypt(text: encrypted, from: card)
-
-        XCTAssert(message == decrypted)
-    }
-
-    func test__10__decrypt_with_old_card__should_throw_error() {
+    func test__STE_38__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -455,6 +423,91 @@ class VTE004_GroupTests: XCTestCase {
         } catch EThreeError.verificationFailed {} catch {
             XCTFail()
         }
+    }
+
+    func test_STE_39__integration_encryption() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let identities = [ethree2.identity]
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+
+        // User1 creates group, encrypts
+        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+        let message1 = UUID().uuidString
+        let encrypted1 = try! group1.encrypt(text: message1)
+        let selfDecrypted1 = try! group1.decrypt(text: encrypted1, from: card1)
+        XCTAssert(selfDecrypted1 == message1)
+
+        // User2 updates group, decrypts
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+        let decrypted1 = try! group2.decrypt(text: encrypted1, from: card1)
+        XCTAssert(message1 == decrypted1)
+
+        // Add User3, encrypts
+        let card3 = try! ethree1.lookupCard(of: ethree3.identity).startSync().get()
+        try! group1.add(participant: card3).startSync().get()
+        let message2 = UUID().uuidString
+        let encrypted2 = try! group1.encrypt(text: message2)
+        let selfDecrypted2 = try! group1.decrypt(text: encrypted2, from: card1)
+        XCTAssert(selfDecrypted2 == message2)
+
+        // Other updates, decrypts
+        try! group2.update().startSync().get()
+        let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+        let decrypted22 = try! group2.decrypt(text: encrypted2, from: card1)
+        let decrypted23 = try! group3.decrypt(text: encrypted2, from: card1)
+        XCTAssert(decrypted22 == message2)
+        XCTAssert(decrypted23 == message2)
+
+        // Remove User2
+        try! group1.remove(participants: lookup).startSync().get()
+        let message3 = UUID().uuidString
+        let encrypted3 = try! group1.encrypt(text: message3)
+        let selfDecrypted3 = try! group1.decrypt(text: encrypted3, from: card1)
+        XCTAssert(selfDecrypted3 == message3)
+
+        // Other updates, decrypts
+        do {
+            _ = try group2.decrypt(text: encrypted3, from: card1)
+            XCTFail()
+        } catch {}
+
+        try! group3.update().startSync().get()
+        let decrypted3 = try! group3.decrypt(text: encrypted3, from: card1)
+        XCTAssert(decrypted3 == message3)
+
+        // User3 rotates key
+        try! ethree3.cleanUp()
+        try! ethree3.rotatePrivateKey().startSync().get()
+
+        do {
+            try group3.update().startSync().get()
+            XCTFail()
+        } catch {}
+
+        XCTAssert(try! ethree3.getGroup(id: groupId) == nil)
+
+        do {
+            _ = try ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+            XCTFail()
+        } catch {}
+
+        // User 1 encrypts, reAdds User3
+        let message4 = UUID().uuidString
+        let encrypted4 = try! group1.encrypt(text: message4)
+
+        let newCard3 = try! ethree1.lookupCard(of: ethree3.identity, forceReload: true).startSync().get()
+        try! group1.reAdd(participant: newCard3).startSync().get()
+
+        let newGroup3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
+        let decrypted4 = try! newGroup3.decrypt(text: encrypted4, from: card1)
+        XCTAssert(decrypted4 == message4)
     }
 }
 

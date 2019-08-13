@@ -139,7 +139,7 @@ extension CloudTicketStorage {
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
-        let params = KeyknoxGetKeysParams(identity: identity,
+        let params = KeyknoxGetKeysParams(identity: self.identity,
                                           root: CloudTicketStorage.groupSessionsRoot,
                                           path: sessionId)
 
@@ -189,7 +189,7 @@ extension CloudTicketStorage {
             .get()
 
         for epoch in epochs {
-            let pullParams = KeyknoxPullParams(identity: card.identity,
+            let pullParams = KeyknoxPullParams(identity: self.identity,
                                                root: CloudTicketStorage.groupSessionsRoot,
                                                path: path,
                                                key: epoch)
@@ -200,7 +200,7 @@ extension CloudTicketStorage {
                 .startSync()
                 .get()
 
-            try self.removeRecipient(identity: card.identity, sessionId: sessionId)
+            try self.removeRecipient(identity: card.identity, sessionId: sessionId, epoch: epoch)
 
             let pushParams = KeyknoxPushParams(identities: [card.identity],
                                                root: CloudTicketStorage.groupSessionsRoot,
@@ -217,12 +217,13 @@ extension CloudTicketStorage {
         }
     }
 
-    internal func removeRecipient(identity: String, sessionId: Data) throws {
+    internal func removeRecipient(identity: String, sessionId: Data, epoch: String? = nil) throws {
         let sessionId = sessionId.hexEncodedString()
 
         let params = KeyknoxDeleteRecipientParams(identity: identity,
                                                   root: CloudTicketStorage.groupSessionsRoot,
-                                                  path: sessionId)
+                                                  path: sessionId,
+                                                  key: epoch)
 
         _ = try self.keyknoxManager.deleteRecipient(params: params)
             .startSync()
