@@ -183,7 +183,7 @@ extension EThree {
             throw GroupError.shortGroupId
         }
 
-        return self.crypto.computeHash(for: identifier).subdata(in: 0..<32)
+        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
     }
 
     internal static func getConnection() -> HttpConnection {
