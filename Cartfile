@@ -1,3 +1,1 @@
 github "VirgilSecurity/virgil-pythia-x" ~> 0.7.0
-github "VirgilSecurity/virgil-sdk-x" ~> 7.0
-github "VirgilSecurity/virgil-crypto-x" ~> 5.1
