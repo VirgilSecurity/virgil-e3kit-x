@@ -26,8 +26,6 @@ before_install:
   - set -o pipefail
 
 script:
-  - sleep 10
-  - mkdir Tests/Data
   - mv -f TestConfig.plist Tests/Data/TestConfig.plist
 
   - carthage version
