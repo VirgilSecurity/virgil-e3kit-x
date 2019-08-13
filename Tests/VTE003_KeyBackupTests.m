@@ -61,7 +61,11 @@
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
         NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
-        VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&err];
+        VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data
+                                                             withName:self.eThree.identity
+                                                                 meta:nil
+                                                         queryOptions:nil
+                                                                error:&err];
         XCTAssert(entry != nil && err == nil);
 
         [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
@@ -117,7 +121,9 @@
                 XCTAssert(error == nil);
 
                 NSError *err;
-                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                                  queryOptions:nil
+                                                                                         error:&err];
                 XCTAssert(retrievedEntry != nil && err == nil);
                 XCTAssert([retrievedEntry.data isEqualToData:data]);
 
@@ -171,7 +177,9 @@
                         XCTAssert(error == nil);
 
                         NSError *err;
-                        VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+                        VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                                          queryOptions:nil
+                                                                                                 error:&err];
                         XCTAssert(retrievedEntry != nil && err == nil);
                         XCTAssert([retrievedEntry.data isEqualToData:data]);
 

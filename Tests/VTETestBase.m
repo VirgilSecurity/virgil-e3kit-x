@@ -50,10 +50,10 @@
 #if TARGET_OS_IOS || TARGET_OS_TV
     params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
 #elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" trustedApplications:@[] error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
 #endif
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesAndReturnError:nil];
+    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
 
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 

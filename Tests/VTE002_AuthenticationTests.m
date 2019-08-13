@@ -56,13 +56,19 @@
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
     XCTAssert(error == nil);
-    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
+    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data
+                                                         withName:self.eThree.identity
+                                                             meta:nil
+                                                     queryOptions:nil
+                                                            error:&error];
     XCTAssert(entry != nil && error == nil);
 
     [self.eThree cleanUpAndReturnError:&error];
     XCTAssert(error == nil);
 
-    VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
+    VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                      queryOptions:nil
+                                                                             error:&error];
     XCTAssert(retrievedEntry == nil && error != nil);
 }
 
@@ -73,7 +79,9 @@
         XCTAssert(error == nil);
 
         NSError *err;
-        VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&err];
+        VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                    queryOptions:nil
+                                                                           error:&err];
         XCTAssert(err == nil && keyEntry != nil);
 
         [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
@@ -114,7 +122,11 @@
     NSError *error;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
-    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data withName:self.eThree.identity meta:nil error:&error];
+    VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data
+                                                         withName:self.eThree.identity
+                                                             meta:nil
+                                                     queryOptions:nil
+                                                            error:&error];
     XCTAssert(entry != nil && error == nil);
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -180,10 +192,12 @@
             XCTAssert([cards.firstObject.previousCardId isEqualToString:card.identifier]);
             XCTAssert(![cards.firstObject.identifier isEqualToString:card.identifier]);
 
-            VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
-            XCTAssert(retrievedEntry != nil && error == nil);
-
             NSError *err;
+            VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                              queryOptions:nil
+                                                                                     error:&err];
+            XCTAssert(retrievedEntry != nil && err == nil);
+
             VSMVirgilKeyPair *keyPair = [self.crypto importPrivateKeyFrom:retrievedEntry.data error:&err];
             XCTAssert(err == nil);
 
@@ -214,7 +228,9 @@
             [self.eThree unregisterWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity error:&error];
+                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                                  queryOptions:nil
+                                                                                         error:&error];
                 XCTAssert(retrievedEntry == nil && error != nil);
 
                 [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {

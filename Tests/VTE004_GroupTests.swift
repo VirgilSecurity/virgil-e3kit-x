@@ -76,7 +76,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree.createGroup(id: groupId, with: [ethree.identity: card]).startSync().get()
             XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
+        } catch GroupError.invalidParticipantsCount {} catch {
             XCTFail()
         }
 
@@ -89,7 +89,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree.createGroup(id: groupId, with: lookup).startSync().get()
             XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
+        } catch GroupError.invalidParticipantsCount {} catch {
             XCTFail()
         }
 
@@ -129,7 +129,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
             XCTFail()
-        } catch EThreeError.shortGroupId {} catch {
+        } catch GroupError.shortGroupId {} catch {
             XCTFail()
         }
     }
@@ -182,7 +182,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
@@ -193,7 +193,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
     }
@@ -219,21 +219,21 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try ethree1.loadGroup(id: groupId, initiator: card1).startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
         do {
             try group2.update().startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
         do {
             _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
@@ -266,7 +266,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             try group.add(participant: card).startSync().get()
             XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
+        } catch GroupError.invalidParticipantsCount {} catch {
             XCTFail()
         }
     }
@@ -284,7 +284,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             try group1.remove(participant: lookup[ethree2.identity]!).startSync().get()
             XCTFail()
-        } catch EThreeError.invalidParticipantsCount {} catch {
+        } catch GroupError.invalidParticipantsCount {} catch {
             XCTFail()
         }
     }
@@ -315,14 +315,14 @@ class VTE004_GroupTests: XCTestCase {
         do {
             try group2.update().startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
         do {
             _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
             XCTFail()
-        } catch EThreeError.groupWasNotFound {} catch {
+        } catch GroupError.groupWasNotFound {} catch {
             XCTFail()
         }
 
@@ -377,14 +377,14 @@ class VTE004_GroupTests: XCTestCase {
         do {
             try ethree2.deleteGroup(id: groupId).startSync().get()
             XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
+        } catch GroupError.groupPermissionDenied {} catch {
             XCTFail()
         }
 
         do {
             try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
             XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
+        } catch GroupError.groupPermissionDenied {} catch {
             XCTFail()
         }
 
@@ -392,7 +392,7 @@ class VTE004_GroupTests: XCTestCase {
             let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
             try group2.add(participant: ethree4Card).startSync().get()
             XCTFail()
-        } catch EThreeError.groupPermissionDenied {} catch {
+        } catch GroupError.groupPermissionDenied {} catch {
             XCTFail()
         }
     }

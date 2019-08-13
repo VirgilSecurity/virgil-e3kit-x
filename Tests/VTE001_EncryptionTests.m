@@ -159,7 +159,7 @@
 
 - (void)test_STE_6 {
     NSError *error;
-    [self.keychainStorage deleteEntryWithName:self.eThree.identity error: nil];
+    [self.keychainStorage deleteEntryWithName:self.eThree.identity queryOptions:nil error:nil];
 
     VSSCard *card = [self.utils publishCardWithIdentity:nil previousCardId:nil];
     XCTAssert(error == nil);
