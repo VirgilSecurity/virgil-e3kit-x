@@ -35,6 +35,7 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 // MARK: - Extension with cards lookup operations
 extension EThree {
@@ -89,5 +90,16 @@ extension EThree {
                 completion(nil, error)
             }
         }
+    }
+
+    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to search for
+    ///   - forceReload: will not use local cached cards if true
+    /// - Returns: CallbackOperation<LookupResult>
+    @available(*, deprecated, renamed: "lookupCards")
+    public func lookupPublicKeys(of identities: [String], forceReload: Bool = false) -> GenericOperation<LookupResult> {
+        return self.lookupCards(of: identities, forceReload: forceReload)
     }
 }
