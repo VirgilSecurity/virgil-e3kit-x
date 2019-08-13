@@ -48,7 +48,7 @@
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
+    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
 #elif TARGET_OS_OSX
     params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
 #endif
