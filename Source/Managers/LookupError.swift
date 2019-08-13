@@ -34,42 +34,27 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestBase.h"
+import Foundation
 
-@implementation VTETestBase
+/// Declares error types and codes for `LookupManager`
+///
+/// - duplicateCards: Found duplicated Cards
+/// - missingCachedCard: Card with provided identity was not found locally. Try to call lookupCard first
+/// - cardWasNotFound: Card for one or more of provided identities was not found
+@objc(VTELookupError) public enum LookupError: Int, LocalizedError {
+    case duplicateCards = 1
+    case missingCachedCard = 2
+    case cardWasNotFound = 3
 
-- (void)setUp {
-    [super setUp];
-
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [VTETestConfig readFromBundle];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
-
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" accessGroup:nil accessibility:nil error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
-
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-
-        completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .duplicateCards:
+            return "Found duplicated Cards"
+        case .missingCachedCard:
+            return "Card with provided identity was not found locally. Try to call lookupCard first"
+        case .cardWasNotFound:
+            return "Card for one or more of provided identities was not found"
+        }
+    }
 }
-
-@end

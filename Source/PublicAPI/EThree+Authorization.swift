@@ -43,8 +43,10 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
         return CallbackOperation { _, completion in
             do {
@@ -58,29 +60,9 @@ extension EThree {
 
                 let token = try getTokenOperation.startSync().get()
 
-                let crypto = try VirgilCrypto()
-
-                guard let verifier = VirgilCardVerifier(crypto: crypto) else {
-                    throw EThreeError.verifierInitFailed
-                }
-
-                let params = CardManagerParams(crypto: crypto,
-                                               accessTokenProvider: accessTokenProvider,
-                                               cardVerifier: verifier)
-
-                let connection = EThree.getConnection()
-                let client = CardClient(accessTokenProvider: accessTokenProvider,
-                                        serviceUrl: CardClient.defaultURL,
-                                        connection: connection,
-                                        retryConfig: ExpBackoffRetry.Config())
-
-                params.cardClient = client
-
-                let cardManager = CardManager(params: params)
-
                 let ethree = try EThree(identity: token.identity(),
                                         accessTokenProvider: accessTokenProvider,
-                                        cardManager: cardManager,
+                                        changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
                 completion(ethree, nil)
@@ -97,7 +79,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard try !self.localKeyManager.exists() else {
+                    guard try !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -125,7 +107,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard try !self.localKeyManager.exists() else {
+                    guard try !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -160,7 +142,9 @@ extension EThree {
 
                     try self.cardManager.revokeCard(withId: card.identifier).startSync().get()
 
-                    try self.localKeyManager.delete()
+                    try self.localKeyStorage.delete()
+
+                    try self.privateKeyDeleted()
 
                     completion((), nil)
                 } catch {
@@ -175,13 +159,15 @@ extension EThree {
     /// - Returns: true if private key exists in keychain storage
     /// - Throws: KeychainStorageError
     public func hasLocalPrivateKey() throws -> Bool {
-        return try self.localKeyManager.exists()
+        return try self.localKeyStorage.exists()
     }
 
-    /// Deletes Private Key from local storage
+    /// Deletes Private Key from local storage, cleand local cards storage
     ///
     /// - Throws: KeychainStorageError
     @objc public func cleanUp() throws {
-        try self.localKeyManager.delete()
+        try self.localKeyStorage.delete()
+
+        try self.privateKeyDeleted()
     }
 }

@@ -48,7 +48,7 @@ extension EThree {
     public func backupPrivateKey(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let identityKeyPair = try self.localKeyManager.retrieveKeyPair()
+                let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
                 try self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password)
 
@@ -69,7 +69,9 @@ extension EThree {
             do {
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
 
-                try self.localKeyManager.store(data: entry.data)
+                try self.localKeyStorage.store(data: entry.data)
+
+                try self.privateKeyChanged()
 
                 completion((), nil)
             } catch {
