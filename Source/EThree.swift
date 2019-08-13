@@ -46,37 +46,144 @@ import VirgilCrypto
 
     /// Identity of user. Obtained from tokenCollback
     @objc public let identity: String
-    /// VirgilCrypto instance
-    @objc public let crypto: VirgilCrypto
+
     /// CardManager instance
     @objc public let cardManager: CardManager
 
-    internal let localKeyManager: LocalKeyManager
+    /// AccessTokenProvider
+    @objc public let accessTokenProvider: AccessTokenProvider
+
+    /// VirgilCrypto instance
+    @objc public var crypto: VirgilCrypto {
+        return self.cardManager.crypto
+    }
+
+    /// ChangedKeyDelegate to notify changing of User's keys
+    @objc public var changedKeyDelegate: ChangedKeyDelegate? {
+        return self.lookupManager.changedKeyDelegate
+    }
+
+    internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
+    internal let lookupManager: LookupManager
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
-    internal init(identity: String,
-                  accessTokenProvider: AccessTokenProvider,
-                  cardManager: CardManager,
-                  storageParams: KeychainStorageParams? = nil) throws {
-        self.identity = identity
-        self.crypto = cardManager.crypto
-        self.cardManager = cardManager
+    private var groupManager: GroupManager?
+
+    internal convenience init(identity: String,
+                              accessTokenProvider: AccessTokenProvider,
+                              changedKeyDelegate: ChangedKeyDelegate?,
+                              storageParams: KeychainStorageParams?) throws {
+        let crypto = try VirgilCrypto()
+
+        guard let verifier = VirgilCardVerifier(crypto: crypto) else {
+            throw EThreeError.verifierInitFailed
+        }
+
+        let params = CardManagerParams(crypto: crypto,
+                                       accessTokenProvider: accessTokenProvider,
+                                       cardVerifier: verifier)
+
+        let client = CardClient(accessTokenProvider: accessTokenProvider,
+                                serviceUrl: CardClient.defaultURL,
+                                connection: EThree.getConnection(),
+                                retryConfig: ExpBackoffRetry.Config())
+
+        params.cardClient = client
+
+        let cardManager = CardManager(params: params)
 
         let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
-        self.localKeyManager = LocalKeyManager(identity: identity,
-                                               crypto: self.crypto,
-                                               keychainStorage: keychainStorage)
+        let localKeyStorage = LocalKeyStorage(identity: identity,
+                                              crypto: crypto,
+                                              keychainStorage: keychainStorage)
 
-        self.cloudKeyManager = try CloudKeyManager(identity: identity,
-                                                   accessTokenProvider: accessTokenProvider,
-                                                   crypto: self.crypto,
-                                                   keychainStorage: keychainStorage)
+        let cloudKeyManager = try CloudKeyManager(identity: identity,
+                                                  crypto: crypto,
+                                                  accessTokenProvider: accessTokenProvider)
+
+        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
+        let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
+                                          cardManager: cardManager,
+                                          changedKeyDelegate: changedKeyDelegate)
+
+        try self.init(identity: identity,
+                      cardManager: cardManager,
+                      accessTokenProvider: accessTokenProvider,
+                      localKeyStorage: localKeyStorage,
+                      cloudKeyManager: cloudKeyManager,
+                      lookupManager: lookupManager)
+    }
+
+    internal init(identity: String,
+                  cardManager: CardManager,
+                  accessTokenProvider: AccessTokenProvider,
+                  localKeyStorage: LocalKeyStorage,
+                  cloudKeyManager: CloudKeyManager,
+                  lookupManager: LookupManager) throws {
+        self.identity = identity
+        self.cardManager = cardManager
+        self.accessTokenProvider = accessTokenProvider
+        self.localKeyStorage = localKeyStorage
+        self.cloudKeyManager = cloudKeyManager
+        self.lookupManager = lookupManager
 
         super.init()
+
+        if try localKeyStorage.exists() {
+            try self.privateKeyChanged()
+        }
+
+        lookupManager.startUpdateCachedCards()
+    }
+
+    internal func getGroupManager() throws -> GroupManager {
+        guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
+    }
+}
+
+extension EThree {
+    internal func privateKeyChanged(newCard: Card? = nil) throws {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage)
+        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                         cloudTicketStorage: cloudTicketStorage,
+                                         localKeyStorage: self.localKeyStorage,
+                                         lookupManager: self.lookupManager,
+                                         crypto: self.crypto)
+
+        if let newCard = newCard {
+            try self.lookupManager.cardStorage.storeCard(newCard)
+        } else {
+            _ = try lookupManager.lookupCard(of: self.identity)
+        }
+    }
+
+    internal func privateKeyDeleted() throws {
+        try self.groupManager?.localGroupStorage.reset()
+        self.groupManager = nil
+
+        try self.lookupManager.cardStorage.reset()
+    }
+
+    internal func computeSessionId(from identifier: Data) throws -> Data {
+        guard identifier.count > 10 else {
+            throw GroupError.shortGroupId
+        }
+
+        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
     }
 
     internal static func getConnection() -> HttpConnection {
@@ -89,13 +196,17 @@ import VirgilCrypto
     internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {
         let keyPair = try self.crypto.generateKeyPair()
 
-        _ = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                             publicKey: keyPair.publicKey,
-                                             identity: self.identity,
-                                             previousCardId: previousCardId).startSync().get()
+        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+                                                    publicKey: keyPair.publicKey,
+                                                    identity: self.identity,
+                                                    previousCardId: previousCardId)
+            .startSync()
+            .get()
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
-        try self.localKeyManager.store(data: data)
+        try self.localKeyStorage.store(data: data)
+
+        try self.privateKeyChanged(newCard: card)
     }
 }

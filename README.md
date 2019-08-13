@@ -13,7 +13,7 @@
 
 ## SDK Features
 - multidevice support
-- manage users' Public Keys
+- manage users' Cards
 
 ## Installation
 
@@ -39,7 +39,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
 use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.6'
+pod 'VirgilE3Kit', '~> 0.7.0-beta1'
 end
 ```
 
@@ -63,7 +63,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.6
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.7.0-beta1
 ```
 
 #### Linking against prebuilt binaries
@@ -127,7 +127,7 @@ Additionally, you'll need to copy debug symbols for debugging and crash reportin
 On your application target’s “Build Phases” settings tab, click the “+” icon and choose “New Copy Files Phase”.
 Click the “Destination” drop-down menu and select “Products Directory”. For each framework, drag and drop corresponding dSYM file.
 
-#### Register User
+## Register User
 Use the following lines of code to authenticate user.
 
 ```swift
@@ -145,9 +145,9 @@ EThree.initialize(tokenCallback) { eThree, error in
 }
 ```
 
-#### Encrypt & decrypt
+## Encrypt & decrypt
 
-Virgil E3Kit lets you use a user's Private key and his or her Public Keys to sign, then encrypt text.
+Virgil E3Kit lets you use a user's Private key and his or her Card to sign, then encrypt text.
 
 ```swift
 import VirgilE3Kit
@@ -157,14 +157,14 @@ import VirgilE3Kit
 // prepare a message
 let messageToEncrypt = "Hello, Alice and Den!"
 
-// Search user's publicKeys to encrypt for
-eThree!.lookUpPublicKeys(of: ["Alice", "Den"]) { lookupResult, error in 
+// Search user's Cards to encrypt for
+eThree!.lookUpCards(of: ["Alice", "Den"]) { lookupResult, error in 
     guard let lookupResult = lookupResult, error == nil else {
         // Error handling here
     }
     
     // encrypt text
-    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult!)
+    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult)
 }
 ```
 
@@ -175,14 +175,14 @@ import VirgilE3Kit
 
 // TODO: init and register user (see Register User)
 
-// Lookup user public key
-eThree.lookupPublicKeys(of: [bobUID]) { lookupResult, error in
+// Lookup user Card
+eThree.lookupCards(of: [bobUID]) { lookupResult, error in
     guard let lookupResult = lookupResult, error == nil else {
         // Error handling here
     }
     
     // Decrypt text and verify if it was really written by Bob
-    let originText = try! eThree.decrypt(text: encryptedText, from: lookupResult[bobUID])
+    let originText = try! eThree.decrypt(text: encryptedText, from: lookupResult[bobUID]!)
 }
 ```
 
@@ -199,22 +199,22 @@ import VirgilE3Kit
 
 let usersToEncryptTo = [user1UID, user2UID, user3UID]
 
-// Lookup user public keys
-eThree.lookupPublicKeys(of: usersToEncryptTo) { lookupResult, error in
+// Lookup user's Cards
+eThree.lookupCards(of: usersToEncryptTo) { lookupResult, error in
     guard let lookupResult = lookupResult, error == nil else {
         // Error handling here
     }
-    
+
     let fileURL = Bundle.main.url(forResource: "data", withExtension: "txt")!
     let inputStream = InputStream(url: fileURL)!
     let outputStream = OutputStream.toMemory()
-    
+
     try eThree.encrypt(inputStream, to: outputStream, for: lookupResult)
 }
 ```
 
 Decryption:
-> Stream encryption doesn’t sign the data. This is why decryption doesn’t need VirgilPublicKey for verification unlike the general data decryption.
+> Stream encryption doesn’t sign the data. This is why decryption doesn’t need Card for verification unlike the general data decryption.
 ```swift
 import VirgilE3Kit
 
@@ -223,6 +223,111 @@ import VirgilE3Kit
 let outputStream = OutputStream.toMemory()
 
 try eThree.decrypt(encryptedStream, to: outputStream)
+```
+
+## Enable Group Chat
+In this section, you'll find out how to build a group chat using the Virgil E3Kit.
+
+We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
+
+
+### Create Group Chat
+Let's imagine Alice wants to start a group chat with Bob and Carol. First, Alice creates a new group ticket by running the `createGroup` feature and the E3Kit stores the ticket on the Virgil Cloud. This ticket holds a shared root key for future group encryption.
+
+Alice has to specify a unique `identifier` of group with length > 10 and `lookup` of participants. We recommend tying this identifier to your unique transport channel id.
+```swift 
+ethree.createGroup(id: groupId, with: lookupResult) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    // Group created and saved locally!
+}
+```
+
+### Start Group Chat Session
+
+Now, other participants, Bob and Carol, want to join the Alice's group and have to start the group session by loading the group ticket using the `loadGroup` method. This function requires specifying the group `identifier` and group initiator's Card.
+```swift
+ethree.loadGroup(id: groupId, initiator: lookupResult["Alice"]!) { group, error in 
+    guard let group = group, error == nil else 
+        // Error handling
+    }
+    // Group loaded and saved locally! 
+}
+```
+
+Use the loadGroup method to load and save group locally. Then, you can use the getGroup method to retrieve group instance from local storage.
+```swift
+let group = try! ethree.getGroup(id: groupId)
+```
+
+### Encrypt and Decrypt Messages
+To encrypt and decrypt messages, use the `encrypt` and `decrypt` E3Kit functions, which allows you to work with data and strings.
+
+Use the following code-snippets to encrypt messages:
+```swift
+// prepare a message
+let messageToEncrypt = "Hello, Bob and Carol!"
+
+let encrypted = try! group.encrypt(text: messageToEncrypt)
+```
+
+Use the following code-snippets to decrypt messages:
+```swift
+let decrypted = try! group.decrypt(text: encrypted, from: lookupResult["Alice"]!)
+```
+At the decrypt step, you also use `lookupCards` method to verify that the message hasn't been tempered with.
+
+### Manage Group Chat
+E3Kit also allows you to perform other operations, like participants management, while you work with group chat. In this version of E3Kit only group initiator can change participants or delete group.
+
+#### Add New Participant
+To add a new chat member, the chat owner has to use the `add` method and specify the new member's Card. New member will be able to decrypt all previous messages history.
+```swift
+group.add(participant: lookupResult["Den"]!) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Den was added!
+}
+```
+
+#### Remove Participant
+To remove participant, group owner has to use the `remove` method and specify the member's Card. Removed participants won't be able to load or update this group.
+```swift
+group.remove(participant: lookupResult["Den"]!) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Den was removed!
+}
+```
+
+#### Update Group Chat
+In the event of changes in your group, i.e. adding a new participant, or deleting an existing one, each group chat participant has to update the encryption key by calling the `update` E3Kit method or reloading Group by `loadGroup`.
+```swift
+group.update { error in 
+    guard error == nil else {
+        // Error handling
+    }
+
+    // Group updated!
+}
+```
+
+#### Delete Group Chat
+To delete a group, the owner has to use the `deleteGroup` method and specify the group `identifier`.
+```swift
+
+ethree.deleteGroup(id: groupId) { error in
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Group was deleted!
+}
 ```
 
 ## License

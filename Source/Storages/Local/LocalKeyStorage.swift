@@ -34,42 +34,38 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestBase.h"
+import VirgilCrypto
+import VirgilSDK
 
-@implementation VTETestBase
+internal class LocalKeyStorage {
+    internal let identity: String
+    private let crypto: VirgilCrypto
+    private let keychainStorage: KeychainStorage
 
-- (void)setUp {
-    [super setUp];
+    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+        self.identity = identity
+        self.crypto = crypto
+        self.keychainStorage = keychainStorage
+    }
 
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [VTETestConfig readFromBundle];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
+    internal func retrieveKeyPair() throws -> VirgilKeyPair {
+        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
+            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
+                throw EThreeError.missingPrivateKey
+        }
 
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
+        return keyPair
+    }
 
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    internal func store(data: Data) throws {
+        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+    }
 
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
+    internal func exists() throws -> Bool {
+        return try self.keychainStorage.existsEntry(withName: self.identity)
+    }
 
-        completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    internal func delete() throws {
+        try self.keychainStorage.deleteEntry(withName: self.identity)
+    }
 }
-
-@end

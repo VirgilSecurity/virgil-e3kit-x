@@ -34,42 +34,16 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestBase.h"
+import Foundation
 
-@implementation VTETestBase
+internal struct GroupInfo: Codable {
+    internal let initiator: String
 
-- (void)setUp {
-    [super setUp];
+    internal static func deserialize(_ data: Data) throws -> GroupInfo {
+        return try JSONDecoder().decode(GroupInfo.self, from: data)
+    }
 
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [VTETestConfig readFromBundle];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
-
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
-
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-
-        completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    internal func serialize() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
 }
-
-@end

@@ -34,38 +34,12 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
-import VirgilSDK
+import Foundation
 
-internal class LocalKeyManager {
-    private let identity: String
-    private let keychainStorage: KeychainStorage
-    private let crypto: VirgilCrypto
-
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
-    }
-
-    internal func retrieveKeyPair() throws -> VirgilKeyPair {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                throw EThreeError.missingPrivateKey
-        }
-
-        return keyPair
-    }
-
-    internal func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-    }
-
-    internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
-    }
-
-    internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
-    }
+/// This protocol can be used to track Users keys rotations
+@objc public protocol ChangedKeyDelegate {
+    /// This function is called when some local card became outdated
+    ///
+    /// - Parameter identity: identity, which key was changed
+    func keyChanged(identity: String)
 }
