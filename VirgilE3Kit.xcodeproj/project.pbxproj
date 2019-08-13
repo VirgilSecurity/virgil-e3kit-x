@@ -44,6 +44,7 @@
 		162D2B842241100A00CE7FC2 /* VSCCommon.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162D2B5622410C6500CE7FC2 /* VSCCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		162D2B852241100A00CE7FC2 /* VSCFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		162D2B862241100A00CE7FC2 /* VSCPythia.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162D2B5922410C6500CE7FC2 /* VSCPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */; };
 		1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
@@ -1322,6 +1323,7 @@
 				42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844422DDD98E008EAC34 /* EThree+Lookup.swift in Sources */,
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
+				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
