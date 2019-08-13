@@ -40,6 +40,6 @@ import Foundation
 @objc public protocol ChangedKeyDelegate {
     /// This function is called when some local card became outdated
     ///
-    /// - Parameter identity: <#identity description#>
+    /// - Parameter identity: identity, which key was changed
     func keyChanged(identity: String)
 }
