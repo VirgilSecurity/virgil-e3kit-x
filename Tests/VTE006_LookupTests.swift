@@ -75,7 +75,7 @@ class VTE006_LookupTests: XCTestCase {
         let card3 = self.utils.publishCard(identity: card2.identity,
                                            previousCardId: card2.identifier)
 
-        let lookup = try! ethree.lookupCards(of: [card1.identity, card2.identity, card3.identity]).startSync().get()
+        let lookup = try! ethree.findUsers(with: [card1.identity, card2.identity, card3.identity]).startSync().get()
 
         XCTAssert(lookup.count == 2)
         XCTAssert(lookup.contains(where: { $0.value.identifier == card1.identifier } ))
@@ -86,7 +86,7 @@ class VTE006_LookupTests: XCTestCase {
         let ethree = self.setUpDevice()
 
         do {
-            _ = try ethree.lookupCards(of: []).startSync().get()
+            _ = try ethree.findUsers(with: []).startSync().get()
             XCTFail()
         } catch EThreeError.missingIdentities {} catch {
             XCTFail()
@@ -98,22 +98,22 @@ class VTE006_LookupTests: XCTestCase {
 
         let card1 = self.utils.publishCard()
 
-        let foundCard1 = try! ethree.lookupCard(of: card1.identity).startSync().get()
+        let foundCard1 = try! ethree.findUser(with: card1.identity).startSync().get()
 
         XCTAssert(foundCard1.identifier == card1.identifier)
 
         let card2 = self.utils.publishCard(identity: card1.identity,
                                            previousCardId: card1.identifier)
 
-        let foundCard2 = try! ethree.lookupCard(of: card1.identity).startSync().get()
+        let foundCard2 = try! ethree.findUser(with: card1.identity).startSync().get()
 
         XCTAssert(foundCard2.identifier == foundCard1.identifier)
 
-        let foundCard3 = try! ethree.lookupCard(of: card1.identity, forceReload: true).startSync().get()
+        let foundCard3 = try! ethree.findUser(with: card1.identity, forceReload: true).startSync().get()
 
         XCTAssert(foundCard3.identifier == card2.identifier)
 
-        let cachedCard = ethree.lookupCachedCard(of: card1.identity)!
+        let cachedCard = ethree.findCachedUser(with: card1.identity)!
 
         XCTAssert(cachedCard.identifier == card2.identifier)
     }
@@ -125,9 +125,9 @@ class VTE006_LookupTests: XCTestCase {
         _ = self.utils.publishCard(identity: card1.identity)
 
         do {
-            _ = try ethree.lookupCard(of: card1.identity).startSync().get()
+            _ = try ethree.findUser(with: card1.identity).startSync().get()
             XCTFail()
-        } catch LookupError.duplicateCards {} catch {
+        } catch FindUsersError.duplicateCards {} catch {
             XCTFail()
         }
     }
@@ -153,7 +153,7 @@ class VTE006_LookupTests: XCTestCase {
 
         let ethree = self.setUpDevice()
 
-        _ = try! ethree.lookupCard(of: card.identity).startSync().get()
+        _ = try! ethree.findUser(with: card.identity).startSync().get()
 
         let newCard = self.utils.publishCard(identity: card.identity,
                                              previousCardId: card.identifier)
@@ -170,7 +170,7 @@ class VTE006_LookupTests: XCTestCase {
 
         XCTAssert(delegate.called)
 
-        let cachedCard = newEThree.lookupCachedCard(of: card.identity)!
+        let cachedCard = newEThree.findCachedUser(with: card.identity)!
 
         XCTAssert(cachedCard.identifier == newCard.identifier)
     }

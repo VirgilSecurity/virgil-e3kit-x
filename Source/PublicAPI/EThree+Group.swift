@@ -43,14 +43,14 @@ extension EThree {
     /// - Note: identifier length should be > 10
     /// - Parameters:
     ///   - identifier: identifier of group
-    ///   - lookup: Cards of participants. Result of lookupCards call
+    ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    public func createGroup(id identifier: Data, with lookup: LookupResult) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                let participants = Set(lookup.keys + [self.identity])
+                let participants = Set(users.keys + [self.identity])
 
                 try Group.validateParticipantsCount(participants.count)
 
@@ -58,7 +58,7 @@ extension EThree {
                                         sessionId: sessionId,
                                         participants: participants)
 
-                let group = try self.getGroupManager().store(ticket, sharedWith: Array(lookup.values))
+                let group = try self.getGroupManager().store(ticket, sharedWith: Array(users.values))
 
                 completion(group, nil)
             } catch {

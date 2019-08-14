@@ -45,7 +45,7 @@ import Foundation
 /// - invalidChangeParticipants: Group is invalid
 /// - invalidParticipantsCount: Invalid change of group participants.
 ///                             e.g. Add smb who is already in group or remove smb who is not
-/// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try lookup new one
+/// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try finding new one
 /// - shortGroupId: Group Id length should be > 10
 /// - messageNotFromThisGroup: Message was encrypted in group with different identifier
 /// - groupIsOutdated: Group is not up to date. Call update or loadGroup
@@ -79,7 +79,7 @@ import Foundation
         case .invalidParticipantsCount:
             return "Please check valid participants count range in Group.ValidParticipatnsCountRange"
         case .verificationFailed:
-            return "Verification of message failed. This may be caused by rotating sender key. Try lookup new one"
+            return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         case .shortGroupId:
             return "Group Id length should be > 10"
         case .messageNotFromThisGroup:

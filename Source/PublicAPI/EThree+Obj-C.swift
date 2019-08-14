@@ -144,46 +144,46 @@ extension EThree {
     /// Retrieves users Cards from the Virgil Cloud or local storage if exists
     ///
     /// - Parameters:
-    ///   - identities: array of identities to search for
+    ///   - identities: array of identities to find
     ///   - forceReload: will not use local cached cards if true
     ///   - completion: completion handler
-    ///   - lookupResult: dictionary with idenities as keys and found Cards as values
+    ///   - find: dictionary with idenities as keys and found Cards as values
     ///   - error: corresponding error
-    @objc public func lookupCards(of identities: [String],
-                                  forceReload: Bool = false,
-                                  completion: @escaping (_ lookupResult: LookupResult?,
-                                                         _ error: Error?) -> Void) {
-        self.lookupCards(of: identities, forceReload: forceReload).start(completion: completion)
+    @objc public func findUsers(with identities: [String],
+                                forceReload: Bool = false,
+                                completion: @escaping (_ findResult: FindUsersResult?,
+                                                       _ error: Error?) -> Void) {
+        self.findUsers(with: identities, forceReload: forceReload).start(completion: completion)
     }
 
     /// Retrieves user Card from the Virgil Cloud or local storage if exists
     ///
     /// - Parameters:
-    ///   - identity: identity to search from
+    ///   - identity: identity to find
     ///   - forceReload: will not use local cached card if true
     ///   - completion: completion handler
     ///   - card: found Card
     ///   - error: corresponding error
-    @objc public func lookupCard(of identity: String,
-                                 forceReload: Bool = false,
-                                 completion: @escaping (_ card: Card?,
-                                                        _ error: Error?) -> Void) {
-        self.lookupCard(of: identity, forceReload: forceReload).start(completion: completion)
+    @objc public func findUser(with identity: String,
+                               forceReload: Bool = false,
+                               completion: @escaping (_ card: Card?,
+                                                      _ error: Error?) -> Void) {
+        self.findUser(with: identity, forceReload: forceReload).start(completion: completion)
     }
 
     /// Creates group, saves in cloud and locally
     ///
     /// - Parameters:
     ///   - identifier: identifier of group
-    ///   - lookup: Cards of participants. Result of lookupCards call
+    ///   - findResult: Cards of participants. Result of findUsers call
     ///   - completion: completion handler
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc public func createGroup(id identifier: Data,
-                                  with lookup: LookupResult,
+                                  with findResult: FindUsersResult,
                                   completion: @escaping (_ group: Group?,
                                                          _ error: Error?) -> Void) {
-        self.createGroup(id: identifier, with: lookup).start(completion: completion)
+        self.createGroup(id: identifier, with: findResult).start(completion: completion)
     }
 
     /// Loads group from cloud, saves locally
@@ -216,16 +216,14 @@ extension EThree {
     /// Retrieves users Cards from the Virgil Cloud or local storage if exists
     ///
     /// - Parameters:
-    ///   - identities: array of identities to search for
-    ///   - forceReload: will not use local cached cards if true
-    ///   - lookupResult: dictionary with idenities as keys and found cards as values
+    ///   - identities: array of identities to find
+    ///   - findResult: dictionary with idenities as keys and found cards as values
     ///   - error: corresponding error
-    /// - Returns: CallbackOperation<LookupResult>
-    @available(*, deprecated, renamed: "lookupCards")
+    /// - Returns: CallbackOperation<FindUsersResult>
+    @available(*, deprecated, renamed: "findUsers")
     @objc public func lookupPublicKeys(of identities: [String],
-                                       forceReload: Bool = false,
-                                       completion: @escaping (_ lookupResult: LookupResult?,
+                                       completion: @escaping (_ findResult: FindUsersResult?,
                                                               _ error: Error?) -> Void) {
-        self.lookupPublicKeys(of: identities, forceReload: forceReload).start(completion: completion)
+        self.findUsers(with: identities).start(completion: completion)
     }
 }

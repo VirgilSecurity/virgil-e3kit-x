@@ -87,7 +87,7 @@ extension Group {
         }
 
         do {
-            if currentEpoch - messageEpoch < GroupManager.MaxTicketsInGroup {
+            if currentEpoch - messageEpoch < GroupManager.maxTicketsInGroup {
                 return try self.session.decrypt(message: encrypted, publicKey: card.publicKey.key)
             } else {
                 let sessionId = encrypted.getSessionId()
