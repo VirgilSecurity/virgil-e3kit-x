@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
-[Introduction](#introduction) | [Features](#features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Enable Group Chat](#enable-group-chat) | [License](#license) | [Docs](#docs) | [Support](#support)
+[Introduction](#introduction) | [Features](#features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Enable Group Chat](#enable-group-chat) | [Samples](#samples) | [License](#license) | [Docs](#docs) | [Support](#support)
 
 ## Introduction
 
@@ -339,6 +339,17 @@ ethree.deleteGroup(id: groupId) { error in
 }
 ```
 
+## Samples
+
+You can find the code samples for Objective-C/Swift here:
+
+| Sample type | 
+|----------| 
+| [`iOS Demo`](https://github.com/VirgilSecurity/demo-e3kit-ios) | 
+
+You can run the demo to check out the example of how to initialize the SDK, register users and encrypt messages using the E3Kit.
+
+
 ## License
 
 This library is released under the [3-clause BSD License](LICENSE).
@@ -349,18 +360,3 @@ Our developer support team is here to help you. Find out more information on our
 You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us email support@VirgilSecurity.com.
 
 Also, get extra help from our support team on [Slack](https://virgilsecurity.com/join-community).
-
-[_virgil_crypto]: https://github.com/VirgilSecurity/virgil-crypto-x
-[_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5
-[_use_card]: https://developer.virgilsecurity.com/docs/swift/how-to/public-key-management/v5/use-card-for-crypto-operation
-[_get_card]: https://developer.virgilsecurity.com/docs/swift/how-to/public-key-management/v5/get-card
-[_search_card]: https://developer.virgilsecurity.com/docs/swift/how-to/public-key-management/v5/search-card
-[_create_card]: https://developer.virgilsecurity.com/docs/swift/how-to/public-key-management/v5/create-card
-[_own_crypto]: https://developer.virgilsecurity.com/docs/swift/how-to/setup/v5/setup-own-crypto-library
-[_key_storage]: https://developer.virgilsecurity.com/docs/swift/how-to/setup/v5/setup-key-storage
-[_card_verifier]: https://developer.virgilsecurity.com/docs/swift/how-to/setup/v5/setup-card-verifier
-[_card_manager]: https://developer.virgilsecurity.com/docs/swift/how-to/setup/v5/setup-card-manager
-[_setup_authentication]: https://developer.virgilsecurity.com/docs/swift/how-to/setup/v5/setup-authentication
-[_reference_api]: https://developer.virgilsecurity.com/docs/api-reference
-[_configure_sdk]: https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
-[_more_examples]: https://developer.virgilsecurity.com/docs/how-to#public-key-management
