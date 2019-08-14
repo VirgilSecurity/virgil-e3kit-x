@@ -19,8 +19,7 @@ The E3Kit allows developers to get up and running with Virgil API quickly and ad
 - Multidevice support
 - Group chats 
 - End-to-end encryption
-- Users' Cards managing
-- Interaction with Virgil Cloud
+- Interacts with Virgil Cloud
 
 ## Installation
 
