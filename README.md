@@ -158,13 +158,13 @@ import VirgilE3Kit
 let messageToEncrypt = "Hello, Alice and Den!"
 
 // Search user's Cards to encrypt for
-eThree!.lookUpCards(of: ["Alice", "Den"]) { lookupResult, error in 
-    guard let lookupResult = lookupResult, error == nil else {
+eThree!.finsUsers(of: ["Alice", "Den"]) { users, error in 
+    guard let users = users, error == nil else {
         // Error handling here
     }
     
     // encrypt text
-    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: lookupResult)
+    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: users)
 }
 ```
 
@@ -175,14 +175,14 @@ import VirgilE3Kit
 
 // TODO: init and register user (see Register User)
 
-// Lookup user Card
-eThree.lookupCards(of: [bobUID]) { lookupResult, error in
-    guard let lookupResult = lookupResult, error == nil else {
+// Find user
+eThree.findUsers(of: [bobUID]) { users, error in
+    guard let users = users, error == nil else {
         // Error handling here
     }
     
     // Decrypt text and verify if it was really written by Bob
-    let originText = try! eThree.decrypt(text: encryptedText, from: lookupResult[bobUID]!)
+    let originText = try! eThree.decrypt(text: encryptedText, from: users[bobUID]!)
 }
 ```
 
@@ -199,9 +199,9 @@ import VirgilE3Kit
 
 let usersToEncryptTo = [user1UID, user2UID, user3UID]
 
-// Lookup user's Cards
-eThree.lookupCards(of: usersToEncryptTo) { lookupResult, error in
-    guard let lookupResult = lookupResult, error == nil else {
+// Find users
+eThree.findUsers(of: usersToEncryptTo) { users, error in
+    guard let users = users, error == nil else {
         // Error handling here
     }
 
@@ -209,7 +209,7 @@ eThree.lookupCards(of: usersToEncryptTo) { lookupResult, error in
     let inputStream = InputStream(url: fileURL)!
     let outputStream = OutputStream.toMemory()
 
-    try eThree.encrypt(inputStream, to: outputStream, for: lookupResult)
+    try eThree.encrypt(inputStream, to: outputStream, for: users)
 }
 ```
 
@@ -234,9 +234,9 @@ We assume that your users have installed and initialized the E3Kit, and used sni
 ### Create Group Chat
 Let's imagine Alice wants to start a group chat with Bob and Carol. First, Alice creates a new group ticket by running the `createGroup` feature and the E3Kit stores the ticket on the Virgil Cloud. This ticket holds a shared root key for future group encryption.
 
-Alice has to specify a unique `identifier` of group with length > 10 and `lookup` of participants. We recommend tying this identifier to your unique transport channel id.
+Alice has to specify a unique `identifier` of group with length > 10 and `findUsersResult` of participants. We recommend tying this identifier to your unique transport channel id.
 ```swift 
-ethree.createGroup(id: groupId, with: lookupResult) { error in 
+ethree.createGroup(id: groupId, with: users) { error in 
     guard error == nil else {
         // Error handling
     }
@@ -248,7 +248,7 @@ ethree.createGroup(id: groupId, with: lookupResult) { error in
 
 Now, other participants, Bob and Carol, want to join the Alice's group and have to start the group session by loading the group ticket using the `loadGroup` method. This function requires specifying the group `identifier` and group initiator's Card.
 ```swift
-ethree.loadGroup(id: groupId, initiator: lookupResult["Alice"]!) { group, error in 
+ethree.loadGroup(id: groupId, initiator: findUsersResult["Alice"]!) { group, error in 
     guard let group = group, error == nil else 
         // Error handling
     }
@@ -274,9 +274,9 @@ let encrypted = try! group.encrypt(text: messageToEncrypt)
 
 Use the following code-snippets to decrypt messages:
 ```swift
-let decrypted = try! group.decrypt(text: encrypted, from: lookupResult["Alice"]!)
+let decrypted = try! group.decrypt(text: encrypted, from: findUsersResult["Alice"]!)
 ```
-At the decrypt step, you also use `lookupCards` method to verify that the message hasn't been tempered with.
+At the decrypt step, you also use `findUsers` method to verify that the message hasn't been tempered with.
 
 ### Manage Group Chat
 E3Kit also allows you to perform other operations, like participants management, while you work with group chat. In this version of E3Kit only group initiator can change participants or delete group.
@@ -284,7 +284,7 @@ E3Kit also allows you to perform other operations, like participants management,
 #### Add New Participant
 To add a new chat member, the chat owner has to use the `add` method and specify the new member's Card. New member will be able to decrypt all previous messages history.
 ```swift
-group.add(participant: lookupResult["Den"]!) { error in 
+group.add(participant: users["Den"]!) { error in 
     guard error == nil else {
         // Error handling
     }
@@ -296,7 +296,7 @@ group.add(participant: lookupResult["Den"]!) { error in
 #### Remove Participant
 To remove participant, group owner has to use the `remove` method and specify the member's Card. Removed participants won't be able to load or update this group.
 ```swift
-group.remove(participant: lookupResult["Den"]!) { error in 
+group.remove(participant: users["Den"]!) { error in 
     guard error == nil else {
         // Error handling
     }
