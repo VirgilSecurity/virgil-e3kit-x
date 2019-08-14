@@ -6,18 +6,25 @@
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
+[Introduction](#introduction) | [Features](#features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Enable Group Chat](#enable-group-chat) | [Samples](#samples) | [License](#license) | [Docs](#docs) | [Support](#support)
 
 ## Introduction
 
-<a href="https://developer.virgilsecurity.com/docs"><img width="230px" src="https://cdn.virgilsecurity.com/assets/images/github/logos/virgil-logo-red.png" align="left" hspace="10" vspace="6"></a> [Virgil Security](https://virgilsecurity.com) provides an SDK which simplifies work with Virgil services and presents easy to use API for adding security to any application. In a few simple steps you can setup user encryption with multidevice support.
+<a href="https://developer.virgilsecurity.com/docs"><img width="230px" src="https://cdn.virgilsecurity.com/assets/images/github/logos/virgil-logo-red.png" align="left" hspace="10" vspace="6"></a> [Virgil Security](https://virgilsecurity.com) provides the E3Kit which simplifies work with Virgil Cloud and presents an easy-to-use API for adding a security layer to any application. In a few simple steps you can add end-to-end encryption with multidevice and group chats support.
 
-## SDK Features
-- multidevice support
-- manage users' Cards
+The E3Kit allows developers to get up and running with Virgil API quickly and add full end-to-end security to their existing digital solutions to become HIPAA and GDPR compliant and more.
+
+## Features
+
+- Multidevice support
+- Group chats 
+- End-to-end encryption
+- Users' Cards managing
+- Interaction with Virgil Cloud
 
 ## Installation
 
-Virgil E3Kit is provided as a set of frameworks. These frameworks are distributed via Carthage.  Also in this guide, you find one more package called VirgilCrypto (Virgil Crypto Library) that is used by the E3Kit to perform cryptographic operations.
+Virgil E3Kit is provided as a set of frameworks. These frameworks are distributed via Carthage. 
 
 All frameworks are available for:
 - iOS 9.0+
@@ -78,7 +85,7 @@ This will build each dependency or download a pre-compiled framework from github
 
 ##### Building for iOS/tvOS/watchOS
 
-On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
+At your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
  - VirgilE3Kit
  - VirgilPythiaSDK
  - VirgilSDK
@@ -127,7 +134,9 @@ Additionally, you'll need to copy debug symbols for debugging and crash reportin
 On your application target’s “Build Phases” settings tab, click the “+” icon and choose “New Copy Files Phase”.
 Click the “Destination” drop-down menu and select “Products Directory”. For each framework, drag and drop corresponding dSYM file.
 
-## Register User
+## Usage Examples
+
+#### Register user
 Use the following lines of code to authenticate user.
 
 ```swift
@@ -145,7 +154,7 @@ EThree.initialize(tokenCallback) { eThree, error in
 }
 ```
 
-## Encrypt & decrypt
+#### Encrypt & decrypt
 
 Virgil E3Kit lets you use a user's Private key and his or her Card to sign, then encrypt text.
 
@@ -231,7 +240,7 @@ In this section, you'll find out how to build a group chat using the Virgil E3Ki
 We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
 
 
-### Create Group Chat
+#### Create group chat
 Let's imagine Alice wants to start a group chat with Bob and Carol. First, Alice creates a new group ticket by running the `createGroup` feature and the E3Kit stores the ticket on the Virgil Cloud. This ticket holds a shared root key for future group encryption.
 
 Alice has to specify a unique `identifier` of group with length > 10 and `findUsersResult` of participants. We recommend tying this identifier to your unique transport channel id.
@@ -244,7 +253,7 @@ ethree.createGroup(id: groupId, with: users) { error in
 }
 ```
 
-### Start Group Chat Session
+#### Start group chat session
 
 Now, other participants, Bob and Carol, want to join the Alice's group and have to start the group session by loading the group ticket using the `loadGroup` method. This function requires specifying the group `identifier` and group initiator's Card.
 ```swift
@@ -261,7 +270,7 @@ Use the loadGroup method to load and save group locally. Then, you can use the g
 let group = try! ethree.getGroup(id: groupId)
 ```
 
-### Encrypt and Decrypt Messages
+#### Encrypt and decrypt messages
 To encrypt and decrypt messages, use the `encrypt` and `decrypt` E3Kit functions, which allows you to work with data and strings.
 
 Use the following code-snippets to encrypt messages:
@@ -278,10 +287,10 @@ let decrypted = try! group.decrypt(text: encrypted, from: findUsersResult["Alice
 ```
 At the decrypt step, you also use `findUsers` method to verify that the message hasn't been tempered with.
 
-### Manage Group Chat
+### Manage group chat
 E3Kit also allows you to perform other operations, like participants management, while you work with group chat. In this version of E3Kit only group initiator can change participants or delete group.
 
-#### Add New Participant
+#### Add new participant
 To add a new chat member, the chat owner has to use the `add` method and specify the new member's Card. New member will be able to decrypt all previous messages history.
 ```swift
 group.add(participant: users["Den"]!) { error in 
@@ -293,7 +302,7 @@ group.add(participant: users["Den"]!) { error in
 }
 ```
 
-#### Remove Participant
+#### Remove participant
 To remove participant, group owner has to use the `remove` method and specify the member's Card. Removed participants won't be able to load or update this group.
 ```swift
 group.remove(participant: users["Den"]!) { error in 
@@ -305,7 +314,7 @@ group.remove(participant: users["Den"]!) { error in
 }
 ```
 
-#### Update Group Chat
+#### Update group chat
 In the event of changes in your group, i.e. adding a new participant, or deleting an existing one, each group chat participant has to update the encryption key by calling the `update` E3Kit method or reloading Group by `loadGroup`.
 ```swift
 group.update { error in 
@@ -317,7 +326,7 @@ group.update { error in
 }
 ```
 
-#### Delete Group Chat
+#### Delete group chat
 To delete a group, the owner has to use the `deleteGroup` method and specify the group `identifier`.
 ```swift
 
