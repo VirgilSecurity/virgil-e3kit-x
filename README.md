@@ -16,10 +16,13 @@ The E3Kit allows developers to get up and running with Virgil API quickly and ad
 
 ## Features
 
-- Multidevice support
-- Group chats 
-- End-to-end encryption
-- Interacts with Virgil Cloud
+- Strong end-to-end encryption with authorization
+- Private and group chat encryption
+- Files and stream encryption
+- Recovery features for secret keys
+- Strong secret keys storage, integration with Keychain
+- Integration with any CPaaS providers like Nexmo, Firebase, Twilio, PubNub, etc.
+- Public keys cache features
 
 ## Installation
 
