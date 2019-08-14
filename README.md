@@ -1,4 +1,4 @@
-# Virgil E3Kit Objective-C/Swift SDK
+# Virgil E3Kit Objective-C/Swift
 
 [![Build Status](https://api.travis-ci.com/VirgilSecurity/virgil-e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/virgil-e3kit-x)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -23,7 +23,7 @@ The E3Kit allows developers to get up and running with Virgil API quickly and ad
 
 ## Installation
 
-Virgil E3Kit is provided as a set of frameworks. These frameworks are distributed via Carthage. 
+Virgil E3Kit is provided as a set of frameworks. These frameworks are distributed via Carthage and Cocoapods.
 
 All frameworks are available for:
 - iOS 9.0+
@@ -43,9 +43,9 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 
 ```bash
 target '<Your Target Name>' do
-use_frameworks!
+    use_frameworks!
 
-pod 'VirgilE3Kit', '~> 0.7.0-beta2'
+    pod 'VirgilE3Kit', '~> 0.7.0-beta2'
 end
 ```
 
@@ -84,7 +84,7 @@ This will build each dependency or download a pre-compiled framework from github
 
 ##### Building for iOS/tvOS/watchOS
 
-At your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
+On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, add following frameworks from the *Carthage/Build* folder inside your project's folder:
  - VirgilE3Kit
  - VirgilPythiaSDK
  - VirgilSDK
