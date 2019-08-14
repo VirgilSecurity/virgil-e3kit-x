@@ -36,8 +36,8 @@
 
 import VirgilSDK
 
-/// Typealias for the result of lookupCards call
-public typealias LookupResult = [String: Card]
+/// Typealias for the result of findUsers call
+public typealias FindUsersResult = [String: Card]
 
 internal class LookupManager {
     internal let cardStorage: SQLiteCardStorage
@@ -74,7 +74,7 @@ internal class LookupManager {
                         Log.debug("Cached card with id: \(outdatedId) expired")
 
                         guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
-                            throw LookupError.missingCachedCard
+                            throw FindUsersError.missingCachedCard
                         }
 
                         if let changedKeyDelegate = self.changedKeyDelegate {
@@ -98,18 +98,18 @@ internal class LookupManager {
 }
 
 extension LookupManager {
-    internal func lookupCachedCards(of identities: [String]) throws -> LookupResult {
+    internal func lookupCachedCards(of identities: [String]) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
 
-        var result: LookupResult = [:]
+        var result: FindUsersResult = [:]
 
         let cards = try self.cardStorage.searchCards(identities: identities)
 
         for identity in identities {
             guard let card = cards.first(where: { $0.identity == identity }) else {
-                throw LookupError.missingCachedCard
+                throw FindUsersError.missingCachedCard
             }
 
             result[identity] = card
@@ -122,22 +122,22 @@ extension LookupManager {
         let cards = try self.cardStorage.searchCards(identities: [identity])
 
         guard cards.count < 2 else {
-            throw LookupError.duplicateCards
+            throw FindUsersError.duplicateCards
         }
 
         guard let card = cards.first else {
-            throw LookupError.missingCachedCard
+            throw FindUsersError.missingCachedCard
         }
 
         return card
     }
 
-    internal func lookupCards(of identities: [String], forceReload: Bool = false) throws -> LookupResult {
+    internal func lookupCards(of identities: [String], forceReload: Bool = false) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
 
-        var result: LookupResult = [:]
+        var result: FindUsersResult = [:]
 
         var identitiesSet = Set(identities)
 
@@ -160,7 +160,7 @@ extension LookupManager {
 
                 for card in cards {
                     guard result[card.identity] == nil else {
-                        throw LookupError.duplicateCards
+                        throw FindUsersError.duplicateCards
                     }
 
                     try self.cardStorage.storeCard(card)
@@ -171,7 +171,7 @@ extension LookupManager {
         }
 
         guard Set(result.keys) == Set(identities) else {
-            throw LookupError.cardWasNotFound
+            throw FindUsersError.cardWasNotFound
         }
 
         return result
@@ -181,7 +181,7 @@ extension LookupManager {
         let cards = try self.lookupCards(of: [identity], forceReload: forceReload)
 
         guard let card = cards[identity] else {
-            throw LookupError.cardWasNotFound
+            throw FindUsersError.cardWasNotFound
         }
 
         return card

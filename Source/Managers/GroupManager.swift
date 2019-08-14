@@ -46,7 +46,7 @@ internal class GroupManager {
     private let lookupManager: LookupManager
     private let crypto: VirgilCrypto
 
-    internal static let MaxTicketsInGroup: Int = 50
+    internal static let maxTicketsInGroup: Int = 50
 
     internal init(localGroupStorage: FileGroupStorage,
                   cloudTicketStorage: CloudTicketStorage,
@@ -107,7 +107,7 @@ internal class GroupManager {
 
     internal func retrieve(sessionId: Data) -> Group? {
         guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                             lastTicketsCount: GroupManager.MaxTicketsInGroup) else {
+                                                             lastTicketsCount: GroupManager.maxTicketsInGroup) else {
             return nil
         }
 

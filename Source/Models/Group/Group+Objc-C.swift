@@ -53,12 +53,12 @@ extension Group {
     ///
     /// - Note: New participant will be able to decrypt all history
     /// - Parameters:
-    ///   - lookup: Cards of users to add. Result of lookupCards call
+    ///   - participants: Cards of users to add. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func add(participants lookup: LookupResult,
+    @objc public func add(participants: FindUsersResult,
                           completion: @escaping (_ error: Error?) -> Void) {
-        self.add(participants: lookup).start { _, error in
+        self.add(participants: participants).start { _, error in
             completion(error)
         }
     }
@@ -67,12 +67,12 @@ extension Group {
     ///
     /// - Note: New participant will be able to decrypt all history
     /// - Parameters:
-    ///   - card: Card of user to add
+    ///   - participant: Card of user to add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func add(participant card: Card,
+    @objc public func add(participant: Card,
                           completion: @escaping (_ error: Error?) -> Void) {
-        self.add(participant: card).start { _, error in
+        self.add(participant: participant).start { _, error in
             completion(error)
         }
     }
@@ -93,12 +93,12 @@ extension Group {
     ///
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
     /// - Parameters:
-    ///   - lookup: Cards of users to remove. Result of lookupCards call
+    ///   - participants: Cards of users to remove. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func remove(participants lookup: LookupResult,
+    @objc public func remove(participants: FindUsersResult,
                              completion: @escaping (_ error: Error?) -> Void) {
-        self.remove(participants: lookup).start { _, error in
+        self.remove(participants: participants).start { _, error in
             completion(error)
         }
     }
@@ -106,12 +106,12 @@ extension Group {
     /// Removes participant from group
     ///
     /// - Parameters:
-    ///   - card: Card of user to remove
+    ///   - participant: Card of user to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func remove(participant card: Card,
+    @objc public func remove(participant: Card,
                              completion: @escaping (_ error: Error?) -> Void) {
-        self.remove(participant: card).start { _, error in
+        self.remove(participant: participant).start { _, error in
             completion(error)
         }
     }

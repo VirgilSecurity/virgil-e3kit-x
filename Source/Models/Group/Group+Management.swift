@@ -64,15 +64,15 @@ extension Group {
     /// Adds new participants to group
     ///
     /// - Note: New participant will be able to decrypt all history
-    /// - Parameter lookup: Cards of users to add. Result of lookupCards call
+    /// - Parameter participants: Cards of users to add. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    public func add(participants lookup: LookupResult) -> GenericOperation<Void> {
+    public func add(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
 
                 let oldSet = self.participants
-                let newSet = oldSet.union(lookup.keys)
+                let newSet = oldSet.union(participants.keys)
 
                 try Group.validateParticipantsCount(newSet.count)
 
@@ -83,7 +83,7 @@ extension Group {
                 let addSet = newSet.subtracting(oldSet)
 
                 let addedCards: [Card] = try addSet.map {
-                    guard let card = lookup[$0] else {
+                    guard let card = participants[$0] else {
                         throw GroupError.inconsistentState
                     }
 
@@ -121,15 +121,15 @@ extension Group {
     /// Removes participants from group
     ///
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
-    /// - Parameter lookup: Cards of users to remove. Result of lookupCards call
+    /// - Parameter participants: Cards of users to remove. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    public func remove(participants lookup: LookupResult) -> GenericOperation<Void> {
+    public func remove(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
 
                 let oldSet = self.participants
-                let newSet = oldSet.subtracting(lookup.keys)
+                let newSet = oldSet.subtracting(participants.keys)
 
                 try Group.validateParticipantsCount(newSet.count)
 
@@ -180,13 +180,13 @@ extension Group {
         self.participants = self.participants.union(newParticipants)
     }
 
-    private func addNewTicket(for lookup: LookupResult) throws {
-        let newSet = Set(lookup.keys)
+    private func addNewTicket(for participants: FindUsersResult) throws {
+        let newSet = Set(participants.keys)
 
         let ticketMessage = try self.session.createGroupTicket().getTicketMessage()
         let ticket = Ticket(groupMessage: ticketMessage, participants: newSet)
 
-        _ = try self.groupManager.store(ticket, sharedWith: Array(lookup.values))
+        _ = try self.groupManager.store(ticket, sharedWith: Array(participants.values))
 
         try self.session.addEpoch(message: ticket.groupMessage)
 

@@ -71,7 +71,7 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let card = try! ethree.lookupCard(of: ethree.identity).startSync().get()
+        let card = try! ethree.findUser(with: ethree.identity).startSync().get()
 
         do {
             _ = try ethree.createGroup(id: groupId, with: [ethree.identity: card]).startSync().get()
@@ -109,7 +109,7 @@ class VTE004_GroupTests: XCTestCase {
         let groupId1 = try! self.crypto.generateRandomData(ofSize: 100)
         let groupId2 = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree1.identity, ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree1.identity, ethree2.identity]).startSync().get()
 
         let group1 = try! ethree1.createGroup(id: groupId1, with: lookup).startSync().get()
         let group2 = try! ethree1.createGroup(id: groupId2, with: [ethree2.identity: lookup[ethree2.identity]!]).startSync().get()
@@ -124,7 +124,7 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 5)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
         do {
             _ = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
@@ -142,7 +142,7 @@ class VTE004_GroupTests: XCTestCase {
 
         XCTAssert(try! ethree1.getGroup(id: groupId) == nil)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
         let group = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
@@ -158,11 +158,11 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card).startSync().get()
 
@@ -177,7 +177,7 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         do {
             _ = try ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
@@ -186,7 +186,7 @@ class VTE004_GroupTests: XCTestCase {
             XCTFail()
         }
 
-        let lookup = try! ethree1.lookupCards(of: [ethree3.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree3.identity]).startSync().get()
 
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
@@ -204,11 +204,11 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
 
@@ -277,7 +277,7 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
@@ -296,11 +296,11 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity, ethree3.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity, ethree3.identity]).startSync().get()
 
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
         let group3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
 
@@ -336,15 +336,15 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
 
-        let card3 = try! ethree1.lookupCard(of: ethree3.identity).startSync().get()
+        let card3 = try! ethree1.findUser(with: ethree3.identity).startSync().get()
         try! group1.add(participant: card3).startSync().get()
 
         let participants = Set([ethree1.identity, ethree2.identity, ethree3.identity])
@@ -368,10 +368,10 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let lookup = try! ethree1.findUsers(with: identities).startSync().get()
         _ = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let ethree1Card = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let ethree1Card = try! ethree2.findUser(with: ethree1.identity).startSync().get()
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
         do {
@@ -389,7 +389,7 @@ class VTE004_GroupTests: XCTestCase {
         }
 
         do {
-            let ethree4Card = try! ethree2.lookupCard(of: ethree4.identity).startSync().get()
+            let ethree4Card = try! ethree2.findUser(with: ethree4.identity).startSync().get()
             try group2.add(participant: ethree4Card).startSync().get()
             XCTFail()
         } catch GroupError.groupPermissionDenied {} catch {
@@ -403,14 +403,14 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let lookup = try! ethree1.lookupCards(of: [ethree2.identity]).startSync().get()
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
 
-        let card2 = try! ethree1.lookupCard(of: ethree2.identity).startSync().get()
+        let card2 = try! ethree1.findUser(with: ethree2.identity).startSync().get()
 
         try! ethree2.cleanUp()
         try! ethree2.rotatePrivateKey().startSync().get()
@@ -434,10 +434,10 @@ class VTE004_GroupTests: XCTestCase {
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
 
-        let card1 = try! ethree2.lookupCard(of: ethree1.identity).startSync().get()
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
 
         // User1 creates group, encrypts
-        let lookup = try! ethree1.lookupCards(of: identities).startSync().get()
+        let lookup = try! ethree1.findUsers(with: identities).startSync().get()
         let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
         let message1 = UUID().uuidString
         let encrypted1 = try! group1.encrypt(text: message1)
@@ -450,7 +450,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(message1 == decrypted1)
 
         // Add User3, encrypts
-        let card3 = try! ethree1.lookupCard(of: ethree3.identity).startSync().get()
+        let card3 = try! ethree1.findUser(with: ethree3.identity).startSync().get()
         try! group1.add(participant: card3).startSync().get()
         let message2 = UUID().uuidString
         let encrypted2 = try! group1.encrypt(text: message2)
@@ -502,7 +502,7 @@ class VTE004_GroupTests: XCTestCase {
         let message4 = UUID().uuidString
         let encrypted4 = try! group1.encrypt(text: message4)
 
-        let newCard3 = try! ethree1.lookupCard(of: ethree3.identity, forceReload: true).startSync().get()
+        let newCard3 = try! ethree1.findUser(with: ethree3.identity, forceReload: true).startSync().get()
         try! group1.reAdd(participant: newCard3).startSync().get()
 
         let newGroup3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()

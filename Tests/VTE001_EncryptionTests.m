@@ -68,7 +68,7 @@
             [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [eThree1 lookupCardOf:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                [eThree1 findUserWith:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                     XCTAssert(card != nil && error == nil);
 
                     NSString *plainText = [[NSUUID alloc] init].UUIDString;
@@ -82,7 +82,7 @@
                     NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard date:nil error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
-                    [eThree2 lookupCardOf:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                    [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                         XCTAssert(card != nil && error == nil);
 
                         NSError *err;
@@ -131,7 +131,7 @@
         NSString *plainText = [[NSUUID alloc] init].UUIDString;
         NSData *plainData = [plainText dataUsingEncoding:NSUTF8StringEncoding];
 
-        [self.eThree lookupCardOf:self.eThree.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+        [self.eThree findUserWith:self.eThree.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
             XCTAssert(card != nil && error == nil);
 
             NSError *err;
@@ -215,7 +215,7 @@
     }];
 }
 
-- (void)test_STE_37 {
+- (void)test_STE_40 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Decrypt text, which was encrypted with old card"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -233,7 +233,7 @@
             [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [eThree1 lookupCardOf:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                [eThree1 findUserWith:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                     XCTAssert(card != nil && error == nil);
 
                     NSDate *date1 = [[NSDate alloc] init];
@@ -261,7 +261,7 @@
                         NSString *encrypted2 = [eThree1 encryptWithText:plainText2 for:@{card.identity: card} error:&err];
                         XCTAssert(err == nil);
 
-                        [eThree2 lookupCardOf:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                        [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                             XCTAssert(card != nil && error == nil);
 
                             NSError *err;
@@ -293,6 +293,55 @@
 
                             [ex fulfill];
                         }];
+                    }];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test_STE_41 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated lookupPublicKeys"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+        VTEEThree *eThree1 = self.eThree;
+
+        NSString *identity = [[NSUUID alloc] init].UUIDString;
+        [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+            NSString *token = [self.utils getTokenStringWithIdentity:identity];
+
+            completionHandler(token, nil);
+        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+            XCTAssert(eThree2 != nil && error == nil);
+
+            [eThree2 registerWithCompletion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSSCard *> *lookup, NSError *error) {
+                    XCTAssert(error == nil);
+                    XCTAssert(lookup.count > 0);
+
+                    NSString *plainText = [[NSUUID alloc] init].UUIDString;
+                    NSError *err;
+                    NSString *encrypted = [eThree1 encryptWithText:plainText for:lookup error:&err];
+                    XCTAssert(err == nil);
+
+                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSSCard *> *lookup, NSError *error) {
+                        XCTAssert(error == nil);
+                        XCTAssert(lookup.count > 0);
+
+                        NSError *err;
+                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:lookup[eThree1.identity] date:nil error:&err];
+                        XCTAssert(err == nil);
+                        XCTAssert([decrypted isEqualToString:plainText]);
+
+                        [ex fulfill];
                     }];
                 }];
             }];

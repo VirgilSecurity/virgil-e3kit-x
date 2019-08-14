@@ -42,12 +42,12 @@ import Foundation
 /// - strToDataFailed: String to Data failed
 /// - strFromDataFailed: Data to String failed
 /// - missingPrivateKey: No private key on device. You should call `register()` of `retrievePrivateKey()`
-/// - missingPublicKey: Passed empty LookupResult
-/// - missingIdentities: Passed empty array of identities to lookup for
+/// - missingPublicKey: Passed empty FindUsersResult
+/// - missingIdentities: Passed empty array of identities to findUsers
 /// - userIsAlreadyRegistered: User is already registered
 /// - userIsNotRegistered: User is not registered
 /// - privateKeyExists: Private key already exists in local key storage
-/// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try lookup new one
+/// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try finding new one
 @objc(VTEEThreeError) public enum EThreeError: Int, LocalizedError {
     case verifierInitFailed = 1
     case strToDataFailed = 3
@@ -58,7 +58,7 @@ import Foundation
     case userIsAlreadyRegistered = 8
     case userIsNotRegistered = 9
     case privateKeyExists = 10
-    case verificationFailed = 11
+    case verificationFailed = 12
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -72,9 +72,9 @@ import Foundation
         case .missingPrivateKey:
             return "No private key on device. You should call register() of retrievePrivateKey()"
         case .missingPublicKey:
-            return "Passed empty LookupResult"
+            return "Passed empty FindUsersResult"
         case .missingIdentities:
-            return "Passed empty array of identities to lookup for"
+            return "Passed empty array of identities to findUsers"
         case .userIsAlreadyRegistered:
             return "User is already registered"
         case .userIsNotRegistered:
@@ -82,7 +82,7 @@ import Foundation
         case .privateKeyExists:
             return "Private key already exists in local key storage"
         case .verificationFailed:
-            return "Verification of message failed. This may be caused by rotating sender key. Try lookup new one"
+            return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         }
     }
 }

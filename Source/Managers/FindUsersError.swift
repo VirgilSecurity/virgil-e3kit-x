@@ -36,12 +36,12 @@
 
 import Foundation
 
-/// Declares error types and codes for `LookupManager`
+/// Declares error types and codes for finding users
 ///
 /// - duplicateCards: Found duplicated Cards
-/// - missingCachedCard: Card with provided identity was not found locally. Try to call lookupCard first
+/// - missingCachedCard: Card with provided identity was not found locally. Try to call findUsers first
 /// - cardWasNotFound: Card for one or more of provided identities was not found
-@objc(VTELookupError) public enum LookupError: Int, LocalizedError {
+@objc(VTEFindUsersError) public enum FindUsersError: Int, LocalizedError {
     case duplicateCards = 1
     case missingCachedCard = 2
     case cardWasNotFound = 3
@@ -52,7 +52,7 @@ import Foundation
         case .duplicateCards:
             return "Found duplicated Cards"
         case .missingCachedCard:
-            return "Card with provided identity was not found locally. Try to call lookupCard first"
+            return "Card with provided identity was not found locally. Try to call findUsers first"
         case .cardWasNotFound:
             return "Card for one or more of provided identities was not found"
         }
