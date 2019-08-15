@@ -119,20 +119,32 @@
 -(void)test04_STE_11 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if local key already exists"];
 
+    NSString *identity = [[NSUUID alloc] init].UUIDString;
+
+    VSSCard *card __unused = [self.utils publishCardWithIdentity:identity previousCardId:nil];
+
     NSError *error;
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
     NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
     VSSKeychainEntry *entry = [self.keychainStorage storeWithData:data
-                                                         withName:self.eThree.identity
+                                                         withName:identity
                                                              meta:nil
                                                      queryOptions:nil
                                                             error:&error];
     XCTAssert(entry != nil && error == nil);
 
-    [self.eThree registerWithCompletion:^(NSError *error) {
-        XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
+    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-        [ex fulfill];
+        completionHandler(token, nil);
+    } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree, NSError *error) {
+        XCTAssert(eThree != nil && error == nil);
+
+        [eThree registerWithCompletion:^(NSError *error) {
+            XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
+
+            [ex fulfill];
+        }];
     }];
 
 
