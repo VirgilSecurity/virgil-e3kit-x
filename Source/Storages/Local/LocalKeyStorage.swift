@@ -43,17 +43,14 @@ internal class LocalKeyStorage {
     private var keyPair: VirgilKeyPair?
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
-    private let options: KeychainQueryOptions
+    private let options: KeychainQueryOptions = KeychainQueryOptions()
 
     internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage, biometricProtection: Bool) throws {
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
 
-        let options = KeychainQueryOptions()
-        options.biometricallyProtected = biometricProtection
-
-        self.options = options
+        self.options.biometricallyProtected = biometricProtection
 
         self.keyPair = try self.retrieve()
     }
