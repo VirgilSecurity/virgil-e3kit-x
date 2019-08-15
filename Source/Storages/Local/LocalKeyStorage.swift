@@ -70,9 +70,11 @@ internal class LocalKeyStorage {
     }
 
     internal func retrieve() throws -> VirgilKeyPair? {
-        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options)
-
-        guard let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
+        // FIXME: throw biometric not authorized error
+        guard
+            let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options),
+            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data)
+        else {
             return nil
         }
 
