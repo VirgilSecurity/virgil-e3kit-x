@@ -43,9 +43,12 @@ internal class LocalKeyStorage {
     private var keyPair: VirgilKeyPair?
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
-    private let options: KeychainQueryOptions = KeychainQueryOptions()
+    private let options = KeychainQueryOptions()
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage, biometricProtection: Bool) throws {
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  keychainStorage: KeychainStorage,
+                  biometricProtection: Bool) throws {
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
@@ -96,13 +99,12 @@ internal class LocalKeyStorage {
     }
 
     internal func store(data: Data) throws {
-        let keyEntry = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil, queryOptions: self.options)
+        let keyEntry = try self.keychainStorage.store(data: data,
+                                                      withName: self.identity,
+                                                      meta: nil,
+                                                      queryOptions: self.options)
 
-        guard let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-            throw NSError()
-        }
-
-        self.keyPair = keyPair
+        self.keyPair = try self.crypto.importPrivateKey(from: keyEntry.data)
     }
 
     internal func exists() -> Bool {

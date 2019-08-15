@@ -113,6 +113,10 @@ extension EThree {
     #endif
 
     #if os(macOS) || os(iOS)
+    /// Updates keychain entries with new options
+    ///
+    /// - Parameter set: private key will be accessed only using biometrics if true
+    /// - Throws: corresponding error
     @objc public func setBiometricProtection(to set: Bool) throws {
         try self.localKeyStorage.setBiometricalProtection(to: set)
     }
