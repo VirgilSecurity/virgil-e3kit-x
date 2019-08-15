@@ -66,7 +66,7 @@ class VTE004_GroupTests: XCTestCase {
         return ethree
     }
 
-    func test_STE_26__create_with_invalid_participants_count__should_throw_error() {
+    func test001_STE_26__create_with_invalid_participants_count__should_throw_error() {
         let ethree = self.setUpDevice()
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
@@ -102,7 +102,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group.participants.contains(newLookup.keys.first!))
     }
 
-    func test_STE_27__createGroup__should_add_self() {
+    func test002_STE_27__createGroup__should_add_self() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -118,7 +118,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group1.participants == group2.participants)
     }
 
-    func test_STE_28__groupId__should_not_be_short() {
+    func test003_STE_28__groupId__should_not_be_short() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -134,7 +134,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_29__get_group() {
+    func test004_STE_29__get_group() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -152,7 +152,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(cachedGroup.initiator == group.initiator)
     }
 
-    func test_STE_30__load_group() {
+    func test005_STE_30__load_group() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -170,7 +170,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group1.initiator == group2.initiator)
     }
 
-    func test_STE_31__load_alien_or_unexistent_group__should_throw_error() {
+    func test006_STE_31__load_alien_or_unexistent_group__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -198,7 +198,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_32__actions_on_deleted_group__should_throw_error() {
+    func test007_STE_32__actions_on_deleted_group__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -240,7 +240,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_STE_33__add_more_than_max__should_throw_error() {
+    func test008_STE_33__add_more_than_max__should_throw_error() {
         let ethree = self.setUpDevice()
 
         var participants: Set<String> = Set()
@@ -271,7 +271,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_34__remove_last_participant__should_throw_error() {
+    func test009_STE_34__remove_last_participant__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -289,7 +289,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_35__remove() {
+    func test010_STE_35__remove() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -329,7 +329,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_STE_37__add() {
+    func test011_STE_37__add() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -358,7 +358,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group3.participants == participants)
     }
 
-    func test_STE_36__change_group_by_noninitiator__should_throw_error() {
+    func test012_STE_36__change_group_by_noninitiator__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -397,7 +397,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test__STE_38__decrypt_with_old_card__should_throw_error() {
+    func test013__STE_38__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -425,7 +425,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_39__integration_encryption() {
+    func test014_STE_39__integration_encryption() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()

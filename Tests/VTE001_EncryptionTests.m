@@ -50,7 +50,7 @@
     [super tearDown];
 }
 
-- (void)test_STE_3 {
+- (void)test01_STE_3 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt should success"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -103,7 +103,7 @@
     }];
 }
 
-- (void)test_STE_4 {
+- (void)test02_STE_4 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Encrypt for empty array of keys should throw error"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -122,7 +122,7 @@
     }];
 }
 
-- (void)test_STE_5 {
+- (void)test03_STE_5 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Should throw error if decrypted text is not verified"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -157,7 +157,7 @@
     }];
 }
 
-- (void)test_STE_6 {
+- (void)test04_STE_6 {
     NSError *error;
     [self.keychainStorage deleteEntryWithName:self.eThree.identity queryOptions:nil error:nil];
 
@@ -175,7 +175,7 @@
     XCTAssert(decrypted == nil);
 }
 
-- (void)test_STE_22 {
+- (void)test05_STE_22 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Should encrypt then decrypt streams"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -215,7 +215,7 @@
     }];
 }
 
-- (void)test_STE_40 {
+- (void)test06_STE_40 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Decrypt text, which was encrypted with old card"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -305,7 +305,7 @@
     }];
 }
 
-- (void)test_STE_41 {
+- (void)test07_STE_41 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated lookupPublicKeys"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {

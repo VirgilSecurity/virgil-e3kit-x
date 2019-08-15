@@ -67,7 +67,7 @@ class VTE006_LookupTests: XCTestCase {
         return ethree
     }
 
-    func test_STE_1() {
+    func test01_STE_1() {
         let ethree = self.setUpDevice()
 
         let card1 = self.utils.publishCard()
@@ -82,7 +82,7 @@ class VTE006_LookupTests: XCTestCase {
         XCTAssert(lookup.contains(where: { $0.value.identifier == card3.identifier } ))
     }
 
-    func test_STE_2() {
+    func test02_STE_2() {
         let ethree = self.setUpDevice()
 
         do {
@@ -93,7 +93,7 @@ class VTE006_LookupTests: XCTestCase {
         }
     }
 
-    func test_STE_23() {
+    func test03_STE_23() {
         let ethree = self.setUpDevice()
 
         let card1 = self.utils.publishCard()
@@ -118,7 +118,7 @@ class VTE006_LookupTests: XCTestCase {
         XCTAssert(cachedCard.identifier == card2.identifier)
     }
 
-    func test_STE_24() {
+    func test04_STE_24() {
         let ethree = self.setUpDevice()
 
         let card1 = self.utils.publishCard()
@@ -132,7 +132,7 @@ class VTE006_LookupTests: XCTestCase {
         }
     }
 
-    func test_STE_25() {
+    func test05_STE_25() {
         let card = self.utils.publishCard()
 
         class dummyClass: ChangedKeyDelegate {

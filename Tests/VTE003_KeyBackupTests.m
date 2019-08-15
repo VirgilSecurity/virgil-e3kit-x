@@ -50,7 +50,7 @@
     [super tearDown];
 }
 
-- (void)test_STE_15 {
+- (void)test01_STE_15 {
     XCTestExpectation *ex = [self expectationWithDescription:@"BackupPrivateKey tests"];
 
     [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
@@ -99,7 +99,7 @@
     }];
 }
 
-- (void)test_STE_16 {
+- (void)test02_STE_16 {
     XCTestExpectation *ex = [self expectationWithDescription:@"RestorePrivateKey tests"];
 
     NSError *err;
@@ -150,7 +150,7 @@
     }];
 }
 
-- (void)test_STE_17 {
+- (void)test03_STE_17 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ChangePrivateKeyPassword tests"];
 
     NSError *err;
@@ -203,7 +203,7 @@
     }];
 }
 
-- (void)test_STE_18 {
+- (void)test04_STE_18 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup tests"];
 
     [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
@@ -247,7 +247,7 @@
     }];
 }
 
-- (void)test_STE_19 {
+- (void)test05_STE_19 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup without pasword test"];
 
     [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
