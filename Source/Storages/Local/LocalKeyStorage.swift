@@ -43,13 +43,22 @@ internal class LocalKeyStorage {
     private var keyPair: VirgilKeyPair?
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
+    private let options: KeychainQueryOptions
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage, biometricProtection: Bool) {
+    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage, biometricProtection: Bool) throws {
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
 
-        self.keyPair = self.retrieve(biometrical: biometricProtection)
+        let options = KeychainQueryOptions()
+
+        #if os(macOS) || os(iOS)
+            options.biometricallyProtected = biometricProtection
+        #endif
+
+        self.options = options
+
+        self.keyPair = try self.retrieve()
     }
 
     internal func getKeyPair() throws -> VirgilKeyPair {
@@ -60,23 +69,18 @@ internal class LocalKeyStorage {
         return keyPair
     }
 
-    internal func retrieve(biometrical: Bool) -> VirgilKeyPair? {
-        let options = KeychainQueryOptions()
+    internal func retrieve() throws -> VirgilKeyPair? {
+        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options)
 
-        #if os(macOS) || os(iOS)
-            options.biometricallyProtected = biometrical
-        #endif
-
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: options),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                return nil
+        guard let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
+            return nil
         }
 
         return keyPair
     }
 
     internal func store(data: Data) throws {
-        let keyEntry = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+        let keyEntry = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil, queryOptions: self.options)
 
         guard let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
             throw NSError()
@@ -90,7 +94,7 @@ internal class LocalKeyStorage {
     }
 
     internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
+        try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
 
         self.keyPair = nil
     }

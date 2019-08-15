@@ -98,10 +98,10 @@ import VirgilCrypto
         let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
-        let localKeyStorage = LocalKeyStorage(identity: identity,
-                                              crypto: crypto,
-                                              keychainStorage: keychainStorage,
-                                              biometricProtection: biometricProtection)
+        let localKeyStorage = try LocalKeyStorage(identity: identity,
+                                                  crypto: crypto,
+                                                  keychainStorage: keychainStorage,
+                                                  biometricProtection: biometricProtection)
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,
