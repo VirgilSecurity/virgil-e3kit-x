@@ -397,7 +397,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test013__STE_38__decrypt_with_old_card__should_throw_error() {
+    func test013_STE_38__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -420,7 +420,7 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try group1.decrypt(text: encrypted, from: card2)
             XCTFail()
-        } catch EThreeError.verificationFailed {} catch {
+        } catch GroupError.verificationFailed {} catch {
             XCTFail()
         }
     }
@@ -508,6 +508,87 @@ class VTE004_GroupTests: XCTestCase {
         let newGroup3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
         let decrypted4 = try! newGroup3.decrypt(text: encrypted4, from: card1)
         XCTAssert(decrypted4 == message4)
+    }
+
+    func test015_STE_42__decrypt_with_old_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity, ethree3.identity]).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        try! group1.remove(participant: lookup[ethree3.identity]!).startSync().get()
+
+        let message = UUID().uuidString
+        let encrypted = try! group1.encrypt(text: message)
+
+        do {
+            _ = try group2.decrypt(text: encrypted, from: card1)
+            XCTFail()
+        } catch GroupError.groupIsOutdated {} catch {
+            XCTFail()
+        }
+    }
+
+    func test016_STE_43__decrypt_with_old_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        let date1 = Date()
+        let message1 = UUID().uuidString
+        let encrypted1 = try! group2.encrypt(text: message1)
+
+        sleep(1)
+
+        try! ethree2.cleanUp()
+        try! ethree2.rotatePrivateKey().startSync().get()
+
+        let date2 = Date()
+        let message2 = UUID().uuidString
+        let encrypted2 = try! group2.encrypt(text: message2)
+
+        let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: true).startSync().get()
+
+        do {
+            _ = try group1.decrypt(text: encrypted1, from: card2)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        do {
+            _ = try group1.decrypt(text: encrypted1, from: card2, date: date2)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        let dectypted1 = try! group1.decrypt(text: encrypted1, from: card2, date: date1)
+        XCTAssert(message1 == dectypted1)
+
+        do {
+            _ = try group1.decrypt(text: encrypted2, from: card2, date: date1)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        let dectypted2 = try! group1.decrypt(text: encrypted2, from: card2, date: date2)
+        XCTAssert(message2 == dectypted2)
     }
 }
 

@@ -36,11 +36,11 @@
 
 #import "VTETestBase.h"
 
-@interface VTE001_EncryptionTests : VTETestBase
+@interface VTE001_PeerToPeerTests : VTETestBase
 
 @end
 
-@implementation VTE001_EncryptionTests
+@implementation VTE001_PeerToPeerTests
 
 - (void)setUp {
     [super setUp];
