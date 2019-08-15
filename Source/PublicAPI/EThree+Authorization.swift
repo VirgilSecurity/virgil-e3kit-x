@@ -112,6 +112,12 @@ extension EThree {
     }
     #endif
 
+    #if os(macOS) || os(iOS)
+    @objc public func setBiometricProtection(to set: Bool) throws {
+        try self.localKeyStorage.setBiometricalProtection(to: set)
+    }
+    #endif
+
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Returns: CallbackOperation<Void>
