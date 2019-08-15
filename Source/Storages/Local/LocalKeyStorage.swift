@@ -50,11 +50,14 @@ internal class LocalKeyStorage {
         self.crypto = crypto
         self.keychainStorage = keychainStorage
 
+        #if os(macOS) || os(iOS)
         self.options.biometricallyProtected = biometricProtection
+        #endif
 
         self.keyPair = try self.retrieve()
     }
 
+    #if os(macOS) || os(iOS)
     internal func setBiometricalProtection(to set: Bool) throws {
         guard self.options.biometricallyProtected != set else {
             return
@@ -63,6 +66,13 @@ internal class LocalKeyStorage {
         self.options.biometricallyProtected = set
 
         try self.update()
+    }
+    #endif
+
+    private func update() throws {
+        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
+
+        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: nil, queryOptions: self.options)
     }
 
     internal func getKeyPair() throws -> VirgilKeyPair {
@@ -93,12 +103,6 @@ internal class LocalKeyStorage {
         }
 
         self.keyPair = keyPair
-    }
-
-    private func update() throws {
-        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
-
-        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: nil, queryOptions: self.options)
     }
 
     internal func exists() -> Bool {
