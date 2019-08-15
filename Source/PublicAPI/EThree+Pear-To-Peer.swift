@@ -51,23 +51,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
-        var publicKeys = [selfKeyPair.publicKey]
-
-        if let users = users {
-            guard !users.isEmpty else {
-                throw EThreeError.missingPublicKey
-            }
-
-            let recipientKeys = users.values.map { $0.publicKey }
-
-            publicKeys += recipientKeys
-        }
-
-        let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
-
-        return encryptedData
+        return try self.encrypt(data: data, for: users?.mapValues { $0.publicKey } )
     }
 
     /// Decrypts and verifies data from users
@@ -225,4 +209,96 @@ extension EThree {
     public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
         try self.encrypt(stream, to: outputStream, for: [user.identity: user])
     }
+}
+
+extension EThree {
+    /// Signs then encrypts data for group of users
+    ///
+    /// - Parameters:
+    ///   - data: data to encrypt
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(*, deprecated, message: "Use encryptForUsers method instead.")
+    public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        
+        var publicKeys = [selfKeyPair.publicKey]
+        
+        if let recipientKeys = recipientKeys {
+            guard !recipientKeys.isEmpty else {
+                throw EThreeError.missingPublicKey
+            }
+            
+            publicKeys += recipientKeys.values
+        }
+        
+        let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys)
+        
+        return encryptedData
+    }
+    
+    /// Decrypts and verifies data from users
+    ///
+    /// - Parameters:
+    ///   - data: data to decrypt
+    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
+    @available(*, deprecated, message: "Use decryptFromUser method instead.")
+    public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
+        return Data()
+    }
+    
+    /// Encrypts data stream
+    ///
+    /// - Parameters:
+    ///   - stream: data stream to be encrypted
+    ///   - outputStream: stream with encrypted data
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(*, deprecated, message: "Use decryptFromUser method instead.")
+    public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
+                        for recipientKeys: LookupResult? = nil) throws {
+    }
+    
+    
+    /// Signs then encrypts string for group of users
+    ///
+    /// - Parameters:
+    ///   - text: String to encrypt
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
+    ///                    Use nil to sign and encrypt for self
+    /// - Returns: encrypted base64String
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(*, deprecated, message: "Use decryptFromUser method instead.")
+    public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
+        return ""
+    }
+    
+    /// Decrypts and verifies base64 string from users
+    ///
+    /// - Parameters:
+    ///   - text: encrypted String
+    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
+    /// - Returns: decrypted String
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
+    @available(*, deprecated, message: "Use decryptFromUser method instead.")
+    public func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
+        return ""
+    }
+
 }

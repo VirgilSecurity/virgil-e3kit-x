@@ -35,9 +35,13 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 /// Typealias for the result of findUsers call
 public typealias FindUsersResult = [String: Card]
+
+/// Typealias for the valid result of lookupPublicKeys call
+public typealias LookupResult = [String: VirgilPublicKey]
 
 internal class LookupManager {
     internal let cardStorage: SQLiteCardStorage
