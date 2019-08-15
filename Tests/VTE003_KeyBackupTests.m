@@ -117,22 +117,28 @@
 
             sleep(2);
 
-            [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                XCTAssert(error == nil);
-
-                NSError *err;
-                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
-                                                                                  queryOptions:nil
-                                                                                         error:&err];
-                XCTAssert(retrievedEntry != nil && err == nil);
-                XCTAssert([retrievedEntry.data isEqualToData:data]);
+            [self.eThree restorePrivateKeyWithPassword:@"Wrong password" completion:^(NSError *error) {
+                XCTAssert(error.code == VTEEThreeErrorWrongPassword);
 
                 sleep(2);
 
                 [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                    XCTAssert(error != nil);
+                    XCTAssert(error == nil);
 
-                    [ex fulfill];
+                    NSError *err;
+                    VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                                      queryOptions:nil
+                                                                                             error:&err];
+                    XCTAssert(retrievedEntry != nil && err == nil);
+                    XCTAssert([retrievedEntry.data isEqualToData:data]);
+
+                    sleep(2);
+
+                    [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                        XCTAssert(error != nil);
+
+                        [ex fulfill];
+                    }];
                 }];
             }];
         }];
@@ -169,7 +175,7 @@
                 sleep(2);
 
                 [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                    XCTAssert(error != nil);
+                    XCTAssert(error.code == VTEEThreeErrorWrongPassword);
 
                     sleep(2);
 

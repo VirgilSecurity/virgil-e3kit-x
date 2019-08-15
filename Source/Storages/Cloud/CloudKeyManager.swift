@@ -77,7 +77,11 @@ internal class CloudKeyManager {
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
 
-        try cloudKeyStorage.retrieveCloudEntries().startSync().get()
+        do {
+            try cloudKeyStorage.retrieveCloudEntries().startSync().get()
+        } catch KeyknoxCryptoError.decryptionFailed {
+            throw EThreeError.wrongPassword
+        }
 
         return cloudKeyStorage
     }
@@ -95,11 +99,7 @@ extension CloudKeyManager {
     internal func retrieve(usingPassword password: String) throws -> CloudEntry {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
-        do {
-            return try cloudKeyStorage.retrieveEntry(withName: self.identity)
-        } catch KeyknoxCryptoError.decryptionFailed {
-            throw EThreeError.wrongPassword
-        }
+        return try cloudKeyStorage.retrieveEntry(withName: self.identity)
     }
 
     internal func delete(password: String) throws {
