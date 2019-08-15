@@ -46,7 +46,7 @@ extension Group {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func encrypt(data: Data) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
 

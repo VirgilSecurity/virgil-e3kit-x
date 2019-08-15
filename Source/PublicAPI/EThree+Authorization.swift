@@ -39,6 +39,44 @@ import VirgilCrypto
 
 // MARK: - Extension with authorization operations
 extension EThree {
+
+    #if os(macOS) || os(iOS)
+    /// Initializes E3Kit with a callback to get Virgil access token
+    ///
+    /// - Parameters:
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - biometricProtection: will use biometric protection of key if true
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                  biometricProtection: Bool = false,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+        return CallbackOperation { _, completion in
+            do {
+                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+                let tokenContext = TokenContext(service: "cards", operation: "")
+
+                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
+                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
+                }
+
+                let token = try getTokenOperation.startSync().get()
+
+                let ethree = try EThree(identity: token.identity(),
+                                        accessTokenProvider: accessTokenProvider,
+                                        biometricProtection: biometricProtection,
+                                        changedKeyDelegate: changedKeyDelegate,
+                                        storageParams: storageParams)
+
+                completion(ethree, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+    #else
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
     /// - Parameters:
@@ -62,6 +100,7 @@ extension EThree {
 
                 let ethree = try EThree(identity: token.identity(),
                                         accessTokenProvider: accessTokenProvider,
+                                        biometricProtection: false,
                                         changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
@@ -71,6 +110,7 @@ extension EThree {
             }
         }
     }
+    #endif
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
@@ -79,7 +119,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard try !self.localKeyStorage.exists() else {
+                    guard !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -107,7 +147,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard try !self.localKeyStorage.exists() else {
+                    guard !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -158,8 +198,8 @@ extension EThree {
     ///
     /// - Returns: true if private key exists in keychain storage
     /// - Throws: KeychainStorageError
-    public func hasLocalPrivateKey() throws -> Bool {
-        return try self.localKeyStorage.exists()
+    public func hasLocalPrivateKey() -> Bool {
+        return self.localKeyStorage.exists()
     }
 
     /// Deletes Private Key from local storage, cleand local cards storage

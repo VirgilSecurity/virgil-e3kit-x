@@ -67,7 +67,7 @@ internal class CloudTicketStorage {
 
 extension CloudTicketStorage {
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let groupMessage = ticket.groupMessage
 
@@ -96,7 +96,7 @@ extension CloudTicketStorage {
     internal func retrieve(sessionId: Data,
                            identity: String,
                            identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
 
@@ -132,7 +132,7 @@ extension CloudTicketStorage {
     }
 
     internal func addRecipients(_ cards: [Card], sessionId: Data) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
 
@@ -176,7 +176,7 @@ extension CloudTicketStorage {
     }
 
     internal func reAddRecipient(_ card: Card, sessionId: Data) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let path = sessionId.hexEncodedString()
 

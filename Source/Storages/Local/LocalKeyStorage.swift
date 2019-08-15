@@ -39,33 +39,59 @@ import VirgilSDK
 
 internal class LocalKeyStorage {
     internal let identity: String
+
+    private var keyPair: VirgilKeyPair?
     private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
+    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage, biometricProtection: Bool) {
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
+
+        self.keyPair = self.retrieve(biometrical: biometricProtection)
     }
 
-    internal func retrieveKeyPair() throws -> VirgilKeyPair {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
+    internal func getKeyPair() throws -> VirgilKeyPair {
+        guard let keyPair = self.keyPair else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return keyPair
+    }
+
+    internal func retrieve(biometrical: Bool) -> VirgilKeyPair? {
+        let options = KeychainQueryOptions()
+
+        #if os(macOS) || os(iOS)
+            options.biometricallyProtected = biometrical
+        #endif
+
+        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: options),
             let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                throw EThreeError.missingPrivateKey
+                return nil
         }
 
         return keyPair
     }
 
     internal func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+        let keyEntry = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+
+        guard let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
+            throw NSError()
+        }
+
+        self.keyPair = keyPair
     }
 
-    internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
+    internal func exists() -> Bool {
+        return self.keyPair != nil
     }
 
     internal func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity)
+
+        self.keyPair = nil
     }
 }

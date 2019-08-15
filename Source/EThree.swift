@@ -73,6 +73,7 @@ import VirgilCrypto
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
+                              biometricProtection: Bool,
                               changedKeyDelegate: ChangedKeyDelegate?,
                               storageParams: KeychainStorageParams?) throws {
         let crypto = try VirgilCrypto()
@@ -99,7 +100,8 @@ import VirgilCrypto
 
         let localKeyStorage = LocalKeyStorage(identity: identity,
                                               crypto: crypto,
-                                              keychainStorage: keychainStorage)
+                                              keychainStorage: keychainStorage,
+                                              biometricProtection: biometricProtection)
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,
@@ -133,7 +135,7 @@ import VirgilCrypto
 
         super.init()
 
-        if try localKeyStorage.exists() {
+        if localKeyStorage.exists() {
             try self.privateKeyChanged()
         }
 
@@ -151,7 +153,7 @@ import VirgilCrypto
 
 extension EThree {
     internal func privateKeyChanged(newCard: Card? = nil) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         let localGroupStorage = try FileGroupStorage(identity: self.identity,
                                                      crypto: self.crypto,

@@ -51,7 +51,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -79,7 +79,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from user: Card? = nil, date: Date? = nil) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         var card = try user ?? self.lookupManager.lookupCachedCard(of: self.identity)
 
@@ -116,7 +116,7 @@ extension EThree {
     @objc public func encrypt(_ stream: InputStream,
                               to outputStream: OutputStream,
                               for users: FindUsersResult? = nil) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         var publicKeys = [selfKeyPair.publicKey]
 
@@ -141,7 +141,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc public func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.localKeyStorage.getKeyPair()
 
         try self.crypto.decrypt(stream, to: outputStream, with: selfKeyPair.privateKey)
     }
