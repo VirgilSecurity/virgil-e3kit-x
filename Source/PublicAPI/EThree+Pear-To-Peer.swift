@@ -63,18 +63,30 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
+    @objc(decryptData:fromUsers:error:)
+    public func decrypt(data: Data, from user: Card? = nil) throws -> Data {
+        return try self.decryptInternal(data: data, from: user?.publicKey)
+    }
+
+    /// Decrypts and verifies data from users
+    ///
+    /// - Parameters:
+    ///   - data: data to decrypt
+    ///   - user: sender Card with Public Key to verify with
+    ///   - date: date of encryption to use proper card version
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
     @objc(decryptData:fromUsers:date:error:)
-    public func decrypt(data: Data, from user: Card? = nil, date: Date? = nil) throws -> Data {
-        var card = try user ?? self.lookupManager.lookupCachedCard(of: self.identity)
+    public func decrypt(data: Data, from user: Card, date: Date) throws -> Data {
+        var card = user
 
-        if let date = date {
-            while let previousCard = card.previousCard {
-                guard card.createdAt > date else {
-                    break
-                }
-
-                card = previousCard
+        while let previousCard = card.previousCard {
+            guard card.createdAt > date else {
+                break
             }
+
+            card = previousCard
         }
 
         return try self.decryptInternal(data: data, from: card.publicKey)
@@ -139,8 +151,32 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
+    @objc(decryptText:fromUser:error:)
+    public func decrypt(text: String, from user: Card? = nil) throws -> String {
+        guard let data = Data(base64Encoded: text) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        let decryptedData = try self.decrypt(data: data, from: user)
+
+        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
+            throw EThreeError.strFromDataFailed
+        }
+
+        return decryptedString
+    }
+
+    /// Decrypts and verifies base64 string from users
+    ///
+    /// - Parameters:
+    ///   - text: encrypted String
+    ///   - user: sender Card with Public Key to verify with
+    ///   - date: date of encryption to use proper card version
+    /// - Returns: decrypted String
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
     @objc(decryptText:fromUser:date:error:)
-    public func decrypt(text: String, from user: Card? = nil, date: Date? = nil) throws -> String {
+    public func decrypt(text: String, from user: Card, date: Date) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -245,19 +281,12 @@ private extension EThree {
     func decryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let pubKey: VirgilPublicKey
-
-        if let publicKey = publicKey {
-            pubKey = publicKey
-        }
-        else {
-            pubKey = selfKeyPair.publicKey
-        }
+        let publicKey = publicKey ?? selfKeyPair.publicKey
 
         do {
             return try self.crypto.decryptAndVerify(data,
                                                     with: selfKeyPair.privateKey,
-                                                    using: pubKey)
+                                                    using: publicKey)
         } catch VirgilCryptoError.signatureNotVerified {
             throw EThreeError.verificationFailed
         }

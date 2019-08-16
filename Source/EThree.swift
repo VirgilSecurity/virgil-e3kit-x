@@ -168,8 +168,6 @@ extension EThree {
 
         if let newCard = newCard {
             try self.lookupManager.cardStorage.storeCard(newCard)
-        } else {
-            _ = try lookupManager.lookupCard(of: self.identity)
         }
     }
 
