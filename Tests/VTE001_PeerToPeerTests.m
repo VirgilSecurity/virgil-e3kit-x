@@ -79,14 +79,14 @@
                     VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
                     XCTAssert(err == nil);
 
-                    NSString *decrypted = [eThree2 decryptText:encrypted fromUser:otherCard date:nil error:&err];
+                    NSString *decrypted = [eThree2 decryptText:encrypted fromUser:otherCard error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
                     [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                         XCTAssert(card != nil && error == nil);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decryptText:encrypted fromUser:card date:nil error:&err];
+                        NSString *decrypted = [eThree2 decryptText:encrypted fromUser:card error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -144,7 +144,7 @@
             VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
             XCTAssert(err == nil);
 
-            NSString *decrypted = [self.eThree decryptText:encryptedString fromUser:otherCard date:nil error:&err];
+            NSString *decrypted = [self.eThree decryptText:encryptedString fromUser:otherCard error:&err];
             XCTAssert(err != nil && decrypted == nil);
 
             [ex fulfill];
@@ -170,7 +170,7 @@
 
     error = nil;
 
-    NSString *decrypted = [self.eThree decryptText:@"" fromUser:card date:nil error:&error];
+    NSString *decrypted = [self.eThree decryptText:@"" fromUser:card error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(decrypted == nil);
 }
@@ -265,7 +265,7 @@
                             XCTAssert(card != nil && error == nil);
 
                             NSError *err;
-                            NSString *tmp1 = [eThree2 decryptText:encrypted1 fromUser:card date:nil error:&err];
+                            NSString *tmp1 = [eThree2 decryptText:encrypted1 fromUser:card error:&err];
                             XCTAssert(err != nil && tmp1 == nil);
 
                             err = nil;

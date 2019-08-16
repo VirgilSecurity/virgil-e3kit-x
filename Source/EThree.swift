@@ -73,6 +73,18 @@ import VirgilCrypto
 
     private var groupManager: GroupManager?
 
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        try self.init(identity: identity,
+                      accessTokenProvider: accessTokenProvider,
+                      changedKeyDelegate: changedKeyDelegate,
+                      storageParams: storageParams)
+    }
+
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
                               changedKeyDelegate: ChangedKeyDelegate?,
