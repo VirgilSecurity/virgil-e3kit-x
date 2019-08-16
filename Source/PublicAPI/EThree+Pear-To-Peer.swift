@@ -43,7 +43,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - user: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///   - user: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
     ///           Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
@@ -59,7 +59,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to decrypt
-    ///   - user: sender PublicKey to verify with. Use nil to decrypt and verify from self
+    ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
@@ -85,7 +85,7 @@ extension EThree {
     /// - Parameters:
     ///   - stream: data stream to be encrypted
     ///   - outputStream: stream with encrypted data
-    ///   - users: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///   - users: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
     ///            Use nil to sign and encrypt for self
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
@@ -115,7 +115,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - text: String to encrypt
-    ///   - users: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///   - users: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
     ///            Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
@@ -135,7 +135,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - text: encrypted String
-    ///   - user: sender PublicKey to verify with. Use nil to decrypt and verify from self.
+    ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
