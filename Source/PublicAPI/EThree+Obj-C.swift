@@ -226,4 +226,80 @@ extension EThree {
                                                               _ error: Error?) -> Void) {
         self.lookupPublicKeys(of: identities).start(completion: completion)
     }
+
+    /// Signs then encrypts data for group of users
+    ///
+    /// - Parameters:
+    ///   - data: data to encrypt
+    ///   - user: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///           Use nil to sign and encrypt for self
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(swift 1.0)
+    @objc public func encrypt(data: Data, forUsers users: FindUsersResult? = nil) throws -> Data {
+        return try self.encrypt(data: data, for: users)
+    }
+
+    /// Decrypts and verifies data from users
+    ///
+    /// - Parameters:
+    ///   - data: data to decrypt
+    ///   - user: sender PublicKey to verify with. Use nil to decrypt and verify from self
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
+    @available(swift 1.0)
+    @objc public func decrypt(data: Data, fromUser user: Card? = nil, date: Date? = nil) throws -> Data {
+        return try self.decrypt(data: data, from: user, date: date)
+    }
+
+    /// Encrypts data stream
+    ///
+    /// - Parameters:
+    ///   - stream: data stream to be encrypted
+    ///   - outputStream: stream with encrypted data
+    ///   - users: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///            Use nil to sign and encrypt for self
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(swift 1.0)
+    @objc public func encrypt(_ stream: InputStream,
+                              to outputStream: OutputStream,
+                              forUsers users: FindUsersResult? = nil) throws {
+        try self.encrypt(stream, to: outputStream, for: users)
+    }
+
+    /// Signs then encrypts string for group of users
+    ///
+    /// - Parameters:
+    ///   - text: String to encrypt
+    ///   - users: result of findUsers call recipient PublicKeys to sign and encrypt with.
+    ///            Use nil to sign and encrypt for self
+    /// - Returns: encrypted base64String
+    /// - Throws: corresponding error
+    /// - Important: Automatically includes self key to recipientsKeys.
+    /// - Important: Requires private key in local storage
+    /// - Note: Avoid key duplication
+    @available(swift 1.0)
+    @objc public func encrypt(text: String, forUsers users: FindUsersResult? = nil) throws -> String {
+        return try self.encrypt(text: text, for: users)
+    }
+
+    /// Decrypts and verifies base64 string from users
+    ///
+    /// - Parameters:
+    ///   - text: encrypted String
+    ///   - user: sender PublicKey to verify with. Use nil to decrypt and verify from self.
+    /// - Returns: decrypted String
+    /// - Throws: corresponding error
+    /// - Important: Requires private key in local storage
+    @available(swift 1.0)
+    @objc public func decrypt(text: String, fromUser user: Card? = nil, date: Date? = nil) throws -> String {
+        return try self.decrypt(text: text, from: user, date: date)
+    }
 }
