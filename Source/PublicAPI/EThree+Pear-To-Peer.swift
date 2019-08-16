@@ -50,7 +50,8 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @nonobjc public func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
+    @objc(encryptData:forUsers:error:)
+    public func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
         return try self.encryptInternal(data: data, for: users?.map { $1.publicKey })
     }
 
@@ -62,7 +63,8 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @nonobjc public func decrypt(data: Data, from user: Card? = nil, date: Date? = nil) throws -> Data {
+    @objc(decryptData:fromUsers:date:error:)
+    public func decrypt(data: Data, from user: Card? = nil, date: Date? = nil) throws -> Data {
         var card = try user ?? self.lookupManager.lookupCachedCard(of: self.identity)
 
         if let date = date {
@@ -89,9 +91,10 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @nonobjc public func encrypt(_ stream: InputStream,
-                                 to outputStream: OutputStream,
-                                 for users: FindUsersResult? = nil) throws {
+    @objc(encryptStream:toStream:forUsers:error:)
+    public func encrypt(_ stream: InputStream,
+                        to outputStream: OutputStream,
+                        for users: FindUsersResult? = nil) throws {
         try self.encryptInternal(stream, to: outputStream, for: users?.map { $1.publicKey })
     }
 
@@ -119,7 +122,8 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @nonobjc public func encrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
+    @objc(encryptText:forUsers:error:)
+    public func encrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -135,7 +139,8 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @nonobjc public func decrypt(text: String, from user: Card? = nil, date: Date? = nil) throws -> String {
+    @objc(decryptText:fromUser:date:error:)
+    public func decrypt(text: String, from user: Card? = nil, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -158,7 +163,8 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @nonobjc public func encrypt(data: Data, for user: Card) throws -> Data {
+    @objc(encryptData:forUser:error:)
+    public func encrypt(data: Data, for user: Card) throws -> Data {
         return try self.encrypt(data: data, for: [user.identity: user])
     }
 
@@ -171,7 +177,8 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @nonobjc public func encrypt(text: String, for user: Card) throws -> String {
+    @objc(encryptText:forUser:error:)
+    public func encrypt(text: String, for user: Card) throws -> String {
         return try self.encrypt(text: text, for: [user.identity: user])
     }
 
@@ -184,7 +191,8 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @nonobjc public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
+    @objc(encryptStream:toStream:forUser:error:)
+    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
         try self.encrypt(stream, to: outputStream, for: [user.identity: user])
     }
 }
