@@ -51,7 +51,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc public func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
-        return try self.encryptInternal(data: data, for: users?.map { $1.publicKey } )
+        return try self.encryptInternal(data: data, for: users?.map { $1.publicKey })
     }
 
     /// Decrypts and verifies data from users
@@ -64,17 +64,17 @@ extension EThree {
     /// - Important: Requires private key in local storage
     @objc public func decrypt(data: Data, from user: Card? = nil, date: Date? = nil) throws -> Data {
         var card = try user ?? self.lookupManager.lookupCachedCard(of: self.identity)
-        
+
         if let date = date {
             while let previousCard = card.previousCard {
                 guard card.createdAt > date else {
                     break
                 }
-                
+
                 card = previousCard
             }
         }
-        
+
         return try self.decryptInternal(data: data, from: card.publicKey)
     }
 
@@ -92,7 +92,7 @@ extension EThree {
     @objc public func encrypt(_ stream: InputStream,
                               to outputStream: OutputStream,
                               for users: FindUsersResult? = nil) throws {
-        try self.encryptInternal(stream, to: outputStream, for: users?.map { $1.publicKey } )
+        try self.encryptInternal(stream, to: outputStream, for: users?.map { $1.publicKey })
     }
 
     /// Decrypts data stream
@@ -189,61 +189,63 @@ extension EThree {
     }
 }
 
-extension EThree {
+private extension EThree {
     private func lookupResultToPublicKeys(_ lookupResult: LookupResult?) -> [VirgilPublicKey]? {
         guard let lookupResult = lookupResult else {
             return nil
         }
-        
+
         return [VirgilPublicKey](lookupResult.values)
     }
-    
-    private func encryptInternal(_ stream: InputStream, to outputStream: OutputStream, for publicKeys: [VirgilPublicKey]?) throws {
+
+    private func encryptInternal(_ stream: InputStream,
+                                 to outputStream: OutputStream,
+                                 for publicKeys: [VirgilPublicKey]?) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-        
+
         var pubKeys = [selfKeyPair.publicKey]
-        
+
         if let publicKeys = publicKeys {
             guard !publicKeys.isEmpty else {
                 throw EThreeError.missingPublicKey
             }
-            
+
             pubKeys += publicKeys
         }
-        
+
         try self.crypto.encrypt(stream, to: outputStream, for: pubKeys)
     }
-    
+
     private func encryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-        
+
         var pubKeys = [selfKeyPair.publicKey]
-        
+
         if let publicKeys = publicKeys {
             guard !publicKeys.isEmpty else {
                 throw EThreeError.missingPublicKey
             }
-            
+
             pubKeys += publicKeys
         }
-        
+
         let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: pubKeys)
-        
+
         return encryptedData
     }
-    
+
     private func decryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-        
+
         let pubKey: VirgilPublicKey
-        
+
         if let publicKey = publicKey {
             pubKey = publicKey
         }
         else {
             pubKey = selfKeyPair.publicKey
         }
-        
+
         do {
             return try self.crypto.decryptAndVerify(data,
                                                     with: selfKeyPair.privateKey,
@@ -254,7 +256,8 @@ extension EThree {
     }
 }
 
-extension EThree {
+/// Backward compatibility deprecated methods
+public extension EThree {
     /// Signs then encrypts data for group of users
     ///
     /// - Parameters:
@@ -267,10 +270,10 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
-    public func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
+    func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
         return try self.encryptInternal(data: data, for: self.lookupResultToPublicKeys(recipientKeys))
     }
-    
+
     /// Decrypts and verifies data from users
     ///
     /// - Parameters:
@@ -280,10 +283,10 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use decryptFromUser method instead.")
-    public func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
+    func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
         return try self.decryptInternal(data: data, from: senderPublicKey)
     }
-    
+
     /// Encrypts data stream
     ///
     /// - Parameters:
@@ -296,12 +299,11 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
-    public func encrypt(_ stream: InputStream, to outputStream: OutputStream,
-                        for recipientKeys: LookupResult? = nil) throws {
+    func encrypt(_ stream: InputStream, to outputStream: OutputStream,
+                 for recipientKeys: LookupResult? = nil) throws {
         try self.encryptInternal(stream, to: outputStream, for: self.lookupResultToPublicKeys(recipientKeys))
     }
-    
-    
+
     /// Signs then encrypts string for group of users
     ///
     /// - Parameters:
@@ -314,14 +316,16 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
-    public func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
+    func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
-        
-        return try self.encryptInternal(data: data, for: self.lookupResultToPublicKeys(recipientKeys)).base64EncodedString()
+
+        return try self.encryptInternal(data: data,
+                                        for: self.lookupResultToPublicKeys(recipientKeys))
+            .base64EncodedString()
     }
-    
+
     /// Decrypts and verifies base64 string from users
     ///
     /// - Parameters:
@@ -331,17 +335,17 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use decryptFromUser method instead.")
-    public func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
+    func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
-        
+
         let decryptedData = try self.decryptInternal(data: data, from: senderPublicKey)
-        
+
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
         }
-        
+
         return decryptedString
     }
 }

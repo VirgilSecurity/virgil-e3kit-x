@@ -101,15 +101,15 @@ extension EThree {
         return CallbackOperation { _, completion in
             do {
                 let cards = try self.findUsers(with: identities, forceReload: true).startSync().get()
-                
+
                 let result = cards.mapValues { $0.publicKey }
-                
+
                 completion(result, nil)
             }
             catch {
                 completion(nil, error)
             }
-            
+
         }
     }
 }
