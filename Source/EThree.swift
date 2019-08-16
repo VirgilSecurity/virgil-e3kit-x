@@ -73,6 +73,15 @@ import VirgilCrypto
 
     private var groupManager: GroupManager?
 
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,

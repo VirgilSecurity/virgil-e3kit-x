@@ -62,7 +62,7 @@
         NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
         completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
+    } changedKeyDelegate:nil storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
         self.eThree = eThree;
 

@@ -62,7 +62,7 @@
             NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
             completionHandler(token, nil);
-        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+        } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
             XCTAssert(eThree2 != nil && error == nil);
 
             [eThree2 registerWithCompletion:^(NSError *error) {
@@ -227,7 +227,7 @@
             NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
             completionHandler(token, nil);
-        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+        } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
             XCTAssert(eThree2 != nil && error == nil);
 
             [eThree2 registerWithCompletion:^(NSError *error) {
@@ -317,7 +317,7 @@
             NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
             completionHandler(token, nil);
-        } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+        } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
             XCTAssert(eThree2 != nil && error == nil);
 
             [eThree2 registerWithCompletion:^(NSError *error) {
@@ -351,6 +351,71 @@
     [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
         if (error != nil)
             XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test07_STE_44 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt in offline mode"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+        VTEEThree *eThree1 = self.eThree;
+
+        NSString *identity = [[NSUUID alloc] init].UUIDString;
+        [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+            NSString *token = [self.utils getTokenStringWithIdentity:identity];
+
+            completionHandler(token, nil);
+        } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
+            XCTAssert(eThree2 != nil && error == nil);
+
+            [eThree2 registerWithCompletion:^(NSError *error) {
+                XCTAssert(error == nil);
+
+                [eThree1 findUserWith:eThree2.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                    XCTAssert(card != nil && error == nil);
+                    [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
+                        XCTAssert(card != nil && error == nil);
+
+                        NSError *err;
+
+                        VTEEThree *newEThree1 = [[VTEEThree alloc] initWithIdentity:eThree1.identity
+                                                                      tokenCallback:^(void (^completionHandler)(NSString *, NSError *))
+                                                                        { completionHandler(nil, nil); }
+                                                                 changedKeyDelegate:nil
+                                                                      storageParams:self.keychainStorage.storageParams
+                                                                              error:&err];
+
+                        VTEEThree *newEThree2 = [[VTEEThree alloc] initWithIdentity:eThree2.identity
+                                                                      tokenCallback:^(void (^completionHandler)(NSString *, NSError *))
+                                                                        { completionHandler(nil, nil); }
+                                                                 changedKeyDelegate:nil
+                                                                      storageParams:self.keychainStorage.storageParams
+                                                                              error:&err];
+                        XCTAssert(newEThree1 != nil && newEThree2 != nil && err == nil);
+
+                        VSSCard *card2 = [newEThree1 findCachedUserWith:eThree2.identity];
+                        VSSCard *card1 = [newEThree2 findCachedUserWith:eThree1.identity];
+                        XCTAssert(card1 != nil && card2 != nil);
+
+                        NSString *plainText = [[NSUUID alloc] init].UUIDString;
+                        NSString *encrypted = [newEThree1 encryptText:plainText forUser:card2 error:&err];
+                        XCTAssert(err == nil);
+
+                        NSString *decrypted = [eThree2 decryptText:encrypted fromUser:card1 error:&err];
+                        XCTAssert(err == nil);
+                        XCTAssert([decrypted isEqualToString:plainText]);
+
+                        [ex fulfill];
+                    }];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+        XCTFail(@"Expectation failed: %@", error);
     }];
 }
 

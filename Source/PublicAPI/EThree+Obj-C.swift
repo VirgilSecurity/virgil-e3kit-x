@@ -48,9 +48,13 @@ extension EThree {
     ///   - ethree: initialized EThree instance
     ///   - error: corresponding error
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                        changedKeyDelegate: ChangedKeyDelegate? = nil,
                                         storageParams: KeychainStorageParams? = nil,
                                         completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
-        EThree.initialize(tokenCallback: tokenCallback, storageParams: storageParams).start(completion: completion)
+        EThree.initialize(tokenCallback: tokenCallback,
+                          changedKeyDelegate: changedKeyDelegate,
+                          storageParams: storageParams)
+            .start(completion: completion)
     }
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
