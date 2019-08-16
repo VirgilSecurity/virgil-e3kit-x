@@ -50,7 +50,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
     use_frameworks!
 
-    pod 'VirgilE3Kit', '~> 0.7.0-beta2'
+    pod 'VirgilE3Kit', '~> 0.7.0-beta3'
 end
 ```
 
@@ -74,7 +74,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.7.0-beta2
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.7.0-beta3
 ```
 
 #### Linking against prebuilt binaries
