@@ -39,6 +39,8 @@ import VirgilCrypto
 
 /// Main class containing all features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
+    /// Typealias for the valid result of lookupPublicKeys call
+    public typealias LookupResult = [String: VirgilPublicKey]
     /// Typealias for callback used below
     public typealias JwtStringCallback = (String?, Error?) -> Void
     /// Typealias for callback used below

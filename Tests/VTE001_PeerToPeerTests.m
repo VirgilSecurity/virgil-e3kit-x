@@ -73,20 +73,20 @@
 
                     NSString *plainText = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
-                    NSString *encrypted = [eThree1 encryptWithText:plainText for:@{card.identity: card} error:&err];
+                    NSString *encrypted = [eThree1 encryptText:plainText forUser:card error:&err];
                     XCTAssert(err == nil);
 
                     VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
                     XCTAssert(err == nil);
 
-                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:otherCard date:nil error:&err];
+                    NSString *decrypted = [eThree2 decryptText:encrypted fromUser:otherCard date:nil error:&err];
                     XCTAssert(err != nil && decrypted == nil);
 
                     [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                         XCTAssert(card != nil && error == nil);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:card date:nil error:&err];
+                        NSString *decrypted = [eThree2 decryptText:encrypted fromUser:card date:nil error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
@@ -110,7 +110,7 @@
         XCTAssert(error == nil);
 
         NSError *err;
-        NSString *encrypted = [self.eThree encryptWithText:@"plaintext" for:@{} error:&err];
+        NSString *encrypted = [self.eThree encryptText:@"plaintext" forUsers:@{} error:&err];
         XCTAssert(err.code == VTEEThreeErrorMissingPublicKey && encrypted == nil);
 
         [ex fulfill];
@@ -144,7 +144,7 @@
             VSSCard *otherCard = [self.utils publishCardWithIdentity:nil previousCardId:nil];
             XCTAssert(err == nil);
 
-            NSString *decrypted = [self.eThree decryptWithText:encryptedString from:otherCard date:nil error:&err];
+            NSString *decrypted = [self.eThree decryptText:encryptedString fromUser:otherCard date:nil error:&err];
             XCTAssert(err != nil && decrypted == nil);
 
             [ex fulfill];
@@ -164,13 +164,13 @@
     VSSCard *card = [self.utils publishCardWithIdentity:nil previousCardId:nil];
     XCTAssert(error == nil);
 
-    NSString *encrypted = [self.eThree encryptWithText:@"plainText" for:@{self.eThree.identity: card} error:&error];
+    NSString *encrypted = [self.eThree encryptText:@"plainText" forUsers:@{self.eThree.identity: card} error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(encrypted == nil);
 
     error = nil;
 
-    NSString *decrypted = [self.eThree decryptWithText:@"" from:card date:nil error:&error];
+    NSString *decrypted = [self.eThree decryptText:@"" fromUser:card date:nil error:&error];
     XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
     XCTAssert(decrypted == nil);
 }
@@ -191,7 +191,7 @@
         NSInputStream *inputStream1 = [[NSInputStream alloc] initWithData:data];
         NSOutputStream *outputStream1 = [[NSOutputStream alloc] initToMemory];
 
-        [self.eThree encrypt:inputStream1 to:outputStream1 for:nil error:&err];
+        [self.eThree encryptStream:inputStream1 toStream:outputStream1 forUsers:nil error:&err];
         XCTAssert(err == nil);
 
         NSData *encryptedData = [outputStream1 propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
@@ -245,7 +245,7 @@
 
                     NSString *plainText1 = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
-                    NSString *encrypted1 = [eThree1 encryptWithText:plainText1 for:@{card.identity: card} error:&err];
+                    NSString *encrypted1 = [eThree1 encryptText:plainText1 forUsers:@{card.identity: card} error:&err];
                     XCTAssert(err == nil);
 
                     [eThree1 cleanUpAndReturnError:&err];
@@ -258,33 +258,33 @@
 
                         NSString *plainText2 = [[NSUUID alloc] init].UUIDString;
                         NSError *err;
-                        NSString *encrypted2 = [eThree1 encryptWithText:plainText2 for:@{card.identity: card} error:&err];
+                        NSString *encrypted2 = [eThree1 encryptText:plainText2 forUsers:@{card.identity: card} error:&err];
                         XCTAssert(err == nil);
 
                         [eThree2 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card, NSError *error) {
                             XCTAssert(card != nil && error == nil);
 
                             NSError *err;
-                            NSString *tmp1 = [eThree2 decryptWithText:encrypted1 from:card date:nil error:&err];
+                            NSString *tmp1 = [eThree2 decryptText:encrypted1 fromUser:card date:nil error:&err];
                             XCTAssert(err != nil && tmp1 == nil);
 
                             err = nil;
 
-                            NSString *tmp2 = [eThree2 decryptWithText:encrypted1 from:card date:date2 error:&err];
+                            NSString *tmp2 = [eThree2 decryptText:encrypted1 fromUser:card date:date2 error:&err];
                             XCTAssert(err != nil && tmp2 == nil);
 
                             err = nil;
 
                             NSLog(@"AAA %@",[formatter stringFromDate:card.createdAt]);
-                            NSString *decrypted1 = [eThree2 decryptWithText:encrypted1 from:card date:date1 error:&err];
+                            NSString *decrypted1 = [eThree2 decryptText:encrypted1 fromUser:card date:date1 error:&err];
                             XCTAssert(err == nil);
 
-                            NSString *tmp3 = [eThree2 decryptWithText:encrypted2 from:card date:date1 error:&err];
+                            NSString *tmp3 = [eThree2 decryptText:encrypted2 fromUser:card date:date1 error:&err];
                             XCTAssert(err != nil && tmp3 == nil);
 
                             err = nil;
 
-                            NSString *decrypted2 = [eThree2 decryptWithText:encrypted2 from:card date:date2 error:&err];
+                            NSString *decrypted2 = [eThree2 decryptText:encrypted2 fromUser:card date:date2 error:&err];
                             XCTAssert(err == nil);
 
 
@@ -306,7 +306,7 @@
 }
 
 - (void)test07_STE_41 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated lookupPublicKeys"];
+    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated methods"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
@@ -323,7 +323,7 @@
             [eThree2 registerWithCompletion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSSCard *> *lookup, NSError *error) {
+                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
                     XCTAssert(error == nil);
                     XCTAssert(lookup.count > 0);
 
@@ -332,12 +332,12 @@
                     NSString *encrypted = [eThree1 encryptWithText:plainText for:lookup error:&err];
                     XCTAssert(err == nil);
 
-                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSSCard *> *lookup, NSError *error) {
+                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
                         XCTAssert(error == nil);
                         XCTAssert(lookup.count > 0);
 
                         NSError *err;
-                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:lookup[eThree1.identity] date:nil error:&err];
+                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:lookup[eThree1.identity] error:&err];
                         XCTAssert(err == nil);
                         XCTAssert([decrypted isEqualToString:plainText]);
 
