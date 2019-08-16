@@ -47,6 +47,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - ethree: initialized EThree instance
     ///   - error: corresponding error
+    @available(*, deprecated, message: "Use constructor instead")
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                         changedKeyDelegate: ChangedKeyDelegate? = nil,
                                         storageParams: KeychainStorageParams? = nil,

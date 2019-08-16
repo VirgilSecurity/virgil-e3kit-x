@@ -147,14 +147,10 @@ Use the following lines of code to authenticate user.
 import VirgilE3Kit
 
 // initialize E3Kit
-EThree.initialize(tokenCallback) { eThree, error in 
-    guard let eThree = eThree, error == nil else {
-      // error handling here
-    }
+let eThree = try! EThree(identity: "Bob", tokenCallback: tokenCallback)
     
-    eThree.register { error in 
-        // done
-    }
+eThree.register { error in 
+    // done
 }
 ```
 

@@ -58,9 +58,7 @@ class VTE006_LookupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree.initialize(tokenCallback: tokenCallback)
-            .startSync()
-            .get()
+        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
 
         try! ethree.register().startSync().get()
 
@@ -164,7 +162,7 @@ class VTE006_LookupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let newEThree = try! EThree.initialize(tokenCallback: tokenCallback, changedKeyDelegate: delegate).startSync().get()
+        let newEThree = try! EThree(identity: ethree.identity, tokenCallback: tokenCallback, changedKeyDelegate: delegate)
 
         sleep(3)
 
