@@ -59,14 +59,14 @@ class VTE004_GroupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree.initialize(tokenCallback: tokenCallback).startSync().get()
+        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
 
         try! ethree.register().startSync().get()
 
         return ethree
     }
 
-    func test_STE_26__create_with_invalid_participants_count__should_throw_error() {
+    func test001_STE_26__create_with_invalid_participants_count__should_throw_error() {
         let ethree = self.setUpDevice()
 
         let groupId = try! self.crypto.generateRandomData(ofSize: 100)
@@ -102,7 +102,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group.participants.contains(newLookup.keys.first!))
     }
 
-    func test_STE_27__createGroup__should_add_self() {
+    func test002_STE_27__createGroup__should_add_self() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -118,7 +118,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group1.participants == group2.participants)
     }
 
-    func test_STE_28__groupId__should_not_be_short() {
+    func test003_STE_28__groupId__should_not_be_short() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -134,7 +134,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_29__get_group() {
+    func test004_STE_29__get_group() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -152,7 +152,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(cachedGroup.initiator == group.initiator)
     }
 
-    func test_STE_30__load_group() {
+    func test005_STE_30__load_group() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -170,7 +170,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group1.initiator == group2.initiator)
     }
 
-    func test_STE_31__load_alien_or_unexistent_group__should_throw_error() {
+    func test006_STE_31__load_alien_or_unexistent_group__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -198,7 +198,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_32__actions_on_deleted_group__should_throw_error() {
+    func test007_STE_32__actions_on_deleted_group__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -240,7 +240,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_STE_33__add_more_than_max__should_throw_error() {
+    func test008_STE_33__add_more_than_max__should_throw_error() {
         let ethree = self.setUpDevice()
 
         var participants: Set<String> = Set()
@@ -271,7 +271,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_34__remove_last_participant__should_throw_error() {
+    func test009_STE_34__remove_last_participant__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -289,7 +289,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test_STE_35__remove() {
+    func test010_STE_35__remove() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -329,7 +329,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(try! ethree2.getGroup(id: groupId) == nil)
     }
 
-    func test_STE_37__add() {
+    func test011_STE_37__add() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -358,7 +358,7 @@ class VTE004_GroupTests: XCTestCase {
         XCTAssert(group3.participants == participants)
     }
 
-    func test_STE_36__change_group_by_noninitiator__should_throw_error() {
+    func test012_STE_36__change_group_by_noninitiator__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -397,7 +397,7 @@ class VTE004_GroupTests: XCTestCase {
         }
     }
 
-    func test__STE_38__decrypt_with_old_card__should_throw_error() {
+    func test013_STE_38__decrypt_with_old_card__should_throw_error() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
@@ -420,12 +420,12 @@ class VTE004_GroupTests: XCTestCase {
         do {
             _ = try group1.decrypt(text: encrypted, from: card2)
             XCTFail()
-        } catch EThreeError.verificationFailed {} catch {
+        } catch GroupError.verificationFailed {} catch {
             XCTFail()
         }
     }
 
-    func test_STE_39__integration_encryption() {
+    func test014_STE_39__integration_encryption() {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
         let ethree3 = self.setUpDevice()
@@ -508,6 +508,87 @@ class VTE004_GroupTests: XCTestCase {
         let newGroup3 = try! ethree3.loadGroup(id: groupId, initiator: card1).startSync().get()
         let decrypted4 = try! newGroup3.decrypt(text: encrypted4, from: card1)
         XCTAssert(decrypted4 == message4)
+    }
+
+    func test015_STE_42__decrypt_with_old_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+        let ethree3 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity, ethree3.identity]).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        try! group1.remove(participant: lookup[ethree3.identity]!).startSync().get()
+
+        let message = UUID().uuidString
+        let encrypted = try! group1.encrypt(text: message)
+
+        do {
+            _ = try group2.decrypt(text: encrypted, from: card1)
+            XCTFail()
+        } catch GroupError.groupIsOutdated {} catch {
+            XCTFail()
+        }
+    }
+
+    func test016_STE_43__decrypt_with_old_group__should_throw_error() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+        let lookup = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
+        let group1 = try! ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
+        let group2 = try! ethree2.loadGroup(id: groupId, initiator: card1).startSync().get()
+
+        let date1 = Date()
+        let message1 = UUID().uuidString
+        let encrypted1 = try! group2.encrypt(text: message1)
+
+        sleep(1)
+
+        try! ethree2.cleanUp()
+        try! ethree2.rotatePrivateKey().startSync().get()
+
+        let date2 = Date()
+        let message2 = UUID().uuidString
+        let encrypted2 = try! group2.encrypt(text: message2)
+
+        let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: true).startSync().get()
+
+        do {
+            _ = try group1.decrypt(text: encrypted1, from: card2)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        do {
+            _ = try group1.decrypt(text: encrypted1, from: card2, date: date2)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        let dectypted1 = try! group1.decrypt(text: encrypted1, from: card2, date: date1)
+        XCTAssert(message1 == dectypted1)
+
+        do {
+            _ = try group1.decrypt(text: encrypted2, from: card2, date: date1)
+            XCTFail()
+        } catch GroupError.verificationFailed {} catch {
+            XCTFail()
+        }
+
+        let dectypted2 = try! group1.decrypt(text: encrypted2, from: card2, date: date2)
+        XCTAssert(message2 == dectypted2)
     }
 }
 

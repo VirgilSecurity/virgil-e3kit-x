@@ -77,7 +77,11 @@ internal class CloudKeyManager {
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
 
-        try cloudKeyStorage.retrieveCloudEntries().startSync().get()
+        do {
+            try cloudKeyStorage.retrieveCloudEntries().startSync().get()
+        } catch KeyknoxCryptoError.decryptionFailed {
+            throw EThreeError.wrongPassword
+        }
 
         return cloudKeyStorage
     }
@@ -116,9 +120,13 @@ extension CloudKeyManager {
 
         let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
 
-        try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                             newPrivateKey: brainKeyPair.privateKey)
-            .startSync()
-            .get()
+        do {
+            try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
+                                                 newPrivateKey: brainKeyPair.privateKey)
+                .startSync()
+                .get()
+        } catch KeyknoxCryptoError.decryptionFailed {
+            throw EThreeError.wrongPassword
+        }
     }
 }

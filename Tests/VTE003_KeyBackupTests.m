@@ -50,7 +50,7 @@
     [super tearDown];
 }
 
-- (void)test_STE_15 {
+- (void)test01_STE_15 {
     XCTestExpectation *ex = [self expectationWithDescription:@"BackupPrivateKey tests"];
 
     [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
@@ -99,7 +99,7 @@
     }];
 }
 
-- (void)test_STE_16 {
+- (void)test02_STE_16 {
     XCTestExpectation *ex = [self expectationWithDescription:@"RestorePrivateKey tests"];
 
     NSError *err;
@@ -117,22 +117,28 @@
 
             sleep(2);
 
-            [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                XCTAssert(error == nil);
-
-                NSError *err;
-                VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
-                                                                                  queryOptions:nil
-                                                                                         error:&err];
-                XCTAssert(retrievedEntry != nil && err == nil);
-                XCTAssert([retrievedEntry.data isEqualToData:data]);
+            [self.eThree restorePrivateKeyWithPassword:@"Wrong password" completion:^(NSError *error) {
+                XCTAssert(error.code == VTEEThreeErrorWrongPassword);
 
                 sleep(2);
 
                 [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                    XCTAssert(error != nil);
+                    XCTAssert(error == nil);
 
-                    [ex fulfill];
+                    NSError *err;
+                    VSSKeychainEntry *retrievedEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                                      queryOptions:nil
+                                                                                             error:&err];
+                    XCTAssert(retrievedEntry != nil && err == nil);
+                    XCTAssert([retrievedEntry.data isEqualToData:data]);
+
+                    sleep(2);
+
+                    [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
+                        XCTAssert(error != nil);
+
+                        [ex fulfill];
+                    }];
                 }];
             }];
         }];
@@ -144,7 +150,7 @@
     }];
 }
 
-- (void)test_STE_17 {
+- (void)test03_STE_17 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ChangePrivateKeyPassword tests"];
 
     NSError *err;
@@ -169,7 +175,7 @@
                 sleep(2);
 
                 [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
-                    XCTAssert(error != nil);
+                    XCTAssert(error.code == VTEEThreeErrorWrongPassword);
 
                     sleep(2);
 
@@ -197,7 +203,7 @@
     }];
 }
 
-- (void)test_STE_18 {
+- (void)test04_STE_18 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup tests"];
 
     [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {
@@ -241,7 +247,7 @@
     }];
 }
 
-- (void)test_STE_19 {
+- (void)test05_STE_19 {
     XCTestExpectation *ex = [self expectationWithDescription:@"ResetPrivateKeyBackup without pasword test"];
 
     [self.eThree resetPrivateKeyBackupWithPassword:self.password completion:^(NSError *error) {

@@ -94,7 +94,7 @@ class VTE005_SQLiteTests: XCTestCase {
         XCTAssert(!card3.isOutdated)
     }
     
-    func test__getCard__predefined_db__should_match() {
+    func test01__getCard__predefined_db__should_match() {
         let identity = UUID().uuidString
         
         try! self.copyPredefinedBase(identity: identity)
@@ -130,7 +130,7 @@ class VTE005_SQLiteTests: XCTestCase {
         XCTAssert(!card2.isOutdated)
     }
     
-    func test__searchCard__predefined_db__should_match() {
+    func test02__searchCard__predefined_db__should_match() {
         let identity = UUID().uuidString
         
         try! self.copyPredefinedBase(identity: identity)
@@ -146,7 +146,7 @@ class VTE005_SQLiteTests: XCTestCase {
         self.checkCardsByIdentity(storage: storage)
     }
     
-    func test__store_card__predefined_cards__db_should_match() {
+    func test03__store_card__predefined_cards__db_should_match() {
         let identity1 = UUID().uuidString
         let identity2 = UUID().uuidString
         
@@ -174,7 +174,7 @@ class VTE005_SQLiteTests: XCTestCase {
         self.checkCardsById(storage: storage1)
     }
     
-    func test__store__rotate_card__should_update_both_cards() {
+    func test04__store__rotate_card__should_update_both_cards() {
         let identity1 = UUID().uuidString
         let identity2 = UUID().uuidString
         
@@ -210,7 +210,7 @@ class VTE005_SQLiteTests: XCTestCase {
         self.checkCardsById(storage: storage1)
     }
     
-    func test__get_ids__predefined_cards__should_match() {
+    func test05__get_ids__predefined_cards__should_match() {
         let identity1 = UUID().uuidString
         let identity2 = UUID().uuidString
         
@@ -242,7 +242,7 @@ class VTE005_SQLiteTests: XCTestCase {
         XCTAssert(ids.contains(self.cCardId3))
     }
     
-    func test__reset__predefined_db__should_be_empty() {
+    func test06__reset__predefined_db__should_be_empty() {
         let identity1 = UUID().uuidString
         let identity2 = UUID().uuidString
         

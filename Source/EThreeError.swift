@@ -59,6 +59,7 @@ import Foundation
     case userIsNotRegistered = 9
     case privateKeyExists = 10
     case verificationFailed = 12
+    case wrongPassword = 13
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -83,6 +84,8 @@ import Foundation
             return "Private key already exists in local key storage"
         case .verificationFailed:
             return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
+        case .wrongPassword:
+            return "Wrong password"
         }
     }
 }

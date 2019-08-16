@@ -92,12 +92,24 @@ extension EThree {
         }
     }
 
-    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
+    /// Retrieves users public keys from the Virgil Cloud
     ///
     /// - Parameter identities: array of identities to find
-    /// - Returns: CallbackOperation<FindUsersResult>
-    @available(*, deprecated, renamed: "findUsers")
-    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<FindUsersResult> {
-        return self.findUsers(with: identities, forceReload: true)
+    /// - Returns: CallbackOperation<LookupResult>
+    @available(*, deprecated, message: "Use findUsers instead.")
+    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+        return CallbackOperation { _, completion in
+            do {
+                let cards = try self.findUsers(with: identities, forceReload: true).startSync().get()
+
+                let result = cards.mapValues { $0.publicKey }
+
+                completion(result, nil)
+            }
+            catch {
+                completion(nil, error)
+            }
+
+        }
     }
 }

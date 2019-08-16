@@ -50,7 +50,7 @@
     [super tearDown];
 }
 
--(void)test_STE_8 {
+-(void)test01_STE_8 {
     NSError *error;
 
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&error];
@@ -72,7 +72,7 @@
     XCTAssert(retrievedEntry == nil && error != nil);
 }
 
-- (void)test_STE_9 {
+- (void)test02_STE_9 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should create local key and publish card"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -97,7 +97,7 @@
     }];
 }
 
-- (void)test_STE_10 {
+- (void)test03_STE_10 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if card already exists"];
 
     NSError *error;
@@ -116,7 +116,7 @@
     }];
 }
 
--(void)test_STE_11 {
+-(void)test04_STE_11 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Register should throw error if local key already exists"];
 
     NSError *error;
@@ -142,7 +142,7 @@
     }];
 }
 
--(void)test_STE_12 {
+-(void)test05_STE_12 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if card doesn't exists"];
 
     [self.eThree rotatePrivateKeyWithCompletion:^(NSError *error) {
@@ -157,7 +157,7 @@
     }];
 }
 
--(void)test_STE_13 {
+-(void)test06_STE_13 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
@@ -176,7 +176,7 @@
     }];
 }
 
--(void)test_STE_14 {
+-(void)test07_STE_14 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Rotating key should throw error if local key exists"];
 
     NSError *error;
@@ -216,7 +216,7 @@
     }];
 }
 
--(void)test_STE_20 {
+-(void)test08_STE_20 {
     XCTestExpectation *ex = [self expectationWithDescription:@"Delete Account should revoke Virgil Card"];
 
     [self.eThree unregisterWithCompletion:^(NSError *error) {

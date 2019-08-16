@@ -100,7 +100,7 @@ extension Group {
                 return try tempGroup.decrypt(data: data, from: senderCard)
             }
         } catch FoundationError.errorInvalidSignature {
-            throw EThreeError.verificationFailed
+            throw GroupError.verificationFailed
         }
     }
 

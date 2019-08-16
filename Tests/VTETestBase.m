@@ -55,21 +55,18 @@
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
 
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-
+    NSError *error;
     NSString *identity = [[NSUUID alloc] init].UUIDString;
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-        completionHandler(token, nil);
-    } storageParams:params completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
-        self.eThree = eThree;
-
-        dispatch_semaphore_signal(sema);
-    }];
-
-    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    self.eThree = [[VTEEThree alloc] initWithIdentity:identity
+                                        tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+                                            NSString *token = [self.utils getTokenStringWithIdentity:identity];
+                                            completionHandler(token, nil);
+                                        }
+                                   changedKeyDelegate:nil
+                                        storageParams:params
+                                                error:&error];
+    XCTAssert(self.eThree != nil && error == nil);
 }
 
 @end

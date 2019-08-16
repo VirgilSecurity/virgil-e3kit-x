@@ -43,8 +43,9 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
+    @available(*, deprecated, message: "Use constructor instead")
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
