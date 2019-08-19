@@ -49,9 +49,14 @@ internal class LocalKeyStorage {
     internal convenience init(identity: String,
                               crypto: VirgilCrypto,
                               keychainStorage: KeychainStorage,
-                              biometricProtection: Bool) throws {
+                              biometricProtection: Bool,
+                              biometricPromt: String? = nil) throws {
         let options = KeychainQueryOptions()
         options.biometricallyProtected = biometricProtection
+
+        if let biometricPromt = biometricPromt {
+            options.biometricPromt = biometricPromt
+        }
 
         try self.init(identity: identity, crypto: crypto, keychainStorage: keychainStorage, options: options)
     }
@@ -70,7 +75,7 @@ internal class LocalKeyStorage {
         return try self.retrieve(name: self.backupName)
     }
 
-    internal func setBiometricalProtection(to set: Bool) throws {
+    internal func setBiometricProtection(to set: Bool) throws {
         guard self.options.biometricallyProtected != set, self.keyPair != nil else {
             return
         }

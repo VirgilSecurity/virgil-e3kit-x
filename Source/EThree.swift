@@ -81,7 +81,8 @@ import VirgilCrypto
     /// - Parameters:
     ///   - identity: User identity
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - biometricProtection: will use biometric protection of key if true
+    ///   - biometricProtection: will use biometric or passcode protection of key if true. Default value - false.
+    ///   - biometricPromt: User promt for UI
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
@@ -94,7 +95,8 @@ import VirgilCrypto
     /// Use `setBiometricalProtection` method for this purpose
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
-                                  biometricProtection: Bool = false,
+                                  biometricProtection: Bool,
+                                  biometricPromt: String? = nil,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()
@@ -105,7 +107,8 @@ import VirgilCrypto
         let localKeyStorage = try LocalKeyStorage(identity: identity,
                                                   crypto: crypto,
                                                   keychainStorage: keychainStorage,
-                                                  biometricProtection: biometricProtection)
+                                                  biometricProtection: biometricProtection,
+                                                  biometricPromt: biometricPromt)
 
         try self.init(identity: identity,
                       tokenCallback: tokenCallback,
