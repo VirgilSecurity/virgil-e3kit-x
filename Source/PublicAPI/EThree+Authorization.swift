@@ -39,50 +39,13 @@ import VirgilCrypto
 
 // MARK: - Extension with authorization operations
 extension EThree {
-
-    #if os(macOS) || os(iOS)
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - biometricProtection: will use biometric protection of key if true
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  biometricProtection: Bool = false,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
-        return CallbackOperation { _, completion in
-            do {
-                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-                let tokenContext = TokenContext(service: "cards", operation: "")
-
-                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
-                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
-                }
-
-                let token = try getTokenOperation.startSync().get()
-
-                let ethree = try EThree(identity: token.identity(),
-                                        accessTokenProvider: accessTokenProvider,
-                                        biometricProtection: biometricProtection,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams)
-
-                completion(ethree, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-    #else
-    /// Initializes E3Kit with a callback to get Virgil access token
-    ///
-    /// - Parameters:
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    @available(*, deprecated, message: "Use constructor instead")
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
@@ -110,7 +73,6 @@ extension EThree {
             }
         }
     }
-    #endif
 
     #if os(macOS) || os(iOS)
     /// Updates keychain entries with new options

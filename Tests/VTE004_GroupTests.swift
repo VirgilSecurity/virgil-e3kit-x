@@ -59,7 +59,7 @@ class VTE004_GroupTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree.initialize(tokenCallback: tokenCallback).startSync().get()
+        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
 
         try! ethree.register().startSync().get()
 

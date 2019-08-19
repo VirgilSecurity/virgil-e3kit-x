@@ -47,10 +47,15 @@ extension EThree {
     ///   - completion: completion handler
     ///   - ethree: initialized EThree instance
     ///   - error: corresponding error
+    @available(*, deprecated, message: "Use constructor instead")
     @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                        changedKeyDelegate: ChangedKeyDelegate? = nil,
                                         storageParams: KeychainStorageParams? = nil,
                                         completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
-        EThree.initialize(tokenCallback: tokenCallback, storageParams: storageParams).start(completion: completion)
+        EThree.initialize(tokenCallback: tokenCallback,
+                          changedKeyDelegate: changedKeyDelegate,
+                          storageParams: storageParams)
+            .start(completion: completion)
     }
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
@@ -213,17 +218,17 @@ extension EThree {
         }
     }
 
-    /// Retrieves users Cards from the Virgil Cloud or local storage if exists
+    /// Retrieves users public keys from the Virgil Cloud
     ///
     /// - Parameters:
     ///   - identities: array of identities to find
-    ///   - findResult: dictionary with idenities as keys and found cards as values
+    ///   - completion: completion handler
+    ///   - lookupResult: dictionary with idenities as keys and found keys as values
     ///   - error: corresponding error
-    /// - Returns: CallbackOperation<FindUsersResult>
-    @available(*, deprecated, renamed: "findUsers")
+    @available(*, deprecated, message: "Use findUsers instead.")
     @objc public func lookupPublicKeys(of identities: [String],
-                                       completion: @escaping (_ findResult: FindUsersResult?,
+                                       completion: @escaping (_ lookupResult: LookupResult?,
                                                               _ error: Error?) -> Void) {
-        self.findUsers(with: identities).start(completion: completion)
+        self.lookupPublicKeys(of: identities).start(completion: completion)
     }
 }

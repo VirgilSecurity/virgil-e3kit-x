@@ -137,7 +137,7 @@
         NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
         completionHandler(token, nil);
-    } storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree, NSError *error) {
+    } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree, NSError *error) {
         XCTAssert(eThree != nil && error == nil);
 
         [eThree registerWithCompletion:^(NSError *error) {

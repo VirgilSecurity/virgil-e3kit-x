@@ -39,6 +39,8 @@ import VirgilCrypto
 
 /// Main class containing all features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
+    /// Typealias for the valid result of lookupPublicKeys call
+    public typealias LookupResult = [String: VirgilPublicKey]
     /// Typealias for callback used below
     public typealias JwtStringCallback = (String?, Error?) -> Void
     /// Typealias for callback used below
@@ -70,6 +72,55 @@ import VirgilCrypto
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
     private var groupManager: GroupManager?
+
+    #if os(macOS) || os(iOS)
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - biometricProtection: will use biometric protection of key if true
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  biometricProtection: Bool,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        try self.init(identity: identity,
+                      accessTokenProvider: accessTokenProvider,
+                      biometricProtection: biometricProtection,
+                      changedKeyDelegate: changedKeyDelegate,
+                      storageParams: storageParams)
+    }
+    #endif
+
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - biometricProtection: will use biometric protection of key if true
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        try self.init(identity: identity,
+                      accessTokenProvider: accessTokenProvider,
+                      biometricProtection: false,
+                      changedKeyDelegate: changedKeyDelegate,
+                      storageParams: storageParams)
+    }
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
@@ -168,8 +219,6 @@ extension EThree {
 
         if let newCard = newCard {
             try self.lookupManager.cardStorage.storeCard(newCard)
-        } else {
-            _ = try lookupManager.lookupCard(of: self.identity)
         }
     }
 
