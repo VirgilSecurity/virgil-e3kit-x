@@ -84,9 +84,15 @@ import VirgilCrypto
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
     /// - Important: identity should be the same as in JWT generated at server side
+    /// - Note: To use TouchId or FaceId, in addion `biometricProtection` to being enabled,
+    ///  `NSFaceIDUsageDescription` key should be included in your app’s Info.plist file.
+    /// See [here](https://developer.apple.com/documentation/localauthentication/logging_a_user_into_your_app_with_face_id_or_touch_id)
+    /// more info
+    /// - Note: `biometricalProtection` flag does not resave all entries with new options.
+    /// To do that, use `setBiometricalProtection` methods
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
-                                  biometricProtection: Bool,
+                                  biometricProtection: Bool = false,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()

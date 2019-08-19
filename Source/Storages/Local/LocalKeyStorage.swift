@@ -57,13 +57,18 @@ internal class LocalKeyStorage {
     }
 
     internal func setBiometricalProtection(to set: Bool) throws {
-        guard self.options.biometricallyProtected != set else {
+        guard self.options.biometricallyProtected != set, self.keyPair != nil else {
             return
         }
 
+        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
+
+        // TODO: Create backup entry before deleting
+        try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
+
         self.options.biometricallyProtected = set
 
-        try self.update()
+        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil, queryOptions: self.options)
     }
 #endif
 
@@ -77,12 +82,6 @@ internal class LocalKeyStorage {
         self.options = options
 
         self.keyPair = try self.retrieve()
-    }
-
-    private func update() throws {
-        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
-
-        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: nil, queryOptions: self.options)
     }
 
     internal func getKeyPair() throws -> VirgilKeyPair {

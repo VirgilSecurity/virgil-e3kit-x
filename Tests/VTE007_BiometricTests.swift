@@ -48,7 +48,7 @@ class VTE007_BiometricTests: XCTestCase {
         self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    func test01() {
+    func test01_init_check() {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -60,6 +60,26 @@ class VTE007_BiometricTests: XCTestCase {
         let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
 
         try! ethree.register().startSync().get()
+
+        _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
+    }
+
+    func test02_enable__biometric__later() {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.utils.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        let ethree1 = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: false)
+
+        try! ethree1.register().startSync().get()
+
+        let ethree2 = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: false)
+
+        try! ethree2.setBiometricProtection(to: true)
 
         _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
     }
