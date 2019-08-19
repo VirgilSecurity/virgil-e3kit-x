@@ -48,8 +48,8 @@ class VTE007_BiometricTests: XCTestCase {
         self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    private func setUpDevice(biometricalProtection: Bool) -> EThree {
-        let identity = UUID().uuidString
+    private func setUpDevice(identity: String? = nil, biometricalProtection: Bool, biometricalPromt: String? = nil) -> EThree {
+        let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let token = self.utils.getTokenString(identity: identity)
@@ -59,7 +59,8 @@ class VTE007_BiometricTests: XCTestCase {
 
         return try! EThree(identity: identity,
                            tokenCallback: tokenCallback,
-                           biometricProtection: biometricalProtection)
+                           biometricProtection: biometricalProtection,
+                           biometricPromt: biometricalPromt)
     }
 
     func test01__init() {
@@ -67,7 +68,11 @@ class VTE007_BiometricTests: XCTestCase {
 
         try! ethree.register().startSync().get()
 
-        _ = self.setUpDevice(biometricalProtection: true)
+        let ethree1 = self.setUpDevice(identity: ethree.identity,
+                                       biometricalProtection: true,
+                                       biometricalPromt: "Custom promt")
+
+        XCTAssert(ethree1.hasLocalPrivateKey())
     }
 
     func test02__enable__biometric() {
@@ -77,7 +82,9 @@ class VTE007_BiometricTests: XCTestCase {
 
         try! ethree.setBiometricProtection(to: true)
 
-        _ = self.setUpDevice(biometricalProtection: false)
+        let ethree1 = self.setUpDevice(identity: ethree.identity, biometricalProtection: false)
+
+        XCTAssert(ethree1.hasLocalPrivateKey())
     }
 
     func test03__disable__biometric() {
@@ -87,7 +94,9 @@ class VTE007_BiometricTests: XCTestCase {
 
         try! ethree.setBiometricProtection(to: false)
 
-        _ = self.setUpDevice(biometricalProtection: true)
+        let ethree1 = self.setUpDevice(identity: ethree.identity, biometricalProtection: true)
+
+        XCTAssert(ethree1.hasLocalPrivateKey())
     }
 
     func test04__cleanUp() {
@@ -96,5 +105,7 @@ class VTE007_BiometricTests: XCTestCase {
         try! ethree.register().startSync().get()
 
         try! ethree.cleanUp()
+
+        XCTAssert(!ethree.hasLocalPrivateKey())
     }
 }
