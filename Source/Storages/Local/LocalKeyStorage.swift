@@ -56,6 +56,20 @@ internal class LocalKeyStorage {
         try self.init(identity: identity, crypto: crypto, keychainStorage: keychainStorage, options: options)
     }
 
+    private var backupName: String {
+        return "E3KIT-BACKUP-" + self.identity
+    }
+
+    private func storeBackup(_ data: Data) throws {
+        _ = try self.keychainStorage.store(data: data,
+                                           withName: self.backupName,
+                                           meta: nil)
+    }
+
+    private func retrieveBackup() throws -> VirgilKeyPair? {
+        return try self.retrieve(name: self.backupName)
+    }
+
     internal func setBiometricalProtection(to set: Bool) throws {
         guard self.options.biometricallyProtected != set, self.keyPair != nil else {
             return
@@ -63,12 +77,13 @@ internal class LocalKeyStorage {
 
         let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
 
-        // TODO: Create backup entry before deleting
-        try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
+        try self.storeBackup(data)
+
+        try self.delete()
 
         self.options.biometricallyProtected = set
 
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil, queryOptions: self.options)
+        try self.store(data: data)
     }
 #endif
 
@@ -92,9 +107,9 @@ internal class LocalKeyStorage {
         return keyPair
     }
 
-    internal func retrieve() throws -> VirgilKeyPair? {
+    private func retrieve(name: String) throws -> VirgilKeyPair? {
         do {
-            let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options)
+            let keyEntry = try self.keychainStorage.retrieveEntry(withName: name, queryOptions: self.options)
             let keyPair = try self.crypto.importPrivateKey(from: keyEntry.data)
 
             return keyPair
@@ -105,6 +120,18 @@ internal class LocalKeyStorage {
 
             throw error
         }
+    }
+
+    private func retrieve() throws -> VirgilKeyPair? {
+        let keyPair = try self.retrieve(name: self.identity)
+
+    #if os(macOS) || os(iOS)
+        guard keyPair != nil else {
+            return try self.retrieveBackup()
+        }
+    #endif
+
+        return keyPair
     }
 
     internal func store(data: Data) throws {
