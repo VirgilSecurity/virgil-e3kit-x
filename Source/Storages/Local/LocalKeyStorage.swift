@@ -87,7 +87,7 @@ internal class LocalKeyStorage {
     }
 #endif
 
-    required internal init(identity: String,
+    internal required init(identity: String,
                            crypto: VirgilCrypto,
                            keychainStorage: KeychainStorage,
                            options: KeychainQueryOptions = KeychainQueryOptions()) throws {

@@ -74,6 +74,8 @@ import VirgilCrypto
     private var groupManager: GroupManager?
 
 #if os(macOS) || os(iOS)
+    // swiftlint:disable line_length
+
     /// Initializer
     ///
     /// - Parameters:
@@ -110,6 +112,8 @@ import VirgilCrypto
                       localKeyStorage: localKeyStorage,
                       changedKeyDelegate: changedKeyDelegate)
     }
+
+    // swiftlint:enable line_length
 #endif
 
     /// Initializer
