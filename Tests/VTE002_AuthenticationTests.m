@@ -133,18 +133,18 @@
                                                             error:&error];
     XCTAssert(entry != nil && error == nil);
 
-    [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+    VTEEThree *eThree = [[VTEEThree alloc] initWithIdentity:identity tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
         NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
         completionHandler(token, nil);
-    } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree, NSError *error) {
-        XCTAssert(eThree != nil && error == nil);
+    } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams error:&error];
 
-        [eThree registerWithCompletion:^(NSError *error) {
-            XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
+    XCTAssert(eThree != nil && error == nil);
 
-            [ex fulfill];
-        }];
+    [eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error != nil && error.code == VTEEThreeErrorPrivateKeyExists);
+
+        [ex fulfill];
     }];
 
 

@@ -48,7 +48,7 @@ class VTE007_BiometricTests: XCTestCase {
         self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    func test01_init_check() {
+    private func setUpDevice(biometricalProtection: Bool) -> EThree {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -57,46 +57,44 @@ class VTE007_BiometricTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
+        return try! EThree(identity: identity,
+                           tokenCallback: tokenCallback,
+                           biometricProtection: biometricalProtection)
+    }
+
+    func test01__init() {
+        let ethree = self.setUpDevice(biometricalProtection: true)
 
         try! ethree.register().startSync().get()
 
-        _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
+        _ = self.setUpDevice(biometricalProtection: true)
     }
 
-    func test02_enable__biometric() {
-        let identity = UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: false)
+    func test02__enable__biometric() {
+        let ethree = self.setUpDevice(biometricalProtection: false)
 
         try! ethree.register().startSync().get()
 
         try! ethree.setBiometricProtection(to: true)
 
-        _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: false)
+        _ = self.setUpDevice(biometricalProtection: false)
     }
 
-    func test03_disable__biometric() {
-        let identity = UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
+    func test03__disable__biometric() {
+        let ethree = self.setUpDevice(biometricalProtection: true)
 
         try! ethree.register().startSync().get()
 
         try! ethree.setBiometricProtection(to: false)
 
-        _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
+        _ = self.setUpDevice(biometricalProtection: true)
+    }
+
+    func test04__cleanUp() {
+        let ethree = self.setUpDevice(biometricalProtection: true)
+
+        try! ethree.register().startSync().get()
+
+        try! ethree.cleanUp()
     }
 }
