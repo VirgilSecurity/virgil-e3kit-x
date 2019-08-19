@@ -89,7 +89,7 @@ import VirgilCrypto
     /// See [here](https://developer.apple.com/documentation/localauthentication/logging_a_user_into_your_app_with_face_id_or_touch_id)
     /// more info
     /// - Note: `biometricalProtection` flag does not resave all entries with new options.
-    /// To do that, use `setBiometricalProtection` methods
+    /// Use `setBiometricalProtection` method for this purpose
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   biometricProtection: Bool = false,
