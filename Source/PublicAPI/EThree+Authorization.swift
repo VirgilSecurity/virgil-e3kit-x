@@ -62,8 +62,7 @@ extension EThree {
                 let token = try getTokenOperation.startSync().get()
 
                 let ethree = try EThree(identity: token.identity(),
-                                        accessTokenProvider: accessTokenProvider,
-                                        biometricProtection: false,
+                                        tokenCallback: tokenCallback,
                                         changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
@@ -74,7 +73,7 @@ extension EThree {
         }
     }
 
-    #if os(macOS) || os(iOS)
+#if os(macOS) || os(iOS)
     /// Updates keychain entries with new options
     ///
     /// - Parameter set: private key will be accessed only using biometrics if true
@@ -82,7 +81,7 @@ extension EThree {
     @objc public func setBiometricProtection(to set: Bool) throws {
         try self.localKeyStorage.setBiometricalProtection(to: set)
     }
-    #endif
+#endif
 
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///

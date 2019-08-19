@@ -39,28 +39,23 @@ import VirgilSDK
 
 internal class LocalKeyStorage {
     internal let identity: String
+    internal let crypto: VirgilCrypto
 
     private var keyPair: VirgilKeyPair?
-    private let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
-    private let options = KeychainQueryOptions()
+    private let options: KeychainQueryOptions
 
-    internal init(identity: String,
-                  crypto: VirgilCrypto,
-                  keychainStorage: KeychainStorage,
-                  biometricProtection: Bool) throws {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
+#if os(macOS) || os(iOS)
+    internal convenience init(identity: String,
+                              crypto: VirgilCrypto,
+                              keychainStorage: KeychainStorage,
+                              biometricProtection: Bool) throws {
+        let options = KeychainQueryOptions()
+        options.biometricallyProtected = biometricProtection
 
-        #if os(macOS) || os(iOS)
-        self.options.biometricallyProtected = biometricProtection
-        #endif
-
-        self.keyPair = try self.retrieve()
+        try self.init(identity: identity, crypto: crypto, keychainStorage: keychainStorage, options: options)
     }
 
-    #if os(macOS) || os(iOS)
     internal func setBiometricalProtection(to set: Bool) throws {
         guard self.options.biometricallyProtected != set else {
             return
@@ -70,7 +65,19 @@ internal class LocalKeyStorage {
 
         try self.update()
     }
-    #endif
+#endif
+
+    required internal init(identity: String,
+                           crypto: VirgilCrypto,
+                           keychainStorage: KeychainStorage,
+                           options: KeychainQueryOptions = KeychainQueryOptions()) throws {
+        self.identity = identity
+        self.crypto = crypto
+        self.keychainStorage = keychainStorage
+        self.options = options
+
+        self.keyPair = try self.retrieve()
+    }
 
     private func update() throws {
         let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
@@ -87,15 +94,18 @@ internal class LocalKeyStorage {
     }
 
     internal func retrieve() throws -> VirgilKeyPair? {
-        // FIXME: throw biometric not authorized error
-        guard
-            let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data)
-        else {
-            return nil
-        }
+        do {
+            let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity, queryOptions: self.options)
+            let keyPair = try self.crypto.importPrivateKey(from: keyEntry.data)
 
-        return keyPair
+            return keyPair
+        } catch let error as KeychainStorageError {
+            if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
+                return nil
+            }
+
+            throw error
+        }
     }
 
     internal func store(data: Data) throws {

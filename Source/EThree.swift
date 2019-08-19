@@ -73,7 +73,7 @@ import VirgilCrypto
 
     private var groupManager: GroupManager?
 
-    #if os(macOS) || os(iOS)
+#if os(macOS) || os(iOS)
     /// Initializer
     ///
     /// - Parameters:
@@ -89,22 +89,28 @@ import VirgilCrypto
                                   biometricProtection: Bool,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
-        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+        let crypto = try VirgilCrypto()
+
+        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        let keychainStorage = KeychainStorage(storageParams: storageParams)
+
+        let localKeyStorage = try LocalKeyStorage(identity: identity,
+                                                  crypto: crypto,
+                                                  keychainStorage: keychainStorage,
+                                                  biometricProtection: biometricProtection)
 
         try self.init(identity: identity,
-                      accessTokenProvider: accessTokenProvider,
-                      biometricProtection: biometricProtection,
-                      changedKeyDelegate: changedKeyDelegate,
-                      storageParams: storageParams)
+                      tokenCallback: tokenCallback,
+                      localKeyStorage: localKeyStorage,
+                      changedKeyDelegate: changedKeyDelegate)
     }
-    #endif
+#endif
 
     /// Initializer
     ///
     /// - Parameters:
     ///   - identity: User identity
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - biometricProtection: will use biometric protection of key if true
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
@@ -113,21 +119,28 @@ import VirgilCrypto
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
-        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+        let crypto = try VirgilCrypto()
+
+        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        let keychainStorage = KeychainStorage(storageParams: storageParams)
+
+        let localKeyStorage = try LocalKeyStorage(identity: identity,
+                                                  crypto: crypto,
+                                                  keychainStorage: keychainStorage)
 
         try self.init(identity: identity,
-                      accessTokenProvider: accessTokenProvider,
-                      biometricProtection: false,
-                      changedKeyDelegate: changedKeyDelegate,
-                      storageParams: storageParams)
+                      tokenCallback: tokenCallback,
+                      localKeyStorage: localKeyStorage,
+                      changedKeyDelegate: changedKeyDelegate)
     }
 
     internal convenience init(identity: String,
-                              accessTokenProvider: AccessTokenProvider,
-                              biometricProtection: Bool,
-                              changedKeyDelegate: ChangedKeyDelegate?,
-                              storageParams: KeychainStorageParams?) throws {
-        let crypto = try VirgilCrypto()
+                              tokenCallback: @escaping RenewJwtCallback,
+                              localKeyStorage: LocalKeyStorage,
+                              changedKeyDelegate: ChangedKeyDelegate?) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        let crypto = localKeyStorage.crypto
 
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed
@@ -145,14 +158,6 @@ import VirgilCrypto
         params.cardClient = client
 
         let cardManager = CardManager(params: params)
-
-        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
-        let keychainStorage = KeychainStorage(storageParams: storageParams)
-
-        let localKeyStorage = try LocalKeyStorage(identity: identity,
-                                                  crypto: crypto,
-                                                  keychainStorage: keychainStorage,
-                                                  biometricProtection: biometricProtection)
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,

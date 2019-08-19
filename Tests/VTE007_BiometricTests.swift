@@ -57,12 +57,10 @@ class VTE007_BiometricTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try! EThree.initialize(tokenCallback: tokenCallback, biometricProtection: true)
-            .startSync()
-            .get()
+        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
 
         try! ethree.register().startSync().get()
 
-        _ = try! EThree.initialize(tokenCallback: tokenCallback, biometricProtection: true).startSync().get()
+        _ = try! EThree(identity: identity, tokenCallback: tokenCallback, biometricProtection: true)
     }
 }
