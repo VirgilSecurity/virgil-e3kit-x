@@ -100,6 +100,37 @@ extension EThree {
         }
     }
 
+    /// Uses provided Private Key to publish Card to Virgil Cards Service. Saves Private Key in local storage
+    ///
+    /// - Parameter privateKey: Private Key to publish Card with
+    /// - Returns: CallbackOperation<Void>
+    public func migrateFromV4(with privateKey: VirgilPrivateKey) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.queue.async {
+                do {
+                    guard try !self.localKeyStorage.exists() else {
+                        throw EThreeError.privateKeyExists
+                    }
+
+                    let publicKey = try self.crypto.extractPublicKey(from: privateKey)
+                    let keyPair = VirgilKeyPair(privateKey: privateKey, publicKey: publicKey)
+
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
+
+                    guard cards.isEmpty else {
+                        throw EThreeError.userIsAlreadyRegistered
+                    }
+
+                    try self.publishCardThenSaveLocal(keyPair: keyPair)
+
+                    completion((), nil)
+                } catch {
+                    completion(nil, error)
+                }
+            }
+        }
+    }
+
     /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
     /// and saves new Private Key in local storage
     ///

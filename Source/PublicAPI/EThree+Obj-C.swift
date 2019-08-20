@@ -35,6 +35,7 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 // MARK: - Extension with Objective-C compatible operations
 extension EThree {
@@ -65,6 +66,15 @@ extension EThree {
     ///   - error: corresponding error
     @objc public func register(completion: @escaping (_ error: Error?) -> Void) {
         self.register().start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Uses provided Private Key to publish Card to Virgil Cards Service. Saves Private Key in local storage
+    ///
+    /// - Parameter privateKey: Private Key to publish Card with
+    @objc public func migrateFromV4(with privateKey: VirgilPrivateKey, completion: @escaping (_ error: Error?) -> Void) {
+        self.migrateFromV4(with: privateKey).start { _, error in
             completion(error)
         }
     }

@@ -214,8 +214,8 @@ extension EThree {
         return HttpConnection(adapters: adapters)
     }
 
-    internal func publishCardThenSaveLocal(previousCardId: String? = nil) throws {
-        let keyPair = try self.crypto.generateKeyPair()
+    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
+        let keyPair = try keyPair ?? self.crypto.generateKeyPair()
 
         let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
