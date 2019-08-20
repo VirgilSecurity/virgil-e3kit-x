@@ -104,9 +104,12 @@
 		167E1E1F217D253F00F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E1E217D253F00F8AA13 /* AppDelegate.swift */; };
 		167E1E21217D253F00F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E20217D253F00F8AA13 /* ViewController.swift */; };
 		167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E22217D253F00F8AA13 /* Main.storyboard */; };
+		167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E25217D254100F8AA13 /* Assets.xcassets */; };
+		167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */; };
 		167E1E79217D27A500F8AA13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E78217D27A500F8AA13 /* AppDelegate.swift */; };
 		167E1E7B217D27A500F8AA13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1E7A217D27A500F8AA13 /* ViewController.swift */; };
 		167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7C217D27A500F8AA13 /* Main.storyboard */; };
+		167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167E1E7F217D27A600F8AA13 /* Assets.xcassets */; };
 		1685844122DDD98E008EAC34 /* EThree+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Search.swift */; };
 		1685844222DDD98E008EAC34 /* EThree+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Search.swift */; };
 		1685844322DDD98E008EAC34 /* EThree+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1685844022DDD98E008EAC34 /* EThree+Search.swift */; };
@@ -402,11 +405,14 @@
 		167E1E1E217D253F00F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		167E1E20217D253F00F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167E1E23217D253F00F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E25217D254100F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		167E1E28217D254100F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		167E1E2A217D254100F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		167E1E78217D27A500F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		167E1E7A217D27A500F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1685844022DDD98E008EAC34 /* EThree+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Search.swift"; sourceTree = "<group>"; };
 		1685845A22DE2D23008EAC34 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -701,6 +707,8 @@
 				167E1E1E217D253F00F8AA13 /* AppDelegate.swift */,
 				167E1E20217D253F00F8AA13 /* ViewController.swift */,
 				167E1E22217D253F00F8AA13 /* Main.storyboard */,
+				167E1E25217D254100F8AA13 /* Assets.xcassets */,
+				167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */,
 				167E1E2A217D254100F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp iOS";
@@ -712,6 +720,7 @@
 				167E1E78217D27A500F8AA13 /* AppDelegate.swift */,
 				167E1E7A217D27A500F8AA13 /* ViewController.swift */,
 				167E1E7C217D27A500F8AA13 /* Main.storyboard */,
+				167E1E7F217D27A600F8AA13 /* Assets.xcassets */,
 				167E1E81217D27A600F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp tvOS";
@@ -1122,6 +1131,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1E29217D254100F8AA13 /* LaunchScreen.storyboard in Resources */,
+				167E1E26217D254100F8AA13 /* Assets.xcassets in Resources */,
 				167E1E24217D253F00F8AA13 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1130,6 +1141,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167E1E80217D27A600F8AA13 /* Assets.xcassets in Resources */,
 				167E1E7E217D27A500F8AA13 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1440,6 +1452,14 @@
 				167E1E23217D253F00F8AA13 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				167E1E28217D254100F8AA13 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		167E1E7C217D27A500F8AA13 /* Main.storyboard */ = {
@@ -1862,6 +1882,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1908,6 +1930,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
