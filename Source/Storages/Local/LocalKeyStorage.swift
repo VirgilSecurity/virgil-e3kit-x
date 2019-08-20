@@ -65,7 +65,7 @@ internal class LocalKeyStorage {
         return "E3KIT-BACKUP-" + self.identity
     }
 
-    private func storeBackup(_ data: Data) throws {
+    private func store(backup data: Data) throws {
         _ = try self.keychainStorage.store(data: data,
                                            withName: self.backupName,
                                            meta: nil)
@@ -76,14 +76,11 @@ internal class LocalKeyStorage {
             return nil
         }
 
-        let keyEntry = try self.keychainStorage.store(data: data,
-                                                      withName: self.identity,
-                                                      meta: nil,
-                                                      queryOptions: self.options)
+        try self.store(data: data)
 
         try self.keychainStorage.deleteEntry(withName: self.backupName)
 
-        return try self.crypto.importPrivateKey(from: keyEntry.data)
+        return self.keyPair
     }
 
     internal func setBiometricProtection(to set: Bool) throws {
@@ -93,7 +90,7 @@ internal class LocalKeyStorage {
 
         let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
 
-        try self.storeBackup(data)
+        try self.store(backup: data)
 
         try self.delete()
 
