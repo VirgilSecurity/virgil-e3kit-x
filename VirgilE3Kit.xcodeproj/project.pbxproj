@@ -46,7 +46,6 @@
 		162D2B862241100A00CE7FC2 /* VSCPythia.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162D2B5922410C6500CE7FC2 /* VSCPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */; };
 		1631EDB0230ADCA400B4F8C7 /* VTE007_BiometricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1603C9B323058D7600299842 /* VTE007_BiometricTests.swift */; };
-		1631EDB1230ADCA500B4F8C7 /* VTE007_BiometricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1603C9B323058D7600299842 /* VTE007_BiometricTests.swift */; };
 		1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
@@ -1187,7 +1186,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1631EDB1230ADCA500B4F8C7 /* VTE007_BiometricTests.swift in Sources */,
 				166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974622D7732900B90EC8 /* VTE004_GroupTests.swift in Sources */,
