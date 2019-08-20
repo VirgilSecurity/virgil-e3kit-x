@@ -71,16 +71,14 @@ internal class LocalKeyStorage {
                                            meta: nil)
     }
 
-    private func applyBackup() throws -> VirgilKeyPair? {
+    private func applyBackup() throws {
         guard let data = try self.retrieve(name: self.backupName) else {
-            return nil
+            return
         }
 
         try self.store(data: data)
 
         try self.keychainStorage.deleteEntry(withName: self.backupName)
-
-        return self.keyPair
     }
 
     internal func setBiometricProtection(to set: Bool) throws {
@@ -109,7 +107,7 @@ internal class LocalKeyStorage {
         self.keychainStorage = keychainStorage
         self.options = options
 
-        self.keyPair = try self.retrieve()
+        try self.loadKeyPair()
     }
 
     internal func getKeyPair() throws -> VirgilKeyPair {
@@ -134,16 +132,14 @@ internal class LocalKeyStorage {
         }
     }
 
-    private func retrieve() throws -> VirgilKeyPair? {
-        guard let data = try self.retrieve(name: self.identity) else {
+    private func loadKeyPair() throws {
+        if let data = try self.retrieve(name: self.identity) {
+            self.keyPair = try self.crypto.importPrivateKey(from: data)
+        } else {
         #if os(macOS) || os(iOS)
-            return try self.applyBackup()
-        #else
-            return nil
+            try self.applyBackup()
         #endif
         }
-
-        return try self.crypto.importPrivateKey(from: data)
     }
 
     internal func store(data: Data) throws {
