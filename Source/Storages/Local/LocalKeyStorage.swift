@@ -71,8 +71,19 @@ internal class LocalKeyStorage {
                                            meta: nil)
     }
 
-    private func retrieveBackup() throws -> VirgilKeyPair? {
-        return try self.retrieve(name: self.backupName)
+    private func applyBackup() throws -> VirgilKeyPair? {
+        guard let data = try self.retrieve(name: self.backupName) else {
+            return nil
+        }
+
+        let keyEntry = try self.keychainStorage.store(data: data,
+                                                      withName: self.identity,
+                                                      meta: nil,
+                                                      queryOptions: self.options)
+
+        try self.keychainStorage.deleteEntry(withName: self.backupName)
+
+        return try self.crypto.importPrivateKey(from: keyEntry.data)
     }
 
     internal func setBiometricProtection(to set: Bool) throws {
@@ -112,12 +123,11 @@ internal class LocalKeyStorage {
         return keyPair
     }
 
-    private func retrieve(name: String) throws -> VirgilKeyPair? {
+    private func retrieve(name: String) throws -> Data? {
         do {
             let keyEntry = try self.keychainStorage.retrieveEntry(withName: name, queryOptions: self.options)
-            let keyPair = try self.crypto.importPrivateKey(from: keyEntry.data)
 
-            return keyPair
+            return keyEntry.data
         } catch let error as KeychainStorageError {
             if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
                 return nil
@@ -128,15 +138,15 @@ internal class LocalKeyStorage {
     }
 
     private func retrieve() throws -> VirgilKeyPair? {
-        let keyPair = try self.retrieve(name: self.identity)
-
-    #if os(macOS) || os(iOS)
-        guard keyPair != nil else {
-            return try self.retrieveBackup()
+        guard let data = try self.retrieve(name: self.identity) else {
+        #if os(macOS) || os(iOS)
+            return try self.applyBackup()
+        #else
+            return nil
+        #endif
         }
-    #endif
 
-        return keyPair
+        return try self.crypto.importPrivateKey(from: data)
     }
 
     internal func store(data: Data) throws {
