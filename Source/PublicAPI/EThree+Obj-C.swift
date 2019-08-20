@@ -72,9 +72,9 @@ extension EThree {
 
     /// Uses provided Private Key to publish Card to Virgil Cards Service. Saves Private Key in local storage
     ///
-    /// - Parameter privateKey: Private Key to publish Card with
-    @objc public func migrateFromV4(with privateKey: VirgilPrivateKey, completion: @escaping (_ error: Error?) -> Void) {
-        self.migrateFromV4(with: privateKey).start { _, error in
+    /// - Parameter data: exported Private Key to publish Card with
+    @objc public func migrateFromV4(privateKeyData data: Data, completion: @escaping (_ error: Error?) -> Void) {
+        self.migrateFromV4(privateKeyData: data).start { _, error in
             completion(error)
         }
     }
