@@ -45,7 +45,7 @@ internal class LocalKeyStorage {
     private let keychainStorage: KeychainStorage
     private let options: KeychainQueryOptions
 
-#if os(macOS) || os(iOS)
+#if os(iOS)
     internal convenience init(identity: String,
                               crypto: VirgilCrypto,
                               keychainStorage: KeychainStorage,
@@ -136,7 +136,7 @@ internal class LocalKeyStorage {
         if let data = try self.retrieve(name: self.identity) {
             self.keyPair = try self.crypto.importPrivateKey(from: data)
         } else {
-        #if os(macOS) || os(iOS)
+        #if os(iOS)
             try self.applyBackup()
         #endif
         }

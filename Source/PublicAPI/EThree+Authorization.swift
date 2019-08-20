@@ -75,7 +75,7 @@ extension EThree {
         }
     }
 
-#if os(macOS) || os(iOS)
+#if os(iOS)
     /// Updates keychain entries with new options
     ///
     /// - Parameter set: private key will be accessed only using biometrics or passcode if true

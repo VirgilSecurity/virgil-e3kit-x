@@ -73,7 +73,7 @@ import VirgilCrypto
 
     private var groupManager: GroupManager?
 
-#if os(macOS) || os(iOS)
+#if os(iOS)
     // swiftlint:disable line_length
 
     /// Initializer
