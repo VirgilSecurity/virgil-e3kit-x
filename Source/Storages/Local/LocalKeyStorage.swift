@@ -95,6 +95,8 @@ internal class LocalKeyStorage {
         self.options.biometricallyProtected = set
 
         try self.store(data: data)
+
+        try self.keychainStorage.deleteEntry(withName: self.backupName)
     }
 #endif
 
