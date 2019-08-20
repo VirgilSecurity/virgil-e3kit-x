@@ -38,6 +38,7 @@ import VirgilCryptoFoundation
 import VirgilCrypto
 
 /// Class representing Group
+/// - Tag: Group
 @objc(VTEGroup) public class Group: NSObject {
     /// Range of valid participants count
     public static let ValidParticipatnsCountRange = 2...100

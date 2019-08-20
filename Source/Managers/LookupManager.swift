@@ -37,6 +37,7 @@
 import VirgilSDK
 
 /// Typealias for the result of findUsers call
+/// - Tag: FindUsersResult
 public typealias FindUsersResult = [String: Card]
 
 internal class LookupManager {

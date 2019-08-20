@@ -43,8 +43,10 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate)
+    ///                         to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Returns: CallbackOperation<EThree>
     @available(*, deprecated, message: "Use constructor instead")
     public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
@@ -168,14 +170,13 @@ extension EThree {
     /// Checks existance of private key in keychain storage
     ///
     /// - Returns: true if private key exists in keychain storage
-    /// - Throws: KeychainStorageError
     public func hasLocalPrivateKey() -> Bool {
         return self.localKeyStorage.exists()
     }
 
     /// Deletes Private Key from local storage, cleand local cards storage
     ///
-    /// - Throws: KeychainStorageError
+    /// - Throws: corresponding error
     @objc public func cleanUp() throws {
         try self.localKeyStorage.delete()
 

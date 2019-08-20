@@ -37,6 +37,7 @@
 import Foundation
 
 /// This protocol can be used to track Users keys rotations
+/// - Tag: ChangedKeyDelegate
 @objc public protocol ChangedKeyDelegate {
     /// This function is called when some local card became outdated
     ///

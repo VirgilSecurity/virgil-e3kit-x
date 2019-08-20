@@ -39,8 +39,8 @@ import VirgilSDK
 
 /// Declares error types and codes for `FileGroupStorage`
 ///
-/// - invalidFileName:
-/// - emptyFile:
+/// - invalidFileName: Invalid file name
+/// - emptyFile: File is empty
 @objc(VTEFileGroupStorageError) public enum FileGroupStorageError: Int, LocalizedError {
     case invalidFileName = 1
     case emptyFile = 2

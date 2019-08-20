@@ -53,7 +53,8 @@ extension Group {
     ///
     /// - Note: New participant will be able to decrypt all history
     /// - Parameters:
-    ///   - participants: Cards of users to add. Result of findUsers call
+    ///   - participants: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///                   Contains Cards of participants to add.
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc public func add(participants: FindUsersResult,
@@ -93,7 +94,8 @@ extension Group {
     ///
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
     /// - Parameters:
-    ///   - participants: Cards of users to remove. Result of findUsers call
+    ///   - participants: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///                   Contains Cards of participants to remove.
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc public func remove(participants: FindUsersResult,

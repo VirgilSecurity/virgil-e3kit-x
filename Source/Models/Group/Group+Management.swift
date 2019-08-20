@@ -64,7 +64,8 @@ extension Group {
     /// Adds new participants to group
     ///
     /// - Note: New participant will be able to decrypt all history
-    /// - Parameter participants: Cards of users to add. Result of findUsers call
+    /// - Parameter participants: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///                           Contains Cards of participants to add.
     /// - Returns: CallbackOperation<Void>
     public func add(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
@@ -121,7 +122,8 @@ extension Group {
     /// Removes participants from group
     ///
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
-    /// - Parameter participants: Cards of users to remove. Result of findUsers call
+    /// - Parameter participants: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///                           Contains Cards of participants to remove.
     /// - Returns: CallbackOperation<Void>
     public func remove(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in

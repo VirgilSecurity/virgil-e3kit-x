@@ -43,7 +43,8 @@ extension EThree {
     /// - Note: identifier length should be > 10
     /// - Parameters:
     ///   - identifier: identifier of group
-    ///   - users: Cards of participants. Result of findUsers call
+    ///   - users: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///            Contains Cards of participants.
     /// - Returns: CallbackOperation<Group>
     public func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
@@ -70,7 +71,7 @@ extension EThree {
     /// Returnes cached local group
     ///
     /// - Parameter identifier: identifier of group
-    /// - Returns: Group if exists, nil otherwise
+    /// - Returns: [Group](x-source-tag://Group) if exists, nil otherwise
     /// - Throws: corresponding error
     public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)

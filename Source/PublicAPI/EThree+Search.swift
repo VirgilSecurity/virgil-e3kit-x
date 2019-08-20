@@ -42,7 +42,7 @@ extension EThree {
     /// Returnes cards from local storage with given identities
     ///
     /// - Parameter identities: identities
-    /// - Returns: `FindUsersResult`
+    /// - Returns: [FindUsersResult](x-source-tag://FindUsersResult)
     /// - Throws: corresponding error
     @objc public func findCachedUsers(with identities: [String]) throws -> FindUsersResult {
         return try self.lookupManager.lookupCachedCards(of: identities)

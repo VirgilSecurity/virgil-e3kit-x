@@ -43,8 +43,9 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - user: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
-    ///           Use nil to sign and encrypt for self
+    ///   - users: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///            It contains recipient Cards with Public Keys to sign and encrypt with.
+    ///            Use nil to sign and encrypt for self
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
@@ -97,7 +98,8 @@ extension EThree {
     /// - Parameters:
     ///   - stream: data stream to be encrypted
     ///   - outputStream: stream with encrypted data
-    ///   - users: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
+    ///   - users: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///            It contains recipient Cards with Public Keys to sign and encrypt with.
     ///            Use nil to sign and encrypt for self
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
@@ -127,7 +129,8 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - text: String to encrypt
-    ///   - users: result of findUsers call recipient Cards with Public Keys to sign and encrypt with.
+    ///   - users: [FindUsersResult](x-source-tag://FindUsersResult) - result of findUsers call.
+    ///            It contains recipient Cards with Public Keys to sign and encrypt with.
     ///            Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error

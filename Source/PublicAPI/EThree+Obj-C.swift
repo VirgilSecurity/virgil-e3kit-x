@@ -182,7 +182,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - findResult: Cards of participants. Result of findUsers call
     ///   - completion: completion handler
-    ///   - group: created `Group`
+    ///   - group: created [Group](x-source-tag://Group)
     ///   - error: corresponding error
     @objc public func createGroup(id identifier: Data,
                                   with findResult: FindUsersResult,
@@ -197,7 +197,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     ///   - completion: completion handler
-    ///   - group: loaded `Group`
+    ///   - group: loaded [Group](x-source-tag://Group)
     ///   - error: corresponding error
     @objc public func loadGroup(id identifier: Data,
                                 initiator card: Card,

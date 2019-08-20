@@ -60,7 +60,7 @@ import VirgilCrypto
         return self.cardManager.crypto
     }
 
-    /// ChangedKeyDelegate to notify changing of User's keys
+    /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
     @objc public var changedKeyDelegate: ChangedKeyDelegate? {
         return self.lookupManager.changedKeyDelegate
     }
@@ -83,7 +83,7 @@ import VirgilCrypto
     ///   - tokenCallback: callback to get Virgil access token
     ///   - biometricProtection: will use biometric or passcode protection of key if true. Default value - false.
     ///   - biometricPromt: User promt for UI
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
     /// - Important: identity should be the same as in JWT generated at server side
@@ -124,7 +124,8 @@ import VirgilCrypto
     /// - Parameters:
     ///   - identity: User identity
     ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate)
+    ///                         to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
     /// - Important: identity should be the same as in JWT generated at server side
