@@ -75,7 +75,7 @@ internal class LocalKeyStorage {
         try self.keychainStorage.deleteEntry(withName: self.backupName)
     }
 
-    private func applyBackup() throws {
+    private func loadBackup() throws {
         guard let data = try self.retrieve(name: self.backupName) else {
             return
         }
@@ -85,8 +85,8 @@ internal class LocalKeyStorage {
         try self.deleteBackup()
     }
 
-    internal func setBiometricProtection(to set: Bool) throws {
-        guard self.options.biometricallyProtected != set, self.keyPair != nil else {
+    internal func setBiometricProtection(to value: Bool) throws {
+        guard self.options.biometricallyProtected != value, self.keyPair != nil else {
             return
         }
 
@@ -95,7 +95,7 @@ internal class LocalKeyStorage {
         try self.store(backup: data)
 
         try self.delete()
-        self.options.biometricallyProtected = set
+        self.options.biometricallyProtected = value
         try self.store(data: data)
 
         try self.deleteBackup()
@@ -141,7 +141,7 @@ internal class LocalKeyStorage {
             self.keyPair = try self.crypto.importPrivateKey(from: data)
         } else {
         #if os(iOS)
-            try self.applyBackup()
+            try self.loadBackup()
         #endif
         }
     }
