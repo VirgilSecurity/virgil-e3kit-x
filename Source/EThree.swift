@@ -46,7 +46,7 @@ import VirgilCrypto
     /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
-    /// Identity of user. Obtained from tokenCollback
+    /// Identity of user
     @objc public let identity: String
 
     /// CardManager instance
@@ -74,6 +74,20 @@ import VirgilCrypto
     private var groupManager: GroupManager?
 
 #if os(iOS)
+    /// Initializer
+    ///
+    /// - Parameter params: `EThreeParams` with needed parameters
+    /// - Throws: corresponding error
+    @objc public convenience init(params: EThreeParams) throws {
+        try self.init(identity: params.identity,
+                      tokenCallback: params.tokenCallback,
+                      biometricProtection: params.biometricProtection,
+                      biometricPromt: params.biometricPromt,
+                      changedKeyDelegate: params.changedKeyDelegate,
+                      storageParams: params.storageParams)
+    }
+
+
     // swiftlint:disable line_length
 
     /// Initializer
@@ -95,7 +109,7 @@ import VirgilCrypto
     /// Use `setBiometricalProtection` method for this purpose
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
-                                  biometricProtection: Bool,
+                                  biometricProtection: Bool = false,
                                   biometricPromt: String? = nil,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
@@ -118,6 +132,17 @@ import VirgilCrypto
 
     // swiftlint:enable line_length
 #endif
+
+    /// Initializer
+    ///
+    /// - Parameter params: `EThreeParams` with needed parameters
+    /// - Throws: corresponding error
+    @objc public convenience init(params: EThreeParams) throws {
+        try self.init(identity: params.identity,
+                      tokenCallback: params.tokenCallback,
+                      changedKeyDelegate: params.changedKeyDelegate,
+                      storageParams: params.storageParams)
+    }
 
     /// Initializer
     ///
