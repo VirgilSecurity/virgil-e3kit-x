@@ -255,6 +255,8 @@
     VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairOfType:VSMKeyPairTypeSecp256r1 error:&error];
     XCTAssert(error == nil);
 
+    NSData *exportedPrivateKey = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
+
     [self.eThree registerWith:keyPair completion:^(NSError *error) {
         XCTAssert(error == nil);
 
@@ -263,6 +265,7 @@
                                                                     queryOptions:nil
                                                                            error:&err];
         XCTAssert(err == nil && keyEntry != nil);
+        XCTAssert([exportedPrivateKey isEqualToData:keyEntry.data]);
 
         [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
             XCTAssert(error == nil && [cards.firstObject.identity isEqualToString:self.eThree.identity]);
