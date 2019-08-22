@@ -56,6 +56,10 @@ internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
     override internal func delete() throws {
         try super.delete()
 
+        self.cleanCache()
+    }
+
+    internal func cleanCache() {
         self.keyPair = nil
     }
 }

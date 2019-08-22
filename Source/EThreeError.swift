@@ -60,6 +60,7 @@ import Foundation
     case privateKeyExists = 10
     case verificationFailed = 12
     case wrongPassword = 13
+    case notCachingKeyStrategy = 14
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -86,6 +87,8 @@ import Foundation
             return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         case .wrongPassword:
             return "Wrong password"
+        case .notCachingKeyStrategy:
+            return "LoadKeyStrategy does not imply key caching"
         }
     }
 }

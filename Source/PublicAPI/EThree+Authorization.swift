@@ -83,6 +83,28 @@ extension EThree {
     @objc public func setBiometricProtection(to value: Bool) throws {
         try self.localKeyStorage.setBiometricProtection(to: value)
     }
+
+    /// Cleans cached key
+    ///
+    /// - Throws: `EThreeError.notCachingKeyStrategy` if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
+    @objc public func cleanKeyCache() throws {
+        guard let localKeyStorage = self.localKeyStorage as? OnFirstNeedKeyStorage else {
+            throw EThreeError.notCachingKeyStrategy
+        }
+
+        localKeyStorage.cleanCache()
+    }
+
+    /// Loads and cached key
+    ///
+    /// - Throws: `EThreeError.notCachingKeyStrategy` if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
+    @objc public func loadKeyCache() throws {
+        guard let localKeyStorage = self.localKeyStorage as? OnFirstNeedKeyStorage else {
+            throw EThreeError.notCachingKeyStrategy
+        }
+
+        _ = try localKeyStorage.getKeyPair()
+    }
 #endif
 
     /// Publishes Card on Virgil Cards Service and saves Private Key in local storage
