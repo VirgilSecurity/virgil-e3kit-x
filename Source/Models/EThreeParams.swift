@@ -37,6 +37,7 @@
 import VirgilSDK
 
 /// Contains parameters for initializing EThree
+/// - Tag: EThreeParams
 @objc(VTEEThreeParams) public class EThreeParams: NSObject {
     /// Identity of user
     @objc public let identity: String

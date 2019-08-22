@@ -68,14 +68,13 @@ import VirgilCrypto
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
+    internal var groupManager: GroupManager?
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
-    private var groupManager: GroupManager?
-
     /// Initializer
     ///
-    /// - Parameter params: `EThreeParams` with needed parameters
+    /// - Parameter params: [EThreeParams](x-source-tag://EThreeParams) with needed parameters
     /// - Throws: corresponding error
     @objc public convenience init(params: EThreeParams) throws {
     #if os(iOS)
@@ -104,7 +103,7 @@ import VirgilCrypto
     ///   - tokenCallback: callback to get Virgil access token
     ///   - biometricProtection: will use biometric or passcode protection of key if true. Default value - false.
     ///   - biometricPromt: User promt for UI
-    ///   - loadKeyStrategy: `LoadKeyStrategy`
+    ///   - loadKeyStrategy: [LoadKeyStrategy](x-source-tag://LoadKeyStrategy)
     ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
@@ -243,65 +242,5 @@ import VirgilCrypto
         }
 
         return manager
-    }
-}
-
-extension EThree {
-    internal func privateKeyChanged(newCard: Card? = nil) throws {
-        let selfKeyPair = try self.localKeyStorage.getKeyPair()
-
-        let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                     crypto: self.crypto,
-                                                     identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                        localKeyStorage: self.localKeyStorage)
-        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                         cloudTicketStorage: cloudTicketStorage,
-                                         localKeyStorage: self.localKeyStorage,
-                                         lookupManager: self.lookupManager,
-                                         crypto: self.crypto)
-
-        if let newCard = newCard {
-            try self.lookupManager.cardStorage.storeCard(newCard)
-        }
-    }
-
-    internal func privateKeyDeleted() throws {
-        try self.groupManager?.localGroupStorage.reset()
-        self.groupManager = nil
-
-        try self.lookupManager.cardStorage.reset()
-    }
-
-    internal func computeSessionId(from identifier: Data) throws -> Data {
-        guard identifier.count > 10 else {
-            throw GroupError.shortGroupId
-        }
-
-        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
-    }
-
-    internal static func getConnection() -> HttpConnection {
-        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-        let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]
-
-        return HttpConnection(adapters: adapters)
-    }
-
-    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
-        let keyPair = try keyPair ?? self.crypto.generateKeyPair()
-
-        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                                    publicKey: keyPair.publicKey,
-                                                    identity: self.identity,
-                                                    previousCardId: previousCardId)
-            .startSync()
-            .get()
-
-        let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
-
-        try self.localKeyStorage.store(data: data)
-
-        try self.privateKeyChanged(newCard: card)
     }
 }

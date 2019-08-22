@@ -40,6 +40,7 @@ import Foundation
 ///  - onlyOnUse: load on every use
 ///  - onFirstNeed: load on first need, then use cached value
 ///  - instant: load on init
+/// - Tag: LoadKeyStrategy
 @objc(VTELoadKeyStrategy) public enum LoadKeyStrategy: Int {
     case onlyOnUse = 1
     case onFirstNeed = 2

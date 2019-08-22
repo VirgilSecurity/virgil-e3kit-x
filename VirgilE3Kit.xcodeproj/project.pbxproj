@@ -28,6 +28,10 @@
 		16194C87230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
 		16194C88230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
 		16194C89230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
+		16194C8B230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
+		16194C8C230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
+		16194C8D230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
+		16194C8E230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -382,6 +386,7 @@
 /* Begin PBXFileReference section */
 		1603C9B323058D7600299842 /* VTE007_BiometricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE007_BiometricTests.swift; sourceTree = "<group>"; };
 		16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadKeyStrategy.swift; sourceTree = "<group>"; };
+		16194C8A230EA58400A55417 /* EThree+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Utils.swift"; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -813,6 +818,7 @@
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
 				16AD62E322E9FD3600CDF90A /* Utils */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
+				16194C8A230EA58400A55417 /* EThree+Utils.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
 				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 			);
@@ -1271,6 +1277,7 @@
 				1685845B22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				16194C8B230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
@@ -1331,6 +1338,7 @@
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				16194C8E230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1350,6 +1358,7 @@
 				1685845C22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				16194C8C230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
@@ -1390,6 +1399,7 @@
 				1685845D22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				16194C8D230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
