@@ -72,7 +72,7 @@ class VTE007_BiometricTests: XCTestCase {
                                        biometricalProtection: true,
                                        biometricalPromt: "Custom promt")
 
-        XCTAssert(ethree1.hasLocalPrivateKey())
+        XCTAssert(try ethree1.hasLocalPrivateKey())
     }
 
     func test02__enable__biometric() {
@@ -84,7 +84,7 @@ class VTE007_BiometricTests: XCTestCase {
 
         let ethree1 = self.setUpDevice(identity: ethree.identity, biometricalProtection: false)
 
-        XCTAssert(ethree1.hasLocalPrivateKey())
+        XCTAssert(try ethree1.hasLocalPrivateKey())
     }
 
     func test03__disable__biometric() {
@@ -96,7 +96,7 @@ class VTE007_BiometricTests: XCTestCase {
 
         let ethree1 = self.setUpDevice(identity: ethree.identity, biometricalProtection: true)
 
-        XCTAssert(ethree1.hasLocalPrivateKey())
+        XCTAssert(try ethree1.hasLocalPrivateKey())
     }
 
     func test04__cleanUp() {
@@ -106,6 +106,6 @@ class VTE007_BiometricTests: XCTestCase {
 
         try! ethree.cleanUp()
 
-        XCTAssert(!ethree.hasLocalPrivateKey())
+        XCTAssert(try !ethree.hasLocalPrivateKey())
     }
 }

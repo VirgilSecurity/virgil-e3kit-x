@@ -127,13 +127,16 @@ internal class LocalKeyStorage {
     }
 
     private func loadKeyPair() throws -> VirgilKeyPair? {
+        var keyPair: VirgilKeyPair?
         if let data = try self.retrieve(name: self.identity) {
-            return try self.crypto.importPrivateKey(from: data)
+            keyPair = try self.crypto.importPrivateKey(from: data)
         } else {
         #if os(iOS)
-            return try self.loadBackup()
+            keyPair = try self.loadBackup()
         #endif
         }
+
+        return keyPair
     }
 
     private func existsEntry() throws -> Bool {
