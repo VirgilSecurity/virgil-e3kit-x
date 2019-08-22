@@ -34,38 +34,14 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
 
-/// Contains parameters for initializing EThree
-@objc(VTEEThreeParams) public class EThreeParams: NSObject {
-    /// Identity of user
-    @objc public let identity: String
-    /// Callback to get Virgil access token
-    @objc public let tokenCallback: EThree.RenewJwtCallback
-    /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
-    @objc public var changedKeyDelegate: ChangedKeyDelegate? = nil
-    /// `KeychainStorageParams` with specific parameters
-    @objc public var storageParams: KeychainStorageParams? = nil
-
-#if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public var biometricProtection: Bool = false
-    /// User promt for UI
-    @objc public var biometricPromt: String? = nil
-    /// Defines behaviour of key load
-    @objc public var loadKeyStrategy: LoadKeyStrategy = .instant
-#endif
-
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: Identity of user
-    ///   - tokenCallback: Callback to get Virgil access token
-    @objc public init(identity: String,
-                      tokenCallback: @escaping EThree.RenewJwtCallback) {
-        self.identity = identity
-        self.tokenCallback = tokenCallback
-
-        super.init()
-    }
+/// Defines behaviour of loading key
+///  - onlyOnUse: load on every use
+///  - onFirstNeed: load on first need, then use cached value
+///  - instant: load on init
+@objc(VTELoadKeyStrategy) public enum LoadKeyStrategy: Int {
+    case onlyOnUse = 1
+    case onFirstNeed = 2
+    case instant = 3
 }

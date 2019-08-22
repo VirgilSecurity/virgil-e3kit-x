@@ -24,6 +24,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		16194C86230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
+		16194C87230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
+		16194C88230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
+		16194C89230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -377,6 +381,7 @@
 
 /* Begin PBXFileReference section */
 		1603C9B323058D7600299842 /* VTE007_BiometricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE007_BiometricTests.swift; sourceTree = "<group>"; };
+		16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadKeyStrategy.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -739,6 +744,7 @@
 				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
 				1631EE10230D712800B4F8C7 /* EThreeParams.swift */,
+				16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1255,6 +1261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194C86230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
@@ -1305,6 +1312,7 @@
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
+				16194C89230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1332,6 +1340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194C87230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
@@ -1371,6 +1380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194C88230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,

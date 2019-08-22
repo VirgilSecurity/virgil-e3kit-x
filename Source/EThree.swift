@@ -83,6 +83,7 @@ import VirgilCrypto
                       tokenCallback: params.tokenCallback,
                       biometricProtection: params.biometricProtection,
                       biometricPromt: params.biometricPromt,
+                      loadKeyStrategy: params.loadKeyStrategy,
                       changedKeyDelegate: params.changedKeyDelegate,
                       storageParams: params.storageParams)
     #else
@@ -103,6 +104,7 @@ import VirgilCrypto
     ///   - tokenCallback: callback to get Virgil access token
     ///   - biometricProtection: will use biometric or passcode protection of key if true. Default value - false.
     ///   - biometricPromt: User promt for UI
+    ///   - loadKeyStrategy: `LoadKeyStrategy`
     ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
@@ -117,6 +119,7 @@ import VirgilCrypto
                                   tokenCallback: @escaping RenewJwtCallback,
                                   biometricProtection: Bool,
                                   biometricPromt: String? = nil,
+                                  loadKeyStrategy: LoadKeyStrategy = .instant,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()
@@ -127,6 +130,7 @@ import VirgilCrypto
         let localKeyStorage = try LocalKeyStorage(identity: identity,
                                                   crypto: crypto,
                                                   keychainStorage: keychainStorage,
+                                                  loadKeyStrategy: loadKeyStrategy,
                                                   biometricProtection: biometricProtection,
                                                   biometricPromt: biometricPromt)
 
@@ -160,7 +164,8 @@ import VirgilCrypto
 
         let localKeyStorage = try LocalKeyStorage(identity: identity,
                                                   crypto: crypto,
-                                                  keychainStorage: keychainStorage)
+                                                  keychainStorage: keychainStorage,
+                                                  loadKeyStrategy: .instant)
 
         try self.init(identity: identity,
                       tokenCallback: tokenCallback,
@@ -225,7 +230,7 @@ import VirgilCrypto
 
         super.init()
 
-        if localKeyStorage.exists() {
+        if try localKeyStorage.exists() {
             try self.privateKeyChanged()
         }
 

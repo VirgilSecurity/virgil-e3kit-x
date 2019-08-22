@@ -93,7 +93,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard !self.localKeyStorage.exists() else {
+                    guard try !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -121,7 +121,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    guard !self.localKeyStorage.exists() else {
+                    guard try !self.localKeyStorage.exists() else {
                         throw EThreeError.privateKeyExists
                     }
 
@@ -171,8 +171,9 @@ extension EThree {
     /// Checks existance of private key in keychain storage
     ///
     /// - Returns: true if private key exists in keychain storage
-    public func hasLocalPrivateKey() -> Bool {
-        return self.localKeyStorage.exists()
+    /// - Throws: `KeychainStorageError`
+    public func hasLocalPrivateKey() throws -> Bool {
+        return try self.localKeyStorage.exists()
     }
 
     /// Deletes Private Key from local storage, cleand local cards storage
