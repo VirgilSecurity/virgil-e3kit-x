@@ -217,7 +217,7 @@
 }
 
 -(void)test08_STE_20 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Delete Account should revoke Virgil Card"];
+    XCTestExpectation *ex = [self expectationWithDescription:@"Unregister should revoke Virgil Card"];
 
     [self.eThree unregisterWithCompletion:^(NSError *error) {
         XCTAssert(error != nil);
@@ -239,6 +239,38 @@
                     [ex fulfill];
                 }];
             }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+-(void)test09_STE_44 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Register with provided key should publish Card and save locally"];
+
+    NSError *error;
+    VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairOfType:VSMKeyPairTypeSecp256r1 error:&error];
+    XCTAssert(error == nil);
+
+    NSData *exportedPrivateKey = [self.crypto exportPrivateKey:keyPair.privateKey error:&error];
+
+    [self.eThree registerWith:keyPair completion:^(NSError *error) {
+        XCTAssert(error == nil);
+
+        NSError *err;
+        VSSKeychainEntry *keyEntry = [self.keychainStorage retrieveEntryWithName:self.eThree.identity
+                                                                    queryOptions:nil
+                                                                           error:&err];
+        XCTAssert(err == nil && keyEntry != nil);
+        XCTAssert([exportedPrivateKey isEqualToData:keyEntry.data]);
+
+        [self.eThree.cardManager searchCardsWithIdentities:@[self.eThree.identity] completion:^(NSArray<VSSCard *> *cards, NSError *error) {
+            XCTAssert(error == nil && [cards.firstObject.identity isEqualToString:self.eThree.identity]);
+
+            [ex fulfill];
         }];
     }];
 

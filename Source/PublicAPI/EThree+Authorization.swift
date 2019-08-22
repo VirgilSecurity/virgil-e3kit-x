@@ -73,10 +73,11 @@ extension EThree {
         }
     }
 
-    /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
+    /// Publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
+    /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
     /// - Returns: CallbackOperation<Void>
-    public func register() -> GenericOperation<Void> {
+    public func register(with keyPair: VirgilKeyPair? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
@@ -90,7 +91,7 @@ extension EThree {
                         throw EThreeError.userIsAlreadyRegistered
                     }
 
-                    try self.publishCardThenSaveLocal()
+                    try self.publishCardThenSaveLocal(keyPair: keyPair)
 
                     completion((), nil)
                 } catch {
