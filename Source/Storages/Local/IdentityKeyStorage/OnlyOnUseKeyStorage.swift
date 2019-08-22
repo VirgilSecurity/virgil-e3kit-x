@@ -37,54 +37,32 @@
 import VirgilCrypto
 import VirgilSDK
 
-internal class LocalKeyStorage {
+internal class OnlyOnUseKeyStorage: LocalKeyStorage {
     internal let identity: String
     internal let crypto: VirgilCrypto
 
-    private var keyPair: VirgilKeyPair?
     private let keychainStorage: KeychainStorage
     private let options: KeychainQueryOptions
-    private let loadKeyStrategy: LoadKeyStrategy
 
-    internal required init(identity: String,
-                           crypto: VirgilCrypto,
-                           keychainStorage: KeychainStorage,
-                           loadKeyStrategy: LoadKeyStrategy,
-                           options: KeychainQueryOptions = KeychainQueryOptions()) throws {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
-        self.loadKeyStrategy = loadKeyStrategy
-        self.options = options
+    internal required init(params: LocalKeyStorageParams) throws {
+        self.identity = params.identity
+        self.crypto = params.crypto
 
-        switch self.loadKeyStrategy {
-        case .instant:
-            self.keyPair = try self.loadKeyPair()
-        case .onFirstNeed, .onlyOnUse: break
+        let storageParams = try params.keychainStorageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        self.keychainStorage = KeychainStorage(storageParams: storageParams)
+
+        self.options = KeychainQueryOptions()
+
+    #if os(iOS)
+        self.options.biometricallyProtected = params.biometricProtection
+
+        if let biometricPromt = params.biometricPromt {
+            options.biometricPromt = biometricPromt
         }
+    #endif
     }
 
 #if os(iOS)
-    internal convenience init(identity: String,
-                              crypto: VirgilCrypto,
-                              keychainStorage: KeychainStorage,
-                              loadKeyStrategy: LoadKeyStrategy,
-                              biometricProtection: Bool,
-                              biometricPromt: String? = nil) throws {
-        let options = KeychainQueryOptions()
-        options.biometricallyProtected = biometricProtection
-
-        if let biometricPromt = biometricPromt {
-            options.biometricPromt = biometricPromt
-        }
-
-        try self.init(identity: identity,
-                      crypto: crypto,
-                      keychainStorage: keychainStorage,
-                      loadKeyStrategy: loadKeyStrategy,
-                      options: options)
-    }
-
     private var backupName: String {
         return "E3KIT-BACKUP-" + self.identity
     }
@@ -110,99 +88,14 @@ internal class LocalKeyStorage {
 
         return try self.crypto.importPrivateKey(from: data)
     }
-#endif
 
-    private func retrieve(name: String) throws -> Data? {
-        do {
-            let keyEntry = try self.keychainStorage.retrieveEntry(withName: name, queryOptions: self.options)
-
-            return keyEntry.data
-        } catch let error as KeychainStorageError {
-            if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
-                return nil
-            }
-
-            throw error
-        }
-    }
-
-    private func loadKeyPair() throws -> VirgilKeyPair? {
-        var keyPair: VirgilKeyPair?
-        if let data = try self.retrieve(name: self.identity) {
-            keyPair = try self.crypto.importPrivateKey(from: data)
-        } else {
-        #if os(iOS)
-            keyPair = try self.loadBackup()
-        #endif
-        }
-
-        return keyPair
-    }
-
-    private func existsEntry() throws -> Bool {
-        let exists = try self.keychainStorage.existsEntry(withName: self.identity)
-
-    #if os(iOS)
-        guard exists else {
-            return try self.keychainStorage.existsEntry(withName: self.backupName)
-        }
-    #endif
-
-        return exists
-    }
-}
-
-extension LocalKeyStorage {
-    internal func getKeyPair() throws -> VirgilKeyPair {
-        let loaded: VirgilKeyPair?
-
-        switch self.loadKeyStrategy {
-        case .instant:
-            loaded = self.keyPair
-        case .onFirstNeed:
-            loaded = try self.keyPair ?? self.loadKeyPair()
-        case .onlyOnUse:
-            loaded = try self.loadKeyPair()
-        }
-
-        guard let keyPair = loaded else {
-            throw EThreeError.missingPrivateKey
-        }
-
-        return keyPair
-    }
-
-    internal func store(data: Data) throws {
-        let keyEntry = try self.keychainStorage.store(data: data,
-                                                      withName: self.identity,
-                                                      meta: nil,
-                                                      queryOptions: self.options)
-
-        switch self.loadKeyStrategy {
-        case .instant: break
-        case .onFirstNeed, .onlyOnUse:
-            self.keyPair = try self.crypto.importPrivateKey(from: keyEntry.data)
-        }
-    }
-
-    internal func exists() throws -> Bool {
-        switch self.loadKeyStrategy {
-        case .instant:
-            return self.keyPair != nil
-        case .onFirstNeed, .onlyOnUse:
-            return try self.existsEntry()
-        }
-    }
-
-    internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
-
-        self.keyPair = nil
-    }
-
-#if os(iOS)
     internal func setBiometricProtection(to value: Bool) throws {
-        guard self.options.biometricallyProtected != value, self.keyPair != nil else {
+        guard self.options.biometricallyProtected != value else {
+            return
+        }
+
+        guard try self.exists() else {
+            self.options.biometricallyProtected = value
             return
         }
 
@@ -217,4 +110,62 @@ extension LocalKeyStorage {
         try self.deleteBackup()
     }
 #endif
+
+    internal func retrieve(name: String) throws -> Data? {
+        do {
+            let keyEntry = try self.keychainStorage.retrieveEntry(withName: name, queryOptions: self.options)
+
+            return keyEntry.data
+        } catch let error as KeychainStorageError {
+            if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
+                return nil
+            }
+
+            throw error
+        }
+    }
+
+    internal func loadKeyPair() throws -> VirgilKeyPair? {
+        var keyPair: VirgilKeyPair?
+        if let data = try self.retrieve(name: self.identity) {
+            keyPair = try self.crypto.importPrivateKey(from: data)
+        } else {
+        #if os(iOS)
+            keyPair = try self.loadBackup()
+        #endif
+        }
+
+        return keyPair
+    }
+
+    internal func store(data: Data) throws {
+        _ = try self.keychainStorage.store(data: data,
+                                           withName: self.identity,
+                                           meta: nil,
+                                           queryOptions: self.options)
+    }
+
+    internal func getKeyPair() throws -> VirgilKeyPair {
+        guard let keyPair = try self.loadKeyPair() else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return keyPair
+    }
+
+    internal func exists() throws -> Bool {
+        let exists = try self.keychainStorage.existsEntry(withName: self.identity)
+
+        #if os(iOS)
+        guard exists else {
+            return try self.keychainStorage.existsEntry(withName: self.backupName)
+        }
+        #endif
+
+        return exists
+    }
+
+    internal func delete() throws {
+        try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
+    }
 }

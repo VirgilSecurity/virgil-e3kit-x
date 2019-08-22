@@ -32,6 +32,22 @@
 		16194C8C230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
 		16194C8D230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
 		16194C8E230EA58400A55417 /* EThree+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8A230EA58400A55417 /* EThree+Utils.swift */; };
+		16194C90230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */; };
+		16194C91230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */; };
+		16194C92230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */; };
+		16194C93230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */; };
+		16194C95230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */; };
+		16194C96230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */; };
+		16194C97230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */; };
+		16194C98230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */; };
+		16194CA4230EC86400A55417 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA3230EC86400A55417 /* LocalKeyStorage.swift */; };
+		16194CA5230EC86400A55417 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA3230EC86400A55417 /* LocalKeyStorage.swift */; };
+		16194CA6230EC86400A55417 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA3230EC86400A55417 /* LocalKeyStorage.swift */; };
+		16194CA7230EC86400A55417 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA3230EC86400A55417 /* LocalKeyStorage.swift */; };
+		16194CAA230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
+		16194CAB230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
+		16194CAC230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
+		16194CAD230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -105,10 +121,10 @@
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
-		167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
-		167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
-		167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
-		167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
+		167E1DE4217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */; };
+		167E1DE5217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */; };
+		167E1DE6217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */; };
+		167E1DE7217CF60C00F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */; };
 		167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
 		167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */; };
@@ -387,6 +403,10 @@
 		1603C9B323058D7600299842 /* VTE007_BiometricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE007_BiometricTests.swift; sourceTree = "<group>"; };
 		16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadKeyStrategy.swift; sourceTree = "<group>"; };
 		16194C8A230EA58400A55417 /* EThree+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Utils.swift"; sourceTree = "<group>"; };
+		16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantLoadKeyStorage.swift; sourceTree = "<group>"; };
+		16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnFirstNeedKeyStorage.swift; sourceTree = "<group>"; };
+		16194CA3230EC86400A55417 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
+		16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorageParams.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -414,7 +434,7 @@
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
-		167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
+		167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyOnUseKeyStorage.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
 		167E1E1C217D253F00F8AA13 /* E3Kit TestApp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		167E1E1E217D253F00F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -588,6 +608,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16194CA8230EC8C300A55417 /* IdentityKeyStorage */ = {
+			isa = PBXGroup;
+			children = (
+				16194CA3230EC86400A55417 /* LocalKeyStorage.swift */,
+				16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */,
+				167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */,
+				16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */,
+				16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */,
+			);
+			path = IdentityKeyStorage;
+			sourceTree = "<group>";
+		};
 		16261CCB21787517003D7CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,9 +723,9 @@
 		1665EE2222E7220B00774788 /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				16194CA8230EC8C300A55417 /* IdentityKeyStorage */,
 				42D84AAF22F078420012D103 /* SQLite */,
 				16AD62D422E87C6A00CDF90A /* FileGroupStorage.swift */,
-				167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -973,6 +1005,7 @@
 				16EC372A217793BC009D7F00 /* Sources */,
 				16EC372B217793BC009D7F00 /* Frameworks */,
 				16EC372C217793BC009D7F00 /* Resources */,
+				16194CAE230EDBE100A55417 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1194,6 +1227,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16194CAE230EDBE100A55417 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1267,6 +1320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194CAA230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */,
 				16194C86230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1279,12 +1333,14 @@
 				165B67C32178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				16194C8B230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
+				16194C95230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */,
 				420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
-				167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
+				167E1DE4217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				1631EE11230D712800B4F8C7 /* EThreeParams.swift in Sources */,
 				16AD62DA22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16194CA4230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
@@ -1295,6 +1351,7 @@
 				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844122DDD98E008EAC34 /* EThree+Search.swift in Sources */,
 				1661D76B23018DD900BC435C /* Group+Objc-C.swift in Sources */,
+				16194C90230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */,
 				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
@@ -1314,7 +1371,9 @@
 				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				16194C98230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */,
 				165B67C62178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
+				16194CA7230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				165B67CB2178FCA600DDE1F7 /* EThree+KeyBackup.swift in Sources */,
@@ -1334,8 +1393,10 @@
 				42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844422DDD98E008EAC34 /* EThree+Search.swift in Sources */,
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
+				16194C93230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
-				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
+				16194CAD230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */,
+				167E1DE7217CF60C00F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				16194C8E230EA58400A55417 /* EThree+Utils.swift in Sources */,
@@ -1348,6 +1409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194CAB230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */,
 				16194C87230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1360,12 +1422,14 @@
 				165B67C42178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				16194C8C230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
+				16194C96230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */,
 				420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
-				167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
+				167E1DE5217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				1631EE12230D712800B4F8C7 /* EThreeParams.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16194CA5230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
@@ -1376,6 +1440,7 @@
 				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844222DDD98E008EAC34 /* EThree+Search.swift in Sources */,
 				1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */,
+				16194C91230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */,
 				420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
@@ -1389,6 +1454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				16194CAC230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */,
 				16194C88230E9CBF00A55417 /* LoadKeyStrategy.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1401,12 +1467,14 @@
 				165B67C52178FC0B00DDE1F7 /* EThree+Authorization.swift in Sources */,
 				16194C8D230EA58400A55417 /* EThree+Utils.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
+				16194C97230EC00400A55417 /* OnFirstNeedKeyStorage.swift in Sources */,
 				420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
-				167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
+				167E1DE6217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				1631EE13230D712800B4F8C7 /* EThreeParams.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16194CA6230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
@@ -1417,6 +1485,7 @@
 				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				1685844322DDD98E008EAC34 /* EThree+Search.swift in Sources */,
 				1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */,
+				16194C92230EBFEC00A55417 /* InstantLoadKeyStorage.swift in Sources */,
 				420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,

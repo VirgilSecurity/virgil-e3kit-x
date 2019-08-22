@@ -34,39 +34,19 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
+import VirgilCrypto
 
-/// Contains parameters for initializing EThree
-/// - Tag: EThreeParams
-@objc(VTEEThreeParams) public class EThreeParams: NSObject {
-    /// Identity of user
-    @objc public let identity: String
-    /// Callback to get Virgil access token
-    @objc public let tokenCallback: EThree.RenewJwtCallback
-    /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
-    @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
-    /// `KeychainStorageParams` with specific parameters
-    @objc public var storageParams: KeychainStorageParams? = nil
+internal protocol LocalKeyStorage {
+    func store(data: Data) throws
+
+    func getKeyPair() throws -> VirgilKeyPair
+
+    func exists() throws -> Bool
+
+    func delete() throws
 
 #if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public var biometricProtection: Bool = false
-    /// User promt for UI
-    @objc public var biometricPromt: String? = nil
-    /// Defines behaviour of key load
-    @objc public var loadKeyStrategy: LoadKeyStrategy = .instant
+    func setBiometricProtection(to value: Bool) throws
 #endif
-
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: Identity of user
-    ///   - tokenCallback: Callback to get Virgil access token
-    @objc public init(identity: String,
-                      tokenCallback: @escaping EThree.RenewJwtCallback) {
-        self.identity = identity
-        self.tokenCallback = tokenCallback
-
-        super.init()
-    }
 }

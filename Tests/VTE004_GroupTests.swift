@@ -255,7 +255,8 @@ class VTE004_GroupTests: XCTestCase {
         let ticket = try! Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
         let rawGroup = try! RawGroup(info: GroupInfo(initiator: ethree.identity), tickets: [ticket])
 
-        let group = try! Group(rawGroup: rawGroup,
+        let group = try! Group(selfIdentity: ethree.identity,
+                               rawGroup: rawGroup,
                                crypto: self.crypto,
                                localKeyStorage: ethree.localKeyStorage,
                                groupManager: try! ethree.getGroupManager(),

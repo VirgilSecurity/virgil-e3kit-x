@@ -62,7 +62,8 @@ internal class GroupManager {
     }
 
     private func parse(_ rawGroup: RawGroup) throws -> Group {
-        return try Group(rawGroup: rawGroup,
+        return try Group(selfIdentity: self.identity,
+                         rawGroup: rawGroup,
                          crypto: self.crypto,
                          localKeyStorage: self.localKeyStorage,
                          groupManager: self,

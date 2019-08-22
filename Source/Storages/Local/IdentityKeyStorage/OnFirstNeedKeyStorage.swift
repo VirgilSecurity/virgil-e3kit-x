@@ -35,38 +35,27 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
-/// Contains parameters for initializing EThree
-/// - Tag: EThreeParams
-@objc(VTEEThreeParams) public class EThreeParams: NSObject {
-    /// Identity of user
-    @objc public let identity: String
-    /// Callback to get Virgil access token
-    @objc public let tokenCallback: EThree.RenewJwtCallback
-    /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
-    @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
-    /// `KeychainStorageParams` with specific parameters
-    @objc public var storageParams: KeychainStorageParams? = nil
+internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
+    internal var keyPair: VirgilKeyPair?
 
-#if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public var biometricProtection: Bool = false
-    /// User promt for UI
-    @objc public var biometricPromt: String? = nil
-    /// Defines behaviour of key load
-    @objc public var loadKeyStrategy: LoadKeyStrategy = .instant
-#endif
+    override internal func store(data: Data) throws {
+        try super.store(data: data)
 
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: Identity of user
-    ///   - tokenCallback: Callback to get Virgil access token
-    @objc public init(identity: String,
-                      tokenCallback: @escaping EThree.RenewJwtCallback) {
-        self.identity = identity
-        self.tokenCallback = tokenCallback
+        self.keyPair = try self.crypto.importPrivateKey(from: data)
+    }
 
-        super.init()
+    override internal func getKeyPair() throws -> VirgilKeyPair {
+        let keyPair = try self.keyPair ?? super.getKeyPair()
+        self.keyPair = keyPair
+
+        return keyPair
+    }
+
+    override internal func delete() throws {
+        try super.delete()
+
+        self.keyPair = nil
     }
 }

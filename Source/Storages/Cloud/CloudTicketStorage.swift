@@ -42,15 +42,13 @@ import VirgilCryptoFoundation
 internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
 
+    private let identity: String
     private let accessTokenProvider: AccessTokenProvider
     private let localKeyStorage: LocalKeyStorage
     private let keyknoxManager: KeyknoxManager
 
-    private var identity: String {
-        return self.localKeyStorage.identity
-    }
-
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
+    internal init(identity: String, accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
+        self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
 

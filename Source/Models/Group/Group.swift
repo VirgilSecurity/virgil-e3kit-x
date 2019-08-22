@@ -57,7 +57,8 @@ import VirgilCrypto
     private let selfIdentity: String
     private let crypto: VirgilCrypto
 
-    internal init(rawGroup: RawGroup,
+    internal init(selfIdentity: String,
+                  rawGroup: RawGroup,
                   crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
                   groupManager: GroupManager,
@@ -71,7 +72,7 @@ import VirgilCrypto
         try Group.validateParticipantsCount(lastTicket.participants.count)
 
         self.initiator = rawGroup.info.initiator
-        self.selfIdentity = localKeyStorage.identity
+        self.selfIdentity = selfIdentity
         self.participants = lastTicket.participants
         self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)

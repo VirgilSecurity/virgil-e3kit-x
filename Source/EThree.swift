@@ -123,17 +123,25 @@ import VirgilCrypto
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()
 
-        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
-        let keychainStorage = KeychainStorage(storageParams: storageParams)
+        var localKeyStorageParams = LocalKeyStorageParams(identity: identity,
+                                                          crypto: crypto,
+                                                          keychainStorageParams: storageParams)
 
-        let localKeyStorage = try LocalKeyStorage(identity: identity,
-                                                  crypto: crypto,
-                                                  keychainStorage: keychainStorage,
-                                                  loadKeyStrategy: loadKeyStrategy,
-                                                  biometricProtection: biometricProtection,
-                                                  biometricPromt: biometricPromt)
+        localKeyStorageParams.biometricProtection = biometricProtection
+        localKeyStorageParams.biometricPromt = biometricPromt
+
+        let localKeyStorage: LocalKeyStorage
+        switch loadKeyStrategy {
+        case .instant:
+            localKeyStorage = try InstantLoadKeyStorage(params: localKeyStorageParams)
+        case .onFirstNeed:
+            localKeyStorage = try OnFirstNeedKeyStorage(params: localKeyStorageParams)
+        case .onlyOnUse:
+            localKeyStorage = try OnlyOnUseKeyStorage(params: localKeyStorageParams)
+        }
 
         try self.init(identity: identity,
+                      crypto: crypto,
                       tokenCallback: tokenCallback,
                       localKeyStorage: localKeyStorage,
                       changedKeyDelegate: changedKeyDelegate)
@@ -158,27 +166,26 @@ import VirgilCrypto
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()
 
-        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
-        let keychainStorage = KeychainStorage(storageParams: storageParams)
+        let params = LocalKeyStorageParams(identity: identity,
+                                           crypto: crypto,
+                                           keychainStorageParams: storageParams)
 
-        let localKeyStorage = try LocalKeyStorage(identity: identity,
-                                                  crypto: crypto,
-                                                  keychainStorage: keychainStorage,
-                                                  loadKeyStrategy: .instant)
+        let localKeyStorage = try InstantLoadKeyStorage(params: params)
 
         try self.init(identity: identity,
+                      crypto: crypto,
                       tokenCallback: tokenCallback,
                       localKeyStorage: localKeyStorage,
                       changedKeyDelegate: changedKeyDelegate)
     }
 
     internal convenience init(identity: String,
+                              crypto: VirgilCrypto,
                               tokenCallback: @escaping RenewJwtCallback,
                               localKeyStorage: LocalKeyStorage,
                               changedKeyDelegate: ChangedKeyDelegate?) throws {
+        let crypto = crypto
         let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-        let crypto = localKeyStorage.crypto
 
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed

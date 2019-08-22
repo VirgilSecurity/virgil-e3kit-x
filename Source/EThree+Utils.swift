@@ -44,7 +44,8 @@ extension EThree {
         let localGroupStorage = try FileGroupStorage(identity: self.identity,
                                                      crypto: self.crypto,
                                                      identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+        let cloudTicketStorage = try CloudTicketStorage(identity: self.identity,
+                                                        accessTokenProvider: self.accessTokenProvider,
                                                         localKeyStorage: self.localKeyStorage)
         self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
                                          cloudTicketStorage: cloudTicketStorage,
