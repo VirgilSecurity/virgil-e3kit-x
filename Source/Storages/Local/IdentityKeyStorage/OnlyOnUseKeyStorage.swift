@@ -62,55 +62,6 @@ internal class OnlyOnUseKeyStorage: LocalKeyStorage {
     #endif
     }
 
-#if os(iOS)
-    private var backupName: String {
-        return "E3KIT-BACKUP-" + self.identity
-    }
-
-    private func store(backup data: Data) throws {
-        _ = try self.keychainStorage.store(data: data,
-                                           withName: self.backupName,
-                                           meta: nil)
-    }
-
-    private func deleteBackup() throws {
-        try self.keychainStorage.deleteEntry(withName: self.backupName)
-    }
-
-    private func loadBackup() throws -> VirgilKeyPair? {
-        guard let data = try self.retrieve(name: self.backupName) else {
-            return nil
-        }
-
-        try self.store(data: data)
-
-        try self.deleteBackup()
-
-        return try self.crypto.importPrivateKey(from: data)
-    }
-
-    internal func setBiometricProtection(to value: Bool) throws {
-        guard self.options.biometricallyProtected != value else {
-            return
-        }
-
-        guard try self.exists() else {
-            self.options.biometricallyProtected = value
-            return
-        }
-
-        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
-
-        try self.store(backup: data)
-
-        try self.delete()
-        self.options.biometricallyProtected = value
-        try self.store(data: data)
-
-        try self.deleteBackup()
-    }
-#endif
-
     internal func retrieve(name: String) throws -> Data? {
         do {
             let keyEntry = try self.keychainStorage.retrieveEntry(withName: name, queryOptions: self.options)
@@ -168,4 +119,53 @@ internal class OnlyOnUseKeyStorage: LocalKeyStorage {
     internal func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
     }
+
+    #if os(iOS)
+    private var backupName: String {
+        return "E3KIT-BACKUP-" + self.identity
+    }
+
+    private func store(backup data: Data) throws {
+        _ = try self.keychainStorage.store(data: data,
+                                           withName: self.backupName,
+                                           meta: nil)
+    }
+
+    private func deleteBackup() throws {
+        try self.keychainStorage.deleteEntry(withName: self.backupName)
+    }
+
+    private func loadBackup() throws -> VirgilKeyPair? {
+        guard let data = try self.retrieve(name: self.backupName) else {
+            return nil
+        }
+
+        try self.store(data: data)
+
+        try self.deleteBackup()
+
+        return try self.crypto.importPrivateKey(from: data)
+    }
+
+    internal func setBiometricProtection(to value: Bool) throws {
+        guard self.options.biometricallyProtected != value else {
+            return
+        }
+
+        guard try self.exists() else {
+            self.options.biometricallyProtected = value
+            return
+        }
+
+        let data = try self.crypto.exportPrivateKey(self.getKeyPair().privateKey)
+
+        try self.store(backup: data)
+
+        try self.delete()
+        self.options.biometricallyProtected = value
+        try self.store(data: data)
+
+        try self.deleteBackup()
+    }
+    #endif
 }
