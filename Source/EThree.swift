@@ -132,6 +132,7 @@ import VirgilCrypto
 
         localKeyStorageParams.biometricProtection = biometricProtection
         localKeyStorageParams.biometricPromt = biometricPromt
+        localKeyStorageParams.cacheLifeTime = keyCacheLifeTime
 
         let localKeyStorage: LocalKeyStorage
         switch loadKeyStrategy {
