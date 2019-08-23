@@ -83,6 +83,7 @@ import VirgilCrypto
                       biometricProtection: params.biometricProtection,
                       biometricPromt: params.biometricPromt,
                       loadKeyStrategy: params.loadKeyStrategy,
+                      keyCacheLifeTime: params.keyCacheLifeTime,
                       changedKeyDelegate: params.changedKeyDelegate,
                       storageParams: params.storageParams)
     #else
@@ -104,6 +105,7 @@ import VirgilCrypto
     ///   - biometricProtection: will use biometric or passcode protection of key if true. Default value - false.
     ///   - biometricPromt: User promt for UI
     ///   - loadKeyStrategy: [LoadKeyStrategy](x-source-tag://LoadKeyStrategy)
+    ///   - keyCacheLifeTime: defines how long cached key can be used before retrieved again
     ///   - changedKeyDelegate: [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     /// - Throws: corresponding error
@@ -119,6 +121,7 @@ import VirgilCrypto
                                   biometricProtection: Bool,
                                   biometricPromt: String? = nil,
                                   loadKeyStrategy: LoadKeyStrategy = .instant,
+                                  keyCacheLifeTime: TimeInterval = 1_800,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()

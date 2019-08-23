@@ -55,6 +55,8 @@ import VirgilSDK
     @objc public var biometricPromt: String? = nil
     /// Defines behaviour of key load
     @objc public var loadKeyStrategy: LoadKeyStrategy = .instant
+    /// Defines how long cached key can be used before retrieved again
+    @objc public var keyCacheLifeTime: TimeInterval = 1_800
 #endif
 
     /// Initializer

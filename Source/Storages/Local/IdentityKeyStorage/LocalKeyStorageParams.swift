@@ -45,6 +45,7 @@ internal struct LocalKeyStorageParams {
 #if os(iOS)
     internal var biometricProtection: Bool = false
     internal var biometricPromt: String? = nil
+    internal var cacheLifeTime: TimeInterval? = nil
 #endif
 
     internal init(identity: String, crypto: VirgilCrypto, keychainStorageParams: KeychainStorageParams?) {

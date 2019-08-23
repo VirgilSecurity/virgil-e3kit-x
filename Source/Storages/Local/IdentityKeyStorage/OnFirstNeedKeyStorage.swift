@@ -39,7 +39,7 @@ import VirgilCrypto
 
 internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
     internal var cachedKeyPair: CachedKeyPair?
-    internal var timeToLive: TimeInterval = 1000
+    internal var cacheLifeTime: TimeInterval = 1_800
 
     internal struct CachedKeyPair {
         internal let value: VirgilKeyPair
@@ -50,19 +50,27 @@ internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
         }
     }
 
+    internal required init(params: LocalKeyStorageParams) throws {
+        try super.init(params: params)
+
+        if let cacheLifeTime = params.cacheLifeTime {
+            self.cacheLifeTime = cacheLifeTime
+        }
+    }
+
     override internal func store(data: Data) throws {
         try super.store(data: data)
 
         let keyPair = try self.crypto.importPrivateKey(from: data)
 
-        self.set(keyPair)
+        self.cache(keyPair)
     }
 
     override internal func getKeyPair() throws -> VirgilKeyPair {
         guard let cachedKeyPair = self.cachedKeyPair, !cachedKeyPair.isExpired() else {
             let keyPair = try super.getKeyPair()
 
-            self.set(keyPair)
+            self.cache(keyPair)
 
             return keyPair
         }
@@ -80,8 +88,8 @@ internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
         self.cachedKeyPair = nil
     }
 
-    internal func set(_ keyPair: VirgilKeyPair) {
-        let expiresAt = Date() + self.timeToLive
+    internal func cache(_ keyPair: VirgilKeyPair) {
+        let expiresAt = Date() + self.cacheLifeTime
 
         self.cachedKeyPair = CachedKeyPair(value: keyPair, expiresAt: expiresAt)
     }

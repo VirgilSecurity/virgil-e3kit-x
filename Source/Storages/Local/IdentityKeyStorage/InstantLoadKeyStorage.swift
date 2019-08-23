@@ -42,11 +42,7 @@ internal class InstantLoadKeyStorage: OnFirstNeedKeyStorage {
         try super.init(params: params)
 
         if let keyPair = try self.loadKeyPair() {
-            self.set(keyPair)
+            self.cache(keyPair)
         }
-    }
-
-    override internal func exists() throws -> Bool {
-        return self.cachedKeyPair != nil
     }
 }
