@@ -118,14 +118,25 @@ class VTE007_BiometricTests: XCTestCase {
             completion(token, nil)
         }
 
-        let bundle = Bundle.main
+        let bundle = Bundle(for: TestConfig.self)
         let configFileUrl = bundle.url(forResource: "EThreeParams", withExtension: "plist")!
         let params = try! EThreeParams(identity: identity, tokenCallback: tokenCallback, configUrl: configFileUrl)
 
+        XCTAssert(params.biometricProtection)
+        XCTAssert(params.biometricPromt == "New promt")
+        XCTAssert(params.loadKeyStrategy == .instant)
+        XCTAssert(params.keyCacheLifeTime == 30)
+
         let ethree = try! EThree(params: params)
+
+        try! ethree.register().startSync().get()
+
+        let ethree1 = try! EThree(params: params)
 
         sleep(2)
 
-        try! ethree.register().startSync().get()
+        try! ethree.cleanUp()
+
+        XCTAssert(try !ethree.hasLocalPrivateKey())
     }
 }

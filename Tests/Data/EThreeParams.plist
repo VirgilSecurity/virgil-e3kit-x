@@ -7,8 +7,8 @@
 	<key>biometricPromt</key>
 	<string>New promt</string>
 	<key>loadKeyStrategy</key>
-	<string>onFirstUse</string>
+	<string>instant</string>
 	<key>keyCacheLifeTime</key>
-	<string>30</string>
+	<integer>30</integer>
 </dict>
 </plist>

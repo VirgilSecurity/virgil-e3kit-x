@@ -36,6 +36,21 @@
 
 import Foundation
 
+/// Declares error types and codes for EThree
+///
+/// - unknownStrategy: Valid strategies are `onlyOnUse`, `onFirstNeed` and `instant`
+@objc(LoadKeyStrategyError) public enum LoadKeyStrategyError: Int, LocalizedError {
+    case unknownStrategy = 1
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .unknownStrategy:
+            return "Valid strategies are `onlyOnUse`, `onFirstNeed` and `instant`"
+        }
+    }
+}
+
 /// Defines behaviour of loading key
 ///  - onlyOnUse: load on every use
 ///  - onFirstNeed: load on first need, then use cached value
@@ -53,6 +68,7 @@ import Foundation
     }
 
     public init(rawValue: String) throws {
+        // TODO: lowercased ?
         switch rawValue {
         case "onlyOnUse":
             self = .onlyOnUse
@@ -61,8 +77,7 @@ import Foundation
         case "instant":
             self = .instant
         default:
-            // FIXME
-            throw NSError()
+            throw LoadKeyStrategyError.unknownStrategy
         }
     }
 }
