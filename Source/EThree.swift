@@ -246,12 +246,4 @@ import VirgilCrypto
 
         lookupManager.startUpdateCachedCards()
     }
-
-    internal func getGroupManager() throws -> GroupManager {
-        guard let manager = self.groupManager else {
-            throw EThreeError.missingPrivateKey
-        }
-
-        return manager
-    }
 }

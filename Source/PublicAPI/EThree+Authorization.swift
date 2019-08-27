@@ -86,7 +86,8 @@ extension EThree {
 
     /// Cleans cached key
     ///
-    /// - Throws: `EThreeError.notCachingKeyStrategy` if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
+    /// - Throws: `EThreeError.notCachingKeyStrategy`
+    ///           if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
     @objc public func cleanKeyCache() throws {
         guard let localKeyStorage = self.localKeyStorage as? OnFirstNeedKeyStorage else {
             throw EThreeError.notCachingKeyStrategy
@@ -97,7 +98,8 @@ extension EThree {
 
     /// Loads and cached key
     ///
-    /// - Throws: `EThreeError.notCachingKeyStrategy` if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
+    /// - Throws: `EThreeError.notCachingKeyStrategy`
+    ///            if [LoadKeyStrategy](x-source-tag://LoadKeyStrategy) does not imply caching
     @objc public func loadKeyCache() throws {
         guard let localKeyStorage = self.localKeyStorage as? OnFirstNeedKeyStorage else {
             throw EThreeError.notCachingKeyStrategy

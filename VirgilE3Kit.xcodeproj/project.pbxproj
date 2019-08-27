@@ -43,9 +43,6 @@
 		16194CAC230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
 		16194CAD230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
 		1622781123152F0C00F21F73 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622781023152F0C00F21F73 /* Defaults.swift */; };
-		1622781223152F0C00F21F73 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622781023152F0C00F21F73 /* Defaults.swift */; };
-		1622781323152F0C00F21F73 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622781023152F0C00F21F73 /* Defaults.swift */; };
-		1622781423152F0C00F21F73 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622781023152F0C00F21F73 /* Defaults.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -610,13 +607,21 @@
 		16194CA8230EC8C300A55417 /* IdentityKeyStorage */ = {
 			isa = PBXGroup;
 			children = (
+				162278152315365300F21F73 /* Strategies */,
 				16194CA3230EC86400A55417 /* LocalKeyStorage.swift */,
 				16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */,
+			);
+			path = IdentityKeyStorage;
+			sourceTree = "<group>";
+		};
+		162278152315365300F21F73 /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
 				167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */,
 				16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */,
 				16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */,
 			);
-			path = IdentityKeyStorage;
+			path = Strategies;
 			sourceTree = "<group>";
 		};
 		16261CCB21787517003D7CDA /* Frameworks */ = {
@@ -779,6 +784,7 @@
 				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
 				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
+				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 				16194C85230E9CBF00A55417 /* LoadKeyStrategy.swift */,
 			);
 			path = Models;
@@ -852,7 +858,6 @@
 				16194C8A230EA58400A55417 /* EThree+Utils.swift */,
 				1631EE10230D712800B4F8C7 /* EThreeParams.swift */,
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
-				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -1345,7 +1350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
-				1622781423152F0C00F21F73 /* Defaults.swift in Sources */,
 				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
@@ -1406,7 +1410,6 @@
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				1631EE12230D712800B4F8C7 /* EThreeParams.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
-				1622781223152F0C00F21F73 /* Defaults.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16194CA5230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1450,7 +1453,6 @@
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				1631EE13230D712800B4F8C7 /* EThreeParams.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
-				1622781323152F0C00F21F73 /* Defaults.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16194CA6230EC86400A55417 /* LocalKeyStorage.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,

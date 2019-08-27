@@ -38,6 +38,14 @@ import VirgilSDK
 import VirgilCrypto
 
 extension EThree {
+    internal func getGroupManager() throws -> GroupManager {
+        guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
+    }
+
     internal func privateKeyChanged(newCard: Card? = nil) throws {
         let selfKeyPair = try self.localKeyStorage.getKeyPair()
 

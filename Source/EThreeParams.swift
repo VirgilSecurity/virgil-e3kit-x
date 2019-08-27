@@ -59,10 +59,10 @@ import VirgilSDK
     @objc public var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
 
     private struct BiometryConfig: Decodable {
-        internal var biometricProtection: Bool = Defaults.biometricProtection
-        internal var biometricPromt: String? = Defaults.biometricPromt
-        internal var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
-        internal var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
+        var biometricProtection: Bool = Defaults.biometricProtection
+        var biometricPromt: String? = Defaults.biometricPromt
+        var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
+        var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
     }
 
     /// Initializer with parameters from config plist file
