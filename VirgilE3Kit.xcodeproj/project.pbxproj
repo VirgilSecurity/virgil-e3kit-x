@@ -607,21 +607,21 @@
 		16194CA8230EC8C300A55417 /* IdentityKeyStorage */ = {
 			isa = PBXGroup;
 			children = (
-				162278152315365300F21F73 /* Strategies */,
+				162278152315365300F21F73 /* iOS */,
 				16194CA3230EC86400A55417 /* LocalKeyStorage.swift */,
 				16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */,
+				167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */,
 			);
 			path = IdentityKeyStorage;
 			sourceTree = "<group>";
 		};
-		162278152315365300F21F73 /* Strategies */ = {
+		162278152315365300F21F73 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				167E1DE3217CF0B100F8AA13 /* OnlyOnUseKeyStorage.swift */,
 				16194C94230EC00400A55417 /* OnFirstNeedKeyStorage.swift */,
 				16194C8F230EBFEC00A55417 /* InstantLoadKeyStorage.swift */,
 			);
-			path = Strategies;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		16261CCB21787517003D7CDA /* Frameworks */ = {
