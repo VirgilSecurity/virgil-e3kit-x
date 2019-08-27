@@ -34,23 +34,11 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
-import VirgilCrypto
+import Foundation
 
-internal struct LocalKeyStorageParams {
-    internal let identity: String
-    internal let crypto: VirgilCrypto
-    internal let keychainStorageParams: KeychainStorageParams?
-
-#if os(iOS)
-    internal var biometricProtection: Bool = Defaults.biometricProtection
-    internal var biometricPromt: String? = Defaults.biometricPromt
-    internal var cacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
-#endif
-
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorageParams: KeychainStorageParams?) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorageParams = keychainStorageParams
-    }
+@objc(VTEDefaults) public class Defaults: NSObject {
+    public static let keyCacheLifeTime: TimeInterval = 1_800
+    public static let biometricProtection: Bool = false
+    public static let biometricPromt: String? = nil
+    public static let loadKeyStrategy: LoadKeyStrategy = .instant
 }

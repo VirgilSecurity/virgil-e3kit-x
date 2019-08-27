@@ -50,29 +50,19 @@ import VirgilSDK
 
 #if os(iOS)
     /// Will use biometric or passcode protection of key if true
-    @objc public var biometricProtection: Bool
+    @objc public var biometricProtection: Bool = Defaults.biometricProtection
     /// User promt for UI
-    @objc public var biometricPromt: String?
+    @objc public var biometricPromt: String? = Defaults.biometricPromt
     /// Defines behaviour of key load
-    @objc public var loadKeyStrategy: LoadKeyStrategy
+    @objc public var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
     /// Defines how long cached key can be used before retrieved again
-    @objc public var keyCacheLifeTime: TimeInterval
+    @objc public var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
 
     private struct BiometryConfig: Decodable {
-        internal var biometricProtection: Bool = false
-        internal var biometricPromt: String? = nil
-        internal var loadKeyStrategy: LoadKeyStrategy = .instant
-        internal var keyCacheLifeTime: TimeInterval = 1_800
-    }
-
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: Identity of user
-    ///   - tokenCallback: Callback to get Virgil access token
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping EThree.RenewJwtCallback) {
-        self.init(identity: identity, tokenCallback: tokenCallback, config: BiometryConfig())
+        internal var biometricProtection: Bool = Defaults.biometricProtection
+        internal var biometricPromt: String? = Defaults.biometricPromt
+        internal var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
+        internal var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
     }
 
     /// Initializer with parameters from config plist file
@@ -89,21 +79,15 @@ import VirgilSDK
 
         let config = try PropertyListDecoder().decode(BiometryConfig.self, from: data)
 
-        self.init(identity: identity, tokenCallback: tokenCallback, config: config)
-    }
-
-    private init(identity: String, tokenCallback: @escaping EThree.RenewJwtCallback, config: BiometryConfig) {
-        self.identity = identity
-        self.tokenCallback = tokenCallback
+        self.init(identity: identity, tokenCallback: tokenCallback)
 
         self.biometricProtection = config.biometricProtection
         self.biometricPromt = config.biometricPromt
         self.loadKeyStrategy = config.loadKeyStrategy
         self.keyCacheLifeTime = config.keyCacheLifeTime
-
-        super.init()
     }
-#else
+#endif
+
     /// Initializer
     ///
     /// - Parameters:
@@ -116,5 +100,4 @@ import VirgilSDK
 
         super.init()
     }
-#endif
 }

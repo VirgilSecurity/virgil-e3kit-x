@@ -120,7 +120,7 @@ internal class OnlyOnUseKeyStorage: LocalKeyStorage {
         try self.keychainStorage.deleteEntry(withName: self.identity, queryOptions: self.options)
     }
 
-    #if os(iOS)
+#if os(iOS)
     private var backupName: String {
         return "E3KIT-BACKUP-" + self.identity
     }
@@ -167,5 +167,5 @@ internal class OnlyOnUseKeyStorage: LocalKeyStorage {
 
         try self.deleteBackup()
     }
-    #endif
+#endif
 }

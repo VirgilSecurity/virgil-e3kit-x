@@ -39,7 +39,7 @@ import VirgilCrypto
 
 internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
     internal var cachedKeyPair: CachedKeyPair?
-    internal var cacheLifeTime: TimeInterval = 1_800
+    internal var cacheLifeTime: TimeInterval
 
     internal struct CachedKeyPair {
         internal let value: VirgilKeyPair
@@ -51,11 +51,9 @@ internal class OnFirstNeedKeyStorage: OnlyOnUseKeyStorage {
     }
 
     internal required init(params: LocalKeyStorageParams) throws {
-        try super.init(params: params)
+        self.cacheLifeTime = params.cacheLifeTime
 
-        if let cacheLifeTime = params.cacheLifeTime {
-            self.cacheLifeTime = cacheLifeTime
-        }
+        try super.init(params: params)
     }
 
     override internal func store(data: Data) throws {

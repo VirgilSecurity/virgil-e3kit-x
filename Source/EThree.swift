@@ -119,9 +119,9 @@ import VirgilCrypto
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   biometricProtection: Bool,
-                                  biometricPromt: String? = nil,
-                                  loadKeyStrategy: LoadKeyStrategy = .instant,
-                                  keyCacheLifeTime: TimeInterval = 1_800,
+                                  biometricPromt: String? = Defaults.biometricPromt,
+                                  loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy,
+                                  keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil) throws {
         let crypto = try VirgilCrypto()
@@ -174,7 +174,7 @@ import VirgilCrypto
                                            crypto: crypto,
                                            keychainStorageParams: storageParams)
 
-        let localKeyStorage = try InstantLoadKeyStorage(params: params)
+        let localKeyStorage = try OnlyOnUseKeyStorage(params: params)
 
         try self.init(identity: identity,
                       crypto: crypto,
