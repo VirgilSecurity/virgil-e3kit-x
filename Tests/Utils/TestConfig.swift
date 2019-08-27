@@ -42,6 +42,18 @@ import Foundation
     @objc public let AppId: String
     @objc public let ServiceURL: String
 
+    public let Group: GroupConfig
+
+    public struct GroupConfig: Decodable {
+        public let GroupId: String
+        public let Initiator: String
+        public let Participants: [String]
+        public let Identity: String
+        public let PrivateKey: String
+        public let OriginText: String
+        public let EncryptedText: String
+    }
+
     @objc public static func readFromBundle() -> TestConfig {
         let bundle = Bundle(for: self)
         let configFileUrl = bundle.url(forResource: "TestConfig", withExtension: "plist")!

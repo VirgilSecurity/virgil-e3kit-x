@@ -49,7 +49,7 @@ class VTE006_LookupTests: XCTestCase {
         self.utils = TestUtils(crypto: self.crypto, consts: consts)
     }
 
-    private func setUpDevice(identity: String? = nil) -> (EThree) {
+    private func setUpDevice(identity: String? = nil) -> EThree {
         let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
