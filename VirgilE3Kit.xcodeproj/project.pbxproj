@@ -43,6 +43,7 @@
 		16194CAC230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
 		16194CAD230ED6CD00A55417 /* LocalKeyStorageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */; };
 		1622781123152F0C00F21F73 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622781023152F0C00F21F73 /* Defaults.swift */; };
+		16227821231558D500F21F73 /* EthreeParams.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16227820231558D400F21F73 /* EthreeParams.plist */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -403,6 +404,7 @@
 		16194CA3230EC86400A55417 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
 		16194CA9230ED6CD00A55417 /* LocalKeyStorageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorageParams.swift; sourceTree = "<group>"; };
 		1622781023152F0C00F21F73 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		16227820231558D400F21F73 /* EthreeParams.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = EthreeParams.plist; path = Tests/Data/EthreeParams.plist; sourceTree = SOURCE_ROOT; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -698,6 +700,7 @@
 			isa = PBXGroup;
 			children = (
 				4203280422F1E6C200872D9C /* cards.sqlite */,
+				16227820231558D400F21F73 /* EthreeParams.plist */,
 				42D84AB922F082510012D103 /* TestConfig.plist */,
 			);
 			path = Data;
@@ -1160,6 +1163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42D84ABA22F082510012D103 /* TestConfig.plist in Resources */,
+				16227821231558D500F21F73 /* EthreeParams.plist in Resources */,
 				4203280522F1E6C200872D9C /* cards.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

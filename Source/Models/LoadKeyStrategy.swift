@@ -45,4 +45,24 @@ import Foundation
     case onlyOnUse = 1
     case onFirstNeed = 2
     case instant = 3
+
+    public init(from decoder: Decoder) throws {
+        let rawValue = try decoder.singleValueContainer().decode(String.self)
+
+        try self.init(rawValue: rawValue)
+    }
+
+    public init(rawValue: String) throws {
+        switch rawValue {
+        case "onlyOnUse":
+            self = .onlyOnUse
+        case "onFirstNeed":
+            self = .onFirstNeed
+        case "instant":
+            self = .instant
+        default:
+            // FIXME
+            throw NSError()
+        }
+    }
 }

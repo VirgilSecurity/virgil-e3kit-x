@@ -108,4 +108,24 @@ class VTE007_BiometricTests: XCTestCase {
 
         XCTAssert(try !ethree.hasLocalPrivateKey())
     }
+
+    func test05__config() {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.utils.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        let bundle = Bundle.main
+        let configFileUrl = bundle.url(forResource: "EThreeParams", withExtension: "plist")!
+        let params = try! EThreeParams(identity: identity, tokenCallback: tokenCallback, configUrl: configFileUrl)
+
+        let ethree = try! EThree(params: params)
+
+        sleep(2)
+
+        try! ethree.register().startSync().get()
+    }
 }
