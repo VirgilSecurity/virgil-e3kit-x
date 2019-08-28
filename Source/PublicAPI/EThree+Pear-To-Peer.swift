@@ -307,7 +307,7 @@ public extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
-    @objc func encrypt(data: Data, for recipientKeys: LookupResult? = nil) throws -> Data {
+    @objc func encrypt(data: Data, for recipientKeys: LookupResult) throws -> Data {
         return try self.encryptInternal(data: data, for: self.lookupResultToPublicKeys(recipientKeys))
     }
 
@@ -320,7 +320,7 @@ public extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use decryptFromUser method instead.")
-    @objc func decrypt(data: Data, from senderPublicKey: VirgilPublicKey? = nil) throws -> Data {
+    @objc func decrypt(data: Data, from senderPublicKey: VirgilPublicKey) throws -> Data {
         return try self.decryptInternal(data: data, from: senderPublicKey)
     }
 
@@ -337,7 +337,7 @@ public extension EThree {
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
     @objc func encrypt(_ stream: InputStream, to outputStream: OutputStream,
-                       for recipientKeys: LookupResult? = nil) throws {
+                       for recipientKeys: LookupResult) throws {
         try self.encryptInternal(stream, to: outputStream, for: self.lookupResultToPublicKeys(recipientKeys))
     }
 
@@ -353,7 +353,7 @@ public extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use encryptForUsers method instead.")
-    @objc func encrypt(text: String, for recipientKeys: LookupResult? = nil) throws -> String {
+    @objc func encrypt(text: String, for recipientKeys: LookupResult) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -372,7 +372,7 @@ public extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use decryptFromUser method instead.")
-    @objc func decrypt(text: String, from senderPublicKey: VirgilPublicKey? = nil) throws -> String {
+    @objc func decrypt(text: String, from senderPublicKey: VirgilPublicKey) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
