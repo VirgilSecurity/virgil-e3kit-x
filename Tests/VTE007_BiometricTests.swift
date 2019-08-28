@@ -39,14 +39,7 @@ import VirgilE3Kit
 import VirgilCrypto
 
 class VTE007_BiometricTests: XCTestCase {
-    var utils: TestUtils!
-    let crypto = try! VirgilCrypto()
-
-    override func setUp() {
-        let consts = TestConfig.readFromBundle()
-
-        self.utils = TestUtils(crypto: self.crypto, consts: consts)
-    }
+    let utils = TestUtils()
 
     private func setUpDevice(identity: String? = nil, biometricalProtection: Bool, biometricalPromt: String? = nil) -> EThree {
         let identity = identity ?? UUID().uuidString
