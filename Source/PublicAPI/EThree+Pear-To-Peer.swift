@@ -299,8 +299,7 @@ public extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to encrypt
-    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
-    ///                    Use nil to sign and encrypt for self
+    ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
@@ -315,7 +314,7 @@ public extension EThree {
     ///
     /// - Parameters:
     ///   - data: data to decrypt
-    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self
+    ///   - senderPublicKey: sender PublicKey to verify with
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
@@ -330,7 +329,6 @@ public extension EThree {
     ///   - stream: data stream to be encrypted
     ///   - outputStream: stream with encrypted data
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
-    ///                    Use nil to sign and encrypt for self
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
@@ -346,7 +344,6 @@ public extension EThree {
     /// - Parameters:
     ///   - text: String to encrypt
     ///   - recipientKeys: result of lookupPublicKeys call recipient PublicKeys to sign and encrypt with.
-    ///                    Use nil to sign and encrypt for self
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
@@ -367,7 +364,7 @@ public extension EThree {
     ///
     /// - Parameters:
     ///   - text: encrypted String
-    ///   - senderPublicKey: sender PublicKey to verify with. Use nil to decrypt and verify from self.
+    ///   - senderPublicKey: sender PublicKey to verify with
     /// - Returns: decrypted String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
