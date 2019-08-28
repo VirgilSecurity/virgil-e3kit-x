@@ -24,9 +24,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		160B7097231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B7096231576A70064FBE4 /* VTE007_CompatibilityTests.swift */; };
-		160B7098231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B7096231576A70064FBE4 /* VTE007_CompatibilityTests.swift */; };
-		160B7099231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B7096231576A70064FBE4 /* VTE007_CompatibilityTests.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -374,7 +371,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		160B7096231576A70064FBE4 /* VTE007_CompatibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE007_CompatibilityTests.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -654,7 +650,6 @@
 				16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */,
 				42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */,
 				16BB9B5122F341150057D6B2 /* VTE006_LookupTests.swift */,
-				160B7096231576A70064FBE4 /* VTE007_CompatibilityTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -1201,7 +1196,6 @@
 			files = (
 				166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
-				160B7097231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */,
 				16ED974722D7732A00B90EC8 /* VTE004_GroupTests.swift in Sources */,
 				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
@@ -1218,7 +1212,6 @@
 			files = (
 				166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
-				160B7098231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */,
 				16ED974622D7732900B90EC8 /* VTE004_GroupTests.swift in Sources */,
 				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
@@ -1235,7 +1228,6 @@
 			files = (
 				166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */,
-				160B7099231576A70064FBE4 /* VTE007_CompatibilityTests.swift in Sources */,
 				16ED974522D7732800B90EC8 /* VTE004_GroupTests.swift in Sources */,
 				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,

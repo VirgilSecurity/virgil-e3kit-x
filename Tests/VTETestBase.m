@@ -42,9 +42,9 @@
     [super setUp];
 
     self.password = [[NSUUID alloc] init].UUIDString;
-    self.consts = [VTETestConfig readFromBundle];
-    self.crypto = [[VSMVirgilCrypto alloc] initWithDefaultKeyType:VSMKeyPairTypeEd25519 useSHA256Fingerprints:false error:nil];
-    self.utils = [[VTETestUtils alloc] initWithCrypto:self.crypto consts:self.consts];
+    self.utils = [[VTETestUtils alloc] init];
+    self.consts = self.utils.config;
+    self.crypto = self.utils.crypto;
 
     VSSKeychainStorageParams *params;
 #if TARGET_OS_IOS || TARGET_OS_TV

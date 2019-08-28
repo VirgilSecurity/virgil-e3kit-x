@@ -36,18 +36,9 @@
 
 import XCTest
 import VirgilE3Kit
-import VirgilCrypto
-import VirgilSDK
 
 class VTE006_LookupTests: XCTestCase {
-    var utils: TestUtils!
-    let crypto = try! VirgilCrypto()
-
-    override func setUp() {
-        let consts = TestConfig.readFromBundle()
-
-        self.utils = TestUtils(crypto: self.crypto, consts: consts)
-    }
+    let utils = TestUtils()
 
     private func setUpDevice(identity: String? = nil) -> EThree {
         let identity = identity ?? UUID().uuidString

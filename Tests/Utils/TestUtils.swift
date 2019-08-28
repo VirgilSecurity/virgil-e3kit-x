@@ -40,12 +40,14 @@ import VirgilSDK
 import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
-    private let crypto: VirgilCrypto
-    private let consts: TestConfig
+    @objc public let crypto: VirgilCrypto
+    @objc public let config: TestConfig
 
-    @objc public init(crypto: VirgilCrypto, consts: TestConfig) {
-        self.crypto = crypto
-        self.consts = consts
+    @objc public override init() {
+        self.crypto = try! VirgilCrypto()
+        self.config = TestConfig.readFromBundle()
+
+        super.init()
     }
 
     @objc public func getTokenString(identity: String) -> String {
@@ -55,13 +57,13 @@ import VirgilSDKPythia
     }
 
     @objc public func getToken(identity: String, ttl: TimeInterval = 1000) -> AccessToken {
-        let privateKeyData = Data(base64Encoded: self.consts.ApiPrivateKey)
+        let privateKeyData = Data(base64Encoded: self.config.ApiPrivateKey)
         let keyPair = try! self.crypto.importPrivateKey(from: privateKeyData!)
 
         let generator = try! JwtGenerator(apiKey: keyPair.privateKey,
-                                          apiPublicKeyIdentifier: self.consts.ApiKeyId,
+                                          apiPublicKeyIdentifier: self.config.ApiKeyId,
                                           crypto: self.crypto,
-                                          appId: self.consts.AppId,
+                                          appId: self.config.AppId,
                                           ttl: ttl)
 
         let jwt = try! generator.generateToken(identity: identity)
@@ -85,7 +87,7 @@ import VirgilSDKPythia
 
         let token = self.getToken(identity: identity)
 
-        let serviceUrl = URL(string: self.consts.ServiceURL)!
+        let serviceUrl = URL(string: self.config.ServiceURL)!
 
         let provider = ConstAccessTokenProvider(accessToken: token)
 

@@ -38,16 +38,12 @@ import XCTest
 @testable import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
-import VirgilCryptoFoundation
 
 class VTE004_GroupTests: XCTestCase {
-    var utils: TestUtils!
-    let crypto = try! VirgilCrypto()
+    let utils = TestUtils()
 
-    override func setUp() {
-        let consts = TestConfig.readFromBundle()
-
-        self.utils = TestUtils(crypto: self.crypto, consts: consts)
+    var crypto: VirgilCrypto {
+        return self.utils.crypto
     }
 
     private func setUpDevice() -> (EThree) {
@@ -589,6 +585,39 @@ class VTE004_GroupTests: XCTestCase {
 
         let dectypted2 = try! group1.decrypt(text: encrypted2, from: card2, date: date2)
         XCTAssert(message2 == dectypted2)
+    }
+
+    func test017_STE_45__compatibility() {
+        let config = self.utils.config.Group
+
+        // Init ethree instance
+        let params = try! KeychainStorageParams.makeKeychainStorageParams()
+        let keychainStorage = KeychainStorage(storageParams: params)
+        try? keychainStorage.deleteEntry(withName: config.Identity)
+
+        let privateKeyData = Data(base64Encoded: config.PrivateKey)!
+        _ = try! keychainStorage.store(data: privateKeyData, withName: config.Identity, meta: nil)
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.utils.getTokenString(identity: config.Identity)
+
+            completion(token, nil)
+        }
+
+        let ethree = try! EThree(identity: config.Identity, tokenCallback: tokenCallback)
+
+        // Load Group
+        let initiatorCard = try! ethree.findUser(with: config.Initiator).startSync().get()
+
+        let groupIdData = Data(base64Encoded: config.GroupId)!
+        let group = try! ethree.loadGroup(id: groupIdData, initiator: initiatorCard).startSync().get()
+
+        XCTAssert(group.participants == Set(config.Participants))
+
+        // Decrypt
+        let decrypted = try! group.decrypt(text: config.EncryptedText, from: initiatorCard)
+
+        XCTAssert(decrypted == config.OriginText)
     }
 }
 
