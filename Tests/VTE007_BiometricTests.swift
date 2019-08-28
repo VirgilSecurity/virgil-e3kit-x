@@ -119,17 +119,36 @@ class VTE007_BiometricTests: XCTestCase {
         XCTAssert(params.biometricPromt == "New promt")
         XCTAssert(params.loadKeyStrategy == .instant)
         XCTAssert(params.keyCacheLifeTime == 30)
+    }
+
+    func test06__key_cache_lifetime() {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.utils.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        let params = EThreeParams(identity: identity, tokenCallback: tokenCallback)
+
+        params.biometricProtection = true
+        params.loadKeyStrategy = .instant
+        params.keyCacheLifeTime = 3
 
         let ethree = try! EThree(params: params)
-
         try! ethree.register().startSync().get()
 
-        let ethree1 = try! EThree(params: params)
+        let message = "message"
 
-        sleep(2)
+        _ = try! ethree.encrypt(text: message)
 
-        try! ethree.cleanUp()
+        sleep(1)
 
-        XCTAssert(try !ethree.hasLocalPrivateKey())
+        _  = try! ethree.encrypt(text: message)
+
+        sleep(3)
+
+        _  = try! ethree.encrypt(text: message)
     }
 }

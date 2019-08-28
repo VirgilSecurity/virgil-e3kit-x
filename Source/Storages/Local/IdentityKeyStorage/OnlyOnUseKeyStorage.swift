@@ -57,7 +57,7 @@ internal class OnlyOnUseKeyStorage: LocalKeyStorage {
         self.options.biometricallyProtected = params.biometricProtection
 
         if let biometricPromt = params.biometricPromt {
-            options.biometricPromt = biometricPromt
+            self.options.biometricPromt = biometricPromt
         }
     #endif
     }
