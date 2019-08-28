@@ -36,20 +36,11 @@
 
 import XCTest
 import VirgilE3Kit
-import VirgilCrypto
-import VirgilSDK
 
 class VTE006_LookupTests: XCTestCase {
-    var utils: TestUtils!
-    let crypto = try! VirgilCrypto()
+    let utils = TestUtils()
 
-    override func setUp() {
-        let consts = TestConfig.readFromBundle()
-
-        self.utils = TestUtils(crypto: self.crypto, consts: consts)
-    }
-
-    private func setUpDevice(identity: String? = nil) -> (EThree) {
+    private func setUpDevice(identity: String? = nil) -> EThree {
         let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
