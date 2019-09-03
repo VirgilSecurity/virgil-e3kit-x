@@ -194,10 +194,11 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: created `Group`
     ///   - error: corresponding error
-    @objc public func createGroup(id identifier: Data,
-                                  with findResult: FindUsersResult,
-                                  completion: @escaping (_ group: Group?,
-                                                         _ error: Error?) -> Void) {
+    @objc(dataId:findResult:completion:)
+    public func createGroup(id identifier: Data,
+                            with findResult: FindUsersResult,
+                            completion: @escaping (_ group: Group?,
+                                                   _ error: Error?) -> Void) {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)
     }
 
@@ -209,10 +210,11 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: loaded `Group`
     ///   - error: corresponding error
-    @objc public func loadGroup(id identifier: Data,
-                                initiator card: Card,
-                                completion: @escaping (_ group: Group?,
-                                                       _ error: Error?) -> Void) {
+    @objc(dataId:initiator:completion:)
+    public func loadGroup(id identifier: Data,
+                          initiator card: Card,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
         self.loadGroup(id: identifier, initiator: card).start(completion: completion)
     }
 
@@ -222,7 +224,53 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+    @objc(dataId:completion:)
+    public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteGroup(id: identifier).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - findResult: Cards of participants. Result of findUsers call
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    @objc(stringId:findResult:completion:)
+    public func createGroup(id identifier: String,
+                            with findResult: FindUsersResult,
+                            completion: @escaping (_ group: Group?,
+                                                   _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: findResult).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    @objc(stringId:initiator:completion:)
+    public func loadGroup(id identifier: String,
+                          initiator card: Card,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+    }
+
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameters
+    ///   - identifier: identifier of group
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc(stringId:completion:)
+    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }

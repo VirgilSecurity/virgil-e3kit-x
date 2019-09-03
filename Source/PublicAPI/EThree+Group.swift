@@ -122,3 +122,56 @@ extension EThree {
         }
     }
 }
+
+// MARK: - Extension with group operations with string identifier
+extension EThree {
+    // swiftlint:disable force_unwrapping
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: Cards of participants. Result of findUsers call
+    /// - Returns: CallbackOperation<Group>
+    public func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.createGroup(id: identifier, with: users)
+    }
+
+    /// Returnes cached local group
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: Group if exists, nil otherwise
+    /// - Throws: corresponding error
+    public func getGroup(id identifier: String) throws -> Group? {
+        let identifier = identifier.data(using: .utf8)!
+
+        return try self.getGroup(id: identifier)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    /// - Returns: CallbackOperation<Group>
+    public func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.loadGroup(id: identifier, initiator: card)
+    }
+
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: CallbackOperation
+    public func deleteGroup(id identifier: String) -> GenericOperation<Void> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.deleteGroup(id: identifier)
+    }
+
+    // swiftlint:enable force_unwrapping
+}
