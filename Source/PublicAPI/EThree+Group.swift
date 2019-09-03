@@ -123,7 +123,7 @@ extension EThree {
     }
 }
 
-// MARK: - Extension with string identifier group operations
+// MARK: - Extension with group operations with string identifier
 extension EThree {
     private func stringToData(_ identifier: String) throws -> Data {
         guard let identifier = identifier.data(using: .utf8) else {

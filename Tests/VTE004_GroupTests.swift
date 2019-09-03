@@ -46,7 +46,7 @@ class VTE004_GroupTests: XCTestCase {
         return self.utils.crypto
     }
 
-    private func setUpDevice() -> (EThree) {
+    private func setUpDevice() -> EThree {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -618,6 +618,24 @@ class VTE004_GroupTests: XCTestCase {
         let decrypted = try! group.decrypt(text: config.EncryptedText, from: initiatorCard)
 
         XCTAssert(decrypted == config.OriginText)
+    }
+
+    func test018_STE_46__string_identifier() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let identifier = String(UUID().uuidString.suffix(11))
+
+        let result = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
+        _ = try! ethree1.createGroup(id: identifier, with: result).startSync().get()
+
+        let card1 = try! ethree2.findUser(with: ethree1.identity).startSync().get()
+        _ = try! ethree2.loadGroup(id: identifier, initiator: card1).startSync().get()
+
+        _ = try! ethree1.getGroup(id: identifier)
+        _ = try! ethree2.getGroup(id: identifier)
+
+        try! ethree1.deleteGroup(id: identifier).startSync().get()
     }
 }
 
