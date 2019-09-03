@@ -125,13 +125,7 @@ extension EThree {
 
 // MARK: - Extension with group operations with string identifier
 extension EThree {
-    private func stringToData(_ identifier: String) throws -> Data {
-        guard let identifier = identifier.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        return identifier
-    }
+    // swiftlint:disable force_unwrapping
 
     /// Creates group, saves in cloud and locally
     ///
@@ -141,15 +135,9 @@ extension EThree {
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
     public func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
-        return CallbackOperation { _, completion in
-            do {
-                let identifier = try self.stringToData(identifier)
+        let identifier = identifier.data(using: .utf8)!
 
-                self.createGroup(id: identifier, with: users).start(completion: completion)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        return self.createGroup(id: identifier, with: users)
     }
 
     /// Returnes cached local group
@@ -158,7 +146,7 @@ extension EThree {
     /// - Returns: Group if exists, nil otherwise
     /// - Throws: corresponding error
     public func getGroup(id identifier: String) throws -> Group? {
-        let identifier = try self.stringToData(identifier)
+        let identifier = identifier.data(using: .utf8)!
 
         return try self.getGroup(id: identifier)
     }
@@ -170,15 +158,9 @@ extension EThree {
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
     public func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
-        return CallbackOperation { _, completion in
-            do {
-                let identifier = try self.stringToData(identifier)
+        let identifier = identifier.data(using: .utf8)!
 
-                self.loadGroup(id: identifier, initiator: card).start(completion: completion)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        return self.loadGroup(id: identifier, initiator: card)
     }
 
     /// Deletes group from cloud and local storage
@@ -186,14 +168,10 @@ extension EThree {
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
     public func deleteGroup(id identifier: String) -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let identifier = try self.stringToData(identifier)
+        let identifier = identifier.data(using: .utf8)!
 
-                self.deleteGroup(id: identifier).start(completion: completion)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        return self.deleteGroup(id: identifier)
     }
+
+    // swiftlint:enable force_unwrapping
 }
