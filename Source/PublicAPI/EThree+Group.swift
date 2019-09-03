@@ -122,3 +122,78 @@ extension EThree {
         }
     }
 }
+
+// MARK: - Extension with string identifier group operations
+extension EThree {
+    private func stringToData(_ identifier: String) throws -> Data {
+        guard let identifier = identifier.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        return identifier
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: Cards of participants. Result of findUsers call
+    /// - Returns: CallbackOperation<Group>
+    public func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let identifier = try self.stringToData(identifier)
+
+                self.createGroup(id: identifier, with: users).start(completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Returnes cached local group
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: Group if exists, nil otherwise
+    /// - Throws: corresponding error
+    public func getGroup(id identifier: String) throws -> Group? {
+        let identifier = try self.stringToData(identifier)
+
+        return try self.getGroup(id: identifier)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    /// - Returns: CallbackOperation<Group>
+    public func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let identifier = try self.stringToData(identifier)
+
+                self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: CallbackOperation
+    public func deleteGroup(id identifier: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let identifier = try self.stringToData(identifier)
+
+                self.deleteGroup(id: identifier).start(completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+}
