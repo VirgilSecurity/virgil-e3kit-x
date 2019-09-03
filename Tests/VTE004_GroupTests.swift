@@ -624,7 +624,7 @@ class VTE004_GroupTests: XCTestCase {
         let ethree1 = self.setUpDevice()
         let ethree2 = self.setUpDevice()
 
-        let identifier = String(UUID().uuidString.suffix(11))
+        let identifier = UUID().uuidString
 
         let result = try! ethree1.findUsers(with: [ethree2.identity]).startSync().get()
         _ = try! ethree1.createGroup(id: identifier, with: result).startSync().get()
