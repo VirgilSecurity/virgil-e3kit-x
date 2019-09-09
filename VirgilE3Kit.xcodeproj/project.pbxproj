@@ -200,6 +200,15 @@
 		16B1F89923269B0A0082ECE0 /* VirgilSDKRatchet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B1F89623269B0A0082ECE0 /* VirgilSDKRatchet.framework */; };
 		16B1F89A23269B0A0082ECE0 /* VirgilCryptoRatchet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B1F89723269B0A0082ECE0 /* VirgilCryptoRatchet.framework */; };
 		16B1F89B23269B0A0082ECE0 /* VSCRatchet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B1F89823269B0A0082ECE0 /* VSCRatchet.framework */; };
+		16B1F89C2326A0E60082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88623269ADA0082ECE0 /* VirgilCryptoRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F89D2326A0EC0082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88423269ADA0082ECE0 /* VirgilSDKRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F89E2326A0F50082ECE0 /* VSCRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88523269ADA0082ECE0 /* VSCRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F89F2326A1030082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88B23269AEF0082ECE0 /* VirgilCryptoRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F8A02326A1060082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88C23269AEF0082ECE0 /* VirgilSDKRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F8A12326A1090082ECE0 /* VSCRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F88A23269AEF0082ECE0 /* VSCRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F8A22326A1250082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F89123269B000082ECE0 /* VirgilCryptoRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F8A32326A1300082ECE0 /* VSCRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F89223269B000082ECE0 /* VSCRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16B1F8A42326A1440082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 16B1F89023269B000082ECE0 /* VirgilSDKRatchet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16BB9B4B22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4C22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4D22EF30BC0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
@@ -342,8 +351,11 @@
 				16AD110E224127FC00435A28 /* VirgilCryptoFoundation.framework in CopyFiles */,
 				16AD110F224127FC00435A28 /* VirgilCryptoPythia.framework in CopyFiles */,
 				16AD1110224127FC00435A28 /* VirgilSDK.framework in CopyFiles */,
+				16B1F89C2326A0E60082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */,
 				16AD1112224127FC00435A28 /* VirgilSDKPythia.framework in CopyFiles */,
 				16AD1113224127FC00435A28 /* VSCCommon.framework in CopyFiles */,
+				16B1F89E2326A0F50082ECE0 /* VSCRatchet.framework in CopyFiles */,
+				16B1F89D2326A0EC0082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */,
 				16AD1114224127FC00435A28 /* VSCFoundation.framework in CopyFiles */,
 				16AD1115224127FC00435A28 /* VSCPythia.framework in CopyFiles */,
 			);
@@ -361,6 +373,9 @@
 				162D2B812241100A00CE7FC2 /* VirgilSDK.framework in CopyFiles */,
 				162D2B832241100A00CE7FC2 /* VirgilSDKPythia.framework in CopyFiles */,
 				162D2B842241100A00CE7FC2 /* VSCCommon.framework in CopyFiles */,
+				16B1F89F2326A1030082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */,
+				16B1F8A12326A1090082ECE0 /* VSCRatchet.framework in CopyFiles */,
+				16B1F8A02326A1060082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */,
 				162D2B852241100A00CE7FC2 /* VSCFoundation.framework in CopyFiles */,
 				162D2B862241100A00CE7FC2 /* VSCPythia.framework in CopyFiles */,
 			);
@@ -374,11 +389,14 @@
 			files = (
 				16AD112A2241284A00435A28 /* VirgilCrypto.framework in CopyFiles */,
 				16AD112C2241284A00435A28 /* VirgilCryptoFoundation.framework in CopyFiles */,
+				16B1F8A22326A1250082ECE0 /* VirgilCryptoRatchet.framework in CopyFiles */,
+				16B1F8A42326A1440082ECE0 /* VirgilSDKRatchet.framework in CopyFiles */,
 				16AD112D2241284A00435A28 /* VirgilCryptoPythia.framework in CopyFiles */,
 				16AD112E2241284A00435A28 /* VirgilSDK.framework in CopyFiles */,
 				16AD11302241284A00435A28 /* VirgilSDKPythia.framework in CopyFiles */,
 				16AD11312241284A00435A28 /* VSCCommon.framework in CopyFiles */,
 				16AD11322241284A00435A28 /* VSCFoundation.framework in CopyFiles */,
+				16B1F8A32326A1300082ECE0 /* VSCRatchet.framework in CopyFiles */,
 				16AD11332241284A00435A28 /* VSCPythia.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
