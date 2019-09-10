@@ -43,10 +43,10 @@ import VirgilSDKRatchet
 
     // TODO: Add initializers
 
-    public static func initialize(ethreeBase: EThreeBase) -> GenericOperation<REThree> {
+    public static func initialize(ethree: EThree) -> GenericOperation<REThree> {
         return CallbackOperation { _, completion in
             do {
-                let rethree = try REThree(ethreeBase: ethreeBase)
+                let rethree = try REThree(ethree: ethree)
 
                 if try rethree.localKeyStorage.exists() {
                     try rethree.setupSecureChat()
@@ -59,13 +59,13 @@ import VirgilSDKRatchet
         }
     }
 
-    internal init(ethreeBase: EThreeBase) throws {
-        try super.init(identity: ethreeBase.identity,
-                       cardManager: ethreeBase.cardManager,
-                       accessTokenProvider: ethreeBase.accessTokenProvider,
-                       localKeyStorage: ethreeBase.localKeyStorage,
-                       cloudKeyManager: ethreeBase.cloudKeyManager,
-                       lookupManager: ethreeBase.lookupManager)
+    internal init(ethree: EThree) throws {
+        try super.init(identity: ethree.identity,
+                       cardManager: ethree.cardManager,
+                       accessTokenProvider: ethree.accessTokenProvider,
+                       localKeyStorage: ethree.localKeyStorage,
+                       cloudKeyManager: ethree.cloudKeyManager,
+                       lookupManager: ethree.lookupManager)
     }
 
     private func setupSecureChat() throws {
@@ -80,7 +80,6 @@ import VirgilSDKRatchet
 
         // TODO: Setup timer with key rotation. Post error or delegate
         // TODO: Print rotation logs
-        // TODO: Handle case when user is not registered yet
         _ = try chat.rotateKeys().startSync().get()
 
         self.secureChat = chat

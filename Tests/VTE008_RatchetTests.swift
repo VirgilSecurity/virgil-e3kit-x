@@ -45,14 +45,14 @@ class REThreeTests: XCTestCase {
     private func setUpDevice() throws -> (REThree, Card) {
         let identity = UUID().uuidString
 
-        let tokenCallback: EThreeBase.RenewJwtCallback = { completion in
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
             let token = self.utils.getTokenString(identity: identity)
 
             completion(token, nil)
         }
 
         let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
-        let rethree = try REThree.initialize(ethreeBase: ethree).startSync().get()
+        let rethree = try REThree.initialize(ethree: ethree).startSync().get()
 
         try rethree.register().startSync().get()
 

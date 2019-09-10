@@ -38,8 +38,6 @@ import VirgilSDK
 import VirgilCrypto
 
 @objc(VTEEThreeBase) open class EThreeBase: NSObject {
-    // FIXME: breaks backward compatibility
-
     /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]
     /// Typealias for callback used below
