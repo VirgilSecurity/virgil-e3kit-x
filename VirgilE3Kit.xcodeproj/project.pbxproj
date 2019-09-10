@@ -232,6 +232,10 @@
 		16B1F8DB2327A9A10082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
 		16B1F8DC2327A9A20082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
 		16B1F8DD2327A9A30082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
+		16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */; };
+		16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */; };
+		16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */; };
+		16B1F8E22327C4F90082ECE0 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */; };
 		16BB9B4B22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4C22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4D22EF30BC0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
@@ -520,6 +524,7 @@
 		16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeBase+Utils.swift"; sourceTree = "<group>"; };
 		16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REThree+Peer-to-Peer.swift"; sourceTree = "<group>"; };
 		16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE008_RatchetTests.swift; sourceTree = "<group>"; };
+		16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		16BB9B5122F341150057D6B2 /* VTE006_LookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_LookupTests.swift; sourceTree = "<group>"; };
 		16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedKeyDelegate.swift; sourceTree = "<group>"; };
 		16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Encryption.swift"; sourceTree = "<group>"; };
@@ -877,6 +882,7 @@
 			children = (
 				16B1F8C72327A4660082ECE0 /* REThree.swift */,
 				16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */,
+				16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */,
 			);
 			path = REThree;
 			sourceTree = "<group>";
@@ -1414,6 +1420,7 @@
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
 				16B1F8BC23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */,
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
+				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B723279E2B0082ECE0 /* Search.swift in Sources */,
@@ -1466,6 +1473,7 @@
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
 				16B1F8B023279DC40082ECE0 /* Authorization.swift in Sources */,
 				16B1F8B523279E000082ECE0 /* KeyBackup.swift in Sources */,
+				16B1F8E22327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1499,6 +1507,7 @@
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				16B1F8BD23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
+				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B823279E2B0082ECE0 /* Search.swift in Sources */,
@@ -1542,6 +1551,7 @@
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				16B1F8BE23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
+				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B923279E2B0082ECE0 /* Search.swift in Sources */,

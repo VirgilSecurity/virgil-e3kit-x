@@ -41,6 +41,11 @@ import VirgilSDKRatchet
 @objc(VTEREThree) open class REThree: EThreeBase {
     @objc public private(set) var secureChat: SecureChat?
 
+    // TODO: customize
+    @objc public let rotationInterval: TimeInterval = 3_600
+
+    private var timer: RepeatingTimer?
+
     // TODO: Add initializers
 
     public static func initialize(ethree: EThree) -> GenericOperation<REThree> {
@@ -78,11 +83,22 @@ import VirgilSDKRatchet
 
         let chat = try SecureChat(context: context)
 
-        // TODO: Setup timer with key rotation. Post error or delegate
-        // TODO: Print rotation logs
+        // TODO: Print rotation logs?
         _ = try chat.rotateKeys().startSync().get()
 
+        self.scheduleKeyRotation(with: chat)
+
         self.secureChat = chat
+    }
+
+    private func scheduleKeyRotation(with chat: SecureChat) {
+        self.timer = RepeatingTimer(interval: self.rotationInterval) {
+            // FIXME: Error handling
+            // TODO: Print rotation logs?
+            _ = try? chat.rotateKeys().startSync().get()
+        }
+
+        self.timer?.resume()
     }
 
     internal func getSecureChat() throws -> SecureChat {
