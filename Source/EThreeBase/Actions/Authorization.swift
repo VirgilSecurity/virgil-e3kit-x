@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with authorization operations
-extension EThree {
+extension EThreeBase {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
     /// - Parameters:
