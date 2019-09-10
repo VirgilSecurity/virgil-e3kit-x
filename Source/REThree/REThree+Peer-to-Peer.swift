@@ -50,11 +50,9 @@ extension REThree {
         return try self.getSecureChat().existingSession(withParticipantIdentity: identity) != nil
     }
 
-    public func startChat(with identity: String) -> GenericOperation<Void> {
+    public func startChat(with card: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let card = try self.lookupManager.lookupCard(of: identity)
-
                 let secureChat = try self.getSecureChat()
 
                 let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()

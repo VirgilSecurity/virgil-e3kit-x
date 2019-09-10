@@ -75,7 +75,7 @@ class REThreeTests: XCTestCase {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
 
-            try rethree1.startChat(with: rethree2.identity).startSync().get()
+            try rethree1.startChat(with: card2).startSync().get()
 
             let message1 = "Hello, \(rethree2.identity)"
             let encrypted1 = try rethree1.encrypt(text: message1, for: card2)
