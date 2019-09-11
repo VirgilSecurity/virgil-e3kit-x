@@ -98,11 +98,11 @@ internal class GroupManager {
     }
 
     internal func addAccess(to cards: [Card], sessionId: Data) throws {
-        try self.cloudTicketStorage.addRecipients(cards, sessionId: sessionId)
+        try self.cloudTicketStorage.addRecipients(cards, path: sessionId)
     }
 
     internal func reAddAccess(to card: Card, sessionId: Data) throws {
-        try self.cloudTicketStorage.reAddRecipient(card, sessionId: sessionId)
+        try self.cloudTicketStorage.reAddRecipient(card, path: sessionId)
     }
 
     internal func retrieve(sessionId: Data) -> Group? {
@@ -124,12 +124,12 @@ internal class GroupManager {
 
     internal func removeAccess(identities: Set<String>, to sessionId: Data) throws {
         try identities.forEach {
-            try self.cloudTicketStorage.removeRecipient(identity: $0, sessionId: sessionId)
+            try self.cloudTicketStorage.removeRecipient(identity: $0, path: sessionId)
         }
     }
 
     internal func delete(sessionId: Data) throws {
-        try self.cloudTicketStorage.delete(sessionId: sessionId)
+        try self.cloudTicketStorage.delete(path: sessionId)
 
         try self.localGroupStorage.delete(sessionId: sessionId)
     }

@@ -33,17 +33,16 @@
 //
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
-
 import VirgilCrypto
 import VirgilSDK
-import VirgilCryptoFoundation
+import VirgilCryptoRatchet
 
-internal class CloudTicketStorage: KeyknoxCloudStorage {
+internal class CloudRatchetStorage: KeyknoxCloudStorage {
     internal override var root: String {
-        return "group-sessions"
+        return "ratchet-group-sessions"
     }
 
-    internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
+    internal func store(_ ticket: RatchetTicket, sharedWith cards: [Card]) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let groupMessage = ticket.groupMessage
@@ -72,7 +71,7 @@ internal class CloudTicketStorage: KeyknoxCloudStorage {
 
     internal func retrieve(sessionId: Data,
                            identity: String,
-                           identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
+                           identityPublicKey: VirgilPublicKey) throws -> [RatchetTicket] {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
@@ -85,7 +84,7 @@ internal class CloudTicketStorage: KeyknoxCloudStorage {
             .startSync()
             .get()
 
-        var tickets: [Ticket] = []
+        var tickets: [RatchetTicket] = []
         for epoch in epochs {
             let params = KeyknoxPullParams(identity: identity,
                                            root: self.root,
@@ -98,9 +97,9 @@ internal class CloudTicketStorage: KeyknoxCloudStorage {
                 .startSync()
                 .get()
 
-            let groupMessage = try GroupSessionMessage.deserialize(input: response.value)
+            let groupMessage = try RatchetGroupMessage.deserialize(input: response.value)
             let participants = Set(response.identities)
-            let ticket = Ticket(groupMessage: groupMessage, participants: participants)
+            let ticket = RatchetTicket(groupMessage: groupMessage, participants: participants)
 
             tickets.append(ticket)
         }
@@ -108,3 +107,4 @@ internal class CloudTicketStorage: KeyknoxCloudStorage {
         return tickets
     }
 }
+
