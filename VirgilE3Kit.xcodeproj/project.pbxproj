@@ -268,6 +268,10 @@
 		16B1F913232918C60082ECE0 /* RatchetGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F911232918C60082ECE0 /* RatchetGroupManager.swift */; };
 		16B1F914232918C60082ECE0 /* RatchetGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F911232918C60082ECE0 /* RatchetGroupManager.swift */; };
 		16B1F915232918C60082ECE0 /* RatchetGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F911232918C60082ECE0 /* RatchetGroupManager.swift */; };
+		16B1F91C232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */; };
+		16B1F91D232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */; };
+		16B1F91E232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */; };
+		16B1F91F232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */; };
 		16BB9B4B22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4C22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
 		16BB9B4D22EF30BC0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */; };
@@ -565,6 +569,7 @@
 		16B1F90223290AEB0082ECE0 /* RatchetRawGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatchetRawGroup.swift; sourceTree = "<group>"; };
 		16B1F90C2329101C0082ECE0 /* FileRatchetGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRatchetGroupStorage.swift; sourceTree = "<group>"; };
 		16B1F911232918C60082ECE0 /* RatchetGroupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatchetGroupManager.swift; sourceTree = "<group>"; };
+		16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatchetGroupInfo.swift; sourceTree = "<group>"; };
 		16BB9B5122F341150057D6B2 /* VTE006_LookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_LookupTests.swift; sourceTree = "<group>"; };
 		16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedKeyDelegate.swift; sourceTree = "<group>"; };
 		16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Encryption.swift"; sourceTree = "<group>"; };
@@ -938,6 +943,7 @@
 				16B1F8E92327CF160082ECE0 /* RatchetTicket.swift */,
 				16B1F90223290AEB0082ECE0 /* RatchetRawGroup.swift */,
 				16B1F8EE2327D0B10082ECE0 /* RatchetGroup.swift */,
+				16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1495,6 +1501,7 @@
 				16B1F8FE2327DA9C0082ECE0 /* KeyknoxCloudStorage.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
+				16B1F91C232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1511,6 +1518,7 @@
 				16B1F8CB2327A4660082ECE0 /* REThree.swift in Sources */,
 				16B1F8D02327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				16B1F91F232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				16B1F8BF23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */,
@@ -1598,6 +1606,7 @@
 				16B1F8FF2327DA9C0082ECE0 /* KeyknoxCloudStorage.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
+				16B1F91D232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1650,6 +1659,7 @@
 				16B1F9002327DA9C0082ECE0 /* KeyknoxCloudStorage.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
+				16B1F91E232942AF0082ECE0 /* RatchetGroupInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

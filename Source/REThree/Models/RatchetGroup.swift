@@ -35,5 +35,52 @@
 //
 
 import Foundation
+import VirgilSDKRatchet
+import VirgilCrypto
 
-public class RatchetGroup { }
+public class RatchetGroup {
+    public static let ValidParticipatnsCountRange = 2...100
+
+    /// Initiator
+    @objc public let initiator: String
+    /// Participants
+    @objc public internal(set) var participants: Set<String>
+
+    internal let localKeyStorage: LocalKeyStorage
+    internal let groupManager: GroupManager
+    internal let lookupManager: LookupManager
+
+    internal var session: SecureGroupSession
+
+    private let selfIdentity: String
+    private let crypto: VirgilCrypto
+
+    internal init(rawGroup: RatchetRawGroup,
+                  crypto: VirgilCrypto,
+                  localKeyStorage: LocalKeyStorage,
+                  groupManager: GroupManager,
+                  lookupManager: LookupManager) throws {
+        try RatchetGroup.validateParticipantsCount(rawGroup.info.participants.count)
+
+        self.initiator = rawGroup.info.initiator
+        self.selfIdentity = localKeyStorage.identity
+        self.participants = rawGroup.info.participants
+        self.crypto = crypto
+        self.session = rawGroup.session
+        self.localKeyStorage = localKeyStorage
+        self.groupManager = groupManager
+        self.lookupManager = lookupManager
+    }
+
+    internal static func validateParticipantsCount(_ count: Int) throws {
+        guard Group.ValidParticipatnsCountRange ~= count else {
+            throw GroupError.invalidParticipantsCount
+        }
+    }
+
+    internal func checkPermissions() throws {
+        guard self.selfIdentity == self.initiator else {
+            throw GroupError.groupPermissionDenied
+        }
+    }
+}

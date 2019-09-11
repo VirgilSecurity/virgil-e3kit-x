@@ -41,6 +41,8 @@ import VirgilSDKRatchet
 @objc(VTEREThree) open class REThree: EThreeBase {
     @objc public private(set) var secureChat: SecureChat?
 
+    private var groupManager: RatchetGroupManager?
+
     // TODO: customize
     @objc public let rotationInterval: TimeInterval = 3_600
 
@@ -108,11 +110,33 @@ import VirgilSDKRatchet
 
         return secureChat
     }
+
+    internal func getGroupManager() throws -> RatchetGroupManager {
+        guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
+    }
 }
 
 extension REThree {
     internal override func privateKeyChanged(newCard: Card? = nil) throws {
-        try super.privateKeyChanged()
+        try super.privateKeyChanged(newCard: newCard)
+
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let localGroupStorage = try FileRatchetGroupStorage(identity: self.identity,
+                                                            crypto: self.crypto,
+                                                            identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudRatchetStorage(accessTokenProvider: self.accessTokenProvider,
+                                                         localKeyStorage: self.localKeyStorage)
+
+        self.groupManager = RatchetGroupManager(localGroupStorage: localGroupStorage,
+                                                cloudTicketStorage: cloudTicketStorage,
+                                                localKeyStorage: self.localKeyStorage,
+                                                lookupManager: self.lookupManager,
+                                                crypto: self.crypto)
 
         try self.setupSecureChat()
     }

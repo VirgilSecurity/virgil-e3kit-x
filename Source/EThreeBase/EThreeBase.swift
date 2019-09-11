@@ -68,8 +68,6 @@ import VirgilCrypto
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
 
-    internal var groupManager: GroupManager?
-
     internal let queue = DispatchQueue(label: "EThreeBaseQueue")
 
     /// Initializer
@@ -160,13 +158,5 @@ import VirgilCrypto
         }
 
         lookupManager.startUpdateCachedCards()
-    }
-
-    internal func getGroupManager() throws -> GroupManager {
-        guard let manager = self.groupManager else {
-            throw EThreeError.missingPrivateKey
-        }
-
-        return manager
     }
 }

@@ -42,25 +42,31 @@ extension REThree {
     public func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<RatchetGroup> {
         return CallbackOperation { _, completion in
             do {
-//                let sessionId = try self.computeSessionId(from: identifier)
-//
-//                let participants = Set(users.keys + [self.identity])
-//
-//                try Group.validateParticipantsCount(participants.count)
-//
-//                let secureChat = try self.getSecureChat()
-//
-//                let ratchetMessage = try secureChat.startNewGroupSession(sessionId: sessionId)
-//
-//                // Do we even need this class ?
-//                let ticket = RatchetTicket(groupMessage: ratchetMessage, participants: participants)
-//
-//                let session = try secureChat.startGroupSession(with: Array(users.values),
-//                                                               sessionId: sessionId,
-//                                                               using: ticket.groupMessage)
+                let sessionId = try self.computeSessionId(from: identifier)
+
+                let participants = Set(users.keys + [self.identity])
+
+                try RatchetGroup.validateParticipantsCount(participants.count)
+
+                let secureChat = try self.getSecureChat()
+
+                let ratchetMessage = try secureChat.startNewGroupSession(sessionId: sessionId)
+
+                let ticket = RatchetTicket(groupMessage: ratchetMessage, participants: participants)
+                let session = try secureChat.startGroupSession(with: Array(users.values),
+                                                               sessionId: sessionId,
+                                                               using: ticket.groupMessage)
+
+                let groupManager = try self.getGroupManager()
+                try groupManager.cloudTicketStorage.store(ticket, sharedWith: Array(users.values))
+
+                let info = RatchetGroupInfo(initiator: self.identity, participants: participants)
+                try groupManager.localGroupStorage.store(RatchetRawGroup(session: session, info: info))
+                try groupManager.localGroupStorage.store(ticket: ticket, sessionId: sessionId)
 
                 
-
+                
+                
 //                let group = try self.getGroupManager().store(ticket, sharedWith: Array(users.values))
 //
 //                completion(group, nil)

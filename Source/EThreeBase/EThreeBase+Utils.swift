@@ -39,28 +39,12 @@ import VirgilCrypto
 
 extension EThreeBase {
     @objc internal func privateKeyChanged(newCard: Card? = nil) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
-        let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                     crypto: self.crypto,
-                                                     identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                        localKeyStorage: self.localKeyStorage)
-        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                         cloudTicketStorage: cloudTicketStorage,
-                                         localKeyStorage: self.localKeyStorage,
-                                         lookupManager: self.lookupManager,
-                                         crypto: self.crypto)
-
         if let newCard = newCard {
             try self.lookupManager.cardStorage.storeCard(newCard)
         }
     }
 
     @objc internal func privateKeyDeleted() throws {
-        try self.groupManager?.localGroupStorage.reset()
-        self.groupManager = nil
-
         try self.lookupManager.cardStorage.reset()
     }
 

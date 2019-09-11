@@ -134,7 +134,7 @@ extension FileRatchetGroupStorage {
         return try? SecureGroupSession(data: data, privateKeyData: self.privateKeyData, crypto: self.crypto)
     }
 
-    private func retrieveInfo(sessionId: Data) -> GroupInfo? {
+    private func retrieveInfo(sessionId: Data) -> RatchetGroupInfo? {
         let subdir = sessionId.hexEncodedString()
 
         guard let data = try? self.fileSystem.read(name: self.infoName, subdir: subdir),
@@ -142,6 +142,6 @@ extension FileRatchetGroupStorage {
                 return nil
         }
 
-        return try? GroupInfo.deserialize(data)
+        return try? RatchetGroupInfo.deserialize(data)
     }
 }

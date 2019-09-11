@@ -39,9 +39,9 @@ import VirgilSDKRatchet
 
 internal struct RatchetRawGroup {
     internal let session: SecureGroupSession
-    internal let info: GroupInfo
+    internal let info: RatchetGroupInfo
 
-    internal init(session: SecureGroupSession, info: GroupInfo) {
+    internal init(session: SecureGroupSession, info: RatchetGroupInfo) {
         self.session = session
         self.info = info
     }
