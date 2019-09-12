@@ -36,6 +36,7 @@
 
 import VirgilSDK
 import VirgilCrypto
+import VirgilSDKRatchet
 
 internal class RatchetGroupManager {
     internal let identity: String
@@ -59,51 +60,62 @@ internal class RatchetGroupManager {
         self.crypto = crypto
     }
 
-//    private func parse(_ rawGroup: RatchetRawGroup) throws -> Group {
-//        return try Group(rawGroup: rawGroup,
-//                         crypto: self.crypto,
-//                         localKeyStorage: self.localKeyStorage,
-//                         groupManager: self,
-//                         lookupManager: self.lookupManager)
-//    }
+    private func parse(_ rawGroup: RatchetRawGroup) throws -> RatchetGroup {
+        // FIXME: Why pass keyStorage and Managers if they all are inside groupManager already
 
-//    internal func store(_ ticket: RatchetTicket, sharedWith cards: [Card]) throws -> Group {
-//        try self.cloudTicketStorage.store(ticket, sharedWith: cards)
-//
-//
-//
-//        let rawGroup = RatchetRawGroup(session: , info: GroupInfo(initiator: self.identity))
-//
-//        try self.localGroupStorage.store(rawGroup)
-//
-//
-//        let rawGroup = try RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
-//
-//        try self.cloudTicketStorage.store(ticket, sharedWith: cards)
-//
-//        try self.localGroupStorage.store(rawGroup)
-//
-//        return try self.parse(rawGroup)
-//    }
+        return try RatchetGroup(rawGroup: rawGroup,
+                                crypto: self.crypto,
+                                localKeyStorage: self.localKeyStorage,
+                                groupManager: self,
+                                lookupManager: self.lookupManager)
+    }
 
-//    internal func pull(sessionId: Data, from card: Card) throws -> Group {
-//        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
-//                                                           identity: card.identity,
-//                                                           identityPublicKey: card.publicKey)
-//
-//        guard !tickets.isEmpty else {
-//            try self.localGroupStorage.delete(sessionId: sessionId)
-//
-//            throw GroupError.groupWasNotFound
-//        }
-//
-//        let rawGroup = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
-//
-//        try self.localGroupStorage.store(rawGroup)
-//
-//        return try self.parse(rawGroup)
-//    }
-//
+    internal func store(ticket: RatchetTicket, sharedWith cards: [Card]) throws {
+        try self.cloudTicketStorage.store(ticket, sharedWith: cards)
+        try self.localGroupStorage.store(ticket: ticket, sessionId: ticket.groupMessage.getSessionId())
+    }
+
+    internal func store(session: SecureGroupSession, participants: Set<String>) throws -> RatchetGroup {
+        let info = RatchetGroupInfo(initiator: self.identity, participants: participants)
+        let rawGroup = RatchetRawGroup(session: session, info: info)
+
+        try self.localGroupStorage.store(rawGroup)
+
+        return try self.parse(rawGroup)
+    }
+
+    internal func retrieve(sessionId: Data) -> RatchetGroup? {
+        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId) else {
+            return nil
+        }
+
+        return try? self.parse(rawGroup)
+    }
+
+    internal func pull(sessionId: Data, from card: Card) throws {
+        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
+                                                           identity: card.identity,
+                                                           identityPublicKey: card.publicKey)
+
+        guard !tickets.isEmpty else {
+            try self.localGroupStorage.delete(sessionId: sessionId)
+
+            throw GroupError.groupWasNotFound
+        }
+
+        try self.localGroupStorage.store(tickets: tickets, sessionId: sessionId)
+    }
+
+    internal func getTicket(sessionId: Data, epoch: UInt32) -> RatchetTicket? {
+        return self.localGroupStorage.retrieveTicket(sessionId: sessionId, epoch: epoch)
+    }
+
+    internal func delete(sessionId: Data) throws {
+        try self.cloudTicketStorage.delete(path: sessionId)
+
+        try self.localGroupStorage.delete(sessionId: sessionId)
+    }
+
 //    internal func addAccess(to cards: [Card], sessionId: Data) throws {
 //        try self.cloudTicketStorage.addRecipients(cards, path: sessionId)
 //    }
@@ -112,32 +124,9 @@ internal class RatchetGroupManager {
 //        try self.cloudTicketStorage.reAddRecipient(card, path: sessionId)
 //    }
 //
-//    internal func retrieve(sessionId: Data) -> Group? {
-//        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
-//                                                             lastTicketsCount: GroupManager.maxTicketsInGroup) else {
-//                                                                return nil
-//        }
-//
-//        return try? self.parse(rawGroup)
-//    }
-//
-//    internal func retrieve(sessionId: Data, epoch: UInt32) -> Group? {
-//        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
-//            return nil
-//        }
-//
-//        return try? self.parse(rawGroup)
-//    }
-//
 //    internal func removeAccess(identities: Set<String>, to sessionId: Data) throws {
 //        try identities.forEach {
 //            try self.cloudTicketStorage.removeRecipient(identity: $0, path: sessionId)
 //        }
-//    }
-//
-//    internal func delete(sessionId: Data) throws {
-//        try self.cloudTicketStorage.delete(path: sessionId)
-//
-//        try self.localGroupStorage.delete(sessionId: sessionId)
 //    }
 }

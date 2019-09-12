@@ -47,7 +47,7 @@ public class RatchetGroup {
     @objc public internal(set) var participants: Set<String>
 
     internal let localKeyStorage: LocalKeyStorage
-    internal let groupManager: GroupManager
+    internal let groupManager: RatchetGroupManager
     internal let lookupManager: LookupManager
 
     internal var session: SecureGroupSession
@@ -58,7 +58,7 @@ public class RatchetGroup {
     internal init(rawGroup: RatchetRawGroup,
                   crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
-                  groupManager: GroupManager,
+                  groupManager: RatchetGroupManager,
                   lookupManager: LookupManager) throws {
         try RatchetGroup.validateParticipantsCount(rawGroup.info.participants.count)
 

@@ -109,7 +109,7 @@ internal class FileRatchetGroupStorage {
         return RatchetRawGroup(session: session, info: info)
     }
 
-    @objc public func deleteSession(sessionId: Data) throws {
+    @objc public func delete(sessionId: Data) throws {
         try self.queue.sync {
             try self.fileSystem.delete(name: sessionId.hexEncodedString())
         }

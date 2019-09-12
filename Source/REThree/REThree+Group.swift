@@ -45,31 +45,83 @@ extension REThree {
                 let sessionId = try self.computeSessionId(from: identifier)
 
                 let participants = Set(users.keys + [self.identity])
-
                 try RatchetGroup.validateParticipantsCount(participants.count)
 
+                let cards = Array(users.values)
+
                 let secureChat = try self.getSecureChat()
+                let manager = try self.getGroupManager()
 
+                // Generate session
                 let ratchetMessage = try secureChat.startNewGroupSession(sessionId: sessionId)
-
                 let ticket = RatchetTicket(groupMessage: ratchetMessage, participants: participants)
-                let session = try secureChat.startGroupSession(with: Array(users.values),
+
+                let session = try secureChat.startGroupSession(with: cards,
                                                                sessionId: sessionId,
                                                                using: ticket.groupMessage)
 
+                // Store and share session
+                try manager.store(ticket: ticket, sharedWith: cards)
+
+                let group = try manager.store(session: session,
+                                              participants: participants)
+
+                completion(group, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func getGroup(id identifier: Data) throws -> RatchetGroup? {
+        let sessionId = try self.computeSessionId(from: identifier)
+
+        return try self.getGroupManager().retrieve(sessionId: sessionId)
+    }
+
+    public func joinGroup(id identifier: Data, with users: FindUsersResult, initiator card: Card) -> GenericOperation<RatchetGroup> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = try self.computeSessionId(from: identifier)
+
+                let manager = try self.getGroupManager()
+
+                try manager.pull(sessionId: sessionId, from: card)
+
+                guard let ticket = manager.getTicket(sessionId: sessionId, epoch: 0) else {
+                    throw NSError()
+                }
+
+                let session = try self.getSecureChat().startGroupSession(with: Array(users.values),
+                                                                         sessionId: sessionId,
+                                                                         using: ticket.groupMessage)
+
+                let group = try manager.store(session: session, participants: ticket.participants)
+
+                completion(group, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let sessionId = try self.computeSessionId(from: identifier)
+
                 let groupManager = try self.getGroupManager()
-                try groupManager.cloudTicketStorage.store(ticket, sharedWith: Array(users.values))
 
-                let info = RatchetGroupInfo(initiator: self.identity, participants: participants)
-                try groupManager.localGroupStorage.store(RatchetRawGroup(session: session, info: info))
-                try groupManager.localGroupStorage.store(ticket: ticket, sessionId: sessionId)
+                // TODO: Hide in group manager?
+                guard let group = groupManager.retrieve(sessionId: sessionId) else {
+                    throw NSError()
+                }
 
-                
-                
-                
-//                let group = try self.getGroupManager().store(ticket, sharedWith: Array(users.values))
-//
-//                completion(group, nil)
+                try group.checkPermissions()
+
+                try groupManager.delete(sessionId: sessionId)
+
+                completion((), nil)
             } catch {
                 completion(nil, error)
             }
