@@ -70,9 +70,8 @@ internal class RatchetGroupManager {
                                 lookupManager: self.lookupManager)
     }
 
-    internal func store(ticket: RatchetTicket, sharedWith cards: [Card]) throws {
+    internal func share(ticket: RatchetTicket, with cards: [Card]) throws {
         try self.cloudTicketStorage.store(ticket, sharedWith: cards)
-        try self.localGroupStorage.store(ticket: ticket, sessionId: ticket.groupMessage.getSessionId())
     }
 
     internal func store(session: SecureGroupSession, participants: Set<String>) throws -> RatchetGroup {
@@ -92,22 +91,8 @@ internal class RatchetGroupManager {
         return try? self.parse(rawGroup)
     }
 
-    internal func pull(sessionId: Data, from card: Card) throws {
-        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
-                                                           identity: card.identity,
-                                                           identityPublicKey: card.publicKey)
-
-        guard !tickets.isEmpty else {
-            try self.localGroupStorage.delete(sessionId: sessionId)
-
-            throw GroupError.groupWasNotFound
-        }
-
-        try self.localGroupStorage.store(tickets: tickets, sessionId: sessionId)
-    }
-
-    internal func getTicket(sessionId: Data, epoch: UInt32) -> RatchetTicket? {
-        return self.localGroupStorage.retrieveTicket(sessionId: sessionId, epoch: epoch)
+    internal func retrieveTicket(sessionId: Data, epoch: UInt32, from card: Card) -> RatchetTicket? {
+        return try? self.cloudTicketStorage.retrieve(sessionId: sessionId, epoch: epoch, from: card)
     }
 
     internal func delete(sessionId: Data) throws {
@@ -115,18 +100,4 @@ internal class RatchetGroupManager {
 
         try self.localGroupStorage.delete(sessionId: sessionId)
     }
-
-//    internal func addAccess(to cards: [Card], sessionId: Data) throws {
-//        try self.cloudTicketStorage.addRecipients(cards, path: sessionId)
-//    }
-//
-//    internal func reAddAccess(to card: Card, sessionId: Data) throws {
-//        try self.cloudTicketStorage.reAddRecipient(card, path: sessionId)
-//    }
-//
-//    internal func removeAccess(identities: Set<String>, to sessionId: Data) throws {
-//        try identities.forEach {
-//            try self.cloudTicketStorage.removeRecipient(identity: $0, path: sessionId)
-//        }
-//    }
 }

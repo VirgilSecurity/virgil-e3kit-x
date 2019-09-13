@@ -41,12 +41,13 @@ import VirgilCrypto
 public class RatchetGroup {
     public static let ValidParticipatnsCountRange = 2...100
 
-    /// Initiator
     @objc public let initiator: String
-    /// Participants
+
     @objc public internal(set) var participants: Set<String>
 
+    // FIXME: Do not need
     internal let localKeyStorage: LocalKeyStorage
+
     internal let groupManager: RatchetGroupManager
     internal let lookupManager: LookupManager
 

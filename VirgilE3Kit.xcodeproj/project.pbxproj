@@ -49,6 +49,10 @@
 		1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
+		1638DE96232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */; };
+		1638DE97232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */; };
+		1638DE98232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */; };
+		1638DE99232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */; };
 		16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16565F3122A113840095D887 /* EThree+Obj-C.swift */; };
 		16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16565F3122A113840095D887 /* EThree+Obj-C.swift */; };
 		16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16565F3122A113840095D887 /* EThree+Obj-C.swift */; };
@@ -87,6 +91,10 @@
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
+		167A86D6232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */; };
+		167A86D7232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */; };
+		167A86D8232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */; };
+		167A86D9232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */; };
 		167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
@@ -477,6 +485,7 @@
 		162D2B5822410C6500CE7FC2 /* VirgilCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCrypto.framework; path = Carthage/Build/Mac/VirgilCrypto.framework; sourceTree = "<group>"; };
 		162D2B5922410C6500CE7FC2 /* VSCPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCPythia.framework; path = Carthage/Build/Mac/VSCPythia.framework; sourceTree = "<group>"; };
 		1632AE9622DCDFB000950B48 /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
+		1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RatchetGroup+Encryption.swift"; sourceTree = "<group>"; };
 		16565F3122A113840095D887 /* EThree+Obj-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Obj-C.swift"; sourceTree = "<group>"; };
 		1657AA5723267534006A39BF /* VTE007_Benchmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTE007_Benchmarks.swift; sourceTree = "<group>"; };
 		1658056122301711003BC8A6 /* TestConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfig.swift; sourceTree = "<group>"; };
@@ -491,6 +500,7 @@
 		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
+		167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RatchetGroup+Management.swift"; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
@@ -759,6 +769,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1638DE94232A74DD00AF2112 /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				16B1F8EE2327D0B10082ECE0 /* RatchetGroup.swift */,
+				1638DE95232A750300AF2112 /* RatchetGroup+Encryption.swift */,
+				167A86D5232BAD73001D5549 /* RatchetGroup+Management.swift */,
+			);
+			path = Group;
+			sourceTree = "<group>";
+		};
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -940,9 +960,9 @@
 		16B1F8E82327CF070082ECE0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1638DE94232A74DD00AF2112 /* Group */,
 				16B1F8E92327CF160082ECE0 /* RatchetTicket.swift */,
 				16B1F90223290AEB0082ECE0 /* RatchetRawGroup.swift */,
-				16B1F8EE2327D0B10082ECE0 /* RatchetGroup.swift */,
 				16B1F91B232942AF0082ECE0 /* RatchetGroupInfo.swift */,
 			);
 			path = Models;
@@ -1478,6 +1498,7 @@
 				16B1F8EA2327CF160082ECE0 /* RatchetTicket.swift in Sources */,
 				16B1F8AD23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DA22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				1638DE96232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1495,6 +1516,7 @@
 				1661D76B23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
+				167A86D6232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8C82327A4660082ECE0 /* REThree.swift in Sources */,
 				16B1F8EF2327D0B10082ECE0 /* RatchetGroup.swift in Sources */,
@@ -1523,6 +1545,7 @@
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				16B1F8BF23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */,
 				16B1F8F22327D0B10082ECE0 /* RatchetGroup.swift in Sources */,
+				167A86D9232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
@@ -1545,6 +1568,7 @@
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
+				1638DE99232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
@@ -1583,6 +1607,7 @@
 				16B1F8EB2327CF160082ECE0 /* RatchetTicket.swift in Sources */,
 				16B1F8AE23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				1638DE97232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1600,6 +1625,7 @@
 				1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
+				167A86D7232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8C92327A4660082ECE0 /* REThree.swift in Sources */,
 				16B1F8F02327D0B10082ECE0 /* RatchetGroup.swift in Sources */,
@@ -1636,6 +1662,7 @@
 				16B1F8EC2327CF160082ECE0 /* RatchetTicket.swift in Sources */,
 				16B1F8AF23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				1638DE98232A750300AF2112 /* RatchetGroup+Encryption.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1653,6 +1680,7 @@
 				1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
+				167A86D8232BAD73001D5549 /* RatchetGroup+Management.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8CA2327A4660082ECE0 /* REThree.swift in Sources */,
 				16B1F8F12327D0B10082ECE0 /* RatchetGroup.swift in Sources */,

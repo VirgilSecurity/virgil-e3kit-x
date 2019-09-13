@@ -77,29 +77,6 @@ internal class FileRatchetGroupStorage {
         }
     }
 
-    public func store(tickets: [RatchetTicket], sessionId: Data) throws {
-        try tickets.forEach { try self.store(ticket: $0, sessionId: sessionId) }
-    }
-
-    public func store(ticket: RatchetTicket, sessionId: Data) throws {
-        let subdir = "\(sessionId.hexEncodedString())/\(self.ticketsSubdir)"
-        let name = String(ticket.groupMessage.getEpoch())
-
-        let data = try ticket.serialize()
-        try self.fileSystem.write(data: data, name: name, subdir: subdir)
-    }
-
-    public func retrieveTicket(sessionId: Data, epoch: UInt32) -> RatchetTicket? {
-        let subdir = "\(sessionId.hexEncodedString())/\(self.ticketsSubdir)"
-        let name = String(epoch)
-
-        guard let data = try? self.fileSystem.read(name: name, subdir: subdir), !data.isEmpty else {
-            return nil
-        }
-
-        return try? RatchetTicket.deserialize(data)
-    }
-
     public func retrieve(sessionId: Data) -> RatchetRawGroup? {
         guard let session = self.retrieveSession(sessionId: sessionId),
             let info = self.retrieveInfo(sessionId: sessionId) else {

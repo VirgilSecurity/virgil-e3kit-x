@@ -61,7 +61,7 @@ extension REThree {
                                                                using: ticket.groupMessage)
 
                 // Store and share session
-                try manager.store(ticket: ticket, sharedWith: cards)
+                try manager.share(ticket: ticket, with: cards)
 
                 let group = try manager.store(session: session,
                                               participants: participants)
@@ -86,9 +86,7 @@ extension REThree {
 
                 let manager = try self.getGroupManager()
 
-                try manager.pull(sessionId: sessionId, from: card)
-
-                guard let ticket = manager.getTicket(sessionId: sessionId, epoch: 0) else {
+                guard let ticket = manager.retrieveTicket(sessionId: sessionId, epoch: 0, from: card) else {
                     throw NSError()
                 }
 

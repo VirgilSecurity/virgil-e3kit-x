@@ -69,42 +69,62 @@ internal class CloudRatchetStorage: KeyknoxCloudStorage {
             .get()
     }
 
-    internal func retrieve(sessionId: Data,
-                           identity: String,
-                           identityPublicKey: VirgilPublicKey) throws -> [RatchetTicket] {
+//    internal func retrieve(sessionId: Data, from card: Card) throws -> [RatchetTicket] {
+//        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+//
+//        let sessionId = sessionId.hexEncodedString()
+//
+//        let params = KeyknoxGetKeysParams(identity: card.identity,
+//                                          root: self.root,
+//                                          path: sessionId)
+//
+//        let epochs = try self.keyknoxManager.getKeys(params: params)
+//            .startSync()
+//            .get()
+//
+//        var tickets: [RatchetTicket] = []
+//        for epoch in epochs {
+//            let params = KeyknoxPullParams(identity: card.identity,
+//                                           root: self.root,
+//                                           path: sessionId,
+//                                           key: epoch)
+//            let response = try self.keyknoxManager
+//                .pullValue(params: params,
+//                           publicKeys: [card.publicKey],
+//                           privateKey: selfKeyPair.privateKey)
+//                .startSync()
+//                .get()
+//
+//            let groupMessage = try RatchetGroupMessage.deserialize(input: response.value)
+//            let participants = Set(response.identities)
+//            let ticket = RatchetTicket(groupMessage: groupMessage, participants: participants)
+//
+//            tickets.append(ticket)
+//        }
+//
+//        return tickets
+//    }
+
+    internal func retrieve(sessionId: Data, epoch: UInt32, from card: Card) throws -> RatchetTicket {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
 
-        let params = KeyknoxGetKeysParams(identity: identity,
-                                          root: self.root,
-                                          path: sessionId)
-
-        let epochs = try self.keyknoxManager.getKeys(params: params)
+        let params = KeyknoxPullParams(identity: card.identity,
+                                       root: self.root,
+                                       path: sessionId,
+                                       key: String(epoch))
+        let response = try self.keyknoxManager
+            .pullValue(params: params,
+                       publicKeys: [card.publicKey],
+                       privateKey: selfKeyPair.privateKey)
             .startSync()
             .get()
 
-        var tickets: [RatchetTicket] = []
-        for epoch in epochs {
-            let params = KeyknoxPullParams(identity: identity,
-                                           root: self.root,
-                                           path: sessionId,
-                                           key: epoch)
-            let response = try self.keyknoxManager
-                .pullValue(params: params,
-                           publicKeys: [identityPublicKey],
-                           privateKey: selfKeyPair.privateKey)
-                .startSync()
-                .get()
+        let groupMessage = try RatchetGroupMessage.deserialize(input: response.value)
+        let participants = Set(response.identities)
 
-            let groupMessage = try RatchetGroupMessage.deserialize(input: response.value)
-            let participants = Set(response.identities)
-            let ticket = RatchetTicket(groupMessage: groupMessage, participants: participants)
-
-            tickets.append(ticket)
-        }
-
-        return tickets
+        return RatchetTicket(groupMessage: groupMessage, participants: participants)
     }
 }
 
