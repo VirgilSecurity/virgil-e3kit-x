@@ -42,6 +42,10 @@ import VirgilSDK
 class REThreeTests: XCTestCase {
     let utils = TestUtils()
 
+    var crypto: VirgilCrypto {
+        return self.utils.crypto
+    }
+
     private func setUpDevice() throws -> (REThree, Card) {
         let identity = UUID().uuidString
 
@@ -89,6 +93,34 @@ class REThreeTests: XCTestCase {
 
             let decrypted2 = try rethree1.decrypt(text: encrypted2, from: card2)
 
+            XCTAssert(message2 == decrypted2)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test_3_group_encrypt_decrypt() {
+        do {
+            let (rethree1, card1) = try self.setUpDevice()
+            let (rethree2, card2) = try self.setUpDevice()
+
+            let groupId = try! self.crypto.generateRandomData(ofSize: 100)
+
+            let group1 = try rethree1.createGroup(id: groupId, with: [card2.identity: card2]).startSync().get()
+
+            let message1 = "Hello back, \(rethree2.identity)"
+            let encrypted1 = try group1.encrypt(text: message1)
+
+            let group2 = try rethree2.joinGroup(id: groupId, with: [card1.identity: card1], initiator: card1).startSync().get()
+
+            let decrypted1 = try group2.decrypt(text: encrypted1, from: card1)
+            XCTAssert(message1 == decrypted1)
+
+            let message2 = "Hello back, \(rethree1.identity)"
+            let encrypted2 = try group2.encrypt(text: message2)
+
+            let decrypted2 = try group1.decrypt(text: encrypted2, from: card2)
             XCTAssert(message2 == decrypted2)
         } catch {
             print(error.localizedDescription)
