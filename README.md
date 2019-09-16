@@ -167,7 +167,7 @@ import VirgilE3Kit
 let messageToEncrypt = "Hello, Alice and Den!"
 
 // Search user's Cards to encrypt for
-eThree!.findUsers(of: ["Alice", "Den"]) { users, error in 
+eThree!.findUsers(with: ["Alice", "Den"]) { users, error in 
     guard let users = users, error == nil else {
         // Error handling here
     }
@@ -185,7 +185,7 @@ import VirgilE3Kit
 // TODO: init and register user (see Register User)
 
 // Find user
-eThree.findUsers(of: [bobUID]) { users, error in
+eThree.findUsers(with: [bobUID]) { users, error in
     guard let users = users, error == nil else {
         // Error handling here
     }
@@ -209,7 +209,7 @@ import VirgilE3Kit
 let usersToEncryptTo = [user1UID, user2UID, user3UID]
 
 // Find users
-eThree.findUsers(of: usersToEncryptTo) { users, error in
+eThree.findUsers(with: usersToEncryptTo) { users, error in
     guard let users = users, error == nil else {
         // Error handling here
     }
