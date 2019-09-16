@@ -262,10 +262,10 @@
 		16F9EA14217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA15217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
 		16F9EA16217890550021FD9A /* EThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA12217890550021FD9A /* EThree.swift */; };
-		16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
-		16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
-		16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
-		16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */; };
+		16F9EA1C2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */; };
+		16F9EA1D2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */; };
+		16F9EA1E2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */; };
+		16F9EA1F2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */; };
 		420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
 		420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
 		420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
@@ -537,7 +537,7 @@
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE004_GroupTests.swift; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
-		16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Pear-To-Peer.swift"; sourceTree = "<group>"; };
+		16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Peer-To-Peer.swift"; sourceTree = "<group>"; };
 		420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
 		420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTypesSQLiteExtension.swift; sourceTree = "<group>"; };
 		420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SQLiteDB+GenericExtension.swift"; sourceTree = "<group>"; };
@@ -717,7 +717,7 @@
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
-				16F9EA1B2178AED60021FD9A /* EThree+Pear-To-Peer.swift */,
+				16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */,
 				1629F5D322D62A8300DB5ECE /* EThree+Group.swift */,
 				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 			);
@@ -1429,7 +1429,7 @@
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8C82327A4660082ECE0 /* REThree.swift in Sources */,
-				16F9EA1C2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				16F9EA1C2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1469,7 +1469,7 @@
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
-				16F9EA1F2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				16F9EA1F2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
 				16B1F8B023279DC40082ECE0 /* Authorization.swift in Sources */,
 				16B1F8B523279E000082ECE0 /* KeyBackup.swift in Sources */,
@@ -1516,7 +1516,7 @@
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8C92327A4660082ECE0 /* REThree.swift in Sources */,
-				16F9EA1D2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				16F9EA1D2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1560,7 +1560,7 @@
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16B1F8CA2327A4660082ECE0 /* REThree.swift in Sources */,
-				16F9EA1E2178AED60021FD9A /* EThree+Pear-To-Peer.swift in Sources */,
+				16F9EA1E2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

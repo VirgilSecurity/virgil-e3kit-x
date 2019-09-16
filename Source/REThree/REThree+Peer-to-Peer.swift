@@ -39,13 +39,6 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 extension REThree {
-    private func getSessionAsReceiver(message: RatchetMessage, receiverCard card: Card) throws -> SecureSession {
-        let secureChat = try self.getSecureChat()
-
-        return try secureChat.existingSession(withParticipantIdentity: card.identity) ??
-            secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
-    }
-
     public func isChatStarted(with identity: String) throws -> Bool {
         return try self.getSecureChat().existingSession(withParticipantIdentity: identity) != nil
     }
@@ -67,43 +60,31 @@ extension REThree {
     }
 
     @objc public func encrypt(text: String, for card: Card) throws -> String {
-        let secureChat = try self.getSecureChat()
-
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw NSError()
+        guard let data = text.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
         }
 
-        let ratchetMessage = try session.encrypt(string: text)
-
-        try secureChat.storeSession(session)
-
-        return ratchetMessage.serialize().base64EncodedString()
+        return try self.encrypt(data: data, for: card).base64EncodedString()
     }
 
     @objc public func decrypt(text: String, from card: Card) throws -> String {
-        let secureChat = try self.getSecureChat()
-
         guard let data = Data(base64Encoded: text) else {
-            throw NSError()
+            throw EThreeError.strToDataFailed
         }
 
-        let message = try RatchetMessage.deserialize(input: data)
+        let decryptedData = try self.decrypt(data: data, from: card)
 
-        let session = try self.getSessionAsReceiver(message: message, receiverCard: card)
+        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
+            throw EThreeError.strFromDataFailed
+        }
 
-        let decrypted = try session.decryptString(from: message)
-
-        try secureChat.storeSession(session)
-
-        return decrypted
+        return decryptedString
     }
 
     @objc public func encrypt(data: Data, for card: Card) throws -> Data {
         let secureChat = try self.getSecureChat()
 
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw NSError()
-        }
+        let session = try self.getSessionAsSender(card: card, secureChat: secureChat)
 
         let ratchetMessage = try session.encrypt(data: data)
 
@@ -117,7 +98,7 @@ extension REThree {
 
         let message = try RatchetMessage.deserialize(input: data)
 
-        let session = try self.getSessionAsReceiver(message: message, receiverCard: card)
+        let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
 
         let decrypted = try session.decryptData(from: message)
 
@@ -126,9 +107,68 @@ extension REThree {
         return decrypted
     }
 
-    @objc public func decryptMultiple(data: NSOrderedSet, from card: Card) throws -> Data {
-        // TODO: Implement
-        throw NSError()
+    @objc public func decryptMultiple(data: [Data], from card: Card) throws -> [Data] {
+        guard let first = data.first else {
+            throw NSError()
+        }
+
+        let secureChat = try self.getSecureChat()
+
+        let message = try RatchetMessage.deserialize(input: first)
+        let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
+
+        var result: [Data] = []
+
+        for encrypted in data {
+            let message = try RatchetMessage.deserialize(input: encrypted)
+
+            let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
+
+            let decrypted = try session.decryptData(from: message)
+
+            result.append(decrypted)
+        }
+
+        try secureChat.storeSession(session)
+
+        return result
+    }
+
+    @objc public func decryptMultiple(text: [String], from card: Card) throws -> [String] {
+        let data = try text.map { (item: String) throws -> Data in
+            guard let data = Data(base64Encoded: item) else {
+                throw EThreeError.strToDataFailed
+            }
+
+            return data
+        }
+
+        let decryptedData = try self.decryptMultiple(data: data, from: card)
+
+        let decryptedString = try decryptedData.map { (item: Data) throws -> String in
+            guard let text = String(data: item, encoding: .utf8) else {
+                throw EThreeError.strFromDataFailed
+            }
+
+            return text
+        }
+
+        return decryptedString
+    }
+}
+
+private extension REThree {
+    private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
+        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+            throw NSError()
+        }
+
+        return session
+    }
+
+    private func getSessionAsReceiver(message: RatchetMessage, receiverCard card: Card, secureChat: SecureChat) throws -> SecureSession {
+        return try secureChat.existingSession(withParticipantIdentity: card.identity) ??
+            secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
     }
 }
 
