@@ -46,7 +46,25 @@ import VirgilSDKRatchet
 
     private var timer: RepeatingTimer?
 
-    // TODO: Add initializers
+    public static func initialize(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<REThree> {
+        return CallbackOperation { _, completion in
+            do {
+                let ethree = try EThree(identity: identity,
+                                        tokenCallback: tokenCallback,
+                                        changedKeyDelegate: changedKeyDelegate,
+                                        storageParams: storageParams)
+
+                let rethree = try REThree.initialize(ethree: ethree).startSync().get()
+
+                completion(rethree, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
 
     public static func initialize(ethree: EThree) -> GenericOperation<REThree> {
         return CallbackOperation { _, completion in
