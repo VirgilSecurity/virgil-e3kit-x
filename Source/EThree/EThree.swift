@@ -38,4 +38,39 @@ import VirgilSDK
 import VirgilCrypto
 
 /// Main class containing all features of E3Kit
-@objc(VTEEThree) open class EThree: EThreeBase { }
+@objc(VTEEThree) open class EThree: EThreeBase {
+    internal var groupManager: GroupManager?
+
+    internal func getGroupManager() throws -> GroupManager {
+        guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
+    }
+
+    internal override func privateKeyChanged(newCard: Card? = nil) throws {
+        try super.privateKeyChanged(newCard: newCard)
+
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage)
+        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                         cloudTicketStorage: cloudTicketStorage,
+                                         localKeyStorage: self.localKeyStorage,
+                                         lookupManager: self.lookupManager,
+                                         crypto: self.crypto)
+    }
+
+    internal override func privateKeyDeleted() throws {
+        try super.privateKeyDeleted()
+        
+        try self.groupManager?.localGroupStorage.reset()
+        self.groupManager = nil
+    }
+
+}
