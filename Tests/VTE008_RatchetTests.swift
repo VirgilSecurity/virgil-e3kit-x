@@ -51,8 +51,7 @@ class REThreeTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
-        let rethree = try REThree.initialize(ethree: ethree).startSync().get()
+        let rethree = try REThree.initialize(identity: identity, tokenCallback: tokenCallback).startSync().get()
 
         try rethree.register().startSync().get()
 
