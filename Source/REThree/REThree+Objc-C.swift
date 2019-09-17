@@ -34,59 +34,32 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 
-internal class RepeatingTimer {
-    private let interval: TimeInterval
-    private let timer: DispatchSourceTimer
-
-    private enum State {
-        case suspended
-        case resumed
+extension REThree {
+    @objc public static func initialize(identity: String,
+                                        tokenCallback: @escaping RenewJwtCallback,
+                                        changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                        storageParams: KeychainStorageParams? = nil,
+                                        keyRotationInterval: TimeInterval = 3_600,
+                                        completion: @escaping (_ rethree: REThree?, _ error: Error?) -> Void) {
+        self.initialize(identity: identity,
+                        tokenCallback: tokenCallback,
+                        changedKeyDelegate: changedKeyDelegate,
+                        storageParams: storageParams,
+                        keyRotationInterval: keyRotationInterval)
+            .start(completion: completion)
     }
 
-    private var state: State = .suspended
-
-    internal init(interval: TimeInterval, handler: @escaping () -> Void) {
-        self.interval = interval
-
-        let timer = DispatchSource.makeTimerSource()
-
-        timer.schedule(deadline: .now() + self.interval,
-                       repeating: self.interval)
-
-        timer.setEventHandler(handler: handler)
-
-        self.timer = timer
+    @objc public static func initialize(ethree: EThree,
+                                        keyRotationInterval: TimeInterval = 3_600,
+                                        completion: @escaping (_ rethree: REThree?, _ error: Error?) -> Void) {
+        self.initialize(ethree: ethree, keyRotationInterval: keyRotationInterval).start(completion: completion)
     }
 
-    deinit {
-        self.timer.setEventHandler {}
-        self.timer.cancel()
-
-        /*
-         If the timer is suspended, calling cancel without resuming
-         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
-         */
-
-        self.resume()
-    }
-
-    internal func resume() {
-        if self.state == .resumed {
-            return
+    @objc public func startChat(with card: Card, completion: @escaping (Error?) -> Void) {
+        self.startChat(with: card).start { _, error in
+            completion(error)
         }
-
-        self.state = .resumed
-        self.timer.resume()
-    }
-
-    internal func suspend() {
-        if self.state == .suspended {
-            return
-        }
-
-        self.state = .suspended
-        self.timer.suspend()
     }
 }

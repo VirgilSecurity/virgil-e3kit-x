@@ -41,15 +41,15 @@ import VirgilSDKRatchet
 @objc(VTEREThree) open class REThree: EThreeBase {
     @objc public private(set) var secureChat: SecureChat?
 
-    // TODO: customize
-    @objc public let rotationInterval: TimeInterval = 3_600
+    @objc public let keyRotationInterval: TimeInterval
 
     private var timer: RepeatingTimer?
 
     public static func initialize(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<REThree> {
+                                  storageParams: KeychainStorageParams? = nil,
+                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<REThree> {
         return CallbackOperation { _, completion in
             do {
                 let ethree = try EThree(identity: identity,
@@ -66,10 +66,11 @@ import VirgilSDKRatchet
         }
     }
 
-    public static func initialize(ethree: EThree) -> GenericOperation<REThree> {
+    public static func initialize(ethree: EThree,
+                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<REThree> {
         return CallbackOperation { _, completion in
             do {
-                let rethree = try REThree(ethree: ethree)
+                let rethree = try REThree(ethree: ethree, keyRotationInterval: keyRotationInterval)
 
                 if try rethree.localKeyStorage.exists() {
                     try rethree.setupSecureChat()
@@ -82,7 +83,9 @@ import VirgilSDKRatchet
         }
     }
 
-    internal init(ethree: EThree) throws {
+    internal init(ethree: EThreeBase, keyRotationInterval: TimeInterval) throws {
+        self.keyRotationInterval = keyRotationInterval
+
         try super.init(identity: ethree.identity,
                        cardManager: ethree.cardManager,
                        accessTokenProvider: ethree.accessTokenProvider,
@@ -101,8 +104,9 @@ import VirgilSDKRatchet
 
         let chat = try SecureChat(context: context)
 
-        // TODO: Print rotation logs?
-        _ = try chat.rotateKeys().startSync().get()
+        Log.debug("Key rotation started")
+        let logs = try chat.rotateKeys().startSync().get()
+        Log.debug("Key rotation succeed: \(logs.description)")
 
         self.scheduleKeyRotation(with: chat)
 
@@ -110,10 +114,14 @@ import VirgilSDKRatchet
     }
 
     private func scheduleKeyRotation(with chat: SecureChat) {
-        self.timer = RepeatingTimer(interval: self.rotationInterval) {
-            // FIXME: Error handling
-            // TODO: Print rotation logs?
-            _ = try? chat.rotateKeys().startSync().get()
+        self.timer = RepeatingTimer(interval: self.keyRotationInterval) {
+            Log.debug("Key rotation started")
+            do {
+                let logs = try chat.rotateKeys().startSync().get()
+                Log.debug("Key rotation succeed: \(logs.description)")
+            } catch {
+                Log.error("Key rotation failed: \(error.localizedDescription)")
+            }
         }
 
         self.timer?.resume()
@@ -129,15 +137,16 @@ import VirgilSDKRatchet
 }
 
 extension REThree {
-    internal override func privateKeyChanged(newCard: Card? = nil) throws {
+    override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged()
 
         try self.setupSecureChat()
     }
 
-    internal override func privateKeyDeleted() throws {
+    override internal func privateKeyDeleted() throws {
         try super.privateKeyDeleted()
 
         self.secureChat = nil
+        self.timer = nil
     }
 }

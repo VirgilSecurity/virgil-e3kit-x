@@ -58,7 +58,7 @@ extension EThree {
                           storageParams: storageParams)
             .start(completion: completion)
     }
-    
+
     /// Creates group, saves in cloud and locally
     ///
     /// - Parameters:

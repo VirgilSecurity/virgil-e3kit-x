@@ -166,9 +166,10 @@ private extension REThree {
         return session
     }
 
-    private func getSessionAsReceiver(message: RatchetMessage, receiverCard card: Card, secureChat: SecureChat) throws -> SecureSession {
+    private func getSessionAsReceiver(message: RatchetMessage,
+                                      receiverCard card: Card,
+                                      secureChat: SecureChat) throws -> SecureSession {
         return try secureChat.existingSession(withParticipantIdentity: card.identity) ??
             secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
     }
 }
-

@@ -104,7 +104,7 @@ import VirgilCrypto
                       storageParams: storageParams)
     }
 
-    internal override func privateKeyChanged(newCard: Card? = nil) throws {
+    override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged(newCard: newCard)
 
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -121,9 +121,9 @@ import VirgilCrypto
                                          crypto: self.crypto)
     }
 
-    internal override func privateKeyDeleted() throws {
+    override internal func privateKeyDeleted() throws {
         try super.privateKeyDeleted()
-        
+
         try self.groupManager?.localGroupStorage.reset()
         self.groupManager = nil
     }
