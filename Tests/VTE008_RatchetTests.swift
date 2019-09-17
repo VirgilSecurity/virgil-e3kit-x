@@ -39,10 +39,10 @@ import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
 
-class REThreeTests: XCTestCase {
+class EThreeRatchetTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice() throws -> (REThree, Card) {
+    private func setUpDevice() throws -> (EThreeRatchet, Card) {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -51,7 +51,9 @@ class REThreeTests: XCTestCase {
             completion(token, nil)
         }
 
-        let rethree = try REThree.initialize(identity: identity, tokenCallback: tokenCallback).startSync().get()
+        let rethree = try EThreeRatchet.initialize(identity: identity, tokenCallback: tokenCallback)
+            .startSync()
+            .get()
 
         try rethree.register().startSync().get()
 
