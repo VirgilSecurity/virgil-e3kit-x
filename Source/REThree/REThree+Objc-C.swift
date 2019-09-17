@@ -37,6 +37,17 @@
 import VirgilSDK
 
 extension REThree {
+    /// Initializes REThree
+    ///
+    /// - Parameters:
+    ///   - identity: identity of user
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
+    ///   - completion: completion handler
+    ///   - rethree: initialized `REThree` instance
+    ///   - error: corresponding error
     @objc public static func initialize(identity: String,
                                         tokenCallback: @escaping RenewJwtCallback,
                                         changedKeyDelegate: ChangedKeyDelegate? = nil,
@@ -51,12 +62,26 @@ extension REThree {
             .start(completion: completion)
     }
 
+    /// Initializes REThree
+    ///
+    /// - Parameters:
+    ///   - ethree: `EThree` instance
+    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
+    ///   - completion: completion handler
+    ///   - rethree: initialized `REThree` instance
+    ///   - error: corresponding error
     @objc public static func initialize(ethree: EThree,
                                         keyRotationInterval: TimeInterval = 3_600,
                                         completion: @escaping (_ rethree: REThree?, _ error: Error?) -> Void) {
         self.initialize(ethree: ethree, keyRotationInterval: keyRotationInterval).start(completion: completion)
     }
 
+    /// Starts chat with user
+    ///
+    /// - Parameters:
+    ///   - card: chat participant Card
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc public func startChat(with card: Card, completion: @escaping (Error?) -> Void) {
         self.startChat(with: card).start { _, error in
             completion(error)

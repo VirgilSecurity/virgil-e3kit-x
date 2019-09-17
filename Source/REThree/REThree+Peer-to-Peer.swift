@@ -39,10 +39,19 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 extension REThree {
-    public func isChatStarted(with identity: String) throws -> Bool {
-        return try self.getSecureChat().existingSession(withParticipantIdentity: identity) != nil
+    /// Checks local existance of chat
+    ///
+    /// - Parameter card: chat participant
+    /// - Returns: true if chat was started from current device
+    /// - Throws: `EThreeError.missingPrivateKey`, if there is no private key locally
+    public func isChatStarted(with card: Card) throws -> Bool {
+        return try self.getSecureChat().existingSession(withParticipantIdentity: card.identity) != nil
     }
 
+    /// Starts chat with user
+    ///
+    /// - Parameter card: chat participant Card
+    /// - Returns: CallbackOperation<Void>
     public func startChat(with card: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
@@ -59,6 +68,13 @@ extension REThree {
         }
     }
 
+    /// Encrypts string for user
+    ///
+    /// - Parameters:
+    ///   - text: String to encrypt
+    ///   - card: Card of user to encrypt for
+    /// - Returns: encrypted String
+    /// - Throws: corresponding error
     @objc public func encrypt(text: String, for card: Card) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -67,6 +83,13 @@ extension REThree {
         return try self.encrypt(data: data, for: card).base64EncodedString()
     }
 
+    /// Decrypts string
+    ///
+    /// - Parameters:
+    ///   - text: encrypted String
+    ///   - card: sender Card
+    /// - Returns: decrypted String
+    /// - Throws: corresponding error
     @objc public func decrypt(text: String, from card: Card) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
@@ -81,6 +104,13 @@ extension REThree {
         return decryptedString
     }
 
+    /// Encrypts data
+    ///
+    /// - Parameters:
+    ///   - data: Data to encrypt
+    ///   - card: Card of user to encrypt for
+    /// - Returns: encrypted Data
+    /// - Throws: corresponding error
     @objc public func encrypt(data: Data, for card: Card) throws -> Data {
         let secureChat = try self.getSecureChat()
 
@@ -93,6 +123,13 @@ extension REThree {
         return ratchetMessage.serialize()
     }
 
+    /// Decrypts data
+    ///
+    /// - Parameters:
+    ///   - data: encrypted Data
+    ///   - card: sender Card
+    /// - Returns: decrypted Data
+    /// - Throws: corresponding error
     @objc public func decrypt(data: Data, from card: Card) throws -> Data {
         let secureChat = try self.getSecureChat()
 
@@ -107,6 +144,15 @@ extension REThree {
         return decrypted
     }
 
+    /// Decrypts multiple Data
+    ///
+    /// - Important: data should be in strict order by encryption time
+    ///
+    /// - Parameters:
+    ///   - data: array with Data to decrypt
+    ///   - card: sender Card
+    /// - Returns: array with decrypted Data
+    /// - Throws: corresponding error
     @objc public func decryptMultiple(data: [Data], from card: Card) throws -> [Data] {
         guard let first = data.first else {
             throw NSError()
@@ -134,6 +180,15 @@ extension REThree {
         return result
     }
 
+    /// Decrypts multiple text
+    ///
+    /// - Important: text should be in strict order by encryption time
+    ///
+    /// - Parameters:
+    ///   - text: array with String to decrypt
+    ///   - card: sender Card
+    /// - Returns: array with decrypted String
+    /// - Throws: corresponding error
     @objc public func decryptMultiple(text: [String], from card: Card) throws -> [String] {
         let data = try text.map { (item: String) throws -> Data in
             guard let data = Data(base64Encoded: item) else {

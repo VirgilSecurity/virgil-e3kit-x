@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
-/// Main class containing all features of E3Kit
+/// Class containing default features of E3Kit
 @objc(VTEEThree) open class EThree: EThreeBase {
     internal var groupManager: GroupManager?
 
@@ -49,7 +49,7 @@ import VirgilCrypto
         return manager
     }
 
-    /// Initializes E3Kit with a callback to get Virgil access token
+    /// Initializes EThree with a callback to get Virgil access token
     ///
     /// - Parameters:
     ///   - tokenCallback: callback to get Virgil access token

@@ -37,6 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
+/// Base class containing Cards and Keys management
 @objc(VTEEThreeBase) open class EThreeBase: NSObject {
     /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]

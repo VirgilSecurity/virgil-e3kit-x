@@ -35,16 +35,24 @@
 //
 
 import VirgilSDK
-import VirgilCrypto
 import VirgilSDKRatchet
 
+/// Class containing key management features and Double Ratchet encryption
 @objc(VTEREThree) open class REThree: EThreeBase {
-    @objc public private(set) var secureChat: SecureChat?
-
-    @objc public let keyRotationInterval: TimeInterval
-
+    private var secureChat: SecureChat?
     private var timer: RepeatingTimer?
 
+    /// Time Interval, which defines how often keys will be rotated
+    @objc public let keyRotationInterval: TimeInterval
+
+    /// Initializes REThree
+    ///
+    /// - Parameters:
+    ///   - identity: identity of user
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
     public static func initialize(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
@@ -66,6 +74,11 @@ import VirgilSDKRatchet
         }
     }
 
+    /// Initializes REThree
+    ///
+    /// - Parameters:
+    ///   - ethree: `EThree` instance
+    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
     public static func initialize(ethree: EThree,
                                   keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<REThree> {
         return CallbackOperation { _, completion in
@@ -129,7 +142,7 @@ import VirgilSDKRatchet
 
     internal func getSecureChat() throws -> SecureChat {
         guard let secureChat = self.secureChat else {
-            throw NSError()
+            throw EThreeError.missingPrivateKey
         }
 
         return secureChat
