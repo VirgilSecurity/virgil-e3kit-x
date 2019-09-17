@@ -65,16 +65,16 @@ class REThreeTests: XCTestCase {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
 
-            XCTAssert(try !rethree1.isChatStarted(with: rethree2.identity))
+            XCTAssert(try !rethree1.isChatStarted(with: card2))
             try rethree1.startChat(with: card2).startSync().get()
-            XCTAssert(try rethree1.isChatStarted(with: rethree2.identity))
+            XCTAssert(try rethree1.isChatStarted(with: card2))
 
             let message1 = "Hello, \(rethree2.identity)"
             let encrypted1 = try rethree1.encrypt(text: message1, for: card2)
 
-            XCTAssert(try !rethree2.isChatStarted(with: rethree1.identity))
+            XCTAssert(try !rethree2.isChatStarted(with: card1))
             let decrypted1 = try rethree2.decrypt(text: encrypted1, from: card1)
-            XCTAssert(try rethree2.isChatStarted(with: rethree1.identity))
+            XCTAssert(try rethree2.isChatStarted(with: card1))
 
             XCTAssert(message1 == decrypted1)
 
