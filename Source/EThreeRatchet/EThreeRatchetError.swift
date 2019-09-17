@@ -36,11 +36,11 @@
 
 import Foundation
 
-/// Declares error types and codes for REThree
+/// Declares error types and codes for EThreeRatchet
 ///
 /// - decryptEmptyArray: Trying to decrypt empty array
 /// - noChatWithUser: Chat with provided user never started
-@objc(VTEREThreeError) public enum REThreeError: Int, LocalizedError {
+@objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case decryptEmptyArray = 1
     case noChatWithUser = 2
 

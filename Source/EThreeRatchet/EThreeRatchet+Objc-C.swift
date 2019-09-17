@@ -36,8 +36,8 @@
 
 import VirgilSDK
 
-extension REThree {
-    /// Initializes REThree
+extension EThreeRatchet {
+    /// Initializes EThreeRatchet
     ///
     /// - Parameters:
     ///   - identity: identity of user
@@ -46,14 +46,14 @@ extension REThree {
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
     ///   - completion: completion handler
-    ///   - rethree: initialized `REThree` instance
+    ///   - rethree: initialized `EThreeRatchet` instance
     ///   - error: corresponding error
     @objc public static func initialize(identity: String,
                                         tokenCallback: @escaping RenewJwtCallback,
                                         changedKeyDelegate: ChangedKeyDelegate? = nil,
                                         storageParams: KeychainStorageParams? = nil,
                                         keyRotationInterval: TimeInterval = 3_600,
-                                        completion: @escaping (_ rethree: REThree?, _ error: Error?) -> Void) {
+                                        completion: @escaping (_ rethree: EThreeRatchet?, _ error: Error?) -> Void) {
         self.initialize(identity: identity,
                         tokenCallback: tokenCallback,
                         changedKeyDelegate: changedKeyDelegate,
@@ -62,17 +62,17 @@ extension REThree {
             .start(completion: completion)
     }
 
-    /// Initializes REThree
+    /// Initializes EThreeRatchet
     ///
     /// - Parameters:
     ///   - ethree: `EThree` instance
     ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
     ///   - completion: completion handler
-    ///   - rethree: initialized `REThree` instance
+    ///   - rethree: initialized `EThreeRatchet` instance
     ///   - error: corresponding error
     @objc public static func initialize(ethree: EThree,
                                         keyRotationInterval: TimeInterval = 3_600,
-                                        completion: @escaping (_ rethree: REThree?, _ error: Error?) -> Void) {
+                                        completion: @escaping (_ rethree: EThreeRatchet?, _ error: Error?) -> Void) {
         self.initialize(ethree: ethree, keyRotationInterval: keyRotationInterval).start(completion: completion)
     }
 

@@ -24,14 +24,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		160BE23A2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
-		160BE23B2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
-		160BE23C2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
-		160BE23D2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
-		160BE2472331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
-		160BE2482331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
-		160BE2492331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
-		160BE24A2331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
+		160BE23A2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */; };
+		160BE23B2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */; };
+		160BE23C2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */; };
+		160BE23D2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */; };
+		160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
+		160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
+		160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
+		160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -225,18 +225,18 @@
 		16B1F8BD23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8BB23279E6C0082ECE0 /* EThreeBase+Obj-C.swift */; };
 		16B1F8BE23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8BB23279E6C0082ECE0 /* EThreeBase+Obj-C.swift */; };
 		16B1F8BF23279E6C0082ECE0 /* EThreeBase+Obj-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8BB23279E6C0082ECE0 /* EThreeBase+Obj-C.swift */; };
-		16B1F8C82327A4660082ECE0 /* REThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* REThree.swift */; };
-		16B1F8C92327A4660082ECE0 /* REThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* REThree.swift */; };
-		16B1F8CA2327A4660082ECE0 /* REThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* REThree.swift */; };
-		16B1F8CB2327A4660082ECE0 /* REThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* REThree.swift */; };
+		16B1F8C82327A4660082ECE0 /* EThreeRatchet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */; };
+		16B1F8C92327A4660082ECE0 /* EThreeRatchet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */; };
+		16B1F8CA2327A4660082ECE0 /* EThreeRatchet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */; };
+		16B1F8CB2327A4660082ECE0 /* EThreeRatchet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */; };
 		16B1F8CD2327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */; };
 		16B1F8CE2327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */; };
 		16B1F8CF2327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */; };
 		16B1F8D02327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */; };
-		16B1F8D22327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */; };
-		16B1F8D32327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */; };
-		16B1F8D42327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */; };
-		16B1F8D52327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */; };
+		16B1F8D22327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */; };
+		16B1F8D32327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */; };
+		16B1F8D42327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */; };
+		16B1F8D52327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */; };
 		16B1F8DB2327A9A10082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
 		16B1F8DC2327A9A20082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
 		16B1F8DD2327A9A30082ECE0 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
@@ -439,8 +439,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REThree+Objc-C.swift"; sourceTree = "<group>"; };
-		160BE2462331087900DD3999 /* REThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REThreeError.swift; sourceTree = "<group>"; };
+		160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeRatchet+Objc-C.swift"; sourceTree = "<group>"; };
+		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -530,9 +530,9 @@
 		16B1F8B123279E000082ECE0 /* KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBackup.swift; sourceTree = "<group>"; };
 		16B1F8B623279E2B0082ECE0 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		16B1F8BB23279E6C0082ECE0 /* EThreeBase+Obj-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeBase+Obj-C.swift"; sourceTree = "<group>"; };
-		16B1F8C72327A4660082ECE0 /* REThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REThree.swift; sourceTree = "<group>"; };
+		16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchet.swift; sourceTree = "<group>"; };
 		16B1F8CC2327A5020082ECE0 /* EThreeBase+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeBase+Utils.swift"; sourceTree = "<group>"; };
-		16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REThree+Peer-to-Peer.swift"; sourceTree = "<group>"; };
+		16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeRatchet+Peer-to-Peer.swift"; sourceTree = "<group>"; };
 		16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE008_RatchetTests.swift; sourceTree = "<group>"; };
 		16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		16BB9B5122F341150057D6B2 /* VTE006_LookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_LookupTests.swift; sourceTree = "<group>"; };
@@ -887,16 +887,16 @@
 			path = EThree;
 			sourceTree = "<group>";
 		};
-		16B1F8C623279F120082ECE0 /* REThree */ = {
+		16B1F8C623279F120082ECE0 /* EThreeRatchet */ = {
 			isa = PBXGroup;
 			children = (
-				16B1F8C72327A4660082ECE0 /* REThree.swift */,
-				16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */,
-				160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */,
-				160BE2462331087900DD3999 /* REThreeError.swift */,
+				16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */,
+				16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */,
+				160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */,
+				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 				16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */,
 			);
-			path = REThree;
+			path = EThreeRatchet;
 			sourceTree = "<group>";
 		};
 		16BB9B4422EF1A4E0057D6B2 /* Managers */ = {
@@ -951,7 +951,7 @@
 			children = (
 				16B1F8A52326A4D90082ECE0 /* EThreeBase */,
 				16B1F8C523279F010082ECE0 /* EThree */,
-				16B1F8C623279F120082ECE0 /* REThree */,
+				16B1F8C623279F120082ECE0 /* EThreeRatchet */,
 				16BB9B4422EF1A4E0057D6B2 /* Managers */,
 				167E1DED217CFC1000F8AA13 /* Storages */,
 				16AD62E322E9FD3600CDF90A /* Utils */,
@@ -1406,7 +1406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B1F8D22327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */,
+				16B1F8D22327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */,
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1415,10 +1415,10 @@
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
-				160BE2472331087900DD3999 /* REThreeError.swift in Sources */,
+				160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B223279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5A22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
-				160BE23A2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
+				160BE23A2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */,
 				1685845B22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
@@ -1442,7 +1442,7 @@
 				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
-				16B1F8C82327A4660082ECE0 /* REThree.swift in Sources */,
+				16B1F8C82327A4660082ECE0 /* EThreeRatchet.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
 			);
@@ -1454,12 +1454,12 @@
 			files = (
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
-				160BE24A2331087900DD3999 /* REThreeError.swift in Sources */,
+				160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
-				16B1F8CB2327A4660082ECE0 /* REThree.swift in Sources */,
+				16B1F8CB2327A4660082ECE0 /* EThreeRatchet.swift in Sources */,
 				16B1F8D02327A5020082ECE0 /* EThreeBase+Utils.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
@@ -1473,7 +1473,7 @@
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
 				16B1F8AA2326A5280082ECE0 /* EThreeBase.swift in Sources */,
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
-				16B1F8D52327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */,
+				16B1F8D52327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8BA23279E2B0082ECE0 /* Search.swift in Sources */,
@@ -1483,7 +1483,7 @@
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
-				160BE23D2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
+				160BE23D2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1F2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE2022E720A500774788 /* LookupManager.swift in Sources */,
@@ -1497,7 +1497,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B1F8D32327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */,
+				16B1F8D32327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */,
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1506,10 +1506,10 @@
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
-				160BE2482331087900DD3999 /* REThreeError.swift in Sources */,
+				160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B323279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5B22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
-				160BE23B2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
+				160BE23B2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */,
 				1685845C22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
@@ -1533,7 +1533,7 @@
 				420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
-				16B1F8C92327A4660082ECE0 /* REThree.swift in Sources */,
+				16B1F8C92327A4660082ECE0 /* EThreeRatchet.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
 			);
@@ -1543,7 +1543,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B1F8D42327A8930082ECE0 /* REThree+Peer-to-Peer.swift in Sources */,
+				16B1F8D42327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift in Sources */,
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1552,10 +1552,10 @@
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
-				160BE2492331087900DD3999 /* REThreeError.swift in Sources */,
+				160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B423279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5C22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
-				160BE23C2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
+				160BE23C2330F37F00DD3999 /* EThreeRatchet+Objc-C.swift in Sources */,
 				1685845D22DE2D23008EAC34 /* Group.swift in Sources */,
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
@@ -1579,7 +1579,7 @@
 				420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
-				16B1F8CA2327A4660082ECE0 /* REThree.swift in Sources */,
+				16B1F8CA2327A4660082ECE0 /* EThreeRatchet.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+Peer-To-Peer.swift in Sources */,
 				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
 			);

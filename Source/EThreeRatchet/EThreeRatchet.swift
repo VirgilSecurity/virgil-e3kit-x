@@ -38,14 +38,14 @@ import VirgilSDK
 import VirgilSDKRatchet
 
 /// Class containing key management features and Double Ratchet encryption
-@objc(VTEREThree) open class REThree: EThreeBase {
+@objc(VTEEThreeRatchet) open class EThreeRatchet: EThreeBase {
     private var secureChat: SecureChat?
     private var timer: RepeatingTimer?
 
     /// Time Interval, which defines how often keys will be rotated
     @objc public let keyRotationInterval: TimeInterval
 
-    /// Initializes REThree
+    /// Initializes EThreeRatchet
     ///
     /// - Parameters:
     ///   - identity: identity of user
@@ -57,7 +57,7 @@ import VirgilSDKRatchet
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil,
-                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<REThree> {
+                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<EThreeRatchet> {
         return CallbackOperation { _, completion in
             do {
                 let ethree = try EThree(identity: identity,
@@ -65,7 +65,7 @@ import VirgilSDKRatchet
                                         changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
-                let rethree = try REThree.initialize(ethree: ethree).startSync().get()
+                let rethree = try EThreeRatchet.initialize(ethree: ethree).startSync().get()
 
                 completion(rethree, nil)
             } catch {
@@ -74,16 +74,16 @@ import VirgilSDKRatchet
         }
     }
 
-    /// Initializes REThree
+    /// Initializes EThreeRatchet
     ///
     /// - Parameters:
     ///   - ethree: `EThree` instance
     ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
     public static func initialize(ethree: EThree,
-                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<REThree> {
+                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<EThreeRatchet> {
         return CallbackOperation { _, completion in
             do {
-                let rethree = try REThree(ethree: ethree, keyRotationInterval: keyRotationInterval)
+                let rethree = try EThreeRatchet(ethree: ethree, keyRotationInterval: keyRotationInterval)
 
                 if try rethree.localKeyStorage.exists() {
                     try rethree.setupSecureChat()
@@ -149,7 +149,7 @@ import VirgilSDKRatchet
     }
 }
 
-extension REThree {
+extension EThreeRatchet {
     override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged()
 

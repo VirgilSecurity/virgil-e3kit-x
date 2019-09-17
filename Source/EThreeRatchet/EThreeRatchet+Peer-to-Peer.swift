@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
-extension REThree {
+extension EThreeRatchet {
     /// Starts chat with user
     ///
     /// - Important: creator of chat should be the one who send first message
@@ -169,7 +169,7 @@ extension REThree {
     /// - Throws: corresponding error
     @objc public func decryptMultiple(data: [Data], from card: Card) throws -> [Data] {
         guard let first = data.first else {
-            throw REThreeError.decryptEmptyArray
+            throw EThreeRatchetError.decryptEmptyArray
         }
 
         let secureChat = try self.getSecureChat()
@@ -226,10 +226,10 @@ extension REThree {
     }
 }
 
-private extension REThree {
+private extension EThreeRatchet {
     private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw REThreeError.noChatWithUser
+            throw EThreeRatchetError.noChatWithUser
         }
 
         return session
