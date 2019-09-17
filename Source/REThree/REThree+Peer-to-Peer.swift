@@ -39,15 +39,6 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 extension REThree {
-    /// Checks local existance of chat
-    ///
-    /// - Parameter card: chat participant
-    /// - Returns: true if chat was started from current device
-    /// - Throws: `EThreeError.missingPrivateKey`, if there is no private key locally
-    public func isChatStarted(with card: Card) throws -> Bool {
-        return try self.getSecureChat().existingSession(withParticipantIdentity: card.identity) != nil
-    }
-
     /// Starts chat with user
     ///
     /// - Important: creator of chat should be the one who send first message
@@ -68,6 +59,27 @@ extension REThree {
                 completion(nil, error)
             }
         }
+    }
+
+    /// Checks local existance of chat
+    ///
+    /// - Parameter card: chat participant
+    /// - Returns: true if chat was started from current device
+    /// - Throws: `EThreeError.missingPrivateKey`, if there is no private key locally
+    public func isChatStarted(with card: Card) throws -> Bool {
+        return try self.getSecureChat().existingSession(withParticipantIdentity: card.identity) != nil
+    }
+
+    /// Deletes chat from local storage
+    ///
+    /// - Important: to start new chat both participants should delete previous one
+    ///
+    /// - Parameter card: chat participant Card
+    /// - Throws: corresponding error
+    @objc public func deleteChat(with card: Card) throws {
+        let secureChat = try self.getSecureChat()
+
+        try secureChat.deleteSession(withParticipantIdentity: card.identity)
     }
 
     /// Encrypts string for user
