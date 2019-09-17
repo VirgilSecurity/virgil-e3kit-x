@@ -28,6 +28,10 @@
 		160BE23B2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
 		160BE23C2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
 		160BE23D2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */; };
+		160BE2472331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
+		160BE2482331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
+		160BE2492331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
+		160BE24A2331087900DD3999 /* REThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* REThreeError.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Group.swift */; };
@@ -436,6 +440,7 @@
 
 /* Begin PBXFileReference section */
 		160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REThree+Objc-C.swift"; sourceTree = "<group>"; };
+		160BE2462331087900DD3999 /* REThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REThreeError.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Group.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -888,6 +893,7 @@
 				16B1F8C72327A4660082ECE0 /* REThree.swift */,
 				16B1F8D12327A8930082ECE0 /* REThree+Peer-to-Peer.swift */,
 				160BE2392330F37F00DD3999 /* REThree+Objc-C.swift */,
+				160BE2462331087900DD3999 /* REThreeError.swift */,
 				16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */,
 			);
 			path = REThree;
@@ -1138,6 +1144,7 @@
 				16EC37472177A88D009D7F00 /* Sources */,
 				16EC37482177A88D009D7F00 /* Frameworks */,
 				16EC37492177A88D009D7F00 /* Resources */,
+				160BE2452331078C00DD3999 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1323,6 +1330,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		160BE2452331078C00DD3999 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		165B67E22179013B00DDE1F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1409,6 +1436,7 @@
 				1629F5D422D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
+				160BE2472331087900DD3999 /* REThreeError.swift in Sources */,
 				16B1F8B223279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5A22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
 				160BE23A2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
@@ -1447,6 +1475,7 @@
 			files = (
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
+				160BE24A2331087900DD3999 /* REThreeError.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
@@ -1498,6 +1527,7 @@
 				1629F5D522D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
+				160BE2482331087900DD3999 /* REThreeError.swift in Sources */,
 				16B1F8B323279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5B22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
 				160BE23B2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,
@@ -1543,6 +1573,7 @@
 				1629F5D622D62A8300DB5ECE /* EThree+Group.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
+				160BE2492331087900DD3999 /* REThreeError.swift in Sources */,
 				16B1F8B423279E000082ECE0 /* KeyBackup.swift in Sources */,
 				16BB9B5C22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
 				160BE23C2330F37F00DD3999 /* REThree+Objc-C.swift in Sources */,

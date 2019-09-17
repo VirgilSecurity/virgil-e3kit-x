@@ -50,6 +50,8 @@ extension REThree {
 
     /// Starts chat with user
     ///
+    /// - Important: creator of chat should be the one who send first message
+    ///
     /// - Parameter card: chat participant Card
     /// - Returns: CallbackOperation<Void>
     public func startChat(with card: Card) -> GenericOperation<Void> {
@@ -155,7 +157,7 @@ extension REThree {
     /// - Throws: corresponding error
     @objc public func decryptMultiple(data: [Data], from card: Card) throws -> [Data] {
         guard let first = data.first else {
-            throw NSError()
+            throw REThreeError.decryptEmptyArray
         }
 
         let secureChat = try self.getSecureChat()
@@ -215,7 +217,7 @@ extension REThree {
 private extension REThree {
     private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw NSError()
+            throw REThreeError.noChatWithUser
         }
 
         return session
