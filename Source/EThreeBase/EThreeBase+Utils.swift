@@ -48,14 +48,6 @@ extension EThreeBase {
         try self.lookupManager.cardStorage.reset()
     }
 
-    internal func computeSessionId(from identifier: Data) throws -> Data {
-        guard identifier.count > 10 else {
-            throw GroupError.shortGroupId
-        }
-
-        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
-    }
-
     internal static func getConnection() -> HttpConnection {
         let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
         let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]

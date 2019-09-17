@@ -45,7 +45,7 @@ import VirgilCrypto
     /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
-    /// Identity of user. Obtained from tokenCollback
+    /// Identity of user
     @objc public let identity: String
 
     /// CardManager instance

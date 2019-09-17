@@ -128,4 +128,11 @@ import VirgilCrypto
         self.groupManager = nil
     }
 
+    internal func computeSessionId(from identifier: Data) throws -> Data {
+        guard identifier.count > 10 else {
+            throw GroupError.shortGroupId
+        }
+
+        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
+    }
 }
