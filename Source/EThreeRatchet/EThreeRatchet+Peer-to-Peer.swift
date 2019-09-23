@@ -50,11 +50,17 @@ extension EThreeRatchet {
             do {
                 let secureChat = try self.getSecureChat()
 
+                guard card.identity != self.identity else {
+                    throw NSError()
+                }
+
                 let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()
 
                 try secureChat.storeSession(session)
 
                 completion((), nil)
+            } catch SecureChatError.sessionAlreadyExists {
+                completion(nil, EThreeRatchetError.chatAlreadyExists)
             } catch {
                 completion(nil, error)
             }
@@ -79,7 +85,11 @@ extension EThreeRatchet {
     @objc public func deleteChat(with card: Card) throws {
         let secureChat = try self.getSecureChat()
 
-        try secureChat.deleteSession(withParticipantIdentity: card.identity)
+        do {
+            try secureChat.deleteSession(withParticipantIdentity: card.identity)
+        } catch CocoaError.fileNoSuchFile {
+            throw EThreeRatchetError.missingChat
+        }
     }
 
     /// Encrypts string for user
@@ -148,6 +158,8 @@ extension EThreeRatchet {
         let secureChat = try self.getSecureChat()
 
         let message = try RatchetMessage.deserialize(input: data)
+
+        // TODO: Add check on proper session id (local and message one) - should add getter to crypto
 
         let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
 
@@ -229,7 +241,7 @@ extension EThreeRatchet {
 private extension EThreeRatchet {
     private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw EThreeRatchetError.noChatWithUser
+            throw EThreeRatchetError.missingChat
         }
 
         return session
@@ -238,7 +250,14 @@ private extension EThreeRatchet {
     private func getSessionAsReceiver(message: RatchetMessage,
                                       receiverCard card: Card,
                                       secureChat: SecureChat) throws -> SecureSession {
-        return try secureChat.existingSession(withParticipantIdentity: card.identity) ??
-            secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
+        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+            guard message.getType() == .prekey else {
+                throw NSError()
+            }
+
+            return try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
+        }
+
+        return session
     }
 }

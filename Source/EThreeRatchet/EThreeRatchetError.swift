@@ -42,15 +42,18 @@ import Foundation
 /// - noChatWithUser: Chat with provided user never started
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case decryptEmptyArray = 1
-    case noChatWithUser = 2
+    case missingChat = 2
+    case chatAlreadyExists = 3
 
     /// Human-readable localized description
     public var errorDescription: String? {
         switch self {
         case .decryptEmptyArray:
             return "Trying to decrypt empty array"
-        case .noChatWithUser:
-            return "Chat with provided user never started"
+        case .missingChat:
+            return "Chat with provided user was not found locally"
+        case .chatAlreadyExists:
+            return "Chat with provided user already exists"
         }
     }
 }
