@@ -220,5 +220,19 @@ class EThreeRatchetTests: XCTestCase {
             XCTFail()
         }
     }
+
+    func test_07__startChat_with_self__should_throw_error() {
+        do {
+            let (rethree, card) = try self.setUpDevice()
+
+            do {
+                try rethree.startChat(with: card).startSync().get()
+            } catch EThreeRatchetError.selfChatIsForbidden {}
+
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 

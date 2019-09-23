@@ -107,8 +107,8 @@ import VirgilSDKRatchet
                        lookupManager: ethree.lookupManager)
     }
 
-    private func setupSecureChat() throws {
-        let selfCard = try self.lookupManager.lookupCard(of: self.identity)
+    private func setupSecureChat(selfCard: Card? = nil) throws {
+        let selfCard = try selfCard ?? self.lookupManager.lookupCard(of: self.identity, forceReload: true)
         let keyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let context = SecureChatContext(identityCard: selfCard,
@@ -153,7 +153,7 @@ extension EThreeRatchet {
     override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged()
 
-        try self.setupSecureChat()
+        try self.setupSecureChat(selfCard: newCard)
     }
 
     override internal func privateKeyDeleted() throws {
