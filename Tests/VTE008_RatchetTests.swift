@@ -234,5 +234,34 @@ class EThreeRatchetTests: XCTestCase {
             XCTFail()
         }
     }
+
+    func test_08__multipleDecrypt() {
+        do {
+            let (rethree1, card1) = try self.setUpDevice()
+            let (rethree2, card2) = try self.setUpDevice()
+
+            try rethree1.startChat(with: card2).startSync().get()
+
+            var messages: [String] = []
+            for _ in 0..<100 {
+                messages.append(UUID().uuidString)
+            }
+
+            var encryptedArray: [String] = []
+            for message in messages {
+                let encrypted = try rethree1.encrypt(text: message, for: card2)
+                encryptedArray.append(encrypted)
+            }
+
+            for i in 0..<encryptedArray.count {
+                let decrypted = try rethree2.decrypt(text: encryptedArray[i], from: card1)
+
+                XCTAssert(decrypted == messages[i])
+            }
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 
