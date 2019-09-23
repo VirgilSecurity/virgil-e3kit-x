@@ -1,3 +1,2 @@
 github "VirgilSecurity/virgil-pythia-x" ~> 0.7.0
-github "VirgilSecurity/virgil-sdk-x" ~> 7.0.0
-github "VirgilSecurity/virgil-ratchet-x" "develop-sdk-v7"
+github "VirgilSecurity/virgil-ratchet-x" ~> 0.2.1
