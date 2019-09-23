@@ -51,7 +51,7 @@ extension EThreeRatchet {
                 let secureChat = try self.getSecureChat()
 
                 guard card.identity != self.identity else {
-                    throw NSError()
+                    throw EThreeRatchetError.selfChatIsForbidden
                 }
 
                 let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()
@@ -252,7 +252,7 @@ private extension EThreeRatchet {
                                       secureChat: SecureChat) throws -> SecureSession {
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
             guard message.getType() == .prekey else {
-                throw NSError()
+                throw EThreeRatchetError.joinChatFailed
             }
 
             return try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)

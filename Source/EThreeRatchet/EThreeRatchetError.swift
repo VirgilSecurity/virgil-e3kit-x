@@ -39,11 +39,17 @@ import Foundation
 /// Declares error types and codes for EThreeRatchet
 ///
 /// - decryptEmptyArray: Trying to decrypt empty array
-/// - noChatWithUser: Chat with provided user never started
+/// - missingChat: Chat with provided user was not found locally
+/// - chatAlreadyExists: Chat with provided user already exists
+/// - selfChatIsForbidden: Chat with self is forbidden. Use EThree for this purpose.
+/// - joinChatFailed: There aren't chat with this user locally.
+///                   In order to join secure chat, decrypt first encrypted message by chat initiator
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case decryptEmptyArray = 1
     case missingChat = 2
     case chatAlreadyExists = 3
+    case selfChatIsForbidden = 4
+    case joinChatFailed = 5
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -54,6 +60,13 @@ import Foundation
             return "Chat with provided user was not found locally"
         case .chatAlreadyExists:
             return "Chat with provided user already exists"
+        case .selfChatIsForbidden:
+            return "Chat with self is forbidden. Use EThree for this purpose."
+        case .joinChatFailed:
+            return """
+                There aren't chat with this user locally.
+                In order to join secure chat, decrypt first encrypted message by chat initiator
+            """
         }
     }
 }
