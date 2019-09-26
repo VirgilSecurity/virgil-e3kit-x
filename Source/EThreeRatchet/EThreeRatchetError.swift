@@ -50,6 +50,7 @@ import Foundation
     case chatAlreadyExists = 3
     case selfChatIsForbidden = 4
     case joinChatFailed = 5
+    case wrongSenderCard = 6
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -67,6 +68,8 @@ import Foundation
                 There aren't chat with this user locally.
                 In order to join secure chat, decrypt first encrypted message by chat initiator
             """
+        case .wrongSenderCard:
+            return "Sender card doesn't match local chat. Use date parameter to decrypt such messages"
         }
     }
 }

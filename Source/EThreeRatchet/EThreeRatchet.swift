@@ -122,7 +122,7 @@ import VirgilSDKRatchet
             do {
                 try chat.reset().startSync().get()
             }
-            catch let error as NSError where error.code == 50017 {} // Should be fixed on server side
+            catch let error as NSError where error.code == 50017 {} // When there's no keys on cloud. Should be fixed on server side.
         }
 
         Log.debug("Key rotation started")

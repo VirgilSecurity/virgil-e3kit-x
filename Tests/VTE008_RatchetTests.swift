@@ -35,10 +35,11 @@
 //
 
 import XCTest
-import VirgilE3Kit
+@testable import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
 import VirgilSDKRatchet
+import VirgilCryptoRatchet
 
 class EThreeRatchetTests: XCTestCase {
     let utils = TestUtils()
@@ -258,6 +259,42 @@ class EThreeRatchetTests: XCTestCase {
 
                 XCTAssert(decrypted == messages[i])
             }
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test_09_decrypt_messages_after_rotate_identity_key() {
+        do {
+            let (rethree1, _) = try self.setUpDevice()
+            let (rethree2, card2) = try self.setUpDevice()
+
+            try rethree1.startChat(with: card2).startSync().get()
+
+            let date = Date()
+            let message = UUID().uuidString
+            let encrypted = try rethree1.encrypt(text: message, for: card2)
+
+            sleep(1)
+
+            try rethree1.cleanUp()
+            try rethree1.rotatePrivateKey().startSync().get()
+
+            XCTAssert(try !rethree1.isChatStarted(with: card2))
+
+            let newCard1 = try rethree2.findUser(with: rethree1.identity, forceReload: true).startSync().get()
+
+            do {
+                _ = try rethree2.decrypt(text: encrypted, from: newCard1)
+                XCTFail()
+            } catch EThreeRatchetError.wrongSenderCard {} catch {
+                XCTFail()
+            }
+
+            let decrypted = try rethree2.decrypt(text: encrypted, from: newCard1, date: date)
+
+            XCTAssert(message == decrypted)
         } catch {
             print(error.localizedDescription)
             XCTFail()

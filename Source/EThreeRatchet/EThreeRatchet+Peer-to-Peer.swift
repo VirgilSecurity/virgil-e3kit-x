@@ -114,12 +114,12 @@ extension EThreeRatchet {
     ///   - card: sender Card
     /// - Returns: decrypted String
     /// - Throws: corresponding error
-    @objc public func decrypt(text: String, from card: Card) throws -> String {
+    @objc public func decrypt(text: String, from card: Card, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data, from: card)
+        let decryptedData = try self.decrypt(data: data, from: card, date: date)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
@@ -154,8 +154,20 @@ extension EThreeRatchet {
     ///   - card: sender Card
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
-    @objc public func decrypt(data: Data, from card: Card) throws -> Data {
+    @objc public func decrypt(data: Data, from card: Card, date: Date? = nil) throws -> Data {
         let secureChat = try self.getSecureChat()
+
+        var card = card
+
+        if let date = date {
+            while let previousCard = card.previousCard {
+                guard card.createdAt > date else {
+                    break
+                }
+
+                card = previousCard
+            }
+        }
 
         let message = try RatchetMessage.deserialize(input: data)
 
@@ -163,11 +175,15 @@ extension EThreeRatchet {
 
         let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
 
-        let decrypted = try session.decryptData(from: message)
+        do {
+            let decrypted = try session.decryptData(from: message)
 
-        try secureChat.storeSession(session)
+            try secureChat.storeSession(session)
 
-        return decrypted
+            return decrypted
+        } catch RatchetError.errorIdentityKeyDoesntMatch {
+            throw EThreeRatchetError.wrongSenderCard
+        }
     }
 
     /// Decrypts multiple Data
