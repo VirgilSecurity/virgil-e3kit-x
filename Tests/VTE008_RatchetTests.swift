@@ -91,7 +91,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_001__encrypt_decrypt() {
+    func test_001_STE_47__encrypt_decrypt__should_succeed() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -111,7 +111,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_002__isChatStarted() {
+    func test_002_STE48__isChatStarted() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -141,7 +141,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_003__duplicateChats__should_throw_error() {
+    func test_003_STE_49__duplicateChats__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -158,7 +158,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_004__delete_nonexistent_chat__should_throw_error() {
+    func test_004_STE_50__delete_nonexistent_chat__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -173,7 +173,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_005__startChat_again__should_succeed() {
+    func test_005_STE_51__startChat_again__should_succeed() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -207,7 +207,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_006__encrypt_without_chat__should_throw_error() {
+    func test_006_STE_52__encrypt_without_chat__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -223,7 +223,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_007__startChat_with_self__should_throw_error() {
+    func test_007_STE_53__startChat_with_self__should_throw_error() {
         do {
             let (rethree, card) = try self.setUpDevice()
 
@@ -237,7 +237,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_008__multipleDecrypt() {
+    func test_008_STE_54__multipleDecrypt__should_succeed() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -266,7 +266,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_009_decrypt_messages_after_rotate_identity_key() {
+    func test_009_STE_55__decrypt_messages_after_rotate_identity_key__should_succeed() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -303,7 +303,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_010_auto_keys_rotation() {
+    func test_010_STE_56__auto_keys_rotation() {
         do {
             let (rethree2, card2) = try self.setUpDevice()
             let (rethree1, card1) = try self.setUpDevice(keyRotationInterval: 5)
