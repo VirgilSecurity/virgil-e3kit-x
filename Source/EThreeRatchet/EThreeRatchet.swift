@@ -107,8 +107,8 @@ import VirgilSDKRatchet
                        lookupManager: ethree.lookupManager)
     }
 
-    private func setupSecureChat(selfCard: Card? = nil) throws {
-        let selfCard = try selfCard ?? self.lookupManager.lookupCard(of: self.identity, forceReload: true)
+    private func setupSecureChat(newCard: Card? = nil) throws {
+        let selfCard = try newCard ?? self.lookupManager.lookupCard(of: self.identity, forceReload: true)
         let keyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let context = SecureChatContext(identityCard: selfCard,
@@ -116,6 +116,14 @@ import VirgilSDKRatchet
                                         accessTokenProvider: self.accessTokenProvider)
 
         let chat = try SecureChat(context: context)
+
+        // If user rotated Card new chat should reset all keys
+        if newCard != nil {
+            do {
+                try chat.reset().startSync().get()
+            }
+            catch let error as NSError where error.code == 50017 {} // Should be fixed on server side
+        }
 
         Log.debug("Key rotation started")
         let logs = try chat.rotateKeys().startSync().get()
@@ -153,7 +161,7 @@ extension EThreeRatchet {
     override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged()
 
-        try self.setupSecureChat(selfCard: newCard)
+        try self.setupSecureChat(newCard: newCard)
     }
 
     override internal func privateKeyDeleted() throws {
