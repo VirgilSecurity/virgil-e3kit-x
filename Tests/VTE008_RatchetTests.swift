@@ -53,8 +53,7 @@ class EThreeRatchetTests: XCTestCase {
             completion(token, nil)
         }
 
-        let rethree = try EThreeRatchet.initialize(identity: identity,
-                                                   tokenCallback: tokenCallback,
+        let rethree = try EThreeRatchet.initialize(tokenCallback: tokenCallback,
                                                    keyRotationInterval: keyRotationInterval)
             .startSync()
             .get()

@@ -40,7 +40,6 @@ extension EThreeRatchet {
     /// Initializes EThreeRatchet
     ///
     /// - Parameters:
-    ///   - identity: identity of user
     ///   - tokenCallback: callback to get Virgil access token
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
@@ -48,14 +47,12 @@ extension EThreeRatchet {
     ///   - completion: completion handler
     ///   - rethree: initialized `EThreeRatchet` instance
     ///   - error: corresponding error
-    @objc public static func initialize(identity: String,
-                                        tokenCallback: @escaping RenewJwtCallback,
+    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                         changedKeyDelegate: ChangedKeyDelegate? = nil,
                                         storageParams: KeychainStorageParams? = nil,
                                         keyRotationInterval: TimeInterval = 3_600,
                                         completion: @escaping (_ rethree: EThreeRatchet?, _ error: Error?) -> Void) {
-        self.initialize(identity: identity,
-                        tokenCallback: tokenCallback,
+        self.initialize(tokenCallback: tokenCallback,
                         changedKeyDelegate: changedKeyDelegate,
                         storageParams: storageParams,
                         keyRotationInterval: keyRotationInterval)

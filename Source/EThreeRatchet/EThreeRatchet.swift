@@ -48,31 +48,39 @@ import VirgilSDKRatchet
     /// Initializes EThreeRatchet
     ///
     /// - Parameters:
-    ///   - identity: identity of user
     ///   - tokenCallback: callback to get Virgil access token
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
-    public static func initialize(identity: String,
-                                  tokenCallback: @escaping RenewJwtCallback,
+    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil,
                                   keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<EThreeRatchet> {
         return CallbackOperation { _, completion in
-            do {
-                let ethree = try EThree(identity: identity,
-                                        tokenCallback: tokenCallback,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams)
+            let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
 
-                let rethree = try EThreeRatchet.initialize(ethree: ethree,
-                                                           keyRotationInterval: keyRotationInterval)
-                    .startSync()
-                    .get()
+            let context = TokenContext(service: "", operation: "")
+            accessTokenProvider.getToken(with: context) { token, error in
+                guard let token = token, error == nil else {
+                    completion(nil, error)
+                    return
+                }
 
-                completion(rethree, nil)
-            } catch {
-                completion(nil, error)
+                do {
+                    let ethree = try EThree(identity: token.identity(),
+                                            accessTokenProvider: accessTokenProvider,
+                                            changedKeyDelegate: changedKeyDelegate,
+                                            storageParams: storageParams)
+
+                    let rethree = try EThreeRatchet.initialize(ethree: ethree,
+                                                               keyRotationInterval: keyRotationInterval)
+                        .startSync()
+                        .get()
+
+                    completion(rethree, nil)
+                } catch {
+                    completion(nil, error)
+                }
             }
         }
     }
@@ -124,8 +132,8 @@ import VirgilSDKRatchet
         if newCard != nil {
             do {
                 try chat.reset().startSync().get()
-            }
-            catch let error as NSError where error.code == 50017 {} // When there's no keys on cloud. Should be fixed on server side.
+            } // When there's no keys on cloud. Should be fixed on server side.
+            catch let error as NSError where error.code == 50_017 {}
         }
 
         Log.debug("Key rotation started")
