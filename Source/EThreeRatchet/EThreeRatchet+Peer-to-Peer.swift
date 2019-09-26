@@ -173,9 +173,9 @@ extension EThreeRatchet {
 
         // TODO: Add check on proper session id (local and message one) - should add getter to crypto
 
-        let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
-
         do {
+            let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
+
             let decrypted = try session.decryptData(from: message)
 
             try secureChat.storeSession(session)

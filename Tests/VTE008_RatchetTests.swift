@@ -44,7 +44,7 @@ import VirgilCryptoRatchet
 class EThreeRatchetTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice() throws -> (EThreeRatchet, Card) {
+    private func setUpDevice(keyRotationInterval: TimeInterval = 3_600) throws -> (EThreeRatchet, Card) {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -53,7 +53,9 @@ class EThreeRatchetTests: XCTestCase {
             completion(token, nil)
         }
 
-        let rethree = try EThreeRatchet.initialize(identity: identity, tokenCallback: tokenCallback)
+        let rethree = try EThreeRatchet.initialize(identity: identity,
+                                                   tokenCallback: tokenCallback,
+                                                   keyRotationInterval: keyRotationInterval)
             .startSync()
             .get()
 
@@ -90,7 +92,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_01__encrypt_decrypt() {
+    func test_001__encrypt_decrypt() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -110,7 +112,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_02__isChatStarted() {
+    func test_002__isChatStarted() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -140,7 +142,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_03__duplicateChats__should_throw_error() {
+    func test_003__duplicateChats__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -157,7 +159,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_04__delete_nonexistent_chat__should_throw_error() {
+    func test_004__delete_nonexistent_chat__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -172,7 +174,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_05__startChat_again__should_succeed() {
+    func test_005__startChat_again__should_succeed() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -206,7 +208,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_06__encrypt_without_chat__should_throw_error() {
+    func test_006__encrypt_without_chat__should_throw_error() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -222,7 +224,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_07__startChat_with_self__should_throw_error() {
+    func test_007__startChat_with_self__should_throw_error() {
         do {
             let (rethree, card) = try self.setUpDevice()
 
@@ -236,7 +238,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_08__multipleDecrypt() {
+    func test_008__multipleDecrypt() {
         do {
             let (rethree1, card1) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -265,7 +267,7 @@ class EThreeRatchetTests: XCTestCase {
         }
     }
 
-    func test_09_decrypt_messages_after_rotate_identity_key() {
+    func test_009_decrypt_messages_after_rotate_identity_key() {
         do {
             let (rethree1, _) = try self.setUpDevice()
             let (rethree2, card2) = try self.setUpDevice()
@@ -289,12 +291,52 @@ class EThreeRatchetTests: XCTestCase {
                 _ = try rethree2.decrypt(text: encrypted, from: newCard1)
                 XCTFail()
             } catch EThreeRatchetError.wrongSenderCard {} catch {
+                print(error.localizedDescription)
                 XCTFail()
             }
 
             let decrypted = try rethree2.decrypt(text: encrypted, from: newCard1, date: date)
 
             XCTAssert(message == decrypted)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test_010_auto_keys_rotation() {
+        do {
+            let (rethree2, card2) = try self.setUpDevice()
+            let (rethree1, card1) = try self.setUpDevice(keyRotationInterval: 5)
+
+            try rethree2.startChat(with: card1).startSync().get()
+            let message = UUID().uuidString
+            let encrypted = try rethree2.encrypt(text: message, for: card1)
+
+            let secureChat1 = try rethree1.getSecureChat()
+
+            try secureChat1.oneTimeKeysStorage.startInteraction()
+            let keys1 = try secureChat1.oneTimeKeysStorage.retrieveAllKeys()
+            try secureChat1.oneTimeKeysStorage.stopInteraction()
+
+            _ = try rethree1.decrypt(text: encrypted, from: card2)
+
+            sleep(5)
+
+            try secureChat1.oneTimeKeysStorage.startInteraction()
+            let keys2 = try secureChat1.oneTimeKeysStorage.retrieveAllKeys()
+            try secureChat1.oneTimeKeysStorage.stopInteraction()
+
+            var keysRotated = false
+
+            for key1 in keys1 {
+                if !keys2.contains { $0.identifier == key1.identifier } {
+                    keysRotated = true
+                    break
+                }
+            }
+
+            XCTAssert(keysRotated)
         } catch {
             print(error.localizedDescription)
             XCTFail()

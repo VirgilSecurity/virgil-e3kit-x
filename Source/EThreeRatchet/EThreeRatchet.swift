@@ -65,7 +65,10 @@ import VirgilSDKRatchet
                                         changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams)
 
-                let rethree = try EThreeRatchet.initialize(ethree: ethree).startSync().get()
+                let rethree = try EThreeRatchet.initialize(ethree: ethree,
+                                                           keyRotationInterval: keyRotationInterval)
+                    .startSync()
+                    .get()
 
                 completion(rethree, nil)
             } catch {
