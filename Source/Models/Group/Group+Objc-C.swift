@@ -43,7 +43,7 @@ extension Group {
     /// - Parameters:
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func update(completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func update(completion: @escaping (_ error: Error?) -> Void) {
         self.update().start { _, error in
             completion(error)
         }
@@ -56,8 +56,8 @@ extension Group {
     ///   - participants: Cards of users to add. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func add(participants: FindUsersResult,
-                          completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func add(participants: FindUsersResult,
+                        completion: @escaping (_ error: Error?) -> Void) {
         self.add(participants: participants).start { _, error in
             completion(error)
         }
@@ -70,8 +70,8 @@ extension Group {
     ///   - participant: Card of user to add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func add(participant: Card,
-                          completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func add(participant: Card,
+                        completion: @escaping (_ error: Error?) -> Void) {
         self.add(participant: participant).start { _, error in
             completion(error)
         }
@@ -83,7 +83,7 @@ extension Group {
     ///   - participant: participant Card
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func reAdd(participant: Card, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func reAdd(participant: Card, completion: @escaping (_ error: Error?) -> Void) {
         self.reAdd(participant: participant).start { _, error in
             completion(error)
         }
@@ -96,8 +96,8 @@ extension Group {
     ///   - participants: Cards of users to remove. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func remove(participants: FindUsersResult,
-                             completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func remove(participants: FindUsersResult,
+                           completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participants: participants).start { _, error in
             completion(error)
         }
@@ -109,8 +109,8 @@ extension Group {
     ///   - participant: Card of user to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func remove(participant: Card,
-                             completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func remove(participant: Card,
+                           completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participant: participant).start { _, error in
             completion(error)
         }

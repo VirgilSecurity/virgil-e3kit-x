@@ -64,7 +64,7 @@ extension EThree {
     /// - Parameters:
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func register(completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func register(completion: @escaping (_ error: Error?) -> Void) {
         self.register().start { _, error in
             completion(error)
         }
@@ -73,7 +73,7 @@ extension EThree {
     /// Uses provided Private Key to publish Card to Virgil Cards Service. Saves Private Key in local storage
     ///
     /// - Parameter keyPair: Key Pair to publish Card with
-    @objc public func register(with keyPair: VirgilKeyPair, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func register(with keyPair: VirgilKeyPair, completion: @escaping (_ error: Error?) -> Void) {
         self.register(with: keyPair).start { _, error in
             completion(error)
         }
@@ -84,7 +84,7 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler
     ///   - error: corresponding error
-    @objc public func rotatePrivateKey(completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func rotatePrivateKey(completion: @escaping (_ error: Error?) -> Void) {
         self.rotatePrivateKey().start { _, error in
             completion(error)
         }
@@ -94,7 +94,7 @@ extension EThree {
     ///
     /// - Parameter completion: completion handler
     ///   - error: corresponding error
-    @objc public func unregister(completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func unregister(completion: @escaping (_ error: Error?) -> Void) {
         self.unregister().start { _, error in
             completion(error)
         }
@@ -109,7 +109,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.backupPrivateKey(password: password).start { _, error in
             completion(error)
         }
@@ -122,7 +122,7 @@ extension EThree {
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func restorePrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func restorePrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.restorePrivateKey(password: password).start { _, error in
             completion(error)
         }
@@ -135,8 +135,8 @@ extension EThree {
     ///   - newOne: new password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc public func changePassword(from oldOne: String, to newOne: String,
-                                     completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func changePassword(from oldOne: String, to newOne: String,
+                                   completion: @escaping (_ error: Error?) -> Void) {
         self.changePassword(from: oldOne, to: newOne).start { _, error in
             completion(error)
         }
@@ -150,7 +150,7 @@ extension EThree {
     ///   - error: corresponding error
     /// - Important: If password specified it will reset entry with current identity.
     ///              Otherwise it will reset ALL entries.
-    @objc public func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
         self.resetPrivateKeyBackup(password: password).start { _, error in
             completion(error)
         }
@@ -164,10 +164,10 @@ extension EThree {
     ///   - completion: completion handler
     ///   - find: dictionary with idenities as keys and found Cards as values
     ///   - error: corresponding error
-    @objc public func findUsers(with identities: [String],
-                                forceReload: Bool = false,
-                                completion: @escaping (_ findResult: FindUsersResult?,
-                                                       _ error: Error?) -> Void) {
+    @objc open func findUsers(with identities: [String],
+                              forceReload: Bool = false,
+                              completion: @escaping (_ findResult: FindUsersResult?,
+                                                     _ error: Error?) -> Void) {
         self.findUsers(with: identities, forceReload: forceReload).start(completion: completion)
     }
 
@@ -179,10 +179,10 @@ extension EThree {
     ///   - completion: completion handler
     ///   - card: found Card
     ///   - error: corresponding error
-    @objc public func findUser(with identity: String,
-                               forceReload: Bool = false,
-                               completion: @escaping (_ card: Card?,
-                                                      _ error: Error?) -> Void) {
+    @objc open func findUser(with identity: String,
+                             forceReload: Bool = false,
+                             completion: @escaping (_ card: Card?,
+                                                    _ error: Error?) -> Void) {
         self.findUser(with: identity, forceReload: forceReload).start(completion: completion)
     }
 
@@ -195,10 +195,10 @@ extension EThree {
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc(dataId:findResult:completion:)
-    public func createGroup(id identifier: Data,
-                            with findResult: FindUsersResult,
-                            completion: @escaping (_ group: Group?,
-                                                   _ error: Error?) -> Void) {
+    open func createGroup(id identifier: Data,
+                          with findResult: FindUsersResult,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)
     }
 
@@ -211,10 +211,10 @@ extension EThree {
     ///   - group: loaded `Group`
     ///   - error: corresponding error
     @objc(dataId:initiator:completion:)
-    public func loadGroup(id identifier: Data,
-                          initiator card: Card,
-                          completion: @escaping (_ group: Group?,
-                                                 _ error: Error?) -> Void) {
+    open func loadGroup(id identifier: Data,
+                        initiator card: Card,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
         self.loadGroup(id: identifier, initiator: card).start(completion: completion)
     }
 
@@ -225,7 +225,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc(dataId:completion:)
-    public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+    open func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }
@@ -240,10 +240,10 @@ extension EThree {
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc(stringId:findResult:completion:)
-    public func createGroup(id identifier: String,
-                            with findResult: FindUsersResult,
-                            completion: @escaping (_ group: Group?,
-                                                   _ error: Error?) -> Void) {
+    open func createGroup(id identifier: String,
+                          with findResult: FindUsersResult,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)
     }
 
@@ -256,10 +256,10 @@ extension EThree {
     ///   - group: loaded `Group`
     ///   - error: corresponding error
     @objc(stringId:initiator:completion:)
-    public func loadGroup(id identifier: String,
-                          initiator card: Card,
-                          completion: @escaping (_ group: Group?,
-                                                 _ error: Error?) -> Void) {
+    open func loadGroup(id identifier: String,
+                        initiator card: Card,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
         self.loadGroup(id: identifier, initiator: card).start(completion: completion)
     }
 
@@ -270,7 +270,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc(stringId:completion:)
-    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
+    open func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }
