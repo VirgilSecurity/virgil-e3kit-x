@@ -39,6 +39,21 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 extension EThreeRatchet {
+
+    public func uploadKeys() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.lookupManager.lookupCard(of: self.identity, forceReload: true)
+
+                try self.setupSecureChat(selfCard: card)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     /// Starts chat with user
     ///
     /// - Important: creator of chat should be the one who send first message

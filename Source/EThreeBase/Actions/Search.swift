@@ -53,7 +53,7 @@ extension EThreeBase {
     /// - Parameter identity: identity
     /// - Returns: Card if it exists, nil otherwise
     @objc public func findCachedUser(with identity: String) -> Card? {
-        return  try? self.lookupManager.lookupCachedCard(of: identity)
+        return try? self.lookupManager.lookupCachedCard(of: identity)
     }
 
     /// Retrieves users Cards from the Virgil Cloud or local storage if exists

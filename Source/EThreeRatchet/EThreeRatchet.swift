@@ -36,6 +36,7 @@
 
 import VirgilSDK
 import VirgilSDKRatchet
+import VirgilCrypto
 
 /// Class containing key management features and Double Ratchet encryption
 @objc(VTEEThreeRatchet) open class EThreeRatchet: EThreeBase {
@@ -45,69 +46,20 @@ import VirgilSDKRatchet
     /// Time Interval, which defines how often keys will be rotated
     @objc public let keyRotationInterval: TimeInterval
 
-    /// Initializes EThreeRatchet
-    ///
-    /// - Parameters:
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil,
-                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<EThreeRatchet> {
-        return CallbackOperation { _, completion in
-            let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+                                  keyRotationInterval: TimeInterval = 3_600) throws {
+        let ethree = try EThree(identity: identity,
+                                tokenCallback: tokenCallback,
+                                changedKeyDelegate: changedKeyDelegate,
+                                storageParams: storageParams)
 
-            let context = TokenContext(service: "", operation: "")
-            accessTokenProvider.getToken(with: context) { token, error in
-                guard let token = token, error == nil else {
-                    completion(nil, error)
-                    return
-                }
-
-                do {
-                    let ethree = try EThree(identity: token.identity(),
-                                            accessTokenProvider: accessTokenProvider,
-                                            changedKeyDelegate: changedKeyDelegate,
-                                            storageParams: storageParams)
-
-                    let rethree = try EThreeRatchet.initialize(ethree: ethree,
-                                                               keyRotationInterval: keyRotationInterval)
-                        .startSync()
-                        .get()
-
-                    completion(rethree, nil)
-                } catch {
-                    completion(nil, error)
-                }
-            }
-        }
+        try self.init(ethree: ethree, keyRotationInterval: keyRotationInterval)
     }
 
-    /// Initializes EThreeRatchet
-    ///
-    /// - Parameters:
-    ///   - ethree: `EThree` instance
-    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
-    public static func initialize(ethree: EThree,
-                                  keyRotationInterval: TimeInterval = 3_600) -> GenericOperation<EThreeRatchet> {
-        return CallbackOperation { _, completion in
-            do {
-                let rethree = try EThreeRatchet(ethree: ethree, keyRotationInterval: keyRotationInterval)
-
-                if try rethree.localKeyStorage.exists() {
-                    try rethree.setupSecureChat()
-                }
-
-                completion(rethree, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    internal init(ethree: EThreeBase, keyRotationInterval: TimeInterval) throws {
+    @objc public init(ethree: EThreeBase, keyRotationInterval: TimeInterval) throws {
         self.keyRotationInterval = keyRotationInterval
 
         try super.init(identity: ethree.identity,
@@ -116,10 +68,20 @@ import VirgilSDKRatchet
                        localKeyStorage: ethree.localKeyStorage,
                        cloudKeyManager: ethree.cloudKeyManager,
                        lookupManager: ethree.lookupManager)
+
+        if try self.localKeyStorage.exists(),
+            let selfCard = self.findCachedUser(with: self.identity) {
+                let keyPair = try self.localKeyStorage.retrieveKeyPair()
+
+                let context = SecureChatContext(identityCard: selfCard,
+                                                identityPrivateKey: keyPair.privateKey,
+                                                accessTokenProvider: self.accessTokenProvider)
+
+                self.secureChat = try SecureChat(context: context)
+        }
     }
 
-    private func setupSecureChat(newCard: Card? = nil) throws {
-        let selfCard = try newCard ?? self.lookupManager.lookupCard(of: self.identity, forceReload: true)
+    internal func setupSecureChat(selfCard: Card) throws {
         let keyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let context = SecureChatContext(identityCard: selfCard,
@@ -128,13 +90,10 @@ import VirgilSDKRatchet
 
         let chat = try SecureChat(context: context)
 
-        // If user rotated Card new chat should reset all keys
-        if newCard != nil {
-            do {
-                try chat.reset().startSync().get()
-            } // When there's no keys on cloud. Should be fixed on server side.
-            catch let error as NSError where error.code == 50_017 {}
-        }
+        do {
+            try chat.reset().startSync().get()
+        } // When there's no keys on cloud. Should be fixed on server side.
+        catch let error as NSError where error.code == 50_017 {}
 
         Log.debug("Key rotation started")
         let logs = try chat.rotateKeys().startSync().get()
@@ -172,7 +131,7 @@ extension EThreeRatchet {
     override internal func privateKeyChanged(newCard: Card? = nil) throws {
         try super.privateKeyChanged()
 
-        try self.setupSecureChat(newCard: newCard)
+        try self.setupSecureChat(selfCard: newCard)
     }
 
     override internal func privateKeyDeleted() throws {

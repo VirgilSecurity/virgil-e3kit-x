@@ -37,42 +37,6 @@
 import VirgilSDK
 
 extension EThreeRatchet {
-    /// Initializes EThreeRatchet
-    ///
-    /// - Parameters:
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
-    ///   - completion: completion handler
-    ///   - rethree: initialized `EThreeRatchet` instance
-    ///   - error: corresponding error
-    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                        changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                        storageParams: KeychainStorageParams? = nil,
-                                        keyRotationInterval: TimeInterval = 3_600,
-                                        completion: @escaping (_ rethree: EThreeRatchet?, _ error: Error?) -> Void) {
-        self.initialize(tokenCallback: tokenCallback,
-                        changedKeyDelegate: changedKeyDelegate,
-                        storageParams: storageParams,
-                        keyRotationInterval: keyRotationInterval)
-            .start(completion: completion)
-    }
-
-    /// Initializes EThreeRatchet
-    ///
-    /// - Parameters:
-    ///   - ethree: `EThree` instance
-    ///   - keyRotationInterval: Time Interval, which defines how often keys will be rotated
-    ///   - completion: completion handler
-    ///   - rethree: initialized `EThreeRatchet` instance
-    ///   - error: corresponding error
-    @objc public static func initialize(ethree: EThree,
-                                        keyRotationInterval: TimeInterval = 3_600,
-                                        completion: @escaping (_ rethree: EThreeRatchet?, _ error: Error?) -> Void) {
-        self.initialize(ethree: ethree, keyRotationInterval: keyRotationInterval).start(completion: completion)
-    }
-
     /// Starts chat with user
     ///
     /// - Parameters:
