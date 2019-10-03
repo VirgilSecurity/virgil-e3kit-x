@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name                       	= "VirgilE3Kit"
   s.version                   	= "0.7.0-beta8"
+  s.info_plist = { "CFBundleShortVersionString" => "0.7.0-beta8" }
   s.swift_version               = "5.0"
   s.license      		= { :type => "BSD", :file => "LICENSE" }
   s.summary      		= "Vigil E3Kit for Apple devices and languages"
   s.homepage     		= "https://github.com/VirgilSecurity/virgil-e3kit-x/"
   s.author       		= { "Virgil Security" => "https://virgilsecurity.com/" }
   s.pod_target_xcconfig = { "PRODUCT_BUNDLE_IDENTIFIER" => "com.virgilsecurity.VirgilE3Kit" }
-  s.info_plist = { "CFBundleShortVersionString" => s.version }
   s.ios.deployment_target       = "9.0"
   s.osx.deployment_target       = "10.11"
   s.tvos.deployment_target      = "9.0"
