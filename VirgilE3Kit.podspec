@@ -6,6 +6,7 @@ Pod::Spec.new do |s|
   s.summary      		= "Vigil E3Kit for Apple devices and languages"
   s.homepage     		= "https://github.com/VirgilSecurity/virgil-e3kit-x/"
   s.author       		= { "Virgil Security" => "https://virgilsecurity.com/" }
+  s.pod_target_xcconfig = { "PRODUCT_BUNDLE_IDENTIFIER" => "com.virgilsecurity.VirgilE3Kit" }
   s.ios.deployment_target       = "9.0"
   s.osx.deployment_target       = "10.11"
   s.tvos.deployment_target      = "9.0"
