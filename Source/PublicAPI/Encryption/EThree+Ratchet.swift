@@ -38,28 +38,8 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
-extension EThree {
-    public func uploadKeys() -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                let card = try self.lookupManager.lookupCard(of: self.identity, forceReload: true)
-
-                try self.setupSecureChat(card: card)
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /// Starts chat with user
-    ///
-    /// - Important: creator of chat should be the one who send first message
-    ///
-    /// - Parameter card: chat participant Card
-    /// - Returns: CallbackOperation<Void>
-    public func startChat(with card: Card) -> GenericOperation<Void> {
+public extension EThree {
+    func createRatchetChat(with card: Card) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -70,9 +50,7 @@ extension EThree {
 
                 let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()
 
-                try secureChat.storeSession(session)
-
-                completion((), nil)
+                completion(RatchetChat(session: session, sessionStorage: secureChat.sessionStorage), nil)
             } catch SecureChatError.sessionAlreadyExists {
                 completion(nil, EThreeRatchetError.chatAlreadyExists)
             } catch {
@@ -81,22 +59,21 @@ extension EThree {
         }
     }
 
-    /// Checks local existance of chat
-    ///
-    /// - Parameter card: chat participant
-    /// - Returns: true if chat was started from current device
-    /// - Throws: `EThreeError.missingPrivateKey`, if there is no private key locally
-    public func isChatStarted(with card: Card) throws -> Bool {
-        return try self.getSecureChat().existingSession(withParticipantIdentity: card.identity) != nil
+    func joinRatchetChat(with card: Card) -> GenericOperation<RatchetChat> {
+        return CallbackOperation { _, completion in
+            completion(nil, nil)
+        }
     }
 
-    /// Deletes chat from local storage
-    ///
-    /// - Important: to start new chat both participants should delete previous one
-    ///
-    /// - Parameter card: chat participant Card
-    /// - Throws: corresponding error
-    @objc public func deleteChat(with card: Card) throws {
+    func getRatchetChat(with card: Card) throws -> RatchetChat? {
+        let secureChat = try self.getSecureChat()
+        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+            return nil
+        }
+        return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+    }
+
+    func deleteRatchetChat(with card: Card) throws {
         let secureChat = try self.getSecureChat()
 
         do {
@@ -105,189 +82,28 @@ extension EThree {
             throw EThreeRatchetError.missingChat
         }
     }
-
-    /// Encrypts string for user
-    ///
-    /// - Parameters:
-    ///   - text: String to encrypt
-    ///   - card: Card of user to encrypt for
-    /// - Returns: encrypted String
-    /// - Throws: corresponding error
-    @objc public func encrypt(text: String, for card: Card) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        return try self.encrypt(data: data, for: card).base64EncodedString()
-    }
-
-    /// Decrypts string
-    ///
-    /// - Parameters:
-    ///   - text: encrypted String
-    ///   - card: sender Card
-    /// - Returns: decrypted String
-    /// - Throws: corresponding error
-    @objc public func decrypt(text: String, from card: Card, date: Date? = nil) throws -> String {
-        guard let data = Data(base64Encoded: text) else {
-            throw EThreeError.strToDataFailed
-        }
-
-        let decryptedData = try self.decrypt(data: data, from: card, date: date)
-
-        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
-            throw EThreeError.strFromDataFailed
-        }
-
-        return decryptedString
-    }
-
-    /// Encrypts data
-    ///
-    /// - Parameters:
-    ///   - data: Data to encrypt
-    ///   - card: Card of user to encrypt for
-    /// - Returns: encrypted Data
-    /// - Throws: corresponding error
-    @objc public func encrypt(data: Data, for card: Card) throws -> Data {
-        let secureChat = try self.getSecureChat()
-
-        let session = try self.getSessionAsSender(card: card, secureChat: secureChat)
-
-        let ratchetMessage = try session.encrypt(data: data)
-
-        try secureChat.storeSession(session)
-
-        return ratchetMessage.serialize()
-    }
-
-    /// Decrypts data
-    ///
-    /// - Parameters:
-    ///   - data: encrypted Data
-    ///   - card: sender Card
-    /// - Returns: decrypted Data
-    /// - Throws: corresponding error
-    @objc public func decrypt(data: Data, from card: Card, date: Date? = nil) throws -> Data {
-        let secureChat = try self.getSecureChat()
-
-        var card = card
-
-        if let date = date {
-            while let previousCard = card.previousCard {
-                guard card.createdAt > date else {
-                    break
-                }
-
-                card = previousCard
-            }
-        }
-
-        let message = try RatchetMessage.deserialize(input: data)
-
-        // TODO: Add check on proper session id (local and message one) - should add getter to crypto
-
-        do {
-            let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
-
-            let decrypted = try session.decryptData(from: message)
-
-            try secureChat.storeSession(session)
-
-            return decrypted
-        } catch RatchetError.errorIdentityKeyDoesntMatch {
-            throw EThreeRatchetError.wrongSenderCard
-        }
-    }
-
-    /// Decrypts multiple Data
-    ///
-    /// - Important: data should be in strict order by encryption time
-    ///
-    /// - Parameters:
-    ///   - data: array with Data to decrypt
-    ///   - card: sender Card
-    /// - Returns: array with decrypted Data
-    /// - Throws: corresponding error
-    @objc public func decryptMultiple(data: [Data], from card: Card) throws -> [Data] {
-        guard let first = data.first else {
-            throw EThreeRatchetError.decryptEmptyArray
-        }
-
-        let secureChat = try self.getSecureChat()
-
-        let message = try RatchetMessage.deserialize(input: first)
-        let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
-
-        var result: [Data] = []
-
-        for encrypted in data {
-            let message = try RatchetMessage.deserialize(input: encrypted)
-
-            let session = try getSessionAsReceiver(message: message, receiverCard: card, secureChat: secureChat)
-
-            let decrypted = try session.decryptData(from: message)
-
-            result.append(decrypted)
-        }
-
-        try secureChat.storeSession(session)
-
-        return result
-    }
-
-    /// Decrypts multiple text
-    ///
-    /// - Important: text should be in strict order by encryption time
-    ///
-    /// - Parameters:
-    ///   - text: array with String to decrypt
-    ///   - card: sender Card
-    /// - Returns: array with decrypted String
-    /// - Throws: corresponding error
-    @objc public func decryptMultiple(text: [String], from card: Card) throws -> [String] {
-        let data = try text.map { (item: String) throws -> Data in
-            guard let data = Data(base64Encoded: item) else {
-                throw EThreeError.strToDataFailed
-            }
-
-            return data
-        }
-
-        let decryptedData = try self.decryptMultiple(data: data, from: card)
-
-        let decryptedString = try decryptedData.map { (item: Data) throws -> String in
-            guard let text = String(data: item, encoding: .utf8) else {
-                throw EThreeError.strFromDataFailed
-            }
-
-            return text
-        }
-
-        return decryptedString
-    }
 }
-
-private extension EThreeRatchet {
-    private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            throw EThreeRatchetError.missingChat
-        }
-
-        return session
-    }
-
-    private func getSessionAsReceiver(message: RatchetMessage,
-                                      receiverCard card: Card,
-                                      secureChat: SecureChat) throws -> SecureSession {
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-            guard message.getType() == .prekey else {
-                throw EThreeRatchetError.joinChatFailed
-            }
-
-            return try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
-        }
-
-        return session
-    }
-}
+//
+//private extension EThreeRatchet {
+//    private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
+//        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+//            throw EThreeRatchetError.missingChat
+//        }
+//
+//        return session
+//    }
+//
+//    private func getSessionAsReceiver(message: RatchetMessage,
+//                                      receiverCard card: Card,
+//                                      secureChat: SecureChat) throws -> SecureSession {
+//        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+//            guard message.getType() == .prekey else {
+//                throw EThreeRatchetError.joinChatFailed
+//            }
+//
+//            return try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
+//        }
+//
+//        return session
+//    }
+//}
