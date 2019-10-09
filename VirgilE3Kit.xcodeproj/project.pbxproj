@@ -428,7 +428,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeRatchet+Objc-C.swift"; sourceTree = "<group>"; };
 		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
 		1620EF9A234385150001B764 /* EThreeParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParams.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Mixtec.swift"; sourceTree = "<group>"; };
@@ -518,9 +517,8 @@
 		16B1F8AC23279DC40082ECE0 /* EThree+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Authorization.swift"; sourceTree = "<group>"; };
 		16B1F8B123279E000082ECE0 /* EThree+KeyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+KeyBackup.swift"; sourceTree = "<group>"; };
 		16B1F8B623279E2B0082ECE0 /* EThree+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Search.swift"; sourceTree = "<group>"; };
-		16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchet.swift; sourceTree = "<group>"; };
 		16B1F8CC2327A5020082ECE0 /* EThree+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Utils.swift"; sourceTree = "<group>"; };
-		16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThreeRatchet+Peer-to-Peer.swift"; sourceTree = "<group>"; };
+		16B1F8D12327A8930082ECE0 /* EThree+Ratchet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Ratchet.swift"; sourceTree = "<group>"; };
 		16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE008_RatchetTests.swift; sourceTree = "<group>"; };
 		16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		16BB9B5122F341150057D6B2 /* VTE006_LookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_LookupTests.swift; sourceTree = "<group>"; };
@@ -832,10 +830,11 @@
 		1685844A22DDE12C008EAC34 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1661D76F23018DE100BC435C /* Group */,
-				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
-				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
-				1632AE9622DCDFB000950B48 /* Ticket.swift */,
+				16EE4FBA234E73AE005CA2D5 /* Mixtec */,
+				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
+				1620EF9A234385150001B764 /* EThreeParams.swift */,
+				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
+				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -848,17 +847,6 @@
 				16D4D2C0234E448D00AFF80E /* Defaults.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		16B1F8C623279F120082ECE0 /* EThreeRatchet */ = {
-			isa = PBXGroup;
-			children = (
-				16B1F8C72327A4660082ECE0 /* EThreeRatchet.swift */,
-				16B1F8D12327A8930082ECE0 /* EThreeRatchet+Peer-to-Peer.swift */,
-				160BE2392330F37F00DD3999 /* EThreeRatchet+Objc-C.swift */,
-				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
-			);
-			path = EThreeRatchet;
 			sourceTree = "<group>";
 		};
 		16BB9B4422EF1A4E0057D6B2 /* Managers */ = {
@@ -876,6 +864,7 @@
 			children = (
 				16F9EA1B2178AED60021FD9A /* EThree+Peer-To-Peer.swift */,
 				1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */,
+				16B1F8D12327A8930082ECE0 /* EThree+Ratchet.swift */,
 			);
 			path = Encryption;
 			sourceTree = "<group>";
@@ -917,6 +906,17 @@
 			path = VirgilE3Kit;
 			sourceTree = "<group>";
 		};
+		16EE4FBA234E73AE005CA2D5 /* Mixtec */ = {
+			isa = PBXGroup;
+			children = (
+				1661D76F23018DE100BC435C /* Group */,
+				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
+				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
+				1632AE9622DCDFB000950B48 /* Ticket.swift */,
+			);
+			path = Mixtec;
+			sourceTree = "<group>";
+		};
 		16F9E9E5217889770021FD9A /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -925,12 +925,8 @@
 				167E1DED217CFC1000F8AA13 /* Storages */,
 				16AD62E322E9FD3600CDF90A /* Utils */,
 				165B67882178FBD700DDE1F7 /* PublicAPI */,
-				16B1F8C623279F120082ECE0 /* EThreeRatchet */,
 				16F9EA12217890550021FD9A /* EThree.swift */,
 				16B1F8CC2327A5020082ECE0 /* EThree+Utils.swift */,
-				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
-				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
-				1620EF9A234385150001B764 /* EThreeParams.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";

@@ -36,6 +36,7 @@
 
 import VirgilSDK
 import VirgilCrypto
+import VirgilSDKRatchet
 
 extension EThree {
     internal func privateKeyChanged(newCard: Card? = nil) throws {
@@ -55,13 +56,23 @@ extension EThree {
                                          localKeyStorage: self.localKeyStorage,
                                          lookupManager: self.lookupManager,
                                          crypto: self.crypto)
+
+        if self.enableRatchet {
+            guard let selfCard = newCard ?? self.findCachedUser(with: self.identity) else {
+                throw NSError()
+            }
+
+            try self.setupSecureChat(keyPair: selfKeyPair, card: selfCard)
+        }
     }
 
     internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
-
         try self.groupManager?.localGroupStorage.reset()
+
         self.groupManager = nil
+        self.secureChat = nil
+        self.timer = nil
     }
 
     internal func computeSessionId(from identifier: Data) throws -> Data {
@@ -102,5 +113,50 @@ extension EThree {
         }
 
         return manager
+    }
+}
+
+extension EThree {
+    internal func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws {
+        let context = SecureChatContext(identityCard: card,
+                                        identityPrivateKey: keyPair.privateKey,
+                                        accessTokenProvider: self.accessTokenProvider)
+
+        let chat = try SecureChat(context: context)
+
+        do {
+            try chat.reset().startSync().get()
+        } // When there's no keys on cloud. Should be fixed on server side.
+        catch let error as NSError where error.code == 50_017 {}
+
+        Log.debug("Key rotation started")
+        let logs = try chat.rotateKeys().startSync().get()
+        Log.debug("Key rotation succeed: \(logs.description)")
+
+        self.scheduleKeyRotation(with: chat)
+
+        self.secureChat = chat
+    }
+
+    private func scheduleKeyRotation(with chat: SecureChat) {
+        self.timer = RepeatingTimer(interval: self.keyRotationInterval) {
+            Log.debug("Key rotation started")
+            do {
+                let logs = try chat.rotateKeys().startSync().get()
+                Log.debug("Key rotation succeed: \(logs.description)")
+            } catch {
+                Log.error("Key rotation failed: \(error.localizedDescription)")
+            }
+        }
+
+        self.timer?.resume()
+    }
+
+    internal func getSecureChat() throws -> SecureChat {
+        guard let secureChat = self.secureChat else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return secureChat
     }
 }

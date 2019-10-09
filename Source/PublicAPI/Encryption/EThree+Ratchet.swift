@@ -38,14 +38,13 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
-extension EThreeRatchet {
-
+extension EThree {
     public func uploadKeys() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.lookupManager.lookupCard(of: self.identity, forceReload: true)
 
-                try self.setupSecureChat(selfCard: card)
+                try self.setupSecureChat(card: card)
 
                 completion((), nil)
             } catch {
