@@ -62,11 +62,13 @@
 
         VTEEThree *eThree2 = [[VTEEThree alloc] initWithIdentity:identity
                                                    tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                                       NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                                       completionHandler(token, nil);
-                                                   }
+                                                        NSString *token = [self.utils getTokenStringWithIdentity:identity];
+                                                        completionHandler(token, nil);
+                                                    }
                                               changedKeyDelegate:nil
                                                    storageParams:self.keychainStorage.storageParams
+                                                   enableRatchet:false
+                                             keyRotationInterval:3600
                                                            error:&err];
         XCTAssert(eThree2 != nil && err == nil);
 
@@ -236,6 +238,8 @@
                                                    }
                                               changedKeyDelegate:nil
                                                    storageParams:self.keychainStorage.storageParams
+                                                   enableRatchet:false
+                                             keyRotationInterval:3600
                                                            error:&err];
         XCTAssert(eThree2 != nil && err == nil);
 
