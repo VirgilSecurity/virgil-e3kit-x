@@ -65,6 +65,9 @@ import VirgilCrypto
         return self.lookupManager.changedKeyDelegate
     }
 
+    internal let enableRatchet: Bool
+    internal let keyRotationInterval: TimeInterval
+
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
@@ -72,10 +75,46 @@ import VirgilCrypto
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
+    @objc public convenience init(params: EThreeParams) throws {
+        try self.init(identity: params.identity,
+                      tokenCallback: params.tokenCallback,
+                      changedKeyDelegate: params.changedKeyDelegate,
+                      storageParams: params.storageParams,
+                      enableRatchet: params.enableRatchet,
+                      keyRotationInterval: params.keyRotationInterval)
+    }
+
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil,
+                                  enableRatchet: Bool = Defaults.enableRatchet,
+                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        try self.init(identity: identity,
+                      accessTokenProvider: accessTokenProvider,
+                      changedKeyDelegate: changedKeyDelegate,
+                      storageParams: storageParams,
+                      enableRatchet: enableRatchet,
+                      keyRotationInterval: keyRotationInterval)
+    }
+
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
                               changedKeyDelegate: ChangedKeyDelegate?,
-                              storageParams: KeychainStorageParams?) throws {
+                              storageParams: KeychainStorageParams?,
+                              enableRatchet: Bool,
+                              keyRotationInterval: TimeInterval) throws {
         let crypto = try VirgilCrypto()
 
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
@@ -116,7 +155,9 @@ import VirgilCrypto
                       accessTokenProvider: accessTokenProvider,
                       localKeyStorage: localKeyStorage,
                       cloudKeyManager: cloudKeyManager,
-                      lookupManager: lookupManager)
+                      lookupManager: lookupManager,
+                      enableRatchet: enableRatchet,
+                      keyRotationInterval: keyRotationInterval)
     }
 
     internal init(identity: String,
@@ -124,13 +165,17 @@ import VirgilCrypto
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
                   cloudKeyManager: CloudKeyManager,
-                  lookupManager: LookupManager) throws {
+                  lookupManager: LookupManager,
+                  enableRatchet: Bool,
+                  keyRotationInterval: TimeInterval) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
+        self.enableRatchet = enableRatchet
+        self.keyRotationInterval = keyRotationInterval
 
         super.init()
 
@@ -140,7 +185,9 @@ import VirgilCrypto
 
         lookupManager.startUpdateCachedCards()
     }
+}
 
+extension EThree {
     /// Initializes EThree with a callback to get Virgil access token
     ///
     /// - Parameters:
@@ -166,33 +213,14 @@ import VirgilCrypto
                 let ethree = try EThree(identity: token.identity(),
                                         accessTokenProvider: accessTokenProvider,
                                         changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams)
+                                        storageParams: storageParams,
+                                        enableRatchet: Defaults.enableRatchet,
+                                        keyRotationInterval: Defaults.keyRotationInterval)
 
                 completion(ethree, nil)
             } catch {
                 completion(nil, error)
             }
         }
-    }
-
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: User identity
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    /// - Throws: corresponding error
-    /// - Important: identity should be the same as in JWT generated at server side
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) throws {
-        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-        try self.init(identity: identity,
-                      accessTokenProvider: accessTokenProvider,
-                      changedKeyDelegate: changedKeyDelegate,
-                      storageParams: storageParams)
     }
 }

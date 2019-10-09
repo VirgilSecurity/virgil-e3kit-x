@@ -48,21 +48,13 @@ import VirgilSDK
     /// `KeychainStorageParams` with specific parameters
     @objc public var storageParams: KeychainStorageParams? = nil
 
-#if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public var biometricProtection: Bool = Defaults.biometricProtection
-    /// User promt for UI
-    @objc public var biometricPromt: String? = Defaults.biometricPromt
-    /// Defines behaviour of key load
-    @objc public var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
-    /// Defines how long cached key can be used before retrieved again
-    @objc public var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
+    @objc public var enableRatchet: Bool = Defaults.enableRatchet
+
+    @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
     private struct BiometryConfig: Decodable {
-        var biometricProtection: Bool = Defaults.biometricProtection
-        var biometricPromt: String? = Defaults.biometricPromt
-        var loadKeyStrategy: LoadKeyStrategy = Defaults.loadKeyStrategy
-        var keyCacheLifeTime: TimeInterval = Defaults.keyCacheLifeTime
+        var enableRatchet: Bool = Defaults.enableRatchet
+        var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     }
 
     /// Initializer with parameters from config plist file
@@ -81,12 +73,9 @@ import VirgilSDK
 
         self.init(identity: identity, tokenCallback: tokenCallback)
 
-        self.biometricProtection = config.biometricProtection
-        self.biometricPromt = config.biometricPromt
-        self.loadKeyStrategy = config.loadKeyStrategy
-        self.keyCacheLifeTime = config.keyCacheLifeTime
+        self.enableRatchet = config.enableRatchet
+        self.keyRotationInterval = config.keyRotationInterval
     }
-#endif
 
     /// Initializer
     ///

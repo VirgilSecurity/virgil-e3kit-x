@@ -236,6 +236,14 @@
 		16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
+		16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
+		16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
+		16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
+		16D4D2C4234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
+		16D4D2C5234E464400AFF80E /* EThreeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1620EF9A234385150001B764 /* EThreeParams.swift */; };
+		16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1620EF9A234385150001B764 /* EThreeParams.swift */; };
+		16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1620EF9A234385150001B764 /* EThreeParams.swift */; };
+		16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1620EF9A234385150001B764 /* EThreeParams.swift */; };
 		16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
 		16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
 		16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
@@ -515,6 +523,7 @@
 		16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedKeyDelegate.swift; sourceTree = "<group>"; };
 		16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Encryption.swift"; sourceTree = "<group>"; };
 		16BC03A021EFF81E00887DF2 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		16D4D2C0234E448D00AFF80E /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		16D63E51229FFBF7004C53AD /* EThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeError.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -830,6 +839,7 @@
 			children = (
 				16B1F8DE2327C4F90082ECE0 /* RepeatingTimer.swift */,
 				16AD62E422E9FD5400CDF90A /* Array+Chunks.swift */,
+				16D4D2C0234E448D00AFF80E /* Defaults.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1380,10 +1390,12 @@
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16B1F8AD23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DA22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				16D4D2C5234E464400AFF80E /* EThreeParams.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
@@ -1414,9 +1426,11 @@
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
+				16D4D2C4234E448D00AFF80E /* Defaults.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
@@ -1461,10 +1475,12 @@
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16B1F8AE23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
@@ -1502,10 +1518,12 @@
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16B1F8AF23279DC40082ECE0 /* Authorization.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
+				16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
