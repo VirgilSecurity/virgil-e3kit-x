@@ -39,9 +39,9 @@ import VirgilCrypto
 import VirgilSDKRatchet
 
 extension EThree {
-    internal func privateKeyChanged(newCard: Card? = nil) throws {
-        if let newCard = newCard {
-            try self.lookupManager.cardStorage.storeCard(newCard)
+    internal func privateKeyChanged(card: Card? = nil) throws {
+        if let card = card {
+            try self.lookupManager.cardStorage.storeCard(card)
         }
 
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -58,7 +58,7 @@ extension EThree {
                                          crypto: self.crypto)
 
         if self.enableRatchet {
-            guard let selfCard = newCard ?? self.findCachedUser(with: self.identity) else {
+            guard let selfCard = card ?? self.findCachedUser(with: self.identity) else {
                 throw NSError()
             }
 
@@ -104,7 +104,7 @@ extension EThree {
 
         try self.localKeyStorage.store(data: data)
 
-        try self.privateKeyChanged(newCard: card)
+        try self.privateKeyChanged(card: card)
     }
 
     internal func getGroupManager() throws -> GroupManager {
