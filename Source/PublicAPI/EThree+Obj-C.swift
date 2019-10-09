@@ -38,7 +38,27 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with Objective-C compatible operations
-extension EThreeBase {
+extension EThree {
+    /// Initializes E3Kit with a callback to get Virgil access token
+    ///
+    /// - Parameters:
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - completion: completion handler
+    ///   - ethree: initialized EThree instance
+    ///   - error: corresponding error
+    @available(*, deprecated, message: "Use constructor instead")
+    @objc public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                        changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                        storageParams: KeychainStorageParams? = nil,
+                                        completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
+        EThree.initialize(tokenCallback: tokenCallback,
+                          changedKeyDelegate: changedKeyDelegate,
+                          storageParams: storageParams)
+            .start(completion: completion)
+    }
+
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameters:
@@ -178,5 +198,95 @@ extension EThreeBase {
                                        completion: @escaping (_ lookupResult: LookupResult?,
         _ error: Error?) -> Void) {
         self.lookupPublicKeys(of: identities).start(completion: completion)
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - findResult: Cards of participants. Result of findUsers call
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    @objc(dataId:findResult:completion:)
+    public func createGroup(id identifier: Data,
+                            with findResult: FindUsersResult,
+                            completion: @escaping (_ group: Group?,
+                                                   _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: findResult).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    @objc(dataId:initiator:completion:)
+    public func loadGroup(id identifier: Data,
+                          initiator card: Card,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+    }
+
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameters
+    ///   - identifier: identifier of group
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc(dataId:completion:)
+    public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteGroup(id: identifier).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - findResult: Cards of participants. Result of findUsers call
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    @objc(stringId:findResult:completion:)
+    public func createGroup(id identifier: String,
+                            with findResult: FindUsersResult,
+                            completion: @escaping (_ group: Group?,
+                                                   _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: findResult).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    @objc(stringId:initiator:completion:)
+    public func loadGroup(id identifier: String,
+                          initiator card: Card,
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+    }
+
+    /// Deletes group from cloud and local storage
+    ///
+    /// - Parameters
+    ///   - identifier: identifier of group
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc(stringId:completion:)
+    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteGroup(id: identifier).start { _, error in
+            completion(error)
+        }
     }
 }

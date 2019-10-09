@@ -37,15 +37,39 @@
 import VirgilSDK
 import VirgilCrypto
 
-extension EThreeBase {
-    @objc internal func privateKeyChanged(newCard: Card? = nil) throws {
+extension EThree {
+    internal func privateKeyChanged(newCard: Card? = nil) throws {
         if let newCard = newCard {
             try self.lookupManager.cardStorage.storeCard(newCard)
         }
+
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     identityKeyPair: selfKeyPair)
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage)
+        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                         cloudTicketStorage: cloudTicketStorage,
+                                         localKeyStorage: self.localKeyStorage,
+                                         lookupManager: self.lookupManager,
+                                         crypto: self.crypto)
     }
 
-    @objc internal func privateKeyDeleted() throws {
+    internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
+
+        try self.groupManager?.localGroupStorage.reset()
+        self.groupManager = nil
+    }
+
+    internal func computeSessionId(from identifier: Data) throws -> Data {
+        guard identifier.count > 10 else {
+            throw GroupError.shortGroupId
+        }
+
+        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
     }
 
     internal static func getConnection() -> HttpConnection {
@@ -70,5 +94,13 @@ extension EThreeBase {
         try self.localKeyStorage.store(data: data)
 
         try self.privateKeyChanged(newCard: card)
+    }
+
+    internal func getGroupManager() throws -> GroupManager {
+        guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
     }
 }

@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with authorization operations
-extension EThreeBase {
+extension EThree {
     /// Publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified

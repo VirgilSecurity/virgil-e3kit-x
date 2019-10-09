@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with find users operations
-extension EThreeBase {
+extension EThree {
     /// Returnes cards from local storage with given identities
     ///
     /// - Parameter identities: identities

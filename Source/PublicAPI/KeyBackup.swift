@@ -37,7 +37,7 @@
 import VirgilSDK
 
 // MARK: - Extension with key back-up operations
-extension EThreeBase {
+extension EThree {
     /// Encrypts user's private key using password and backs up the encrypted
     /// private key to Virgil's cloud. This enables users to log in from other devices
     /// and have access to their private key to decrypt data.

@@ -37,8 +37,8 @@
 import VirgilSDK
 import VirgilCrypto
 
-/// Base class containing Cards and Keys management
-@objc(VTEEThreeBase) open class EThreeBase: NSObject {
+/// Class containing default features of E3Kit
+@objc(VTEEThree) open class EThree: NSObject {
     /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]
     /// Typealias for callback used below
@@ -68,8 +68,9 @@ import VirgilCrypto
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
+    internal var groupManager: GroupManager?
 
-    internal let queue = DispatchQueue(label: "EThreeBaseQueue")
+    internal let queue = DispatchQueue(label: "EThreeQueue")
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
@@ -138,5 +139,60 @@ import VirgilCrypto
         }
 
         lookupManager.startUpdateCachedCards()
+    }
+
+    /// Initializes EThree with a callback to get Virgil access token
+    ///
+    /// - Parameters:
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    @available(*, deprecated, message: "Use constructor instead")
+    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+        return CallbackOperation { _, completion in
+            do {
+                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+                let tokenContext = TokenContext(service: "cards", operation: "")
+
+                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
+                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
+                }
+
+                let token = try getTokenOperation.startSync().get()
+
+                let ethree = try EThree(identity: token.identity(),
+                                        accessTokenProvider: accessTokenProvider,
+                                        changedKeyDelegate: changedKeyDelegate,
+                                        storageParams: storageParams)
+
+                completion(ethree, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil) throws {
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        try self.init(identity: identity,
+                      accessTokenProvider: accessTokenProvider,
+                      changedKeyDelegate: changedKeyDelegate,
+                      storageParams: storageParams)
     }
 }
