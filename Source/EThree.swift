@@ -36,6 +36,7 @@
 
 import VirgilSDK
 import VirgilCrypto
+import VirgilSDKRatchet
 
 /// Class containing default features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
@@ -71,7 +72,10 @@ import VirgilCrypto
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
+
     internal var groupManager: GroupManager?
+    internal var secureChat: SecureChat?
+    internal var timer: RepeatingTimer?
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
@@ -184,43 +188,5 @@ import VirgilCrypto
         }
 
         lookupManager.startUpdateCachedCards()
-    }
-}
-
-extension EThree {
-    /// Initializes EThree with a callback to get Virgil access token
-    ///
-    /// - Parameters:
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    @available(*, deprecated, message: "Use constructor instead")
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
-        return CallbackOperation { _, completion in
-            do {
-                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-                let tokenContext = TokenContext(service: "cards", operation: "")
-
-                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
-                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
-                }
-
-                let token = try getTokenOperation.startSync().get()
-
-                let ethree = try EThree(identity: token.identity(),
-                                        accessTokenProvider: accessTokenProvider,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams,
-                                        enableRatchet: Defaults.enableRatchet,
-                                        keyRotationInterval: Defaults.keyRotationInterval)
-
-                completion(ethree, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
     }
 }
