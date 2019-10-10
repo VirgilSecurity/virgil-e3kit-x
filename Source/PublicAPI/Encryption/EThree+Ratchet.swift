@@ -50,7 +50,14 @@ public extension EThree {
 
                 let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()
 
-                completion(RatchetChat(session: session, sessionStorage: secureChat.sessionStorage), nil)
+                let ticket = try session.encrypt(string: UUID().uuidString)
+
+                try self.cloudRatchetStorage.store(ticket, sharedWith: card)
+
+                let ratchetChat = RatchetChat(session: session,
+                                              sessionStorage: secureChat.sessionStorage)
+
+                completion(ratchetChat, nil)
             } catch SecureChatError.sessionAlreadyExists {
                 completion(nil, EThreeRatchetError.chatAlreadyExists)
             } catch {
@@ -61,7 +68,19 @@ public extension EThree {
 
     func joinRatchetChat(with card: Card) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
-            completion(nil, nil)
+            do {
+                let secureChat = try self.getSecureChat()
+
+                let ticket = try self.cloudRatchetStorage.retrieve(from: card)
+
+                let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket)
+
+                let ratchetChat = RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+
+                completion(ratchetChat, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 
@@ -83,27 +102,3 @@ public extension EThree {
         }
     }
 }
-//
-//private extension EThreeRatchet {
-//    private func getSessionAsSender(card: Card, secureChat: SecureChat) throws -> SecureSession {
-//        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-//            throw EThreeRatchetError.missingChat
-//        }
-//
-//        return session
-//    }
-//
-//    private func getSessionAsReceiver(message: RatchetMessage,
-//                                      receiverCard card: Card,
-//                                      secureChat: SecureChat) throws -> SecureSession {
-//        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
-//            guard message.getType() == .prekey else {
-//                throw EThreeRatchetError.joinChatFailed
-//            }
-//
-//            return try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: message)
-//        }
-//
-//        return session
-//    }
-//}

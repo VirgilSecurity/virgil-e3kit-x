@@ -264,6 +264,10 @@
 		16E33881234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3387F234E7F1E00678624 /* RatchetChat+Encryption.swift */; };
 		16E33882234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3387F234E7F1E00678624 /* RatchetChat+Encryption.swift */; };
 		16E33883234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3387F234E7F1E00678624 /* RatchetChat+Encryption.swift */; };
+		16E33885234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
+		16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
+		16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
+		16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
 		16ED974522D7732800B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
 		16ED974622D7732900B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
 		16ED974722D7732A00B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
@@ -542,6 +546,7 @@
 		16D63E51229FFBF7004C53AD /* EThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeError.swift; sourceTree = "<group>"; };
 		16E33876234E775200678624 /* RatchetChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatchetChat.swift; sourceTree = "<group>"; };
 		16E3387F234E7F1E00678624 /* RatchetChat+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RatchetChat+Encryption.swift"; sourceTree = "<group>"; };
+		16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRatchetStorage.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -784,6 +789,7 @@
 			children = (
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				1685846922E0875D008EAC34 /* CloudTicketStorage.swift */,
+				16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */,
 			);
 			path = Cloud;
 			sourceTree = "<group>";
@@ -1421,6 +1427,7 @@
 				16B1F8AD23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16AD62DA22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C5234E464400AFF80E /* EThreeParams.swift in Sources */,
+				16E33885234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1464,6 +1471,7 @@
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1514,6 +1522,7 @@
 				16B1F8AE23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
+				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1561,6 +1570,7 @@
 				16B1F8AF23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
+				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
