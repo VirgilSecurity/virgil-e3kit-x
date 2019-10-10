@@ -39,7 +39,7 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 public extension EThree {
-    func createRatchetChat(with card: Card) -> GenericOperation<RatchetChat> {
+    func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -48,11 +48,15 @@ public extension EThree {
                     throw EThreeRatchetError.selfChatIsForbidden
                 }
 
-                let session = try secureChat.startNewSessionAsSender(receiverCard: card).startSync().get()
+                let session = try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
+                    .startSync()
+                    .get()
 
                 let ticket = try session.encrypt(string: UUID().uuidString)
 
-                try self.cloudRatchetStorage.store(ticket, sharedWith: card)
+                try self.cloudRatchetStorage.store(ticket, sharedWith: card, name: name)
+
+                try secureChat.storeSession(session)
 
                 let ratchetChat = RatchetChat(session: session,
                                               sessionStorage: secureChat.sessionStorage)
@@ -66,14 +70,16 @@ public extension EThree {
         }
     }
 
-    func joinRatchetChat(with card: Card) -> GenericOperation<RatchetChat> {
+    func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
-                let ticket = try self.cloudRatchetStorage.retrieve(from: card)
+                let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
 
                 let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket)
+
+                try secureChat.storeSession(session)
 
                 let ratchetChat = RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
 
@@ -84,19 +90,19 @@ public extension EThree {
         }
     }
 
-    func getRatchetChat(with card: Card) throws -> RatchetChat? {
+    func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
         let secureChat = try self.getSecureChat()
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity) else {
+        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }
         return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    func deleteRatchetChat(with card: Card) throws {
+    func deleteRatchetChat(with card: Card, name: String? = nil) throws {
         let secureChat = try self.getSecureChat()
 
         do {
-            try secureChat.deleteSession(withParticipantIdentity: card.identity)
+            try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
         } catch CocoaError.fileNoSuchFile {
             throw EThreeRatchetError.missingChat
         }

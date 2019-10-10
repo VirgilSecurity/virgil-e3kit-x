@@ -43,6 +43,8 @@ import VirgilCryptoRatchet
 
 internal class CloudRatchetStorage {
     private static let root = "ratchet-peer-to-peer"
+    private static let path = "default"
+    private static let key = "default"
 
     private let accessTokenProvider: AccessTokenProvider
     private let localKeyStorage: LocalKeyStorage
@@ -68,13 +70,13 @@ internal class CloudRatchetStorage {
 }
 
 extension CloudRatchetStorage {
-    internal func store(_ ticket: RatchetMessage, sharedWith card: Card) throws {
+    internal func store(_ ticket: RatchetMessage, sharedWith card: Card, name: String?) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let params = KeyknoxPushParams(identities: [card.identity],
                                        root: CloudRatchetStorage.root,
-                                       path: CloudRatchetStorage.root,
-                                       key: CloudRatchetStorage.root)
+                                       path: CloudRatchetStorage.path,
+                                       key: name ?? CloudRatchetStorage.key)
 
         // TODO: previous hash
         _ = try self.keyknoxManager
@@ -87,13 +89,13 @@ extension CloudRatchetStorage {
             .get()
     }
 
-    internal func retrieve(from card: Card) throws -> RatchetMessage {
+    internal func retrieve(from card: Card, name: String?) throws -> RatchetMessage {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let params = KeyknoxPullParams(identity: card.identity,
                                        root: CloudRatchetStorage.root,
-                                       path: CloudRatchetStorage.root,
-                                       key: CloudRatchetStorage.root)
+                                       path: CloudRatchetStorage.path,
+                                       key: name ?? CloudRatchetStorage.key)
         let response = try self.keyknoxManager
             .pullValue(params: params,
                        publicKeys: [card.publicKey],
@@ -104,11 +106,11 @@ extension CloudRatchetStorage {
         return try RatchetMessage.deserialize(input: response.value)
     }
 
-    internal func removeRecipient(identity: String) throws {
+    internal func removeRecipient(identity: String, name: String?) throws {
         let params = KeyknoxDeleteRecipientParams(identity: identity,
                                                   root: CloudRatchetStorage.root,
-                                                  path: CloudRatchetStorage.root,
-                                                  key: CloudRatchetStorage.root)
+                                                  path: CloudRatchetStorage.path,
+                                                  key: name ?? CloudRatchetStorage.key)
 
         _ = try self.keyknoxManager.deleteRecipient(params: params)
             .startSync()
