@@ -268,6 +268,9 @@
 		16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
 		16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
 		16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */; };
+		16E3388A234F4D4200678624 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
+		16E3388B234F4E5E00678624 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
+		16E3388C234F4E5F00678624 /* VTE008_RatchetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1F8D62327A9760082ECE0 /* VTE008_RatchetTests.swift */; };
 		16ED974522D7732800B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
 		16ED974622D7732900B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
 		16ED974722D7732A00B90EC8 /* VTE004_GroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED974022D772F800B90EC8 /* VTE004_GroupTests.swift */; };
@@ -1343,6 +1346,7 @@
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
+				16E3388B234F4E5E00678624 /* VTE008_RatchetTests.swift in Sources */,
 				16BB9B5222F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
 				16BB9B4C22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
@@ -1360,6 +1364,7 @@
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
+				16E3388A234F4D4200678624 /* VTE008_RatchetTests.swift in Sources */,
 				16BB9B5322F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
 				16BB9B4B22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
@@ -1377,6 +1382,7 @@
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
+				16E3388C234F4E5F00678624 /* VTE008_RatchetTests.swift in Sources */,
 				16BB9B5422F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
 				16BB9B4D22EF30BC0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
