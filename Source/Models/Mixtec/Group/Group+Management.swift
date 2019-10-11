@@ -38,11 +38,11 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 // MARK: - Extension with group management operations
-open extension Group {
+extension Group {
     /// Updates group
     ///
     /// - Returns: CallbackOperation<Void>
-    func update() -> GenericOperation<Void> {
+    open func update() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
@@ -66,7 +66,7 @@ open extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter participants: Cards of users to add. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    func add(participants: FindUsersResult) -> GenericOperation<Void> {
+    open func add(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
@@ -103,7 +103,7 @@ open extension Group {
     ///
     /// - Parameter participant: participant Card
     /// - Returns: CallbackOperation<Void>
-    func reAdd(participant: Card) -> GenericOperation<Void> {
+    open func reAdd(participant: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
@@ -123,7 +123,7 @@ open extension Group {
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
     /// - Parameter participants: Cards of users to remove. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    func remove(participants: FindUsersResult) -> GenericOperation<Void> {
+    open func remove(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
@@ -157,7 +157,7 @@ open extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter card: Card of user to add
     /// - Returns: CallbackOperation<Void>
-    func add(participant card: Card) -> GenericOperation<Void> {
+    open func add(participant card: Card) -> GenericOperation<Void> {
         return self.add(participants: [card.identity: card])
     }
 
@@ -165,7 +165,7 @@ open extension Group {
     ///
     /// - Parameter card: Card of user to remove
     /// - Returns: CallbackOperation<Void>
-    func remove(participant card: Card) -> GenericOperation<Void> {
+    open func remove(participant card: Card) -> GenericOperation<Void> {
         return self.remove(participants: [card.identity: card])
     }
 }

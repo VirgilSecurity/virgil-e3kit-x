@@ -37,7 +37,7 @@
 import VirgilSDK
 
 // MARK: - Extension with group operations
-open extension EThree {
+extension EThree {
     /// Creates group, saves in cloud and locally
     ///
     /// - Note: identifier length should be > 10
@@ -45,7 +45,7 @@ open extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<Group> {
+    open func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -72,7 +72,7 @@ open extension EThree {
     /// - Parameter identifier: identifier of group
     /// - Returns: Group if exists, nil otherwise
     /// - Throws: corresponding error
-    func getGroup(id identifier: Data) throws -> Group? {
+    open func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)
 
         return try self.getGroupManager().retrieve(sessionId: sessionId)
@@ -84,7 +84,7 @@ open extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
-    func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
+    open func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -102,7 +102,7 @@ open extension EThree {
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
-    func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
+    open func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -126,7 +126,7 @@ open extension EThree {
 }
 
 // MARK: - Extension with group operations with string identifier
-public extension EThree {
+extension EThree {
     // swiftlint:disable force_unwrapping
 
     /// Creates group, saves in cloud and locally
@@ -136,7 +136,7 @@ public extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
+    open func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
@@ -147,7 +147,7 @@ public extension EThree {
     /// - Parameter identifier: identifier of group
     /// - Returns: Group if exists, nil otherwise
     /// - Throws: corresponding error
-    func getGroup(id identifier: String) throws -> Group? {
+    open func getGroup(id identifier: String) throws -> Group? {
         let identifier = identifier.data(using: .utf8)!
 
         return try self.getGroup(id: identifier)
@@ -159,7 +159,7 @@ public extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
-    func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
+    open func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.loadGroup(id: identifier, initiator: card)
@@ -169,7 +169,7 @@ public extension EThree {
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
-    func deleteGroup(id identifier: String) -> GenericOperation<Void> {
+    open func deleteGroup(id identifier: String) -> GenericOperation<Void> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.deleteGroup(id: identifier)

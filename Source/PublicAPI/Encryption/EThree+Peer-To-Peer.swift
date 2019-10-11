@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with peer-to-pear encrypt and decrypt operations
-open extension EThree {
+extension EThree {
     /// Signs and encrypts data for user
     ///
     /// - Parameters:
@@ -49,7 +49,7 @@ open extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(encryptData:forUser:error:)
-    func encrypt(data: Data, for user: Card) throws -> Data {
+    open func encrypt(data: Data, for user: Card) throws -> Data {
         return try self.encrypt(data: data, for: [user.identity: user])
     }
 
@@ -63,7 +63,7 @@ open extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(encryptText:forUser:error:)
-    func encrypt(text: String, for user: Card) throws -> String {
+    open func encrypt(text: String, for user: Card) throws -> String {
         return try self.encrypt(text: text, for: [user.identity: user])
     }
 
@@ -76,7 +76,7 @@ open extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc(decryptData:fromUsers:error:)
-    func decrypt(data: Data, from user: Card? = nil) throws -> Data {
+    open func decrypt(data: Data, from user: Card? = nil) throws -> Data {
         return try self.decryptInternal(data: data, from: user?.publicKey)
     }
 
@@ -90,7 +90,7 @@ open extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc(decryptData:fromUsers:date:error:)
-    func decrypt(data: Data, from user: Card, date: Date) throws -> Data {
+    open func decrypt(data: Data, from user: Card, date: Date) throws -> Data {
         var card = user
 
         while let previousCard = card.previousCard {
@@ -113,7 +113,7 @@ open extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc(decryptText:fromUser:error:)
-    func decrypt(text: String, from user: Card? = nil) throws -> String {
+    open func decrypt(text: String, from user: Card? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -137,7 +137,7 @@ open extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc(decryptText:fromUser:date:error:)
-    func decrypt(text: String, from user: Card, date: Date) throws -> String {
+    open func decrypt(text: String, from user: Card, date: Date) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -163,7 +163,7 @@ open extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(encryptText:forUsers:error:)
-    func encrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
+    open func encrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -183,13 +183,13 @@ open extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(encryptData:forUsers:error:)
-    func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
+    open func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
         return try self.encryptInternal(data: data, for: users?.map { $1.publicKey })
     }
 }
 
 // MARK: - Extension with streams peer-to-pear encrypt and decrypt operations
-open extension EThree {
+extension EThree {
     /// Encrypts data stream
     ///
     /// - Parameters:
@@ -200,7 +200,7 @@ open extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(encryptStream:toStream:forUser:error:)
-    func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
+    open func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
         try self.encrypt(stream, to: outputStream, for: [user.identity: user])
     }
 
@@ -216,7 +216,7 @@ open extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(encryptStream:toStream:forUsers:error:)
-    func encrypt(_ stream: InputStream,
+    open func encrypt(_ stream: InputStream,
                         to outputStream: OutputStream,
                         for users: FindUsersResult? = nil) throws {
         try self.encryptInternal(stream, to: outputStream, for: users?.map { $1.publicKey })
@@ -229,7 +229,8 @@ open extension EThree {
     ///   - outputStream: stream with decrypted data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
+    @objc
+    open func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         try self.crypto.decrypt(stream, to: outputStream, with: selfKeyPair.privateKey)
