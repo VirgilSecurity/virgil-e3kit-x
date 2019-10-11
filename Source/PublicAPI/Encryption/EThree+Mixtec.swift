@@ -37,7 +37,7 @@
 import VirgilSDK
 
 // MARK: - Extension with group operations
-public extension EThree {
+open extension EThree {
     /// Creates group, saves in cloud and locally
     ///
     /// - Note: identifier length should be > 10

@@ -38,14 +38,14 @@ import VirgilCryptoFoundation
 import VirgilSDK
 
 // MARK: - Extension with group encrypt and decrypt operations
-extension Group {
+open extension Group {
     /// Signs and encrypts data for group
     ///
     /// - Parameter data: data to encrypt
     /// - Returns: encrypted data
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func encrypt(data: Data) throws -> Data {
+    @objc func encrypt(data: Data) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
@@ -61,7 +61,7 @@ extension Group {
     ///   - date: date of message. Use it to prevent verifying new messages with old card
     /// - Returns: decrypted data
     /// - Throws: corresponding error
-    @objc public func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
+    @objc func decrypt(data: Data, from senderCard: Card, date: Date? = nil) throws -> Data {
         let encrypted = try GroupSessionMessage.deserialize(input: data)
 
         var card = senderCard
@@ -110,7 +110,7 @@ extension Group {
     /// - Returns: encrypted base64String
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc public func encrypt(text: String) throws -> String {
+    @objc func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -126,7 +126,7 @@ extension Group {
     ///   - date: date of message. Use it to prevent verifying new messages with old card
     /// - Returns: decrypted String
     /// - Throws: corresponding error
-    @objc public func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
+    @objc func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }

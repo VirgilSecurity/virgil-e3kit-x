@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with peer-to-pear encrypt and decrypt operations
-public extension EThree {
+open extension EThree {
     /// Signs and encrypts data for user
     ///
     /// - Parameters:
@@ -189,7 +189,7 @@ public extension EThree {
 }
 
 // MARK: - Extension with streams peer-to-pear encrypt and decrypt operations
-public extension EThree {
+open extension EThree {
     /// Encrypts data stream
     ///
     /// - Parameters:

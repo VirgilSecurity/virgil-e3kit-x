@@ -45,7 +45,7 @@ extension EThree {
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    public func backupPrivateKey(password: String) -> GenericOperation<Void> {
+    open func backupPrivateKey(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -64,7 +64,7 @@ extension EThree {
     ///
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
-    public func restorePrivateKey(password: String) -> GenericOperation<Void> {
+    open func restorePrivateKey(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
@@ -88,7 +88,7 @@ extension EThree {
     ///   - oldOne: old password
     ///   - newOne: new password
     /// - Returns: CallbackOperation<Void>
-    public func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
+    open func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.cloudKeyManager.changePassword(from: oldOne, to: newOne)
@@ -104,7 +104,7 @@ extension EThree {
     ///
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
-    public func resetPrivateKeyBackup(password: String? = nil) -> GenericOperation<Void> {
+    open func resetPrivateKeyBackup(password: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 if let password = password {
