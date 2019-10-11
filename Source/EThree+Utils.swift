@@ -153,6 +153,10 @@ extension EThree {
     }
 
     internal func getSecureChat() throws -> SecureChat {
+        guard self.enableRatchet else {
+            throw EThreeRatchetError.ratchetIsDisabled
+        }
+
         guard let secureChat = self.secureChat else {
             throw EThreeError.missingPrivateKey
         }

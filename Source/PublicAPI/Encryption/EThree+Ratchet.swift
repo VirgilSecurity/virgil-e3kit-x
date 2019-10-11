@@ -78,7 +78,6 @@ public extension EThree {
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
 
                 let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket)
-
                 try secureChat.storeSession(session)
 
                 let ratchetChat = RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
@@ -95,6 +94,7 @@ public extension EThree {
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }
+
         return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
