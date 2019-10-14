@@ -62,7 +62,33 @@ class EThreeRatchetTests: XCTestCase {
         return (ethree, card)
     }
 
-    func test_1() {
+    func encryptDecrypt100Times(chat1: RatchetChat, chat2: RatchetChat) throws {
+        for _ in 0..<100 {
+            try autoreleasepool {
+                let sender: RatchetChat
+                let receiver: RatchetChat
+
+                if Bool.random() {
+                    sender = chat1
+                    receiver = chat2
+                }
+                else {
+                    sender = chat2
+                    receiver = chat1
+                }
+
+                let plainText = UUID().uuidString
+
+                let encrypted = try sender.encrypt(text: plainText)
+                let decrypted = try receiver.decrypt(text: encrypted)
+
+                XCTAssert(decrypted == plainText)
+            }
+        }
+    }
+
+
+    func test_001_STE_47__encrypt_decrypt__should_succeed() {
         do {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
@@ -70,43 +96,13 @@ class EThreeRatchetTests: XCTestCase {
             let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
             let chat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
 
-            let message = UUID().uuidString
-            let encrypted = try chat1.encrypt(text: message)
-            let decrypted = try chat2.decrypt(text: encrypted)
-
-            XCTAssert(decrypted == message)
+            try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
         } catch {
             print(error.localizedDescription)
             XCTFail()
         }
     }
 
-//    func encryptDecrypt100Times(senderSession: (EThreeRatchet, Card), receiverSession: (EThreeRatchet, Card)) throws {
-//        for _ in 0..<100 {
-//            try autoreleasepool {
-//                let sender: (EThreeRatchet, Card)
-//                let receiver: (EThreeRatchet, Card)
-//
-//                if Bool.random() {
-//                    sender = senderSession
-//                    receiver = receiverSession
-//                }
-//                else {
-//                    sender = receiverSession
-//                    receiver = senderSession
-//                }
-//
-//                let plainText = UUID().uuidString
-//
-//                let message = try sender.0.encrypt(text: plainText, for: receiver.1)
-//
-//                let decryptedMessage = try receiver.0.decrypt(text: message, from: sender.1)
-//
-//                XCTAssert(decryptedMessage == plainText)
-//            }
-//        }
-//    }
-//
 //    func test_001_STE_47__encrypt_decrypt__should_succeed() {
 //        do {
 //            let (rethree1, card1) = try self.setUpDevice()
