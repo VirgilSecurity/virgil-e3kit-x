@@ -254,6 +254,7 @@
 		16D4D2CB234E4C9300AFF80E /* EThree+Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C9234E4C9300AFF80E /* EThree+Deprecated.swift */; };
 		16D4D2CC234E4C9300AFF80E /* EThree+Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C9234E4C9300AFF80E /* EThree+Deprecated.swift */; };
 		16D4D2CD234E4C9300AFF80E /* EThree+Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C9234E4C9300AFF80E /* EThree+Deprecated.swift */; };
+		16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A4AFD023509446003BDF9B /* ProductInfo.swift */; };
 		16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
 		16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
 		16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63E51229FFBF7004C53AD /* EThreeError.swift */; };
@@ -1450,6 +1451,7 @@
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
+				16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
