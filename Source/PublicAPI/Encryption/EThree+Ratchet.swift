@@ -80,6 +80,10 @@ public extension EThree {
             do {
                 let secureChat = try self.getSecureChat()
 
+                guard card.identity != self.identity else {
+                    throw EThreeRatchetError.selfChatIsForbidden
+                }
+
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
 
                 let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket)

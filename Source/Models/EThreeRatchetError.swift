@@ -63,7 +63,7 @@ import Foundation
         case .chatAlreadyExists:
             return "Chat with provided user already exists"
         case .selfChatIsForbidden:
-            return "Chat with self is forbidden. Use EThree for this purpose."
+            return "Chat with self is forbidden. Use regular encryption for this purpose."
         case .joinChatFailed:
             return """
                 There aren't chat with this user locally.
