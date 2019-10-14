@@ -62,9 +62,14 @@ public extension EThree {
                                               sessionStorage: secureChat.sessionStorage)
 
                 completion(ratchetChat, nil)
-            } catch SecureChatError.sessionAlreadyExists {
+            }
+            catch SecureChatError.sessionAlreadyExists {
                 completion(nil, EThreeRatchetError.chatAlreadyExists)
-            } catch {
+            }
+            catch let error as NSError where error.code == 50_017 {
+                completion(nil, EThreeRatchetError.unregisteredUser)
+            }
+            catch {
                 completion(nil, error)
             }
         }

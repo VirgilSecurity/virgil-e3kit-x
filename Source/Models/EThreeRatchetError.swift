@@ -51,6 +51,7 @@ import Foundation
     case selfChatIsForbidden = 4
     case joinChatFailed = 5
     case ratchetIsDisabled = 6
+    case unregisteredUser = 7
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -70,6 +71,8 @@ import Foundation
             """
         case .ratchetIsDisabled:
             return "enableRatchet parameter is set to false"
+        case .unregisteredUser:
+            return "Provided user has never been initialized with ratchet enabled"
         }
     }
 }
