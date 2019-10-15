@@ -73,7 +73,8 @@ extension EThree {
 
                 try self.localKeyStorage.store(data: entry.data)
 
-                try self.privateKeyChanged(card: card)
+                let params = PrivateKeyChangedParams(card: card, isNew: false)
+                try self.privateKeyChanged(params: params)
 
                 completion((), nil)
             } catch {
