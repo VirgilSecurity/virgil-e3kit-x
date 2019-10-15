@@ -69,11 +69,11 @@ extension EThree {
             do {
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
 
-                let selfCard = try self.lookupManager.lookupCard(of: self.identity)
+                let card = try self.lookupManager.lookupCard(of: self.identity)
 
                 try self.localKeyStorage.store(data: entry.data)
 
-                try self.privateKeyChanged(card: selfCard)
+                try self.privateKeyChanged(card: card)
 
                 completion((), nil)
             } catch {

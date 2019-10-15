@@ -47,12 +47,14 @@ internal class RepeatingTimer {
 
     private var state: State = .suspended
 
-    internal init(interval: TimeInterval, handler: @escaping () -> Void) {
+    internal init(interval: TimeInterval, startFromNow: Bool, handler: @escaping () -> Void) {
         self.interval = interval
 
         let timer = DispatchSource.makeTimerSource()
 
-        timer.schedule(deadline: .now() + self.interval,
+        let startAfter = startFromNow ? 0 : self.interval
+
+        timer.schedule(deadline: .now() + startAfter,
                        repeating: self.interval)
 
         timer.setEventHandler(handler: handler)

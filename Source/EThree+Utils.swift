@@ -46,24 +46,9 @@ extension EThree {
 
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                     crypto: self.crypto,
-                                                     identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                        localKeyStorage: self.localKeyStorage)
-        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                         cloudTicketStorage: cloudTicketStorage,
-                                         localKeyStorage: self.localKeyStorage,
-                                         lookupManager: self.lookupManager,
-                                         crypto: self.crypto)
+        try self.setupGroupManager(keyPair: selfKeyPair)
 
-        if self.enableRatchet {
-            guard let selfCard = card ?? self.findCachedUser(with: self.identity) else {
-                throw NSError()
-            }
-
-            try self.setupSecureChat(keyPair: selfKeyPair, card: selfCard)
-        }
+        try self.setupRatchet(card: card, keyPair: selfKeyPair)
     }
 
     internal func privateKeyDeleted() throws {
@@ -84,10 +69,10 @@ extension EThree {
     }
 
     internal static func getConnection() -> HttpConnection {
-        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-        let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]
+        let virgilAdapter = VirgilAgentAdapter(product: ProductInfo.name,
+                                               version: ProductInfo.version)
 
-        return HttpConnection(adapters: adapters)
+        return HttpConnection(adapters: [virgilAdapter])
     }
 
     internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
@@ -107,6 +92,19 @@ extension EThree {
         try self.privateKeyChanged(card: card)
     }
 
+    private func setupGroupManager(keyPair: VirgilKeyPair) throws {
+         let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                      crypto: self.crypto,
+                                                      identityKeyPair: keyPair)
+         let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                         localKeyStorage: self.localKeyStorage)
+         self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                          cloudTicketStorage: cloudTicketStorage,
+                                          localKeyStorage: self.localKeyStorage,
+                                          lookupManager: self.lookupManager,
+                                          crypto: self.crypto)
+     }
+
     internal func getGroupManager() throws -> GroupManager {
         guard let manager = self.groupManager else {
             throw EThreeError.missingPrivateKey
@@ -117,29 +115,48 @@ extension EThree {
 }
 
 extension EThree {
-    internal func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws {
+    private func setupRatchet(card: Card? = nil, keyPair: VirgilKeyPair) throws {
+        if self.enableRatchet {
+            if let card = card {
+                let chat = try self.setupSecureChat(keyPair: keyPair, card: card)
+
+                do {
+                    try chat.reset().startSync().get()
+                } // When there's no keys on cloud. Should be fixed on server side.
+                catch let error as NSError where error.code == 50_017 {}
+
+                Log.debug("Key rotation started")
+                let logs = try chat.rotateKeys().startSync().get()
+                Log.debug("Key rotation succeed: \(logs.description)")
+
+                try self.scheduleKeysRotation(with: chat, startFromNow: false)
+            } else {
+                guard let card = self.findCachedUser(with: self.identity) else {
+                    throw NSError()
+                }
+
+                let chat = try self.setupSecureChat(keyPair: keyPair, card: card)
+
+                try self.scheduleKeysRotation(with: chat, startFromNow: true)
+            }
+        }
+    }
+
+    private func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws -> SecureChat {
         let context = SecureChatContext(identityCard: card,
                                         identityPrivateKey: keyPair.privateKey,
                                         accessTokenProvider: self.accessTokenProvider)
 
         let chat = try SecureChat(context: context)
-
-        do {
-            try chat.reset().startSync().get()
-        } // When there's no keys on cloud. Should be fixed on server side.
-        catch let error as NSError where error.code == 50_017 {}
-
-        Log.debug("Key rotation started")
-        let logs = try chat.rotateKeys().startSync().get()
-        Log.debug("Key rotation succeed: \(logs.description)")
-
-        self.scheduleKeyRotation(with: chat)
-
         self.secureChat = chat
+
+        return chat
     }
 
-    private func scheduleKeyRotation(with chat: SecureChat) {
-        self.timer = RepeatingTimer(interval: self.keyRotationInterval) {
+    internal func scheduleKeysRotation(with chat: SecureChat, startFromNow: Bool) throws {
+        let chat = try self.getSecureChat()
+        
+        self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow) {
             Log.debug("Key rotation started")
             do {
                 let logs = try chat.rotateKeys().startSync().get()
