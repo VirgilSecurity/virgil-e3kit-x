@@ -116,13 +116,23 @@ public extension EThree {
         return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    func deleteRatchetChat(with card: Card, name: String? = nil) throws {
-        let secureChat = try self.getSecureChat()
+    func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let secureChat = try self.getSecureChat()
 
-        do {
-            try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
-        } catch CocoaError.fileNoSuchFile {
-            throw EThreeRatchetError.missingLocalChat
+                try self.cloudRatchetStorage.delete(card: card, name: name)
+
+                do {
+                    try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
+                } catch CocoaError.fileNoSuchFile {
+                    throw EThreeRatchetError.missingLocalChat
+                }
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 }
