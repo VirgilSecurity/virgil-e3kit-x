@@ -41,7 +41,7 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
-class EThreeRatchetTests: XCTestCase {
+class VTE009_RatchetTests: XCTestCase {
     let utils = TestUtils()
 
     private func setUpDevice(enableRatchet: Bool = true,

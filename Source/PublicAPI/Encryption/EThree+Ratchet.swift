@@ -44,6 +44,10 @@ public extension EThree {
             do {
                 let secureChat = try self.getSecureChat()
 
+                guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
+                    throw EThreeRatchetError.chatAlreadyExists
+                }
+
                 guard card.identity != self.identity else {
                     throw EThreeRatchetError.selfChatIsForbidden
                 }
@@ -79,6 +83,10 @@ public extension EThree {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
+
+                guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
+                    throw EThreeRatchetError.chatAlreadyExists
+                }
 
                 guard card.identity != self.identity else {
                     throw EThreeRatchetError.selfChatIsForbidden

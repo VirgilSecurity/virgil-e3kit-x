@@ -61,7 +61,7 @@ import Foundation
         case .missingChat:
             return "Chat with provided user was not found locally"
         case .chatAlreadyExists:
-            return "Chat with provided user already exists"
+            return "Chat with provided user and name already exists"
         case .selfChatIsForbidden:
             return "Chat with self is forbidden. Use regular encryption for this purpose."
         case .joinChatFailed:
