@@ -208,10 +208,10 @@ extension EThree {
     }
 
     internal static func getConnection() -> HttpConnection {
-        let version = VersionUtils.getVersion(bundleIdentitifer: "com.virgilsecurity.VirgilE3Kit")
-        let adapters = [VirgilAgentAdapter(product: "e3kit", version: version)]
+        let virgilAdapter = VirgilAgentAdapter(product: ProductInfo.name,
+                                               version: ProductInfo.version)
 
-        return HttpConnection(adapters: adapters)
+        return HttpConnection(adapters: [virgilAdapter])
     }
 
     internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
