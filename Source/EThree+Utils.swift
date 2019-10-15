@@ -136,6 +136,8 @@ extension EThree {
                     try chat.reset().startSync().get()
                 } // When there's no keys on cloud. Should be fixed on server side.
                 catch let error as NSError where error.code == 50_017 {}
+
+                try self.cloudRatchetStorage.reset()
             }
 
             Log.debug("Key rotation started")

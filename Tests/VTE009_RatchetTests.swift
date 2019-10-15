@@ -347,29 +347,26 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-//    func test_013_STE_55__decrypt_messages_after_rotate_identity_key__should_succeed() {
-//        do {
-//            let (ethree1, _) = try self.setUpDevice()
-//            let (ethree2, card2) = try self.setUpDevice()
-//
-//            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
-//
-//            sleep(1)
-//
-//            try ethree1.cleanUp()
-//            try ethree1.rotatePrivateKey().startSync().get()
-//
-//            let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true).startSync().get()
-//
-//            
-//
-//            let decrypted = try rethree2.decrypt(text: encrypted, from: newCard1, date: date)
-//
-//            XCTAssert(message == decrypted)
-//        } catch {
-//            print(error.localizedDescription)
-//            XCTFail()
-//        }
-//    }
+    func test_013_STE_55__decrypt_messages_after_rotate_identity_key__should_succeed() {
+        do {
+            let (ethree1, _) = try self.setUpDevice()
+            let (ethree2, card2) = try self.setUpDevice()
+
+            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+
+            try ethree1.cleanUp()
+            try ethree1.rotatePrivateKey().startSync().get()
+
+            let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true).startSync().get()
+
+            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
+            let chat2 = try ethree2.joinRatchetChat(with: newCard1).startSync().get()
+
+            try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 

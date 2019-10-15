@@ -128,9 +128,13 @@ extension CloudRatchetStorage {
                                                   path: identity,
                                                   key: name ?? CloudRatchetStorage.defaultKey)
 
-        _ = try self.keyknoxManager.deleteRecipient(params: params)
-            .startSync()
-            .get()
+        _ = try self.keyknoxManager.deleteRecipient(params: params).startSync().get()
+    }
+
+    internal func reset() throws {
+        let params = KeyknoxResetParams(root: CloudRatchetStorage.root)
+
+        _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }
 }
 
