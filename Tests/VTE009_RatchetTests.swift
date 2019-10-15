@@ -272,7 +272,7 @@ class VTE009_RatchetTests: XCTestCase {
             do {
                 try ethree1.deleteRatchetChat(with: card2)
             }
-            catch EThreeRatchetError.missingChat {}
+            catch EThreeRatchetError.missingLocalChat {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -310,67 +310,58 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-//    func test_005_STE_51__startChat_again__should_succeed() {
+    func test_011__joinChat__without_invitation__should_throw_error() {
+        do {
+            let (_, card1) = try self.setUpDevice()
+            let (ethree2, _) = try self.setUpDevice()
+
+            do {
+                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            } catch EThreeRatchetError.noInvite {} catch {
+                XCTFail()
+            }
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test_012_STE_51__createChat_again__should_succeed() {
+        do {
+            let (ethree1, card1) = try self.setUpDevice()
+            let (ethree2, card2) = try self.setUpDevice()
+
+            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+            _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+
+            try ethree1.deleteRatchetChat(with: card2)
+            try ethree2.deleteRatchetChat(with: card1)
+
+            let newChat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
+            let newChat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
+
+            try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+//    func test_013_STE_55__decrypt_messages_after_rotate_identity_key__should_succeed() {
 //        do {
-//            let (ethree1, card1) = try self.setUpDevice()
+//            let (ethree1, _) = try self.setUpDevice()
 //            let (ethree2, card2) = try self.setUpDevice()
 //
-//            try rethree1.startChat(with: card2).startSync().get()
-//
-//            let message1 = UUID().uuidString
-//            let encrypted1 = try rethree1.encrypt(text: message1, for: card2)
-//            _ = try rethree2.decrypt(text: encrypted1, from: card1)
-//
-//            try rethree1.deleteChat(with: card2)
-//
-//            try rethree1.startChat(with: card2).startSync().get()
-//
-//            let message2 = UUID().uuidString
-//            let encrypted2 = try rethree1.encrypt(text: message2, for: card2)
-//
-//            // TODO: Add proper error
-//            do {
-//                _ = try rethree2.decrypt(text: encrypted2, from: card1)
-//            } catch {}
-//
-//            try rethree2.deleteChat(with: card1)
-//
-//            let decrypted2 = try rethree2.decrypt(text: encrypted2, from: card1)
-//
-//            XCTAssert(message2 == decrypted2)
-//        } catch {
-//            print(error.localizedDescription)
-//            XCTFail()
-//        }
-//    }
-//
-//    func test_009_STE_55__decrypt_messages_after_rotate_identity_key__should_succeed() {
-//        do {
-//            let (rethree1, _) = try self.setUpDevice()
-//            let (rethree2, card2) = try self.setUpDevice()
-//
-//            try rethree1.startChat(with: card2).startSync().get()
-//
-//            let date = Date()
-//            let message = UUID().uuidString
-//            let encrypted = try rethree1.encrypt(text: message, for: card2)
+//            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
 //
 //            sleep(1)
 //
-//            try rethree1.cleanUp()
-//            try rethree1.rotatePrivateKey().startSync().get()
+//            try ethree1.cleanUp()
+//            try ethree1.rotatePrivateKey().startSync().get()
 //
-//            XCTAssert(try !rethree1.isChatStarted(with: card2))
+//            let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true).startSync().get()
 //
-//            let newCard1 = try rethree2.findUser(with: rethree1.identity, forceReload: true).startSync().get()
-//
-//            do {
-//                _ = try rethree2.decrypt(text: encrypted, from: newCard1)
-//                XCTFail()
-//            } catch EThreeRatchetError.wrongSenderCard {} catch {
-//                print(error.localizedDescription)
-//                XCTFail()
-//            }
+//            
 //
 //            let decrypted = try rethree2.decrypt(text: encrypted, from: newCard1, date: date)
 //

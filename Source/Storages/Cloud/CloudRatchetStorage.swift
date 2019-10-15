@@ -115,6 +115,10 @@ extension CloudRatchetStorage {
             .startSync()
             .get()
 
+        guard !response.value.isEmpty else {
+            throw EThreeRatchetError.noInvite
+        }
+
         return try RatchetMessage.deserialize(input: response.value)
     }
 

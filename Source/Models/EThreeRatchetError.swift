@@ -46,19 +46,20 @@ import Foundation
 ///                   In order to join secure chat, decrypt first encrypted message by chat initiator
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case decryptEmptyArray = 1
-    case missingChat = 2
+    case missingLocalChat = 2
     case chatAlreadyExists = 3
     case selfChatIsForbidden = 4
     case joinChatFailed = 5
     case ratchetIsDisabled = 6
     case unregisteredUser = 7
+    case noInvite = 8
 
     /// Human-readable localized description
     public var errorDescription: String? {
         switch self {
         case .decryptEmptyArray:
             return "Trying to decrypt empty array"
-        case .missingChat:
+        case .missingLocalChat:
             return "Chat with provided user was not found locally"
         case .chatAlreadyExists:
             return "Chat with provided user and name already exists"
@@ -73,6 +74,8 @@ import Foundation
             return "enableRatchet parameter is set to false"
         case .unregisteredUser:
             return "Provided user has never been initialized with ratchet enabled"
+        case .noInvite:
+            return "There is no invitation from provided user"
         }
     }
 }

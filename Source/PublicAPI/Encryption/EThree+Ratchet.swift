@@ -122,7 +122,7 @@ public extension EThree {
         do {
             try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
         } catch CocoaError.fileNoSuchFile {
-            throw EThreeRatchetError.missingChat
+            throw EThreeRatchetError.missingLocalChat
         }
     }
 }
