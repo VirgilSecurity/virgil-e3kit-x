@@ -37,6 +37,6 @@
 import Foundation
 
 @objc(VTEDefaults) public class Defaults: NSObject {
-    public static let enableRatchet: Bool = false
-    public static let keyRotationInterval: TimeInterval = 3_600
+    @objc public static let enableRatchet: Bool = false
+    @objc public static let keyRotationInterval: TimeInterval = 3_600
 }

@@ -52,9 +52,26 @@ import VirgilSDK
 
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
-    private struct BiometryConfig: Decodable {
+    private struct Config: Decodable {
         var enableRatchet: Bool = Defaults.enableRatchet
         var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
+
+        enum CodingKeys: String, CodingKey {
+            case enableRatchet
+            case keyRotationInterval
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            if let enableRatchet = try? container.decode(Bool.self, forKey: .enableRatchet) {
+                self.enableRatchet = enableRatchet
+            }
+
+            if let keyRotationInterval = try? container.decode(TimeInterval.self, forKey: .keyRotationInterval) {
+                self.keyRotationInterval = keyRotationInterval
+            }
+        }
     }
 
     /// Initializer with parameters from config plist file
@@ -69,7 +86,7 @@ import VirgilSDK
                                   configUrl: URL) throws {
         let data = try Data(contentsOf: configUrl)
 
-        let config = try PropertyListDecoder().decode(BiometryConfig.self, from: data)
+        let config = try PropertyListDecoder().decode(Config.self, from: data)
 
         self.init(identity: identity, tokenCallback: tokenCallback)
 
