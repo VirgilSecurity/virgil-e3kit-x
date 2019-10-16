@@ -128,7 +128,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree2.createRatchetChat(with: card1).startSync().get()
-            } catch EThreeRatchetError.unregisteredUser {} catch {
+            } catch EThreeRatchetError.userIsNotUsingRatchet {} catch {
                 XCTFail()
             }
         } catch {
