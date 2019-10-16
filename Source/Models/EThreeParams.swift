@@ -72,6 +72,23 @@ import VirgilSDK
                 self.keyRotationInterval = keyRotationInterval
             }
         }
+
+        static func deserialize(from url: URL) throws -> Config {
+            guard let dictionary = NSDictionary(contentsOf: url),
+                let keys = dictionary.allKeys as? [String]  else {
+                    throw EThreeParamsError.invalidPlistFile
+            }
+
+            try keys.forEach {
+                guard CodingKeys(rawValue: $0) != nil else {
+                    throw EThreeParamsError.unknownKeyInConfig
+                }
+            }
+
+            let data = try Data(contentsOf: url)
+
+            return try PropertyListDecoder().decode(Config.self, from: data)
+        }
     }
 
     /// Initializer with parameters from config plist file
@@ -84,9 +101,7 @@ import VirgilSDK
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping EThree.RenewJwtCallback,
                                   configUrl: URL) throws {
-        let data = try Data(contentsOf: configUrl)
-
-        let config = try PropertyListDecoder().decode(Config.self, from: data)
+        let config = try Config.deserialize(from: configUrl)
 
         self.init(identity: identity, tokenCallback: tokenCallback)
 

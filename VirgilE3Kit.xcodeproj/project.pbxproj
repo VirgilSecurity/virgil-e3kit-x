@@ -28,9 +28,16 @@
 		160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
-		1616C0422357478900948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeConfig.plist */; };
-		1616C0432357478900948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeConfig.plist */; };
-		1616C0442357478900948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeConfig.plist */; };
+		1616C0422357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
+		1616C0432357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
+		1616C0442357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
+		1616C0462357549200948C3B /* EThreeParamsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616C0452357549200948C3B /* EThreeParamsError.swift */; };
+		1616C0472357549200948C3B /* EThreeParamsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616C0452357549200948C3B /* EThreeParamsError.swift */; };
+		1616C0492357549200948C3B /* EThreeParamsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616C0452357549200948C3B /* EThreeParamsError.swift */; };
+		1616C04B2357558B00948C3B /* EThreeParamsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616C0452357549200948C3B /* EThreeParamsError.swift */; };
+		1616C04D235755C700948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeConfig.plist */; };
+		1616C04E235755C700948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeConfig.plist */; };
+		1616C04F235755C700948C3B /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeConfig.plist */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
@@ -458,7 +465,9 @@
 
 /* Begin PBXFileReference section */
 		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
-		1616C0412357478900948C3B /* EThreeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeConfig.plist; sourceTree = "<group>"; };
+		1616C0412357478900948C3B /* EThreeInvalidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeInvalidConfig.plist; sourceTree = "<group>"; };
+		1616C0452357549200948C3B /* EThreeParamsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParamsError.swift; sourceTree = "<group>"; };
+		1616C04C235755C700948C3B /* EThreeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeConfig.plist; sourceTree = "<group>"; };
 		1620EF9A234385150001B764 /* EThreeParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParams.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Mixtec.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
@@ -706,6 +715,16 @@
 			path = Actions;
 			sourceTree = "<group>";
 		};
+		1616C04A2357549500948C3B /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
+				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
+				1616C0452357549200948C3B /* EThreeParamsError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 		16261CCB21787517003D7CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,7 +811,8 @@
 			isa = PBXGroup;
 			children = (
 				4203280422F1E6C200872D9C /* cards.sqlite */,
-				1616C0412357478900948C3B /* EThreeConfig.plist */,
+				1616C04C235755C700948C3B /* EThreeConfig.plist */,
+				1616C0412357478900948C3B /* EThreeInvalidConfig.plist */,
 				42D84AB922F082510012D103 /* TestConfig.plist */,
 			);
 			path = Data;
@@ -876,12 +896,11 @@
 		1685844A22DDE12C008EAC34 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1616C04A2357549500948C3B /* Errors */,
 				16E33875234E773F00678624 /* Ratchet */,
 				16EE4FBA234E73AE005CA2D5 /* Mixtec */,
 				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 				1620EF9A234385150001B764 /* EThreeParams.swift */,
-				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
-				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1285,9 +1304,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1616C0422357478900948C3B /* EThreeConfig.plist in Resources */,
+				1616C0422357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABA22F082510012D103 /* TestConfig.plist in Resources */,
 				4203280522F1E6C200872D9C /* cards.sqlite in Resources */,
+				1616C04D235755C700948C3B /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,9 +1315,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1616C0432357478900948C3B /* EThreeConfig.plist in Resources */,
+				1616C0432357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABB22F082510012D103 /* TestConfig.plist in Resources */,
 				4203280622F1E6C200872D9C /* cards.sqlite in Resources */,
+				1616C04E235755C700948C3B /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1305,9 +1326,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1616C0442357478900948C3B /* EThreeConfig.plist in Resources */,
+				1616C0442357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABC22F082510012D103 /* TestConfig.plist in Resources */,
 				4203280722F1E6C200872D9C /* cards.sqlite in Resources */,
+				1616C04F235755C700948C3B /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1443,6 +1465,7 @@
 				16E33880234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */,
 				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1616C0462357549200948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CD2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
@@ -1522,6 +1545,7 @@
 				16E3387E234E778500678624 /* EThree+Ratchet.swift in Sources */,
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
+				1616C0492357549200948C3B /* EThreeParamsError.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
 				16A4AFD423509446003BDF9B /* ProductInfo.swift in Sources */,
 				16AD62D322E87A9200CDF90A /* RawGroup.swift in Sources */,
@@ -1540,6 +1564,7 @@
 				16E33881234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */,
 				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1616C0472357549200948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CE2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
@@ -1589,6 +1614,7 @@
 				16E33882234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */,
 				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
+				1616C04B2357558B00948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CF2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,

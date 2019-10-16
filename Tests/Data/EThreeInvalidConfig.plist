@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>keyRotationInterval</key>
-    <integer>1600</integer>
+	<integer>1600</integer>
+	<key>SomeKey</key>
+	<string>SomeValue</string>
 </dict>
 </plist>

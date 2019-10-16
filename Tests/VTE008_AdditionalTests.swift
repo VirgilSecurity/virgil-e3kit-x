@@ -46,7 +46,7 @@ class VTE008_AdditionalTests: XCTestCase {
         XCTAssert(VirgilE3Kit.ProductInfo.version == version)
     }
 
-    func test_02__ethreeParams__from_config__should_deserialize() {
+    func test_02__deserialize__ethreeParams_from_config__should_deserialize() {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -62,5 +62,24 @@ class VTE008_AdditionalTests: XCTestCase {
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 1_600)
+    }
+
+    func test_03__deserialize__invalid_ethreeParams__from_config__should_throw_error() {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            completion("token", nil)
+        }
+
+        let bundle = Bundle(for: TestConfig.self)
+        let configFileUrl = bundle.url(forResource: "EThreeInvalidConfig", withExtension: "plist")!
+
+        do {
+            _ = try EThreeParams(identity: identity,
+                                 tokenCallback: tokenCallback,
+                                 configUrl: configFileUrl)
+        } catch EThreeParamsError.unknownKeyInConfig {} catch {
+            XCTFail()
+        }
     }
 }
