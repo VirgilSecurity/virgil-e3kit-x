@@ -67,11 +67,11 @@ public extension EThree {
 
                 completion(ratchetChat, nil)
             }
-            catch SecureChatError.sessionAlreadyExists {
-                completion(nil, EThreeRatchetError.chatAlreadyExists)
-            }
             catch let error as NSError where error.code == 50_017 {
                 completion(nil, EThreeRatchetError.unregisteredUser)
+            }
+            catch KeyknoxClientError.invalidPreviousHashHeader {
+                completion(nil, EThreeRatchetError.chatAlreadyExists)
             }
             catch {
                 completion(nil, error)
@@ -109,6 +109,7 @@ public extension EThree {
 
     func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
         let secureChat = try self.getSecureChat()
+        
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }

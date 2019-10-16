@@ -72,29 +72,15 @@ extension CloudRatchetStorage {
     internal func store(_ ticket: RatchetMessage, sharedWith card: Card, name: String?) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let key = name ?? CloudRatchetStorage.defaultKey
-
-        let pullParams = KeyknoxPullParams(identity: self.identity,
-                                           root: CloudRatchetStorage.root,
-                                           path: card.identity,
-                                           key: key)
-
-        let response = try self.keyknoxManager
-            .pullValue(params: pullParams,
-                       publicKeys: [selfKeyPair.publicKey],
-                       privateKey: selfKeyPair.privateKey)
-            .startSync()
-            .get()
-
         let pushParams = KeyknoxPushParams(identities: [card.identity, self.identity],
                                            root: CloudRatchetStorage.root,
                                            path: card.identity,
-                                           key: key)
+                                           key: name ?? CloudRatchetStorage.defaultKey)
 
         _ = try self.keyknoxManager
             .pushValue(params: pushParams,
                        data: ticket.serialize(),
-                       previousHash: response.keyknoxHash,
+                       previousHash: nil,
                        publicKeys: [card.publicKey, selfKeyPair.publicKey],
                        privateKey: selfKeyPair.privateKey)
             .startSync()
