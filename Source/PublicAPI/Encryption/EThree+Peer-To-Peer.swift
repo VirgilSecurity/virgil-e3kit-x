@@ -217,8 +217,8 @@ extension EThree {
     /// - Note: Avoid key duplication
     @objc(encryptStream:toStream:forUsers:error:)
     open func encrypt(_ stream: InputStream,
-                        to outputStream: OutputStream,
-                        for users: FindUsersResult? = nil) throws {
+                      to outputStream: OutputStream,
+                      for users: FindUsersResult? = nil) throws {
         try self.encryptInternal(stream, to: outputStream, for: users?.map { $1.publicKey })
     }
 
@@ -237,8 +237,8 @@ extension EThree {
     }
 }
 
-internal extension EThree {
-    func lookupResultToPublicKeys(_ lookupResult: LookupResult?) -> [VirgilPublicKey]? {
+extension EThree {
+    internal func lookupResultToPublicKeys(_ lookupResult: LookupResult?) -> [VirgilPublicKey]? {
         guard let lookupResult = lookupResult else {
             return nil
         }
@@ -246,9 +246,9 @@ internal extension EThree {
         return [VirgilPublicKey](lookupResult.values)
     }
 
-    func encryptInternal(_ stream: InputStream,
-                         to outputStream: OutputStream,
-                         for publicKeys: [VirgilPublicKey]?) throws {
+    internal func encryptInternal(_ stream: InputStream,
+                                  to outputStream: OutputStream,
+                                  for publicKeys: [VirgilPublicKey]?) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
@@ -264,7 +264,7 @@ internal extension EThree {
         try self.crypto.encrypt(stream, to: outputStream, for: pubKeys)
     }
 
-    func encryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
+    internal func encryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
@@ -282,7 +282,7 @@ internal extension EThree {
         return encryptedData
     }
 
-    func decryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
+    internal func decryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let publicKey = publicKey ?? selfKeyPair.publicKey

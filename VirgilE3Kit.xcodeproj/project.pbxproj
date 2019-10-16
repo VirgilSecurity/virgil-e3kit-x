@@ -692,6 +692,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1616C03A2357316000948C3B /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				16B1F8AC23279DC40082ECE0 /* EThree+Authorization.swift */,
+				16B1F8B123279E000082ECE0 /* EThree+KeyBackup.swift */,
+				16B1F8B623279E2B0082ECE0 /* EThree+Search.swift */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
 		16261CCB21787517003D7CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,10 +756,8 @@
 		165B67882178FBD700DDE1F7 /* PublicAPI */ = {
 			isa = PBXGroup;
 			children = (
+				1616C03A2357316000948C3B /* Actions */,
 				16D18AC32344D73300D38253 /* Encryption */,
-				16B1F8AC23279DC40082ECE0 /* EThree+Authorization.swift */,
-				16B1F8B123279E000082ECE0 /* EThree+KeyBackup.swift */,
-				16B1F8B623279E2B0082ECE0 /* EThree+Search.swift */,
 				16565F3122A113840095D887 /* EThree+Obj-C.swift */,
 				16D4D2C9234E4C9300AFF80E /* EThree+Deprecated.swift */,
 			);

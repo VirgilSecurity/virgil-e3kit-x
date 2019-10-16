@@ -46,8 +46,8 @@ public extension EThree {
     ///   - storageParams: `KeychainStorageParams` with specific parameters
     @available(*, deprecated, message: "Use constructor instead")
     static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+                           changedKeyDelegate: ChangedKeyDelegate? = nil,
+                           storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
         return CallbackOperation { _, completion in
             do {
                 let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }

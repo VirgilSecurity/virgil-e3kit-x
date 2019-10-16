@@ -44,7 +44,7 @@ extension RatchetChat {
     ///   - data: Data to encrypt
     /// - Returns: encrypted Data
     /// - Throws: corresponding error
-    @objc public func encrypt(data: Data) throws -> Data {
+    @objc open func encrypt(data: Data) throws -> Data {
         let ratchetMessage = try session.encrypt(data: data)
 
         try self.sessionStorage.storeSession(self.session)
@@ -58,7 +58,7 @@ extension RatchetChat {
     ///   - data: encrypted Data
     /// - Returns: decrypted Data
     /// - Throws: corresponding error
-    @objc public func decrypt(data: Data) throws -> Data {
+    @objc open func decrypt(data: Data) throws -> Data {
         let message = try RatchetMessage.deserialize(input: data)
 
         // TODO: Add check on proper session id (local and message one) - should add getter to crypto
@@ -76,7 +76,7 @@ extension RatchetChat {
     ///   - text: String to encrypt
     /// - Returns: encrypted String
     /// - Throws: corresponding error
-    @objc public func encrypt(text: String) throws -> String {
+    @objc open func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -90,7 +90,7 @@ extension RatchetChat {
     ///   - text: encrypted String
     /// - Returns: decrypted String
     /// - Throws: corresponding error
-    @objc public func decrypt(text: String) throws -> String {
+    @objc open func decrypt(text: String) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -106,7 +106,7 @@ extension RatchetChat {
 }
 
 extension RatchetChat {
-    @objc public func encryptMultiple(data: [Data]) throws -> [Data] {
+    @objc open func encryptMultiple(data: [Data]) throws -> [Data] {
         guard !data.isEmpty else {
             throw NSError()
         }
@@ -133,7 +133,7 @@ extension RatchetChat {
     ///   - data: array with Data to decrypt
     /// - Returns: array with decrypted Data
     /// - Throws: corresponding error
-    @objc public func decryptMultiple(data: [Data]) throws -> [Data] {
+    @objc open func decryptMultiple(data: [Data]) throws -> [Data] {
         guard !data.isEmpty else {
             throw EThreeRatchetError.decryptEmptyArray
         }
@@ -153,7 +153,7 @@ extension RatchetChat {
         return result
     }
 
-    @objc public func encryptMultiple(text: [String]) throws -> [String] {
+    @objc open func encryptMultiple(text: [String]) throws -> [String] {
         let data = try self.stringToData(text)
 
         let encryptedData = try self.encryptMultiple(data: data)
@@ -169,7 +169,7 @@ extension RatchetChat {
     ///   - text: array with String to decrypt
     /// - Returns: array with decrypted String
     /// - Throws: corresponding error
-    @objc public func decryptMultiple(text: [String]) throws -> [String] {
+    @objc open func decryptMultiple(text: [String]) throws -> [String] {
         let data = try self.stringToData(text)
 
         let decryptedData = try self.decryptMultiple(data: data)

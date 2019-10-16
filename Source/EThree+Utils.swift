@@ -169,7 +169,7 @@ extension EThree {
 
     private func scheduleKeysRotation(with chat: SecureChat, startFromNow: Bool) throws {
         let chat = try self.getSecureChat()
-        
+
         self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow) {
             Log.debug("Key rotation started")
             do {

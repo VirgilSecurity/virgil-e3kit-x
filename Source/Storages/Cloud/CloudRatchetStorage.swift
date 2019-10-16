@@ -122,4 +122,3 @@ extension CloudRatchetStorage {
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }
 }
-

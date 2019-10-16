@@ -38,8 +38,8 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
-public extension EThree {
-    func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+extension EThree {
+    open func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -79,7 +79,7 @@ public extension EThree {
         }
     }
 
-    func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+    open func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -107,9 +107,9 @@ public extension EThree {
         }
     }
 
-    func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
+    open func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
         let secureChat = try self.getSecureChat()
-        
+
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }
@@ -117,7 +117,7 @@ public extension EThree {
         return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+    open func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
