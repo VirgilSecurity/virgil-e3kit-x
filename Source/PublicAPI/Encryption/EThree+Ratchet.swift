@@ -67,8 +67,8 @@ extension EThree {
 
                 completion(ratchetChat, nil)
             }
-            catch let error as NSError where error.code == 50_017 {
-                completion(nil, EThreeRatchetError.unregisteredUser)
+            catch let error as ServiceError where error.errorCode == 50_017 {
+                completion(nil, EThreeRatchetError.userIsNotUsingRatchet)
             }
             catch KeyknoxClientError.invalidPreviousHashHeader {
                 completion(nil, EThreeRatchetError.chatAlreadyExists)

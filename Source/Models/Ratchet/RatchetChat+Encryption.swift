@@ -61,8 +61,6 @@ extension RatchetChat {
     @objc open func decrypt(data: Data) throws -> Data {
         let message = try RatchetMessage.deserialize(input: data)
 
-        // TODO: Add check on proper session id (local and message one) - should add getter to crypto
-
         let decrypted = try session.decryptData(from: message)
 
         try self.sessionStorage.storeSession(self.session)

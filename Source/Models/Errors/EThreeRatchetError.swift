@@ -50,7 +50,7 @@ import Foundation
     case chatAlreadyExists = 3
     case selfChatIsForbidden = 4
     case ratchetIsDisabled = 5
-    case unregisteredUser = 6
+    case userIsNotUsingRatchet = 6
     case noInvite = 7
 
     /// Human-readable localized description
@@ -66,7 +66,7 @@ import Foundation
             return "Chat with self is forbidden. Use regular encryption for this purpose."
         case .ratchetIsDisabled:
             return "enableRatchet parameter is set to false"
-        case .unregisteredUser:
+        case .userIsNotUsingRatchet:
             return "Provided user has been never initialized with ratchet enabled"
         case .noInvite:
             return "There is no invitation from provided user"
