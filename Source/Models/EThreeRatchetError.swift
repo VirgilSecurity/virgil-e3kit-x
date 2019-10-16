@@ -49,10 +49,9 @@ import Foundation
     case missingLocalChat = 2
     case chatAlreadyExists = 3
     case selfChatIsForbidden = 4
-    case joinChatFailed = 5
-    case ratchetIsDisabled = 6
-    case unregisteredUser = 7
-    case noInvite = 8
+    case ratchetIsDisabled = 5
+    case unregisteredUser = 6
+    case noInvite = 7
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -65,15 +64,10 @@ import Foundation
             return "Chat with provided user and name already exists"
         case .selfChatIsForbidden:
             return "Chat with self is forbidden. Use regular encryption for this purpose."
-        case .joinChatFailed:
-            return """
-                There aren't chat with this user locally.
-                In order to join secure chat, decrypt first encrypted message by chat initiator
-            """
         case .ratchetIsDisabled:
             return "enableRatchet parameter is set to false"
         case .unregisteredUser:
-            return "Provided user has never been initialized with ratchet enabled"
+            return "Provided user has been never initialized with ratchet enabled"
         case .noInvite:
             return "There is no invitation from provided user"
         }
