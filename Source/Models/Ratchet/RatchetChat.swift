@@ -37,7 +37,7 @@
 import Foundation
 import VirgilSDKRatchet
 
-@objc(VTERatchetChat) public class RatchetChat: NSObject {
+@objc(VTERatchetChat) open class RatchetChat: NSObject {
     @objc public var participant: String {
         return self.session.participantIdentity
     }

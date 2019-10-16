@@ -183,3 +183,39 @@ public extension EThree {
         return decryptedString
     }
 }
+
+public extension EThree {
+    /// Initializes E3Kit with a callback to get Virgil access token
+    ///
+    /// - Parameters:
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - completion: completion handler
+    ///   - ethree: initialized EThree instance
+    ///   - error: corresponding error
+    @available(*, deprecated, message: "Use constructor instead")
+    @objc static func initialize(tokenCallback: @escaping RenewJwtCallback,
+                                 changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                 storageParams: KeychainStorageParams? = nil,
+                                 completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
+        EThree.initialize(tokenCallback: tokenCallback,
+                          changedKeyDelegate: changedKeyDelegate,
+                          storageParams: storageParams)
+            .start(completion: completion)
+    }
+
+    /// Retrieves users public keys from the Virgil Cloud
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to find
+    ///   - completion: completion handler
+    ///   - lookupResult: dictionary with idenities as keys and found keys as values
+    ///   - error: corresponding error
+    @available(*, deprecated, message: "Use findUsers instead.")
+    @objc func lookupPublicKeys(of identities: [String],
+                                completion: @escaping (_ lookupResult: LookupResult?,
+                                                       _ error: Error?) -> Void) {
+        self.lookupPublicKeys(of: identities).start(completion: completion)
+    }
+}
