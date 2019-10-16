@@ -1,3 +1,3 @@
-sudo gem install cocoapods -v 1.7.5;
+sudo gem install cocoapods;
 pod repo update;
 pod trunk push VirgilE3Kit.podspec;
