@@ -36,8 +36,9 @@
 
 import VirgilSDK
 import VirgilCrypto
+import VirgilSDKRatchet
 
-/// Main class containing all features of E3Kit
+/// Class containing default features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
     /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]
@@ -46,7 +47,7 @@ import VirgilCrypto
     /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
-    /// Identity of user. Obtained from tokenCollback
+    /// Identity of user
     @objc public let identity: String
 
     /// CardManager instance
@@ -65,13 +66,28 @@ import VirgilCrypto
         return self.lookupManager.changedKeyDelegate
     }
 
+    internal let enableRatchet: Bool
+    internal let keyRotationInterval: TimeInterval
+
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
+    internal let cloudRatchetStorage: CloudRatchetStorage
+
+    internal var groupManager: GroupManager?
+    internal var secureChat: SecureChat?
+    internal var timer: RepeatingTimer?
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
-    private var groupManager: GroupManager?
+    @objc public convenience init(params: EThreeParams) throws {
+        try self.init(identity: params.identity,
+                      tokenCallback: params.tokenCallback,
+                      changedKeyDelegate: params.changedKeyDelegate,
+                      storageParams: params.storageParams,
+                      enableRatchet: params.enableRatchet,
+                      keyRotationInterval: params.keyRotationInterval)
+    }
 
     /// Initializer
     ///
@@ -85,19 +101,25 @@ import VirgilCrypto
     @objc public convenience init(identity: String,
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) throws {
+                                  storageParams: KeychainStorageParams? = nil,
+                                  enableRatchet: Bool = Defaults.enableRatchet,
+                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
         let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
 
         try self.init(identity: identity,
                       accessTokenProvider: accessTokenProvider,
                       changedKeyDelegate: changedKeyDelegate,
-                      storageParams: storageParams)
+                      storageParams: storageParams,
+                      enableRatchet: enableRatchet,
+                      keyRotationInterval: keyRotationInterval)
     }
 
     internal convenience init(identity: String,
                               accessTokenProvider: AccessTokenProvider,
                               changedKeyDelegate: ChangedKeyDelegate?,
-                              storageParams: KeychainStorageParams?) throws {
+                              storageParams: KeychainStorageParams?,
+                              enableRatchet: Bool,
+                              keyRotationInterval: TimeInterval) throws {
         let crypto = try VirgilCrypto()
 
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
@@ -133,12 +155,18 @@ import VirgilCrypto
                                           cardManager: cardManager,
                                           changedKeyDelegate: changedKeyDelegate)
 
+        let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
+                                                          localKeyStorage: localKeyStorage)
+
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
                       localKeyStorage: localKeyStorage,
                       cloudKeyManager: cloudKeyManager,
-                      lookupManager: lookupManager)
+                      lookupManager: lookupManager,
+                      cloudRatchetStorage: cloudRatchetStorage,
+                      enableRatchet: enableRatchet,
+                      keyRotationInterval: keyRotationInterval)
     }
 
     internal init(identity: String,
@@ -146,13 +174,19 @@ import VirgilCrypto
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
                   cloudKeyManager: CloudKeyManager,
-                  lookupManager: LookupManager) throws {
+                  lookupManager: LookupManager,
+                  cloudRatchetStorage: CloudRatchetStorage,
+                  enableRatchet: Bool,
+                  keyRotationInterval: TimeInterval) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
+        self.cloudRatchetStorage = cloudRatchetStorage
+        self.enableRatchet = enableRatchet
+        self.keyRotationInterval = keyRotationInterval
 
         super.init()
 
@@ -161,73 +195,5 @@ import VirgilCrypto
         }
 
         lookupManager.startUpdateCachedCards()
-    }
-
-    internal func getGroupManager() throws -> GroupManager {
-        guard let manager = self.groupManager else {
-            throw EThreeError.missingPrivateKey
-        }
-
-        return manager
-    }
-}
-
-extension EThree {
-    internal func privateKeyChanged(newCard: Card? = nil) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
-        let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                     crypto: self.crypto,
-                                                     identityKeyPair: selfKeyPair)
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                        localKeyStorage: self.localKeyStorage)
-        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                         cloudTicketStorage: cloudTicketStorage,
-                                         localKeyStorage: self.localKeyStorage,
-                                         lookupManager: self.lookupManager,
-                                         crypto: self.crypto)
-
-        if let newCard = newCard {
-            try self.lookupManager.cardStorage.storeCard(newCard)
-        }
-    }
-
-    internal func privateKeyDeleted() throws {
-        try self.groupManager?.localGroupStorage.reset()
-        self.groupManager = nil
-
-        try self.lookupManager.cardStorage.reset()
-    }
-
-    internal func computeSessionId(from identifier: Data) throws -> Data {
-        guard identifier.count > 10 else {
-            throw GroupError.shortGroupId
-        }
-
-        return self.crypto.computeHash(for: identifier, using: .sha512).subdata(in: 0..<32)
-    }
-
-    internal static func getConnection() -> HttpConnection {
-        let virgilAdapter = VirgilAgentAdapter(product: ProductInfo.name,
-                                               version: ProductInfo.version)
-
-        return HttpConnection(adapters: [virgilAdapter])
-    }
-
-    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
-        let keyPair = try keyPair ?? self.crypto.generateKeyPair()
-
-        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                                    publicKey: keyPair.publicKey,
-                                                    identity: self.identity,
-                                                    previousCardId: previousCardId)
-            .startSync()
-            .get()
-
-        let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
-
-        try self.localKeyStorage.store(data: data)
-
-        try self.privateKeyChanged(newCard: card)
     }
 }

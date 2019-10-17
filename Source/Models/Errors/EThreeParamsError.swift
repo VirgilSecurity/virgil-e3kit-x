@@ -34,41 +34,19 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestBase.h"
+import Foundation
 
-@implementation VTETestBase
+@objc(VTEEThreeParamsError) public enum EThreeParamsError: Int, LocalizedError {
+    case invalidPlistFile = 1
+    case unknownKeyInConfig = 2
 
-- (void)setUp {
-    [super setUp];
-
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.utils = [[VTETestUtils alloc] init];
-    self.consts = self.utils.config;
-    self.crypto = self.utils.crypto;
-
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
-
-    NSError *error;
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-
-    self.eThree = [[VTEEThree alloc] initWithIdentity:identity
-                                        tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                            NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                            completionHandler(token, nil);
-                                        }
-                                   changedKeyDelegate:nil
-                                        storageParams:params
-                                        enableRatchet:false
-                                  keyRotationInterval:3600
-                                                error:&error];
-    XCTAssert(self.eThree != nil && error == nil);
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .invalidPlistFile:
+            return "Invalid config file structure"
+        case .unknownKeyInConfig:
+            return "Config file contains unknown key"
+        }
+    }
 }
-
-@end

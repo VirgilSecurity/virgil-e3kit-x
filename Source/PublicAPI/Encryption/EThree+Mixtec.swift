@@ -107,13 +107,15 @@ extension EThree {
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                guard let group = try self.getGroupManager().retrieve(sessionId: sessionId) else {
+                let groupManager = try self.getGroupManager()
+
+                guard let group = groupManager.retrieve(sessionId: sessionId) else {
                     throw GroupError.missingCachedGroup
                 }
 
                 try group.checkPermissions()
 
-                try self.getGroupManager().delete(sessionId: sessionId)
+                try groupManager.delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

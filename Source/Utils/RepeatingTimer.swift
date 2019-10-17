@@ -34,41 +34,61 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-#import "VTETestBase.h"
+import Foundation
 
-@implementation VTETestBase
+internal class RepeatingTimer {
+    private let interval: TimeInterval
+    private let timer: DispatchSourceTimer
 
-- (void)setUp {
-    [super setUp];
+    private enum State {
+        case suspended
+        case resumed
+    }
 
-    self.password = [[NSUUID alloc] init].UUIDString;
-    self.utils = [[VTETestUtils alloc] init];
-    self.consts = self.utils.config;
-    self.crypto = self.utils.crypto;
+    private var state: State = .suspended
 
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
-    self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
-    [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
+    internal init(interval: TimeInterval, startFromNow: Bool, handler: @escaping () -> Void) {
+        self.interval = interval
 
-    NSError *error;
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
+        let timer = DispatchSource.makeTimerSource()
 
-    self.eThree = [[VTEEThree alloc] initWithIdentity:identity
-                                        tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                            NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                            completionHandler(token, nil);
-                                        }
-                                   changedKeyDelegate:nil
-                                        storageParams:params
-                                        enableRatchet:false
-                                  keyRotationInterval:3600
-                                                error:&error];
-    XCTAssert(self.eThree != nil && error == nil);
+        let startAfter = startFromNow ? 0 : self.interval
+
+        timer.schedule(deadline: .now() + startAfter,
+                       repeating: self.interval)
+
+        timer.setEventHandler(handler: handler)
+
+        self.timer = timer
+    }
+
+    deinit {
+        self.timer.setEventHandler {}
+        self.timer.cancel()
+
+        /*
+         If the timer is suspended, calling cancel without resuming
+         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
+         */
+
+        self.resume()
+    }
+
+    internal func resume() {
+        if self.state == .resumed {
+            return
+        }
+
+        self.state = .resumed
+        self.timer.resume()
+    }
+
+    internal func suspend() {
+        if self.state == .suspended {
+            return
+        }
+
+        self.state = .suspended
+        self.timer.suspend()
+    }
 }
-
-@end

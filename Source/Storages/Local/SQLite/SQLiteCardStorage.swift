@@ -57,6 +57,7 @@ import VirgilCrypto
 }
 
 // swiftlint:disable identifier_name
+// swiftlint:disable discouraged_optional_boolean
 
 internal class SQLiteCardStorage {
     private enum CardsStatement: String {

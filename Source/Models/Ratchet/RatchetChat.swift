@@ -34,15 +34,21 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import XCTest
-@testable import VirgilE3Kit
+import Foundation
+import VirgilSDKRatchet
 
-class VTE008_ProductInfoTests: XCTestCase {
-    func test_01_version() {
-        let bundle = Bundle(identifier: "com.virgilsecurity.VirgilE3Kit")!
-        let info = bundle.infoDictionary!
-        let version = info["CFBundleShortVersionString"] as! String
+/// Class representing Ratchet Chat
+@objc(VTERatchetChat) open class RatchetChat: NSObject {
+    /// Participant
+    @objc public var participant: String {
+        return self.session.participantIdentity
+    }
 
-        XCTAssert(VirgilE3Kit.ProductInfo.version == version)
+    internal let session: SecureSession
+    internal let sessionStorage: SessionStorage
+
+    internal init(session: SecureSession, sessionStorage: SessionStorage) {
+        self.session = session
+        self.sessionStorage = sessionStorage
     }
 }
