@@ -256,7 +256,7 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-    func test_010__delete_nonexistent_chat__should_throw_error() {
+    func test_010__delete__nonexistent_chat__should_throw_error() {
         do {
             let (ethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
@@ -271,7 +271,7 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-    func test_011__enable_ratchet() {
+    func test_011__enableRatchet() {
         do {
             let (ethree1, _) = try self.setUpDevice(enableRatchet: false)
             let (_, card2) = try self.setUpDevice()
@@ -342,7 +342,7 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-    func test_013__multipleDecrypt__should_succeed() {
+    func test_013__multiple_encrypt_decrypt__should_succeed() {
         do {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
@@ -354,18 +354,14 @@ class VTE009_RatchetTests: XCTestCase {
                 messages.append(UUID().uuidString)
             }
 
-            var encryptedArray: [String] = []
-            for message in messages {
-                let encrypted = try chat1.encrypt(text: message)
-                encryptedArray.append(encrypted)
-            }
+            let encrypted = try chat1.encryptMultiple(text: messages)
 
             let chat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
 
-            for i in 0..<encryptedArray.count {
-                let decrypted = try chat2.decrypt(text: encryptedArray[i])
+            let decrypted = try chat2.decryptMultiple(text: encrypted)
 
-                XCTAssert(decrypted == messages[i])
+            for i in 0..<messages.count {
+                XCTAssert(decrypted[i] == messages[i])
             }
         } catch {
             print(error.localizedDescription)

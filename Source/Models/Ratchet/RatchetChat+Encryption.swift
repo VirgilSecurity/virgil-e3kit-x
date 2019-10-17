@@ -138,11 +138,17 @@ extension RatchetChat {
     /// Encrypts array of string
     /// - Parameter text: array of string to encrypt
     @objc open func encryptMultiple(text: [String]) throws -> [String] {
-        let data = try self.stringToData(text)
+        let data = try text.map { (item: String) throws -> Data in
+            guard let data = item.data(using: .utf8) else {
+                throw EThreeError.strToDataFailed
+            }
+
+            return data
+        }
 
         let encryptedData = try self.encryptMultiple(data: data)
 
-        return try self.dataToString(encryptedData)
+        return encryptedData.map { $0.base64EncodedString() }
     }
 
     /// Decrypts array of string
@@ -151,30 +157,22 @@ extension RatchetChat {
     ///
     /// - Parameter text: array of string to decrypt
     @objc open func decryptMultiple(text: [String]) throws -> [String] {
-        let data = try self.stringToData(text)
-
-        let decryptedData = try self.decryptMultiple(data: data)
-
-        return try self.dataToString(decryptedData)
-    }
-
-    private func dataToString(_ data: [Data]) throws -> [String] {
-        return try data.map { (item: Data) throws -> String in
-            guard let text = String(data: item, encoding: .utf8) else {
-                throw EThreeError.strFromDataFailed
-            }
-
-            return text
-        }
-    }
-
-    private func stringToData(_ text: [String]) throws -> [Data] {
-        return try text.map { (item: String) throws -> Data in
+        let data = try text.map { (item: String) throws -> Data in
             guard let data = Data(base64Encoded: item) else {
                 throw EThreeError.strToDataFailed
             }
 
             return data
+        }
+
+        let decryptedData = try self.decryptMultiple(data: data)
+
+        return try decryptedData.map { (item: Data) throws -> String in
+            guard let text = String(data: item, encoding: .utf8) else {
+                throw EThreeError.strFromDataFailed
+            }
+
+            return text
         }
     }
 }

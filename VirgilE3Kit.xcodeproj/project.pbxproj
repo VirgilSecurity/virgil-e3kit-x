@@ -727,6 +727,7 @@
 				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 				1616C0452357549200948C3B /* EThreeParamsError.swift */,
 				16D1BCA1235872A8008E6E3D /* ServiceErrorCodes.swift */,
+				1661D7702301ADCD00BC435C /* FindUsersError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -925,7 +926,6 @@
 		16BB9B4422EF1A4E0057D6B2 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				1661D7702301ADCD00BC435C /* FindUsersError.swift */,
 				1665EE1C22E720A500774788 /* LookupManager.swift */,
 				16AD62D922E87E4700CDF90A /* GroupManager.swift */,
 			);
