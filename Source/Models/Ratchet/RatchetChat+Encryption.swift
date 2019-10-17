@@ -37,13 +37,10 @@
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
+// MARK: - Extension with double ratchet encrypt and decrypt operations
 extension RatchetChat {
     /// Encrypts data
-    ///
-    /// - Parameters:
-    ///   - data: Data to encrypt
-    /// - Returns: encrypted Data
-    /// - Throws: corresponding error
+    /// - Parameter data: Data to encrypt
     @objc open func encrypt(data: Data) throws -> Data {
         let ratchetMessage = try session.encrypt(data: data)
 
@@ -53,11 +50,7 @@ extension RatchetChat {
     }
 
     /// Decrypts data
-    ///
-    /// - Parameters:
-    ///   - data: encrypted Data
-    /// - Returns: decrypted Data
-    /// - Throws: corresponding error
+    /// - Parameter data: encrypted Data
     @objc open func decrypt(data: Data) throws -> Data {
         let message = try RatchetMessage.deserialize(input: data)
 
@@ -68,12 +61,8 @@ extension RatchetChat {
         return decrypted
     }
 
-    /// Encrypts string for user
-    ///
-    /// - Parameters:
-    ///   - text: String to encrypt
-    /// - Returns: encrypted String
-    /// - Throws: corresponding error
+    /// Encrypts string
+    /// - Parameter text: String to encrypt
     @objc open func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -83,11 +72,7 @@ extension RatchetChat {
     }
 
     /// Decrypts string
-    ///
-    /// - Parameters:
-    ///   - text: encrypted String
-    /// - Returns: decrypted String
-    /// - Throws: corresponding error
+    /// - Parameter text: encrypted String
     @objc open func decrypt(text: String) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
@@ -104,6 +89,8 @@ extension RatchetChat {
 }
 
 extension RatchetChat {
+    /// Encrypts array of data
+    /// - Parameter data: array of data to encrypt
     @objc open func encryptMultiple(data: [Data]) throws -> [Data] {
         guard !data.isEmpty else {
             throw EThreeRatchetError.encryptEmptyArray
@@ -123,14 +110,11 @@ extension RatchetChat {
         return result
     }
 
-    /// Decrypts multiple Data
+    /// Decrypts array of data
     ///
     /// - Important: data should be in strict order by encryption time
     ///
-    /// - Parameters:
-    ///   - data: array with Data to decrypt
-    /// - Returns: array with decrypted Data
-    /// - Throws: corresponding error
+    /// - Parameter data: array of data to decrypt
     @objc open func decryptMultiple(data: [Data]) throws -> [Data] {
         guard !data.isEmpty else {
             throw EThreeRatchetError.decryptEmptyArray
@@ -151,6 +135,8 @@ extension RatchetChat {
         return result
     }
 
+    /// Encrypts array of string
+    /// - Parameter text: array of string to encrypt
     @objc open func encryptMultiple(text: [String]) throws -> [String] {
         let data = try self.stringToData(text)
 
@@ -159,14 +145,11 @@ extension RatchetChat {
         return try self.dataToString(encryptedData)
     }
 
-    /// Decrypts multiple text
+    /// Decrypts array of string
     ///
-    /// - Important: text should be in strict order by encryption time
+    /// - Important: string should be in strict order by encryption time
     ///
-    /// - Parameters:
-    ///   - text: array with String to decrypt
-    /// - Returns: array with decrypted String
-    /// - Throws: corresponding error
+    /// - Parameter text: array of string to decrypt
     @objc open func decryptMultiple(text: [String]) throws -> [String] {
         let data = try self.stringToData(text)
 

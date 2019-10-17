@@ -47,9 +47,9 @@ import VirgilSDK
     @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
     /// `KeychainStorageParams` with specific parameters
     @objc public var storageParams: KeychainStorageParams? = nil
-
+    /// Enables ratchet operations
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
-
+    /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
     private struct Config: Decodable {

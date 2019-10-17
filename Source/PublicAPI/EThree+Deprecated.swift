@@ -37,6 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
+// MARK: - Extension with deprecated operations
 public extension EThree {
     /// Initializes EThree with a callback to get Virgil access token
     ///

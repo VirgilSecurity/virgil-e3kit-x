@@ -245,7 +245,7 @@ extension EThree {
 
     /// Deletes group from cloud and local storage
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - identifier: identifier of group
     ///   - completion: completion handler
     ///   - error: corresponding error
@@ -256,6 +256,13 @@ extension EThree {
         }
     }
 
+    /// Creates double ratchet chat with user, saves it locally
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of chat
+    ///   - completion: completion handler
+    ///   - chat: created `RatchetChat` intance
+    ///   - error: corresponding error
     @objc open func createRatchetChat(with card: Card,
                                       name: String? = nil,
                                       completion: @escaping (_ chat: RatchetChat?,
@@ -263,6 +270,13 @@ extension EThree {
         self.createRatchetChat(with: card, name: name).start(completion: completion)
     }
 
+    /// Joins double ratchet chat with user, saves it locally
+    /// - Parameters:
+    ///   - card: Card of initiator
+    ///   - name: name of chat
+    ///   - completion: completion handler
+    ///   - chat: `RatchetChat` intance
+    ///   - error: corresponding error
     @objc open func joinRatchetChat(with card: Card,
                                     name: String? = nil,
                                     completion: @escaping (_ chat: RatchetChat?,
@@ -270,6 +284,12 @@ extension EThree {
         self.joinRatchetChat(with: card, name: name).start(completion: completion)
     }
 
+    /// Deletes double ratchet chat
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of chat
+    ///   - completion: completion handler
+    ///   - error: corresponding error
     @objc open func deleteRatchetChat(with card: Card,
                                       name: String? = nil,
                                       completion: @escaping (_ error: Error?) -> Void) {

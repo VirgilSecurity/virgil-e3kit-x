@@ -38,7 +38,12 @@ import VirgilSDK
 import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
+// MARK: - Extension with Double Ratchet operations
 extension EThree {
+    /// Creates double ratchet chat with user, saves it locally
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of chat
     open func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
@@ -79,6 +84,10 @@ extension EThree {
         }
     }
 
+    /// Joins double ratchet chat with user, saves it locally
+    /// - Parameters:
+    ///   - card: Card of initiator
+    ///   - name: name of chat
     open func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
         return CallbackOperation { _, completion in
             do {
@@ -107,6 +116,10 @@ extension EThree {
         }
     }
 
+    /// Retrieves double ratchet chat from local storage
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   -  name: name of chat
     open func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
         let secureChat = try self.getSecureChat()
 
@@ -117,6 +130,10 @@ extension EThree {
         return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
+    /// Deletes double ratchet chat
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of chat
     open func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
