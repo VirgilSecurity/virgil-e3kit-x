@@ -252,6 +252,10 @@
 		16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
 		16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC03A021EFF81E00887DF2 /* TestUtils.swift */; };
+		16D1BCA2235872A8008E6E3D /* RatchetServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */; };
+		16D1BCA3235872AC008E6E3D /* RatchetServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */; };
+		16D1BCA4235872AD008E6E3D /* RatchetServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */; };
+		16D1BCA5235872AE008E6E3D /* RatchetServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */; };
 		16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
 		16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
 		16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D4D2C0234E448D00AFF80E /* Defaults.swift */; };
@@ -566,6 +570,7 @@
 		16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedKeyDelegate.swift; sourceTree = "<group>"; };
 		16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Encryption.swift"; sourceTree = "<group>"; };
 		16BC03A021EFF81E00887DF2 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatchetServiceError.swift; sourceTree = "<group>"; };
 		16D4D2C0234E448D00AFF80E /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		16D4D2C9234E4C9300AFF80E /* EThree+Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Deprecated.swift"; sourceTree = "<group>"; };
 		16D63E51229FFBF7004C53AD /* EThreeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeError.swift; sourceTree = "<group>"; };
@@ -721,6 +726,7 @@
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
 				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 				1616C0452357549200948C3B /* EThreeParamsError.swift */,
+				16D1BCA1235872A8008E6E3D /* RatchetServiceError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -1489,6 +1495,7 @@
 				16E33885234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
+				16D1BCA2235872A8008E6E3D /* RatchetServiceError.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
@@ -1531,6 +1538,7 @@
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16D1BCA5235872AE008E6E3D /* RatchetServiceError.swift in Sources */,
 				16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
@@ -1588,6 +1596,7 @@
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16D1BCA3235872AC008E6E3D /* RatchetServiceError.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D622E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
@@ -1638,6 +1647,7 @@
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				16D1BCA4235872AD008E6E3D /* RatchetServiceError.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16AD62D722E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,

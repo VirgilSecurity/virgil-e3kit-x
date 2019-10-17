@@ -67,7 +67,7 @@ extension EThree {
 
                 completion(ratchetChat, nil)
             }
-            catch let error as ServiceError where error.errorCode == 50_017 {
+            catch let error as ServiceError where error.errorCode == RatchetServiceError.noKeyDataForUser.rawValue {
                 completion(nil, EThreeRatchetError.userIsNotUsingRatchet)
             }
             catch KeyknoxClientError.invalidPreviousHashHeader {
