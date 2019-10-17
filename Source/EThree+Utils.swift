@@ -135,7 +135,7 @@ extension EThree {
                 do {
                     try chat.reset().startSync().get()
                 } // When there's no keys on cloud. Should be fixed on server side.
-                catch let error as NSError where error.code == 50_017 {}
+                catch let error as ServiceError where error.errorCode == 50_017 {}
 
                 try self.cloudRatchetStorage.reset()
             }
@@ -147,7 +147,7 @@ extension EThree {
             try self.scheduleKeysRotation(with: chat, startFromNow: false)
         } else {
             guard let card = self.findCachedUser(with: self.identity) else {
-                throw NSError()
+                throw EThreeRatchetError.noSelfCardLocally
             }
 
             let chat = try self.setupSecureChat(keyPair: keyPair, card: card)

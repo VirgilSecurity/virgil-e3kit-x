@@ -45,17 +45,21 @@ import Foundation
 /// - joinChatFailed: There aren't chat with this user locally.
 ///                   In order to join secure chat, decrypt first encrypted message by chat initiator
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
-    case decryptEmptyArray = 1
-    case missingLocalChat = 2
-    case chatAlreadyExists = 3
-    case selfChatIsForbidden = 4
-    case ratchetIsDisabled = 5
-    case userIsNotUsingRatchet = 6
-    case noInvite = 7
+    case encryptEmptyArray = 1
+    case decryptEmptyArray = 2
+    case missingLocalChat = 3
+    case chatAlreadyExists = 4
+    case selfChatIsForbidden = 5
+    case ratchetIsDisabled = 6
+    case userIsNotUsingRatchet = 7
+    case noInvite = 8
+    case noSelfCardLocally = 9
 
     /// Human-readable localized description
     public var errorDescription: String? {
         switch self {
+        case .encryptEmptyArray:
+            return "Trying to encrypt empty array"
         case .decryptEmptyArray:
             return "Trying to decrypt empty array"
         case .missingLocalChat:
@@ -70,6 +74,8 @@ import Foundation
             return "Provided user has been never initialized with ratchet enabled"
         case .noInvite:
             return "There is no invitation from provided user"
+        case .noSelfCardLocally:
+            return "There is no self card in local storage"
         }
     }
 }

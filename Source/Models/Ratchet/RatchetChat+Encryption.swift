@@ -106,7 +106,7 @@ extension RatchetChat {
 extension RatchetChat {
     @objc open func encryptMultiple(data: [Data]) throws -> [Data] {
         guard !data.isEmpty else {
-            throw NSError()
+            throw EThreeRatchetError.encryptEmptyArray
         }
 
         var result: [Data] = []
