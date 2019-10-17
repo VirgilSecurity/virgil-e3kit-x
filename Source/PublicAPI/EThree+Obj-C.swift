@@ -161,14 +161,19 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to find
     ///   - forceReload: will not use local cached cards if true
+    ///   - checkResult: will throw error if any card was not found
     ///   - completion: completion handler
     ///   - find: dictionary with idenities as keys and found Cards as values
     ///   - error: corresponding error
     @objc open func findUsers(with identities: [String],
                               forceReload: Bool = false,
+                              checkResult: Bool = true,
                               completion: @escaping (_ findResult: FindUsersResult?,
                                                      _ error: Error?) -> Void) {
-        self.findUsers(with: identities, forceReload: forceReload).start(completion: completion)
+        self.findUsers(with: identities,
+                       forceReload: forceReload,
+                       checkResult: checkResult)
+            .start(completion: completion)
     }
 
     /// Retrieves user Card from the Virgil Cloud or local storage if exists

@@ -163,4 +163,24 @@ class VTE006_LookupTests: XCTestCase {
 
         XCTAssert(cachedCard.identifier == newCard.identifier)
     }
+
+    func test06_STE_47__checkResult() {
+        let ethree = self.setUpDevice()
+
+        let card = self.utils.publishCard()
+        let dummyIdentity = UUID().uuidString
+
+        let identities = [card.identity, dummyIdentity]
+
+        do {
+            _ = try ethree.findUsers(with: identities).startSync().get()
+        } catch FindUsersError.cardWasNotFound {} catch {
+            XCTFail()
+        }
+
+        let cards = try! ethree.findUsers(with: identities, checkResult: false).startSync().get()
+
+        XCTAssert(cards.count == 1)
+        XCTAssert(cards[card.identity]!.identifier == card.identifier)
+    }
 }

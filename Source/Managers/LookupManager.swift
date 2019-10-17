@@ -98,7 +98,7 @@ internal class LookupManager {
 }
 
 extension LookupManager {
-    internal func lookupCachedCards(of identities: [String]) throws -> FindUsersResult {
+    internal func lookupCachedCards(of identities: [String], checkResult: Bool) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
@@ -109,7 +109,11 @@ extension LookupManager {
 
         for identity in identities {
             guard let card = cards.first(where: { $0.identity == identity }) else {
-                throw FindUsersError.missingCachedCard
+                if checkResult {
+                    throw FindUsersError.missingCachedCard
+                } else {
+                    continue
+                }
             }
 
             result[identity] = card
@@ -132,7 +136,9 @@ extension LookupManager {
         return card
     }
 
-    internal func lookupCards(of identities: [String], forceReload: Bool = false) throws -> FindUsersResult {
+    internal func lookupCards(of identities: [String],
+                              forceReload: Bool,
+                              checkResult: Bool) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
@@ -170,15 +176,17 @@ extension LookupManager {
             }
         }
 
-        guard Set(result.keys) == Set(identities) else {
-            throw FindUsersError.cardWasNotFound
+        if checkResult {
+            guard Set(result.keys) == Set(identities) else {
+                throw FindUsersError.cardWasNotFound
+            }
         }
 
         return result
     }
 
     internal func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
-        let cards = try self.lookupCards(of: [identity], forceReload: forceReload)
+        let cards = try self.lookupCards(of: [identity], forceReload: forceReload, checkResult: true)
 
         guard let card = cards[identity] else {
             throw FindUsersError.cardWasNotFound

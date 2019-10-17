@@ -39,13 +39,16 @@ import VirgilCrypto
 
 // MARK: - Extension with find users operations
 extension EThree {
-    /// Returnes cards from local storage with given identities
+    /// Retrieves cards from local storage with given identities
     ///
-    /// - Parameter identities: identities
+    /// - Parameters:
+    ///   - identities: identities of cards to retrieve
+    ///   - checkResult: will throw error if any card was not found
     /// - Returns: `FindUsersResult`
     /// - Throws: corresponding error
-    @objc open func findCachedUsers(with identities: [String]) throws -> FindUsersResult {
-        return try self.lookupManager.lookupCachedCards(of: identities)
+    @objc open func findCachedUsers(with identities: [String],
+                                    checkResult: Bool = true) throws -> FindUsersResult {
+        return try self.lookupManager.lookupCachedCards(of: identities, checkResult: checkResult)
     }
 
     /// Returnes card from local storage with given identity
@@ -61,11 +64,16 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to find
     ///   - forceReload: will not use local cached cards if true
+    ///   - checkResult: will throw error if any card was not found
     /// - Returns: CallbackOperation<FindUsersResult>
-    open func findUsers(with identities: [String], forceReload: Bool = false) -> GenericOperation<FindUsersResult> {
+    open func findUsers(with identities: [String],
+                        forceReload: Bool = false,
+                        checkResult: Bool = true) -> GenericOperation<FindUsersResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.lookupManager.lookupCards(of: identities, forceReload: forceReload)
+                let cards = try self.lookupManager.lookupCards(of: identities,
+                                                               forceReload: forceReload,
+                                                               checkResult: checkResult)
 
                 completion(cards, nil)
             } catch {
