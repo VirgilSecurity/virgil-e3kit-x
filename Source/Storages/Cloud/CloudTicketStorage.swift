@@ -93,20 +93,29 @@ extension CloudTicketStorage {
             .get()
     }
 
-    internal func retrieve(sessionId: Data,
-                           identity: String,
-                           identityPublicKey: VirgilPublicKey) throws -> [Ticket] {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
+    internal func getEpochs(sessionId: Data, identity: String) throws -> Set<String> {
         let sessionId = sessionId.hexEncodedString()
 
+        return try self.getEpochs(sessionId: sessionId, identity: identity)
+    }
+
+    internal func getEpochs(sessionId: String, identity: String) throws -> Set<String> {
         let params = KeyknoxGetKeysParams(identity: identity,
                                           root: CloudTicketStorage.groupSessionsRoot,
                                           path: sessionId)
 
-        let epochs = try self.keyknoxManager.getKeys(params: params)
+        return try self.keyknoxManager.getKeys(params: params)
             .startSync()
             .get()
+    }
+
+    internal func retrieve(sessionId: Data,
+                           identity: String,
+                           identityPublicKey: VirgilPublicKey,
+                           epochs: Set<String>) throws -> [Ticket] {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+
+        let sessionId = sessionId.hexEncodedString()
 
         var tickets: [Ticket] = []
         for epoch in epochs {

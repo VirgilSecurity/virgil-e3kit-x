@@ -90,6 +90,26 @@ internal class FileGroupStorage {
         }
     }
 
+    internal func store(tickets: [Ticket]) throws {
+        guard let ticket = tickets.last else {
+            throw GroupError.inconsistentState
+        }
+
+        let subdir = ticket.groupMessage.getSessionId().hexEncodedString()
+
+        try tickets.forEach { try self.store(ticket: $0, subdir: subdir) }
+    }
+
+    internal func getEpochs(sessionId: Data) throws -> Set<String> {
+        let subdir = "\(sessionId.hexEncodedString())/\(self.ticketsSubdir)"
+
+        let epochs = try self.fileSystem
+            .getFileNames(subdir: subdir)
+            .sorted()
+
+        return Set(epochs)
+    }
+
     internal func retrieveInfo(sessionId: Data) -> GroupInfo? {
         return self.retrieveGroupInfo(sessionId: sessionId)
     }

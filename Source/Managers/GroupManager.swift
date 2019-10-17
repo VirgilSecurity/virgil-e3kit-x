@@ -80,19 +80,40 @@ internal class GroupManager {
     }
 
     internal func pull(sessionId: Data, from card: Card) throws -> Group {
-        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
-                                                           identity: card.identity,
-                                                           identityPublicKey: card.publicKey)
+        // TODO: sessionId
 
-        guard !tickets.isEmpty else {
+        let cloudEpochs = try self.cloudTicketStorage.getEpochs(sessionId: sessionId, identity: card.identity)
+        let localEpochs = try self.localGroupStorage.getEpochs(sessionId: sessionId)
+
+        guard !cloudEpochs.isEmpty else {
             try self.localGroupStorage.delete(sessionId: sessionId)
-
             throw GroupError.groupWasNotFound
         }
 
-        let rawGroup = try RawGroup(info: GroupInfo(initiator: card.identity), tickets: tickets)
+        let epochs: Set<String> = cloudEpochs.subtracting(localEpochs)
 
-        try self.localGroupStorage.store(rawGroup)
+        if !epochs.isEmpty {
+
+        }
+
+        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
+                                                           identity: card.identity,
+                                                           identityPublicKey: card.publicKey,
+                                                           epochs: epochs)
+
+        if localEpochs.isEmpty {
+            let info = GroupInfo(initiator: card.identity)
+            let rawGroup = try RawGroup(info: info, tickets: tickets)
+
+            try self.localGroupStorage.store(rawGroup)
+        } else {
+            try self.localGroupStorage.store(tickets: tickets)
+        }
+
+        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
+                                                             lastTicketsCount: GroupManager.maxTicketsInGroup) else {
+            throw GroupError.inconsistentState
+        }
 
         return try self.parse(rawGroup)
     }
