@@ -37,6 +37,6 @@
 import Foundation
 import VirgilSDK
 
-internal enum RatchetServiceError: Int, LocalizedError {
+internal enum ServiceErrorCodes: Int {
     case noKeyDataForUser = 50_017
 }

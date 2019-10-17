@@ -135,7 +135,7 @@ extension EThree {
                 do {
                     try chat.reset().startSync().get()
                 } // When there's no keys on cloud. Should be fixed on server side.
-                catch let error as ServiceError where error.errorCode == RatchetServiceError.noKeyDataForUser.rawValue {}
+                catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {}
 
                 try self.cloudRatchetStorage.reset()
             }
