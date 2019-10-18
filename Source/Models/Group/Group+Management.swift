@@ -137,7 +137,9 @@ extension Group {
                     throw GroupError.invalidChangeParticipants
                 }
 
-                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet))
+                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet),
+                                                                      forceReload: false,
+                                                                      checkResult: true)
 
                 try self.addNewTicket(for: newSetLookup)
 
