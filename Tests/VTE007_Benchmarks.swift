@@ -155,7 +155,7 @@ class VTE007_Benchmarks: XCTestCase {
 
             let group2 = try ethree2.loadGroup(id: identifier, initiator: card1).startSync().get()
 
-            for i in 0..<15 {
+            for i in 0..<10 {
                 try group1.remove(participant: card3).startSync().get()
                 try group1.add(participant: card3).startSync().get()
 
