@@ -41,16 +41,18 @@ import VirgilCrypto
 class VTE007_Benchmarks: XCTestCase {
     let utils = TestUtils()
 
-    private let invocationCount: UInt64 = 1000
     private let toEncrypt = "this string will be encrypted".data(using: .utf8)!
 
-    private func measure(title: String, maxTime: Int?, block: () throws -> Void) throws {
+    private func measure(title: String,
+                         maxTime: Int?,
+                         invocationCount: UInt64 = 1000,
+                         block: () throws -> Void) throws {
         var sum: UInt64 = 0
 
         print()
         print("Measurement of \(title)")
 
-        for _ in 1...self.invocationCount {
+        for _ in 1...invocationCount {
             let start = DispatchTime.now()
             try block()
             let end = DispatchTime.now()
@@ -60,7 +62,7 @@ class VTE007_Benchmarks: XCTestCase {
             sum += elapsed
         }
 
-        let average = sum / self.invocationCount
+        let average = sum / invocationCount
 
         print("Average: \(average) ns")
         print()
@@ -134,6 +136,38 @@ class VTE007_Benchmarks: XCTestCase {
             }
         } catch {
             print("Test faield with error: \(error.localizedDescription)")
+        }
+    }
+
+    func test03__group_update() {
+        do {
+            let ethree1 = try self.setUpDevice()
+            let ethree2 = try self.setUpDevice()
+            let ethree3 = try self.setUpDevice()
+
+            let identifier = UUID().uuidString
+
+            let result = try ethree1.findUsers(with: [ethree2.identity, ethree3.identity]).startSync().get()
+            let group1 = try ethree1.createGroup(id: identifier, with: result).startSync().get()
+
+            let card1 = try ethree2.findUser(with: ethree1.identity).startSync().get()
+            let card3 = try ethree1.findUser(with: ethree3.identity).startSync().get()
+
+            let group2 = try ethree2.loadGroup(id: identifier, initiator: card1).startSync().get()
+
+            for i in 0..<10 {
+                try group1.remove(participant: card3).startSync().get()
+                try group1.add(participant: card3).startSync().get()
+
+                let block = {
+                    try group2.update().startSync().get()
+                }
+
+                try self.measure(title: "Update group with \(i) tickets", maxTime: 500_000_000, invocationCount: 1, block: block)
+            }
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
         }
     }
 }
