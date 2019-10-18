@@ -161,7 +161,7 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to find
     ///   - forceReload: will not use local cached cards if true
-    ///   - checkResult: will throw error if any card was not found
+    ///   - checkResult: checks that cards for all identities were found if true
     ///   - completion: completion handler
     ///   - find: dictionary with idenities as keys and found Cards as values
     ///   - error: corresponding error

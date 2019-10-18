@@ -43,7 +43,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - identities: identities of cards to retrieve
-    ///   - checkResult: will throw error if any card was not found
+    ///   - checkResult: checks that cards for all identities were found if true
     /// - Returns: `FindUsersResult`
     /// - Throws: corresponding error
     @objc open func findCachedUsers(with identities: [String],
@@ -64,7 +64,7 @@ extension EThree {
     /// - Parameters:
     ///   - identities: array of identities to find
     ///   - forceReload: will not use local cached cards if true
-    ///   - checkResult: will throw error if any card was not found
+    ///   - checkResult: checks that cards for all identities were found if true
     /// - Returns: CallbackOperation<FindUsersResult>
     open func findUsers(with identities: [String],
                         forceReload: Bool = false,

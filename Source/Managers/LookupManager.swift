@@ -113,16 +113,14 @@ extension LookupManager {
 
         let cards = try self.cardStorage.searchCards(identities: identities)
 
-        for identity in identities {
-            guard let card = cards.first(where: { $0.identity == identity }) else {
-                if checkResult {
-                    throw FindUsersError.missingCachedCard
-                } else {
-                    continue
-                }
-            }
+        for card in cards {
+            result[card.identity] = card
+        }
 
-            result[identity] = card
+        if checkResult {
+            guard Set(result.keys) == Set(identities) else {
+                throw FindUsersError.missingCachedCard
+            }
         }
 
         return result
@@ -156,11 +154,9 @@ extension LookupManager {
         if !forceReload {
             let cards = try self.cardStorage.searchCards(identities: Array(identitiesSet))
 
-            for identity in identitiesSet {
-                if let card = cards.first(where: { $0.identity == identity }) {
-                    identitiesSet.remove(identity)
-                    result[identity] = card
-                }
+            for card in cards {
+                result[card.identity] = card
+                identitiesSet.remove(card.identity)
             }
         }
 
