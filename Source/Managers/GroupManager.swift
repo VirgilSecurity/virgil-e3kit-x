@@ -70,7 +70,8 @@ internal class GroupManager {
     }
 
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> Group {
-        let rawGroup = try RawGroup(info: GroupInfo(initiator: self.identity), tickets: [ticket])
+        let info = GroupInfo(initiator: self.identity)
+        let rawGroup = try RawGroup(info: info, tickets: [ticket])
 
         try self.cloudTicketStorage.store(ticket, sharedWith: cards)
 

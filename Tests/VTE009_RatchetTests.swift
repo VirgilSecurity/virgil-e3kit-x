@@ -91,7 +91,6 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-
     func test_001__encrypt_decrypt__should_succeed() {
         do {
             let (ethree1, card1) = try self.setUpDevice()

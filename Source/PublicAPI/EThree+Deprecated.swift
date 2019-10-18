@@ -185,6 +185,7 @@ public extension EThree {
     }
 }
 
+// MARK: - Extension with deprecated Objective-C compatible operations
 public extension EThree {
     /// Initializes E3Kit with a callback to get Virgil access token
     ///
