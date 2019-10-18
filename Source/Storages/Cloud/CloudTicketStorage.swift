@@ -96,10 +96,6 @@ extension CloudTicketStorage {
     internal func getEpochs(sessionId: Data, identity: String) throws -> Set<String> {
         let sessionId = sessionId.hexEncodedString()
 
-        return try self.getEpochs(sessionId: sessionId, identity: identity)
-    }
-
-    internal func getEpochs(sessionId: String, identity: String) throws -> Set<String> {
         let params = KeyknoxGetKeysParams(identity: identity,
                                           root: CloudTicketStorage.groupSessionsRoot,
                                           path: sessionId)

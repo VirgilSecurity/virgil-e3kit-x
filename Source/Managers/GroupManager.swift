@@ -80,39 +80,37 @@ internal class GroupManager {
     }
 
     internal func pull(sessionId: Data, from card: Card) throws -> Group {
-        // TODO: sessionId
-
         let cloudEpochs = try self.cloudTicketStorage.getEpochs(sessionId: sessionId, identity: card.identity)
         let localEpochs = try self.localGroupStorage.getEpochs(sessionId: sessionId)
 
-        guard !cloudEpochs.isEmpty else {
+        guard let lastEpoch = cloudEpochs.sorted().last else {
             try self.localGroupStorage.delete(sessionId: sessionId)
             throw GroupError.groupWasNotFound
         }
 
-        let epochs: Set<String> = cloudEpochs.subtracting(localEpochs)
-
-        if !epochs.isEmpty {
-
-        }
+        var epochs: Set<String> = cloudEpochs.subtracting(localEpochs)
+        epochs.insert(lastEpoch)
 
         let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
                                                            identity: card.identity,
                                                            identityPublicKey: card.publicKey,
                                                            epochs: epochs)
+        let rawGroup: RawGroup
 
         if localEpochs.isEmpty {
             let info = GroupInfo(initiator: card.identity)
-            let rawGroup = try RawGroup(info: info, tickets: tickets)
+            rawGroup = try RawGroup(info: info, tickets: tickets)
 
             try self.localGroupStorage.store(rawGroup)
         } else {
-            try self.localGroupStorage.store(tickets: tickets)
-        }
+            try self.localGroupStorage.add(tickets: tickets)
 
-        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                             lastTicketsCount: GroupManager.maxTicketsInGroup) else {
-            throw GroupError.inconsistentState
+            guard let localGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId,
+                                                                        lastTicketsCount: GroupManager.maxTicketsInGroup) else {
+                throw GroupError.groupWasNotFound
+            }
+
+            rawGroup = localGroup
         }
 
         return try self.parse(rawGroup)
@@ -127,8 +125,8 @@ internal class GroupManager {
     }
 
     internal func retrieve(sessionId: Data) -> Group? {
-        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                             lastTicketsCount: GroupManager.maxTicketsInGroup) else {
+        guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId,
+                                                                  lastTicketsCount: GroupManager.maxTicketsInGroup) else {
             return nil
         }
 
@@ -136,7 +134,7 @@ internal class GroupManager {
     }
 
     internal func retrieve(sessionId: Data, epoch: UInt32) -> Group? {
-        guard let rawGroup = self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
+        guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
             return nil
         }
 
