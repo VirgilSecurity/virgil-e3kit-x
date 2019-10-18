@@ -100,6 +100,19 @@ extension EThree {
         }
     }
 
+    /// Updates local cached cards
+    open func updateCachedUsers() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.lookupManager.startUpdateCachedCards { error in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    completion((), nil)
+                }
+            }
+        }
+    }
+
     /// Retrieves users public keys from the Virgil Cloud
     ///
     /// - Parameter identities: array of identities to find

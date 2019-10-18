@@ -183,4 +183,20 @@ class VTE006_LookupTests: XCTestCase {
         XCTAssert(cards.count == 1)
         XCTAssert(cards[card.identity]!.identifier == card.identifier)
     }
+
+    func test07_STE_48__updateCachedCards() {
+        let ethree1 = self.setUpDevice()
+        let ethree2 = self.setUpDevice()
+
+        let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync().get()
+
+        try! ethree2.cleanUp()
+        try! ethree2.rotatePrivateKey().startSync().get()
+
+        try! ethree1.updateCachedUsers().startSync().get()
+
+        let newCard2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync().get()
+
+        XCTAssert(newCard2.previousCard?.identifier == card2.identifier)
+    }
 }

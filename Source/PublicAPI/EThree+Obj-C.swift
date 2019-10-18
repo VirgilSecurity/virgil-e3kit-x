@@ -191,6 +191,16 @@ extension EThree {
         self.findUser(with: identity, forceReload: forceReload).start(completion: completion)
     }
 
+    /// Updates local cached cards
+    /// - Parameters:
+    ///   -  completion: completion handler
+    ///   - error: corresponding error
+    @objc open func updateCachedUsers(completion: @escaping (_ error: Error?) -> Void) {
+        self.updateCachedUsers().start { _, error in
+            completion(error)
+        }
+    }
+
     /// Creates group, saves in cloud and locally
     ///
     /// - Parameters:

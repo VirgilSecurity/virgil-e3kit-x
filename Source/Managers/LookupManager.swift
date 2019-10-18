@@ -58,7 +58,9 @@ internal class LookupManager {
         self.changedKeyDelegate = changedKeyDelegate
     }
 
-    internal func startUpdateCachedCards() {
+    internal typealias ErrorHandler = (Error?) -> Void
+
+    internal func startUpdateCachedCards(completion: ErrorHandler? = nil) {
         self.queue.async {
             do {
                 Log.debug("Updating cached cards started")
@@ -90,8 +92,12 @@ internal class LookupManager {
                 }
 
                 Log.debug("Updating cached card finished")
+
+                completion?(nil)
             } catch {
                 Log.error("Updating cached cards failed: \(error.localizedDescription)")
+
+                completion?(error)
             }
         }
     }
