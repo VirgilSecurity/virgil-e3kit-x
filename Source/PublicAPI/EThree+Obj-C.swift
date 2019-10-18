@@ -193,7 +193,7 @@ extension EThree {
 
     /// Updates local cached cards
     /// - Parameters:
-    ///   -  completion: completion handler
+    ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func updateCachedUsers(completion: @escaping (_ error: Error?) -> Void) {
         self.updateCachedUsers().start { _, error in
