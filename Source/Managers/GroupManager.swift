@@ -95,25 +95,16 @@ internal class GroupManager {
                                                            identity: card.identity,
                                                            identityPublicKey: card.publicKey,
                                                            epochs: epochs)
-        let rawGroup: RawGroup
 
-        if localEpochs.isEmpty {
-            let info = GroupInfo(initiator: card.identity)
-            rawGroup = try RawGroup(info: info, tickets: tickets)
+        let info = GroupInfo(initiator: card.identity)
+        let rawGroup = try RawGroup(info: info, tickets: tickets)
+        try self.localGroupStorage.store(rawGroup)
 
-            try self.localGroupStorage.store(rawGroup)
-        } else {
-            try self.localGroupStorage.add(tickets: tickets)
-
-            guard let localGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                                        lastTicketsCount: GroupManager.maxTicketsInGroup) else {
-                throw GroupError.groupWasNotFound
-            }
-
-            rawGroup = localGroup
+        guard let group = self.retrieve(sessionId: sessionId) else {
+            throw GroupError.inconsistentState
         }
 
-        return try self.parse(rawGroup)
+        return group
     }
 
     internal func addAccess(to cards: [Card], sessionId: Data) throws {
