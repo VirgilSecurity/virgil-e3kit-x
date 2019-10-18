@@ -90,26 +90,40 @@ internal class FileGroupStorage {
         }
     }
 
-    internal func retrieveInfo(sessionId: Data) -> GroupInfo? {
-        return self.retrieveGroupInfo(sessionId: sessionId)
-    }
-
-    internal func retrieve(sessionId: Data, lastTicketsCount count: Int) -> RawGroup? {
-        guard let tickets = try? self.retrieveLastTickets(count: count, sessionId: sessionId),
-            let groupInfo = self.retrieveGroupInfo(sessionId: sessionId) else {
-                return nil
+    internal func add(tickets: [Ticket]) throws {
+        guard let ticket = tickets.last else {
+            throw GroupError.inconsistentState
         }
 
-        return try? RawGroup(info: groupInfo, tickets: tickets)
+        let subdir = ticket.groupMessage.getSessionId().hexEncodedString()
+
+        try tickets.forEach { try self.store(ticket: $0, subdir: subdir) }
     }
 
-    internal func retrieve(sessionId: Data, epoch: UInt32) -> RawGroup? {
-        guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: epoch),
-            let groupInfo = self.retrieveGroupInfo(sessionId: sessionId) else {
-                return nil
-        }
+    internal func getEpochs(sessionId: Data) throws -> Set<String> {
+        let subdir = "\(sessionId.hexEncodedString())/\(self.ticketsSubdir)"
 
-        return try? RawGroup(info: groupInfo, tickets: [ticket])
+        let epochs = try self.fileSystem
+            .getFileNames(subdir: subdir)
+            .sorted()
+
+        return Set(epochs)
+    }
+
+    internal func retrieve(sessionId: Data, lastTicketsCount count: Int) throws -> RawGroup {
+        let tickets = try self.retrieveLastTickets(count: count, sessionId: sessionId)
+
+        let groupInfo = try self.retrieveGroupInfo(sessionId: sessionId)
+
+        return try RawGroup(info: groupInfo, tickets: tickets)
+    }
+
+    internal func retrieve(sessionId: Data, epoch: UInt32) throws -> RawGroup {
+        let ticket = try self.retrieveTicket(sessionId: sessionId, epoch: epoch)
+
+        let groupInfo = try self.retrieveGroupInfo(sessionId: sessionId)
+
+        return try RawGroup(info: groupInfo, tickets: [ticket])
     }
 
     internal func delete(sessionId: Data) throws {
@@ -140,26 +154,29 @@ extension FileGroupStorage {
         try self.fileSystem.write(data: data, name: self.groupInfoName, subdir: subdir)
     }
 
-    private func retrieveGroupInfo(sessionId: Data) -> GroupInfo? {
+    private func retrieveGroupInfo(sessionId: Data) throws -> GroupInfo {
         let subdir = sessionId.hexEncodedString()
 
-        guard let data = try? self.fileSystem.read(name: self.groupInfoName, subdir: subdir),
-            !data.isEmpty else {
-                return nil
+        let data = try self.fileSystem.read(name: self.groupInfoName, subdir: subdir)
+
+        guard !data.isEmpty else {
+            throw FileGroupStorageError.emptyFile
         }
 
-        return try? GroupInfo.deserialize(data)
+        return try GroupInfo.deserialize(data)
     }
 
-    private func retrieveTicket(sessionId: Data, epoch: UInt32) -> Ticket? {
+    private func retrieveTicket(sessionId: Data, epoch: UInt32) throws -> Ticket {
         let subdir = "\(sessionId.hexEncodedString())/\(self.ticketsSubdir)"
         let name = String(epoch)
 
-        guard let data = try? self.fileSystem.read(name: name, subdir: subdir), !data.isEmpty else {
-            return nil
+        let data = try self.fileSystem.read(name: name, subdir: subdir)
+
+        guard !data.isEmpty else {
+            throw FileGroupStorageError.emptyFile
         }
 
-        return try? Ticket.deserialize(data)
+        return try Ticket.deserialize(data)
     }
 
     private func retrieveLastTickets(count: Int, sessionId: Data) throws -> [Ticket] {
@@ -180,9 +197,7 @@ extension FileGroupStorage {
             .suffix(count)
 
         try epochs.forEach {
-            guard let ticket = self.retrieveTicket(sessionId: sessionId, epoch: $0) else {
-                throw FileGroupStorageError.emptyFile
-            }
+            let ticket = try self.retrieveTicket(sessionId: sessionId, epoch: $0)
 
             result.append(ticket)
         }

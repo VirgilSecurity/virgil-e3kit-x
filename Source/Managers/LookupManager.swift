@@ -58,7 +58,9 @@ internal class LookupManager {
         self.changedKeyDelegate = changedKeyDelegate
     }
 
-    internal func startUpdateCachedCards() {
+    internal typealias ErrorHandler = (Error?) -> Void
+
+    internal func startUpdateCachedCards(completion: ErrorHandler? = nil) {
         self.queue.async {
             do {
                 Log.debug("Updating cached cards started")
@@ -90,15 +92,19 @@ internal class LookupManager {
                 }
 
                 Log.debug("Updating cached card finished")
+
+                completion?(nil)
             } catch {
                 Log.error("Updating cached cards failed: \(error.localizedDescription)")
+
+                completion?(error)
             }
         }
     }
 }
 
 extension LookupManager {
-    internal func lookupCachedCards(of identities: [String]) throws -> FindUsersResult {
+    internal func lookupCachedCards(of identities: [String], checkResult: Bool) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
@@ -107,12 +113,14 @@ extension LookupManager {
 
         let cards = try self.cardStorage.searchCards(identities: identities)
 
-        for identity in identities {
-            guard let card = cards.first(where: { $0.identity == identity }) else {
+        for card in cards {
+            result[card.identity] = card
+        }
+
+        if checkResult {
+            guard Set(result.keys) == Set(identities) else {
                 throw FindUsersError.missingCachedCard
             }
-
-            result[identity] = card
         }
 
         return result
@@ -132,7 +140,9 @@ extension LookupManager {
         return card
     }
 
-    internal func lookupCards(of identities: [String], forceReload: Bool = false) throws -> FindUsersResult {
+    internal func lookupCards(of identities: [String],
+                              forceReload: Bool,
+                              checkResult: Bool) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
@@ -144,11 +154,9 @@ extension LookupManager {
         if !forceReload {
             let cards = try self.cardStorage.searchCards(identities: Array(identitiesSet))
 
-            for identity in identitiesSet {
-                if let card = cards.first(where: { $0.identity == identity }) {
-                    identitiesSet.remove(identity)
-                    result[identity] = card
-                }
+            for card in cards {
+                result[card.identity] = card
+                identitiesSet.remove(card.identity)
             }
         }
 
@@ -170,15 +178,17 @@ extension LookupManager {
             }
         }
 
-        guard Set(result.keys) == Set(identities) else {
-            throw FindUsersError.cardWasNotFound
+        if checkResult {
+            guard Set(result.keys) == Set(identities) else {
+                throw FindUsersError.cardWasNotFound
+            }
         }
 
         return result
     }
 
     internal func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
-        let cards = try self.lookupCards(of: [identity], forceReload: forceReload)
+        let cards = try self.lookupCards(of: [identity], forceReload: forceReload, checkResult: true)
 
         guard let card = cards[identity] else {
             throw FindUsersError.cardWasNotFound
