@@ -234,6 +234,23 @@ let outputStream = OutputStream.toMemory()
 try eThree.decrypt(encryptedStream, to: outputStream)
 ```
 
+#### Convinience initializer
+
+EThree class have plenty of optional parameters to customize it's behaviour. You can easily set them using EThreeParams class, which can be initialized with config plist file.
+
+```swift 
+    let configUrl = Bundle.main.url(forResource: "EThreeConfig", withExtension: "plist")!
+    
+    let params = try! EThreeParams(identity: "Alice", 
+                                   tokenCallback: tokenCallback, 
+                                   configUrl: configUrl)
+     
+    params.changedKeyDelegate = myDelegate
+    
+    let ethree = try! EThree(params: params)
+```
+The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta1/Tests/Data/ExampleConfig).
+
 ## Enable Group Chat
 In this section, you'll find out how to build a group chat using the Virgil E3Kit.
 
