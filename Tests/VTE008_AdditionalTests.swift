@@ -38,7 +38,7 @@ import XCTest
 @testable import VirgilE3Kit
 
 class VTE008_AdditionalTests: XCTestCase {
-    func test_01__product_info_version__should_be_same_as_bundle() {
+    func test01__product_info_version__should_be_same_as_bundle() {
         let bundle = Bundle(identifier: "com.virgilsecurity.VirgilE3Kit")!
         let info = bundle.infoDictionary!
         let version = info["CFBundleShortVersionString"] as! String
@@ -46,7 +46,7 @@ class VTE008_AdditionalTests: XCTestCase {
         XCTAssert(VirgilE3Kit.ProductInfo.version == version)
     }
 
-    func test_02__deserialize__ethreeParams_from_config__should_deserialize() {
+    func test02_STE_49__init_ethreeParams__from_config__should_succeed() {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -64,7 +64,7 @@ class VTE008_AdditionalTests: XCTestCase {
         XCTAssert(params.keyRotationInterval == 1_600)
     }
 
-    func test_03__deserialize__invalid_ethreeParams__from_config__should_throw_error() {
+    func test03_STE_50__init_ethreeParams__invalid_config__should_throw_error() {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
