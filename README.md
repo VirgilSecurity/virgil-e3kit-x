@@ -236,7 +236,19 @@ try eThree.decrypt(encryptedStream, to: outputStream)
 
 #### Convinience initializer
 
-*EThree* has plenty of optional parameters to customize it's behaviour. You can easily set them using *EThreeParams* class, which can be initialized with config plist file.
+*EThree* initializer has plenty of optional parameters to customize it's behaviour. You can easily set them using *EThreeParams* class.
+
+```swift     
+    let params = try! EThreeParams(identity: "Alice", 
+                                   tokenCallback: tokenCallback)
+     
+    params.enableRatchet = true
+    params.changedKeyDelegate = myDelegate
+    
+    let ethree = try! EThree(params: params)
+```
+
+*EThreeParams* can also be initialized from config plist file.
 
 ```swift 
     let configUrl = Bundle.main.url(forResource: "EThreeConfig", withExtension: "plist")!
@@ -244,8 +256,6 @@ try eThree.decrypt(encryptedStream, to: outputStream)
     let params = try! EThreeParams(identity: "Alice", 
                                    tokenCallback: tokenCallback, 
                                    configUrl: configUrl)
-     
-    params.changedKeyDelegate = myDelegate
     
     let ethree = try! EThree(params: params)
 ```
