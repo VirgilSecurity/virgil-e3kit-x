@@ -340,12 +340,13 @@ ethree.deleteGroup(id: groupId) { error in
 ```
 
 ## Double Ratchet Chat
-In this section, you'll find out how to create and use Double Ratchet chats.
+In this section, you'll find out how to create and use Double Ratchet chats feature.
 
 We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
 
 #### Create chat
 
+To create a peer-to-peer connection using Double Ratchet protocol use the folowing snippet
 ```swift
 
 ethree.createRatchetChat(with: users["Bob"]) { chat, error in
@@ -357,6 +358,8 @@ ethree.createRatchetChat(with: users["Bob"]) { chat, error in
 ```
 
 #### Join chat
+
+After someone created chat with user, he can join it
 
 ```swift
 
@@ -378,6 +381,8 @@ let chat = try! ethree.getRatchetChat(with: users["Alice"])
 ```
 
 #### Delete chat
+
+Use this snippet to delete chat from local storage and clean cloud invites.
 
 ```swift
 
