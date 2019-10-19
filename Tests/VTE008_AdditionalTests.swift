@@ -46,7 +46,7 @@ class VTE008_AdditionalTests: XCTestCase {
         XCTAssert(VirgilE3Kit.ProductInfo.version == version)
     }
 
-    func test02_STE_49__init_ethreeParams__from_config__should_succeed() {
+    func test02_STE_49__init_ethreeParams__from_valid_config__should_succeed() {
         let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -54,7 +54,7 @@ class VTE008_AdditionalTests: XCTestCase {
         }
 
         let bundle = Bundle(for: TestConfig.self)
-        let configFileUrl = bundle.url(forResource: "EThreeConfig", withExtension: "plist")!
+        let configFileUrl = bundle.url(forResource: "EThreeValidConfig", withExtension: "plist")!
 
         let params = try! EThreeParams(identity: identity,
                                        tokenCallback: tokenCallback,
@@ -81,5 +81,23 @@ class VTE008_AdditionalTests: XCTestCase {
         } catch EThreeParamsError.unknownKeyInConfig {} catch {
             XCTFail()
         }
+    }
+
+    func test04_STE_69__init_ethreeParams__from_example_config__should_succeed() {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            completion("token", nil)
+        }
+
+        let bundle = Bundle(for: TestConfig.self)
+        let configFileUrl = bundle.url(forResource: "EThreeConfig", withExtension: "plist")!
+
+        let params = try! EThreeParams(identity: identity,
+                                       tokenCallback: tokenCallback,
+                                       configUrl: configFileUrl)
+
+        XCTAssert(params.enableRatchet == false)
+        XCTAssert(params.keyRotationInterval == 3_600)
     }
 }
