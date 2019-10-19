@@ -36,10 +36,7 @@
 
 import XCTest
 @testable import VirgilE3Kit
-import VirgilCrypto
 import VirgilSDK
-import VirgilSDKRatchet
-import VirgilCryptoRatchet
 
 class VTE009_RatchetTests: XCTestCase {
     let utils = TestUtils()
