@@ -339,6 +339,72 @@ ethree.deleteGroup(id: groupId) { error in
 }
 ```
 
+## Double Ratchet Chat
+In this section, you'll find out how to create and use Double Ratchet chats.
+
+We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
+
+#### Create chat
+
+```swift
+
+ethree.createRatchetChat(with: users["Bob"]) { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat created and saved locally!
+}
+```
+
+#### Join chat
+
+```swift
+
+ethree.joinRatchetChat(with: users["Alice"]) { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat joined and saved locally!
+}
+```
+
+#### Get chat
+
+After joining or creating chat you can use getRatchetChat method to retrieve it from local storage.
+```swift
+
+let chat = try! ethree.getRatchetChat(with: users["Alice"])
+
+```
+
+#### Delete chat
+
+```swift
+
+ethree.deleteRatchetChat(with: users["Bob"]) { error in
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Group was deleted!
+}
+```
+
+#### Encrypt and decrypt messages
+
+Use the following code-snippets to encrypt messages:
+```swift
+// prepare a message
+let messageToEncrypt = "Hello, Bob!"
+
+let encrypted = try! chat.encrypt(text: messageToEncrypt)
+```
+
+Use the following code-snippets to decrypt messages:
+```swift
+let decrypted = try! chat.decrypt(text: encrypted)
+```
+
 ## Samples
 
 You can find the code samples for Objective-C/Swift here:
