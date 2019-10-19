@@ -36,6 +36,10 @@
 
 import Foundation
 
+/// Declares error types and codes for `EThreeRarams`
+///
+/// - invalidPlistFile: Invalid config file structure
+/// - unknownKeyInConfig: Config file contains unknown key
 @objc(VTEEThreeParamsError) public enum EThreeParamsError: Int, LocalizedError {
     case invalidPlistFile = 1
     case unknownKeyInConfig = 2

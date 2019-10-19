@@ -36,14 +36,17 @@
 
 import Foundation
 
-/// Declares error types and codes for EThreeRatchet
+/// Declares error types and codes for Ethree Ratchet capabilities
 ///
+/// - encryptEmptyArray: Trying to encrypt empty array
 /// - decryptEmptyArray: Trying to decrypt empty array
-/// - missingChat: Chat with provided user was not found locally
-/// - chatAlreadyExists: Chat with provided user already exists
-/// - selfChatIsForbidden: Chat with self is forbidden. Use EThree for this purpose.
-/// - joinChatFailed: There aren't chat with this user locally.
-///                   In order to join secure chat, decrypt first encrypted message by chat initiator
+/// - missingLocalChat: Chat with provided user was not found locally
+/// - chatAlreadyExists: Chat with provided user and name already exists
+/// - selfChatIsForbidden: Chat with self is forbidden. Use regular encryption for this purpose.
+/// - ratchetIsDisabled: enableRatchet parameter is set to false
+/// - userIsNotUsingRatchet: Provided user has been never initialized with ratchet enabled
+/// - noInvite: There is no invitation from provided user
+/// - noSelfCardLocally: There is no self card in local storage
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case encryptEmptyArray = 1
     case decryptEmptyArray = 2

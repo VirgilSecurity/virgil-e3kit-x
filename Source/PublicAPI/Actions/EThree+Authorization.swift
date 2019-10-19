@@ -114,8 +114,6 @@ extension EThree {
 
                     try self.privateKeyDeleted()
 
-                    // TODO: Add reset Cloud storages ?
-
                     completion((), nil)
                 } catch {
                     completion(nil, error)

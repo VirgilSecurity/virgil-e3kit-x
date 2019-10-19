@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 import VirgilSDKRatchet
 
-/// Class containing default features of E3Kit
+/// Main class containing all features of E3Kit
 @objc(VTEEThree) open class EThree: NSObject {
     /// Typealias for the valid result of lookupPublicKeys call
     public typealias LookupResult = [String: VirgilPublicKey]

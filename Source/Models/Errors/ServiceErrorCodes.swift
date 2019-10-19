@@ -34,7 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
 
 internal enum ServiceErrorCodes: Int {
     case noKeyDataForUser = 50_017
