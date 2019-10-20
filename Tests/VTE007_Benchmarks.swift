@@ -155,7 +155,7 @@ class VTE007_Benchmarks: XCTestCase {
 
             let group2 = try ethree2.loadGroup(id: identifier, initiator: card1).startSync().get()
 
-            for i in 0..<10 {
+            for i in 0..<20 {
                 try group1.remove(participant: card3).startSync().get()
                 try group1.add(participant: card3).startSync().get()
 
@@ -163,7 +163,7 @@ class VTE007_Benchmarks: XCTestCase {
                     try group2.update().startSync().get()
                 }
 
-                try self.measure(title: "Update group with \(i) tickets", maxTime: 500_000_000, invocationCount: 1, block: block)
+                try self.measure(title: "Update group with \(i) tickets", maxTime: 1_000_000_000, invocationCount: 1, block: block)
             }
         } catch {
             print(error.localizedDescription)

@@ -65,6 +65,8 @@
                                         }
                                    changedKeyDelegate:nil
                                         storageParams:params
+                                        enableRatchet:false
+                                  keyRotationInterval:3600
                                                 error:&error];
     XCTAssert(self.eThree != nil && error == nil);
 }

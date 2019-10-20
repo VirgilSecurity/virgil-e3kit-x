@@ -36,7 +36,10 @@
 
 import Foundation
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta1"
+/// Class containing all default values
+@objc(VTEDefaults) public class Defaults: NSObject {
+    /// Enables ratchet operations
+    @objc public static let enableRatchet: Bool = false
+    /// TimeInterval of automatic rotate keys for double ratchet
+    @objc public static let keyRotationInterval: TimeInterval = 3_600
 }

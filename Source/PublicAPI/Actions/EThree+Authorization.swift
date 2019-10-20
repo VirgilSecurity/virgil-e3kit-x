@@ -39,40 +39,6 @@ import VirgilCrypto
 
 // MARK: - Extension with authorization operations
 extension EThree {
-    /// Initializes E3Kit with a callback to get Virgil access token
-    ///
-    /// - Parameters:
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    @available(*, deprecated, message: "Use constructor instead")
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
-        return CallbackOperation { _, completion in
-            do {
-                let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-                let tokenContext = TokenContext(service: "cards", operation: "")
-
-                let getTokenOperation = CallbackOperation<AccessToken> { _, completion in
-                    accessTokenProvider.getToken(with: tokenContext, completion: completion)
-                }
-
-                let token = try getTokenOperation.startSync().get()
-
-                let ethree = try EThree(identity: token.identity(),
-                                        accessTokenProvider: accessTokenProvider,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams)
-
-                completion(ethree, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
     /// Publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified

@@ -39,7 +39,7 @@ import XCTest
 import VirgilCrypto
 import VirgilSDK
 
-class VTE004_GroupTests: XCTestCase {
+class VTE004_MixtecTests: XCTestCase {
     let utils = TestUtils()
 
     var crypto: VirgilCrypto {

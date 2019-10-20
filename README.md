@@ -50,7 +50,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
     use_frameworks!
 
-    pod 'VirgilE3Kit', '~> 0.7.0'
+    pod 'VirgilE3Kit', '~> 0.8.0-beta1'
 end
 ```
 
@@ -74,7 +74,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.7.0
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.8.0-beta1
 ```
 
 #### Linking against prebuilt binaries
@@ -234,6 +234,33 @@ let outputStream = OutputStream.toMemory()
 try eThree.decrypt(encryptedStream, to: outputStream)
 ```
 
+#### Convinience initializer
+
+`EThree` initializer has plenty of optional parameters to customize it's behaviour. You can easily set them using `EThreeParams` class.
+
+```swift     
+    let params = try! EThreeParams(identity: "Alice", 
+                                   tokenCallback: tokenCallback)
+     
+    params.enableRatchet = true
+    params.changedKeyDelegate = myDelegate
+    
+    let ethree = try! EThree(params: params)
+```
+
+`EThreeParams` can also be initialized from config plist file.
+
+```swift 
+    let configUrl = Bundle.main.url(forResource: "EThreeConfig", withExtension: "plist")!
+    
+    let params = try! EThreeParams(identity: "Alice", 
+                                   tokenCallback: tokenCallback, 
+                                   configUrl: configUrl)
+    
+    let ethree = try! EThree(params: params)
+```
+The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta1/Tests/Data/ExampleConfig).
+
 ## Enable Group Chat
 In this section, you'll find out how to build a group chat using the Virgil E3Kit.
 
@@ -337,6 +364,77 @@ ethree.deleteGroup(id: groupId) { error in
     
     // Group was deleted!
 }
+```
+
+## Double Ratchet Chat
+In this section, you'll find out how to create and use Double Ratchet chats feature.
+
+We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
+
+#### Create chat
+
+To create a peer-to-peer connection using Double Ratchet protocol use the folowing snippet
+```swift
+
+ethree.createRatchetChat(with: users["Bob"]) { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat created and saved locally!
+}
+```
+
+#### Join chat
+
+After someone created chat with user, he can join it
+
+```swift
+
+ethree.joinRatchetChat(with: users["Alice"]) { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat joined and saved locally!
+}
+```
+
+#### Get chat
+
+After joining or creating chat you can use getRatchetChat method to retrieve it from local storage.
+```swift
+
+let chat = try! ethree.getRatchetChat(with: users["Alice"])
+
+```
+
+#### Delete chat
+
+Use this snippet to delete chat from local storage and clean cloud invites.
+
+```swift
+
+ethree.deleteRatchetChat(with: users["Bob"]) { error in
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Group was deleted!
+}
+```
+
+#### Encrypt and decrypt messages
+
+Use the following code-snippets to encrypt messages:
+```swift
+// prepare a message
+let messageToEncrypt = "Hello, Bob!"
+
+let encrypted = try! chat.encrypt(text: messageToEncrypt)
+```
+
+Use the following code-snippets to decrypt messages:
+```swift
+let decrypted = try! chat.decrypt(text: encrypted)
 ```
 
 ## Samples

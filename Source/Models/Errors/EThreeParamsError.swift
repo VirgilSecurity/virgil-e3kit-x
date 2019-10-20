@@ -36,7 +36,21 @@
 
 import Foundation
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta1"
+/// Declares error types and codes for `EThreeRarams`
+///
+/// - invalidPlistFile: Invalid config file structure
+/// - unknownKeyInConfig: Config file contains unknown key
+@objc(VTEEThreeParamsError) public enum EThreeParamsError: Int, LocalizedError {
+    case invalidPlistFile = 1
+    case unknownKeyInConfig = 2
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .invalidPlistFile:
+            return "Invalid config file structure"
+        case .unknownKeyInConfig:
+            return "Config file contains unknown key"
+        }
+    }
 }

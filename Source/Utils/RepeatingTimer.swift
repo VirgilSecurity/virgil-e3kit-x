@@ -36,7 +36,59 @@
 
 import Foundation
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta1"
+internal class RepeatingTimer {
+    private let interval: TimeInterval
+    private let timer: DispatchSourceTimer
+
+    private enum State {
+        case suspended
+        case resumed
+    }
+
+    private var state: State = .suspended
+
+    internal init(interval: TimeInterval, startFromNow: Bool, handler: @escaping () -> Void) {
+        self.interval = interval
+
+        let timer = DispatchSource.makeTimerSource()
+
+        let startAfter = startFromNow ? 0 : self.interval
+
+        timer.schedule(deadline: .now() + startAfter,
+                       repeating: self.interval)
+
+        timer.setEventHandler(handler: handler)
+
+        self.timer = timer
+    }
+
+    deinit {
+        self.timer.setEventHandler {}
+        self.timer.cancel()
+
+        /*
+         If the timer is suspended, calling cancel without resuming
+         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
+         */
+
+        self.resume()
+    }
+
+    internal func resume() {
+        if self.state == .resumed {
+            return
+        }
+
+        self.state = .resumed
+        self.timer.resume()
+    }
+
+    internal func suspend() {
+        if self.state == .suspended {
+            return
+        }
+
+        self.state = .suspended
+        self.timer.suspend()
+    }
 }

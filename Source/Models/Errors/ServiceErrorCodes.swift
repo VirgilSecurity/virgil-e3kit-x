@@ -36,7 +36,6 @@
 
 import Foundation
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta1"
+internal enum ServiceErrorCodes: Int {
+    case noKeyDataForUser = 50_017
 }
