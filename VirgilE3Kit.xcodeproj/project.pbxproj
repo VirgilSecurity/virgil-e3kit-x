@@ -41,6 +41,10 @@
 		1616C04D235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
 		1616C04E235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
 		1616C04F235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
+		1622A8BF235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
+		1622A8C0235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
+		1622A8C1235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
+		1622A8C2235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
 		1629F5D422D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
 		1629F5D522D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
 		1629F5D622D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */; };
@@ -477,6 +481,7 @@
 		1616C0452357549200948C3B /* EThreeParamsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParamsError.swift; sourceTree = "<group>"; };
 		1616C04C235755C700948C3B /* EThreeValidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeValidConfig.plist; sourceTree = "<group>"; };
 		1620EF9A234385150001B764 /* EThreeParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParams.swift; sourceTree = "<group>"; };
+		1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedPasswords.swift; sourceTree = "<group>"; };
 		1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Mixtec.swift"; sourceTree = "<group>"; };
 		162D2B4E22410C6400CE7FC2 /* VSCFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCFoundation.framework; path = Carthage/Build/Mac/VSCFoundation.framework; sourceTree = "<group>"; };
 		162D2B4F22410C6400CE7FC2 /* VirgilCryptoPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCryptoPythia.framework; path = Carthage/Build/Mac/VirgilCryptoPythia.framework; sourceTree = "<group>"; };
@@ -921,6 +926,7 @@
 				16EE4FBA234E73AE005CA2D5 /* Mixtec */,
 				16BB9B5522F448C30057D6B2 /* ChangedKeyDelegate.swift */,
 				1620EF9A234385150001B764 /* EThreeParams.swift */,
+				1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1508,6 +1514,7 @@
 				16B1F8AD23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16AD62DA22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16D4D2C5234E464400AFF80E /* EThreeParams.swift in Sources */,
+				1622A8BF235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16E33885234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1549,6 +1556,7 @@
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				16D4D2C4234E448D00AFF80E /* Defaults.swift in Sources */,
+				1622A8C2235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
 				1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
@@ -1609,6 +1617,7 @@
 				16B1F8AE23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16A4AFD223509446003BDF9B /* ProductInfo.swift in Sources */,
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				1622A8C0235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
@@ -1660,6 +1669,7 @@
 				16B1F8AF23279DC40082ECE0 /* EThree+Authorization.swift in Sources */,
 				16A4AFD323509446003BDF9B /* ProductInfo.swift in Sources */,
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
+				1622A8C1235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
