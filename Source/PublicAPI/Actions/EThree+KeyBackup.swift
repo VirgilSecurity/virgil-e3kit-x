@@ -43,8 +43,8 @@ extension EThree {
     @objc open func derivePasswords(from password: String) -> DerivedPasswords {
         let passwordData = password.data(using: .utf8)!
 
-        let hash1 = crypto.computeHash(for: passwordData, using: .sha256)
-        let hash2 = crypto.computeHash(for: hash1, using: .sha512)
+        let hash1 = self.crypto.computeHash(for: passwordData, using: .sha256)
+        let hash2 = self.crypto.computeHash(for: hash1, using: .sha512)
 
         let loginPassword = hash2.subdata(in: 0..<32).base64EncodedString()
         let backupPassword = hash2.subdata(in: 32..<64).base64EncodedString()
