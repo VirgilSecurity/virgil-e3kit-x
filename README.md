@@ -234,6 +234,42 @@ let outputStream = OutputStream.toMemory()
 try eThree.decrypt(encryptedStream, to: outputStream)
 ```
 
+#### Multidevice support
+
+In order to enable multidevice support you need to backup Private Key. It wiil be encrypted with [BrainKey](https://github.com/VirgilSecurity/virgil-pythia-x), generated from password and sent to virgil cloud.
+
+```swift
+ethree.backupPrivateKey(password: userPassword) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    // Private Key successfully backuped
+}
+```
+
+After private key was backuped you can use `restorePrivateKey` method to load and decrypt Private Key from virgil cloud.
+
+```swift
+ethree.restorePrivateKey(password: userPassword) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    // Private Key successfully restored and saved locally
+}
+```
+
+If you authorize users using password in your application, please do not use the same password to backup Private Key, since it's not secure. Instead, you can derive from your user password two different ones.
+
+```swift
+let derivedPasswords = ethree.derivePasswords(from: userPassword)
+
+// This password should be used for backup/restore PrivateKey
+let backupPassword = derivedPasswords.backupPassword
+// This password should be used for other purposes, e.g user authorization
+let loginPassword = derivedPasswords.loginPassword
+```
+
+
 #### Convinience initializer
 
 `EThree` initializer has plenty of optional parameters to customize it's behaviour. You can easily set them using `EThreeParams` class.
