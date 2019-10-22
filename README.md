@@ -173,7 +173,7 @@ eThree!.findUsers(with: ["Alice", "Den"]) { users, error in
     }
     
     // encrypt text
-    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: users)
+    let encryptedMessage = try! eThree.authEncrypt(text: messageToEncrypt, for: users)
 }
 ```
 
@@ -191,7 +191,7 @@ eThree.findUsers(with: [bobUID]) { users, error in
     }
     
     // Decrypt text and verify if it was really written by Bob
-    let originText = try! eThree.decrypt(text: encryptedText, from: users[bobUID]!)
+    let originText = try! eThree.authDecrypt(text: encryptedText, from: users[bobUID]!)
 }
 ```
 
