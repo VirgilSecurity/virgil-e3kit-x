@@ -84,13 +84,13 @@ internal class GroupManager {
         let cloudEpochs = try self.cloudTicketStorage.getEpochs(sessionId: sessionId, identity: card.identity)
         let localEpochs = try self.localGroupStorage.getEpochs(sessionId: sessionId)
 
-        guard let lastEpoch = cloudEpochs.sorted().last else {
+        guard let anyEpoch = cloudEpochs.first else {
             try self.localGroupStorage.delete(sessionId: sessionId)
             throw GroupError.groupWasNotFound
         }
 
         var epochs: Set<String> = cloudEpochs.subtracting(localEpochs)
-        epochs.insert(lastEpoch)
+        epochs.insert(anyEpoch)
 
         let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
                                                            identity: card.identity,
@@ -117,8 +117,10 @@ internal class GroupManager {
     }
 
     internal func retrieve(sessionId: Data) -> Group? {
+        let ticketsCount = GroupManager.maxTicketsInGroup
+
         guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                                  lastTicketsCount: GroupManager.maxTicketsInGroup) else {
+                                                                  lastTicketsCount: ticketsCount) else {
             return nil
         }
 
