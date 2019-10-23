@@ -109,8 +109,8 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree.createRatchetChat(with: card).startSync().get()
+                XCTFail()
             } catch EThreeRatchetError.selfChatIsForbidden {}
-
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -124,9 +124,8 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree2.createRatchetChat(with: card1).startSync().get()
-            } catch EThreeRatchetError.userIsNotUsingRatchet {} catch {
                 XCTFail()
-            }
+            } catch EThreeRatchetError.userIsNotUsingRatchet {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -150,6 +149,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+                XCTFail()
             }
             catch EThreeRatchetError.chatAlreadyExists {}
         } catch {
@@ -185,8 +185,8 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree.joinRatchetChat(with: card).startSync().get()
+                XCTFail()
             } catch EThreeRatchetError.selfChatIsForbidden {}
-
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -203,6 +203,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                XCTFail()
             } catch EThreeRatchetError.chatAlreadyExists {}
         } catch {
             print(error.localizedDescription)
@@ -217,6 +218,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                XCTFail()
             } catch EThreeRatchetError.noInvite {}
         } catch {
             print(error.localizedDescription)
@@ -225,23 +227,24 @@ class VTE009_RatchetTests: XCTestCase {
     }
 
     func test009_STE_59__join__after_delete__should_throw_error() {
+       do {
+           let (ethree1, card1) = try self.setUpDevice()
+           let (ethree2, card2) = try self.setUpDevice()
+
+            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+
+            try ethree1.deleteRatchetChat(with: card2).startSync().get()
+
            do {
-               let (ethree1, card1) = try self.setUpDevice()
-               let (ethree2, card2) = try self.setUpDevice()
-
-                _ = try ethree1.createRatchetChat(with: card2).startSync().get()
-
-                try ethree1.deleteRatchetChat(with: card2).startSync().get()
-
-               do {
-                    _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
-               }
-               catch EThreeRatchetError.noInvite {}
-           } catch {
-               print(error.localizedDescription)
-               XCTFail()
+                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                XCTFail()
            }
+           catch EThreeRatchetError.noInvite {}
+       } catch {
+           print(error.localizedDescription)
+           XCTFail()
        }
+    }
 
     func test010_STE_60__join__after_rotate__should_throw_error() {
         do {
@@ -255,6 +258,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                XCTFail()
             } catch EThreeRatchetError.noInvite {}
         } catch {
             print(error.localizedDescription)
@@ -316,6 +320,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 try ethree1.deleteRatchetChat(with: card2).startSync().get()
+                XCTFail()
             }
             catch EThreeRatchetError.missingLocalChat {}
         } catch {
@@ -331,27 +336,23 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree1.createRatchetChat(with: card2).startSync().get()
-            } catch EThreeRatchetError.ratchetIsDisabled {} catch {
                 XCTFail()
-            }
+            } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
                 _ = try ethree1.joinRatchetChat(with: card2).startSync().get()
-            } catch EThreeRatchetError.ratchetIsDisabled {} catch {
                 XCTFail()
-            }
+            } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
                 _ = try ethree1.getRatchetChat(with: card2)
-            } catch EThreeRatchetError.ratchetIsDisabled {} catch {
                 XCTFail()
-            }
+            } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
                 _ = try ethree1.deleteRatchetChat(with: card2).startSync().get()
-            } catch EThreeRatchetError.ratchetIsDisabled {} catch {
                 XCTFail()
-            }
+            } catch EThreeRatchetError.ratchetIsDisabled {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
