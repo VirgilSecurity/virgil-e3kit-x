@@ -102,7 +102,7 @@ class VTE007_Benchmarks: XCTestCase {
                 let block = {
                     let bobCard = alice.findCachedUser(with: bob.identity)!
 
-                    _ = try alice.signThenEncrypt(data: self.toEncrypt, for: bobCard)
+                    _ = try alice.authEncrypt(data: self.toEncrypt, for: bobCard)
                 }
 
                 try self.measure(title: "encryption with \(keyType.rawStrValue)", maxTime: 100_000_000, block: block)
@@ -122,14 +122,14 @@ class VTE007_Benchmarks: XCTestCase {
                 let bob = try self.setUpDevice(with: bobKeyPair)
 
                 let bobCard = try alice.findUser(with: bob.identity).startSync().get()
-                let encrypted = try alice.signThenEncrypt(data: self.toEncrypt, for: bobCard)
+                let encrypted = try alice.authEncrypt(data: self.toEncrypt, for: bobCard)
 
                 _ = try bob.findUser(with: alice.identity).startSync().get()
 
                 let block = {
                     let aliceCard = bob.findCachedUser(with: alice.identity)!
 
-                    _ = try bob.decryptThenVerify(data: encrypted, from: aliceCard)
+                    _ = try bob.authDecrypt(data: encrypted, from: aliceCard)
                 }
 
                 try self.measure(title: "decryption with \(keyType.rawStrValue)", maxTime: 100_000_000, block: block)

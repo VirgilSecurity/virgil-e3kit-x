@@ -173,7 +173,7 @@ eThree!.findUsers(with: ["Alice", "Den"]) { users, error in
     }
     
     // encrypt text
-    let encryptedMessage = try! eThree.signThenEncrypt(text: messageToEncrypt, for: users)
+    let encryptedMessage = try! eThree.authEncrypt(text: messageToEncrypt, for: users)
 }
 ```
 
@@ -191,7 +191,7 @@ eThree.findUsers(with: [bobUID]) { users, error in
     }
     
     // Decrypt text and verify if it was really written by Bob
-    let originText = try! eThree.decryptThenVerify(text: encryptedText, from: users[bobUID]!)
+    let originText = try! eThree.authDecrypt(text: encryptedText, from: users[bobUID]!)
 }
 ```
 
@@ -218,7 +218,7 @@ eThree.findUsers(with: usersToEncryptTo) { users, error in
     let inputStream = InputStream(url: fileURL)!
     let outputStream = OutputStream.toMemory()
 
-    try eThree.signThenEncrypt(inputStream, to: outputStream, for: users)
+    try eThree.authEncrypt(inputStream, to: outputStream, for: users)
 }
 ```
 
@@ -231,7 +231,7 @@ import VirgilE3Kit
 
 let outputStream = OutputStream.toMemory()
 
-try eThree.decryptThenVerify(encryptedStream, to: outputStream)
+try eThree.authDecrypt(encryptedStream, to: outputStream)
 ```
 
 #### Multidevice support

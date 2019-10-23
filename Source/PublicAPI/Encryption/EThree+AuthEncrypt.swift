@@ -49,9 +49,9 @@ extension EThree {
     /// - Returns: encrypted data
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @objc(signThenEncryptData:forUser:error:)
-    open func signThenEncrypt(data: Data, for user: Card) throws -> Data {
-        return try self.signThenEncrypt(data: data, for: [user.identity: user])
+    @objc(authEncryptData:forUser:error:)
+    open func authEncrypt(data: Data, for user: Card) throws -> Data {
+        return try self.authEncrypt(data: data, for: [user.identity: user])
     }
 
     /// Signs then encrypts string (and signature) for user
@@ -64,9 +64,9 @@ extension EThree {
     /// - Returns: encrypted String
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @objc(signThenEncryptText:forUser:error:)
-    open func signThenEncrypt(text: String, for user: Card) throws -> String {
-        return try self.signThenEncrypt(text: text, for: [user.identity: user])
+    @objc(authEncryptText:forUser:error:)
+    open func authEncrypt(text: String, for user: Card) throws -> String {
+        return try self.authEncrypt(text: text, for: [user.identity: user])
     }
 
     /// Decrypts data and signature and verifies signature of sender
@@ -76,8 +76,8 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
-    @objc(decryptThenVerifyData:fromUsers:error:)
-    open func decryptThenVerify(data: Data, from user: Card? = nil) throws -> Data {
+    @objc(authDecryptData:fromUsers:error:)
+    open func authDecrypt(data: Data, from user: Card? = nil) throws -> Data {
         return try self.decryptInternal(data: data, from: user?.publicKey)
     }
 
@@ -89,8 +89,8 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
-    @objc(decryptThenVerifyData:fromUsers:date:error:)
-    open func decryptThenVerify(data: Data, from user: Card, date: Date) throws -> Data {
+    @objc(authDecryptData:fromUsers:date:error:)
+    open func authDecrypt(data: Data, from user: Card, date: Date) throws -> Data {
         var card = user
 
         while let previousCard = card.previousCard {
@@ -111,13 +111,13 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
-    @objc(decryptThenVerifyText:fromUser:error:)
-    open func decryptThenVerify(text: String, from user: Card? = nil) throws -> String {
+    @objc(authDecryptText:fromUser:error:)
+    open func authDecrypt(text: String, from user: Card? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decryptThenVerify(data: data, from: user)
+        let decryptedData = try self.authDecrypt(data: data, from: user)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
@@ -134,13 +134,13 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
-    @objc(decryptThenVerifyText:fromUser:date:error:)
-    open func decryptThenVerify(text: String, from user: Card, date: Date) throws -> String {
+    @objc(authDecryptText:fromUser:date:error:)
+    open func authDecrypt(text: String, from user: Card, date: Date) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decryptThenVerify(data: data, from: user, date: date)
+        let decryptedData = try self.authDecrypt(data: data, from: user, date: date)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
@@ -161,13 +161,13 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc(signThenEncryptText:forUsers:error:)
-    open func signThenEncrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
+    @objc(authEncryptText:forUsers:error:)
+    open func authEncrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
 
-        return try self.signThenEncrypt(data: data, for: users).base64EncodedString()
+        return try self.authEncrypt(data: data, for: users).base64EncodedString()
     }
 
     /// Signs then encrypts string (and signature) for group of users
@@ -182,8 +182,8 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc(signThenEncryptData:forUsers:error:)
-    open func signThenEncrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
+    @objc(authEncryptData:forUsers:error:)
+    open func authEncrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
         return try self.encryptInternal(data: data, for: users?.map { $1.publicKey })
     }
 }

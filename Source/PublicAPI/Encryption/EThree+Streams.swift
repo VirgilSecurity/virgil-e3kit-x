@@ -48,12 +48,12 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @objc(signThenEncryptStream:withSize:toStream:forUser:error:)
-    open func signThenEncrypt(_ stream: InputStream,
+    @objc(authEncryptStream:withSize:toStream:forUser:error:)
+    open func authEncrypt(_ stream: InputStream,
                               streamSize: Int,
                               to outputStream: OutputStream,
                               for user: Card) throws {
-        try self.signThenEncrypt(stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
+        try self.authEncrypt(stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
     }
 
     /// Signs then encrypts stream and signature for users
@@ -67,8 +67,8 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @objc(signThenEncryptStream:withSize:toStream:forUsers:error:)
-    open func signThenEncrypt(_ stream: InputStream,
+    @objc(authEncryptStream:withSize:toStream:forUsers:error:)
+    open func authEncrypt(_ stream: InputStream,
                               streamSize: Int,
                               to outputStream: OutputStream,
                               for users: FindUsersResult? = nil) throws {
@@ -83,7 +83,7 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self.
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func decryptThenVerify(_ stream: InputStream, to outputStream: OutputStream, from user: Card? = nil) throws {
+    @objc open func authDecrypt(_ stream: InputStream, to outputStream: OutputStream, from user: Card? = nil) throws {
         try self.decryptInternal(stream, to: outputStream, from: nil)
     }
 
@@ -96,7 +96,7 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func decryptThenVerify(_ stream: InputStream,
+    @objc open func authDecrypt(_ stream: InputStream,
                                       to outputStream: OutputStream,
                                       from user: Card,
                                       date: Date) throws {

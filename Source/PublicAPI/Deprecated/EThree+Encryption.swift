@@ -47,7 +47,7 @@ extension EThree {
     ///   - user: user Card to encrypt for
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptStream:toStream:forUser:error:)
     open func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
         try self.encrypt(stream, to: outputStream, for: [user.identity: user])
@@ -63,7 +63,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptStream:toStream:forUsers:error:)
     open func encrypt(_ stream: InputStream,
                       to outputStream: OutputStream,
@@ -77,7 +77,7 @@ extension EThree {
     ///   - stream: stream with encrypted data
     ///   - outputStream: stream with decrypted data
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc
     open func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -93,7 +93,7 @@ extension EThree {
     /// - Returns: encrypted data
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptData:forUser:error:)
     open func encrypt(data: Data, for user: Card) throws -> Data {
         return try self.encrypt(data: data, for: [user.identity: user])
@@ -107,7 +107,7 @@ extension EThree {
     /// - Returns: encrypted String
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptText:forUser:error:)
     open func encrypt(text: String, for user: Card) throws -> String {
         return try self.encrypt(text: text, for: [user.identity: user])
@@ -120,7 +120,7 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc(decryptData:fromUsers:error:)
     open func decrypt(data: Data, from user: Card? = nil) throws -> Data {
         return try self.oldDecryptInternal(data: data, from: user?.publicKey)
@@ -134,7 +134,7 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc(decryptData:fromUsers:date:error:)
     open func decrypt(data: Data, from user: Card, date: Date) throws -> Data {
         var card = user
@@ -157,7 +157,7 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self.
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc(decryptText:fromUser:error:)
     open func decrypt(text: String, from user: Card? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
@@ -181,7 +181,7 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc(decryptText:fromUser:date:error:)
     open func decrypt(text: String, from user: Card, date: Date) throws -> String {
         guard let data = Data(base64Encoded: text) else {
@@ -207,7 +207,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptText:forUsers:error:)
     open func encrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
@@ -227,7 +227,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptData:forUsers:error:)
     open func encrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
         return try self.oldEncryptInternal(data: data, for: users?.map { $1.publicKey })
@@ -245,7 +245,7 @@ public extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc func encrypt(data: Data, for recipientKeys: LookupResult) throws -> Data {
         return try self.oldEncryptInternal(data: data, for: self.lookupResultToPublicKeys(recipientKeys))
     }
@@ -257,7 +257,7 @@ public extension EThree {
     ///   - senderPublicKey: sender PublicKey to verify with
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc func decrypt(data: Data, from senderPublicKey: VirgilPublicKey) throws -> Data {
         return try self.oldDecryptInternal(data: data, from: senderPublicKey)
     }
@@ -271,7 +271,7 @@ public extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc
     func encrypt(_ stream: InputStream,
                  to outputStream: OutputStream,
@@ -288,7 +288,7 @@ public extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
-    @available(*, deprecated, message: "Use signThenEncrypt method instead.")
+    @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc func encrypt(text: String, for recipientKeys: LookupResult) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -306,7 +306,7 @@ public extension EThree {
     ///   - senderPublicKey: sender PublicKey to verify with
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
-    @available(*, deprecated, message: "Use decryptThenVerify method instead.")
+    @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc func decrypt(text: String, from senderPublicKey: VirgilPublicKey) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
