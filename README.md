@@ -258,7 +258,7 @@ ethree.restorePrivateKey(password: userPassword) { error in
 }
 ```
 
-If you authorize users using password in your application, please do not use the same password to backup Private Key, since it's not secure. Instead, you can derive from your user password two different ones.
+If you authorize users using password in your application, please do not use the same password to backup Private Key, since it breaks e2ee. Instead, you can derive from your user password two different ones.
 
 ```swift
 let derivedPasswords = ethree.derivePasswords(from: userPassword)
