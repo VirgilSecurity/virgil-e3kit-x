@@ -291,4 +291,13 @@
     }];
 }
 
+- (void)test06_STE_70 {
+    NSError *error;
+    NSString *password = [[NSUUID alloc] init].UUIDString;
+    VTEDerivedPasswords *derived = [VTEEThree derivePasswordsFrom:password error:&error];
+
+    XCTAssert(error == nil);
+    XCTAssert(![derived.backupPassword isEqualToString:derived.loginPassword]);
+}
+
 @end

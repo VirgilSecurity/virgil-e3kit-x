@@ -34,9 +34,42 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta2"
+// MARK: - Extension with deprecated lookup methods
+public extension EThree {
+    /// Retrieves users public keys from the Virgil Cloud
+    ///
+    /// - Parameter identities: array of identities to find
+    /// - Returns: CallbackOperation<LookupResult>
+    @available(*, deprecated, message: "Use findUsers instead.")
+    func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+        return CallbackOperation { _, completion in
+            do {
+                let cards = try self.findUsers(with: identities, forceReload: true).startSync().get()
+
+                let result = cards.mapValues { $0.publicKey }
+
+                completion(result, nil)
+            }
+            catch {
+                completion(nil, error)
+            }
+
+        }
+    }
+
+    /// Retrieves users public keys from the Virgil Cloud
+    ///
+    /// - Parameters:
+    ///   - identities: array of identities to find
+    ///   - completion: completion handler
+    ///   - lookupResult: dictionary with idenities as keys and found keys as values
+    ///   - error: corresponding error
+    @available(*, deprecated, message: "Use findUsers instead.")
+    @objc func lookupPublicKeys(of identities: [String],
+                                completion: @escaping (_ lookupResult: LookupResult?,
+                                                       _ error: Error?) -> Void) {
+        self.lookupPublicKeys(of: identities).start(completion: completion)
+    }
 }

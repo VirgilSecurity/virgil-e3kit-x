@@ -50,7 +50,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
     use_frameworks!
 
-    pod 'VirgilE3Kit', '~> 0.8.0-beta1'
+    pod 'VirgilE3Kit', '~> 0.8.0-beta2'
 end
 ```
 
@@ -74,7 +74,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.8.0-beta1
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.8.0-beta2
 ```
 
 #### Linking against prebuilt binaries
@@ -173,7 +173,7 @@ eThree!.findUsers(with: ["Alice", "Den"]) { users, error in
     }
     
     // encrypt text
-    let encryptedMessage = try! eThree.encrypt(messageToEncrypt, for: users)
+    let encryptedMessage = try! eThree.authEncrypt(text: messageToEncrypt, for: users)
 }
 ```
 
@@ -191,7 +191,7 @@ eThree.findUsers(with: [bobUID]) { users, error in
     }
     
     // Decrypt text and verify if it was really written by Bob
-    let originText = try! eThree.decrypt(text: encryptedText, from: users[bobUID]!)
+    let originText = try! eThree.authDecrypt(text: encryptedText, from: users[bobUID]!)
 }
 ```
 
@@ -218,7 +218,7 @@ eThree.findUsers(with: usersToEncryptTo) { users, error in
     let inputStream = InputStream(url: fileURL)!
     let outputStream = OutputStream.toMemory()
 
-    try eThree.encrypt(inputStream, to: outputStream, for: users)
+    try eThree.authEncrypt(inputStream, to: outputStream, for: users)
 }
 ```
 
@@ -231,8 +231,44 @@ import VirgilE3Kit
 
 let outputStream = OutputStream.toMemory()
 
-try eThree.decrypt(encryptedStream, to: outputStream)
+try eThree.authDecrypt(encryptedStream, to: outputStream)
 ```
+
+#### Multidevice support
+
+In order to enable multidevice support you need to backup Private Key. It wiil be encrypted with [BrainKey](https://github.com/VirgilSecurity/virgil-pythia-x), generated from password and sent to virgil cloud.
+
+```swift
+ethree.backupPrivateKey(password: userPassword) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    // Private Key successfully backuped
+}
+```
+
+After private key was backuped you can use `restorePrivateKey` method to load and decrypt Private Key from virgil cloud.
+
+```swift
+ethree.restorePrivateKey(password: userPassword) { error in 
+    guard error == nil else {
+        // Error handling
+    }
+    // Private Key successfully restored and saved locally
+}
+```
+
+If you authorize users using password in your application, please do not use the same password to backup Private Key, since it breaks e2ee. Instead, you can derive from your user password two different ones.
+
+```swift
+let derivedPasswords = try! EThree.derivePasswords(from: userPassword)
+
+// This password should be used for backup/restore PrivateKey
+let backupPassword = derivedPasswords.backupPassword
+// This password should be used for other purposes, e.g user authorization
+let loginPassword = derivedPasswords.loginPassword
+```
+
 
 #### Convinience initializer
 
@@ -259,7 +295,7 @@ try eThree.decrypt(encryptedStream, to: outputStream)
     
     let ethree = try! EThree(params: params)
 ```
-The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta1/Tests/Data/ExampleConfig).
+The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta2/Tests/Data/ExampleConfig).
 
 ## Enable Group Chat
 In this section, you'll find out how to build a group chat using the Virgil E3Kit.

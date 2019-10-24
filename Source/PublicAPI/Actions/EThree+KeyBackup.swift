@@ -35,9 +35,28 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 // MARK: - Extension with key back-up operations
 extension EThree {
+    // swiftlint:disable force_unwrapping
+    /// Derives different passwords for login and for backup from one
+    /// - Parameter password: password to derive from
+    @objc public static func derivePasswords(from password: String) throws -> DerivedPasswords {
+        let passwordData = password.data(using: .utf8)!
+
+        let crypto = try VirgilCrypto()
+
+        let hash1 = crypto.computeHash(for: passwordData, using: .sha256)
+        let hash2 = crypto.computeHash(for: hash1, using: .sha512)
+
+        let loginPassword = hash2.subdata(in: 0..<32).base64EncodedString()
+        let backupPassword = hash2.subdata(in: 32..<64).base64EncodedString()
+
+        return DerivedPasswords(loginPassword: loginPassword, backupPassword: backupPassword)
+    }
+    // swiftlint:enable force_unwrapping
+
     /// Encrypts user's private key using password and backs up the encrypted
     /// private key to Virgil's cloud. This enables users to log in from other devices
     /// and have access to their private key to decrypt data.

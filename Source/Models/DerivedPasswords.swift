@@ -36,7 +36,15 @@
 
 import Foundation
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta2"
+/// Represents result of derivePasswords call
+@objc(VTEDerivedPasswords) public class DerivedPasswords: NSObject {
+    /// Password which can be used for authorization
+    @objc public let loginPassword: String
+    /// Password to backup and restore Private Key
+    @objc public let backupPassword: String
+
+    internal init(loginPassword: String, backupPassword: String) {
+        self.loginPassword = loginPassword
+        self.backupPassword = backupPassword
+    }
 }
