@@ -36,17 +36,44 @@
 
 import Foundation
 
-/// Class containing all default values
-@objc(VTEDefaults) public class Defaults: NSObject {
-    /// Enables ratchet operations
-    @objc public static let enableRatchet: Bool = false
-    /// TimeInterval of automatic rotate keys for double ratchet
-    @objc public static let keyRotationInterval: TimeInterval = 3_600
+@objc(LoadKeyStrategyError) public enum LoadKeyStrategyError: Int, LocalizedError {
+    case unknownStrategy = 1
 
-#if os(iOS)
-    @objc public static let keyCacheLifeTime: TimeInterval = 3_600
-    @objc public static let biometricProtection: Bool = false
-    @objc public static let biometricPromt: String? = nil
-    @objc public static let loadKeyStrategy: LoadKeyStrategy = .instant
-#endif
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .unknownStrategy:
+            return "Valid strategies are `onlyOnUse`, `onFirstNeed` and `instant`"
+        }
+    }
+}
+
+/// Defines behaviour of loading key
+///  - onlyOnUse: load on every use
+///  - onFirstNeed: load on first need, then use cached value
+///  - instant: load on init
+/// - Tag: LoadKeyStrategy
+@objc(VTELoadKeyStrategy) public enum LoadKeyStrategy: Int, Decodable {
+    case onlyOnUse = 1
+    case onFirstNeed = 2
+    case instant = 3
+
+    public init(from decoder: Decoder) throws {
+        let rawValue = try decoder.singleValueContainer().decode(String.self)
+
+        try self.init(rawValue: rawValue)
+    }
+
+    public init(rawValue: String) throws {
+        switch rawValue.lowercased() {
+        case "onlyonuse":
+            self = .onlyOnUse
+        case "onfirstneed":
+            self = .onFirstNeed
+        case "instant":
+            self = .instant
+        default:
+            throw LoadKeyStrategyError.unknownStrategy
+        }
+    }
 }
