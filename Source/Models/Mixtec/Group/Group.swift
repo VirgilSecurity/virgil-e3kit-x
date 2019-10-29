@@ -40,7 +40,11 @@ import VirgilCrypto
 /// Class representing Group
 @objc(VTEGroup) open class Group: NSObject {
     /// Range of valid participants count
+    @available(*, deprecated, renamed: "ValidParticipantsCountRange")
     public static let ValidParticipatnsCountRange = 1...100
+
+    /// Range of valid participants count
+    public static let ValidParticipantsCountRange = 1...100
 
     /// Initiator
     @objc public let initiator: String
@@ -82,7 +86,7 @@ import VirgilCrypto
     }
 
     internal static func validateParticipantsCount(_ count: Int) throws {
-        guard Group.ValidParticipatnsCountRange ~= count else {
+        guard Group.ValidParticipantsCountRange ~= count else {
             throw GroupError.invalidParticipantsCount
         }
     }
