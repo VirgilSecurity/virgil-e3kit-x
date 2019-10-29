@@ -189,7 +189,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: created `Group`
     ///   - error: corresponding error
-    @objc(dataId:findResult:completion:)
+    @objc(createGroupWithDataId:findResult:completion:)
     open func createGroup(id identifier: Data,
                           with findResult: FindUsersResult,
                           completion: @escaping (_ group: Group?,
@@ -205,7 +205,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: loaded `Group`
     ///   - error: corresponding error
-    @objc(dataId:initiator:completion:)
+    @objc(loadGroupWithDataId:initiator:completion:)
     open func loadGroup(id identifier: Data,
                         initiator card: Card,
                         completion: @escaping (_ group: Group?,
@@ -219,7 +219,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc(dataId:completion:)
+    @objc(deleteGroupWithDataId:completion:)
     open func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
@@ -234,7 +234,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: created `Group`
     ///   - error: corresponding error
-    @objc(stringId:findResult:completion:)
+    @objc(createGroupWithStringId:findResult:completion:)
     open func createGroup(id identifier: String,
                           with findResult: FindUsersResult,
                           completion: @escaping (_ group: Group?,
@@ -250,7 +250,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: loaded `Group`
     ///   - error: corresponding error
-    @objc(stringId:initiator:completion:)
+    @objc(loadGroupWithStringId:initiator:completion:)
     open func loadGroup(id identifier: String,
                         initiator card: Card,
                         completion: @escaping (_ group: Group?,
@@ -264,7 +264,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc(stringId:completion:)
+    @objc(deleteGroupWithStringId:completion:)
     open func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
