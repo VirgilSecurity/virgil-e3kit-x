@@ -40,7 +40,7 @@ import VirgilCrypto
 /// Class representing Group
 @objc(VTEGroup) open class Group: NSObject {
     /// Range of valid participants count
-    public static let ValidParticipatnsCountRange = 2...100
+    public static let ValidParticipatnsCountRange = 1...100
 
     /// Initiator
     @objc public let initiator: String

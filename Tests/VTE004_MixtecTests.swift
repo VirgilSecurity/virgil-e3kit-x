@@ -70,11 +70,6 @@ class VTE004_MixtecTests: XCTestCase {
 
             let card = try ethree.findUser(with: ethree.identity).startSync().get()
 
-            do {
-                _ = try ethree.createGroup(id: groupId, with: [ethree.identity: card]).startSync().get()
-                XCTFail()
-            } catch GroupError.invalidParticipantsCount {}
-
             var lookup: [String: Card] = [:]
             for _ in 0..<100 {
                 let identity = UUID().uuidString
@@ -99,7 +94,7 @@ class VTE004_MixtecTests: XCTestCase {
         }
     }
 
-    func test002_STE_27__createGroup__should_add_self() {
+    func test002_STE_27__create__should_add_self() {
         do {
             let ethree1 = self.setUpDevice()
             let ethree2 = self.setUpDevice()
@@ -289,19 +284,17 @@ class VTE004_MixtecTests: XCTestCase {
         }
     }
 
-    func test009_STE_34__remove_last_participant__should_throw_error() {
+    func test009_STE_72__remove_last_participant__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree = self.setUpDevice()
+            let card = try ethree.findUser(with: ethree.identity).startSync().get()
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
-            let lookup = try ethree1.findUsers(with: [ethree2.identity]).startSync().get()
-
-            let group1 = try ethree1.createGroup(id: groupId, with: lookup).startSync().get()
+            let group = try ethree.createGroup(id: groupId).startSync().get()
 
             do {
-                try group1.remove(participant: lookup[ethree2.identity]!).startSync().get()
+                try group.remove(participant: card).startSync().get()
                 XCTFail()
             } catch GroupError.invalidParticipantsCount {}
         } catch {
