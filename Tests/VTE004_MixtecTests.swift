@@ -680,5 +680,32 @@ class VTE004_MixtecTests: XCTestCase {
             XCTFail()
         }
     }
+
+    func test019_STE_73__added_participant__should_decrypt_history() {
+        do {
+            let ethree1 = self.setUpDevice()
+            let ethree2 = self.setUpDevice()
+
+            let identifier = UUID().uuidString
+
+            let group1 = try ethree1.createGroup(id: identifier).startSync().get()
+
+            let message = UUID().uuidString
+            let encrypted = try group1.encrypt(text: message)
+
+            let card2 = try ethree1.findUser(with: ethree2.identity).startSync().get()
+            try group1.add(participant: card2).startSync().get()
+
+            let card1 = try ethree2.findUser(with: ethree1.identity).startSync().get()
+            let group2 = try ethree2.loadGroup(id: identifier, initiator: card1).startSync().get()
+
+            let decrypted = try group2.decrypt(text: encrypted, from: card1)
+
+            XCTAssert(decrypted == message)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 
