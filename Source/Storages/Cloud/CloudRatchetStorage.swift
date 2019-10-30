@@ -34,11 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
-import VirgilCryptoFoundation
-
 import VirgilCryptoRatchet
 
 internal class CloudRatchetStorage {

@@ -1,0 +1,92 @@
+//
+// Copyright (C) 2015-2019 Virgil Security Inc.
+//
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     (1) Redistributions of source code must retain the above copyright
+//     notice, this list of conditions and the following disclaimer.
+//
+//     (2) Redistributions in binary form must reproduce the above copyright
+//     notice, this list of conditions and the following disclaimer in
+//     the documentation and/or other materials provided with the
+//     distribution.
+//
+//     (3) Neither the name of the copyright holder nor the names of its
+//     contributors may be used to endorse or promote products derived from
+//     this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+// IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//
+// Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
+//
+
+import VirgilSDK
+import VirgilCrypto
+
+internal class CloudUnsafeStorage {
+    private static let root = "unsafe-channels"
+    private static let defaultKey = "default"
+
+    private let identity: String
+    private let accessTokenProvider: AccessTokenProvider
+    private let crypto: VirgilCrypto
+    private let keyknoxClient: KeyknoxClient
+
+    internal init(identity: String, accessTokenProvider: AccessTokenProvider, crypto: VirgilCrypto) {
+        self.identity = identity
+        self.accessTokenProvider = accessTokenProvider
+        self.crypto = crypto
+
+        let connection = EThree.getConnection()
+
+        self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
+                                           serviceUrl: KeyknoxClient.defaultURL,
+                                           connection: connection,
+                                           retryConfig: ExpBackoffRetry.Config())
+    }
+}
+
+extension CloudUnsafeStorage {
+    internal func store(_ tempKey: VirgilPrivateKey, for identity: String) throws {
+        let pushParams = KeyknoxPushParams(identities: [identity, self.identity],
+                                           root: CloudUnsafeStorage.root,
+                                           path: identity,
+                                           key: CloudUnsafeStorage.defaultKey)
+
+        let data = try self.crypto.exportPrivateKey(tempKey)
+
+        _ = try self.keyknoxClient.pushValue(params: pushParams,
+                                             meta: Data(),
+                                             value: data,
+                                             previousHash: nil)
+    }
+
+    internal func retrieve(from identity: String) throws -> VirgilKeyPair {
+        let params = KeyknoxPullParams(identity: identity,
+                                       root: CloudUnsafeStorage.root,
+                                       path: self.identity,
+                                       key: CloudUnsafeStorage.defaultKey)
+
+        let response = try self.keyknoxClient.pullValue(params: params)
+
+        guard !response.value.isEmpty else {
+           throw NSError()
+        }
+
+        return try self.crypto.importPrivateKey(from: response.value)
+    }
+}

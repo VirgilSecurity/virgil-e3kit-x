@@ -73,6 +73,7 @@ import VirgilSDKRatchet
     internal let cloudKeyManager: CloudKeyManager
     internal let lookupManager: LookupManager
     internal let cloudRatchetStorage: CloudRatchetStorage
+    internal let cloudUnsafeStorage: CloudUnsafeStorage
 
     internal var groupManager: GroupManager?
     internal var secureChat: SecureChat?
@@ -158,6 +159,10 @@ import VirgilSDKRatchet
         let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
                                                           localKeyStorage: localKeyStorage)
 
+        let cloudUnsafeStorage = CloudUnsafeStorage(identity: identity,
+                                                    accessTokenProvider: accessTokenProvider,
+                                                    crypto: crypto)
+
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
@@ -165,6 +170,7 @@ import VirgilSDKRatchet
                       cloudKeyManager: cloudKeyManager,
                       lookupManager: lookupManager,
                       cloudRatchetStorage: cloudRatchetStorage,
+                      cloudUnsafeStorage: cloudUnsafeStorage,
                       enableRatchet: enableRatchet,
                       keyRotationInterval: keyRotationInterval)
     }
@@ -176,6 +182,7 @@ import VirgilSDKRatchet
                   cloudKeyManager: CloudKeyManager,
                   lookupManager: LookupManager,
                   cloudRatchetStorage: CloudRatchetStorage,
+                  cloudUnsafeStorage: CloudUnsafeStorage,
                   enableRatchet: Bool,
                   keyRotationInterval: TimeInterval) throws {
         self.identity = identity
@@ -185,6 +192,7 @@ import VirgilSDKRatchet
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
         self.cloudRatchetStorage = cloudRatchetStorage
+        self.cloudUnsafeStorage = cloudUnsafeStorage
         self.enableRatchet = enableRatchet
         self.keyRotationInterval = keyRotationInterval
 

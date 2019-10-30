@@ -31,6 +31,14 @@
 		160BE967235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		160BE968235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		160BE969235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
+		160C3D9D2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */; };
+		160C3D9E2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */; };
+		160C3D9F2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */; };
+		160C3DA02369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */; };
+		160C3DA22369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
+		160C3DA32369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
+		160C3DA42369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
+		160C3DA52369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
 		1616C0422357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
 		1616C0432357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
 		1616C0442357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
@@ -489,6 +497,8 @@
 /* Begin PBXFileReference section */
 		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
 		160BE966235BD081008B9D54 /* EThreeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeConfig.plist; sourceTree = "<group>"; };
+		160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+UnsafeChannel.swift"; sourceTree = "<group>"; };
+		160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudUnsafeStorage.swift; sourceTree = "<group>"; };
 		1616C0412357478900948C3B /* EThreeInvalidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeInvalidConfig.plist; sourceTree = "<group>"; };
 		1616C0452357549200948C3B /* EThreeParamsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParamsError.swift; sourceTree = "<group>"; };
 		1616C04C235755C700948C3B /* EThreeValidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeValidConfig.plist; sourceTree = "<group>"; };
@@ -886,6 +896,7 @@
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				1685846922E0875D008EAC34 /* CloudTicketStorage.swift */,
 				16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */,
+				160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */,
 			);
 			path = Cloud;
 			sourceTree = "<group>";
@@ -983,6 +994,7 @@
 				1622A8C3235E068E0066CDD8 /* EThree+Streams.swift */,
 				1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */,
 				16B1F8D12327A8930082ECE0 /* EThree+Ratchet.swift */,
+				160C3D9C2369A6FD0057D989 /* EThree+UnsafeChannel.swift */,
 			);
 			path = Encryption;
 			sourceTree = "<group>";
@@ -1546,6 +1558,7 @@
 				1622A8C4235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
+				160C3D9D2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */,
 				16D1BCA2235872A8008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */,
@@ -1554,6 +1567,7 @@
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
+				160C3DA22369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B723279E2B0082ECE0 /* EThree+Search.swift in Sources */,
@@ -1579,6 +1593,7 @@
 				16E3387A234E775200678624 /* RatchetChat.swift in Sources */,
 				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				16E33883234E7F1E00678624 /* RatchetChat+Encryption.swift in Sources */,
+				160C3DA02369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
 				16B1F8D02327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
@@ -1598,6 +1613,7 @@
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
+				160C3DA52369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8BA23279E2B0082ECE0 /* EThree+Search.swift in Sources */,
@@ -1655,6 +1671,7 @@
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C5235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
+				160C3D9E2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA3235872AC008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1663,6 +1680,7 @@
 				16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
+				160C3DA32369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
@@ -1710,6 +1728,7 @@
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C6235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
+				160C3D9F2369A6FD0057D989 /* EThree+UnsafeChannel.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA4235872AD008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1718,6 +1737,7 @@
 				16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
+				160C3DA42369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
