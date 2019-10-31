@@ -44,7 +44,14 @@ internal class UnsafeChatManager {
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
 
-    private let metaIsPrivateKey: String = "isPrivate"
+    private enum MetaKeys: String {
+        case keyType
+    }
+
+    private enum KeyType: String {
+        case `private`
+        case `public`
+    }
 
     internal init(crypto: VirgilCrypto,
                   keychain: KeychainStorage,
@@ -80,7 +87,7 @@ extension UnsafeChatManager {
                                     selfPrivateKey: selfKeyPair.privateKey,
                                     crypto: self.crypto)
 
-        let meta = [self.metaIsPrivateKey: "false"]
+        let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
         let data = try self.crypto.exportPublicKey(participantKeyPair.publicKey)
         _ = try self.keychain.store(data: data, withName: identity, meta: meta)
 
@@ -90,7 +97,7 @@ extension UnsafeChatManager {
     internal func join(with card: Card) throws -> UnsafeChat {
         let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: card.identity)
 
-        let meta = [self.metaIsPrivateKey: "true"]
+        let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
         let data = try self.crypto.exportPrivateKey(tempKeyPair.privateKey)
         _ = try self.keychain.store(data: data, withName: card.identity, meta: meta)
 
@@ -103,12 +110,13 @@ extension UnsafeChatManager {
     internal func get(with identity: String) throws -> UnsafeChat {
         let entry = try self.keychain.retrieveEntry(withName: identity)
 
-        guard let isPrivateStr = entry.meta?[self.metaIsPrivateKey],
-            let isPrivate = Bool(isPrivateStr) else {
+        guard let rawValue = entry.meta?[MetaKeys.keyType.rawValue],
+            let keyType = KeyType(rawValue: rawValue) else {
                 throw NSError()
         }
 
-        if isPrivate {
+        switch keyType {
+        case .private:
             let keyPair = try self.crypto.importPrivateKey(from: entry.data)
             let participantCard = try self.lookupManager.lookupCachedCard(of: identity)
 
@@ -116,7 +124,7 @@ extension UnsafeChatManager {
                               participantPublicKey: participantCard.publicKey,
                               selfPrivateKey: keyPair.privateKey,
                               crypto: self.crypto)
-        } else {
+        case .public:
             let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
             let participantPublicKey = try self.crypto.importPublicKey(from: entry.data)
 

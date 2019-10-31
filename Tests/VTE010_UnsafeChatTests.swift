@@ -59,7 +59,32 @@ class VTE010_UnsafeChatTests: XCTestCase {
         return (ethree, card)
     }
 
-    func test01() {
+    func encryptDecrypt100Times(chat1: UnsafeChat, chat2: UnsafeChat) throws {
+        for _ in 0..<100 {
+            try autoreleasepool {
+                let sender: UnsafeChat
+                let receiver: UnsafeChat
+
+                if Bool.random() {
+                    sender = chat1
+                    receiver = chat2
+                }
+                else {
+                    sender = chat2
+                    receiver = chat1
+                }
+
+                let plainText = UUID().uuidString
+
+                let encrypted = try sender.encrypt(text: plainText)
+                let decrypted = try receiver.decrypt(text: encrypted)
+
+                XCTAssert(decrypted == plainText)
+            }
+        }
+    }
+
+    func test01__encrypt_decrypt__should_succeed() {
         do {
             let (ethree1, card1) = try self.setUpDevice()
 
@@ -74,6 +99,13 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)
+
+            try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
+
+            let newChat1 = try ethree1.getUnsafeChat(with: identity2)
+            let newChat2 = try ethree2.getUnsafeChat(with: card1.identity)
+
+            try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
         } catch {
             print(error.localizedDescription)
             XCTFail()
