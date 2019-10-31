@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 internal class CloudUnsafeStorage {
-    private static let root = "unsafe-channels"
+    private static let root = "unsafe-chats"
     private static let defaultKey = "default"
 
     private let identity: String
@@ -88,5 +88,13 @@ extension CloudUnsafeStorage {
         }
 
         return try self.crypto.importPrivateKey(from: response.value)
+    }
+
+    internal func delete(with idenity: String) throws {
+        let params = KeyknoxResetParams(root: CloudUnsafeStorage.root,
+                                        path: self.identity,
+                                        key: CloudUnsafeStorage.defaultKey)
+
+        _ = try self.keyknoxClient.resetValue(params: params)
     }
 }

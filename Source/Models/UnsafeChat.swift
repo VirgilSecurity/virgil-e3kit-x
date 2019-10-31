@@ -34,37 +34,21 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
 import VirgilCrypto
 
-public class UnsafeChannel {
+public class UnsafeChat {
     public let participant: String
-    public let publicKey: VirgilPublicKey
+    public let participantPublicKey: VirgilPublicKey
 
-    internal init(participant: String, publicKey: VirgilPublicKey, crypto: VirgilCrypto) {
+    public let selfPrivateKey: VirgilPrivateKey
+
+    internal init(participant: String,
+                  participantPublicKey: VirgilPublicKey,
+                  selfPrivateKey: VirgilPrivateKey,
+                  crypto: VirgilCrypto) {
         self.participant = participant
-        self.publicKey = publicKey
-    }
-}
-
-extension EThree {
-    public func createUnsafeChannel(with identity: String) -> GenericOperation<UnsafeChannel> {
-        return CallbackOperation { _, completion in
-            do {
-                let tempKeyPair = try self.crypto.generateKeyPair()
-
-                try self.cloudUnsafeStorage.store(tempKeyPair.privateKey, for: identity)
-
-                let unsafeChannel = UnsafeChannel(participant: identity,
-                                                  publicKey: tempKeyPair.publicKey,
-                                                  crypto: self.crypto)
-
-            //    try self.storage.store(unsafeChannel)
-
-                completion(unsafeChannel, nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        self.participantPublicKey = participantPublicKey
+        self.selfPrivateKey = selfPrivateKey
     }
 }
