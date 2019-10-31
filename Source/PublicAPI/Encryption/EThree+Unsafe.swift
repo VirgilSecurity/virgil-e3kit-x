@@ -53,6 +53,8 @@ extension EThree {
     open func joinUnsafeChat(with card: Card) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
+                _ = try self.localKeyStorage.retrieveKeyPair()
+
                 let unsafeChat = try self.unsafeChatManager.join(with: card)
 
                 completion(unsafeChat, nil)
