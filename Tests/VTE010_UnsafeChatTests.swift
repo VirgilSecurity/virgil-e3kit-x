@@ -34,36 +34,49 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import XCTest
+import VirgilE3Kit
 import VirgilSDK
-import VirgilCrypto
 
-internal class KeychainTempKeysStorage {
-    private let keychain: SandboxedKeychainStorage
+class VTE010_UnsafeChatTests: XCTestCase {
+    let utils = TestUtils()
 
-    internal init(identity: String, params: KeychainStorageParams) throws {
-        let keychainStorage = KeychainStorage(storageParams: params)
+    private func setUpDevice(identity: String? = nil) throws -> (EThree, Card) {
+        let identity = identity ?? UUID().uuidString
 
-        self.keychain = SandboxedKeychainStorage(identity: identity,
-                                                 prefix: "TEMP-KEYS",
-                                                 keychainStorage: keychainStorage)
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.utils.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
+
+        try ethree.register().startSync().get()
+
+        let card = try ethree.findUser(with: identity).startSync().get()
+
+        return (ethree, card)
     }
-}
 
-extension KeychainTempKeysStorage {
-    internal func store(key: Data, for identity: String, isPrivate: Bool) throws {
-        let isPrivate = isPrivate ? "1" : "0"
-        let meta = ["isPrivate": isPrivate]
+    func test01() {
+        do {
+            let (ethree1, card1) = try self.setUpDevice()
 
-        _ = try self.keychain.store(data: key, withName: identity, meta: meta)
+            let identity2 = UUID().uuidString
+            let chat1 = try ethree1.createUnsafeChat(with: identity2).startSync().get()
+
+            let message = UUID().uuidString
+            let encrypted = try chat1.encrypt(text: message)
+
+            let (ethree2, _) = try self.setUpDevice(identity: identity2)
+            let chat2 = try ethree2.joinUnsafeChat(with: card1).startSync().get()
+            let decrypted = try chat2.decrypt(text: encrypted)
+
+            XCTAssert(decrypted == message)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
     }
-//
-//    internal func retrieve(identity: String) throws -> Data {
-//        let entry = try self.keychain.retrieveEntry(withName: identity)
-//
-//        guard let isPrivate = entry.meta?["isPrivate"] else {
-//            throw NSError()
-//        }
-//
-//
-//    }
 }

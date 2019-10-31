@@ -34,22 +34,57 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilSDK
+import Foundation
 import VirgilCrypto
 
-internal class FileTempKeysStorage {
-    internal let identity: String
+@objc(VTEUnsafeChat) public class UnsafeChat: NSObject {
+    @objc public let participant: String
 
-    private let fileSystem: FileSystem
-    private let queue = DispatchQueue(label: "FileTempKeysStorageQueue")
+    internal let crypto: VirgilCrypto
+    internal let participantPublicKey: VirgilPublicKey
+    internal let selfPrivateKey: VirgilPrivateKey
 
-    internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
-        self.identity = identity
+    internal init(participant: String,
+                  participantPublicKey: VirgilPublicKey,
+                  selfPrivateKey: VirgilPrivateKey,
+                  crypto: VirgilCrypto) {
+        self.participant = participant
+        self.participantPublicKey = participantPublicKey
+        self.selfPrivateKey = selfPrivateKey
+        self.crypto = crypto
 
-        let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
-        self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
-                                     userIdentifier: identity,
-                                     pathComponents: ["TEMP-KEYS"],
-                                     credentials: credentials)
+        super.init()
+    }
+}
+
+extension UnsafeChat {
+    @objc open func encrypt(data: Data) throws -> Data {
+        try self.crypto.authEncrypt(data, with: self.selfPrivateKey, for: [self.participantPublicKey])
+    }
+
+    @objc open func decrypt(data: Data) throws -> Data {
+        try self.crypto.authDecrypt(data, with: self.selfPrivateKey, usingOneOf: [self.participantPublicKey])
+    }
+
+    @objc open func encrypt(text: String) throws -> String {
+        guard let data = text.data(using: .utf8) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        return try self.encrypt(data: data).base64EncodedString()
+    }
+
+    @objc open func decrypt(text: String) throws -> String {
+        guard let data = Data(base64Encoded: text) else {
+            throw EThreeError.strToDataFailed
+        }
+
+        let decryptedData = try self.decrypt(data: data)
+
+        guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
+            throw EThreeError.strFromDataFailed
+        }
+
+        return decryptedString
     }
 }

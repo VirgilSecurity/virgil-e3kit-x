@@ -50,5 +50,7 @@ import VirgilSDKRatchet
     internal init(session: SecureSession, sessionStorage: SessionStorage) {
         self.session = session
         self.sessionStorage = sessionStorage
+
+        super.init()
     }
 }

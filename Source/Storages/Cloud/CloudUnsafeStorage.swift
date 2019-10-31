@@ -40,6 +40,7 @@ import VirgilCrypto
 internal class CloudUnsafeStorage {
     private static let root = "unsafe-chats"
     private static let defaultKey = "default"
+    private static let metaStr = "unencrypted"
 
     private let identity: String
     private let accessTokenProvider: AccessTokenProvider
@@ -69,8 +70,10 @@ extension CloudUnsafeStorage {
 
         let data = try self.crypto.exportPrivateKey(tempKey)
 
+        let meta = CloudUnsafeStorage.metaStr.data(using: .utf8)!
+
         _ = try self.keyknoxClient.pushValue(params: pushParams,
-                                             meta: Data(),
+                                             meta: meta,
                                              value: data,
                                              previousHash: nil)
     }
@@ -84,7 +87,8 @@ extension CloudUnsafeStorage {
         let response = try self.keyknoxClient.pullValue(params: params)
 
         guard !response.value.isEmpty else {
-           throw NSError()
+            Log.debug("Current identity is: \(self.identity)")
+            throw NSError()
         }
 
         return try self.crypto.importPrivateKey(from: response.value)
