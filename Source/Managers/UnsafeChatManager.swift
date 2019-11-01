@@ -44,6 +44,10 @@ internal class UnsafeChatManager {
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
 
+    private var identity: String {
+        return self.localKeyStorage.identity
+    }
+
     private enum MetaKeys: String {
         case keyType
     }
@@ -80,7 +84,11 @@ extension UnsafeChatManager {
 
         let participantKeyPair = try self.crypto.generateKeyPair()
 
-        try self.cloudUnsafeStorage.store(participantKeyPair.privateKey, for: identity)
+        do {
+            try self.cloudUnsafeStorage.store(participantKeyPair.privateKey, for: identity)
+        } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
+            throw NSError()
+        }
 
         let unsafeChat = UnsafeChat(participant: identity,
                                     participantPublicKey: participantKeyPair.publicKey,
@@ -94,17 +102,40 @@ extension UnsafeChatManager {
         return unsafeChat
     }
 
-    internal func join(with card: Card) throws -> UnsafeChat {
-        let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: card.identity)
+    internal func load(with identity: String, isCreator: Bool) throws -> UnsafeChat {
+        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
-        let data = try self.crypto.exportPrivateKey(tempKeyPair.privateKey)
-        _ = try self.keychain.store(data: data, withName: card.identity, meta: meta)
+        if isCreator {
+            let initiator = self.identity
+            let participant = identity
 
-        return UnsafeChat(participant: card.identity,
-                          participantPublicKey: card.publicKey,
-                          selfPrivateKey: tempKeyPair.privateKey,
-                          crypto: self.crypto)
+            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
+
+            let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
+            let data = try self.crypto.exportPublicKey(tempKeyPair.publicKey)
+            _ = try self.keychain.store(data: data, withName: participant, meta: meta)
+
+            return UnsafeChat(participant: participant,
+                              participantPublicKey: tempKeyPair.publicKey,
+                              selfPrivateKey: selfKeyPair.privateKey,
+                              crypto: self.crypto)
+        } else {
+            let card = try self.lookupManager.lookupCard(of: identity)
+
+            let initiator = card.identity
+            let participant = self.identity
+
+            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
+
+            let meta = [MetaKeys.keyType.rawValue: KeyType.private.rawValue]
+            let data = try self.crypto.exportPrivateKey(tempKeyPair.privateKey)
+            _ = try self.keychain.store(data: data, withName: card.identity, meta: meta)
+
+            return UnsafeChat(participant: card.identity,
+                             participantPublicKey: card.publicKey,
+                             selfPrivateKey: tempKeyPair.privateKey,
+                             crypto: self.crypto)
+        }
     }
 
     internal func get(with identity: String) throws -> UnsafeChat {

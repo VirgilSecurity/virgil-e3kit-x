@@ -95,7 +95,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let encrypted = try chat1.encrypt(text: message)
 
             let (ethree2, _) = try self.setUpDevice(identity: identity2)
-            let chat2 = try ethree2.joinUnsafeChat(with: card1).startSync().get()
+            let chat2 = try ethree2.loadUnsafeChat(with: card1.identity, isCreator: false).startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)
@@ -106,6 +106,25 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let newChat2 = try ethree2.getUnsafeChat(with: card1.identity)
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test02__create__existent_chat__should_throw_error() {
+        do {
+            let (ethree, _) = try self.setUpDevice()
+
+            let identity = UUID().uuidString
+            _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+
+            do {
+                _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+                XCTFail()
+            } catch {
+                print(error.localizedDescription)
+            }
         } catch {
             print(error.localizedDescription)
             XCTFail()

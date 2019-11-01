@@ -78,16 +78,15 @@ extension CloudUnsafeStorage {
                                              previousHash: nil)
     }
 
-    internal func retrieve(from identity: String) throws -> VirgilKeyPair {
+    internal func retrieve(from identity: String, path: String) throws -> VirgilKeyPair {
         let params = KeyknoxPullParams(identity: identity,
                                        root: CloudUnsafeStorage.root,
-                                       path: self.identity,
+                                       path: path,
                                        key: CloudUnsafeStorage.defaultKey)
 
         let response = try self.keyknoxClient.pullValue(params: params)
 
         guard !response.value.isEmpty else {
-            Log.debug("Current identity is: \(self.identity)")
             throw NSError()
         }
 

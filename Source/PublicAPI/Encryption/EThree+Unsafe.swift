@@ -50,12 +50,11 @@ extension EThree {
         }
     }
 
-    open func joinUnsafeChat(with card: Card) -> GenericOperation<UnsafeChat> {
+    open func loadUnsafeChat(with identity: String, isCreator: Bool) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
-                _ = try self.localKeyStorage.retrieveKeyPair()
-
-                let unsafeChat = try self.unsafeChatManager.join(with: card)
+                let unsafeChat = try self.unsafeChatManager.load(with: identity,
+                                                                 isCreator: isCreator)
 
                 completion(unsafeChat, nil)
             } catch {

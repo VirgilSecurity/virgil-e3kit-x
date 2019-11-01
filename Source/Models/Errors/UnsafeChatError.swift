@@ -36,7 +36,14 @@
 
 import Foundation
 
-internal enum ServiceErrorCodes: Int {
-    case noKeyDataForUser = 50_017
-    case invalidPreviousHash = 50_010
+@objc(VTEUnsafeChatError) public enum UnsafeChatError: Int, LocalizedError {
+    case chatAlreadyExists = 1
+
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .chatAlreadyExists:
+            return "Unsafe chat with provided identity already exists."
+        }
+    }
 }
