@@ -95,7 +95,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let encrypted = try chat1.encrypt(text: message)
 
             let (ethree2, _) = try self.setUpDevice(identity: identity2)
-            let chat2 = try ethree2.loadUnsafeChat(with: card1.identity, isCreator: false).startSync().get()
+            let chat2 = try ethree2.loadUnsafeChat(asCreator: false, with: card1.identity).startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)

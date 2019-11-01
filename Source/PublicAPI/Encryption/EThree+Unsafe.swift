@@ -50,11 +50,11 @@ extension EThree {
         }
     }
 
-    open func loadUnsafeChat(with identity: String, isCreator: Bool) -> GenericOperation<UnsafeChat> {
+    open func loadUnsafeChat(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
                 let unsafeChat = try self.unsafeChatManager.load(with: identity,
-                                                                 isCreator: isCreator)
+                                                                 isCreator: asCreator)
 
                 completion(unsafeChat, nil)
             } catch {
