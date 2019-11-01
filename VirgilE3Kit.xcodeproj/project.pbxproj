@@ -100,6 +100,10 @@
 		16509F71236B305E005DA8AE /* UnsafeChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChatError.swift */; };
 		16509F72236B305E005DA8AE /* UnsafeChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChatError.swift */; };
 		16509F73236B305E005DA8AE /* UnsafeChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChatError.swift */; };
+		16509F75236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
+		16509F76236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
+		16509F77236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
+		16509F78236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
 		16532983235F15A500D2C071 /* EThree+Initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532982235F15A500D2C071 /* EThree+Initialize.swift */; };
 		16532985235F15EE00D2C071 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532984235F15EE00D2C071 /* EThree+Lookup.swift */; };
 		16532986235F15EE00D2C071 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532984235F15EE00D2C071 /* EThree+Lookup.swift */; };
@@ -535,6 +539,7 @@
 		16509F5C236B0090005DA8AE /* UnsafeChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChat.swift; sourceTree = "<group>"; };
 		16509F61236B17C7005DA8AE /* VTE010_UnsafeChatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE010_UnsafeChatTests.swift; sourceTree = "<group>"; };
 		16509F6F236B305E005DA8AE /* UnsafeChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChatError.swift; sourceTree = "<group>"; };
+		16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUnsafeKeysStorage.swift; sourceTree = "<group>"; };
 		16532982235F15A500D2C071 /* EThree+Initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Initialize.swift"; sourceTree = "<group>"; };
 		16532984235F15EE00D2C071 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
 		16565F3122A113840095D887 /* EThree+Obj-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Obj-C.swift"; sourceTree = "<group>"; };
@@ -936,6 +941,7 @@
 				42D84AAF22F078420012D103 /* SQLite */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */,
 				16AD62D422E87C6A00CDF90A /* FileGroupStorage.swift */,
+				16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -1607,6 +1613,7 @@
 				160C3DA22369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
+				16509F75236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
 				16B1F8B723279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76B23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
@@ -1634,6 +1641,7 @@
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
 				16B1F8D02327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
+				16509F78236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16509F60236B0090005DA8AE /* UnsafeChat.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
@@ -1726,6 +1734,7 @@
 				160C3DA32369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				16509F76236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
 				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B823279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */,
@@ -1786,6 +1795,7 @@
 				160C3DA42369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
+				16509F77236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
 				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B923279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */,

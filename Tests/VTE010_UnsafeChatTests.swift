@@ -122,9 +122,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
             do {
                 _ = try ethree.createUnsafeChat(with: identity).startSync().get()
                 XCTFail()
-            } catch {
-                print(error.localizedDescription)
-            }
+            } catch UnsafeChatError.chatAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()

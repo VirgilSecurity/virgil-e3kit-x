@@ -39,7 +39,7 @@ import VirgilCrypto
 
 internal class UnsafeChatManager {
     private let crypto: VirgilCrypto
-    private let keychain: SandboxedKeychainStorage
+    private let localUnsafeStorage: FileUnsafeKeysStorage
     private let cloudUnsafeStorage: CloudUnsafeStorage
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
@@ -48,20 +48,11 @@ internal class UnsafeChatManager {
         return self.localKeyStorage.identity
     }
 
-    private enum MetaKeys: String {
-        case keyType
-    }
-
-    private enum KeyType: String {
-        case `private`
-        case `public`
-    }
-
     internal init(crypto: VirgilCrypto,
-                  keychain: KeychainStorage,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
-                  lookupManager: LookupManager) {
+                  lookupManager: LookupManager,
+                  keyPair: VirgilKeyPair) throws {
         self.crypto = crypto
         self.localKeyStorage = localKeyStorage
         self.lookupManager = lookupManager
@@ -72,9 +63,9 @@ internal class UnsafeChatManager {
                                                      accessTokenProvider: accessTokenProvider,
                                                      crypto: crypto)
 
-        self.keychain = SandboxedKeychainStorage(identity: identity,
-                                                 prefix: "TEMP-KEYS",
-                                                 keychainStorage: keychain)
+        self.localUnsafeStorage = try FileUnsafeKeysStorage(identity: identity,
+                                                            crypto: crypto,
+                                                            identityKeyPair: keyPair)
     }
 }
 
@@ -82,22 +73,20 @@ extension UnsafeChatManager {
     internal func create(with identity: String) throws -> UnsafeChat {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let participantKeyPair = try self.crypto.generateKeyPair()
+        let tempKeyPair = try self.crypto.generateKeyPair()
 
         do {
-            try self.cloudUnsafeStorage.store(participantKeyPair.privateKey, for: identity)
+            try self.cloudUnsafeStorage.store(tempKeyPair.privateKey, for: identity)
         } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
-            throw NSError()
+            throw UnsafeChatError.chatAlreadyExists
         }
 
         let unsafeChat = UnsafeChat(participant: identity,
-                                    participantPublicKey: participantKeyPair.publicKey,
+                                    participantPublicKey: tempKeyPair.publicKey,
                                     selfPrivateKey: selfKeyPair.privateKey,
                                     crypto: self.crypto)
 
-        let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
-        let data = try self.crypto.exportPublicKey(participantKeyPair.publicKey)
-        _ = try self.keychain.store(data: data, withName: identity, meta: meta)
+        try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
 
         return unsafeChat
     }
@@ -111,9 +100,7 @@ extension UnsafeChatManager {
 
             let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
 
-            let meta = [MetaKeys.keyType.rawValue: KeyType.public.rawValue]
-            let data = try self.crypto.exportPublicKey(tempKeyPair.publicKey)
-            _ = try self.keychain.store(data: data, withName: participant, meta: meta)
+            try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: participant)
 
             return UnsafeChat(participant: participant,
                               participantPublicKey: tempKeyPair.publicKey,
@@ -127,9 +114,7 @@ extension UnsafeChatManager {
 
             let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
 
-            let meta = [MetaKeys.keyType.rawValue: KeyType.private.rawValue]
-            let data = try self.crypto.exportPrivateKey(tempKeyPair.privateKey)
-            _ = try self.keychain.store(data: data, withName: card.identity, meta: meta)
+            try self.localUnsafeStorage.store(tempKeyPair.privateKey, identity: initiator)
 
             return UnsafeChat(participant: card.identity,
                              participantPublicKey: card.publicKey,
@@ -139,16 +124,11 @@ extension UnsafeChatManager {
     }
 
     internal func get(with identity: String) throws -> UnsafeChat {
-        let entry = try self.keychain.retrieveEntry(withName: identity)
+        let unsafeKey = try self.localUnsafeStorage.retrieve(identity: identity)
 
-        guard let rawValue = entry.meta?[MetaKeys.keyType.rawValue],
-            let keyType = KeyType(rawValue: rawValue) else {
-                throw NSError()
-        }
-
-        switch keyType {
+        switch unsafeKey.type {
         case .private:
-            let keyPair = try self.crypto.importPrivateKey(from: entry.data)
+            let keyPair = try self.crypto.importPrivateKey(from: unsafeKey.key)
             let participantCard = try self.lookupManager.lookupCachedCard(of: identity)
 
             return UnsafeChat(participant: identity,
@@ -157,7 +137,7 @@ extension UnsafeChatManager {
                               crypto: self.crypto)
         case .public:
             let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-            let participantPublicKey = try self.crypto.importPublicKey(from: entry.data)
+            let participantPublicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
 
             return UnsafeChat(participant: identity,
                               participantPublicKey: participantPublicKey,
@@ -169,6 +149,6 @@ extension UnsafeChatManager {
     internal func delete(with identity: String) throws {
         try self.cloudUnsafeStorage.delete(with: identity)
 
-        try self.keychain.deleteEntry(withName: identity)
+        try self.localUnsafeStorage.delete(identity: identity)
     }
 }

@@ -41,7 +41,7 @@ extension EThree {
     open func createUnsafeChat(with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
-                let unsafeChat = try self.unsafeChatManager.create(with: identity)
+                let unsafeChat = try self.getUnsafeManager().create(with: identity)
 
                 completion(unsafeChat, nil)
             } catch {
@@ -53,8 +53,8 @@ extension EThree {
     open func loadUnsafeChat(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
-                let unsafeChat = try self.unsafeChatManager.load(with: identity,
-                                                                 isCreator: asCreator)
+                let unsafeChat = try self.getUnsafeManager().load(with: identity,
+                                                                  isCreator: asCreator)
 
                 completion(unsafeChat, nil)
             } catch {
@@ -64,13 +64,13 @@ extension EThree {
     }
 
     open func getUnsafeChat(with identity: String) throws -> UnsafeChat {
-        return try self.unsafeChatManager.get(with: identity)
+        return try self.getUnsafeManager().get(with: identity)
     }
 
     open func deleteUnsafeChat(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.unsafeChatManager.delete(with: identity)
+                try self.getUnsafeManager().delete(with: identity)
 
                 completion((), nil)
             } catch {

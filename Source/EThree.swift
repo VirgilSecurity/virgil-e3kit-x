@@ -74,8 +74,8 @@ import VirgilSDKRatchet
     internal let cloudRatchetStorage: CloudRatchetStorage
 
     internal let lookupManager: LookupManager
-    internal let unsafeChatManager: UnsafeChatManager
 
+    internal var unsafeChatManager: UnsafeChatManager?
     internal var groupManager: GroupManager?
     internal var secureChat: SecureChat?
     internal var timer: RepeatingTimer?
@@ -160,12 +160,6 @@ import VirgilSDKRatchet
         let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
                                                           localKeyStorage: localKeyStorage)
 
-        let unsafeChatManager = UnsafeChatManager(crypto: crypto,
-                                                  keychain: keychainStorage,
-                                                  accessTokenProvider: accessTokenProvider,
-                                                  localKeyStorage: localKeyStorage,
-                                                  lookupManager: lookupManager)
-
         try self.init(identity: identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
@@ -173,7 +167,6 @@ import VirgilSDKRatchet
                       cloudKeyManager: cloudKeyManager,
                       lookupManager: lookupManager,
                       cloudRatchetStorage: cloudRatchetStorage,
-                      unsafeChatManager: unsafeChatManager,
                       enableRatchet: enableRatchet,
                       keyRotationInterval: keyRotationInterval)
     }
@@ -185,7 +178,6 @@ import VirgilSDKRatchet
                   cloudKeyManager: CloudKeyManager,
                   lookupManager: LookupManager,
                   cloudRatchetStorage: CloudRatchetStorage,
-                  unsafeChatManager: UnsafeChatManager,
                   enableRatchet: Bool,
                   keyRotationInterval: TimeInterval) throws {
         self.identity = identity
@@ -195,7 +187,6 @@ import VirgilSDKRatchet
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
         self.cloudRatchetStorage = cloudRatchetStorage
-        self.unsafeChatManager = unsafeChatManager
         self.enableRatchet = enableRatchet
         self.keyRotationInterval = keyRotationInterval
 
