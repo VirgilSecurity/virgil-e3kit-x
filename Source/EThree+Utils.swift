@@ -62,6 +62,7 @@ extension EThree {
     internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
         try self.groupManager?.localGroupStorage.reset()
+        try self.unsafeChatManager?.localUnsafeStorage.reset()
 
         self.groupManager = nil
         self.secureChat = nil

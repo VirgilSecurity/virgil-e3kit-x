@@ -38,12 +38,21 @@ import Foundation
 
 @objc(VTEUnsafeChatError) public enum UnsafeChatError: Int, LocalizedError {
     case chatAlreadyExists = 1
+    case selfChatIsForbidden = 2
+    case userIsRegistered = 3
 
     /// Human-readable localized description
     public var errorDescription: String? {
         switch self {
         case .chatAlreadyExists:
             return "Unsafe chat with provided identity already exists."
+        case .selfChatIsForbidden:
+            return "Unsafe chat with self is forbidden. Use regular encryption for this purpose."
+        case .userIsRegistered:
+            return """
+                User with provided identity is registered.
+                Creation of unsafe chats with registered users is forbidden.
+            """
         }
     }
 }

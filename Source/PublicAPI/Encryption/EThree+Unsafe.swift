@@ -41,6 +41,16 @@ extension EThree {
     open func createUnsafeChat(with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
+                guard identity != self.identity else {
+                    throw UnsafeChatError.selfChatIsForbidden
+                }
+
+                let userCard = try? self.findUser(with: identity).startSync().get()
+
+                guard userCard == nil else {
+                    throw UnsafeChatError.userIsRegistered
+                }
+
                 let unsafeChat = try self.getUnsafeManager().create(with: identity)
 
                 completion(unsafeChat, nil)
@@ -53,8 +63,12 @@ extension EThree {
     open func loadUnsafeChat(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
-                let unsafeChat = try self.getUnsafeManager().load(with: identity,
-                                                                  isCreator: asCreator)
+                guard identity != self.identity else {
+                    throw UnsafeChatError.selfChatIsForbidden
+                }
+
+                let unsafeChat = try self.getUnsafeManager().load(asCreator: asCreator,
+                                                                  with: identity)
 
                 completion(unsafeChat, nil)
             } catch {
@@ -63,8 +77,10 @@ extension EThree {
         }
     }
 
-    open func getUnsafeChat(with identity: String) throws -> UnsafeChat {
-        return try self.getUnsafeManager().get(with: identity)
+    open func getUnsafeChat(with identity: String) throws -> UnsafeChat? {
+        let unsafeManager = try self.getUnsafeManager()
+
+        return try? unsafeManager.get(with: identity)
     }
 
     open func deleteUnsafeChat(with identity: String) -> GenericOperation<Void> {

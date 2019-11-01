@@ -71,21 +71,25 @@ internal class FileUnsafeKeysStorage {
 
 extension FileUnsafeKeysStorage {
     internal func store(_ key: VirgilPrivateKey, identity: String) throws {
-        let keyData = try self.crypto.exportPrivateKey(key)
-        let unsafeKey = UnsafeKey(key: keyData, type: .private)
+        try self.queue.sync {
+            let keyData = try self.crypto.exportPrivateKey(key)
+            let unsafeKey = UnsafeKey(key: keyData, type: .private)
 
-        let data = try JSONEncoder().encode(unsafeKey)
+            let data = try JSONEncoder().encode(unsafeKey)
 
-        try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
+            try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
+        }
     }
 
     internal func store(_ key: VirgilPublicKey, identity: String) throws {
-        let keyData = try self.crypto.exportPublicKey(key)
-        let unsafeKey = UnsafeKey(key: keyData, type: .public)
+        try self.queue.sync {
+            let keyData = try self.crypto.exportPublicKey(key)
+            let unsafeKey = UnsafeKey(key: keyData, type: .public)
 
-        let data = try JSONEncoder().encode(unsafeKey)
+            let data = try JSONEncoder().encode(unsafeKey)
 
-        try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
+            try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
+        }
     }
 
     internal func retrieve(identity: String) throws -> UnsafeKey {
@@ -95,6 +99,14 @@ extension FileUnsafeKeysStorage {
     }
 
     internal func delete(identity: String) throws {
-        try self.fileSystem.delete(name: self.defaultName, subdir: identity)
+        try self.queue.sync {
+            try self.fileSystem.delete(name: self.defaultName, subdir: identity)
+        }
+    }
+
+    internal func reset() throws {
+        try self.queue.sync {
+            try self.fileSystem.delete()
+        }
     }
 }

@@ -793,6 +793,7 @@
 				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 				1616C0452357549200948C3B /* EThreeParamsError.swift */,
 				16509F6F236B305E005DA8AE /* UnsafeChatError.swift */,
+				1661D7762301E96600BC435C /* GroupError.swift */,
 				16D1BCA1235872A8008E6E3D /* ServiceErrorCodes.swift */,
 				1661D7702301ADCD00BC435C /* FindUsersError.swift */,
 			);
@@ -919,7 +920,6 @@
 				16BB9B5922F44C8E0057D6B2 /* Group+Encryption.swift */,
 				1685846E22E091E0008EAC34 /* Group+Management.swift */,
 				1661D76A23018DD900BC435C /* Group+Objc-C.swift */,
-				1661D7762301E96600BC435C /* GroupError.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";

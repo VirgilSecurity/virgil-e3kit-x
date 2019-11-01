@@ -38,8 +38,9 @@ import VirgilSDK
 import VirgilCrypto
 
 internal class UnsafeChatManager {
+    internal let localUnsafeStorage: FileUnsafeKeysStorage
+    
     private let crypto: VirgilCrypto
-    private let localUnsafeStorage: FileUnsafeKeysStorage
     private let cloudUnsafeStorage: CloudUnsafeStorage
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
@@ -91,10 +92,10 @@ extension UnsafeChatManager {
         return unsafeChat
     }
 
-    internal func load(with identity: String, isCreator: Bool) throws -> UnsafeChat {
+    internal func load(asCreator: Bool, with identity: String) throws -> UnsafeChat {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        if isCreator {
+        if asCreator {
             let initiator = self.identity
             let participant = identity
 

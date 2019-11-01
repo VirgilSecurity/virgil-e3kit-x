@@ -102,8 +102,8 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
 
-            let newChat1 = try ethree1.getUnsafeChat(with: identity2)
-            let newChat2 = try ethree2.getUnsafeChat(with: card1.identity)
+            let newChat1 = try ethree1.getUnsafeChat(with: identity2)!
+            let newChat2 = try ethree2.getUnsafeChat(with: card1.identity)!
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
         } catch {
@@ -123,6 +123,59 @@ class VTE010_UnsafeChatTests: XCTestCase {
                 _ = try ethree.createUnsafeChat(with: identity).startSync().get()
                 XCTFail()
             } catch UnsafeChatError.chatAlreadyExists {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test03__create__with_self__should_throw_error() {
+        do {
+            let (ethree, _) = try self.setUpDevice()
+
+            do {
+                _ = try ethree.createUnsafeChat(with: ethree.identity).startSync().get()
+                XCTFail()
+            } catch UnsafeChatError.selfChatIsForbidden {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test04__create__with_registered__should_throw_error() {
+        do {
+            let (ethree1, _) = try self.setUpDevice()
+            let (ethree2, _) = try self.setUpDevice()
+
+            do {
+                _ = try ethree1.createUnsafeChat(with: ethree2.identity).startSync().get()
+                XCTFail()
+            } catch UnsafeChatError.userIsRegistered {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test05__get() {
+        do {
+            let (ethree1, _) = try self.setUpDevice()
+
+            let identity2 = UUID().uuidString
+            XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
+
+            _ = try ethree1.createUnsafeChat(with: identity2).startSync().get()
+            XCTAssert(try ethree1.getUnsafeChat(with: identity2) != nil)
+
+            let (ethree2, _) = try self.setUpDevice(identity: identity2)
+            XCTAssert(try ethree2.getUnsafeChat(with: ethree1.identity) == nil)
+
+            _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
+            XCTAssert(try ethree2.getUnsafeChat(with: ethree1.identity) != nil)
+
+            try ethree1.deleteUnsafeChat(with: identity2).startSync().get()
+            XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
         } catch {
             print(error.localizedDescription)
             XCTFail()
