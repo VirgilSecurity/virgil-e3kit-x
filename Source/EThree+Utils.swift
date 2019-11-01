@@ -211,4 +211,15 @@ extension EThree {
 
         return secureChat
     }
+
+    internal func startRatchetSessionAsSender(secureChat: SecureChat, receiverCard card: Card, name: String?) throws -> SecureSession {
+        do {
+            return try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
+                .startSync()
+                .get()
+        }
+        catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
+            throw EThreeRatchetError.userIsNotUsingRatchet
+        }
+    }
 }

@@ -57,9 +57,9 @@ extension EThree {
                     throw EThreeRatchetError.selfChatIsForbidden
                 }
 
-                let session = try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
-                    .startSync()
-                    .get()
+                let session = try self.startRatchetSessionAsSender(secureChat: secureChat,
+                                                                   receiverCard: card,
+                                                                   name: name)
 
                 let ticket = try session.encrypt(string: UUID().uuidString)
 
@@ -71,14 +71,7 @@ extension EThree {
                                               sessionStorage: secureChat.sessionStorage)
 
                 completion(ratchetChat, nil)
-            }
-            catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
-                completion(nil, EThreeRatchetError.userIsNotUsingRatchet)
-            }
-            catch KeyknoxClientError.invalidPreviousHashHeader {
-                completion(nil, EThreeRatchetError.chatAlreadyExists)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
