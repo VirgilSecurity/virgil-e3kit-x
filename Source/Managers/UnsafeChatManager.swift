@@ -39,7 +39,7 @@ import VirgilCrypto
 
 internal class UnsafeChatManager {
     internal let localUnsafeStorage: FileUnsafeKeysStorage
-    
+
     private let crypto: VirgilCrypto
     private let cloudUnsafeStorage: CloudUnsafeStorage
     private let localKeyStorage: LocalKeyStorage
@@ -118,9 +118,9 @@ extension UnsafeChatManager {
             try self.localUnsafeStorage.store(tempKeyPair.privateKey, identity: initiator)
 
             return UnsafeChat(participant: card.identity,
-                             participantPublicKey: card.publicKey,
-                             selfPrivateKey: tempKeyPair.privateKey,
-                             crypto: self.crypto)
+                              participantPublicKey: card.publicKey,
+                              selfPrivateKey: tempKeyPair.privateKey,
+                              crypto: self.crypto)
         }
     }
 

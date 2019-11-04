@@ -62,6 +62,7 @@ internal class CloudUnsafeStorage {
 }
 
 extension CloudUnsafeStorage {
+    // swiftlint:disable force_unwrapping
     internal func store(_ tempKey: VirgilPrivateKey, for identity: String) throws {
         let pushParams = KeyknoxPushParams(identities: [identity, self.identity],
                                            root: CloudUnsafeStorage.root,
@@ -77,6 +78,7 @@ extension CloudUnsafeStorage {
                                              value: data,
                                              previousHash: nil)
     }
+    // swiftlint:enable force_unwrapping
 
     internal func retrieve(from identity: String, path: String) throws -> VirgilKeyPair {
         let params = KeyknoxPullParams(identity: identity,

@@ -47,8 +47,8 @@ internal class FileUnsafeKeysStorage {
     private let defaultName: String = "default"
 
     internal struct UnsafeKey: Codable {
-        let key: Data
-        let type: KeyType
+        internal let key: Data
+        internal let type: KeyType
     }
 
     internal enum KeyType: String, Codable {

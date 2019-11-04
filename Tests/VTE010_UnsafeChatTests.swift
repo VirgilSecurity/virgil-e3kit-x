@@ -222,6 +222,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             do {
                 _ = try ethree1.loadUnsafeChat(asCreator: true, with: identity2).startSync().get()
+                XCTFail()
             } catch UnsafeChatError.chatNotFound {}
 
             let (ethree2, _) = try self.setUpDevice(identity: identity2)
