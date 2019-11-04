@@ -37,7 +37,9 @@
 import Foundation
 import VirgilCrypto
 
+/// Class representing Unsafe Chat
 @objc(VTEUnsafeChat) public class UnsafeChat: NSObject {
+    /// Identity of participant
     @objc public let participant: String
 
     internal let crypto: VirgilCrypto
@@ -58,14 +60,20 @@ import VirgilCrypto
 }
 
 extension UnsafeChat {
+    /// Encrypts data
+    /// - Parameter data: Data to encrypt
     @objc open func encrypt(data: Data) throws -> Data {
         try self.crypto.authEncrypt(data, with: self.selfPrivateKey, for: [self.participantPublicKey])
     }
 
+    /// Decrypts data
+    /// - Parameter data: encrypted Data
     @objc open func decrypt(data: Data) throws -> Data {
         try self.crypto.authDecrypt(data, with: self.selfPrivateKey, usingOneOf: [self.participantPublicKey])
     }
 
+    /// Encrypts string
+    /// - Parameter text: String to encrypt
     @objc open func encrypt(text: String) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
@@ -74,6 +82,8 @@ extension UnsafeChat {
         return try self.encrypt(data: data).base64EncodedString()
     }
 
+    /// Decrypts string
+    /// - Parameter text: encrypted String
     @objc open func decrypt(text: String) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed

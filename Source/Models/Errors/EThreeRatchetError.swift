@@ -36,7 +36,7 @@
 
 import Foundation
 
-/// Declares error types and codes for Ethree Ratchet capabilities
+/// Declares error types and codes for EThree Ratchet capabilities
 ///
 /// - encryptEmptyArray: Trying to encrypt empty array
 /// - decryptEmptyArray: Trying to decrypt empty array

@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 internal class CloudUnsafeStorage {
-    private static let root = "unsafe-chats"
+    private static let root = "unsafe-keys"
     private static let defaultKey = "default"
     private static let metaStr = "unencrypted"
 

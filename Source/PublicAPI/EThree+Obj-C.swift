@@ -180,7 +180,10 @@ extension EThree {
             completion(error)
         }
     }
+}
 
+// MARK: - Extension with Objective-C compatible Group operations
+extension EThree {
     /// Creates group, saves in cloud and locally
     ///
     /// - Parameters:
@@ -270,7 +273,10 @@ extension EThree {
             completion(error)
         }
     }
+}
 
+// MARK: - Extension with Objective-C compatible Ratchet operations
+extension EThree {
     /// Creates double ratchet chat with user, saves it locally
     /// - Parameters:
     ///   - card: Card of participant
@@ -309,6 +315,49 @@ extension EThree {
                                       name: String? = nil,
                                       completion: @escaping (_ error: Error?) -> Void) {
         self.deleteRatchetChat(with: card, name: name).start { _, error in
+            completion(error)
+        }
+    }
+}
+
+// MARK: - Extension with Objective-C compatible Unsafe Chat operations
+extension EThree {
+    /// Creates chat with unregistered user
+    ///
+    /// - Important: Temporary key for unregistered user is stored unencrypted.
+    ///
+    /// - Parameters:
+    ///   - identity: identity of unregistered user
+    ///   - completion: completion handler
+    ///   - chat: created `UnsafeChat` insance
+    ///   - error: corresponding error
+    @objc open func createUnsafeChat(with identity: String,
+                                     completion: @escaping (_ chat: UnsafeChat?,
+                                                            _ error: Error?) -> Void) {
+        return self.createUnsafeChat(with: identity).start(completion: completion)
+    }
+
+    /// Loads unsafe chat by fetching temporary key form Cloud
+    /// - Parameters:
+    ///   - asCreator: Bool to specify wether caller is creator of chat or not
+    ///   - identity: identity of participant
+    ///   - completion: completion handler
+    ///   - chat: loaded `UnsafeChat` insance
+    ///   - error: corresponding error
+    @objc open func loadUnsafeChat(asCreator: Bool,
+                                   with identity: String,
+                                   completion: @escaping (_ chat: UnsafeChat?,
+                                                          _ error: Error?) -> Void) {
+        self.loadUnsafeChat(asCreator: asCreator, with: identity).start(completion: completion)
+    }
+
+    /// Deletes unsafe chat from cloud (if user is owner) and local storage
+    /// - Parameters:
+    ///   - identity: identity of participant
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc open func deleteUnsafeChat(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteUnsafeChat(with: identity).start { _, error in
             completion(error)
         }
     }
