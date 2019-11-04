@@ -112,7 +112,7 @@ extension EThree {
     /// Retrieves double ratchet chat from local storage
     /// - Parameters:
     ///   - card: Card of participant
-    ///   -  name: name of chat
+    ///   - name: name of chat
     open func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
         let secureChat = try self.getSecureChat()
 

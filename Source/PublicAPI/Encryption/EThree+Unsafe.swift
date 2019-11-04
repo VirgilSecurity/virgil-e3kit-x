@@ -50,9 +50,9 @@ extension EThree {
                     throw UnsafeChatError.selfChatIsForbidden
                 }
 
-                let userCard = try? self.findUser(with: identity).startSync().get()
+                let result = try self.findUsers(with: [identity], checkResult: false).startSync().get()
 
-                guard userCard == nil else {
+                guard result.isEmpty else {
                     throw UnsafeChatError.userIsRegistered
                 }
 

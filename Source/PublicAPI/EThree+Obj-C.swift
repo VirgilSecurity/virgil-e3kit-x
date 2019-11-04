@@ -245,6 +245,16 @@ extension EThree {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)
     }
 
+    /// Returnes cached local group
+    ///
+    /// - Parameter identifier: identifier of group
+    /// - Returns: Group if exists, nil otherwise
+    @available(swift, obsoleted: 1.0)
+    @objc(getGroupWithId:)
+    open func getGroupObjc(id identifier: Data) -> Group? {
+        try? self.getGroup(id: identifier)
+    }
+
     /// Loads group from cloud, saves locally
     ///
     /// - Parameters:
@@ -305,6 +315,16 @@ extension EThree {
         self.joinRatchetChat(with: card, name: name).start(completion: completion)
     }
 
+    /// Retrieves double ratchet chat from local storage
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of chat
+    @available(swift, obsoleted: 1.0)
+    @objc(getRatchetChatWith:name:)
+    open func getRatchetChatObjc(with card: Card, name: String? = nil) -> RatchetChat? {
+        try? self.getRatchetChat(with: card, name: name)
+    }
+
     /// Deletes double ratchet chat
     /// - Parameters:
     ///   - card: Card of participant
@@ -349,6 +369,14 @@ extension EThree {
                                    completion: @escaping (_ chat: UnsafeChat?,
                                                           _ error: Error?) -> Void) {
         self.loadUnsafeChat(asCreator: asCreator, with: identity).start(completion: completion)
+    }
+
+    /// Returns cached unsafe chat
+    /// - Parameter identity: identity of participant
+    @available(swift, obsoleted: 1.0)
+    @objc(getUnsafeChatWith:)
+    open func getUnsafeChatObjc(with identity: String) -> UnsafeChat? {
+        try? self.getUnsafeChat(with: identity)
     }
 
     /// Deletes unsafe chat from cloud (if user is owner) and local storage
