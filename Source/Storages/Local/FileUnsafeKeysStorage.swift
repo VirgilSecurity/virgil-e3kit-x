@@ -42,7 +42,7 @@ internal class FileUnsafeKeysStorage {
 
     private let crypto: VirgilCrypto
     private let fileSystem: FileSystem
-    private let queue = DispatchQueue(label: "FileTempKeysStorageQueue")
+    private let queue = DispatchQueue(label: "FileUnsafeKeysStorageQueue")
 
     private let defaultName: String = "default"
 
@@ -63,7 +63,7 @@ internal class FileUnsafeKeysStorage {
         let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
         self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,
-                                     pathComponents: ["TEMP-KEYS"],
+                                     pathComponents: ["UNSAFE-KEYS"],
                                      credentials: credentials)
 
     }
