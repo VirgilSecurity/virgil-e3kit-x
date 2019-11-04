@@ -40,6 +40,7 @@ import Foundation
     case chatAlreadyExists = 1
     case selfChatIsForbidden = 2
     case userIsRegistered = 3
+    case chatNotFound = 4
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -53,6 +54,8 @@ import Foundation
                 User with provided identity is registered.
                 Creation of unsafe chats with registered users is forbidden.
             """
+        case .chatNotFound:
+            return "Chat was not found"
         }
     }
 }

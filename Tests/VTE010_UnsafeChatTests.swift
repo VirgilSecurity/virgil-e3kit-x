@@ -158,7 +158,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test05__get() {
+    func test05__get__should_suceed() {
         do {
             let (ethree1, _) = try self.setUpDevice()
 
@@ -176,6 +176,75 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             try ethree1.deleteUnsafeChat(with: identity2).startSync().get()
             XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test06__load__with_self__should_throw_error() {
+        do {
+            let (ethree, _) = try self.setUpDevice()
+
+            do {
+                _ = try ethree.loadUnsafeChat(asCreator: true, with: ethree.identity).startSync().get()
+                XCTFail()
+            } catch UnsafeChatError.selfChatIsForbidden {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test07__load__unexistent_chat__should_throw_error() {
+        do {
+            let (ethree, _) = try self.setUpDevice()
+
+            let identity = UUID().uuidString
+            do {
+                _ = try ethree.loadUnsafeChat(asCreator: true, with: identity).startSync().get()
+                XCTFail()
+            } catch UnsafeChatError.chatNotFound {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test08__join__after_delete__should_throw_error() {
+        do {
+            let (ethree1, _) = try self.setUpDevice()
+
+            let identity2 = UUID().uuidString
+
+            _ = try ethree1.createUnsafeChat(with: identity2).startSync().get()
+            try ethree1.deleteUnsafeChat(with: identity2).startSync().get()
+
+            do {
+                _ = try ethree1.loadUnsafeChat(asCreator: true, with: identity2).startSync().get()
+            } catch UnsafeChatError.chatNotFound {}
+
+            let (ethree2, _) = try self.setUpDevice(identity: identity2)
+
+            do {
+                _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
+                XCTFail()
+            } catch UnsafeChatError.chatNotFound {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test09__delete__unexistent_chat__should_throw_error() {
+        do {
+            let (ethree, _) = try self.setUpDevice()
+
+            let fakeIdentity = UUID().uuidString
+
+            do {
+                try ethree.deleteUnsafeChat(with: fakeIdentity).startSync().get()
+            } catch UnsafeChatError.chatNotFound {}
         } catch {
             print(error.localizedDescription)
             XCTFail()

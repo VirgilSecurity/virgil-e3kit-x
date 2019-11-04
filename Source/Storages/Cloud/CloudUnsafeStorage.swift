@@ -87,7 +87,7 @@ extension CloudUnsafeStorage {
         let response = try self.keyknoxClient.pullValue(params: params)
 
         guard !response.value.isEmpty else {
-            throw NSError()
+            throw UnsafeChatError.chatNotFound
         }
 
         return try self.crypto.importPrivateKey(from: response.value)

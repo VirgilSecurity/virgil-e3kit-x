@@ -150,6 +150,10 @@ extension UnsafeChatManager {
     internal func delete(with identity: String) throws {
         try self.cloudUnsafeStorage.delete(with: identity)
 
-        try self.localUnsafeStorage.delete(identity: identity)
+        do {
+            try self.localUnsafeStorage.delete(identity: identity)
+        } catch CocoaError.fileNoSuchFile {
+            throw UnsafeChatError.chatNotFound
+        }
     }
 }
