@@ -42,12 +42,12 @@ internal class FileUnsafeKeysStorage {
 
     private let crypto: VirgilCrypto
     private let fileSystem: FileSystem
-    private let queue = DispatchQueue(label: "FileUnsafeKeysStorageQueue")
+    private let identityKeyPair: VirgilKeyPair
 
     private let defaultName: String = "default"
 
     internal struct UnsafeKey: Codable {
-        internal let key: Data
+        internal fileprivate(set) var key: Data
         internal let type: KeyType
     }
 
@@ -59,54 +59,68 @@ internal class FileUnsafeKeysStorage {
     internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
         self.identity = identity
         self.crypto = crypto
+        self.identityKeyPair = identityKeyPair
 
-        let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
         self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,
-                                     pathComponents: ["UNSAFE-KEYS"],
-                                     credentials: credentials)
+                                     pathComponents: ["UNSAFE-KEYS"])
+    }
 
+    private func encode(key: Data, type: KeyType) throws -> Data {
+        var data = key
+
+        if type == .private {
+            data = try self.crypto.authEncrypt(data,
+                                               with: self.identityKeyPair.privateKey,
+                                               for: [self.identityKeyPair.publicKey])
+        }
+
+        let unsafeKey = UnsafeKey(key: data, type: type)
+
+        return try JSONEncoder().encode(unsafeKey)
+    }
+
+    private func decode(data: Data) throws -> UnsafeKey {
+        var unsafeKey = try JSONDecoder().decode(UnsafeKey.self, from: data)
+
+        if unsafeKey.type == .private {
+            unsafeKey.key = try self.crypto.authDecrypt(unsafeKey.key,
+                                                        with: self.identityKeyPair.privateKey,
+                                                        usingOneOf: [self.identityKeyPair.publicKey])
+        }
+
+        return unsafeKey
     }
 }
 
 extension FileUnsafeKeysStorage {
     internal func store(_ key: VirgilPrivateKey, identity: String) throws {
-        try self.queue.sync {
-            let keyData = try self.crypto.exportPrivateKey(key)
-            let unsafeKey = UnsafeKey(key: keyData, type: .private)
+        let keyData = try self.crypto.exportPrivateKey(key)
 
-            let data = try JSONEncoder().encode(unsafeKey)
+        let data = try self.encode(key: keyData, type: .private)
 
-            try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
-        }
+        try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
     }
 
     internal func store(_ key: VirgilPublicKey, identity: String) throws {
-        try self.queue.sync {
-            let keyData = try self.crypto.exportPublicKey(key)
-            let unsafeKey = UnsafeKey(key: keyData, type: .public)
+        let keyData = try self.crypto.exportPublicKey(key)
 
-            let data = try JSONEncoder().encode(unsafeKey)
+        let data = try self.encode(key: keyData, type: .public)
 
-            try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
-        }
+        try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
     }
 
     internal func retrieve(identity: String) throws -> UnsafeKey {
         let data = try self.fileSystem.read(name: self.defaultName, subdir: identity)
 
-        return try JSONDecoder().decode(UnsafeKey.self, from: data)
+        return try self.decode(data: data)
     }
 
     internal func delete(identity: String) throws {
-        try self.queue.sync {
-            try self.fileSystem.delete(name: self.defaultName, subdir: identity)
-        }
+        try self.fileSystem.delete(name: self.defaultName, subdir: identity)
     }
 
     internal func reset() throws {
-        try self.queue.sync {
-            try self.fileSystem.delete()
-        }
+        try self.fileSystem.delete()
     }
 }
