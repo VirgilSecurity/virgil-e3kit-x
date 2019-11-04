@@ -40,7 +40,7 @@ import VirgilCrypto
 internal class CloudUnsafeStorage {
     private static let root = "unsafe-keys"
     private static let defaultKey = "default"
-    private static let metaStr = "unencrypted"
+    private static let meta = "unencrypted"
 
     private let identity: String
     private let accessTokenProvider: AccessTokenProvider
@@ -70,7 +70,7 @@ extension CloudUnsafeStorage {
 
         let data = try self.crypto.exportPrivateKey(tempKey)
 
-        let meta = CloudUnsafeStorage.metaStr.data(using: .utf8)!
+        let meta = CloudUnsafeStorage.meta.data(using: .utf8)!
 
         _ = try self.keyknoxClient.pushValue(params: pushParams,
                                              meta: meta,
@@ -93,9 +93,9 @@ extension CloudUnsafeStorage {
         return try self.crypto.importPrivateKey(from: response.value)
     }
 
-    internal func delete(with idenity: String) throws {
+    internal func delete(with identity: String) throws {
         let params = KeyknoxResetParams(root: CloudUnsafeStorage.root,
-                                        path: self.identity,
+                                        path: identity,
                                         key: CloudUnsafeStorage.defaultKey)
 
         _ = try self.keyknoxClient.resetValue(params: params)

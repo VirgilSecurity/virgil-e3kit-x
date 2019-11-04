@@ -211,7 +211,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test08__join__after_delete__should_throw_error() {
+    func test08__load__after_delete__should_throw_error() {
         do {
             let (ethree1, _) = try self.setUpDevice()
 
