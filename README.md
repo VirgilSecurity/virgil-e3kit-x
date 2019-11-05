@@ -407,7 +407,9 @@ ethree.deleteGroup(id: groupId) { error in
 In this section, you'll find out how to create and manage secure chat sessions between two users using the Double Ratchet algorithm so that each message is separately encrypted.
 
 **Double Ratchet** is a session key management algorithm that provides extra secure end-to-end encryption for messaging between two users or endpoints. 
-The Double Ratchet mechanism has been designed to provide perfect forward secrecy and durability after key compromise (post-compromise security). These properties are ensured due to the fact that the communication parties generate new keys for each message using a cryptographically strong unidirectional function, which does not allow an attacker to obtain earlier keys using later ones. In addition, the parties renegotiate the keys after each message sent or received (using a new key pair unknown to the attacker), which makes it impossible to obtain later keys from earlier ones.
+The Double Ratchet algorithm provides perfect forward secrecy and post-compromise security by generating unique session keys for each new message. Even if the communication is somehow compromised, a potential attacker will only be able to access the most recent message, and soon as a new message is sent by one of the two users, the attacker will be locked out again. 
+
+The session keys are generated using a cryptographically strong unidirectional function, which prevents an attacker from potentially obtaining earlier keys derived from later ones. In addition, the parties renegotiate the keys after each message sent or received (using a new key pair unknown to the attacker), which makes it impossible to obtain later keys from earlier ones.
 
 We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
 
