@@ -411,7 +411,7 @@ The Double Ratchet algorithm provides perfect forward secrecy and post-compromis
 
 The session keys are generated using a cryptographically strong unidirectional function, which prevents an attacker from potentially obtaining earlier keys derived from later ones. In addition, the parties renegotiate the keys after each message sent or received (using a new key pair unknown to the attacker), which makes it impossible to obtain later keys from earlier ones.
 
-We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
+We assume that you have installed and initialized the E3Kit, and your application users are registered using the snippet above.
 
 #### Create chat
 
