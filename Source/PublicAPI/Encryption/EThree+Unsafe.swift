@@ -91,7 +91,7 @@ extension EThree {
     open func getUnsafeChat(with identity: String) throws -> UnsafeChat? {
         let unsafeManager = try self.getUnsafeManager()
 
-        return try? unsafeManager.get(with: identity)
+        return try unsafeManager.get(with: identity)
     }
 
     /// Deletes unsafe chat from cloud (if user is owner) and local storage

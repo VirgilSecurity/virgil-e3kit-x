@@ -124,27 +124,27 @@ extension UnsafeChatManager {
         }
     }
 
-    internal func get(with identity: String) throws -> UnsafeChat {
-        let unsafeKey = try self.localUnsafeStorage.retrieve(identity: identity)
+    internal func get(with identity: String) throws -> UnsafeChat? {
+        guard let unsafeKey = try? self.localUnsafeStorage.retrieve(identity: identity) else {
+            return nil
+        }
+
+        let privateKey: VirgilPrivateKey
+        let publicKey: VirgilPublicKey
 
         switch unsafeKey.type {
         case .private:
-            let keyPair = try self.crypto.importPrivateKey(from: unsafeKey.key)
-            let participantCard = try self.lookupManager.lookupCachedCard(of: identity)
-
-            return UnsafeChat(participant: identity,
-                              participantPublicKey: participantCard.publicKey,
-                              selfPrivateKey: keyPair.privateKey,
-                              crypto: self.crypto)
+            privateKey = try self.crypto.importPrivateKey(from: unsafeKey.key).privateKey
+            publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
         case .public:
-            let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-            let participantPublicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
-
-            return UnsafeChat(participant: identity,
-                              participantPublicKey: participantPublicKey,
-                              selfPrivateKey: selfKeyPair.privateKey,
-                              crypto: self.crypto)
+            privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
+            publicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
         }
+
+        return UnsafeChat(participant: identity,
+                          participantPublicKey: publicKey,
+                          selfPrivateKey: privateKey,
+                          crypto: self.crypto)
     }
 
     internal func delete(with identity: String) throws {
