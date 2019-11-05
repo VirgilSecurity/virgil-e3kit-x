@@ -95,33 +95,29 @@ extension UnsafeChatManager {
     internal func load(asCreator: Bool, with identity: String) throws -> UnsafeChat {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
+        let publicKey: VirgilPublicKey
+        let privateKey: VirgilPrivateKey
+
         if asCreator {
-            let initiator = self.identity
-            let participant = identity
+            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: self.identity, path: identity)
+            try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
 
-            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
-
-            try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: participant)
-
-            return UnsafeChat(participant: participant,
-                              participantPublicKey: tempKeyPair.publicKey,
-                              selfPrivateKey: selfKeyPair.privateKey,
-                              crypto: self.crypto)
+            publicKey = tempKeyPair.publicKey
+            privateKey = selfKeyPair.privateKey
         } else {
             let card = try self.lookupManager.lookupCard(of: identity)
 
-            let initiator = card.identity
-            let participant = self.identity
+            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: identity, path: self.identity)
+            try self.localUnsafeStorage.store(tempKeyPair.privateKey, identity: identity)
 
-            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: initiator, path: participant)
-
-            try self.localUnsafeStorage.store(tempKeyPair.privateKey, identity: initiator)
-
-            return UnsafeChat(participant: card.identity,
-                              participantPublicKey: card.publicKey,
-                              selfPrivateKey: tempKeyPair.privateKey,
-                              crypto: self.crypto)
+            publicKey = card.publicKey
+            privateKey = tempKeyPair.privateKey
         }
+
+        return UnsafeChat(participant: identity,
+                          participantPublicKey: publicKey,
+                          selfPrivateKey: privateKey,
+                          crypto: self.crypto)
     }
 
     internal func get(with identity: String) throws -> UnsafeChat? {

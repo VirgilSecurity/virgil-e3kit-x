@@ -281,4 +281,30 @@ class VTE010_UnsafeChatTests: XCTestCase {
             XCTFail()
         }
     }
+
+    func test11__cleanup__should_reset_local_storage() {
+        do {
+            let keyPair = try self.utils.crypto.generateKeyPair()
+            let ethree = try self.setUpDevice(keyPair: keyPair)
+
+            let localUnsafeStorage = try FileUnsafeKeysStorage(identity: ethree.identity,
+                                                               crypto: self.utils.crypto,
+                                                               identityKeyPair: keyPair)
+
+            let identity = UUID().uuidString
+
+            XCTAssert(try localUnsafeStorage.retrieve(identity: identity) == nil)
+
+            _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+
+            XCTAssert(try localUnsafeStorage.retrieve(identity: identity) != nil)
+
+            try ethree.cleanUp()
+
+            XCTAssert(try localUnsafeStorage.retrieve(identity: identity) == nil)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }

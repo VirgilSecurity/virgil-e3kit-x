@@ -110,8 +110,12 @@ extension FileUnsafeKeysStorage {
         try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
     }
 
-    internal func retrieve(identity: String) throws -> UnsafeKey {
+    internal func retrieve(identity: String) throws -> UnsafeKey? {
         let data = try self.fileSystem.read(name: self.defaultName, subdir: identity)
+
+        guard !data.isEmpty else {
+            return nil
+        }
 
         return try self.decode(data: data)
     }
