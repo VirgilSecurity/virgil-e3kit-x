@@ -404,7 +404,7 @@ ethree.deleteGroup(id: groupId) { error in
 ```
 
 ## Double Ratchet Chat
-In this section, you'll find out how to create and use Double Ratchet chats feature.
+In this section, you'll find out how to create and manage secure chat sessions between two users using the Double Ratchet algorithm so that each message is separately encrypted.
 
 **Double Ratchet** is a session key management algorithm that provides extra secure end-to-end encryption for messaging between two users or endpoints. 
 The Double Ratchet mechanism has been designed to provide perfect forward secrecy and durability after key compromise (post-compromise security). These properties are ensured due to the fact that the communication parties generate new keys for each message using a cryptographically strong unidirectional function, which does not allow an attacker to obtain earlier keys using later ones. In addition, the parties renegotiate the keys after each message sent or received (using a new key pair unknown to the attacker), which makes it impossible to obtain later keys from earlier ones.
