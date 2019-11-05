@@ -65,6 +65,7 @@ extension EThree {
         try self.unsafeChatManager?.localUnsafeStorage.reset()
 
         self.groupManager = nil
+        self.unsafeChatManager = nil
         self.secureChat = nil
         self.timer = nil
     }

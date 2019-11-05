@@ -42,7 +42,7 @@ import VirgilCrypto
 class VTE010_UnsafeChatTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> (EThree) {
+    private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> EThree {
         let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -101,7 +101,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
 
-            let newChat1 = try ethree1.getUnsafeChat(with: identity2)!
+            let newChat1 = try ethree1.loadUnsafeChat(asCreator: true, with: identity2).startSync().get()
             let newChat2 = try ethree2.getUnsafeChat(with: ethree1.identity)!
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
