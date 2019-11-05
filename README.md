@@ -25,7 +25,7 @@ The E3Kit allows developers to get up and running with Virgil API quickly and ad
 - Public keys cache features
 - Access encrypted data from multiple user devices
 - Easy setup and integration into new or existing projects
-- Double Ratchet chats feature
+-  One-to-one chat with perfect forward secrecy using the Double Ratchet algorithm
 
 ## Installation
 
