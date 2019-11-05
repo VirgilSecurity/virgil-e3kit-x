@@ -38,4 +38,5 @@ import Foundation
 
 internal enum ServiceErrorCodes: Int {
     case noKeyDataForUser = 50_017
+    case invalidPreviousHash = 50_010
 }

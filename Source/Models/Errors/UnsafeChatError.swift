@@ -36,38 +36,33 @@
 
 import Foundation
 
-@objc(VTETestConfig) public class TestConfig: NSObject, Decodable {
-    @objc public let ApiKeyId: String
-    @objc public let ApiPrivateKey: String
-    @objc public let AppId: String
-    @objc public let ServiceURL: String
+/// Declares error types and codes for EThree Unsafe Chat capabilities
+///
+/// - chatAlreadyExists: Unsafe chat with provided identity already exists.
+/// - selfChatIsForbidden: Unsafe chat with self is forbidden. Use regular encryption for this purpose.
+/// - userIsRegistered: User with provided identity is registered.
+///                     Creation of unsafe chats with registered users is forbidden.
+/// - chatNotFound: Chat was not found
+@objc(VTEUnsafeChatError) public enum UnsafeChatError: Int, LocalizedError {
+    case chatAlreadyExists = 1
+    case selfChatIsForbidden = 2
+    case userIsRegistered = 3
+    case chatNotFound = 4
 
-    public let Group: GroupConfig
-    public let UnsafeChat: UnsafeConfig
-
-    public struct GroupConfig: Decodable {
-        public let GroupId: String
-        public let Initiator: String
-        public let Participants: [String]
-        public let Identity: String
-        public let PrivateKey: String
-        public let OriginText: String
-        public let EncryptedText: String
-    }
-
-    public struct UnsafeConfig: Decodable {
-        public let Identity: String
-        public let Initiator: String
-        public let PrivateKey: String
-        public let OriginText: String
-        public let EncryptedText: String
-    }
-
-    @objc public static func readFromBundle() -> TestConfig {
-        let bundle = Bundle(for: self)
-        let configFileUrl = bundle.url(forResource: "TestConfig", withExtension: "plist")!
-        let data = try! Data(contentsOf: configFileUrl)
-
-        return try! PropertyListDecoder().decode(TestConfig.self, from: data)
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .chatAlreadyExists:
+            return "Unsafe chat with provided identity already exists."
+        case .selfChatIsForbidden:
+            return "Unsafe chat with self is forbidden. Use regular encryption for this purpose."
+        case .userIsRegistered:
+            return """
+                User with provided identity is registered.
+                Creation of unsafe chats with registered users is forbidden.
+            """
+        case .chatNotFound:
+            return "Chat was not found"
+        }
     }
 }

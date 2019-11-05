@@ -34,11 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
-import VirgilCryptoFoundation
-
 import VirgilCryptoRatchet
 
 internal class CloudRatchetStorage {
@@ -70,21 +66,26 @@ internal class CloudRatchetStorage {
 
 extension CloudRatchetStorage {
     internal func store(_ ticket: RatchetMessage, sharedWith card: Card, name: String?) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        do {
+            let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let pushParams = KeyknoxPushParams(identities: [card.identity, self.identity],
-                                           root: CloudRatchetStorage.root,
-                                           path: card.identity,
-                                           key: name ?? CloudRatchetStorage.defaultKey)
+            let pushParams = KeyknoxPushParams(identities: [card.identity, self.identity],
+                                               root: CloudRatchetStorage.root,
+                                               path: card.identity,
+                                               key: name ?? CloudRatchetStorage.defaultKey)
 
-        _ = try self.keyknoxManager
-            .pushValue(params: pushParams,
-                       data: ticket.serialize(),
-                       previousHash: nil,
-                       publicKeys: [card.publicKey, selfKeyPair.publicKey],
-                       privateKey: selfKeyPair.privateKey)
-            .startSync()
-            .get()
+            _ = try self.keyknoxManager
+                .pushValue(params: pushParams,
+                           data: ticket.serialize(),
+                           previousHash: nil,
+                           publicKeys: [card.publicKey, selfKeyPair.publicKey],
+                           privateKey: selfKeyPair.privateKey)
+                .startSync()
+                .get()
+        }
+        catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
+            throw EThreeRatchetError.chatAlreadyExists
+        }
     }
 
     internal func retrieve(from card: Card, name: String?) throws -> RatchetMessage {

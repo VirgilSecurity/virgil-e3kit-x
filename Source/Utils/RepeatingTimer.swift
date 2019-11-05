@@ -37,7 +37,6 @@
 import Foundation
 
 internal class RepeatingTimer {
-    private let interval: TimeInterval
     private let timer: DispatchSourceTimer
 
     private enum State {
@@ -48,14 +47,12 @@ internal class RepeatingTimer {
     private var state: State = .suspended
 
     internal init(interval: TimeInterval, startFromNow: Bool, handler: @escaping () -> Void) {
-        self.interval = interval
-
         let timer = DispatchSource.makeTimerSource()
 
-        let startAfter = startFromNow ? 0 : self.interval
+        let startAfter = startFromNow ? 0 : interval
 
         timer.schedule(deadline: .now() + startAfter,
-                       repeating: self.interval)
+                       repeating: interval)
 
         timer.setEventHandler(handler: handler)
 

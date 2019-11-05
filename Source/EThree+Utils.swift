@@ -52,6 +52,7 @@ extension EThree {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         try self.setupGroupManager(keyPair: selfKeyPair)
+        try self.setupUnsafeManager(keyPair: selfKeyPair)
 
         if self.enableRatchet {
             try self.setupRatchet(params: params, keyPair: selfKeyPair)
@@ -61,8 +62,10 @@ extension EThree {
     internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
         try self.groupManager?.localGroupStorage.reset()
+        try self.unsafeChatManager?.localUnsafeStorage.reset()
 
         self.groupManager = nil
+        self.unsafeChatManager = nil
         self.secureChat = nil
         self.timer = nil
     }
@@ -100,6 +103,14 @@ extension EThree {
         try self.privateKeyChanged(params: params)
     }
 
+    private func setupUnsafeManager(keyPair: VirgilKeyPair) throws {
+        self.unsafeChatManager = try UnsafeChatManager(crypto: self.crypto,
+                                                       accessTokenProvider: self.accessTokenProvider,
+                                                       localKeyStorage: self.localKeyStorage,
+                                                       lookupManager: self.lookupManager,
+                                                       keyPair: keyPair)
+    }
+
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {
          let localGroupStorage = try FileGroupStorage(identity: self.identity,
                                                       crypto: self.crypto,
@@ -115,6 +126,14 @@ extension EThree {
 
     internal func getGroupManager() throws -> GroupManager {
         guard let manager = self.groupManager else {
+            throw EThreeError.missingPrivateKey
+        }
+
+        return manager
+    }
+
+    internal func getUnsafeManager() throws -> UnsafeChatManager {
+        guard let manager = self.unsafeChatManager else {
             throw EThreeError.missingPrivateKey
         }
 
@@ -193,5 +212,18 @@ extension EThree {
         }
 
         return secureChat
+    }
+
+    internal func startRatchetSessionAsSender(secureChat: SecureChat,
+                                              receiverCard card: Card,
+                                              name: String?) throws -> SecureSession {
+        do {
+            return try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
+                .startSync()
+                .get()
+        }
+        catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
+            throw EThreeRatchetError.userIsNotUsingRatchet
+        }
     }
 }
