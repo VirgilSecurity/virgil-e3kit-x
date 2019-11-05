@@ -43,12 +43,21 @@ import Foundation
     @objc public let ServiceURL: String
 
     public let Group: GroupConfig
+    public let UnsafeChat: UnsafeConfig
 
     public struct GroupConfig: Decodable {
         public let GroupId: String
         public let Initiator: String
         public let Participants: [String]
         public let Identity: String
+        public let PrivateKey: String
+        public let OriginText: String
+        public let EncryptedText: String
+    }
+
+    public struct UnsafeConfig: Decodable {
+        public let Identity: String
+        public let Initiator: String
         public let PrivateKey: String
         public let OriginText: String
         public let EncryptedText: String

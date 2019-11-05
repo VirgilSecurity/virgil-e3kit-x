@@ -35,13 +35,14 @@
 //
 
 import XCTest
-import VirgilE3Kit
+@testable import VirgilE3Kit
 import VirgilSDK
+import VirgilCrypto
 
 class VTE010_UnsafeChatTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice(identity: String? = nil) throws -> (EThree, Card) {
+    private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> (EThree) {
         let identity = identity ?? UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -52,11 +53,9 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
         let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
 
-        try ethree.register().startSync().get()
+        try ethree.register(with: keyPair).startSync().get()
 
-        let card = try ethree.findUser(with: identity).startSync().get()
-
-        return (ethree, card)
+        return ethree
     }
 
     func encryptDecrypt100Times(chat1: UnsafeChat, chat2: UnsafeChat) throws {
@@ -86,7 +85,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test01__encrypt_decrypt__should_succeed() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
+            let ethree1 = try self.setUpDevice()
 
             let identity2 = UUID().uuidString
             let chat1 = try ethree1.createUnsafeChat(with: identity2).startSync().get()
@@ -94,8 +93,8 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let message = UUID().uuidString
             let encrypted = try chat1.encrypt(text: message)
 
-            let (ethree2, _) = try self.setUpDevice(identity: identity2)
-            let chat2 = try ethree2.loadUnsafeChat(asCreator: false, with: card1.identity).startSync().get()
+            let ethree2 = try self.setUpDevice(identity: identity2)
+            let chat2 = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)
@@ -103,7 +102,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
 
             let newChat1 = try ethree1.getUnsafeChat(with: identity2)!
-            let newChat2 = try ethree2.getUnsafeChat(with: card1.identity)!
+            let newChat2 = try ethree2.getUnsafeChat(with: ethree1.identity)!
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
         } catch {
@@ -114,7 +113,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test02__create__existent_chat__should_throw_error() {
         do {
-            let (ethree, _) = try self.setUpDevice()
+            let ethree = try self.setUpDevice()
 
             let identity = UUID().uuidString
             _ = try ethree.createUnsafeChat(with: identity).startSync().get()
@@ -131,7 +130,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test03__create__with_self__should_throw_error() {
         do {
-            let (ethree, _) = try self.setUpDevice()
+            let ethree = try self.setUpDevice()
 
             do {
                 _ = try ethree.createUnsafeChat(with: ethree.identity).startSync().get()
@@ -145,8 +144,8 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test04__create__with_registered__should_throw_error() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
-            let (ethree2, _) = try self.setUpDevice()
+            let ethree1 = try self.setUpDevice()
+            let ethree2 = try self.setUpDevice()
 
             do {
                 _ = try ethree1.createUnsafeChat(with: ethree2.identity).startSync().get()
@@ -160,7 +159,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test05__get__should_suceed() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
+            let ethree1 = try self.setUpDevice()
 
             let identity2 = UUID().uuidString
             XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
@@ -168,7 +167,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
             _ = try ethree1.createUnsafeChat(with: identity2).startSync().get()
             XCTAssert(try ethree1.getUnsafeChat(with: identity2) != nil)
 
-            let (ethree2, _) = try self.setUpDevice(identity: identity2)
+            let ethree2 = try self.setUpDevice(identity: identity2)
             XCTAssert(try ethree2.getUnsafeChat(with: ethree1.identity) == nil)
 
             _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
@@ -184,7 +183,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test06__load__with_self__should_throw_error() {
         do {
-            let (ethree, _) = try self.setUpDevice()
+            let ethree = try self.setUpDevice()
 
             do {
                 _ = try ethree.loadUnsafeChat(asCreator: true, with: ethree.identity).startSync().get()
@@ -198,7 +197,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test07__load__unexistent_chat__should_throw_error() {
         do {
-            let (ethree, _) = try self.setUpDevice()
+            let ethree = try self.setUpDevice()
 
             let identity = UUID().uuidString
             do {
@@ -213,7 +212,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test08__load__after_delete__should_throw_error() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
+            let ethree1 = try self.setUpDevice()
 
             let identity2 = UUID().uuidString
 
@@ -225,7 +224,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
                 XCTFail()
             } catch UnsafeChatError.chatNotFound {}
 
-            let (ethree2, _) = try self.setUpDevice(identity: identity2)
+            let ethree2 = try self.setUpDevice(identity: identity2)
 
             do {
                 _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
@@ -239,13 +238,44 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test09__delete__unexistent_chat__should_throw_error() {
         do {
-            let (ethree, _) = try self.setUpDevice()
+            let ethree = try self.setUpDevice()
 
             let fakeIdentity = UUID().uuidString
 
             do {
                 try ethree.deleteUnsafeChat(with: fakeIdentity).startSync().get()
             } catch UnsafeChatError.chatNotFound {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test10__compatibility() {
+        do {
+            let config = self.utils.config.UnsafeChat
+
+            let identity = config.Identity
+
+            let tokenCallback: EThree.RenewJwtCallback = { completion in
+                let token = self.utils.getTokenString(identity: identity)
+
+                completion(token, nil)
+            }
+
+            let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
+
+            if try !ethree.hasLocalPrivateKey() {
+                let privateKeyData = Data(base64Encoded: config.PrivateKey)!
+                try ethree.localKeyStorage.store(data: privateKeyData)
+                try ethree.privateKeyChanged()
+            }
+
+            let chat = try ethree.loadUnsafeChat(asCreator: false, with: config.Initiator).startSync().get()
+
+            let decrypted = try chat.decrypt(text: config.EncryptedText)
+
+            XCTAssert(decrypted == config.OriginText)
         } catch {
             print(error.localizedDescription)
             XCTFail()
