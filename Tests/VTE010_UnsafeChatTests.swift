@@ -83,7 +83,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test01__encrypt_decrypt__should_succeed() {
+    func test01_STE_74__encrypt_decrypt__should_succeed() {
         do {
             let ethree1 = try self.setUpDevice()
 
@@ -111,7 +111,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test02__create__existent_chat__should_throw_error() {
+    func test02_STE_75__create__existent_chat__should_throw_error() {
         do {
             let ethree = try self.setUpDevice()
 
@@ -128,7 +128,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test03__create__with_self__should_throw_error() {
+    func test03_STE_76__create__with_self__should_throw_error() {
         do {
             let ethree = try self.setUpDevice()
 
@@ -142,7 +142,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test04__create__with_registered__should_throw_error() {
+    func test04_STE_77__create__with_registered__should_throw_error() {
         do {
             let ethree1 = try self.setUpDevice()
             let ethree2 = try self.setUpDevice()
@@ -157,7 +157,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test05__get__should_suceed() {
+    func test05_STE_78__get__should_suceed() {
         do {
             let ethree1 = try self.setUpDevice()
 
@@ -181,7 +181,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test06__load__with_self__should_throw_error() {
+    func test06_STE_79__load__with_self__should_throw_error() {
         do {
             let ethree = try self.setUpDevice()
 
@@ -195,7 +195,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test07__load__unexistent_chat__should_throw_error() {
+    func test07_STE_80__load__unexistent_chat__should_throw_error() {
         do {
             let ethree = try self.setUpDevice()
 
@@ -210,7 +210,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test08__load__after_delete__should_throw_error() {
+    func test08_STE_81__load__after_delete__should_throw_error() {
         do {
             let ethree1 = try self.setUpDevice()
 
@@ -236,7 +236,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test09__delete__unexistent_chat__should_succeed() {
+    func test09_STE_82__delete__unexistent_chat__should_succeed() {
         do {
             let ethree = try self.setUpDevice()
 
@@ -249,7 +249,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test10__compatibility() {
+    func test10_STE_83__compatibility() {
         do {
             let config = self.utils.config.UnsafeChat
 
@@ -280,7 +280,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test11__cleanup__should_reset_local_storage() {
+    func test11_STE_84__cleanup__should_reset_local_storage() {
         do {
             let keyPair = try self.utils.crypto.generateKeyPair()
             let ethree = try self.setUpDevice(keyPair: keyPair)
