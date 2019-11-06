@@ -25,6 +25,7 @@ The E3Kit allows developers to get up and running with Virgil API quickly and ad
 - Public keys cache features
 - Access encrypted data from multiple user devices
 - Easy setup and integration into new or existing projects
+-  One-to-one chat with perfect forward secrecy using the Double Ratchet algorithm
 
 ## Installation
 
@@ -403,9 +404,14 @@ ethree.deleteGroup(id: groupId) { error in
 ```
 
 ## Double Ratchet Chat
-In this section, you'll find out how to create and use Double Ratchet chats feature.
+In this section, you'll find out how to create and manage secure chat sessions between two users using the Double Ratchet algorithm so that each message is separately encrypted.
 
-We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
+**Double Ratchet** is a session key management algorithm that provides extra secure end-to-end encryption for messaging between two users or endpoints. 
+The Double Ratchet algorithm provides perfect forward secrecy and post-compromise security by generating unique session keys for each new message. Even if the communication is somehow compromised, a potential attacker will only be able to access the most recent message, and soon as a new message is sent by one of the two users, the attacker will be locked out again. 
+
+The session keys are generated using a cryptographically strong unidirectional function, which prevents an attacker from potentially obtaining earlier keys derived from later ones. In addition, the parties renegotiate the keys after each message sent or received (using a new key pair unknown to the attacker), which makes it impossible to obtain later keys from earlier ones.
+
+We assume that you have installed and initialized the E3Kit, and your application users are registered using the snippet above.
 
 #### Create chat
 
