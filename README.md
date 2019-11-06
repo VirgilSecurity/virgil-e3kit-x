@@ -445,7 +445,7 @@ let chat = try! ethree.getRatchetChat(with: users["Alice"])
 
 #### Delete chat
 
-Use this snippet to delete chat from local storage and clean cloud invites.
+Use this snippet to delete chat from local storage and clean cloud invite.
 
 ```swift
 
@@ -454,7 +454,7 @@ ethree.deleteRatchetChat(with: users["Bob"]) { error in
         // Error handling
     }
     
-    // Group was deleted!
+    // Chat was deleted!
 }
 ```
 
@@ -472,6 +472,75 @@ Use the following code-snippets to decrypt messages:
 ```swift
 let decrypted = try! chat.decrypt(text: encrypted)
 ```
+
+## Unsafe Chat
+In this section, you'll find out how to create and use chat with unregistered on Virgil Cloud user.
+
+To archeive encrypted communication with unregistered user, chat creator generates temporary key pair and saves it on Virgil Cloud with access for future user identity. However, this key is stored unencrypted, so this type of communication can't be called e2ee. Chat creator uses this key for encryption. When participant finally registers, he can load this temporary key from Cloud and use to decrypt messages.
+
+We assume that chat creator have installed and initialized the E3Kit, and used snippet above to register.
+
+#### Create chat
+
+To create a chat with unregistered user use the folowing snippet
+```swift
+
+ethree.createUnsafeChat(with: "Bob") { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat created and saved locally!
+}
+```
+
+#### Load chat
+
+After user registered he can load unsafe chat
+```swift
+
+ethree.loadUnsafeChat(asCreator: false, with: "Alice") { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat loaded and saved locally!
+}
+```
+
+If chat creator changed device or cleaned up current one, he can load unsafe chat in simular way
+```swift
+
+ethree.loadUnsafeChat(asCreator: true, with: "Bob") { chat, error in
+    guard error == nil else {
+        // Error handling
+    }
+    // Chat loaded and saved locally!
+}
+```
+
+#### Get chat
+
+After loading or creating chat you can use getUnsafeChat method to retrieve it from local storage
+```swift
+
+let chat = try! ethree.getUnsafeChat(with: "Alice")
+
+```
+
+#### Delete chat
+
+Use this snippet to delete chat from local storage and clean cloud invite
+
+```swift
+
+ethree.deleteUnsafeChat(with: "Bob") { error in
+    guard error == nil else {
+        // Error handling
+    }
+    
+    // Chat was deleted!
+}
+```
+
 
 ## Samples
 
