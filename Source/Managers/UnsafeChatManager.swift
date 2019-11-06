@@ -92,7 +92,7 @@ extension UnsafeChatManager {
         return unsafeChat
     }
 
-    internal func load(asCreator: Bool, with identity: String) throws -> UnsafeChat {
+    internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> UnsafeChat {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let publicKey: VirgilPublicKey
@@ -120,7 +120,7 @@ extension UnsafeChatManager {
                           crypto: self.crypto)
     }
 
-    internal func get(with identity: String) throws -> UnsafeChat? {
+    internal func getLocalChat(with identity: String) throws -> UnsafeChat? {
         guard let unsafeKey = try? self.localUnsafeStorage.retrieve(identity: identity) else {
             return nil
         }
@@ -129,10 +129,10 @@ extension UnsafeChatManager {
         let publicKey: VirgilPublicKey
 
         switch unsafeKey.type {
-        case .private:
+        case .private:              // User is participant
             privateKey = try self.crypto.importPrivateKey(from: unsafeKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
-        case .public:
+        case .public:               // User is creator of chat
             privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
             publicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
         }

@@ -72,12 +72,13 @@ extension EThree {
     open func loadUnsafeChat(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChat> {
         return CallbackOperation { _, completion in
             do {
+                let unsafeManager = try self.getUnsafeManager()
+
                 guard identity != self.identity else {
                     throw UnsafeChatError.selfChatIsForbidden
                 }
 
-                let unsafeChat = try self.getUnsafeManager().load(asCreator: asCreator,
-                                                                  with: identity)
+                let unsafeChat = try unsafeManager.loadFromCloud(asCreator: asCreator, with: identity)
 
                 completion(unsafeChat, nil)
             } catch {
@@ -91,7 +92,7 @@ extension EThree {
     open func getUnsafeChat(with identity: String) throws -> UnsafeChat? {
         let unsafeManager = try self.getUnsafeManager()
 
-        return try unsafeManager.get(with: identity)
+        return try unsafeManager.getLocalChat(with: identity)
     }
 
     /// Deletes unsafe chat from cloud (if user is owner) and local storage
