@@ -40,9 +40,8 @@ import Foundation
 ///
 /// - encryptEmptyArray: Trying to encrypt empty array
 /// - decryptEmptyArray: Trying to decrypt empty array
-/// - missingLocalChat: Chat with provided user was not found locally
-/// - chatAlreadyExists: Chat with provided user and name already exists
-/// - selfChatIsForbidden: Chat with self is forbidden. Use regular encryption for this purpose.
+/// - channelAlreadyExists: Channel with provided user and name already exists
+/// - selfChannelIsForbidden: Channel with self is forbidden. Use regular encryption for this purpose.
 /// - ratchetIsDisabled: enableRatchet parameter is set to false
 /// - userIsNotUsingRatchet: Provided user has been never initialized with ratchet enabled
 /// - noInvite: There is no invitation from provided user
@@ -50,8 +49,8 @@ import Foundation
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case encryptEmptyArray = 1
     case decryptEmptyArray = 2
-    case chatAlreadyExists = 4
-    case selfChatIsForbidden = 5
+    case channelAlreadyExists = 4
+    case selfChannelIsForbidden = 5
     case ratchetIsDisabled = 6
     case userIsNotUsingRatchet = 7
     case noInvite = 8
@@ -64,10 +63,10 @@ import Foundation
             return "Trying to encrypt empty array"
         case .decryptEmptyArray:
             return "Trying to decrypt empty array"
-        case .chatAlreadyExists:
-            return "Chat with provided user and name already exists"
-        case .selfChatIsForbidden:
-            return "Chat with self is forbidden. Use regular encryption for this purpose."
+        case .channelAlreadyExists:
+            return "Channel with provided user and name already exists"
+        case .selfChannelIsForbidden:
+            return "Channel with self is forbidden. Use regular encryption for this purpose."
         case .ratchetIsDisabled:
             return "enableRatchet parameter is set to false"
         case .userIsNotUsingRatchet:

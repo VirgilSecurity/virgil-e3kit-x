@@ -43,22 +43,22 @@ extension EThree {
     /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
     /// - Parameter identity: identity of unregistered user
-    open func createUnsafeChat(with identity: String) -> GenericOperation<UnsafeChat> {
+    open func createUnsafeChannel(with identity: String) -> GenericOperation<UnsafeChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
-                    throw UnsafeChatError.selfChatIsForbidden
+                    throw UnsafeChannelError.selfChannelIsForbidden
                 }
 
                 let result = try self.findUsers(with: [identity], checkResult: false).startSync().get()
 
                 guard result.isEmpty else {
-                    throw UnsafeChatError.userIsRegistered
+                    throw UnsafeChannelError.userIsRegistered
                 }
 
-                let unsafeChat = try self.getUnsafeManager().create(with: identity)
+                let unsafeChannel = try self.getUnsafeManager().create(with: identity)
 
-                completion(unsafeChat, nil)
+                completion(unsafeChannel, nil)
             } catch {
                 completion(nil, error)
             }
@@ -69,18 +69,18 @@ extension EThree {
     /// - Parameters:
     ///   - asCreator: Bool to specify wether caller is creator of chat or not
     ///   - identity: identity of participant
-    open func loadUnsafeChat(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChat> {
+    open func loadUnsafeChannel(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChannel> {
         return CallbackOperation { _, completion in
             do {
                 let unsafeManager = try self.getUnsafeManager()
 
                 guard identity != self.identity else {
-                    throw UnsafeChatError.selfChatIsForbidden
+                    throw UnsafeChannelError.selfChannelIsForbidden
                 }
 
-                let unsafeChat = try unsafeManager.loadFromCloud(asCreator: asCreator, with: identity)
+                let unsafeChannel = try unsafeManager.loadFromCloud(asCreator: asCreator, with: identity)
 
-                completion(unsafeChat, nil)
+                completion(unsafeChannel, nil)
             } catch {
                 completion(nil, error)
             }
@@ -89,15 +89,15 @@ extension EThree {
 
     /// Returns cached unsafe chat
     /// - Parameter identity: identity of participant
-    open func getUnsafeChat(with identity: String) throws -> UnsafeChat? {
+    open func getUnsafeChannel(with identity: String) throws -> UnsafeChannel? {
         let unsafeManager = try self.getUnsafeManager()
 
-        return try unsafeManager.getLocalChat(with: identity)
+        return try unsafeManager.getLocalChannel(with: identity)
     }
 
     /// Deletes unsafe chat from cloud (if user is owner) and local storage
     /// - Parameter identity: identity of participant
-    open func deleteUnsafeChat(with identity: String) -> GenericOperation<Void> {
+    open func deleteUnsafeChannel(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.getUnsafeManager().delete(with: identity)

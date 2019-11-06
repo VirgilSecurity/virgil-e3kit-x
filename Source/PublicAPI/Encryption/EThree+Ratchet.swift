@@ -44,7 +44,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of chat
-    open func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+    open func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -54,7 +54,7 @@ extension EThree {
                 }
 
                 guard card.identity != self.identity else {
-                    throw EThreeRatchetError.selfChatIsForbidden
+                    throw EThreeRatchetError.selfChannelIsForbidden
                 }
 
                 let session = try self.startRatchetSessionAsSender(secureChat: secureChat,
@@ -67,10 +67,10 @@ extension EThree {
 
                 try secureChat.storeSession(session)
 
-                let ratchetChat = RatchetChat(session: session,
+                let ratchetChannel = RatchetChannel(session: session,
                                               sessionStorage: secureChat.sessionStorage)
 
-                completion(ratchetChat, nil)
+                completion(ratchetChannel, nil)
             } catch {
                 completion(nil, error)
             }
@@ -81,7 +81,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of initiator
     ///   - name: name of chat
-    open func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+    open func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -91,7 +91,7 @@ extension EThree {
                 }
 
                 guard card.identity != self.identity else {
-                    throw EThreeRatchetError.selfChatIsForbidden
+                    throw EThreeRatchetError.selfChannelIsForbidden
                 }
 
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
@@ -100,9 +100,9 @@ extension EThree {
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
 
-                let ratchetChat = RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+                let ratchetChannel = RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
 
-                completion(ratchetChat, nil)
+                completion(ratchetChannel, nil)
             } catch {
                 completion(nil, error)
             }
@@ -113,21 +113,21 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of chat
-    open func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
+    open func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }
 
-        return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+        return RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
     /// Deletes double ratchet chat
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of chat
-    open func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+    open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()

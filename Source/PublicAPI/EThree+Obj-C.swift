@@ -292,13 +292,13 @@ extension EThree {
     ///   - card: Card of participant
     ///   - name: name of chat
     ///   - completion: completion handler
-    ///   - chat: created `RatchetChat` intance
+    ///   - chat: created `RatchetChannel` intance
     ///   - error: corresponding error
-    @objc open func createRatchetChat(with card: Card,
+    @objc open func createRatchetChannel(with card: Card,
                                       name: String? = nil,
-                                      completion: @escaping (_ chat: RatchetChat?,
+                                      completion: @escaping (_ chat: RatchetChannel?,
                                                              _ error: Error?) -> Void) {
-        self.createRatchetChat(with: card, name: name).start(completion: completion)
+        self.createRatchetChannel(with: card, name: name).start(completion: completion)
     }
 
     /// Joins double ratchet chat with user, saves it locally
@@ -306,13 +306,13 @@ extension EThree {
     ///   - card: Card of initiator
     ///   - name: name of chat
     ///   - completion: completion handler
-    ///   - chat: `RatchetChat` intance
+    ///   - chat: `RatchetChannel` intance
     ///   - error: corresponding error
-    @objc open func joinRatchetChat(with card: Card,
+    @objc open func joinRatchetChannel(with card: Card,
                                     name: String? = nil,
-                                    completion: @escaping (_ chat: RatchetChat?,
+                                    completion: @escaping (_ chat: RatchetChannel?,
                                                            _ error: Error?) -> Void) {
-        self.joinRatchetChat(with: card, name: name).start(completion: completion)
+        self.joinRatchetChannel(with: card, name: name).start(completion: completion)
     }
 
     /// Retrieves double ratchet chat from local storage
@@ -320,9 +320,9 @@ extension EThree {
     ///   - card: Card of participant
     ///   - name: name of chat
     @available(swift, obsoleted: 1.0)
-    @objc(getRatchetChatWith:name:)
-    open func getRatchetChatObjc(with card: Card, name: String? = nil) -> RatchetChat? {
-        try? self.getRatchetChat(with: card, name: name)
+    @objc(getRatchetChannelWith:name:)
+    open func getRatchetChannelObjc(with card: Card, name: String? = nil) -> RatchetChannel? {
+        try? self.getRatchetChannel(with: card, name: name)
     }
 
     /// Deletes double ratchet chat
@@ -331,16 +331,16 @@ extension EThree {
     ///   - name: name of chat
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func deleteRatchetChat(with card: Card,
+    @objc open func deleteRatchetChannel(with card: Card,
                                       name: String? = nil,
                                       completion: @escaping (_ error: Error?) -> Void) {
-        self.deleteRatchetChat(with: card, name: name).start { _, error in
+        self.deleteRatchetChannel(with: card, name: name).start { _, error in
             completion(error)
         }
     }
 }
 
-// MARK: - Extension with Objective-C compatible Unsafe Chat operations
+// MARK: - Extension with Objective-C compatible Unsafe Channel operations
 extension EThree {
     /// Creates chat with unregistered user
     ///
@@ -349,12 +349,12 @@ extension EThree {
     /// - Parameters:
     ///   - identity: identity of unregistered user
     ///   - completion: completion handler
-    ///   - chat: created `UnsafeChat` insance
+    ///   - chat: created `UnsafeChannel` insance
     ///   - error: corresponding error
-    @objc open func createUnsafeChat(with identity: String,
-                                     completion: @escaping (_ chat: UnsafeChat?,
-                                                            _ error: Error?) -> Void) {
-        return self.createUnsafeChat(with: identity).start(completion: completion)
+    @objc open func createUnsafeChannel(with identity: String,
+                                        completion: @escaping (_ chat: UnsafeChannel?,
+                                                               _ error: Error?) -> Void) {
+        return self.createUnsafeChannel(with: identity).start(completion: completion)
     }
 
     /// Loads unsafe chat by fetching temporary key form Cloud
@@ -362,21 +362,21 @@ extension EThree {
     ///   - asCreator: Bool to specify wether caller is creator of chat or not
     ///   - identity: identity of participant
     ///   - completion: completion handler
-    ///   - chat: loaded `UnsafeChat` insance
+    ///   - chat: loaded `UnsafeChannel` insance
     ///   - error: corresponding error
-    @objc open func loadUnsafeChat(asCreator: Bool,
+    @objc open func loadUnsafeChannel(asCreator: Bool,
                                    with identity: String,
-                                   completion: @escaping (_ chat: UnsafeChat?,
+                                   completion: @escaping (_ chat: UnsafeChannel?,
                                                           _ error: Error?) -> Void) {
-        self.loadUnsafeChat(asCreator: asCreator, with: identity).start(completion: completion)
+        self.loadUnsafeChannel(asCreator: asCreator, with: identity).start(completion: completion)
     }
 
     /// Returns cached unsafe chat
     /// - Parameter identity: identity of participant
     @available(swift, obsoleted: 1.0)
-    @objc(getUnsafeChatWith:)
-    open func getUnsafeChatObjc(with identity: String) -> UnsafeChat? {
-        try? self.getUnsafeChat(with: identity)
+    @objc(getUnsafeChannelWith:)
+    open func getUnsafeChannelObjc(with identity: String) -> UnsafeChannel? {
+        try? self.getUnsafeChannel(with: identity)
     }
 
     /// Deletes unsafe chat from cloud (if user is owner) and local storage
@@ -384,8 +384,8 @@ extension EThree {
     ///   - identity: identity of participant
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func deleteUnsafeChat(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
-        self.deleteUnsafeChat(with: identity).start { _, error in
+    @objc open func deleteUnsafeChannel(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteUnsafeChannel(with: identity).start { _, error in
             completion(error)
         }
     }

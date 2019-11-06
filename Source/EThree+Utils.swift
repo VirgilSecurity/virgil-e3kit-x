@@ -62,10 +62,10 @@ extension EThree {
     internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
         try self.groupManager?.localGroupStorage.reset()
-        try self.unsafeChatManager?.localUnsafeStorage.reset()
+        try self.unsafeChannelManager?.localUnsafeStorage.reset()
 
         self.groupManager = nil
-        self.unsafeChatManager = nil
+        self.unsafeChannelManager = nil
         self.secureChat = nil
         self.timer = nil
     }
@@ -104,7 +104,7 @@ extension EThree {
     }
 
     private func setupUnsafeManager(keyPair: VirgilKeyPair) throws {
-        self.unsafeChatManager = try UnsafeChatManager(crypto: self.crypto,
+        self.unsafeChannelManager = try UnsafeChannelManager(crypto: self.crypto,
                                                        accessTokenProvider: self.accessTokenProvider,
                                                        localKeyStorage: self.localKeyStorage,
                                                        lookupManager: self.lookupManager,
@@ -132,8 +132,8 @@ extension EThree {
         return manager
     }
 
-    internal func getUnsafeManager() throws -> UnsafeChatManager {
-        guard let manager = self.unsafeChatManager else {
+    internal func getUnsafeManager() throws -> UnsafeChannelManager {
+        guard let manager = self.unsafeChannelManager else {
             throw EThreeError.missingPrivateKey
         }
 

@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
-[Introduction](#introduction) | [Features](#features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Enable Group Chat](#enable-group-chat) | [Samples](#samples) | [License](#license) | [Docs](#docs) | [Support](#support)
+[Introduction](#introduction) | [Features](#features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Enable Group Channel](#enable-group-chat) | [Samples](#samples) | [License](#license) | [Docs](#docs) | [Support](#support)
 
 ## Introduction
 
@@ -297,7 +297,7 @@ let loginPassword = derivedPasswords.loginPassword
 ```
 The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta3/Tests/Data/ExampleConfig).
 
-## Enable Group Chat
+## Enable Group Channel
 In this section, you'll find out how to build a group chat using the Virgil E3Kit.
 
 We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
@@ -402,7 +402,7 @@ ethree.deleteGroup(id: groupId) { error in
 }
 ```
 
-## Double Ratchet Chat
+## Double Ratchet Channel
 In this section, you'll find out how to create and use Double Ratchet chats feature.
 
 We assume that your users have installed and initialized the E3Kit, and used snippet above to register.
@@ -412,11 +412,11 @@ We assume that your users have installed and initialized the E3Kit, and used sni
 To create a peer-to-peer connection using Double Ratchet protocol use the folowing snippet
 ```swift
 
-ethree.createRatchetChat(with: users["Bob"]) { chat, error in
+ethree.createRatchetChannel(with: users["Bob"]) { chat, error in
     guard error == nil else {
         // Error handling
     }
-    // Chat created and saved locally!
+    // Channel created and saved locally!
 }
 ```
 
@@ -426,20 +426,20 @@ After someone created chat with user, he can join it
 
 ```swift
 
-ethree.joinRatchetChat(with: users["Alice"]) { chat, error in
+ethree.joinRatchetChannel(with: users["Alice"]) { chat, error in
     guard error == nil else {
         // Error handling
     }
-    // Chat joined and saved locally!
+    // Channel joined and saved locally!
 }
 ```
 
 #### Get chat
 
-After joining or creating chat you can use getRatchetChat method to retrieve it from local storage.
+After joining or creating chat you can use getRatchetChannel method to retrieve it from local storage.
 ```swift
 
-let chat = try! ethree.getRatchetChat(with: users["Alice"])
+let chat = try! ethree.getRatchetChannel(with: users["Alice"])
 
 ```
 
@@ -449,12 +449,12 @@ Use this snippet to delete chat from local storage and clean cloud invite.
 
 ```swift
 
-ethree.deleteRatchetChat(with: users["Bob"]) { error in
+ethree.deleteRatchetChannel(with: users["Bob"]) { error in
     guard error == nil else {
         // Error handling
     }
     
-    // Chat was deleted!
+    // Channel was deleted!
 }
 ```
 
@@ -473,10 +473,10 @@ Use the following code-snippets to decrypt messages:
 let decrypted = try! chat.decrypt(text: encrypted)
 ```
 
-## Unsafe Chat
+## Unsafe Channel
 In this section, you'll find out how to create and use chat with unregistered on Virgil Cloud user.
 
-To archeive encrypted communication with unregistered user, chat creator generates temporary key pair and saves it on Virgil Cloud with access for future user identity. However, this key is stored unencrypted, so this type of communication can't be called e2ee. Chat creator uses this key for encryption. When participant finally registers, he can load this temporary key from Cloud and use to decrypt messages.
+To archeive encrypted communication with unregistered user, chat creator generates temporary key pair and saves it on Virgil Cloud with access for future user identity. However, this key is stored unencrypted, so this type of communication can't be called e2ee. Channel creator uses this key for encryption. When participant finally registers, he can load this temporary key from Cloud and use to decrypt messages.
 
 We assume that chat creator have installed and initialized the E3Kit, and used snippet above to register.
 
@@ -485,11 +485,11 @@ We assume that chat creator have installed and initialized the E3Kit, and used s
 To create a chat with unregistered user use the folowing snippet
 ```swift
 
-ethree.createUnsafeChat(with: "Bob") { chat, error in
+ethree.createUnsafeChannel(with: "Bob") { chat, error in
     guard error == nil else {
         // Error handling
     }
-    // Chat created and saved locally!
+    // Channel created and saved locally!
 }
 ```
 
@@ -498,31 +498,31 @@ ethree.createUnsafeChat(with: "Bob") { chat, error in
 After user registered he can load unsafe chat
 ```swift
 
-ethree.loadUnsafeChat(asCreator: false, with: "Alice") { chat, error in
+ethree.loadUnsafeChannel(asCreator: false, with: "Alice") { chat, error in
     guard error == nil else {
         // Error handling
     }
-    // Chat loaded and saved locally!
+    // Channel loaded and saved locally!
 }
 ```
 
 If chat creator changed device or cleaned up current one, he can load unsafe chat in simular way
 ```swift
 
-ethree.loadUnsafeChat(asCreator: true, with: "Bob") { chat, error in
+ethree.loadUnsafeChannel(asCreator: true, with: "Bob") { chat, error in
     guard error == nil else {
         // Error handling
     }
-    // Chat loaded and saved locally!
+    // Channel loaded and saved locally!
 }
 ```
 
 #### Get chat
 
-After loading or creating chat you can use getUnsafeChat method to retrieve it from local storage
+After loading or creating chat you can use getUnsafeChannel method to retrieve it from local storage
 ```swift
 
-let chat = try! ethree.getUnsafeChat(with: "Alice")
+let chat = try! ethree.getUnsafeChannel(with: "Alice")
 
 ```
 
@@ -532,12 +532,12 @@ Use this snippet to delete chat from local storage and clean cloud invite
 
 ```swift
 
-ethree.deleteUnsafeChat(with: "Bob") { error in
+ethree.deleteUnsafeChannel(with: "Bob") { error in
     guard error == nil else {
         // Error handling
     }
     
-    // Chat was deleted!
+    // Channel was deleted!
 }
 ```
 

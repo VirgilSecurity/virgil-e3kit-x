@@ -43,7 +43,7 @@ import Foundation
     @objc public let ServiceURL: String
 
     public let Group: GroupConfig
-    public let UnsafeChat: UnsafeConfig
+    public let UnsafeChannel: UnsafeConfig
 
     public struct GroupConfig: Decodable {
         public let GroupId: String

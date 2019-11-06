@@ -37,8 +37,8 @@
 import Foundation
 import VirgilCrypto
 
-/// Class representing Unsafe Chat
-@objc(VTEUnsafeChat) public class UnsafeChat: NSObject {
+/// Class representing Unsafe Channel
+@objc(VTEUnsafeChannel) public class UnsafeChannel: NSObject {
     /// Identity of participant
     @objc public let participant: String
 
@@ -59,7 +59,7 @@ import VirgilCrypto
     }
 }
 
-extension UnsafeChat {
+extension UnsafeChannel {
     /// Encrypts data
     /// - Parameter data: Data to encrypt
     @objc open func encrypt(data: Data) throws -> Data {

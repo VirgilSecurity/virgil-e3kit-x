@@ -38,7 +38,7 @@ import VirgilSDKRatchet
 import VirgilCryptoRatchet
 
 // MARK: - Extension with double ratchet encrypt and decrypt operations
-extension RatchetChat {
+extension RatchetChannel {
     /// Encrypts data
     /// - Parameter data: Data to encrypt
     @objc open func encrypt(data: Data) throws -> Data {
@@ -88,7 +88,7 @@ extension RatchetChat {
     }
 }
 
-extension RatchetChat {
+extension RatchetChannel {
     /// Encrypts array of data
     /// - Parameter data: array of data to encrypt
     @objc open func encryptMultiple(data: [Data]) throws -> [Data] {
