@@ -35,22 +35,34 @@
 //
 
 import Foundation
-import VirgilSDKRatchet
 
-/// Class representing Ratchet Chat
-@objc(VTERatchetChat) open class RatchetChat: NSObject {
-    /// Participant
-    @objc public var participant: String {
-        return self.session.participantIdentity
-    }
+/// Declares error types and codes for EThree Unsafe Channel capabilities
+///
+/// - channelAlreadyExists: Unsafe channel with provided identity already exists.
+/// - selfChannelIsForbidden: Unsafe channel with self is forbidden. Use regular encryption for this purpose.
+/// - userIsRegistered: User with provided identity is registered.
+///                     Creation of unsafe channels with registered users is forbidden.
+/// - channelNotFound: Channel was not found
+@objc(VTEUnsafeChannelError) public enum UnsafeChannelError: Int, LocalizedError {
+    case channelAlreadyExists = 1
+    case selfChannelIsForbidden = 2
+    case userIsRegistered = 3
+    case channelNotFound = 4
 
-    internal let session: SecureSession
-    internal let sessionStorage: SessionStorage
-
-    internal init(session: SecureSession, sessionStorage: SessionStorage) {
-        self.session = session
-        self.sessionStorage = sessionStorage
-
-        super.init()
+    /// Human-readable localized description
+    public var errorDescription: String? {
+        switch self {
+        case .channelAlreadyExists:
+            return "Unsafe channel with provided identity already exists."
+        case .selfChannelIsForbidden:
+            return "Unsafe channel with self is forbidden. Use regular encryption for this purpose."
+        case .userIsRegistered:
+            return """
+                User with provided identity is registered.
+                Creation of unsafe channels with registered users is forbidden.
+            """
+        case .channelNotFound:
+            return "Channel was not found"
+        }
     }
 }

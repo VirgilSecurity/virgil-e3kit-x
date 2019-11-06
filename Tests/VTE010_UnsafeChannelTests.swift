@@ -39,7 +39,7 @@ import XCTest
 import VirgilSDK
 import VirgilCrypto
 
-class VTE010_UnsafeChatTests: XCTestCase {
+class VTE010_UnsafeChannelTests: XCTestCase {
     let utils = TestUtils()
 
     private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> EThree {
@@ -58,11 +58,11 @@ class VTE010_UnsafeChatTests: XCTestCase {
         return ethree
     }
 
-    func encryptDecrypt100Times(chat1: UnsafeChat, chat2: UnsafeChat) throws {
+    func encryptDecrypt100Times(chat1: UnsafeChannel, chat2: UnsafeChannel) throws {
         for _ in 0..<100 {
             try autoreleasepool {
-                let sender: UnsafeChat
-                let receiver: UnsafeChat
+                let sender: UnsafeChannel
+                let receiver: UnsafeChannel
 
                 if Bool.random() {
                     sender = chat1
@@ -88,21 +88,21 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree1 = try self.setUpDevice()
 
             let identity2 = UUID().uuidString
-            let chat1 = try ethree1.createUnsafeChat(with: identity2).startSync().get()
+            let chat1 = try ethree1.createUnsafeChannel(with: identity2).startSync().get()
 
             let message = UUID().uuidString
             let encrypted = try chat1.encrypt(text: message)
 
             let ethree2 = try self.setUpDevice(identity: identity2)
-            let chat2 = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
+            let chat2 = try ethree2.loadUnsafeChannel(asCreator: false, with: ethree1.identity).startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
 
-            let newChat1 = try ethree1.loadUnsafeChat(asCreator: true, with: identity2).startSync().get()
-            let newChat2 = try ethree2.getUnsafeChat(with: ethree1.identity)!
+            let newChat1 = try ethree1.loadUnsafeChannel(asCreator: true, with: identity2).startSync().get()
+            let newChat2 = try ethree2.getUnsafeChannel(with: ethree1.identity)!
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
         } catch {
@@ -116,12 +116,12 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree = try self.setUpDevice()
 
             let identity = UUID().uuidString
-            _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+            _ = try ethree.createUnsafeChannel(with: identity).startSync().get()
 
             do {
-                _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+                _ = try ethree.createUnsafeChannel(with: identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.chatAlreadyExists {}
+            } catch UnsafeChannelError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -133,9 +133,9 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree = try self.setUpDevice()
 
             do {
-                _ = try ethree.createUnsafeChat(with: ethree.identity).startSync().get()
+                _ = try ethree.createUnsafeChannel(with: ethree.identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.selfChatIsForbidden {}
+            } catch UnsafeChannelError.selfChannelIsForbidden {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -148,9 +148,9 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree2 = try self.setUpDevice()
 
             do {
-                _ = try ethree1.createUnsafeChat(with: ethree2.identity).startSync().get()
+                _ = try ethree1.createUnsafeChannel(with: ethree2.identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.userIsRegistered {}
+            } catch UnsafeChannelError.userIsRegistered {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -162,19 +162,19 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree1 = try self.setUpDevice()
 
             let identity2 = UUID().uuidString
-            XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
+            XCTAssert(try ethree1.getUnsafeChannel(with: identity2) == nil)
 
-            _ = try ethree1.createUnsafeChat(with: identity2).startSync().get()
-            XCTAssert(try ethree1.getUnsafeChat(with: identity2) != nil)
+            _ = try ethree1.createUnsafeChannel(with: identity2).startSync().get()
+            XCTAssert(try ethree1.getUnsafeChannel(with: identity2) != nil)
 
             let ethree2 = try self.setUpDevice(identity: identity2)
-            XCTAssert(try ethree2.getUnsafeChat(with: ethree1.identity) == nil)
+            XCTAssert(try ethree2.getUnsafeChannel(with: ethree1.identity) == nil)
 
-            _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
-            XCTAssert(try ethree2.getUnsafeChat(with: ethree1.identity) != nil)
+            _ = try ethree2.loadUnsafeChannel(asCreator: false, with: ethree1.identity).startSync().get()
+            XCTAssert(try ethree2.getUnsafeChannel(with: ethree1.identity) != nil)
 
-            try ethree1.deleteUnsafeChat(with: identity2).startSync().get()
-            XCTAssert(try ethree1.getUnsafeChat(with: identity2) == nil)
+            try ethree1.deleteUnsafeChannel(with: identity2).startSync().get()
+            XCTAssert(try ethree1.getUnsafeChannel(with: identity2) == nil)
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -186,9 +186,9 @@ class VTE010_UnsafeChatTests: XCTestCase {
             let ethree = try self.setUpDevice()
 
             do {
-                _ = try ethree.loadUnsafeChat(asCreator: true, with: ethree.identity).startSync().get()
+                _ = try ethree.loadUnsafeChannel(asCreator: true, with: ethree.identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.selfChatIsForbidden {}
+            } catch UnsafeChannelError.selfChannelIsForbidden {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -201,9 +201,9 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             let identity = UUID().uuidString
             do {
-                _ = try ethree.loadUnsafeChat(asCreator: true, with: identity).startSync().get()
+                _ = try ethree.loadUnsafeChannel(asCreator: true, with: identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.chatNotFound {}
+            } catch UnsafeChannelError.channelNotFound {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -216,20 +216,20 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             let identity2 = UUID().uuidString
 
-            _ = try ethree1.createUnsafeChat(with: identity2).startSync().get()
-            try ethree1.deleteUnsafeChat(with: identity2).startSync().get()
+            _ = try ethree1.createUnsafeChannel(with: identity2).startSync().get()
+            try ethree1.deleteUnsafeChannel(with: identity2).startSync().get()
 
             do {
-                _ = try ethree1.loadUnsafeChat(asCreator: true, with: identity2).startSync().get()
+                _ = try ethree1.loadUnsafeChannel(asCreator: true, with: identity2).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.chatNotFound {}
+            } catch UnsafeChannelError.channelNotFound {}
 
             let ethree2 = try self.setUpDevice(identity: identity2)
 
             do {
-                _ = try ethree2.loadUnsafeChat(asCreator: false, with: ethree1.identity).startSync().get()
+                _ = try ethree2.loadUnsafeChannel(asCreator: false, with: ethree1.identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChatError.chatNotFound {}
+            } catch UnsafeChannelError.channelNotFound {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -242,7 +242,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             let fakeIdentity = UUID().uuidString
 
-            try ethree.deleteUnsafeChat(with: fakeIdentity).startSync().get()
+            try ethree.deleteUnsafeChannel(with: fakeIdentity).startSync().get()
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -251,7 +251,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
     func test10_STE_83__compatibility() {
         do {
-            let config = self.utils.config.UnsafeChat
+            let config = self.utils.config.UnsafeChannel
 
             let identity = config.Identity
 
@@ -269,7 +269,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
                 try ethree.privateKeyChanged()
             }
 
-            let chat = try ethree.loadUnsafeChat(asCreator: false, with: config.Initiator).startSync().get()
+            let chat = try ethree.loadUnsafeChannel(asCreator: false, with: config.Initiator).startSync().get()
 
             let decrypted = try chat.decrypt(text: config.EncryptedText)
 
@@ -293,7 +293,7 @@ class VTE010_UnsafeChatTests: XCTestCase {
 
             XCTAssert(try localUnsafeStorage.retrieve(identity: identity) == nil)
 
-            _ = try ethree.createUnsafeChat(with: identity).startSync().get()
+            _ = try ethree.createUnsafeChannel(with: identity).startSync().get()
 
             XCTAssert(try localUnsafeStorage.retrieve(identity: identity) != nil)
 

@@ -63,11 +63,11 @@ class VTE009_RatchetTests: XCTestCase {
         return (ethree, card)
     }
 
-    func encryptDecrypt100Times(chat1: RatchetChat, chat2: RatchetChat) throws {
+    func encryptDecrypt100Times(chat1: RatchetChannel, chat2: RatchetChannel) throws {
         for _ in 0..<100 {
             try autoreleasepool {
-                let sender: RatchetChat
-                let receiver: RatchetChat
+                let sender: RatchetChannel
+                let receiver: RatchetChannel
 
                 if Bool.random() {
                     sender = chat1
@@ -93,8 +93,8 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
-            let chat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
         } catch {
@@ -108,9 +108,9 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree, card) = try self.setUpDevice()
 
             do {
-                _ = try ethree.createRatchetChat(with: card).startSync().get()
+                _ = try ethree.createRatchetChannel(with: card).startSync().get()
                 XCTFail()
-            } catch EThreeRatchetError.selfChatIsForbidden {}
+            } catch EThreeRatchetError.selfChannelIsForbidden {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -123,7 +123,7 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree2, _) = try self.setUpDevice()
 
             do {
-                _ = try ethree2.createRatchetChat(with: card1).startSync().get()
+                _ = try ethree2.createRatchetChannel(with: card1).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.userIsNotUsingRatchet {}
         } catch {
@@ -137,21 +137,21 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
             do {
-                _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+                _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
             }
-            catch EThreeRatchetError.chatAlreadyExists {}
+            catch EThreeRatchetError.channelAlreadyExists {}
 
             let secureChat1 = try ethree1.getSecureChat()
             try secureChat1.deleteSession(withParticipantIdentity: card2.identity)
 
             do {
-                _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+                _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
                 XCTFail()
             }
-            catch EThreeRatchetError.chatAlreadyExists {}
+            catch EThreeRatchetError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -163,14 +163,14 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
-            _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
 
-            try ethree1.deleteRatchetChat(with: card2).startSync().get()
-            try ethree2.deleteRatchetChat(with: card1).startSync().get()
+            try ethree1.deleteRatchetChannel(with: card2).startSync().get()
+            try ethree2.deleteRatchetChannel(with: card1).startSync().get()
 
-            let newChat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
-            let newChat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            let newChat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            let newChat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
         } catch {
@@ -184,9 +184,9 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree, card) = try self.setUpDevice()
 
             do {
-                _ = try ethree.joinRatchetChat(with: card).startSync().get()
+                _ = try ethree.joinRatchetChannel(with: card).startSync().get()
                 XCTFail()
-            } catch EThreeRatchetError.selfChatIsForbidden {}
+            } catch EThreeRatchetError.selfChannelIsForbidden {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -198,13 +198,13 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
-            _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
 
             do {
-                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
-            } catch EThreeRatchetError.chatAlreadyExists {}
+            } catch EThreeRatchetError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -217,7 +217,7 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree2, _) = try self.setUpDevice()
 
             do {
-                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.noInvite {}
         } catch {
@@ -231,12 +231,12 @@ class VTE009_RatchetTests: XCTestCase {
            let (ethree1, card1) = try self.setUpDevice()
            let (ethree2, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
-            try ethree1.deleteRatchetChat(with: card2).startSync().get()
+            try ethree1.deleteRatchetChannel(with: card2).startSync().get()
 
            do {
-                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
            }
            catch EThreeRatchetError.noInvite {}
@@ -251,13 +251,13 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
             try ethree1.cleanUp()
             try ethree1.rotatePrivateKey().startSync().get()
 
             do {
-                _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
+                _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.noInvite {}
         } catch {
@@ -271,14 +271,14 @@ class VTE009_RatchetTests: XCTestCase {
              let (ethree1, card1) = try self.setUpDevice()
              let (ethree2, card2) = try self.setUpDevice()
 
-             let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
+             let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
              let message = UUID().uuidString
              let encrypted = try chat1.encrypt(text: message)
 
              try ethree1.unregister().startSync().get()
 
-             let chat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
+             let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
              let decrypted = try chat2.decrypt(text: encrypted)
 
              XCTAssert(decrypted == message)
@@ -288,25 +288,25 @@ class VTE009_RatchetTests: XCTestCase {
          }
     }
 
-    func test012_STE_62__getRatchetChat__should_succeed() {
+    func test012_STE_62__getRatchetChannel__should_succeed() {
         do {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            XCTAssert(try ethree1.getRatchetChat(with: card2) == nil)
-            XCTAssert(try ethree2.getRatchetChat(with: card1) == nil)
+            XCTAssert(try ethree1.getRatchetChannel(with: card2) == nil)
+            XCTAssert(try ethree2.getRatchetChannel(with: card1) == nil)
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
-            XCTAssert(try ethree1.getRatchetChat(with: card2) != nil)
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            XCTAssert(try ethree1.getRatchetChannel(with: card2) != nil)
 
-            _ = try ethree2.joinRatchetChat(with: card1).startSync().get()
-            XCTAssert(try ethree2.getRatchetChat(with: card1) != nil)
+            _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
+            XCTAssert(try ethree2.getRatchetChannel(with: card1) != nil)
 
-            try ethree1.deleteRatchetChat(with: card2).startSync().get()
-            XCTAssert(try ethree1.getRatchetChat(with: card2) == nil)
+            try ethree1.deleteRatchetChannel(with: card2).startSync().get()
+            XCTAssert(try ethree1.getRatchetChannel(with: card2) == nil)
 
-            try ethree2.deleteRatchetChat(with: card1).startSync().get()
-            XCTAssert(try ethree2.getRatchetChat(with: card1) == nil)
+            try ethree2.deleteRatchetChannel(with: card1).startSync().get()
+            XCTAssert(try ethree2.getRatchetChannel(with: card1) == nil)
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -318,7 +318,7 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
 
-            try ethree1.deleteRatchetChat(with: card2).startSync().get()
+            try ethree1.deleteRatchetChannel(with: card2).startSync().get()
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -331,22 +331,22 @@ class VTE009_RatchetTests: XCTestCase {
             let (_, card2) = try self.setUpDevice()
 
             do {
-                _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+                _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
-                _ = try ethree1.joinRatchetChat(with: card2).startSync().get()
+                _ = try ethree1.joinRatchetChannel(with: card2).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
-                _ = try ethree1.getRatchetChat(with: card2)
+                _ = try ethree1.getRatchetChannel(with: card2)
                 XCTFail()
             } catch EThreeRatchetError.ratchetIsDisabled {}
 
             do {
-                _ = try ethree1.deleteRatchetChat(with: card2).startSync().get()
+                _ = try ethree1.deleteRatchetChannel(with: card2).startSync().get()
                 XCTFail()
             } catch EThreeRatchetError.ratchetIsDisabled {}
         } catch {
@@ -360,7 +360,7 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree2, card2) = try self.setUpDevice()
             let (ethree1, card1) = try self.setUpDevice(keyRotationInterval: 5)
 
-            _ = try ethree2.createRatchetChat(with: card1).startSync().get()
+            _ = try ethree2.createRatchetChannel(with: card1).startSync().get()
 
             let secureChat1 = try ethree1.getSecureChat()
 
@@ -368,7 +368,7 @@ class VTE009_RatchetTests: XCTestCase {
             let keys1 = try secureChat1.oneTimeKeysStorage.retrieveAllKeys()
             try secureChat1.oneTimeKeysStorage.stopInteraction()
 
-            _ = try ethree1.joinRatchetChat(with: card2).startSync().get()
+            _ = try ethree1.joinRatchetChannel(with: card2).startSync().get()
 
             sleep(5)
 
@@ -397,7 +397,7 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, card1) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
+            let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
             var messages: [String] = []
             for _ in 0..<100 {
@@ -406,7 +406,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             let encrypted = try chat1.encryptMultiple(text: messages)
 
-            let chat2 = try ethree2.joinRatchetChat(with: card1).startSync().get()
+            let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
 
             let decrypted = try chat2.decryptMultiple(text: encrypted)
 
@@ -424,15 +424,15 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree1, _) = try self.setUpDevice()
             let (ethree2, card2) = try self.setUpDevice()
 
-            _ = try ethree1.createRatchetChat(with: card2).startSync().get()
+            _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
             try ethree1.cleanUp()
             try ethree1.rotatePrivateKey().startSync().get()
 
             let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true).startSync().get()
 
-            let chat1 = try ethree1.createRatchetChat(with: card2).startSync().get()
-            let chat2 = try ethree2.joinRatchetChat(with: newCard1).startSync().get()
+            let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            let chat2 = try ethree2.joinRatchetChannel(with: newCard1).startSync().get()
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
         } catch {
@@ -447,13 +447,13 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree2, card2) = try self.setUpDevice()
 
             let name1 = UUID().uuidString
-            let chat11 = try ethree1.createRatchetChat(with: card2, name: name1).startSync().get()
+            let chat11 = try ethree1.createRatchetChannel(with: card2, name: name1).startSync().get()
 
             let name2 = UUID().uuidString
-            let chat22 = try ethree2.createRatchetChat(with: card1, name: name2).startSync().get()
+            let chat22 = try ethree2.createRatchetChannel(with: card1, name: name2).startSync().get()
 
-            let chat12 = try ethree1.joinRatchetChat(with: card2, name: name2).startSync().get()
-            let chat21 = try ethree2.joinRatchetChat(with: card1, name: name1).startSync().get()
+            let chat12 = try ethree1.joinRatchetChannel(with: card2, name: name2).startSync().get()
+            let chat21 = try ethree2.joinRatchetChannel(with: card1, name: name1).startSync().get()
 
             try self.encryptDecrypt100Times(chat1: chat11, chat2: chat21)
             try self.encryptDecrypt100Times(chat1: chat12, chat2: chat22)

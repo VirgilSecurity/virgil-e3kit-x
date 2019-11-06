@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
-internal class UnsafeChatManager {
+internal class UnsafeChannelManager {
     internal let localUnsafeStorage: FileUnsafeKeysStorage
 
     private let crypto: VirgilCrypto
@@ -70,8 +70,8 @@ internal class UnsafeChatManager {
     }
 }
 
-extension UnsafeChatManager {
-    internal func create(with identity: String) throws -> UnsafeChat {
+extension UnsafeChannelManager {
+    internal func create(with identity: String) throws -> UnsafeChannel {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let tempKeyPair = try self.crypto.generateKeyPair()
@@ -79,20 +79,20 @@ extension UnsafeChatManager {
         do {
             try self.cloudUnsafeStorage.store(tempKeyPair.privateKey, for: identity)
         } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
-            throw UnsafeChatError.chatAlreadyExists
+            throw UnsafeChannelError.channelAlreadyExists
         }
 
-        let unsafeChat = UnsafeChat(participant: identity,
-                                    participantPublicKey: tempKeyPair.publicKey,
-                                    selfPrivateKey: selfKeyPair.privateKey,
-                                    crypto: self.crypto)
+        let unsafeChannel = UnsafeChannel(participant: identity,
+                                          participantPublicKey: tempKeyPair.publicKey,
+                                          selfPrivateKey: selfKeyPair.privateKey,
+                                          crypto: self.crypto)
 
         try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
 
-        return unsafeChat
+        return unsafeChannel
     }
 
-    internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> UnsafeChat {
+    internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> UnsafeChannel {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let publicKey: VirgilPublicKey
@@ -114,13 +114,13 @@ extension UnsafeChatManager {
             privateKey = tempKeyPair.privateKey
         }
 
-        return UnsafeChat(participant: identity,
-                          participantPublicKey: publicKey,
-                          selfPrivateKey: privateKey,
-                          crypto: self.crypto)
+        return UnsafeChannel(participant: identity,
+                             participantPublicKey: publicKey,
+                             selfPrivateKey: privateKey,
+                             crypto: self.crypto)
     }
 
-    internal func getLocalChat(with identity: String) throws -> UnsafeChat? {
+    internal func getLocalChannel(with identity: String) throws -> UnsafeChannel? {
         guard let unsafeKey = try? self.localUnsafeStorage.retrieve(identity: identity) else {
             return nil
         }
@@ -132,15 +132,15 @@ extension UnsafeChatManager {
         case .private:              // User is participant
             privateKey = try self.crypto.importPrivateKey(from: unsafeKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
-        case .public:               // User is creator of chat
+        case .public:               // User is creator of channel
             privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
             publicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
         }
 
-        return UnsafeChat(participant: identity,
-                          participantPublicKey: publicKey,
-                          selfPrivateKey: privateKey,
-                          crypto: self.crypto)
+        return UnsafeChannel(participant: identity,
+                             participantPublicKey: publicKey,
+                             selfPrivateKey: privateKey,
+                             crypto: self.crypto)
     }
 
     internal func delete(with identity: String) throws {
