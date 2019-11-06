@@ -313,16 +313,12 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 
-    func test013_STE_63__delete__nonexistent_chat__should_throw_error() {
+    func test013_STE_63__delete__nonexistent_chat__should_succeed() {
         do {
             let (ethree1, _) = try self.setUpDevice()
             let (_, card2) = try self.setUpDevice()
 
-            do {
-                try ethree1.deleteRatchetChat(with: card2).startSync().get()
-                XCTFail()
-            }
-            catch EThreeRatchetError.missingLocalChat {}
+            try ethree1.deleteRatchetChat(with: card2).startSync().get()
         } catch {
             print(error.localizedDescription)
             XCTFail()

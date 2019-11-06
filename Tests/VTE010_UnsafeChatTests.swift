@@ -236,15 +236,13 @@ class VTE010_UnsafeChatTests: XCTestCase {
         }
     }
 
-    func test09__delete__unexistent_chat__should_throw_error() {
+    func test09__delete__unexistent_chat__should_succeed() {
         do {
             let ethree = try self.setUpDevice()
 
             let fakeIdentity = UUID().uuidString
 
-            do {
-                try ethree.deleteUnsafeChat(with: fakeIdentity).startSync().get()
-            } catch UnsafeChatError.chatNotFound {}
+            try ethree.deleteUnsafeChat(with: fakeIdentity).startSync().get()
         } catch {
             print(error.localizedDescription)
             XCTFail()

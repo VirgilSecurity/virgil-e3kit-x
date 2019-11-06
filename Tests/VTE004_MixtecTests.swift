@@ -267,10 +267,9 @@ class VTE004_MixtecTests: XCTestCase {
             let rawGroup = try RawGroup(info: GroupInfo(initiator: ethree.identity), tickets: [ticket])
 
             let group = try Group(rawGroup: rawGroup,
-                                   crypto: self.crypto,
-                                   localKeyStorage: ethree.localKeyStorage,
-                                   groupManager: try ethree.getGroupManager(),
-                                   lookupManager: ethree.lookupManager)
+                                  localKeyStorage: ethree.localKeyStorage,
+                                  groupManager: try ethree.getGroupManager(),
+                                  lookupManager: ethree.lookupManager)
 
             let card = self.utils.publishCard()
 

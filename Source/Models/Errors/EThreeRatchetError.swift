@@ -50,7 +50,6 @@ import Foundation
 @objc(VTEEThreeRatchetError) public enum EThreeRatchetError: Int, LocalizedError {
     case encryptEmptyArray = 1
     case decryptEmptyArray = 2
-    case missingLocalChat = 3
     case chatAlreadyExists = 4
     case selfChatIsForbidden = 5
     case ratchetIsDisabled = 6
@@ -65,8 +64,6 @@ import Foundation
             return "Trying to encrypt empty array"
         case .decryptEmptyArray:
             return "Trying to decrypt empty array"
-        case .missingLocalChat:
-            return "Chat with provided user was not found locally"
         case .chatAlreadyExists:
             return "Chat with provided user and name already exists"
         case .selfChatIsForbidden:
