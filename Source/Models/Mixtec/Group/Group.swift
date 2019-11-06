@@ -61,7 +61,6 @@ import VirgilCrypto
     private let crypto: VirgilCrypto
 
     internal init(rawGroup: RawGroup,
-                  crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
                   groupManager: GroupManager,
                   lookupManager: LookupManager) throws {
@@ -76,7 +75,7 @@ import VirgilCrypto
         self.initiator = rawGroup.info.initiator
         self.selfIdentity = localKeyStorage.identity
         self.participants = lastTicket.participants
-        self.crypto = crypto
+        self.crypto = localKeyStorage.crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyStorage = localKeyStorage
         self.groupManager = groupManager

@@ -136,9 +136,7 @@ extension EThree {
 
                 do {
                     try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
-                } catch CocoaError.fileNoSuchFile {
-                    throw EThreeRatchetError.missingLocalChat
-                }
+                } catch CocoaError.fileNoSuchFile { }
 
                 completion((), nil)
             } catch {

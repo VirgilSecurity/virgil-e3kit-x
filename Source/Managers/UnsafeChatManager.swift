@@ -148,8 +148,6 @@ extension UnsafeChatManager {
 
         do {
             try self.localUnsafeStorage.delete(identity: identity)
-        } catch CocoaError.fileNoSuchFile {
-            throw UnsafeChatError.chatNotFound
-        }
+        } catch CocoaError.fileNoSuchFile { }
     }
 }
