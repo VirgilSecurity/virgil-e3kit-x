@@ -79,13 +79,13 @@ extension UnsafeChannelManager {
         do {
             try self.cloudUnsafeStorage.store(tempKeyPair.privateKey, for: identity)
         } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
-            throw UnsafeChannelError.chatAlreadyExists
+            throw UnsafeChannelError.channelAlreadyExists
         }
 
         let unsafeChannel = UnsafeChannel(participant: identity,
-                                       participantPublicKey: tempKeyPair.publicKey,
-                                       selfPrivateKey: selfKeyPair.privateKey,
-                                       crypto: self.crypto)
+                                          participantPublicKey: tempKeyPair.publicKey,
+                                          selfPrivateKey: selfKeyPair.privateKey,
+                                          crypto: self.crypto)
 
         try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
 
@@ -132,7 +132,7 @@ extension UnsafeChannelManager {
         case .private:              // User is participant
             privateKey = try self.crypto.importPrivateKey(from: unsafeKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
-        case .public:               // User is creator of chat
+        case .public:               // User is creator of channel
             privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
             publicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
         }

@@ -38,13 +38,13 @@ import Foundation
 
 /// Declares error types and codes for EThree Unsafe Channel capabilities
 ///
-/// - chatAlreadyExists: Unsafe channel with provided identity already exists.
+/// - channelAlreadyExists: Unsafe channel with provided identity already exists.
 /// - selfChannelIsForbidden: Unsafe channel with self is forbidden. Use regular encryption for this purpose.
 /// - userIsRegistered: User with provided identity is registered.
 ///                     Creation of unsafe channels with registered users is forbidden.
 /// - channelNotFound: Channel was not found
 @objc(VTEUnsafeChannelError) public enum UnsafeChannelError: Int, LocalizedError {
-    case chatAlreadyExists = 1
+    case channelAlreadyExists = 1
     case selfChannelIsForbidden = 2
     case userIsRegistered = 3
     case channelNotFound = 4
@@ -52,7 +52,7 @@ import Foundation
     /// Human-readable localized description
     public var errorDescription: String? {
         switch self {
-        case .chatAlreadyExists:
+        case .channelAlreadyExists:
             return "Unsafe channel with provided identity already exists."
         case .selfChannelIsForbidden:
             return "Unsafe channel with self is forbidden. Use regular encryption for this purpose."

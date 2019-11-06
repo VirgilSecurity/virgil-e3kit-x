@@ -121,7 +121,7 @@ class VTE010_UnsafeChannelTests: XCTestCase {
             do {
                 _ = try ethree.createUnsafeChannel(with: identity).startSync().get()
                 XCTFail()
-            } catch UnsafeChannelError.chatAlreadyExists {}
+            } catch UnsafeChannelError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()

@@ -287,53 +287,53 @@ extension EThree {
 
 // MARK: - Extension with Objective-C compatible Ratchet operations
 extension EThree {
-    /// Creates double ratchet chat with user, saves it locally
+    /// Creates double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     ///   - completion: completion handler
-    ///   - chat: created `RatchetChannel` intance
+    ///   - channel: created `RatchetChannel` intance
     ///   - error: corresponding error
     @objc open func createRatchetChannel(with card: Card,
-                                      name: String? = nil,
-                                      completion: @escaping (_ chat: RatchetChannel?,
-                                                             _ error: Error?) -> Void) {
+                                         name: String? = nil,
+                                         completion: @escaping (_ channel: RatchetChannel?,
+                                                                _ error: Error?) -> Void) {
         self.createRatchetChannel(with: card, name: name).start(completion: completion)
     }
 
-    /// Joins double ratchet chat with user, saves it locally
+    /// Joins double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of initiator
-    ///   - name: name of chat
+    ///   - name: name of channel
     ///   - completion: completion handler
-    ///   - chat: `RatchetChannel` intance
+    ///   - channel: `RatchetChannel` intance
     ///   - error: corresponding error
     @objc open func joinRatchetChannel(with card: Card,
-                                    name: String? = nil,
-                                    completion: @escaping (_ chat: RatchetChannel?,
-                                                           _ error: Error?) -> Void) {
+                                       name: String? = nil,
+                                       completion: @escaping (_ channel: RatchetChannel?,
+                                                              _ error: Error?) -> Void) {
         self.joinRatchetChannel(with: card, name: name).start(completion: completion)
     }
 
-    /// Retrieves double ratchet chat from local storage
+    /// Retrieves double ratchet channel from local storage
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     @available(swift, obsoleted: 1.0)
     @objc(getRatchetChannelWith:name:)
     open func getRatchetChannelObjc(with card: Card, name: String? = nil) -> RatchetChannel? {
         try? self.getRatchetChannel(with: card, name: name)
     }
 
-    /// Deletes double ratchet chat
+    /// Deletes double ratchet channel
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func deleteRatchetChannel(with card: Card,
-                                      name: String? = nil,
-                                      completion: @escaping (_ error: Error?) -> Void) {
+                                         name: String? = nil,
+                                         completion: @escaping (_ error: Error?) -> Void) {
         self.deleteRatchetChannel(with: card, name: name).start { _, error in
             completion(error)
         }
@@ -342,36 +342,36 @@ extension EThree {
 
 // MARK: - Extension with Objective-C compatible Unsafe Channel operations
 extension EThree {
-    /// Creates chat with unregistered user
+    /// Creates channel with unregistered user
     ///
     /// - Important: Temporary key for unregistered user is stored unencrypted.
     ///
     /// - Parameters:
     ///   - identity: identity of unregistered user
     ///   - completion: completion handler
-    ///   - chat: created `UnsafeChannel` insance
+    ///   - channel: created `UnsafeChannel` insance
     ///   - error: corresponding error
     @objc open func createUnsafeChannel(with identity: String,
-                                        completion: @escaping (_ chat: UnsafeChannel?,
+                                        completion: @escaping (_ channel: UnsafeChannel?,
                                                                _ error: Error?) -> Void) {
         return self.createUnsafeChannel(with: identity).start(completion: completion)
     }
 
-    /// Loads unsafe chat by fetching temporary key form Cloud
+    /// Loads unsafe channel by fetching temporary key form Cloud
     /// - Parameters:
-    ///   - asCreator: Bool to specify wether caller is creator of chat or not
+    ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
     ///   - completion: completion handler
-    ///   - chat: loaded `UnsafeChannel` insance
+    ///   - channel: loaded `UnsafeChannel` insance
     ///   - error: corresponding error
     @objc open func loadUnsafeChannel(asCreator: Bool,
-                                   with identity: String,
-                                   completion: @escaping (_ chat: UnsafeChannel?,
-                                                          _ error: Error?) -> Void) {
+                                      with identity: String,
+                                      completion: @escaping (_ channel: UnsafeChannel?,
+                                                             _ error: Error?) -> Void) {
         self.loadUnsafeChannel(asCreator: asCreator, with: identity).start(completion: completion)
     }
 
-    /// Returns cached unsafe chat
+    /// Returns cached unsafe channel
     /// - Parameter identity: identity of participant
     @available(swift, obsoleted: 1.0)
     @objc(getUnsafeChannelWith:)
@@ -379,7 +379,7 @@ extension EThree {
         try? self.getUnsafeChannel(with: identity)
     }
 
-    /// Deletes unsafe chat from cloud (if user is owner) and local storage
+    /// Deletes unsafe channel from cloud (if user is owner) and local storage
     /// - Parameters:
     ///   - identity: identity of participant
     ///   - completion: completion handler

@@ -142,7 +142,7 @@ class VTE009_RatchetTests: XCTestCase {
             do {
                 _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
             }
-            catch EThreeRatchetError.chatAlreadyExists {}
+            catch EThreeRatchetError.channelAlreadyExists {}
 
             let secureChat1 = try ethree1.getSecureChat()
             try secureChat1.deleteSession(withParticipantIdentity: card2.identity)
@@ -151,7 +151,7 @@ class VTE009_RatchetTests: XCTestCase {
                 _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
                 XCTFail()
             }
-            catch EThreeRatchetError.chatAlreadyExists {}
+            catch EThreeRatchetError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -204,7 +204,7 @@ class VTE009_RatchetTests: XCTestCase {
             do {
                 _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
-            } catch EThreeRatchetError.chatAlreadyExists {}
+            } catch EThreeRatchetError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()

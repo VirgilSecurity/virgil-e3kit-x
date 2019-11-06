@@ -40,17 +40,17 @@ import VirgilCryptoRatchet
 
 // MARK: - Extension with Double Ratchet operations
 extension EThree {
-    /// Creates double ratchet chat with user, saves it locally
+    /// Creates double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     open func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
                 guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
-                    throw EThreeRatchetError.chatAlreadyExists
+                    throw EThreeRatchetError.channelAlreadyExists
                 }
 
                 guard card.identity != self.identity else {
@@ -68,7 +68,7 @@ extension EThree {
                 try secureChat.storeSession(session)
 
                 let ratchetChannel = RatchetChannel(session: session,
-                                              sessionStorage: secureChat.sessionStorage)
+                                                    sessionStorage: secureChat.sessionStorage)
 
                 completion(ratchetChannel, nil)
             } catch {
@@ -77,17 +77,17 @@ extension EThree {
         }
     }
 
-    /// Joins double ratchet chat with user, saves it locally
+    /// Joins double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of initiator
-    ///   - name: name of chat
+    ///   - name: name of channel
     open func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
                 guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
-                    throw EThreeRatchetError.chatAlreadyExists
+                    throw EThreeRatchetError.channelAlreadyExists
                 }
 
                 guard card.identity != self.identity else {
@@ -109,10 +109,10 @@ extension EThree {
         }
     }
 
-    /// Retrieves double ratchet chat from local storage
+    /// Retrieves double ratchet channel from local storage
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     open func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
@@ -123,10 +123,10 @@ extension EThree {
         return RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    /// Deletes double ratchet chat
+    /// Deletes double ratchet channel
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
+    ///   - name: name of channel
     open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {

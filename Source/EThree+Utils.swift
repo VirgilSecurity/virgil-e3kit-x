@@ -105,10 +105,10 @@ extension EThree {
 
     private func setupUnsafeManager(keyPair: VirgilKeyPair) throws {
         self.unsafeChannelManager = try UnsafeChannelManager(crypto: self.crypto,
-                                                       accessTokenProvider: self.accessTokenProvider,
-                                                       localKeyStorage: self.localKeyStorage,
-                                                       lookupManager: self.lookupManager,
-                                                       keyPair: keyPair)
+                                                             accessTokenProvider: self.accessTokenProvider,
+                                                             localKeyStorage: self.localKeyStorage,
+                                                             lookupManager: self.lookupManager,
+                                                             keyPair: keyPair)
     }
 
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {

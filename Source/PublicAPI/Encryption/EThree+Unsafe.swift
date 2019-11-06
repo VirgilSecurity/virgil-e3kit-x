@@ -38,7 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 extension EThree {
-    /// Creates chat with unregistered user
+    /// Creates channel with unregistered user
     ///
     /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
@@ -65,9 +65,9 @@ extension EThree {
         }
     }
 
-    /// Loads unsafe chat by fetching temporary key form Cloud
+    /// Loads unsafe channel by fetching temporary key form Cloud
     /// - Parameters:
-    ///   - asCreator: Bool to specify wether caller is creator of chat or not
+    ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
     open func loadUnsafeChannel(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChannel> {
         return CallbackOperation { _, completion in
@@ -87,7 +87,7 @@ extension EThree {
         }
     }
 
-    /// Returns cached unsafe chat
+    /// Returns cached unsafe channel
     /// - Parameter identity: identity of participant
     open func getUnsafeChannel(with identity: String) throws -> UnsafeChannel? {
         let unsafeManager = try self.getUnsafeManager()
@@ -95,7 +95,7 @@ extension EThree {
         return try unsafeManager.getLocalChannel(with: identity)
     }
 
-    /// Deletes unsafe chat from cloud (if user is owner) and local storage
+    /// Deletes unsafe channel from cloud (if user is owner) and local storage
     /// - Parameter identity: identity of participant
     open func deleteUnsafeChannel(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in

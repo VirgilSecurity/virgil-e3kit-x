@@ -84,7 +84,7 @@ extension CloudRatchetStorage {
                 .get()
         }
         catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
-            throw EThreeRatchetError.chatAlreadyExists
+            throw EThreeRatchetError.channelAlreadyExists
         }
     }
 
