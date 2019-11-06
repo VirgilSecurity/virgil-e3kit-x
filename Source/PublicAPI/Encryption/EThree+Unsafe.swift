@@ -40,7 +40,7 @@ import VirgilCrypto
 extension EThree {
     /// Creates chat with unregistered user
     ///
-    /// - Important: Temporary key for unregistered user is stored unencrypted.
+    /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
     /// - Parameter identity: identity of unregistered user
     open func createUnsafeChat(with identity: String) -> GenericOperation<UnsafeChat> {
