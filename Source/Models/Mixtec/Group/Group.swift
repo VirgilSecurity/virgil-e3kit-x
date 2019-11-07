@@ -40,7 +40,11 @@ import VirgilCrypto
 /// Class representing Group
 @objc(VTEGroup) open class Group: NSObject {
     /// Range of valid participants count
-    public static let ValidParticipatnsCountRange = 2...100
+    @available(*, deprecated, renamed: "ValidParticipantsCountRange")
+    public static let ValidParticipatnsCountRange = 1...100
+
+    /// Range of valid participants count
+    public static let ValidParticipantsCountRange = 1...100
 
     /// Initiator
     @objc public let initiator: String
@@ -57,7 +61,6 @@ import VirgilCrypto
     private let crypto: VirgilCrypto
 
     internal init(rawGroup: RawGroup,
-                  crypto: VirgilCrypto,
                   localKeyStorage: LocalKeyStorage,
                   groupManager: GroupManager,
                   lookupManager: LookupManager) throws {
@@ -72,7 +75,7 @@ import VirgilCrypto
         self.initiator = rawGroup.info.initiator
         self.selfIdentity = localKeyStorage.identity
         self.participants = lastTicket.participants
-        self.crypto = crypto
+        self.crypto = localKeyStorage.crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
         self.localKeyStorage = localKeyStorage
         self.groupManager = groupManager
@@ -82,7 +85,7 @@ import VirgilCrypto
     }
 
     internal static func validateParticipantsCount(_ count: Int) throws {
-        guard Group.ValidParticipatnsCountRange ~= count else {
+        guard Group.ValidParticipantsCountRange ~= count else {
             throw GroupError.invalidParticipantsCount
         }
     }

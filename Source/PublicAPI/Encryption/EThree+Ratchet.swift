@@ -40,26 +40,26 @@ import VirgilCryptoRatchet
 
 // MARK: - Extension with Double Ratchet operations
 extension EThree {
-    /// Creates double ratchet chat with user, saves it locally
+    /// Creates double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
-    open func createRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+    ///   - name: name of channel
+    open func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
                 guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
-                    throw EThreeRatchetError.chatAlreadyExists
+                    throw EThreeRatchetError.channelAlreadyExists
                 }
 
                 guard card.identity != self.identity else {
-                    throw EThreeRatchetError.selfChatIsForbidden
+                    throw EThreeRatchetError.selfChannelIsForbidden
                 }
 
-                let session = try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
-                    .startSync()
-                    .get()
+                let session = try self.startRatchetSessionAsSender(secureChat: secureChat,
+                                                                   receiverCard: card,
+                                                                   name: name)
 
                 let ticket = try session.encrypt(string: UUID().uuidString)
 
@@ -67,38 +67,31 @@ extension EThree {
 
                 try secureChat.storeSession(session)
 
-                let ratchetChat = RatchetChat(session: session,
-                                              sessionStorage: secureChat.sessionStorage)
+                let ratchetChannel = RatchetChannel(session: session,
+                                                    sessionStorage: secureChat.sessionStorage)
 
-                completion(ratchetChat, nil)
-            }
-            catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
-                completion(nil, EThreeRatchetError.userIsNotUsingRatchet)
-            }
-            catch KeyknoxClientError.invalidPreviousHashHeader {
-                completion(nil, EThreeRatchetError.chatAlreadyExists)
-            }
-            catch {
+                completion(ratchetChannel, nil)
+            } catch {
                 completion(nil, error)
             }
         }
     }
 
-    /// Joins double ratchet chat with user, saves it locally
+    /// Joins double ratchet channel with user, saves it locally
     /// - Parameters:
     ///   - card: Card of initiator
-    ///   - name: name of chat
-    open func joinRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<RatchetChat> {
+    ///   - name: name of channel
+    open func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
                 guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
-                    throw EThreeRatchetError.chatAlreadyExists
+                    throw EThreeRatchetError.channelAlreadyExists
                 }
 
                 guard card.identity != self.identity else {
-                    throw EThreeRatchetError.selfChatIsForbidden
+                    throw EThreeRatchetError.selfChannelIsForbidden
                 }
 
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
@@ -107,34 +100,34 @@ extension EThree {
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
 
-                let ratchetChat = RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+                let ratchetChannel = RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
 
-                completion(ratchetChat, nil)
+                completion(ratchetChannel, nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    /// Retrieves double ratchet chat from local storage
+    /// Retrieves double ratchet channel from local storage
     /// - Parameters:
     ///   - card: Card of participant
-    ///   -  name: name of chat
-    open func getRatchetChat(with card: Card, name: String? = nil) throws -> RatchetChat? {
+    ///   - name: name of channel
+    open func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
         guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
             return nil
         }
 
-        return RatchetChat(session: session, sessionStorage: secureChat.sessionStorage)
+        return RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    /// Deletes double ratchet chat
+    /// Deletes double ratchet channel from cloud (if user is creator) and local storage
     /// - Parameters:
     ///   - card: Card of participant
-    ///   - name: name of chat
-    open func deleteRatchetChat(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+    ///   - name: name of channel
+    open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -143,9 +136,7 @@ extension EThree {
 
                 do {
                     try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
-                } catch CocoaError.fileNoSuchFile {
-                    throw EThreeRatchetError.missingLocalChat
-                }
+                } catch CocoaError.fileNoSuchFile { }
 
                 completion((), nil)
             } catch {

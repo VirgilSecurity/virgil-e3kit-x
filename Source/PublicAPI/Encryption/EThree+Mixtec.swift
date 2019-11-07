@@ -45,11 +45,12 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: Data, with users: FindUsersResult) -> GenericOperation<Group> {
+    open func createGroup(id identifier: Data, with users: FindUsersResult? = nil) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
+                let users = users ?? FindUsersResult()
                 let participants = Set(users.keys + [self.identity])
 
                 try Group.validateParticipantsCount(participants.count)
@@ -98,7 +99,7 @@ extension EThree {
         }
     }
 
-    /// Deletes group from cloud and local storage
+    /// Deletes group from cloud (if user is initiator) and local storage
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
@@ -107,15 +108,7 @@ extension EThree {
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                let groupManager = try self.getGroupManager()
-
-                guard let group = groupManager.retrieve(sessionId: sessionId) else {
-                    throw GroupError.missingCachedGroup
-                }
-
-                try group.checkPermissions()
-
-                try groupManager.delete(sessionId: sessionId)
+                try self.getGroupManager().delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {
@@ -136,7 +129,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: String, with users: FindUsersResult) -> GenericOperation<Group> {
+    open func createGroup(id identifier: String, with users: FindUsersResult? = nil) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
