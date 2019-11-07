@@ -143,6 +143,8 @@ internal class GroupManager {
     internal func delete(sessionId: Data) throws {
         try self.cloudTicketStorage.delete(sessionId: sessionId)
 
-        try self.localGroupStorage.delete(sessionId: sessionId)
+        do {
+            try self.localGroupStorage.delete(sessionId: sessionId)
+        } catch CocoaError.fileNoSuchFile { }
     }
 }

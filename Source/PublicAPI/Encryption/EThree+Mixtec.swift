@@ -99,7 +99,7 @@ extension EThree {
         }
     }
 
-    /// Deletes group from cloud and local storage
+    /// Deletes group from cloud (if user is initiator) and local storage
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
@@ -108,15 +108,7 @@ extension EThree {
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                let groupManager = try self.getGroupManager()
-
-                guard let group = groupManager.retrieve(sessionId: sessionId) else {
-                    throw GroupError.missingCachedGroup
-                }
-
-                try group.checkPermissions()
-
-                try groupManager.delete(sessionId: sessionId)
+                try self.getGroupManager().delete(sessionId: sessionId)
 
                 completion((), nil)
             } catch {

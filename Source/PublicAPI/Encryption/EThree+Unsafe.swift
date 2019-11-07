@@ -95,7 +95,7 @@ extension EThree {
         return try unsafeManager.getLocalChannel(with: identity)
     }
 
-    /// Deletes unsafe channel from cloud (if user is owner) and local storage
+    /// Deletes unsafe channel from cloud (if user is creator) and local storage
     /// - Parameter identity: identity of participant
     open func deleteUnsafeChannel(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in

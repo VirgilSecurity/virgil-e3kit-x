@@ -395,11 +395,6 @@ class VTE004_MixtecTests: XCTestCase {
             let group2 = try ethree2.loadGroup(id: groupId, initiator: ethree1Card).startSync().get()
 
             do {
-                try ethree2.deleteGroup(id: groupId).startSync().get()
-                XCTFail()
-            } catch GroupError.groupPermissionDenied {}
-
-            do {
                 try group2.remove(participant: lookup[ethree3.identity]!).startSync().get()
                 XCTFail()
             } catch GroupError.groupPermissionDenied {}
@@ -701,6 +696,19 @@ class VTE004_MixtecTests: XCTestCase {
             let decrypted = try group2.decrypt(text: encrypted, from: card1)
 
             XCTAssert(decrypted == message)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test020_STE_85__delete__unexistent_channel__should_succeed() {
+        do {
+            let ethree = self.setUpDevice()
+
+            let fakeId = UUID().uuidString
+
+            try ethree.deleteGroup(id: fakeId).startSync().get()
         } catch {
             print(error.localizedDescription)
             XCTFail()

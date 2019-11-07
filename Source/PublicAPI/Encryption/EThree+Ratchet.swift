@@ -123,7 +123,7 @@ extension EThree {
         return RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
     }
 
-    /// Deletes double ratchet channel
+    /// Deletes double ratchet channel from cloud (if user is creator) and local storage
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
