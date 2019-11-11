@@ -43,7 +43,7 @@ import Foundation
     @objc public let ServiceURL: String
 
     public let Group: GroupConfig
-    public let UnsafeChannel: UnsafeConfig
+    public let TemporaryChannel: TemporaryConfig
 
     public struct GroupConfig: Decodable {
         public let GroupId: String
@@ -55,7 +55,7 @@ import Foundation
         public let EncryptedText: String
     }
 
-    public struct UnsafeConfig: Decodable {
+    public struct TemporaryConfig: Decodable {
         public let Identity: String
         public let Initiator: String
         public let PrivateKey: String
