@@ -484,7 +484,7 @@ In this section, you'll learn how to create and use temporary channels in order 
 
 Warning: the temporary channel key used in this method is stored unencrypted and therefore is not as secure as end-to-end encryption, and should be a last resort after exploring the preferred [non-technical solutions](https://help.virgilsecurity.com/en/articles/3314614-how-do-i-encrypt-for-a-user-that-isn-t-registered-yet-with-e3kit).
 
-To set up encrypted communication with unregistered user not yet known by Virgil, the channel creator generates a temporary key pair, saves it encrypted on Virgil Cloud, and gives access to the identity of the future user. The channel creator uses this key for encryption. Then when the participant registers, he can load this temporary key from Virgil Cloud and use to decrypt messages.
+To set up encrypted communication with unregistered user not yet known by Virgil, the channel creator generates a temporary key pair, saves it unencrypted on Virgil Cloud, and gives access to the identity of the future user. The channel creator uses this key for encryption. Then when the participant registers, he can load this temporary key from Virgil Cloud and use to decrypt messages.
 
 We assume that channel creator has installed and initialized the E3Kit, and used the snippet above to register.
 
