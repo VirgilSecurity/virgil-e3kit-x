@@ -100,10 +100,10 @@
 		16509F66236B1805005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
 		16509F67236B1807005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
 		16509F68236B1809005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
-		16509F70236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
-		16509F71236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
-		16509F72236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
-		16509F73236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
+		16509F70236B305E005DA8AE /* TemporaryChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */; };
+		16509F71236B305E005DA8AE /* TemporaryChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */; };
+		16509F72236B305E005DA8AE /* TemporaryChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */; };
+		16509F73236B305E005DA8AE /* TemporaryChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */; };
 		16509F75236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
 		16509F76236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
 		16509F77236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
@@ -543,7 +543,7 @@
 		16509F57236AF754005DA8AE /* TempChannelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempChannelManager.swift; sourceTree = "<group>"; };
 		16509F5C236B0090005DA8AE /* UnsafeChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChannel.swift; sourceTree = "<group>"; };
 		16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE010_TempChannelTests.swift; sourceTree = "<group>"; };
-		16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChannelError.swift; sourceTree = "<group>"; };
+		16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryChannelError.swift; sourceTree = "<group>"; };
 		16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTempKeysStorage.swift; sourceTree = "<group>"; };
 		16532982235F15A500D2C071 /* EThree+Initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Initialize.swift"; sourceTree = "<group>"; };
 		16532984235F15EE00D2C071 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
@@ -797,7 +797,7 @@
 				16D63E51229FFBF7004C53AD /* EThreeError.swift */,
 				160BE2462331087900DD3999 /* EThreeRatchetError.swift */,
 				1616C0452357549200948C3B /* EThreeParamsError.swift */,
-				16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */,
+				16509F6F236B305E005DA8AE /* TemporaryChannelError.swift */,
 				1661D7762301E96600BC435C /* GroupError.swift */,
 				16D1BCA1235872A8008E6E3D /* ServiceErrorCodes.swift */,
 				1661D7702301ADCD00BC435C /* FindUsersError.swift */,
@@ -1615,7 +1615,7 @@
 				16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
-				16509F70236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
+				16509F70236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				160C3DA22369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
@@ -1678,7 +1678,7 @@
 				16E3387E234E778500678624 /* EThree+Ratchet.swift in Sources */,
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16509F5B236AF754005DA8AE /* TempChannelManager.swift in Sources */,
-				16509F73236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
+				16509F73236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				1616C0492357549200948C3B /* EThreeParamsError.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
@@ -1738,7 +1738,7 @@
 				167E1DEA217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
-				16509F71236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
+				16509F71236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				160C3DA32369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
@@ -1800,7 +1800,7 @@
 				167E1DEB217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
-				16509F72236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
+				16509F72236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				160C3DA42369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
