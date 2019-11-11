@@ -480,11 +480,13 @@ let decrypted = try! channel.decrypt(text: encrypted)
 ```
 
 ## Unregistered User Encryption
-In this section, you'll find out how to create and use channel with unregistered on Virgil Cloud user.
+In this section, you'll learn how to create and use temporary channels in order to send encrypted data to users not yet registered on the Virgil Cloud. 
 
-To archeive encrypted communication with unregistered user, channel creator generates temporary key pair and saves it on Virgil Cloud with access for future user identity. However, this key is stored unencrypted, so this type of communication can't be called e2ee. Channel creator uses this key for encryption. When participant finally registers, he can load this temporary key from Cloud and use to decrypt messages.
+Warning: the temporary channel key used in this method is stored unencrypted and therefore is not as secure as end-to-end encryption, and should be a last resort after exploring the preferred [non-technical solutions](https://help.virgilsecurity.com/en/articles/3314614-how-do-i-encrypt-for-a-user-that-isn-t-registered-yet-with-e3kit).
 
-We assume that channel creator have installed and initialized the E3Kit, and used snippet above to register.
+To set up encrypted communication with unregistered user not yet known by Virgil, the channel creator generates a temporary key pair, saves it encrypted on Virgil Cloud, and gives access to the identity of the future user. The channel creator uses this key for encryption. Then when the participant registers, he can load this temporary key from Virgil Cloud and use to decrypt messages.
+
+We assume that channel creator has installed and initialized the E3Kit, and used the snippet above to register.
 
 #### Create channel
 
@@ -501,7 +503,7 @@ ethree.createTemporaryChannel(with: "Bob") { channel, error in
 
 #### Load channel
 
-After user registered he can load temporary channel
+After user is registered, he can load temporary channel
 ```swift
 
 ethree.loadTemporaryChannel(asCreator: false, with: "Alice") { channel, error in
@@ -512,7 +514,7 @@ ethree.loadTemporaryChannel(asCreator: false, with: "Alice") { channel, error in
 }
 ```
 
-If channel creator changed device or cleaned up current one, he can load temporary channel in simular way
+If channel creator changes or cleans up their device, he can load temporary channel in simular way
 ```swift
 
 ethree.loadTemporaryChannel(asCreator: true, with: "Bob") { channel, error in
@@ -525,7 +527,7 @@ ethree.loadTemporaryChannel(asCreator: true, with: "Bob") { channel, error in
 
 #### Get channel
 
-After loading or creating channel you can use getTemporaryChannel method to retrieve it from local storage
+After loading or creating channel, you can use getTemporaryChannel method to retrieve it from local storage
 ```swift
 
 let channel = try! ethree.getTemporaryChannel(with: "Alice")
@@ -556,7 +558,7 @@ You can find the code samples for Objective-C/Swift here:
 |----------| 
 | [`iOS Demo`](https://github.com/VirgilSecurity/demo-e3kit-ios) | 
 
-You can run the demo to check out the example of how to initialize the SDK, register users and encrypt messages using the E3Kit.
+You can run the demo to check out the example of how to initialize the SDK, register users and encrypt messages using E3Kit.
 
 
 ## License
