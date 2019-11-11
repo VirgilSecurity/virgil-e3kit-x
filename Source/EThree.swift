@@ -75,7 +75,7 @@ import VirgilSDKRatchet
 
     internal let lookupManager: LookupManager
 
-    internal var unsafeChannelManager: UnsafeChannelManager?
+    internal var tempChannelManager: TempChannelManager?
     internal var groupManager: GroupManager?
     internal var secureChat: SecureChat?
     internal var timer: RepeatingTimer?

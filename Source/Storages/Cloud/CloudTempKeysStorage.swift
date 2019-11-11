@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
-internal class CloudUnsafeStorage {
+internal class CloudTempKeysStorage {
     private static let root = "unsafe-keys"
     private static let defaultKey = "default"
     private static let meta = "unencrypted"
@@ -61,17 +61,17 @@ internal class CloudUnsafeStorage {
     }
 }
 
-extension CloudUnsafeStorage {
+extension CloudTempKeysStorage {
     // swiftlint:disable force_unwrapping
     internal func store(_ tempKey: VirgilPrivateKey, for identity: String) throws {
         let pushParams = KeyknoxPushParams(identities: [identity, self.identity],
-                                           root: CloudUnsafeStorage.root,
+                                           root: CloudTempKeysStorage.root,
                                            path: identity,
-                                           key: CloudUnsafeStorage.defaultKey)
+                                           key: CloudTempKeysStorage.defaultKey)
 
         let data = try self.crypto.exportPrivateKey(tempKey)
 
-        let meta = CloudUnsafeStorage.meta.data(using: .utf8)!
+        let meta = CloudTempKeysStorage.meta.data(using: .utf8)!
 
         _ = try self.keyknoxClient.pushValue(params: pushParams,
                                              meta: meta,
@@ -82,23 +82,23 @@ extension CloudUnsafeStorage {
 
     internal func retrieve(from identity: String, path: String) throws -> VirgilKeyPair {
         let params = KeyknoxPullParams(identity: identity,
-                                       root: CloudUnsafeStorage.root,
+                                       root: CloudTempKeysStorage.root,
                                        path: path,
-                                       key: CloudUnsafeStorage.defaultKey)
+                                       key: CloudTempKeysStorage.defaultKey)
 
         let response = try self.keyknoxClient.pullValue(params: params)
 
         guard !response.value.isEmpty else {
-            throw UnsafeChannelError.channelNotFound
+            throw TemporaryChannelError.channelNotFound
         }
 
         return try self.crypto.importPrivateKey(from: response.value)
     }
 
     internal func delete(with identity: String) throws {
-        let params = KeyknoxResetParams(root: CloudUnsafeStorage.root,
+        let params = KeyknoxResetParams(root: CloudTempKeysStorage.root,
                                         path: identity,
-                                        key: CloudUnsafeStorage.defaultKey)
+                                        key: CloudTempKeysStorage.defaultKey)
 
         _ = try self.keyknoxClient.resetValue(params: params)
     }

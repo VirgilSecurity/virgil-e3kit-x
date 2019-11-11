@@ -479,7 +479,7 @@ Use the following code-snippets to decrypt messages:
 let decrypted = try! channel.decrypt(text: encrypted)
 ```
 
-## Unsafe Channel
+## Unregistered User Encryption
 In this section, you'll find out how to create and use channel with unregistered on Virgil Cloud user.
 
 To archeive encrypted communication with unregistered user, channel creator generates temporary key pair and saves it on Virgil Cloud with access for future user identity. However, this key is stored unencrypted, so this type of communication can't be called e2ee. Channel creator uses this key for encryption. When participant finally registers, he can load this temporary key from Cloud and use to decrypt messages.
@@ -491,7 +491,7 @@ We assume that channel creator have installed and initialized the E3Kit, and use
 To create a channel with unregistered user use the folowing snippet
 ```swift
 
-ethree.createUnsafeChannel(with: "Bob") { channel, error in
+ethree.createTemporaryChannel(with: "Bob") { channel, error in
     guard error == nil else {
         // Error handling
     }
@@ -501,10 +501,10 @@ ethree.createUnsafeChannel(with: "Bob") { channel, error in
 
 #### Load channel
 
-After user registered he can load unsafe channel
+After user registered he can load temporary channel
 ```swift
 
-ethree.loadUnsafeChannel(asCreator: false, with: "Alice") { channel, error in
+ethree.loadTemporaryChannel(asCreator: false, with: "Alice") { channel, error in
     guard error == nil else {
         // Error handling
     }
@@ -512,10 +512,10 @@ ethree.loadUnsafeChannel(asCreator: false, with: "Alice") { channel, error in
 }
 ```
 
-If channel creator changed device or cleaned up current one, he can load unsafe channel in simular way
+If channel creator changed device or cleaned up current one, he can load temporary channel in simular way
 ```swift
 
-ethree.loadUnsafeChannel(asCreator: true, with: "Bob") { channel, error in
+ethree.loadTemporaryChannel(asCreator: true, with: "Bob") { channel, error in
     guard error == nil else {
         // Error handling
     }
@@ -525,10 +525,10 @@ ethree.loadUnsafeChannel(asCreator: true, with: "Bob") { channel, error in
 
 #### Get channel
 
-After loading or creating channel you can use getUnsafeChannel method to retrieve it from local storage
+After loading or creating channel you can use getTemporaryChannel method to retrieve it from local storage
 ```swift
 
-let channel = try! ethree.getUnsafeChannel(with: "Alice")
+let channel = try! ethree.getTemporaryChannel(with: "Alice")
 
 ```
 
@@ -538,7 +538,7 @@ Use this snippet to delete channel from local storage and clean cloud invite
 
 ```swift
 
-ethree.deleteUnsafeChannel(with: "Bob") { error in
+ethree.deleteTemporaryChannel(with: "Bob") { error in
     guard error == nil else {
         // Error handling
     }

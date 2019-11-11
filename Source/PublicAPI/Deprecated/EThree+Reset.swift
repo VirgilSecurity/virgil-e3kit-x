@@ -36,6 +36,7 @@
 
 import VirgilSDK
 
+// MARK: - Extension with deprecated reset operations
 extension EThree {
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///

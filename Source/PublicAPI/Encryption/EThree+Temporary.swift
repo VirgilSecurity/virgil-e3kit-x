@@ -37,70 +37,71 @@
 import VirgilSDK
 import VirgilCrypto
 
+// MARK: - Extension with Unregistered User Encryption operations
 extension EThree {
     /// Creates channel with unregistered user
     ///
     /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
     /// - Parameter identity: identity of unregistered user
-    open func createUnsafeChannel(with identity: String) -> GenericOperation<UnsafeChannel> {
+    open func createTemporaryChannel(with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
-                    throw UnsafeChannelError.selfChannelIsForbidden
+                    throw TemporaryChannelError.selfChannelIsForbidden
                 }
 
                 let result = try self.findUsers(with: [identity], checkResult: false).startSync().get()
 
                 guard result.isEmpty else {
-                    throw UnsafeChannelError.userIsRegistered
+                    throw TemporaryChannelError.userIsRegistered
                 }
 
-                let unsafeChannel = try self.getUnsafeManager().create(with: identity)
+                let tempChannel = try self.getTempChannelManager().create(with: identity)
 
-                completion(unsafeChannel, nil)
+                completion(tempChannel, nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    /// Loads unsafe channel by fetching temporary key form Cloud
+    /// Loads temporary channel by fetching temporary key form Cloud
     /// - Parameters:
     ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
-    open func loadUnsafeChannel(asCreator: Bool, with identity: String) -> GenericOperation<UnsafeChannel> {
+    open func loadTemporaryChannel(asCreator: Bool, with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
-                let unsafeManager = try self.getUnsafeManager()
-
                 guard identity != self.identity else {
-                    throw UnsafeChannelError.selfChannelIsForbidden
+                    throw TemporaryChannelError.selfChannelIsForbidden
                 }
 
-                let unsafeChannel = try unsafeManager.loadFromCloud(asCreator: asCreator, with: identity)
+                let manager = try self.getTempChannelManager()
 
-                completion(unsafeChannel, nil)
+                let temporaryChannel = try manager.loadFromCloud(asCreator: asCreator, with: identity)
+
+                completion(temporaryChannel, nil)
             } catch {
                 completion(nil, error)
             }
         }
     }
 
-    /// Returns cached unsafe channel
+    /// Returns cached temporary channel
     /// - Parameter identity: identity of participant
-    open func getUnsafeChannel(with identity: String) throws -> UnsafeChannel? {
-        let unsafeManager = try self.getUnsafeManager()
+    open func getTemporaryChannel(with identity: String) throws -> TemporaryChannel? {
+        let manager = try self.getTempChannelManager()
 
-        return try unsafeManager.getLocalChannel(with: identity)
+        return try manager.getLocalChannel(with: identity)
     }
 
-    /// Deletes unsafe channel from cloud (if user is creator) and local storage
+    /// Deletes temporary channel from cloud (if user is creator) and local storage
     /// - Parameter identity: identity of participant
-    open func deleteUnsafeChannel(with identity: String) -> GenericOperation<Void> {
+    open func deleteTemporaryChannel(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.getUnsafeManager().delete(with: identity)
+                try self.getTempChannelManager().delete(with: identity)
 
                 completion((), nil)
             } catch {

@@ -37,7 +37,7 @@
 import VirgilSDK
 import VirgilCrypto
 
-internal class FileUnsafeKeysStorage {
+internal class FileTempKeysStorage {
     internal let identity: String
 
     private let crypto: VirgilCrypto
@@ -46,7 +46,7 @@ internal class FileUnsafeKeysStorage {
 
     private let defaultName: String = "default"
 
-    internal struct UnsafeKey: Codable {
+    internal struct TempKey: Codable {
         internal fileprivate(set) var key: Data
         internal let type: KeyType
     }
@@ -75,25 +75,25 @@ internal class FileUnsafeKeysStorage {
                                                for: [self.identityKeyPair.publicKey])
         }
 
-        let unsafeKey = UnsafeKey(key: data, type: type)
+        let temporaryKey = TempKey(key: data, type: type)
 
-        return try JSONEncoder().encode(unsafeKey)
+        return try JSONEncoder().encode(temporaryKey)
     }
 
-    private func decode(data: Data) throws -> UnsafeKey {
-        var unsafeKey = try JSONDecoder().decode(UnsafeKey.self, from: data)
+    private func decode(data: Data) throws -> TempKey {
+        var tempKey = try JSONDecoder().decode(TempKey.self, from: data)
 
-        if unsafeKey.type == .private {
-            unsafeKey.key = try self.crypto.authDecrypt(unsafeKey.key,
-                                                        with: self.identityKeyPair.privateKey,
-                                                        usingOneOf: [self.identityKeyPair.publicKey])
+        if tempKey.type == .private {
+            tempKey.key = try self.crypto.authDecrypt(tempKey.key,
+                                                      with: self.identityKeyPair.privateKey,
+                                                      usingOneOf: [self.identityKeyPair.publicKey])
         }
 
-        return unsafeKey
+        return tempKey
     }
 }
 
-extension FileUnsafeKeysStorage {
+extension FileTempKeysStorage {
     internal func store(_ key: VirgilPrivateKey, identity: String) throws {
         let keyData = try self.crypto.exportPrivateKey(key)
 
@@ -110,7 +110,7 @@ extension FileUnsafeKeysStorage {
         try self.fileSystem.write(data: data, name: self.defaultName, subdir: identity)
     }
 
-    internal func retrieve(identity: String) throws -> UnsafeKey? {
+    internal func retrieve(identity: String) throws -> TempKey? {
         let data = try self.fileSystem.read(name: self.defaultName, subdir: identity)
 
         guard !data.isEmpty else {
