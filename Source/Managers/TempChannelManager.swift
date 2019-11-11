@@ -37,11 +37,11 @@
 import VirgilSDK
 import VirgilCrypto
 
-internal class UnsafeChannelManager {
-    internal let localUnsafeStorage: FileUnsafeKeysStorage
+internal class TempChannelManager {
+    internal let localStorage: FileTempKeysStorage
 
     private let crypto: VirgilCrypto
-    private let cloudUnsafeStorage: CloudUnsafeStorage
+    private let cloudStorage: CloudTempKeysStorage
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
 
@@ -60,94 +60,94 @@ internal class UnsafeChannelManager {
 
         let identity = localKeyStorage.identity
 
-        self.cloudUnsafeStorage = CloudUnsafeStorage(identity: identity,
-                                                     accessTokenProvider: accessTokenProvider,
-                                                     crypto: crypto)
+        self.cloudStorage = CloudTempKeysStorage(identity: identity,
+                                                 accessTokenProvider: accessTokenProvider,
+                                                 crypto: crypto)
 
-        self.localUnsafeStorage = try FileUnsafeKeysStorage(identity: identity,
-                                                            crypto: crypto,
-                                                            identityKeyPair: keyPair)
+        self.localStorage = try FileTempKeysStorage(identity: identity,
+                                                    crypto: crypto,
+                                                    identityKeyPair: keyPair)
     }
 }
 
-extension UnsafeChannelManager {
-    internal func create(with identity: String) throws -> UnsafeChannel {
+extension TempChannelManager {
+    internal func create(with identity: String) throws -> TemporaryChannel {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let tempKeyPair = try self.crypto.generateKeyPair()
 
         do {
-            try self.cloudUnsafeStorage.store(tempKeyPair.privateKey, for: identity)
+            try self.cloudStorage.store(tempKeyPair.privateKey, for: identity)
         } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
-            throw UnsafeChannelError.channelAlreadyExists
+            throw TemporaryChannelError.channelAlreadyExists
         }
 
-        let unsafeChannel = UnsafeChannel(participant: identity,
-                                          participantPublicKey: tempKeyPair.publicKey,
-                                          selfPrivateKey: selfKeyPair.privateKey,
-                                          crypto: self.crypto)
+        let tempChannel = TemporaryChannel(participant: identity,
+                                           participantPublicKey: tempKeyPair.publicKey,
+                                           selfPrivateKey: selfKeyPair.privateKey,
+                                           crypto: self.crypto)
 
-        try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
+        try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
 
-        return unsafeChannel
+        return tempChannel
     }
 
-    internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> UnsafeChannel {
+    internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> TemporaryChannel {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let publicKey: VirgilPublicKey
         let privateKey: VirgilPrivateKey
 
         if asCreator {
-            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: self.identity, path: identity)
-            try self.localUnsafeStorage.store(tempKeyPair.publicKey, identity: identity)
+            let tempKeyPair = try self.cloudStorage.retrieve(from: self.identity, path: identity)
+            try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
 
             publicKey = tempKeyPair.publicKey
             privateKey = selfKeyPair.privateKey
         } else {
             let card = try self.lookupManager.lookupCard(of: identity)
 
-            let tempKeyPair = try self.cloudUnsafeStorage.retrieve(from: identity, path: self.identity)
-            try self.localUnsafeStorage.store(tempKeyPair.privateKey, identity: identity)
+            let tempKeyPair = try self.cloudStorage.retrieve(from: identity, path: self.identity)
+            try self.localStorage.store(tempKeyPair.privateKey, identity: identity)
 
             publicKey = card.publicKey
             privateKey = tempKeyPair.privateKey
         }
 
-        return UnsafeChannel(participant: identity,
-                             participantPublicKey: publicKey,
-                             selfPrivateKey: privateKey,
-                             crypto: self.crypto)
+        return TemporaryChannel(participant: identity,
+                                participantPublicKey: publicKey,
+                                selfPrivateKey: privateKey,
+                                crypto: self.crypto)
     }
 
-    internal func getLocalChannel(with identity: String) throws -> UnsafeChannel? {
-        guard let unsafeKey = try? self.localUnsafeStorage.retrieve(identity: identity) else {
+    internal func getLocalChannel(with identity: String) throws -> TemporaryChannel? {
+        guard let tempKey = try? self.localStorage.retrieve(identity: identity) else {
             return nil
         }
 
         let privateKey: VirgilPrivateKey
         let publicKey: VirgilPublicKey
 
-        switch unsafeKey.type {
+        switch tempKey.type {
         case .private:              // User is participant
-            privateKey = try self.crypto.importPrivateKey(from: unsafeKey.key).privateKey
+            privateKey = try self.crypto.importPrivateKey(from: tempKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
         case .public:               // User is creator of channel
             privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
-            publicKey = try self.crypto.importPublicKey(from: unsafeKey.key)
+            publicKey = try self.crypto.importPublicKey(from: tempKey.key)
         }
 
-        return UnsafeChannel(participant: identity,
-                             participantPublicKey: publicKey,
-                             selfPrivateKey: privateKey,
-                             crypto: self.crypto)
+        return TemporaryChannel(participant: identity,
+                                participantPublicKey: publicKey,
+                                selfPrivateKey: privateKey,
+                                crypto: self.crypto)
     }
 
     internal func delete(with identity: String) throws {
-        try self.cloudUnsafeStorage.delete(with: identity)
+        try self.cloudStorage.delete(with: identity)
 
         do {
-            try self.localUnsafeStorage.delete(identity: identity)
+            try self.localStorage.delete(identity: identity)
         } catch CocoaError.fileNoSuchFile { }
     }
 }

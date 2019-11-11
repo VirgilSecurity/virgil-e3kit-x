@@ -34,9 +34,37 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 
-internal enum ProductInfo {
-    internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0-beta4"
+// MARK: - Extension with deprecated reset operations
+extension EThree {
+    /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
+    ///
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @available(*, deprecated, message: "Use resetPrivateKeyBackup without password instead")
+    @objc open func resetPrivateKeyBackup(password: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.resetPrivateKeyBackup(password: password).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
+    ///
+    /// - Parameter password: String with password
+    /// - Returns: CallbackOperation<Void>
+    @available(*, deprecated, message: "Use resetPrivateKeyBackup without password instead")
+    open func resetPrivateKeyBackup(password: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                try self.cloudKeyManager.delete(password: password)
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
 }

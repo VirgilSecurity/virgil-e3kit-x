@@ -121,17 +121,10 @@ extension EThree {
     }
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
-    ///
-    /// - Parameter password: String with password
-    /// - Returns: CallbackOperation<Void>
-    open func resetPrivateKeyBackup(password: String? = nil) -> GenericOperation<Void> {
+    open func resetPrivateKeyBackup() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                if let password = password {
-                    try self.cloudKeyManager.delete(password: password)
-                } else {
-                    try self.cloudKeyManager.deleteAll()
-                }
+                try self.cloudKeyManager.deleteAll()
 
                 completion((), nil)
             } catch {

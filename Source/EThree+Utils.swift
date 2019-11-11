@@ -52,7 +52,7 @@ extension EThree {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         try self.setupGroupManager(keyPair: selfKeyPair)
-        try self.setupUnsafeManager(keyPair: selfKeyPair)
+        try self.setupTempChannelManager(keyPair: selfKeyPair)
 
         if self.enableRatchet {
             try self.setupRatchet(params: params, keyPair: selfKeyPair)
@@ -62,10 +62,10 @@ extension EThree {
     internal func privateKeyDeleted() throws {
         try self.lookupManager.cardStorage.reset()
         try self.groupManager?.localGroupStorage.reset()
-        try self.unsafeChannelManager?.localUnsafeStorage.reset()
+        try self.tempChannelManager?.localStorage.reset()
 
         self.groupManager = nil
-        self.unsafeChannelManager = nil
+        self.tempChannelManager = nil
         self.secureChat = nil
         self.timer = nil
     }
@@ -103,12 +103,12 @@ extension EThree {
         try self.privateKeyChanged(params: params)
     }
 
-    private func setupUnsafeManager(keyPair: VirgilKeyPair) throws {
-        self.unsafeChannelManager = try UnsafeChannelManager(crypto: self.crypto,
-                                                             accessTokenProvider: self.accessTokenProvider,
-                                                             localKeyStorage: self.localKeyStorage,
-                                                             lookupManager: self.lookupManager,
-                                                             keyPair: keyPair)
+    private func setupTempChannelManager(keyPair: VirgilKeyPair) throws {
+        self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
+                                                         accessTokenProvider: self.accessTokenProvider,
+                                                         localKeyStorage: self.localKeyStorage,
+                                                         lookupManager: self.lookupManager,
+                                                         keyPair: keyPair)
     }
 
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {
@@ -132,8 +132,8 @@ extension EThree {
         return manager
     }
 
-    internal func getUnsafeManager() throws -> UnsafeChannelManager {
-        guard let manager = self.unsafeChannelManager else {
+    internal func getTempChannelManager() throws -> TempChannelManager {
+        guard let manager = self.tempChannelManager else {
             throw EThreeError.missingPrivateKey
         }
 

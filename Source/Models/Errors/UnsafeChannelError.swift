@@ -36,14 +36,14 @@
 
 import Foundation
 
-/// Declares error types and codes for EThree Unsafe Channel capabilities
+/// Declares error types and codes for EThree Temporary Channel capabilities
 ///
-/// - channelAlreadyExists: Unsafe channel with provided identity already exists.
-/// - selfChannelIsForbidden: Unsafe channel with self is forbidden. Use regular encryption for this purpose.
+/// - channelAlreadyExists: Temporary channel with provided identity already exists.
+/// - selfChannelIsForbidden: Temporary channel with self is forbidden. Use regular encryption for this purpose.
 /// - userIsRegistered: User with provided identity is registered.
-///                     Creation of unsafe channels with registered users is forbidden.
+///                     Creation of temporary channels with registered users is forbidden.
 /// - channelNotFound: Channel was not found
-@objc(VTEUnsafeChannelError) public enum UnsafeChannelError: Int, LocalizedError {
+@objc(VTETemporaryChannelError) public enum TemporaryChannelError: Int, LocalizedError {
     case channelAlreadyExists = 1
     case selfChannelIsForbidden = 2
     case userIsRegistered = 3
@@ -53,13 +53,13 @@ import Foundation
     public var errorDescription: String? {
         switch self {
         case .channelAlreadyExists:
-            return "Unsafe channel with provided identity already exists."
+            return "Temporary channel with provided identity already exists."
         case .selfChannelIsForbidden:
-            return "Unsafe channel with self is forbidden. Use regular encryption for this purpose."
+            return "Temporary channel with self is forbidden. Use regular encryption for this purpose."
         case .userIsRegistered:
             return """
                 User with provided identity is registered.
-                Creation of unsafe channels with registered users is forbidden.
+                Creation of temporary channels with registered users is forbidden.
             """
         case .channelNotFound:
             return "Channel was not found"

@@ -125,13 +125,10 @@ extension EThree {
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///
     /// - Parameters:
-    ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    /// - Important: If password specified it will reset entry with current identity.
-    ///              Otherwise it will reset ALL entries.
-    @objc open func resetPrivateKeyBackup(password: String? = nil, completion: @escaping (_ error: Error?) -> Void) {
-        self.resetPrivateKeyBackup(password: password).start { _, error in
+    @objc open func resetPrivateKeyBackup(completion: @escaping (_ error: Error?) -> Void) {
+        self.resetPrivateKeyBackup().start { _, error in
             completion(error)
         }
     }
@@ -340,7 +337,7 @@ extension EThree {
     }
 }
 
-// MARK: - Extension with Objective-C compatible Unsafe Channel operations
+// MARK: - Extension with Objective-C compatible Temporary Channel operations
 extension EThree {
     /// Creates channel with unregistered user
     ///
@@ -349,43 +346,43 @@ extension EThree {
     /// - Parameters:
     ///   - identity: identity of unregistered user
     ///   - completion: completion handler
-    ///   - channel: created `UnsafeChannel` insance
+    ///   - channel: created `TemporaryChannel` insance
     ///   - error: corresponding error
-    @objc open func createUnsafeChannel(with identity: String,
-                                        completion: @escaping (_ channel: UnsafeChannel?,
-                                                               _ error: Error?) -> Void) {
-        return self.createUnsafeChannel(with: identity).start(completion: completion)
+    @objc open func createTemporaryChannel(with identity: String,
+                                           completion: @escaping (_ channel: TemporaryChannel?,
+                                                                  _ error: Error?) -> Void) {
+        return self.createTemporaryChannel(with: identity).start(completion: completion)
     }
 
-    /// Loads unsafe channel by fetching temporary key form Cloud
+    /// Loads temporary channel by fetching temporary key form Cloud
     /// - Parameters:
     ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
     ///   - completion: completion handler
-    ///   - channel: loaded `UnsafeChannel` insance
+    ///   - channel: loaded `TemporaryChannel` insance
     ///   - error: corresponding error
-    @objc open func loadUnsafeChannel(asCreator: Bool,
-                                      with identity: String,
-                                      completion: @escaping (_ channel: UnsafeChannel?,
+    @objc open func loadTemporaryChannel(asCreator: Bool,
+                                         with identity: String,
+                                         completion: @escaping (_ channel: TemporaryChannel?,
                                                              _ error: Error?) -> Void) {
-        self.loadUnsafeChannel(asCreator: asCreator, with: identity).start(completion: completion)
+        self.loadTemporaryChannel(asCreator: asCreator, with: identity).start(completion: completion)
     }
 
-    /// Returns cached unsafe channel
+    /// Returns cached temporary channel
     /// - Parameter identity: identity of participant
     @available(swift, obsoleted: 1.0)
-    @objc(getUnsafeChannelWith:)
-    open func getUnsafeChannelObjc(with identity: String) -> UnsafeChannel? {
-        try? self.getUnsafeChannel(with: identity)
+    @objc(getTemporaryChannelWith:)
+    open func getTemporaryChannelObjc(with identity: String) -> TemporaryChannel? {
+        try? self.getTemporaryChannel(with: identity)
     }
 
-    /// Deletes unsafe channel from cloud (if user is owner) and local storage
+    /// Deletes temporary channel from cloud (if user is owner) and local storage
     /// - Parameters:
     ///   - identity: identity of participant
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func deleteUnsafeChannel(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
-        self.deleteUnsafeChannel(with: identity).start { _, error in
+    @objc open func deleteTemporaryChannel(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteTemporaryChannel(with: identity).start { _, error in
             completion(error)
         }
     }

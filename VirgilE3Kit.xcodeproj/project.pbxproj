@@ -31,14 +31,14 @@
 		160BE967235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		160BE968235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		160BE969235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
-		160C3D9D2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */; };
-		160C3D9E2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */; };
-		160C3D9F2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */; };
-		160C3DA02369A6FD0057D989 /* EThree+Unsafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */; };
-		160C3DA22369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
-		160C3DA32369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
-		160C3DA42369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
-		160C3DA52369C0550057D989 /* CloudUnsafeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */; };
+		160C3D9D2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
+		160C3D9E2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
+		160C3D9F2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
+		160C3DA02369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
+		160C3DA22369C0550057D989 /* CloudTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */; };
+		160C3DA32369C0550057D989 /* CloudTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */; };
+		160C3DA42369C0550057D989 /* CloudTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */; };
+		160C3DA52369C0550057D989 /* CloudTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */; };
 		1616C0422357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
 		1616C0432357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
 		1616C0442357478900948C3B /* EThreeInvalidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C0412357478900948C3B /* EThreeInvalidConfig.plist */; };
@@ -82,28 +82,32 @@
 		1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
 		1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1632AE9622DCDFB000950B48 /* Ticket.swift */; };
+		164795C2237984550028D1DD /* EThree+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164795C1237984550028D1DD /* EThree+Reset.swift */; };
+		164795C3237984550028D1DD /* EThree+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164795C1237984550028D1DD /* EThree+Reset.swift */; };
+		164795C4237984550028D1DD /* EThree+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164795C1237984550028D1DD /* EThree+Reset.swift */; };
+		164795C5237984550028D1DD /* EThree+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164795C1237984550028D1DD /* EThree+Reset.swift */; };
 		164F4D6123509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */; };
 		164F4D6223509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */; };
 		164F4D6323509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */; };
-		16509F58236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */; };
-		16509F59236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */; };
-		16509F5A236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */; };
-		16509F5B236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */; };
+		16509F58236AF754005DA8AE /* TempChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* TempChannelManager.swift */; };
+		16509F59236AF754005DA8AE /* TempChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* TempChannelManager.swift */; };
+		16509F5A236AF754005DA8AE /* TempChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* TempChannelManager.swift */; };
+		16509F5B236AF754005DA8AE /* TempChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F57236AF754005DA8AE /* TempChannelManager.swift */; };
 		16509F5D236B0090005DA8AE /* UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F5C236B0090005DA8AE /* UnsafeChannel.swift */; };
 		16509F5E236B0090005DA8AE /* UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F5C236B0090005DA8AE /* UnsafeChannel.swift */; };
 		16509F5F236B0090005DA8AE /* UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F5C236B0090005DA8AE /* UnsafeChannel.swift */; };
 		16509F60236B0090005DA8AE /* UnsafeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F5C236B0090005DA8AE /* UnsafeChannel.swift */; };
-		16509F66236B1805005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_UnsafeChannelTests.swift */; };
-		16509F67236B1807005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_UnsafeChannelTests.swift */; };
-		16509F68236B1809005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_UnsafeChannelTests.swift */; };
+		16509F66236B1805005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
+		16509F67236B1807005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
+		16509F68236B1809005DA8AE /* VTE010_TempChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */; };
 		16509F70236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
 		16509F71236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
 		16509F72236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
 		16509F73236B305E005DA8AE /* UnsafeChannelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */; };
-		16509F75236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
-		16509F76236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
-		16509F77236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
-		16509F78236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */; };
+		16509F75236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
+		16509F76236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
+		16509F77236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
+		16509F78236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */; };
 		16532983235F15A500D2C071 /* EThree+Initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532982235F15A500D2C071 /* EThree+Initialize.swift */; };
 		16532985235F15EE00D2C071 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532984235F15EE00D2C071 /* EThree+Lookup.swift */; };
 		16532986235F15EE00D2C071 /* EThree+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16532984235F15EE00D2C071 /* EThree+Lookup.swift */; };
@@ -516,8 +520,8 @@
 /* Begin PBXFileReference section */
 		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
 		160BE966235BD081008B9D54 /* EThreeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeConfig.plist; sourceTree = "<group>"; };
-		160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Unsafe.swift"; sourceTree = "<group>"; };
-		160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudUnsafeStorage.swift; sourceTree = "<group>"; };
+		160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Temporary.swift"; sourceTree = "<group>"; };
+		160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTempKeysStorage.swift; sourceTree = "<group>"; };
 		1616C0412357478900948C3B /* EThreeInvalidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeInvalidConfig.plist; sourceTree = "<group>"; };
 		1616C0452357549200948C3B /* EThreeParamsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParamsError.swift; sourceTree = "<group>"; };
 		1616C04C235755C700948C3B /* EThreeValidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeValidConfig.plist; sourceTree = "<group>"; };
@@ -534,12 +538,13 @@
 		162D2B5822410C6500CE7FC2 /* VirgilCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VirgilCrypto.framework; path = Carthage/Build/Mac/VirgilCrypto.framework; sourceTree = "<group>"; };
 		162D2B5922410C6500CE7FC2 /* VSCPythia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VSCPythia.framework; path = Carthage/Build/Mac/VSCPythia.framework; sourceTree = "<group>"; };
 		1632AE9622DCDFB000950B48 /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
+		164795C1237984550028D1DD /* EThree+Reset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Reset.swift"; sourceTree = "<group>"; };
 		164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE008_AdditionalTests.swift; sourceTree = "<group>"; };
-		16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChannelManager.swift; sourceTree = "<group>"; };
+		16509F57236AF754005DA8AE /* TempChannelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempChannelManager.swift; sourceTree = "<group>"; };
 		16509F5C236B0090005DA8AE /* UnsafeChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChannel.swift; sourceTree = "<group>"; };
-		16509F61236B17C7005DA8AE /* VTE010_UnsafeChannelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE010_UnsafeChannelTests.swift; sourceTree = "<group>"; };
+		16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE010_TempChannelTests.swift; sourceTree = "<group>"; };
 		16509F6F236B305E005DA8AE /* UnsafeChannelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeChannelError.swift; sourceTree = "<group>"; };
-		16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUnsafeKeysStorage.swift; sourceTree = "<group>"; };
+		16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTempKeysStorage.swift; sourceTree = "<group>"; };
 		16532982235F15A500D2C071 /* EThree+Initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Initialize.swift"; sourceTree = "<group>"; };
 		16532984235F15EE00D2C071 /* EThree+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Lookup.swift"; sourceTree = "<group>"; };
 		16565F3122A113840095D887 /* EThree+Obj-C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Obj-C.swift"; sourceTree = "<group>"; };
@@ -865,6 +870,7 @@
 				16532982235F15A500D2C071 /* EThree+Initialize.swift */,
 				16532984235F15EE00D2C071 /* EThree+Lookup.swift */,
 				16D4D2C9234E4C9300AFF80E /* EThree+Encryption.swift */,
+				164795C1237984550028D1DD /* EThree+Reset.swift */,
 			);
 			path = Deprecated;
 			sourceTree = "<group>";
@@ -894,7 +900,7 @@
 				1657AA5723267534006A39BF /* VTE007_Benchmarks.swift */,
 				164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */,
 				16B1F8D62327A9760082ECE0 /* VTE009_RatchetTests.swift */,
-				16509F61236B17C7005DA8AE /* VTE010_UnsafeChannelTests.swift */,
+				16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -930,7 +936,7 @@
 				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
 				1685846922E0875D008EAC34 /* CloudTicketStorage.swift */,
 				16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */,
-				160C3DA12369C0550057D989 /* CloudUnsafeStorage.swift */,
+				160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */,
 			);
 			path = Cloud;
 			sourceTree = "<group>";
@@ -941,7 +947,7 @@
 				42D84AAF22F078420012D103 /* SQLite */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */,
 				16AD62D422E87C6A00CDF90A /* FileGroupStorage.swift */,
-				16509F74236C47E0005DA8AE /* FileUnsafeKeysStorage.swift */,
+				16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -1019,7 +1025,7 @@
 			children = (
 				1665EE1C22E720A500774788 /* LookupManager.swift */,
 				16AD62D922E87E4700CDF90A /* GroupManager.swift */,
-				16509F57236AF754005DA8AE /* UnsafeChannelManager.swift */,
+				16509F57236AF754005DA8AE /* TempChannelManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1031,7 +1037,7 @@
 				1622A8C3235E068E0066CDD8 /* EThree+Streams.swift */,
 				1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */,
 				16B1F8D12327A8930082ECE0 /* EThree+Ratchet.swift */,
-				160C3D9C2369A6FD0057D989 /* EThree+Unsafe.swift */,
+				160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */,
 			);
 			path = Encryption;
 			sourceTree = "<group>";
@@ -1501,7 +1507,7 @@
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388B234F4E5E00678624 /* VTE009_RatchetTests.swift in Sources */,
 				16BB9B5222F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
-				16509F66236B1805005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */,
+				16509F66236B1805005DA8AE /* VTE010_TempChannelTests.swift in Sources */,
 				16BB9B4C22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1521,7 +1527,7 @@
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388A234F4D4200678624 /* VTE009_RatchetTests.swift in Sources */,
 				16BB9B5322F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
-				16509F67236B1807005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */,
+				16509F67236B1807005DA8AE /* VTE010_TempChannelTests.swift in Sources */,
 				16BB9B4B22EF30BB0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1541,7 +1547,7 @@
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388C234F4E5F00678624 /* VTE009_RatchetTests.swift in Sources */,
 				16BB9B5422F341150057D6B2 /* VTE006_LookupTests.swift in Sources */,
-				16509F68236B1809005DA8AE /* VTE010_UnsafeChannelTests.swift in Sources */,
+				16509F68236B1809005DA8AE /* VTE010_TempChannelTests.swift in Sources */,
 				16BB9B4D22EF30BC0057D6B2 /* VTE001_PeerToPeerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1576,10 +1582,11 @@
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CD2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
+				164795C2237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16E33877234E775200678624 /* RatchetChannel.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
-				16509F58236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */,
+				16509F58236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B223279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				16BB9B5A22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1599,7 +1606,7 @@
 				1622A8C4235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
-				160C3D9D2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */,
+				160C3D9D2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D1BCA2235872A8008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */,
@@ -1610,10 +1617,10 @@
 				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16509F70236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
 				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
-				160C3DA22369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
+				160C3DA22369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
-				16509F75236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
+				16509F75236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				16B1F8B723279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76B23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
@@ -1637,11 +1644,11 @@
 				16E3387A234E775200678624 /* RatchetChannel.swift in Sources */,
 				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				16E33883234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
-				160C3DA02369A6FD0057D989 /* EThree+Unsafe.swift in Sources */,
+				160C3DA02369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
 				16B1F8D02327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				16565F3522A113840095D887 /* EThree+Obj-C.swift in Sources */,
-				16509F78236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
+				16509F78236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16509F60236B0090005DA8AE /* UnsafeChannel.swift in Sources */,
 				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
@@ -1653,13 +1660,14 @@
 				16532988235F15EE00D2C071 /* EThree+Lookup.swift in Sources */,
 				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C7235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
+				164795C5237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA5235872AE008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				1661D77A2301E96600BC435C /* GroupError.swift in Sources */,
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
-				160C3DA52369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
+				160C3DA52369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8BA23279E2B0082ECE0 /* EThree+Search.swift in Sources */,
@@ -1669,7 +1677,7 @@
 				42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */,
 				16E3387E234E778500678624 /* EThree+Ratchet.swift in Sources */,
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
-				16509F5B236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */,
+				16509F5B236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16509F73236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				1616C0492357549200948C3B /* EThreeParamsError.swift in Sources */,
@@ -1697,10 +1705,11 @@
 				16B1F8CE2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
 				16E33878234E775200678624 /* RatchetChannel.swift in Sources */,
+				164795C3237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */,
-				16509F59236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */,
+				16509F59236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16B1F8B323279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				16532989235F15F100D2C071 /* EThree+Initialize.swift in Sources */,
 				16BB9B5B22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1720,7 +1729,7 @@
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C5235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
-				160C3D9E2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */,
+				160C3D9E2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA3235872AC008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1731,10 +1740,10 @@
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				16509F71236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
 				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
-				160C3DA32369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
+				160C3DA32369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
-				16509F76236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
+				16509F76236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B823279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */,
@@ -1758,10 +1767,11 @@
 				16B1F8CF2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
 				16E33879234E775200678624 /* RatchetChannel.swift in Sources */,
+				164795C4237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */,
-				16509F5A236AF754005DA8AE /* UnsafeChannelManager.swift in Sources */,
+				16509F5A236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16B1F8B423279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				1653298A235F15F200D2C071 /* EThree+Initialize.swift in Sources */,
 				16BB9B5C22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1781,7 +1791,7 @@
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C6235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
-				160C3D9F2369A6FD0057D989 /* EThree+Unsafe.swift in Sources */,
+				160C3D9F2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA4235872AD008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1792,10 +1802,10 @@
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				16509F72236B305E005DA8AE /* UnsafeChannelError.swift in Sources */,
 				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
-				160C3DA42369C0550057D989 /* CloudUnsafeStorage.swift in Sources */,
+				160C3DA42369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
-				16509F77236C47E0005DA8AE /* FileUnsafeKeysStorage.swift in Sources */,
+				16509F77236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B923279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */,
