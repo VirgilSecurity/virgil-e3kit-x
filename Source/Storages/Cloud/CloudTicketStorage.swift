@@ -36,7 +36,6 @@
 
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
 import VirgilCryptoFoundation
 
 internal class CloudTicketStorage {

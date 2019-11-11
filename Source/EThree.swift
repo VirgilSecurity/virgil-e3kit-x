@@ -71,9 +71,11 @@ import VirgilSDKRatchet
 
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
-    internal let lookupManager: LookupManager
     internal let cloudRatchetStorage: CloudRatchetStorage
 
+    internal let lookupManager: LookupManager
+
+    internal var unsafeChannelManager: UnsafeChannelManager?
     internal var groupManager: GroupManager?
     internal var secureChat: SecureChat?
     internal var timer: RepeatingTimer?

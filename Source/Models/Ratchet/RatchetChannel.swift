@@ -35,8 +35,22 @@
 //
 
 import Foundation
+import VirgilSDKRatchet
 
-internal enum ServiceErrorCodes: Int {
-    case noKeyDataForUser = 50_017
-    case invalidPreviousHash = 50_010
+/// Class representing Ratchet Channel
+@objc(VTERatchetChannel) open class RatchetChannel: NSObject {
+    /// Participant
+    @objc public var participant: String {
+        return self.session.participantIdentity
+    }
+
+    internal let session: SecureSession
+    internal let sessionStorage: SessionStorage
+
+    internal init(session: SecureSession, sessionStorage: SessionStorage) {
+        self.session = session
+        self.sessionStorage = sessionStorage
+
+        super.init()
+    }
 }

@@ -63,7 +63,6 @@ internal class GroupManager {
 
     private func parse(_ rawGroup: RawGroup) throws -> Group {
         return try Group(rawGroup: rawGroup,
-                         crypto: self.crypto,
                          localKeyStorage: self.localKeyStorage,
                          groupManager: self,
                          lookupManager: self.lookupManager)
@@ -144,6 +143,8 @@ internal class GroupManager {
     internal func delete(sessionId: Data) throws {
         try self.cloudTicketStorage.delete(sessionId: sessionId)
 
-        try self.localGroupStorage.delete(sessionId: sessionId)
+        do {
+            try self.localGroupStorage.delete(sessionId: sessionId)
+        } catch CocoaError.fileNoSuchFile { }
     }
 }

@@ -50,9 +50,9 @@ extension EThree {
     /// - Important: Requires private key in local storage
     @objc(authEncryptStream:withSize:toStream:forUser:error:)
     open func authEncrypt(_ stream: InputStream,
-                              streamSize: Int,
-                              to outputStream: OutputStream,
-                              for user: Card) throws {
+                          streamSize: Int,
+                          to outputStream: OutputStream,
+                          for user: Card) throws {
         try self.authEncrypt(stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
     }
 
@@ -69,9 +69,9 @@ extension EThree {
     /// - Note: Avoid key duplication
     @objc(authEncryptStream:withSize:toStream:forUsers:error:)
     open func authEncrypt(_ stream: InputStream,
-                              streamSize: Int,
-                              to outputStream: OutputStream,
-                              for users: FindUsersResult? = nil) throws {
+                          streamSize: Int,
+                          to outputStream: OutputStream,
+                          for users: FindUsersResult? = nil) throws {
         try self.encryptInternal(stream, streamSize: streamSize, to: outputStream, for: users?.map { $1.publicKey })
     }
 
@@ -97,9 +97,9 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc open func authDecrypt(_ stream: InputStream,
-                                      to outputStream: OutputStream,
-                                      from user: Card,
-                                      date: Date) throws {
+                                to outputStream: OutputStream,
+                                from user: Card,
+                                date: Date) throws {
         var card = user
 
         while let previousCard = card.previousCard {
