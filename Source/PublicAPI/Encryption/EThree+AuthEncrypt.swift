@@ -190,7 +190,7 @@ extension EThree {
 
 extension EThree {
     internal func encryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
 
@@ -208,7 +208,7 @@ extension EThree {
     }
 
     internal func decryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         let publicKey = publicKey ?? selfKeyPair.publicKey
 

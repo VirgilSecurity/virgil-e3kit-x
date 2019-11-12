@@ -37,35 +37,83 @@
 import VirgilCrypto
 import VirgilSDK
 
+internal class EThreeProtectedKey: ProtectedKey {
+    @objc override internal func getKeychainEntry() throws -> KeychainEntry {
+        do {
+            return try super.getKeychainEntry()
+        } catch let error as KeychainStorageError {
+            if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
+                throw EThreeError.missingPrivateKey
+            }
+
+            throw error
+        }
+    }
+}
+
+internal class LocalKeyStorageParams {
+    internal let identity: String
+    internal let crypto: VirgilCrypto
+    internal let keychain: KeychainStorage
+    internal let options: KeychainQueryOptions
+
+#if os(iOS)
+    internal var biometricProtection: Bool = false {
+        didSet {
+            self.options.biometricallyProtected = biometricProtection
+        }
+    }
+#endif
+
+    internal init(identity: String, crypto: VirgilCrypto, storageParams: KeychainStorageParams?) throws {
+        self.identity = identity
+        self.crypto = crypto
+
+        self.options = KeychainQueryOptions()
+
+        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        self.keychain = KeychainStorage(storageParams: storageParams)
+    }
+}
+
 internal class LocalKeyStorage {
     internal let identity: String
     internal let crypto: VirgilCrypto
-    private let keychainStorage: KeychainStorage
+    internal var keyWrapper: PrivateKeyWrapper
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
-    }
+    private let keychain: KeychainStorage
+    private let options: KeychainQueryOptions
 
-    internal func retrieveKeyPair() throws -> VirgilKeyPair {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                throw EThreeError.missingPrivateKey
-        }
+    internal init(params: LocalKeyStorageParams) throws {
+        self.identity = params.identity
+        self.crypto = params.crypto
+        self.keychain = params.keychain
+        self.options = params.options
 
-        return keyPair
+        let options = ProtectedKeyOptions(keychainStorage: params.keychain)
+    #if os(iOS)
+        options.biometricallyProtected = params.biometricProtection
+    #endif
+
+        let key = try EThreeProtectedKey(keyName: self.identity, options: options)
+        self.keyWrapper = PrivateKeyWrapper(protectedKey: key, crypto: self.crypto)
     }
 
     internal func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+        _ = try self.keychain.store(data: data,
+                                    withName: self.identity,
+                                    meta: nil,
+                                    queryOptions: self.options)
+
+        self.keyWrapper.resetCache()
     }
 
     internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
+        return try self.keychain.existsEntry(withName: self.identity, queryOptions: self.options)
     }
 
     internal func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
+        try self.keychain.deleteEntry(withName: self.identity, queryOptions: self.options)
+        self.keyWrapper.resetCache()
     }
 }

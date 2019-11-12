@@ -36,6 +36,7 @@
 
 import VirgilCryptoFoundation
 import VirgilCrypto
+import VirgilSDK
 
 /// Class representing Group
 @objc(VTEGroup) open class Group: NSObject {
@@ -51,7 +52,7 @@ import VirgilCrypto
     /// Participants
     @objc public internal(set) var participants: Set<String>
 
-    internal let localKeyStorage: LocalKeyStorage
+    internal let keyWrapper: PrivateKeyWrapper
     internal let groupManager: GroupManager
     internal let lookupManager: LookupManager
 
@@ -60,8 +61,10 @@ import VirgilCrypto
     private let selfIdentity: String
     private let crypto: VirgilCrypto
 
-    internal init(rawGroup: RawGroup,
-                  localKeyStorage: LocalKeyStorage,
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  rawGroup: RawGroup,
+                  keyWrapper: PrivateKeyWrapper,
                   groupManager: GroupManager,
                   lookupManager: LookupManager) throws {
         let tickets = rawGroup.tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
@@ -73,11 +76,11 @@ import VirgilCrypto
         try Group.validateParticipantsCount(lastTicket.participants.count)
 
         self.initiator = rawGroup.info.initiator
-        self.selfIdentity = localKeyStorage.identity
+        self.selfIdentity = identity
         self.participants = lastTicket.participants
-        self.crypto = localKeyStorage.crypto
+        self.crypto = crypto
         self.session = try Group.generateSession(from: tickets, crypto: crypto)
-        self.localKeyStorage = localKeyStorage
+        self.keyWrapper = keyWrapper
         self.groupManager = groupManager
         self.lookupManager = lookupManager
 

@@ -42,7 +42,7 @@ internal class GroupManager {
     internal let localGroupStorage: FileGroupStorage
     internal let cloudTicketStorage: CloudTicketStorage
 
-    private let localKeyStorage: LocalKeyStorage
+    private let keyWrapper: PrivateKeyWrapper
     private let lookupManager: LookupManager
     private let crypto: VirgilCrypto
 
@@ -50,20 +50,22 @@ internal class GroupManager {
 
     internal init(localGroupStorage: FileGroupStorage,
                   cloudTicketStorage: CloudTicketStorage,
-                  localKeyStorage: LocalKeyStorage,
+                  keyWrapper: PrivateKeyWrapper,
                   lookupManager: LookupManager,
                   crypto: VirgilCrypto) {
         self.identity = localGroupStorage.identity
         self.localGroupStorage = localGroupStorage
         self.cloudTicketStorage = cloudTicketStorage
-        self.localKeyStorage = localKeyStorage
+        self.keyWrapper = keyWrapper
         self.lookupManager = lookupManager
         self.crypto = crypto
     }
 
     private func parse(_ rawGroup: RawGroup) throws -> Group {
-        return try Group(rawGroup: rawGroup,
-                         localKeyStorage: self.localKeyStorage,
+        return try Group(identity: identity,
+                         crypto: crypto,
+                         rawGroup: rawGroup,
+                         keyWrapper: self.keyWrapper,
                          groupManager: self,
                          lookupManager: self.lookupManager)
     }

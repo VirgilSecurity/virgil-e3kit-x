@@ -266,8 +266,10 @@ class VTE004_MixtecTests: XCTestCase {
             let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
             let rawGroup = try RawGroup(info: GroupInfo(initiator: ethree.identity), tickets: [ticket])
 
-            let group = try Group(rawGroup: rawGroup,
-                                  localKeyStorage: ethree.localKeyStorage,
+            let group = try Group(identity: ethree.identity,
+                                  crypto: self.crypto,
+                                  rawGroup: rawGroup,
+                                  keyWrapper: ethree.localKeyStorage.keyWrapper,
                                   groupManager: try ethree.getGroupManager(),
                                   lookupManager: ethree.lookupManager)
 

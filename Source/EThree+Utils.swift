@@ -49,13 +49,11 @@ extension EThree {
             try self.lookupManager.cardStorage.storeCard(params.card)
         }
 
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
-        try self.setupGroupManager(keyPair: selfKeyPair)
-        try self.setupTempChannelManager(keyPair: selfKeyPair)
+        try self.setupGroupManager()
+        try self.setupTempChannelManager()
 
         if self.enableRatchet {
-            try self.setupRatchet(params: params, keyPair: selfKeyPair)
+            try self.setupRatchet(params: params)
         }
     }
 
@@ -103,25 +101,27 @@ extension EThree {
         try self.privateKeyChanged(params: params)
     }
 
-    private func setupTempChannelManager(keyPair: VirgilKeyPair) throws {
-        self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
+    private func setupTempChannelManager() throws {
+        self.tempChannelManager = try TempChannelManager(identity: self.identity,
+                                                         crypto: self.crypto,
                                                          accessTokenProvider: self.accessTokenProvider,
-                                                         localKeyStorage: self.localKeyStorage,
-                                                         lookupManager: self.lookupManager,
-                                                         keyPair: keyPair)
+                                                         keyWrapper: self.keyWrapper,
+                                                         lookupManager: self.lookupManager)
     }
 
-    private func setupGroupManager(keyPair: VirgilKeyPair) throws {
-         let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                      crypto: self.crypto,
-                                                      identityKeyPair: keyPair)
-         let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                         localKeyStorage: self.localKeyStorage)
-         self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                          cloudTicketStorage: cloudTicketStorage,
-                                          localKeyStorage: self.localKeyStorage,
-                                          lookupManager: self.lookupManager,
-                                          crypto: self.crypto)
+    private func setupGroupManager() throws {
+        let localGroupStorage = try FileGroupStorage(identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     keyWrapper: self.keyWrapper)
+        let cloudTicketStorage = try CloudTicketStorage(identity: self.identity,
+                                                        crypto: self.crypto,
+                                                        accessTokenProvider: self.accessTokenProvider,
+                                                        keyWrapper: self.keyWrapper)
+        self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
+                                         cloudTicketStorage: cloudTicketStorage,
+                                         keyWrapper: self.keyWrapper,
+                                         lookupManager: self.lookupManager,
+                                         crypto: self.crypto)
      }
 
     internal func getGroupManager() throws -> GroupManager {
@@ -142,10 +142,13 @@ extension EThree {
 }
 
 extension EThree {
-    private func setupRatchet(params: PrivateKeyChangedParams? = nil, keyPair: VirgilKeyPair) throws {
+    private func setupRatchet(params: PrivateKeyChangedParams? = nil) throws {
         guard self.enableRatchet else {
             throw EThreeRatchetError.ratchetIsDisabled
         }
+
+        // FIXME: Add PrivateKeyWrapperToRatchet
+        let keyPair = try self.keyWrapper.getKeyPair()
 
         if let params = params {
             let chat = try self.setupSecureChat(keyPair: keyPair, card: params.card)

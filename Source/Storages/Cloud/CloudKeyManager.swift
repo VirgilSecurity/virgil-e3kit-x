@@ -43,13 +43,18 @@ internal class CloudKeyManager {
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
     private let keyknoxManager: KeyknoxManager
+    private let keyWrapper: PrivateKeyWrapper
 
     internal let accessTokenProvider: AccessTokenProvider
 
-    internal init(identity: String, crypto: VirgilCrypto, accessTokenProvider: AccessTokenProvider) throws {
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  accessTokenProvider: AccessTokenProvider,
+                  keyWrapper: PrivateKeyWrapper) throws {
         self.identity = identity
         self.crypto = crypto
         self.accessTokenProvider = accessTokenProvider
+        self.keyWrapper = keyWrapper
 
         let connection = EThree.getConnection()
 
@@ -58,7 +63,7 @@ internal class CloudKeyManager {
                                           connection: connection,
                                           retryConfig: ExpBackoffRetry.Config())
 
-        self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
+        self.keyknoxManager = KeyknoxManager(keyknoxClient: keyknoxClient, crypto: crypto)
 
         let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,
                                         serviceUrl: PythiaClient.defaultURL,
@@ -88,7 +93,9 @@ internal class CloudKeyManager {
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, usingPassword password: String) throws {
+    internal func store(usingPassword password: String) throws {
+        let key = try self.keyWrapper.getPrivateKey()
+
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)

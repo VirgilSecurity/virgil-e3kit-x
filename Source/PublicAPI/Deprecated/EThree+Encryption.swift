@@ -80,7 +80,7 @@ extension EThree {
     @available(*, deprecated, message: "Use authDecrypt method instead.")
     @objc
     open func decrypt(_ stream: InputStream, to outputStream: OutputStream) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         try self.crypto.decrypt(stream, to: outputStream, with: selfKeyPair.privateKey)
     }
@@ -335,7 +335,7 @@ extension EThree {
     internal func oldEncryptInternal(_ stream: InputStream,
                                      to outputStream: OutputStream,
                                      for publicKeys: [VirgilPublicKey]?) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
 
@@ -352,7 +352,7 @@ extension EThree {
 
     @available(*, deprecated)
     internal func oldEncryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
 
@@ -371,7 +371,7 @@ extension EThree {
 
     @available(*, deprecated)
     internal func oldDecryptInternal(data: Data, from publicKey: VirgilPublicKey?) throws -> Data {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         let publicKey = publicKey ?? selfKeyPair.publicKey
 

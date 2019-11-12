@@ -42,7 +42,7 @@ internal class FileTempKeysStorage {
 
     private let crypto: VirgilCrypto
     private let fileSystem: FileSystem
-    private let identityKeyPair: VirgilKeyPair
+    private let keyWrapper: PrivateKeyWrapper
 
     private let defaultName: String = "default"
 
@@ -56,10 +56,10 @@ internal class FileTempKeysStorage {
         case `public`
     }
 
-    internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
+    internal init(identity: String, crypto: VirgilCrypto, keyWrapper: PrivateKeyWrapper) throws {
         self.identity = identity
         self.crypto = crypto
-        self.identityKeyPair = identityKeyPair
+        self.keyWrapper = keyWrapper
 
         self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,
@@ -70,9 +70,9 @@ internal class FileTempKeysStorage {
         var data = key
 
         if type == .private {
-            data = try self.crypto.authEncrypt(data,
-                                               with: self.identityKeyPair.privateKey,
-                                               for: [self.identityKeyPair.publicKey])
+            let keyPair = try self.keyWrapper.getKeyPair()
+
+            data = try self.crypto.authEncrypt(data, with: keyPair.privateKey, for: [keyPair.publicKey])
         }
 
         let temporaryKey = TempKey(key: data, type: type)
@@ -84,9 +84,11 @@ internal class FileTempKeysStorage {
         var tempKey = try JSONDecoder().decode(TempKey.self, from: data)
 
         if tempKey.type == .private {
+            let keyPair = try self.keyWrapper.getKeyPair()
+
             tempKey.key = try self.crypto.authDecrypt(tempKey.key,
-                                                      with: self.identityKeyPair.privateKey,
-                                                      usingOneOf: [self.identityKeyPair.publicKey])
+                                                      with: keyPair.privateKey,
+                                                      usingOneOf: [keyPair.publicKey])
         }
 
         return tempKey

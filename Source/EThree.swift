@@ -66,6 +66,10 @@ import VirgilSDKRatchet
         return self.lookupManager.changedKeyDelegate
     }
 
+    internal var keyWrapper: PrivateKeyWrapper {
+        return self.localKeyStorage.keyWrapper
+    }
+
     internal let enableRatchet: Bool
     internal let keyRotationInterval: TimeInterval
 
@@ -141,24 +145,26 @@ import VirgilSDKRatchet
 
         let cardManager = CardManager(params: params)
 
-        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
-        let keychainStorage = KeychainStorage(storageParams: storageParams)
-
-        let localKeyStorage = LocalKeyStorage(identity: identity,
-                                              crypto: crypto,
-                                              keychainStorage: keychainStorage)
+        // TODO: Add passing biometric protection
+        let keyStorageParams = try LocalKeyStorageParams(identity: identity,
+                                                         crypto: crypto,
+                                                         storageParams: storageParams)
+        let localKeyStorage = try LocalKeyStorage(params: keyStorageParams)
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,
-                                                  accessTokenProvider: accessTokenProvider)
+                                                  accessTokenProvider: accessTokenProvider,
+                                                  keyWrapper: localKeyStorage.keyWrapper)
 
         let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
         let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
                                           cardManager: cardManager,
                                           changedKeyDelegate: changedKeyDelegate)
 
-        let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
-                                                          localKeyStorage: localKeyStorage)
+        let cloudRatchetStorage = try CloudRatchetStorage(identity: identity,
+                                                          crypto: crypto,
+                                                          accessTokenProvider: accessTokenProvider,
+                                                          keyWrapper: localKeyStorage.keyWrapper)
 
         try self.init(identity: identity,
                       cardManager: cardManager,

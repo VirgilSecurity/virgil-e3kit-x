@@ -65,10 +65,10 @@ internal class FileGroupStorage {
     private let groupInfoName = "GROUP-INFO"
     private let ticketsSubdir = "TICKETS"
 
-    internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
+    internal init(identity: String, crypto: VirgilCrypto, keyWrapper: PrivateKeyWrapper) throws {
         self.identity = identity
 
-        let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
+        let credentials = FileSystemCredentials(crypto: crypto, privateKeyWrapper: keyWrapper)
         self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,
                                      pathComponents: ["GROUPS"],

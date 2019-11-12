@@ -119,7 +119,7 @@ extension EThree {
                                   streamSize: Int,
                                   to outputStream: OutputStream,
                                   for publicKeys: [VirgilPublicKey]?) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
 
@@ -141,7 +141,7 @@ extension EThree {
     internal func decryptInternal(_ stream: InputStream,
                                   to outputStream: OutputStream,
                                   from publicKey: VirgilPublicKey?) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfKeyPair = try self.keyWrapper.getKeyPair()
 
         let publicKey = publicKey ?? selfKeyPair.publicKey
 

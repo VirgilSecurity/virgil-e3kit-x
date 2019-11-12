@@ -41,17 +41,18 @@ import VirgilCryptoFoundation
 internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
 
+    private let identity: String
     private let accessTokenProvider: AccessTokenProvider
-    private let localKeyStorage: LocalKeyStorage
+    private let keyWrapper: PrivateKeyWrapper
     private let keyknoxManager: KeyknoxManager
 
-    private var identity: String {
-        return self.localKeyStorage.identity
-    }
-
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  accessTokenProvider: AccessTokenProvider,
+                  keyWrapper: PrivateKeyWrapper) throws {
+        self.identity = identity
         self.accessTokenProvider = accessTokenProvider
-        self.localKeyStorage = localKeyStorage
+        self.keyWrapper = keyWrapper
 
         let connection = EThree.getConnection()
 
@@ -60,13 +61,13 @@ internal class CloudTicketStorage {
                                           connection: connection,
                                           retryConfig: ExpBackoffRetry.Config())
 
-        self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
+        self.keyknoxManager = KeyknoxManager(keyknoxClient: keyknoxClient, crypto: crypto)
     }
 }
 
 extension CloudTicketStorage {
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfPublicKey = try keyWrapper.getPublicKey()
 
         let groupMessage = ticket.groupMessage
 
@@ -86,8 +87,8 @@ extension CloudTicketStorage {
             .pushValue(params: params,
                        data: ticketData,
                        previousHash: nil,
-                       publicKeys: publicKeys + [selfKeyPair.publicKey],
-                       privateKey: selfKeyPair.privateKey)
+                       publicKeys: publicKeys + [selfPublicKey],
+                       privateKeyWrapper: self.keyWrapper)
             .startSync()
             .get()
     }
@@ -108,8 +109,6 @@ extension CloudTicketStorage {
                            identity: String,
                            identityPublicKey: VirgilPublicKey,
                            epochs: Set<String>) throws -> [Ticket] {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
-
         let sessionId = sessionId.hexEncodedString()
 
         var tickets: [Ticket] = []
@@ -121,7 +120,7 @@ extension CloudTicketStorage {
             let response = try self.keyknoxManager
                 .pullValue(params: params,
                            publicKeys: [identityPublicKey],
-                           privateKey: selfKeyPair.privateKey)
+                           privateKeyWrapper: self.keyWrapper)
                 .startSync()
                 .get()
 
@@ -136,7 +135,7 @@ extension CloudTicketStorage {
     }
 
     internal func addRecipients(_ cards: [Card], sessionId: Data) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfPublicKey = try self.keyWrapper.getPublicKey()
 
         let sessionId = sessionId.hexEncodedString()
 
@@ -158,8 +157,8 @@ extension CloudTicketStorage {
                                                key: epoch)
             let response = try self.keyknoxManager
                 .pullValue(params: pullParams,
-                           publicKeys: [selfKeyPair.publicKey],
-                           privateKey: selfKeyPair.privateKey)
+                           publicKeys: [selfPublicKey], // FIXME: Disccuss biometric load only on use
+                           privateKeyWrapper: self.keyWrapper)
                 .startSync()
                 .get()
 
@@ -171,8 +170,8 @@ extension CloudTicketStorage {
             _ = try self.keyknoxManager.pushValue(params: pushParams,
                                                   data: response.value,
                                                   previousHash: response.keyknoxHash,
-                                                  publicKeys: publicKeys + [selfKeyPair.publicKey],
-                                                  privateKey: selfKeyPair.privateKey)
+                                                  publicKeys: publicKeys + [selfPublicKey],
+                                                  privateKeyWrapper: self.keyWrapper)
 
                 .startSync()
                 .get()
@@ -180,7 +179,7 @@ extension CloudTicketStorage {
     }
 
     internal func reAddRecipient(_ card: Card, sessionId: Data) throws {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfPublicKey = try keyWrapper.getPublicKey()
 
         let path = sessionId.hexEncodedString()
 
@@ -199,8 +198,8 @@ extension CloudTicketStorage {
                                                key: epoch)
             let response = try self.keyknoxManager
                 .pullValue(params: pullParams,
-                           publicKeys: [selfKeyPair.publicKey],
-                           privateKey: selfKeyPair.privateKey)
+                           publicKeys: [selfPublicKey],
+                           privateKeyWrapper: self.keyWrapper)
                 .startSync()
                 .get()
 
@@ -214,8 +213,8 @@ extension CloudTicketStorage {
             _ = try self.keyknoxManager.pushValue(params: pushParams,
                                                   data: response.value,
                                                   previousHash: response.keyknoxHash,
-                                                  publicKeys: [card.publicKey, selfKeyPair.publicKey],
-                                                  privateKey: selfKeyPair.privateKey)
+                                                  publicKeys: [card.publicKey, selfPublicKey],
+                                                  privateKeyWrapper: self.keyWrapper)
                 .startSync()
                 .get()
         }

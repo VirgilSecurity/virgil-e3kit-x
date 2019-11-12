@@ -40,25 +40,21 @@ import VirgilCrypto
 internal class TempChannelManager {
     internal let localStorage: FileTempKeysStorage
 
+    private let identity: String
     private let crypto: VirgilCrypto
     private let cloudStorage: CloudTempKeysStorage
-    private let localKeyStorage: LocalKeyStorage
+    private let keyWrapper: PrivateKeyWrapper
     private let lookupManager: LookupManager
 
-    private var identity: String {
-        return self.localKeyStorage.identity
-    }
-
-    internal init(crypto: VirgilCrypto,
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
                   accessTokenProvider: AccessTokenProvider,
-                  localKeyStorage: LocalKeyStorage,
-                  lookupManager: LookupManager,
-                  keyPair: VirgilKeyPair) throws {
+                  keyWrapper: PrivateKeyWrapper,
+                  lookupManager: LookupManager) throws {
+        self.identity = identity
         self.crypto = crypto
-        self.localKeyStorage = localKeyStorage
+        self.keyWrapper = keyWrapper
         self.lookupManager = lookupManager
-
-        let identity = localKeyStorage.identity
 
         self.cloudStorage = CloudTempKeysStorage(identity: identity,
                                                  accessTokenProvider: accessTokenProvider,
@@ -66,13 +62,13 @@ internal class TempChannelManager {
 
         self.localStorage = try FileTempKeysStorage(identity: identity,
                                                     crypto: crypto,
-                                                    identityKeyPair: keyPair)
+                                                    keyWrapper: keyWrapper)
     }
 }
 
 extension TempChannelManager {
     internal func create(with identity: String) throws -> TemporaryChannel {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfPrivateKey = try self.keyWrapper.getPrivateKey()
 
         let tempKeyPair = try self.crypto.generateKeyPair()
 
@@ -84,7 +80,7 @@ extension TempChannelManager {
 
         let tempChannel = TemporaryChannel(participant: identity,
                                            participantPublicKey: tempKeyPair.publicKey,
-                                           selfPrivateKey: selfKeyPair.privateKey,
+                                           selfPrivateKey: selfPrivateKey,
                                            crypto: self.crypto)
 
         try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
@@ -93,7 +89,7 @@ extension TempChannelManager {
     }
 
     internal func loadFromCloud(asCreator: Bool, with identity: String) throws -> TemporaryChannel {
-        let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
+        let selfPrivateKey = try self.keyWrapper.getPrivateKey()
 
         let publicKey: VirgilPublicKey
         let privateKey: VirgilPrivateKey
@@ -103,7 +99,7 @@ extension TempChannelManager {
             try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
 
             publicKey = tempKeyPair.publicKey
-            privateKey = selfKeyPair.privateKey
+            privateKey = selfPrivateKey
         } else {
             let card = try self.lookupManager.lookupCard(of: identity)
 
@@ -133,7 +129,7 @@ extension TempChannelManager {
             privateKey = try self.crypto.importPrivateKey(from: tempKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
         case .public:               // User is creator of channel
-            privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
+            privateKey = try self.keyWrapper.getPrivateKey()
             publicKey = try self.crypto.importPublicKey(from: tempKey.key)
         }
 
