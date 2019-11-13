@@ -147,11 +147,8 @@ extension EThree {
             throw EThreeRatchetError.ratchetIsDisabled
         }
 
-        // FIXME: Add PrivateKeyWrapperToRatchet
-        let keyPair = try self.keyWrapper.getKeyPair()
-
         if let params = params {
-            let chat = try self.setupSecureChat(keyPair: keyPair, card: params.card)
+            let chat = try self.setupSecureChat(card: params.card)
 
             if params.isNew {
                 do {
@@ -172,15 +169,15 @@ extension EThree {
                 throw EThreeRatchetError.noSelfCardLocally
             }
 
-            let chat = try self.setupSecureChat(keyPair: keyPair, card: card)
+            let chat = try self.setupSecureChat(card: card)
 
             try self.scheduleKeysRotation(with: chat, startFromNow: true)
         }
     }
 
-    private func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws -> SecureChat {
+    private func setupSecureChat(card: Card) throws -> SecureChat {
         let context = SecureChatContext(identityCard: card,
-                                        identityPrivateKey: keyPair.privateKey,
+                                        identityPrivateKey: self.keyWrapper,
                                         accessTokenProvider: self.accessTokenProvider)
 
         let chat = try SecureChat(context: context)
