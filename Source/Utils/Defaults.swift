@@ -42,4 +42,8 @@ import Foundation
     @objc public static let enableRatchet: Bool = false
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public static let keyRotationInterval: TimeInterval = 3_600
+
+#if os(iOS)
+    @objc public static let biometricProtection: Bool = false
+#endif
 }

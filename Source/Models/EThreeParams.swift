@@ -43,6 +43,7 @@ import VirgilSDK
     @objc public let identity: String
     /// Callback to get Virgil access token
     @objc public let tokenCallback: EThree.RenewJwtCallback
+
     /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
     @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
     /// `KeychainStorageParams` with specific parameters
@@ -52,44 +53,10 @@ import VirgilSDK
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
-    private struct Config: Decodable {
-        var enableRatchet: Bool = Defaults.enableRatchet
-        var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
-
-        enum CodingKeys: String, CodingKey {
-            case enableRatchet
-            case keyRotationInterval
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            if let enableRatchet = try? container.decode(Bool.self, forKey: .enableRatchet) {
-                self.enableRatchet = enableRatchet
-            }
-
-            if let keyRotationInterval = try? container.decode(TimeInterval.self, forKey: .keyRotationInterval) {
-                self.keyRotationInterval = keyRotationInterval
-            }
-        }
-
-        static func deserialize(from url: URL) throws -> Config {
-            guard let dictionary = NSDictionary(contentsOf: url),
-                let keys = dictionary.allKeys as? [String]  else {
-                    throw EThreeParamsError.invalidPlistFile
-            }
-
-            try keys.forEach {
-                guard CodingKeys(rawValue: $0) != nil else {
-                    throw EThreeParamsError.unknownKeyInConfig
-                }
-            }
-
-            let data = try Data(contentsOf: url)
-
-            return try PropertyListDecoder().decode(Config.self, from: data)
-        }
-    }
+    #if os(iOS)
+        /// Will use biometric or passcode protection of key if true
+        @objc public var biometricProtection: Bool = Defaults.biometricProtection
+    #endif
 
     /// Initializer with parameters from config plist file
     ///
@@ -120,5 +87,61 @@ import VirgilSDK
         self.tokenCallback = tokenCallback
 
         super.init()
+    }
+}
+
+extension EThreeParams {
+    private struct Config: Decodable {
+        var enableRatchet: Bool = Defaults.enableRatchet
+        var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
+
+    #if os(iOS)
+        var biometricProtection: Bool = Defaults.biometricProtection
+    #endif
+
+
+        enum CodingKeys: String, CodingKey {
+            case enableRatchet
+            case keyRotationInterval
+
+        #if os(iOS)
+            case biometricProtection
+        #endif
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            if let enableRatchet = try? container.decode(Bool.self, forKey: .enableRatchet) {
+                self.enableRatchet = enableRatchet
+            }
+
+            if let keyRotationInterval = try? container.decode(TimeInterval.self, forKey: .keyRotationInterval) {
+                self.keyRotationInterval = keyRotationInterval
+            }
+
+        #if os(iOS)
+            if let biometricProtection = try? container.decode(Bool.self, forKey: .biometricProtection) {
+                self.biometricProtection = biometricProtection
+            }
+        #endif
+        }
+
+        static func deserialize(from url: URL) throws -> Config {
+            guard let dictionary = NSDictionary(contentsOf: url),
+                let keys = dictionary.allKeys as? [String]  else {
+                    throw EThreeParamsError.invalidPlistFile
+            }
+
+            try keys.forEach {
+                guard CodingKeys(rawValue: $0) != nil else {
+                    throw EThreeParamsError.unknownKeyInConfig
+                }
+            }
+
+            let data = try Data(contentsOf: url)
+
+            return try PropertyListDecoder().decode(Config.self, from: data)
+        }
     }
 }

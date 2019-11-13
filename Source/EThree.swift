@@ -87,13 +87,60 @@ import VirgilSDKRatchet
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
     @objc public convenience init(params: EThreeParams) throws {
+    #if os(iOS)
+        try self.init(identity: params.identity,
+                      tokenCallback: params.tokenCallback,
+                      biometricProtection: params.biometricProtection,
+                      changedKeyDelegate: params.changedKeyDelegate,
+                      storageParams: params.storageParams,
+                      enableRatchet: params.enableRatchet,
+                      keyRotationInterval: params.keyRotationInterval)
+    #else
         try self.init(identity: params.identity,
                       tokenCallback: params.tokenCallback,
                       changedKeyDelegate: params.changedKeyDelegate,
                       storageParams: params.storageParams,
                       enableRatchet: params.enableRatchet,
                       keyRotationInterval: params.keyRotationInterval)
+    #endif
     }
+
+#if os(iOS)
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  biometricProtection: Bool,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil,
+                                  enableRatchet: Bool = Defaults.enableRatchet,
+                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
+        let crypto = try VirgilCrypto()
+        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+
+        let params = try LocalKeyStorageParams(identity: identity,
+                                               crypto: crypto,
+                                               storageParams: storageParams)
+        params.biometricProtection = biometricProtection
+
+        let localKeyStorage = try LocalKeyStorage(params: params)
+
+        try self.init(identity: identity,
+                      crypto: crypto,
+                      accessTokenProvider: accessTokenProvider,
+                      changedKeyDelegate: changedKeyDelegate,
+                      localKeyStorage: localKeyStorage,
+                      enableRatchet: enableRatchet,
+                      keyRotationInterval: keyRotationInterval)
+    }
+#endif
 
     /// Initializer
     ///
@@ -110,24 +157,30 @@ import VirgilSDKRatchet
                                   storageParams: KeychainStorageParams? = nil,
                                   enableRatchet: Bool = Defaults.enableRatchet,
                                   keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
+        let crypto = try VirgilCrypto()
         let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
 
+        let keyStorageParams = try LocalKeyStorageParams(identity: identity,
+                                                         crypto: crypto,
+                                                         storageParams: storageParams)
+        let localKeyStorage = try LocalKeyStorage(params: keyStorageParams)
+
         try self.init(identity: identity,
+                      crypto: crypto,
                       accessTokenProvider: accessTokenProvider,
                       changedKeyDelegate: changedKeyDelegate,
-                      storageParams: storageParams,
+                      localKeyStorage: localKeyStorage,
                       enableRatchet: enableRatchet,
                       keyRotationInterval: keyRotationInterval)
     }
 
     internal convenience init(identity: String,
+                              crypto: VirgilCrypto,
                               accessTokenProvider: AccessTokenProvider,
                               changedKeyDelegate: ChangedKeyDelegate?,
-                              storageParams: KeychainStorageParams?,
+                              localKeyStorage: LocalKeyStorage,
                               enableRatchet: Bool,
                               keyRotationInterval: TimeInterval) throws {
-        let crypto = try VirgilCrypto()
-
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed
         }
@@ -144,12 +197,6 @@ import VirgilSDKRatchet
         params.cardClient = client
 
         let cardManager = CardManager(params: params)
-
-        // TODO: Add passing biometric protection
-        let keyStorageParams = try LocalKeyStorageParams(identity: identity,
-                                                         crypto: crypto,
-                                                         storageParams: storageParams)
-        let localKeyStorage = try LocalKeyStorage(params: keyStorageParams)
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,

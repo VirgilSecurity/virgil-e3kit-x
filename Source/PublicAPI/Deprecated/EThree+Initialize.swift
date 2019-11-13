@@ -35,6 +35,7 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 // MARK: - Extension with deprecated initialize methods
 public extension EThree {
@@ -60,10 +61,18 @@ public extension EThree {
 
                 let token = try getTokenOperation.startSync().get()
 
+                let crypto = try VirgilCrypto()
+                let params = try LocalKeyStorageParams(identity: token.identity(),
+                                                       crypto: crypto,
+                                                       storageParams: storageParams)
+
+                let localKeyStorage = try LocalKeyStorage(params: params)
+
                 let ethree = try EThree(identity: token.identity(),
+                                        crypto: crypto,
                                         accessTokenProvider: accessTokenProvider,
                                         changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams,
+                                        localKeyStorage: localKeyStorage,
                                         enableRatchet: Defaults.enableRatchet,
                                         keyRotationInterval: Defaults.keyRotationInterval)
 
