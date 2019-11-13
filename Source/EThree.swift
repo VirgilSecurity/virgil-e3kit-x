@@ -86,142 +86,93 @@ import VirgilSDKRatchet
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
+    /// Initializer
+    ///
+    /// - Parameters:
+    ///   - identity: User identity
+    ///   - tokenCallback: callback to get Virgil access token
+    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
+    ///   - storageParams: `KeychainStorageParams` with specific parameters
+    /// - Throws: corresponding error
+    /// - Important: identity should be the same as in JWT generated at server side
+    @objc public convenience init(identity: String,
+                                  tokenCallback: @escaping RenewJwtCallback,
+                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
+                                  storageParams: KeychainStorageParams? = nil,
+                                  enableRatchet: Bool = Defaults.enableRatchet,
+                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
+
+        let params = EThreeParams(identity: identity, tokenCallback: tokenCallback)
+
+        params.changedKeyDelegate = changedKeyDelegate
+        params.storageParams = storageParams
+        params.enableRatchet = enableRatchet
+        params.keyRotationInterval = keyRotationInterval
+
+        try self.init(params: params)
+    }
+
+    /// Initializer
+    /// - Parameter params: `EThreeParams` with parameters
     @objc public convenience init(params: EThreeParams) throws {
+        let crypto = try VirgilCrypto()
+        let accessTokenProvider = CachingJwtProvider { params.tokenCallback($1) }
+
+        let keyStrorageParams = try LocalKeyStorageParams(identity: params.identity,
+                                                          crypto: crypto,
+                                                          storageParams: params.storageParams)
     #if os(iOS)
-        try self.init(identity: params.identity,
-                      tokenCallback: params.tokenCallback,
-                      biometricProtection: params.biometricProtection,
-                      changedKeyDelegate: params.changedKeyDelegate,
-                      storageParams: params.storageParams,
-                      enableRatchet: params.enableRatchet,
-                      keyRotationInterval: params.keyRotationInterval)
-    #else
-        try self.init(identity: params.identity,
-                      tokenCallback: params.tokenCallback,
-                      changedKeyDelegate: params.changedKeyDelegate,
-                      storageParams: params.storageParams,
-                      enableRatchet: params.enableRatchet,
-                      keyRotationInterval: params.keyRotationInterval)
+        keyStrorageParams.biometricProtection = params.biometricProtection
+        keyStrorageParams.accessTime = params.keyCacheLifeTime
+        keyStrorageParams.cleanOnEnterBackground = params.cleanKeyCacheOnEnterBackground
+        keyStrorageParams.requestOnEnterForeground = params.requestKeyOnEnterForeground
+        keyStrorageParams.enterForegroundErrorCallback = params.enterForegroundErrorCallback
     #endif
-    }
 
-#if os(iOS)
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: User identity
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    /// - Throws: corresponding error
-    /// - Important: identity should be the same as in JWT generated at server side
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping RenewJwtCallback,
-                                  biometricProtection: Bool,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil,
-                                  enableRatchet: Bool = Defaults.enableRatchet,
-                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
-        let crypto = try VirgilCrypto()
-        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
+        let localKeyStorage = try LocalKeyStorage(params: keyStrorageParams)
 
-        let params = try LocalKeyStorageParams(identity: identity,
-                                               crypto: crypto,
-                                               storageParams: storageParams)
-        params.biometricProtection = biometricProtection
-
-        let localKeyStorage = try LocalKeyStorage(params: params)
-
-        try self.init(identity: identity,
-                      crypto: crypto,
-                      accessTokenProvider: accessTokenProvider,
-                      changedKeyDelegate: changedKeyDelegate,
-                      localKeyStorage: localKeyStorage,
-                      enableRatchet: enableRatchet,
-                      keyRotationInterval: keyRotationInterval)
-    }
-#endif
-
-    /// Initializer
-    ///
-    /// - Parameters:
-    ///   - identity: User identity
-    ///   - tokenCallback: callback to get Virgil access token
-    ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
-    ///   - storageParams: `KeychainStorageParams` with specific parameters
-    /// - Throws: corresponding error
-    /// - Important: identity should be the same as in JWT generated at server side
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil,
-                                  enableRatchet: Bool = Defaults.enableRatchet,
-                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
-        let crypto = try VirgilCrypto()
-        let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
-
-        let keyStorageParams = try LocalKeyStorageParams(identity: identity,
-                                                         crypto: crypto,
-                                                         storageParams: storageParams)
-        let localKeyStorage = try LocalKeyStorage(params: keyStorageParams)
-
-        try self.init(identity: identity,
-                      crypto: crypto,
-                      accessTokenProvider: accessTokenProvider,
-                      changedKeyDelegate: changedKeyDelegate,
-                      localKeyStorage: localKeyStorage,
-                      enableRatchet: enableRatchet,
-                      keyRotationInterval: keyRotationInterval)
-    }
-
-    internal convenience init(identity: String,
-                              crypto: VirgilCrypto,
-                              accessTokenProvider: AccessTokenProvider,
-                              changedKeyDelegate: ChangedKeyDelegate?,
-                              localKeyStorage: LocalKeyStorage,
-                              enableRatchet: Bool,
-                              keyRotationInterval: TimeInterval) throws {
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed
         }
-
-        let params = CardManagerParams(crypto: crypto,
-                                       accessTokenProvider: accessTokenProvider,
-                                       cardVerifier: verifier)
 
         let client = CardClient(accessTokenProvider: accessTokenProvider,
                                 serviceUrl: CardClient.defaultURL,
                                 connection: EThree.getConnection(),
                                 retryConfig: ExpBackoffRetry.Config())
 
-        params.cardClient = client
+        let managerParams = CardManagerParams(crypto: crypto,
+                                              accessTokenProvider: accessTokenProvider,
+                                              cardVerifier: verifier)
+        managerParams.cardClient = client
 
-        let cardManager = CardManager(params: params)
+        let cardManager = CardManager(params: managerParams)
 
-        let cloudKeyManager = try CloudKeyManager(identity: identity,
+        let cloudKeyManager = try CloudKeyManager(identity: params.identity,
                                                   crypto: crypto,
                                                   accessTokenProvider: accessTokenProvider,
                                                   keyWrapper: localKeyStorage.keyWrapper)
 
-        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
+        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: params.identity,
+                                                      crypto: crypto,
+                                                      verifier: verifier)
         let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
                                           cardManager: cardManager,
-                                          changedKeyDelegate: changedKeyDelegate)
+                                          changedKeyDelegate: params.changedKeyDelegate)
 
-        let cloudRatchetStorage = try CloudRatchetStorage(identity: identity,
+        let cloudRatchetStorage = try CloudRatchetStorage(identity: params.identity,
                                                           crypto: crypto,
                                                           accessTokenProvider: accessTokenProvider,
                                                           keyWrapper: localKeyStorage.keyWrapper)
 
-        try self.init(identity: identity,
+        try self.init(identity: params.identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
                       localKeyStorage: localKeyStorage,
                       cloudKeyManager: cloudKeyManager,
                       lookupManager: lookupManager,
                       cloudRatchetStorage: cloudRatchetStorage,
-                      enableRatchet: enableRatchet,
-                      keyRotationInterval: keyRotationInterval)
+                      enableRatchet: params.enableRatchet,
+                      keyRotationInterval: params.keyRotationInterval)
     }
 
     internal init(identity: String,

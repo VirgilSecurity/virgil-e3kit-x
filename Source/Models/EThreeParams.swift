@@ -53,10 +53,18 @@ import VirgilSDK
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
-    #if os(iOS)
-        /// Will use biometric or passcode protection of key if true
-        @objc public var biometricProtection: Bool = Defaults.biometricProtection
-    #endif
+#if os(iOS)
+    /// Will use biometric or passcode protection of key if true
+    @objc public var biometricProtection: Bool = Defaults.biometricProtection
+    /// Access time during which key is cached in RAM. If nil, key won't be cleaned from RAM using timer. Default - nil
+    public var keyCacheLifeTime: TimeInterval?
+    /// Cleans private key from RAM on entering background. Default - false
+    @objc public var cleanKeyCacheOnEnterBackground: Bool = Defaults.cleanKeyCacheOnEnterBackground
+    /// Requests private key on entering foreground. Default - false
+    @objc public var requestKeyOnEnterForeground: Bool = Defaults.requestKeyOnEnterForeground
+    /// Error callback for errors during entering foreground. Default - nil
+    @objc public var enterForegroundErrorCallback: ProtectedKeyOptions.ErrorCallback? = nil
+#endif
 
     /// Initializer with parameters from config plist file
     ///
@@ -74,6 +82,13 @@ import VirgilSDK
 
         self.enableRatchet = config.enableRatchet
         self.keyRotationInterval = config.keyRotationInterval
+
+    #if os(iOS)
+        self.biometricProtection = config.biometricProtection
+        self.keyCacheLifeTime = config.keyCacheLifeTime
+        self.cleanKeyCacheOnEnterBackground = config.requestKeyOnEnterForeground
+        self.requestKeyOnEnterForeground = config.requestKeyOnEnterForeground
+    #endif
     }
 
     /// Initializer
@@ -90,15 +105,17 @@ import VirgilSDK
     }
 }
 
-extension EThreeParams {
-    private struct Config: Decodable {
+private extension EThreeParams {
+    struct Config: Decodable {
         var enableRatchet: Bool = Defaults.enableRatchet
         var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
     #if os(iOS)
         var biometricProtection: Bool = Defaults.biometricProtection
+        var keyCacheLifeTime: TimeInterval?
+        var cleanKeyCacheOnEnterBackground: Bool = Defaults.cleanKeyCacheOnEnterBackground
+        var requestKeyOnEnterForeground: Bool = Defaults.requestKeyOnEnterForeground
     #endif
-
 
         enum CodingKeys: String, CodingKey {
             case enableRatchet
@@ -106,23 +123,40 @@ extension EThreeParams {
 
         #if os(iOS)
             case biometricProtection
+            case keyCacheLifeTime
+            case cleanKeyCacheOnEnterBackground
+            case requestKeyOnEnterForeground
         #endif
         }
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
-            if let enableRatchet = try? container.decode(Bool.self, forKey: .enableRatchet) {
+            if let enableRatchet = try container.decodeIfPresent(Bool.self, forKey: .enableRatchet) {
                 self.enableRatchet = enableRatchet
             }
 
-            if let keyRotationInterval = try? container.decode(TimeInterval.self, forKey: .keyRotationInterval) {
-                self.keyRotationInterval = keyRotationInterval
+            if let rotationInterval = try container.decodeIfPresent(TimeInterval.self, forKey: .keyRotationInterval) {
+                self.keyRotationInterval = rotationInterval
             }
 
         #if os(iOS)
-            if let biometricProtection = try? container.decode(Bool.self, forKey: .biometricProtection) {
+            if let biometricProtection = try container.decodeIfPresent(Bool.self, forKey: .biometricProtection) {
                 self.biometricProtection = biometricProtection
+            }
+
+            if let keyCacheLifeTime = try container.decodeIfPresent(TimeInterval.self, forKey: .keyCacheLifeTime) {
+                self.keyCacheLifeTime = keyCacheLifeTime
+            }
+
+            if let cleanOnEnterBackground = try container.decodeIfPresent(Bool.self,
+                                                                          forKey: .cleanKeyCacheOnEnterBackground) {
+                self.cleanKeyCacheOnEnterBackground = cleanOnEnterBackground
+            }
+
+            if let requestOnEnterForeground = try container.decodeIfPresent(Bool.self,
+                                                                            forKey: .requestKeyOnEnterForeground) {
+                self.requestKeyOnEnterForeground = requestOnEnterForeground
             }
         #endif
         }

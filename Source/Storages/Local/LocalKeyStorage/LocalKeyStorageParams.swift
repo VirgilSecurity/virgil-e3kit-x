@@ -34,21 +34,39 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
+import VirgilCrypto
 
-/// Class containing all default values
-@objc(VTEDefaults) public class Defaults: NSObject {
-    /// Enables ratchet operations
-    @objc public static let enableRatchet: Bool = false
-    /// TimeInterval of automatic rotate keys for double ratchet
-    @objc public static let keyRotationInterval: TimeInterval = 3_600
+internal class LocalKeyStorageParams {
+    internal let identity: String
+    internal let crypto: VirgilCrypto
+    internal let keychain: KeychainStorage
+    internal let options: KeychainQueryOptions
 
 #if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public static let biometricProtection: Bool = false
+    internal var biometricProtection: Bool = Defaults.biometricProtection {
+        didSet {
+            self.options.biometricallyProtected = biometricProtection
+        }
+    }
+
+    /// Access time during which key is cached in RAM. If nil, key won't be cleaned from RAM using timer. Default - nil
+    internal var accessTime: TimeInterval?
     /// Cleans private key from RAM on entering background. Default - false
-    @objc public static let cleanKeyCacheOnEnterBackground: Bool = false
+    internal var cleanOnEnterBackground: Bool = Defaults.cleanKeyCacheOnEnterBackground
     /// Requests private key on entering foreground. Default - false
-    @objc public static let requestKeyOnEnterForeground: Bool = false
+    internal var requestOnEnterForeground: Bool = Defaults.requestKeyOnEnterForeground
+    /// Error callback for errors during entering foreground. Default - nil
+    internal var enterForegroundErrorCallback: ProtectedKeyOptions.ErrorCallback? = nil
 #endif
+
+    internal init(identity: String, crypto: VirgilCrypto, storageParams: KeychainStorageParams?) throws {
+        self.identity = identity
+        self.crypto = crypto
+
+        self.options = KeychainQueryOptions()
+
+        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        self.keychain = KeychainStorage(storageParams: storageParams)
+    }
 }

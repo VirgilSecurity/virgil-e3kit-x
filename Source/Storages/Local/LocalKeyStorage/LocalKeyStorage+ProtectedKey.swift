@@ -34,21 +34,20 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
-import Foundation
+import VirgilSDK
 
-/// Class containing all default values
-@objc(VTEDefaults) public class Defaults: NSObject {
-    /// Enables ratchet operations
-    @objc public static let enableRatchet: Bool = false
-    /// TimeInterval of automatic rotate keys for double ratchet
-    @objc public static let keyRotationInterval: TimeInterval = 3_600
+extension LocalKeyStorage {
+    internal class EThreeProtectedKey: ProtectedKey {
+        @objc override internal func getKeychainEntry() throws -> KeychainEntry {
+            do {
+                return try super.getKeychainEntry()
+            } catch let error as KeychainStorageError {
+                if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
+                    throw EThreeError.missingPrivateKey
+                }
 
-#if os(iOS)
-    /// Will use biometric or passcode protection of key if true
-    @objc public static let biometricProtection: Bool = false
-    /// Cleans private key from RAM on entering background. Default - false
-    @objc public static let cleanKeyCacheOnEnterBackground: Bool = false
-    /// Requests private key on entering foreground. Default - false
-    @objc public static let requestKeyOnEnterForeground: Bool = false
-#endif
+                throw error
+            }
+        }
+    }
 }

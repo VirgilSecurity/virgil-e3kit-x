@@ -61,20 +61,11 @@ public extension EThree {
 
                 let token = try getTokenOperation.startSync().get()
 
-                let crypto = try VirgilCrypto()
-                let params = try LocalKeyStorageParams(identity: token.identity(),
-                                                       crypto: crypto,
-                                                       storageParams: storageParams)
+                let params = EThreeParams(identity: token.identity(), tokenCallback: tokenCallback)
+                params.changedKeyDelegate = changedKeyDelegate
+                params.storageParams = storageParams
 
-                let localKeyStorage = try LocalKeyStorage(params: params)
-
-                let ethree = try EThree(identity: token.identity(),
-                                        crypto: crypto,
-                                        accessTokenProvider: accessTokenProvider,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        localKeyStorage: localKeyStorage,
-                                        enableRatchet: Defaults.enableRatchet,
-                                        keyRotationInterval: Defaults.keyRotationInterval)
+                let ethree = try EThree(params: params)
 
                 completion(ethree, nil)
             } catch {

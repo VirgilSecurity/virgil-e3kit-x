@@ -37,45 +37,6 @@
 import VirgilCrypto
 import VirgilSDK
 
-internal class EThreeProtectedKey: ProtectedKey {
-    @objc override internal func getKeychainEntry() throws -> KeychainEntry {
-        do {
-            return try super.getKeychainEntry()
-        } catch let error as KeychainStorageError {
-            if error.errCode == .keychainError, let osStatus = error.osStatus, osStatus == errSecItemNotFound {
-                throw EThreeError.missingPrivateKey
-            }
-
-            throw error
-        }
-    }
-}
-
-internal class LocalKeyStorageParams {
-    internal let identity: String
-    internal let crypto: VirgilCrypto
-    internal let keychain: KeychainStorage
-    internal let options: KeychainQueryOptions
-
-#if os(iOS)
-    internal var biometricProtection: Bool = false {
-        didSet {
-            self.options.biometricallyProtected = biometricProtection
-        }
-    }
-#endif
-
-    internal init(identity: String, crypto: VirgilCrypto, storageParams: KeychainStorageParams?) throws {
-        self.identity = identity
-        self.crypto = crypto
-
-        self.options = KeychainQueryOptions()
-
-        let storageParams = try storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
-        self.keychain = KeychainStorage(storageParams: storageParams)
-    }
-}
-
 internal class LocalKeyStorage {
     internal let identity: String
     internal let crypto: VirgilCrypto
@@ -93,6 +54,10 @@ internal class LocalKeyStorage {
         let options = ProtectedKeyOptions(keychainStorage: params.keychain)
     #if os(iOS)
         options.biometricallyProtected = params.biometricProtection
+        options.accessTime = params.accessTime
+        options.cleanOnEnterBackground = params.cleanOnEnterBackground
+        options.requestOnEnterForeground = params.requestOnEnterForeground
+        options.enterForegroundErrorCallback = params.enterForegroundErrorCallback
     #endif
 
         let key = try EThreeProtectedKey(keyName: self.identity, options: options)
