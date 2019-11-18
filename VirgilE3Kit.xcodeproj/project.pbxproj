@@ -24,6 +24,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		16087EFB2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16087EFA2382AAC4004AC658 /* VTE011_FlowTests.swift */; };
+		16087EFC2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16087EFA2382AAC4004AC658 /* VTE011_FlowTests.swift */; };
+		16087EFD2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16087EFA2382AAC4004AC658 /* VTE011_FlowTests.swift */; };
 		160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
@@ -526,6 +529,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		16087EFA2382AAC4004AC658 /* VTE011_FlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE011_FlowTests.swift; sourceTree = "<group>"; };
 		160BE2462331087900DD3999 /* EThreeRatchetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeRatchetError.swift; sourceTree = "<group>"; };
 		160BE966235BD081008B9D54 /* EThreeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeConfig.plist; sourceTree = "<group>"; };
 		160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Temporary.swift"; sourceTree = "<group>"; };
@@ -911,6 +915,7 @@
 				164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */,
 				16B1F8D62327A9760082ECE0 /* VTE009_RatchetTests.swift */,
 				16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */,
+				16087EFA2382AAC4004AC658 /* VTE011_FlowTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -1522,6 +1527,7 @@
 				164F4D6123509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5823267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				16087EFB2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1542,6 +1548,7 @@
 				164F4D6223509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5923267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				16087EFC2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1562,6 +1569,7 @@
 				164F4D6323509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5A23267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				16087EFD2382AAC4004AC658 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,

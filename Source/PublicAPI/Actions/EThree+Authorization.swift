@@ -39,6 +39,104 @@ import VirgilCrypto
 
 // MARK: - Extension with authorization operations
 extension EThree {
+
+    private func isBackedUp() throws -> Bool {
+        return true
+    }
+
+    private enum EThreeUnfinishedFlowError: Error {
+
+    }
+
+    private func askUserToFinishFlowOnOriginDevice(completion: @escaping (Bool) throws -> Void) throws {
+        try completion(true)
+    }
+
+    private func askUserPassword(completion: @escaping (String) throws -> Void) throws {
+        try completion("password")
+    }
+
+    open func isLoggedIn() throws -> Bool {
+        return try self.hasLocalPrivateKey() && self.isBackedUp()
+    }
+
+    open func appFlow(ethree: EThree) throws {
+        if try !ethree.isLoggedIn() {
+
+            try self.askUserPassword { password in
+                do {
+                    try ethree.authFlow(password: password)
+                }
+                catch let error as EThreeUnfinishedFlowError {
+                    Log.error(error.localizedDescription)
+
+                    try self.askUserToFinishFlowOnOriginDevice { userLostDevice in
+                        if userLostDevice {
+                            try self.rotateFlow(password: password)
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    open func authFlow(password: String) throws {
+        // 1. What if user was registered, but failed backup key - proper error on restorePrivateKey - propose rotate flow in UI
+        // 2. What if user rotated key before this flow - cleanUp before/after flow. Run flow again. Should be managed by developer.
+        // 3. What if key was rotated, but keyknox wasn't reseted - add id check on restorePrivateKey - propose rotate flow in UI
+        // 4. What if key was rotated, reseted, but not backed up - proper error on restorePrivateKey - propose rotate flow in UI
+
+        if try self.hasLocalPrivateKey() {
+            if try !self.isBackedUp() {                                         // Checks Local Key mark
+                try self.backupPrivateKey(password: password).startSync().get()
+            }
+        } else {
+            do {
+                try self.register().startSync().get()                            // Local Key marked as not backed up
+
+                try self.backupPrivateKey(password: password).startSync().get()  // Local Key marked as backed up
+
+            } catch EThreeError.userIsAlreadyRegistered {
+                try self.restorePrivateKey(password: password).startSync().get() // Local Key marked as backed up
+            }
+        }
+    }
+
+    /// Rotate flow should be used only if user confirmed he lost access to original device, private key
+    open func rotateFlow(password: String) throws {
+        try self.cleanUp()
+
+        try self.rotatePrivateKey().startSync().get()                           // Local Key marked as not backed up
+
+        try self.resetPrivateKeyBackup().startSync().get()
+
+        try self.backupPrivateKey(password: password).startSync().get()         // Local Key marked as backed up
+    }
+
+    open func proposeUserRotate() throws -> GenericOperation<Bool> {
+        return CallbackOperation { _, _ in }
+    }
+
+    open func getTokenFromServer() throws -> String {
+        return "dummy"
+    }
+
+    // TODO: fix double cards issue
+    // Make token callback throwable?
+
+
+
+
+
+
+
+
+
+
+
+
+
     /// Publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
@@ -51,6 +149,7 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
+                    // TODO: Change to findUser
                     let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard cards.isEmpty else {

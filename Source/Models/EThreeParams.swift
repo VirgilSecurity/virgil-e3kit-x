@@ -57,7 +57,7 @@ import VirgilSDK
     /// Will use biometric or passcode protection of key if true
     @objc public var biometricProtection: Bool = Defaults.biometricProtection
     /// Access time during which key is cached in RAM. If nil, key won't be cleaned from RAM using timer. Default - nil
-    public var keyCacheLifeTime: TimeInterval?
+    public var keyCacheLifeTime: TimeInterval?  
     /// Cleans private key from RAM on entering background. Default - false
     @objc public var cleanKeyCacheOnEnterBackground: Bool = Defaults.cleanKeyCacheOnEnterBackground
     /// Requests private key on entering foreground. Default - false

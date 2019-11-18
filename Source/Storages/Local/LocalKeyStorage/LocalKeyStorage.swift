@@ -79,6 +79,7 @@ internal class LocalKeyStorage {
 
     internal func delete() throws {
         try self.keychain.deleteEntry(withName: self.identity, queryOptions: self.options)
+
         self.keyWrapper.resetCache()
     }
 }

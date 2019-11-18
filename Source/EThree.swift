@@ -86,6 +86,148 @@ import VirgilSDKRatchet
 
     internal let queue = DispatchQueue(label: "EThreeQueue")
 
+    var ethree: EThree!
+
+    // TODO: init EThree instance
+
+    open func inAppUsage(password: String) throws {
+        // Derive separate passwords for login and backup from single one
+        let backupPassword = try EThree.derivePasswords(from: password).backupPassword
+
+        self.initUser(backupPassword: backupPassword).start { _, error in
+            guard error == nil else {
+                // Error handling here
+                if let error = error as? EThreeError, error == .wrongPassword {
+                    // Wrong password case
+                }
+                else {
+                    // Unknown error handling
+                }
+                return
+            }
+            // User is initialized!
+        }
+    }
+
+    /// Initializes user on current device
+    /// - Parameters:
+    ///   - identity: identity of user
+    ///   - password: user password
+    open func initUser(backupPassword: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                // Clean up local Private Key if exists
+                if try self.ethree.hasLocalPrivateKey() {
+                   try self.ethree.cleanUp()
+                }
+
+                do {
+                   let selfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true)
+                       .startSync()
+                       .get()
+
+                   // Self Card found, current user exists on Virgil Cloud
+                   try self.restoreUser(backupPassword: backupPassword, selfCard: selfCard)
+                }
+                catch FindUsersError.cardWasNotFound {
+                   // Self Card was not found, user is not registered on VirgilCloud
+                   try self.createUser(backupPassword: backupPassword)
+                }
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Registeres user on Virgil Cloud and backs up Private Key
+    /// - Parameter password: backup password
+    open func createUser(backupPassword: String) throws {
+        do {
+            try self.ethree.register().startSync().get()
+
+            try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
+        }
+        catch CloudKeyStorageError.entryAlreadyExists {
+            // For some reason Private Key backup already exists.
+            // We should reset it and back up new one
+            try self.ethree.resetPrivateKeyBackup().startSync().get()
+
+            // This sleep prevents throttling on Virgil Pythia service
+            sleep(2)
+
+            try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
+        }
+    }
+
+    /// Restores user Private Key
+    /// - Parameters:
+    ///   - password: backup password
+    ///   - selfCard: Self Card
+    open func restoreUser(backupPassword: String, selfCard: Card) throws {
+        do {
+            try self.ethree.restorePrivateKey(password: backupPassword).startSync().get()
+
+            // Checking if restored Private Key matches active Self Card
+            if try !self.isLocalKeyValid(card: selfCard) {
+               // Reset invalid backup
+               try self.ethree.resetPrivateKeyBackup().startSync().get()
+
+               // This sleep prevents throttling on Virgil Pythia service
+               sleep(2)
+
+               try self.rotateKey(backupPassword: backupPassword)
+            }
+        }
+        catch CloudKeyStorageError.entryNotFound {
+            // This sleep prevents throttling on Virgil Pythia service
+            sleep(2)
+
+            try self.rotateKey(backupPassword: backupPassword)
+        }
+    }
+
+    /// Checks if restored Private Key matches active Self Card
+    /// - Parameter card: Self Card to check
+    open func isLocalKeyValid(card: Card) throws -> Bool {
+        // Retrieve local Private Key
+        let params = try KeychainStorageParams.makeKeychainStorageParams()
+        let keychain = KeychainStorage(storageParams: params)
+        let entry = try keychain.retrieveEntry(withName: self.ethree.identity)
+        let keyPair = try self.crypto.importPrivateKey(from: entry.data)
+
+        // Check that id of Self Card Public Key matches local Private Key one
+        return card.publicKey.identifier == keyPair.identifier
+    }
+
+    /// Performs rotate operation
+    /// - Parameter password: backup password
+    open func rotateKey(backupPassword: String) throws {
+        // Clean up local Private Key if exists
+        if try self.ethree.hasLocalPrivateKey() {
+           try self.ethree.cleanUp()
+        }
+
+        try self.ethree.rotatePrivateKey().startSync().get()
+        try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
+
+        // You need to notify other contacts that they need to find this user
+        // with forceReload=true to update cached card of him
+        try self.notifyContactsAboutRotate()
+    }
+
+    // Notifies other contacts that they need to find this user
+    // with forceReload=true to update cached card of him
+    open func notifyContactsAboutRotate() throws {
+        // TODO: Fill me
+    }
+
+
+
+
+
+
     /// Initializer
     ///
     /// - Parameters:
