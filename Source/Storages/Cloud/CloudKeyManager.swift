@@ -119,15 +119,20 @@ internal class CloudKeyManager {
         do {
             let brainKeyEntry = try self.brainKeyStorage.retrieveEntry(withName: self.identity)
 
-            guard let cachedPassword = brainKeyEntry.meta?["password"] else {
-                throw NSError()
-            }
+            if let password = password {
+                guard let cachedHashStr = brainKeyEntry.meta?["password"],
+                    let cachedHash = Data(base64Encoded: cachedHashStr) else {
+                        throw NSError()
+                }
 
-            guard cachedPassword == password else {
-                try self.brainKeyStorage.deleteEntry(withName: self.identity)
-                let brainKey = try self.generateBrainKey(password: password)
+                let hash = self.crypto.computeHash(for: password.data(using: .utf8)!)
 
-                return (brainKey, false)
+                guard cachedHash == hash else {
+                    try self.brainKeyStorage.deleteEntry(withName: self.identity)
+                    let brainKey = try self.generateBrainKey(password: password)
+
+                    return (brainKey, false)
+                }
             }
 
             let brainKey = try self.crypto.importPrivateKey(from: brainKeyEntry.data)
@@ -159,7 +164,8 @@ internal class CloudKeyManager {
 
         let exportedBrainKey = try self.crypto.exportPrivateKey(brainKeyPair.privateKey)
 
-        let meta: [String: String] = ["password": password]
+        let hash = self.crypto.computeHash(for: password.data(using: .utf8)!)
+        let meta: [String: String] = ["password": hash.base64EncodedString()]
         _ = try self.brainKeyStorage.store(data: exportedBrainKey, withName: self.identity, meta: meta)
 
         return brainKeyPair
