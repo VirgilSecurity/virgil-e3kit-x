@@ -56,8 +56,6 @@
     [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
         XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
 
-        sleep(2);
-
         NSError *err;
         VSMVirgilKeyPair *keyPair = [self.crypto generateKeyPairAndReturnError:&err];
         NSData *data = [self.crypto exportPrivateKey:keyPair.privateKey error:&err];
@@ -81,8 +79,6 @@
                 VSSKeychainEntry *syncEntry = [syncKeyStorage retrieveEntryWithName:self.eThree.identity error:&err];
                 XCTAssert(err == nil && syncEntry != nil);
                 XCTAssert([syncEntry.data isEqualToData:data]);
-
-                sleep(2);
 
                 [self.eThree backupPrivateKeyWithPassword:self.password completion:^(NSError *error) {
                     XCTAssert(error != nil);
@@ -131,8 +127,6 @@
                                                                                              error:&err];
                     XCTAssert(retrievedEntry != nil && err == nil);
                     XCTAssert([retrievedEntry.data isEqualToData:data]);
-
-                    sleep(2);
 
                     [self.eThree restorePrivateKeyWithPassword:self.password completion:^(NSError *error) {
                         XCTAssert(error != nil);

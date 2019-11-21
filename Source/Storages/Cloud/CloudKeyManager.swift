@@ -119,6 +119,17 @@ internal class CloudKeyManager {
         do {
             let brainKeyEntry = try self.brainKeyStorage.retrieveEntry(withName: self.identity)
 
+            guard let cachedPassword = brainKeyEntry.meta?["password"] else {
+                throw NSError()
+            }
+
+            guard cachedPassword == password else {
+                try self.brainKeyStorage.deleteEntry(withName: self.identity)
+                let brainKey = try self.generateBrainKey(password: password)
+
+                return (brainKey, false)
+            }
+
             let brainKey = try self.crypto.importPrivateKey(from: brainKeyEntry.data)
 
             return (brainKey, true)
@@ -147,7 +158,9 @@ internal class CloudKeyManager {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
         let exportedBrainKey = try self.crypto.exportPrivateKey(brainKeyPair.privateKey)
-        _ = try self.brainKeyStorage.store(data: exportedBrainKey, withName: self.identity, meta: nil)
+
+        let meta: [String: String] = ["password": password]
+        _ = try self.brainKeyStorage.store(data: exportedBrainKey, withName: self.identity, meta: meta)
 
         return brainKeyPair
     }
