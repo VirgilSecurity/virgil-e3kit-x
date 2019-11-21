@@ -49,6 +49,7 @@ internal class LocalKeyStorage {
     }
 
     internal func retrieveKeyPair() throws -> VirgilKeyPair {
+        // FIXME
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
             let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
                 throw EThreeError.missingPrivateKey

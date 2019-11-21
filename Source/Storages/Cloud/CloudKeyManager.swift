@@ -90,6 +90,8 @@ internal class CloudKeyManager {
                 throw EThreeError.wrongPassword
             }
 
+            try self.brainKeyStorage.deleteEntry(withName: self.identity)
+
             let brainKeyPair = try self.generateBrainKey(password: password)
 
             cloudKeyStorage = try self.setUpCloudKeyStorage(brainKeyPair: brainKeyPair)
@@ -133,10 +135,13 @@ internal class CloudKeyManager {
         }
     }
 
+    internal func existsBrainKeyCache() throws -> Bool {
+        return try self.brainKeyStorage.existsEntry(withName: self.identity)
+    }
+
     internal func generateBrainKey(password: String?) throws -> VirgilKeyPair {
         guard let password = password else {
-            // NeedPasswordError
-            throw NSError()
+            throw EThreeError.needPassword
         }
 
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
@@ -157,7 +162,7 @@ extension CloudKeyManager {
         _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().get()
     }
 
-    internal func retrieve(usingPassword password: String) throws -> CloudEntry {
+    internal func retrieve(usingPassword password: String?) throws -> CloudEntry {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         return try cloudKeyStorage.retrieveEntry(withName: self.identity)
@@ -179,7 +184,8 @@ extension CloudKeyManager {
 
         sleep(2)
 
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
+        try self.brainKeyStorage.deleteEntry(withName: self.identity)
+        let brainKeyPair = try self.generateBrainKey(password: newPassword)
 
         do {
             try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],

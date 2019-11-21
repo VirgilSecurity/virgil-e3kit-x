@@ -60,6 +60,8 @@ import Foundation
     case privateKeyExists = 10
     case verificationFailed = 12
     case wrongPassword = 13
+    case needPassword = 14
+    case unfinishedBootstrapOnOriginDevice = 15
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -86,6 +88,10 @@ import Foundation
             return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         case .wrongPassword:
             return "Wrong password"
+        case .needPassword:
+            return "Need to call method with password"
+        case .unfinishedBootstrapOnOriginDevice:
+            return "There's unfinished bootstrap on origin device. If user confirms he lost device, use rotate func"
         }
     }
 }
