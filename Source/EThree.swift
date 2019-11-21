@@ -150,7 +150,8 @@ import VirgilSDKRatchet
 
         let cloudKeyManager = try CloudKeyManager(identity: identity,
                                                   crypto: crypto,
-                                                  accessTokenProvider: accessTokenProvider)
+                                                  accessTokenProvider: accessTokenProvider,
+                                                  keychainStorage: keychainStorage)
 
         let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: identity, crypto: crypto, verifier: verifier)
         let lookupManager = LookupManager(cardStorage: sqliteCardStorage,

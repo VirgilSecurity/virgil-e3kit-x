@@ -69,7 +69,7 @@ extension EThree {
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password)
+                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, password: password)
 
                 completion((), nil)
             } catch {

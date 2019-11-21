@@ -43,13 +43,21 @@ internal class CloudKeyManager {
     private let crypto: VirgilCrypto
     private let brainKey: BrainKey
     private let keyknoxManager: KeyknoxManager
+    private let brainKeyStorage: SandboxedKeychainStorage
 
     internal let accessTokenProvider: AccessTokenProvider
 
-    internal init(identity: String, crypto: VirgilCrypto, accessTokenProvider: AccessTokenProvider) throws {
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
+                  accessTokenProvider: AccessTokenProvider,
+                  keychainStorage: KeychainStorage) throws {
         self.identity = identity
         self.crypto = crypto
         self.accessTokenProvider = accessTokenProvider
+
+        // TODO: Use identity in constuctor ?
+        // Use brain key as name?
+        self.brainKeyStorage = SandboxedKeychainStorage(prefix: "BRAIN-KEYS", keychainStorage: keychainStorage)
 
         let connection = EThree.getConnection()
 
@@ -70,9 +78,28 @@ internal class CloudKeyManager {
         self.brainKey = BrainKey(context: brainKeyContext)
     }
 
-    internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
+    internal func setUpCloudKeyStorage(password: String?) throws -> CloudKeyStorage {
+        let (brainKeyPair, usedCache) = try self.getBrainKeyPair(password: password)
 
+        let cloudKeyStorage: CloudKeyStorage
+        do {
+            cloudKeyStorage = try self.setUpCloudKeyStorage(brainKeyPair: brainKeyPair)
+        }
+        catch EThreeError.wrongPassword {
+            guard usedCache else {
+                throw EThreeError.wrongPassword
+            }
+
+            let brainKeyPair = try self.generateBrainKey(password: password)
+
+            cloudKeyStorage = try self.setUpCloudKeyStorage(brainKeyPair: brainKeyPair)
+        }
+
+        return cloudKeyStorage
+    }
+
+
+    internal func setUpCloudKeyStorage(brainKeyPair: VirgilKeyPair) throws -> CloudKeyStorage {
         let cloudKeyStorage = CloudKeyStorage(keyknoxManager: self.keyknoxManager,
                                               publicKeys: [brainKeyPair.publicKey],
                                               privateKey: brainKeyPair.privateKey)
@@ -85,10 +112,44 @@ internal class CloudKeyManager {
 
         return cloudKeyStorage
     }
+
+    internal func getBrainKeyPair(password: String? = nil) throws -> (VirgilKeyPair, Bool) {
+        do {
+            let brainKeyEntry = try self.brainKeyStorage.retrieveEntry(withName: self.identity)
+
+            let brainKey = try self.crypto.importPrivateKey(from: brainKeyEntry.data)
+
+            return (brainKey, true)
+        }
+        catch let error as KeychainStorageError where error.errCode == .keychainError {
+            if error.osStatus == errSecItemNotFound {
+                let brainKey = try self.generateBrainKey(password: password)
+
+                return (brainKey, false)
+            }
+
+            // TODO: What user can do in this case?
+            throw error
+        }
+    }
+
+    internal func generateBrainKey(password: String?) throws -> VirgilKeyPair {
+        guard let password = password else {
+            // NeedPasswordError
+            throw NSError()
+        }
+
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
+
+        let exportedBrainKey = try self.crypto.exportPrivateKey(brainKeyPair.privateKey)
+        _ = try self.brainKeyStorage.store(data: exportedBrainKey, withName: self.identity, meta: nil)
+
+        return brainKeyPair
+    }
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, usingPassword password: String) throws {
+    internal func store(key: VirgilPrivateKey, password: String?) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
