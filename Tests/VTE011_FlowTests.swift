@@ -126,7 +126,7 @@ class VTE011_FlowTests: XCTestCase {
 //----------------------------------------------------------------------------------------------------------------
 
 
-    func test01__regular_sign_in__should_decrypt() {
+    func test001__regular_sign_in__should_decrypt() {
         do {
             try self.initUser()
 
@@ -143,7 +143,7 @@ class VTE011_FlowTests: XCTestCase {
         }
     }
 
-    func test02__no_backup__should_rotate() {
+    func test002__no_local__no_backup__should_rotate() {
         do {
             try self.initUser()
 
@@ -163,7 +163,7 @@ class VTE011_FlowTests: XCTestCase {
         }
     }
 
-    func test03__wrong_password__should_throw_error() {
+    func test003__wrong_password__should_throw_error() {
         do {
             try self.initUser()
 
@@ -181,7 +181,7 @@ class VTE011_FlowTests: XCTestCase {
         }
     }
 
-    func test04__initUser__with_wrong_backup__should_update_backup() {
+    func test004__local__wrong_backup__should_update_backup() {
         do {
             try self.initUser()
 
@@ -208,7 +208,34 @@ class VTE011_FlowTests: XCTestCase {
         }
     }
 
-    func test05__register__with_existent_backup__should_backup_latest() {
+    func test005__local__no_backup__should_update_backup() {
+        do {
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+            try self.ethree.resetPrivateKeyBackup().startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let selfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
+
+            try self.ethree.cleanUp()
+
+            let backupPassword = try EThree.derivePasswords(from: self.password).backupPassword
+            try self.ethree.restorePrivateKey(password: backupPassword).startSync().get()
+
+            let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair.identifier == selfCard.publicKey.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test006__register__with_existent_backup__should_backup_latest() {
         do {
             try self.initUser()
 
@@ -230,6 +257,151 @@ class VTE011_FlowTests: XCTestCase {
             let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
             XCTAssert(keyPair2.identifier != keyPair1.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test007__register__with_existent_local__should_succeed() {
+        do {
+            let keyPair1 = try self.crypto.generateKeyPair()
+            let data = try self.crypto.exportPrivateKey(keyPair1.privateKey)
+            try self.ethree.localKeyStorage.store(data: data)
+
+            try self.initUser()
+
+            let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair2.identifier != keyPair1.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test008__initUser__from_new_device__should_succeed() {
+        do {
+            try self.initUser()
+
+            let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            try self.ethree.cleanUp()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair1.identifier == keyPair2.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test009__wrong_local_key__with_backup__should_be_updated() {
+        do {
+            try self.initUser()
+
+            let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            try self.ethree.cleanUp()
+
+            let fakeKeyPair = try self.crypto.generateKeyPair()
+            let data = try self.crypto.exportPrivateKey(fakeKeyPair.privateKey)
+            try self.ethree.localKeyStorage.store(data: data)
+
+            sleep(2)
+
+            try self.initUser()
+
+            let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair1.identifier == keyPair2.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test010__wrong_local_key__no_backup__should_rotate_key() {
+        do {
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+            try self.ethree.resetPrivateKeyBackup().startSync().get()
+
+            let fakeKeyPair = try self.crypto.generateKeyPair()
+            let data = try self.crypto.exportPrivateKey(fakeKeyPair.privateKey)
+            try self.ethree.localKeyStorage.store(data: data)
+
+            let card = try self.ethree.findUser(with: self.ethree.identity).startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
+            let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(newCard.previousCardId == card.identifier)
+            XCTAssert(keyPair.identifier == newCard.publicKey.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test011__no_local_key__wrong_backup__should_rotate_key() {
+        do {
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+            try self.ethree.rotatePrivateKey().startSync().get()
+            try self.ethree.cleanUp()
+
+            let card = try self.ethree.findUser(with: self.ethree.identity).startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
+            let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(newCard.previousCardId == card.identifier)
+            XCTAssert(keyPair.identifier == newCard.publicKey.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test012__wrong_local_key__wrong_backup__should_rotate_key() {
+        do {
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+            try self.ethree.rotatePrivateKey().startSync().get()
+            try self.ethree.cleanUp()
+
+            let fakeKeyPair = try self.crypto.generateKeyPair()
+            let data = try self.crypto.exportPrivateKey(fakeKeyPair.privateKey)
+            try self.ethree.localKeyStorage.store(data: data)
+
+            let card = try self.ethree.findUser(with: self.ethree.identity).startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
+            let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(newCard.previousCardId == card.identifier)
+            XCTAssert(keyPair.identifier == newCard.publicKey.identifier)
         } catch {
             print(error.localizedDescription)
             XCTFail()

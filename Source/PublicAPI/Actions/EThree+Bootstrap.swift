@@ -103,6 +103,10 @@ extension EThree {
     /// Registeres user on Virgil Cloud and backs up Private Key
     /// - Parameter password: backup password
     internal func createUser(password: String?) throws {
+        if try self.hasLocalPrivateKey() {
+            try self.cleanUp()
+        }
+
         try self.register().startSync().get()
 
         let keyPair = try self.localKeyStorage.retrieveKeyPair()
