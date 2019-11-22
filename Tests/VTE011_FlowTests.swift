@@ -78,6 +78,8 @@ class VTE011_FlowTests: XCTestCase {
 
                     try self.rotateFlow(password: password)
                 }
+
+                completion((), nil)
             }
             catch {
                 completion(nil, error)
@@ -101,6 +103,8 @@ class VTE011_FlowTests: XCTestCase {
                         try self.rotateFlow(password: password)
                     }
                 }
+
+                completion((), nil)
             }
             catch {
                 completion(nil, error)
