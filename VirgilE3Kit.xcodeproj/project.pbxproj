@@ -49,6 +49,9 @@
 		1616C04D235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
 		1616C04E235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
 		1616C04F235755C700948C3B /* EThreeValidConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1616C04C235755C700948C3B /* EThreeValidConfig.plist */; };
+		161AF0072386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
+		161AF0082386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
+		161AF0092386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
 		1622A8BF235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
 		1622A8C0235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
 		1622A8C1235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */; };
@@ -154,6 +157,18 @@
 		166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
 		166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 166ED69D21F0B66F00A9B51F /* VTETestBase.m */; };
+		1677AF4023880462002AB604 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */; };
+		1677AF4123880462002AB604 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */; };
+		1677AF4223880462002AB604 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */; };
+		1677AF4323880462002AB604 /* EThree+Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */; };
+		1677AF462388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */; };
+		1677AF472388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */; };
+		1677AF482388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */; };
+		1677AF492388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */; };
+		1677AF4B2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
+		1677AF4C2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
+		1677AF4D2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
+		1677AF4E2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
 		167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
@@ -525,6 +540,7 @@
 		1616C0412357478900948C3B /* EThreeInvalidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeInvalidConfig.plist; sourceTree = "<group>"; };
 		1616C0452357549200948C3B /* EThreeParamsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParamsError.swift; sourceTree = "<group>"; };
 		1616C04C235755C700948C3B /* EThreeValidConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EThreeValidConfig.plist; sourceTree = "<group>"; };
+		161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE011_FlowTests.swift; sourceTree = "<group>"; };
 		1620EF9A234385150001B764 /* EThreeParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThreeParams.swift; sourceTree = "<group>"; };
 		1622A8BE235DE83F0066CDD8 /* DerivedPasswords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedPasswords.swift; sourceTree = "<group>"; };
 		1622A8C3235E068E0066CDD8 /* EThree+Streams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Streams.swift"; sourceTree = "<group>"; };
@@ -561,6 +577,9 @@
 		1665EE1C22E720A500774788 /* LookupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupManager.swift; sourceTree = "<group>"; };
 		166ED69C21F0B5E800A9B51F /* VTETestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTETestBase.h; sourceTree = "<group>"; };
 		166ED69D21F0B66F00A9B51F /* VTETestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTETestBase.m; sourceTree = "<group>"; };
+		1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+Bootstrap.swift"; sourceTree = "<group>"; };
+		1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloudKeyManager+BrainKey.swift"; sourceTree = "<group>"; };
+		1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloudKeyManager+Queries.swift"; sourceTree = "<group>"; };
 		167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE003_KeyBackupTests.m; sourceTree = "<group>"; };
 		167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeyStorage.swift; sourceTree = "<group>"; };
 		167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKeyManager.swift; sourceTree = "<group>"; };
@@ -787,6 +806,7 @@
 				16B1F8AC23279DC40082ECE0 /* EThree+Authorization.swift */,
 				16B1F8B123279E000082ECE0 /* EThree+KeyBackup.swift */,
 				16B1F8B623279E2B0082ECE0 /* EThree+Search.swift */,
+				1677AF3F23880462002AB604 /* EThree+Bootstrap.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -901,6 +921,7 @@
 				164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */,
 				16B1F8D62327A9760082ECE0 /* VTE009_RatchetTests.swift */,
 				16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */,
+				161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -933,7 +954,7 @@
 		1665EE2122E7220500774788 /* Cloud */ = {
 			isa = PBXGroup;
 			children = (
-				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
+				1677AF4423880580002AB604 /* CloudKeyManager */,
 				1685846922E0875D008EAC34 /* CloudTicketStorage.swift */,
 				16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */,
 				160C3DA12369C0550057D989 /* CloudTempKeysStorage.swift */,
@@ -959,6 +980,16 @@
 				16BC03A021EFF81E00887DF2 /* TestUtils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		1677AF4423880580002AB604 /* CloudKeyManager */ = {
+			isa = PBXGroup;
+			children = (
+				167E1DE8217CF71600F8AA13 /* CloudKeyManager.swift */,
+				1677AF452388059A002AB604 /* CloudKeyManager+BrainKey.swift */,
+				1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */,
+			);
+			path = CloudKeyManager;
 			sourceTree = "<group>";
 		};
 		167E1DED217CFC1000F8AA13 /* Storages */ = {
@@ -1502,6 +1533,7 @@
 				164F4D6123509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5823267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				161AF0072386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1522,6 +1554,7 @@
 				164F4D6223509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5923267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				161AF0082386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1542,6 +1575,7 @@
 				164F4D6323509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5A23267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				161AF0092386E65300B8C1F9 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1581,12 +1615,14 @@
 				1616C0462357549200948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CD2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
+				1677AF4023880462002AB604 /* EThree+Bootstrap.swift in Sources */,
 				1629F5D422D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
 				164795C2237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16E33877234E775200678624 /* RatchetChannel.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				16509F58236AF754005DA8AE /* TempChannelManager.swift in Sources */,
+				1677AF4B2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */,
 				160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B223279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				16BB9B5A22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1603,6 +1639,7 @@
 				16D4D2C5234E464400AFF80E /* EThreeParams.swift in Sources */,
 				1622A8BF235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16E33885234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
+				1677AF462388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */,
 				1622A8C4235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1658,10 +1695,12 @@
 				1661D76E23018DD900BC435C /* Group+Objc-C.swift in Sources */,
 				16AD62DD22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				16532988235F15EE00D2C071 /* EThree+Lookup.swift in Sources */,
+				1677AF4E2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */,
 				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C7235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				164795C5237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				1677AF4323880462002AB604 /* EThree+Bootstrap.swift in Sources */,
 				16D1BCA5235872AE008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				1685846D22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
@@ -1679,6 +1718,7 @@
 				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16509F5B236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16509F73236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
+				1677AF492388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
 				1616C0492357549200948C3B /* EThreeParamsError.swift in Sources */,
 				167E1DE7217CF60C00F8AA13 /* LocalKeyStorage.swift in Sources */,
@@ -1704,12 +1744,14 @@
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CE2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D522D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
+				1677AF4123880462002AB604 /* EThree+Bootstrap.swift in Sources */,
 				16E33878234E775200678624 /* RatchetChannel.swift in Sources */,
 				164795C3237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16509F59236AF754005DA8AE /* TempChannelManager.swift in Sources */,
+				1677AF4C2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */,
 				16B1F8B323279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				16532989235F15F100D2C071 /* EThree+Initialize.swift in Sources */,
 				16BB9B5B22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1726,6 +1768,7 @@
 				16AD62DB22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				1622A8C0235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16532986235F15EE00D2C071 /* EThree+Lookup.swift in Sources */,
+				1677AF472388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */,
 				16D4D2C6234E464400AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C5235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
@@ -1766,12 +1809,14 @@
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				16B1F8CF2327A5020082ECE0 /* EThree+Utils.swift in Sources */,
 				1629F5D622D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
+				1677AF4223880462002AB604 /* EThree+Bootstrap.swift in Sources */,
 				16E33879234E775200678624 /* RatchetChannel.swift in Sources */,
 				164795C4237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16509F5A236AF754005DA8AE /* TempChannelManager.swift in Sources */,
+				1677AF4D2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */,
 				16B1F8B423279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				1653298A235F15F200D2C071 /* EThree+Initialize.swift in Sources */,
 				16BB9B5C22F44C8E0057D6B2 /* Group+Encryption.swift in Sources */,
@@ -1788,6 +1833,7 @@
 				16AD62DC22E87E4700CDF90A /* GroupManager.swift in Sources */,
 				1622A8C1235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				16532987235F15EE00D2C071 /* EThree+Lookup.swift in Sources */,
+				1677AF482388059A002AB604 /* CloudKeyManager+BrainKey.swift in Sources */,
 				16D4D2C7234E464500AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C6235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
