@@ -152,6 +152,8 @@ class VTE011_FlowTests: XCTestCase {
 
             let selfCard = try ethree.findUser(with: self.ethree.identity).startSync().get()
 
+            sleep(2)
+
             try self.initUser()
 
             let newSelfCard = try ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
