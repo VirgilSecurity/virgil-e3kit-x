@@ -63,33 +63,47 @@ class VTE011_FlowTests: XCTestCase {
         self.ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
     }
 
-    internal func initUser(password: String) throws {
-        do {
-            try self.ethree.bootstrap(password: password).startSync().get()
-        }
-        catch EThreeError.wrongPassword {
-            // Ask password again, some UI
-            throw EThreeError.wrongPassword
-        }
-        catch EThreeError.unfinishedBootstrapOnOriginDevice {
-            sleep(2)
+    internal func initUser(password: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                do {
+                    try self.ethree.bootstrap(password: password).startSync().get()
+                }
+                catch EThreeError.wrongPassword {
+                    // Ask password again, some UI
+                    throw EThreeError.wrongPassword
+                }
+                catch EThreeError.unfinishedBootstrapOnOriginDevice {
+                    sleep(2)
 
-            try self.rotateFlow(password: password)
+                    try self.rotateFlow(password: password)
+                }
+            }
+            catch {
+                completion(nil, error)
+            }
         }
     }
 
-    internal func initUser() throws {
-        do {
-            try self.ethree.bootstrap().startSync().get()
-        }
-        catch EThreeError.needPassword {
-            try self.askPassword { password in
-                try self.initUser(password: password)
+    internal func initUser() -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                do {
+                    try self.ethree.bootstrap().startSync().get()
+                }
+                catch EThreeError.needPassword {
+                    try self.askPassword { password in
+                        try self.initUser(password: password).startSync().get()
+                    }
+                }
+                catch EThreeError.unfinishedBootstrapOnOriginDevice {
+                    try self.askPassword { password in
+                        try self.rotateFlow(password: password)
+                    }
+                }
             }
-        }
-        catch EThreeError.unfinishedBootstrapOnOriginDevice {
-            try self.askPassword { password in
-                try self.rotateFlow(password: password)
+            catch {
+                completion(nil, error)
             }
         }
     }
@@ -128,12 +142,12 @@ class VTE011_FlowTests: XCTestCase {
 
     func test001__regular_sign_in__should_decrypt() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let message = UUID().uuidString
             let encrypted = try self.ethree.authEncrypt(text: message)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let decrypted = try ethree.authDecrypt(text: encrypted)
             XCTAssert(decrypted == message)
@@ -145,7 +159,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test002__no_local__no_backup__should_rotate() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.resetPrivateKeyBackup().startSync().get()
@@ -154,7 +168,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let newSelfCard = try ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
 
@@ -167,14 +181,14 @@ class VTE011_FlowTests: XCTestCase {
 
     func test003__wrong_password__should_throw_error() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             sleep(2)
 
             let fakePassword = UUID().uuidString
 
             do {
-                try self.initUser(password: fakePassword)
+                try self.initUser(password: fakePassword).startSync().get()
                 XCTFail()
             } catch EThreeError.wrongPassword { }
         } catch {
@@ -185,14 +199,14 @@ class VTE011_FlowTests: XCTestCase {
 
     func test004__local__wrong_backup__should_update_backup() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.rotatePrivateKey().startSync().get()
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let selfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
 
@@ -212,14 +226,14 @@ class VTE011_FlowTests: XCTestCase {
 
     func test005__local__no_backup__should_update_backup() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.resetPrivateKeyBackup().startSync().get()
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let selfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
 
@@ -239,7 +253,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test006__register__with_existent_backup__should_backup_latest() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -247,7 +261,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
 
@@ -271,7 +285,7 @@ class VTE011_FlowTests: XCTestCase {
             let data = try self.crypto.exportPrivateKey(keyPair1.privateKey)
             try self.ethree.localKeyStorage.store(data: data)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -284,7 +298,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test008__initUser__from_new_device__should_succeed() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -292,7 +306,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -305,7 +319,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test009__wrong_local_key__with_backup__should_be_updated() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -317,7 +331,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
 
@@ -330,7 +344,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test010__wrong_local_key__no_backup__should_rotate_key() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.resetPrivateKeyBackup().startSync().get()
@@ -343,7 +357,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
             let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
@@ -358,7 +372,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test011__no_local_key__wrong_backup__should_rotate_key() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.rotatePrivateKey().startSync().get()
@@ -368,7 +382,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
             let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
@@ -383,7 +397,7 @@ class VTE011_FlowTests: XCTestCase {
 
     func test012__wrong_local_key__wrong_backup__should_rotate_key() {
         do {
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             try self.ethree.cleanUp()
             try self.ethree.rotatePrivateKey().startSync().get()
@@ -397,7 +411,7 @@ class VTE011_FlowTests: XCTestCase {
 
             sleep(2)
 
-            try self.initUser()
+            try self.initUser().startSync().get()
 
             let newCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
             let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
