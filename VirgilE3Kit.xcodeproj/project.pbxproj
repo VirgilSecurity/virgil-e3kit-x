@@ -166,6 +166,9 @@
 		1677AF4C2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
 		1677AF4D2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
 		1677AF4E2388061D002AB604 /* CloudKeyManager+Queries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677AF4A2388061D002AB604 /* CloudKeyManager+Queries.swift */; };
+		1677AF4F2388071F002AB604 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
+		1677AF502388071F002AB604 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
+		1677AF5123880720002AB604 /* VTE011_FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AF0062386E65300B8C1F9 /* VTE011_FlowTests.swift */; };
 		167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
 		167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */; };
@@ -1530,6 +1533,7 @@
 				164F4D6123509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5823267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				1677AF4F2388071F002AB604 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1550,6 +1554,7 @@
 				164F4D6223509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5923267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				1677AF502388071F002AB604 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
@@ -1570,6 +1575,7 @@
 				164F4D6323509D31007612F8 /* VTE008_AdditionalTests.swift in Sources */,
 				1657AA5A23267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
+				1677AF5123880720002AB604 /* VTE011_FlowTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,

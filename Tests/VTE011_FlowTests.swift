@@ -41,6 +41,7 @@ import VirgilCrypto
 
 class VTE011_FlowTests: XCTestCase {
     let utils = TestUtils()
+    let password = UUID().uuidString
 
     var crypto: VirgilCrypto {
        return self.utils.crypto
@@ -48,8 +49,10 @@ class VTE011_FlowTests: XCTestCase {
 
     var ethree: EThree!
 
-    private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> EThree {
-        let identity = identity ?? UUID().uuidString
+    override func setUp() {
+        super.setUp()
+
+        let identity = UUID().uuidString
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let token = self.utils.getTokenString(identity: identity)
@@ -57,29 +60,80 @@ class VTE011_FlowTests: XCTestCase {
             completion(token, nil)
         }
 
-        let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
-
-        try ethree.register(with: keyPair).startSync().get()
-
-        return ethree
+        self.ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
     }
+
+    internal func initUser(password: String) throws {
+        do {
+            try self.ethree.bootstrap(password: password).startSync().get()
+        }
+        catch EThreeError.wrongPassword {
+            // Ask password again, some UI
+            throw EThreeError.wrongPassword
+        }
+        catch EThreeError.unfinishedBootstrapOnOriginDevice {
+            sleep(2)
+
+            try self.rotateFlow(password: password)
+        }
+    }
+
+    internal func initUser() throws {
+        do {
+            try self.ethree.bootstrap().startSync().get()
+        }
+        catch EThreeError.needPassword {
+            try self.askPassword { password in
+                try self.initUser(password: password)
+            }
+        }
+        catch EThreeError.unfinishedBootstrapOnOriginDevice {
+            try self.askPassword { password in
+                try self.rotateFlow(password: password)
+            }
+        }
+    }
+
+    internal func rotateFlow(password: String) throws {
+        try self.askToFinishBootstrapOnOriginDevice { deviceLost in
+            if deviceLost {
+                try self.ethree.rotateBootstrap(password: password).startSync().get()
+
+                try self.notifyContactsAboutRotation()
+            } else {
+                // Some UI cancel flow
+            }
+        }
+    }
+
+    internal func askPassword(completion: @escaping (String) throws -> Void) throws {
+        // Ask user password
+        let password = self.password
+
+        let backupPassword = try EThree.derivePasswords(from: password).backupPassword
+
+        try completion(backupPassword)
+    }
+
+    internal func askToFinishBootstrapOnOriginDevice(completion: @escaping (Bool) throws -> Void) throws {
+        print("Should rotate key")
+        try completion(true)
+    }
+
+    internal func notifyContactsAboutRotation() throws {}
+
+
+//----------------------------------------------------------------------------------------------------------------
+
 
     func test01__regular_sign_in__should_decrypt() {
         do {
-            let ethree = try self.setUpDevice()
-
-            let password = UUID().uuidString
-            // Derive separate passwords for login and backup from single one
-            let backupPassword = try EThree.derivePasswords(from: password).backupPassword
+            try self.initUser()
 
             let message = UUID().uuidString
-            let encrypted = try ethree.authEncrypt(text: message)
+            let encrypted = try self.ethree.authEncrypt(text: message)
 
-            try ethree.backupPrivateKey(password: backupPassword).startSync().get()
-
-            sleep(2)
-
-            try ethree.bootstrap().startSync().get()
+            try self.initUser()
 
             let decrypted = try ethree.authDecrypt(text: encrypted)
             XCTAssert(decrypted == message)
@@ -89,169 +143,97 @@ class VTE011_FlowTests: XCTestCase {
         }
     }
 
-    internal func signIn(password: String) throws {
-        do {
-            try self.ethree.bootstrap(password: password).startSync().get()
-        }
-        catch EThreeError.wrongPassword {
-            // Ask password again, some ui
-        }
-        catch EThreeError.unfinishedBootstrapOnOriginDevice {
-            try self.rotateFlow(password: password)
-        }
-    }
-
-    internal func signIn() throws {
-        do {
-            try self.ethree.bootstrap().startSync().get()
-        }
-        catch EThreeError.needPassword {
-            // TODO: Ask password
-            let password = UUID().uuidString
-
-            try self.signIn(password: password)
-        }
-        catch EThreeError.unfinishedBootstrapOnOriginDevice {
-            // TODO: Ask password
-            let password = UUID().uuidString
-
-            try self.rotateFlow(password: password)
-        }
-    }
-
-    internal func rotateFlow(password: String) throws {
-        // TODO: ask user to confirm he lost device
-        let confirmed: Bool = true
-
-        if confirmed {
-            try self.ethree.rotateBootstrap(password: password).startSync().get()
-
-            // Notify other users to update cached user card
-        }
-        else {
-            // Some ui cancel flow
-        }
-    }
-
     func test02__no_backup__should_rotate() {
         do {
-            self.ethree = try self.setUpDevice()
+            try self.initUser()
 
-//            let selfCard = try ethree.findUser(with: ethree.identity).startSync().get()
+            try self.ethree.cleanUp()
+            try self.ethree.resetPrivateKeyBackup().startSync().get()
 
-            try ethree.cleanUp()
+            let selfCard = try ethree.findUser(with: self.ethree.identity).startSync().get()
 
-            let password = UUID().uuidString
-            // Derive separate passwords for login and backup from single one
-            let backupPassword = try EThree.derivePasswords(from: password).backupPassword
+            try self.initUser()
 
-            do {
-                try ethree.bootstrap().startSync().get()
-            }
-            catch EThreeError.needPassword {
-                try ethree.bootstrap(password: backupPassword).startSync().get()
-            }
-            catch EThreeError.unfinishedBootstrapOnOriginDevice {
-                print("yep")
-            }
+            let newSelfCard = try ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
 
-//            let newSelfCard = try ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
-
-//            XCTAssert(newSelfCard.previousCardId == selfCard.identifier)
+            XCTAssert(newSelfCard.previousCardId == selfCard.identifier)
         } catch {
             print(error.localizedDescription)
             XCTFail()
         }
     }
 
-//    func test03__wrong_password__should_throw_error() {
-//        do {
-//            self.ethree = try self.setUpDevice()
-//
-//            let password = UUID().uuidString
-//            // Derive separate passwords for login and backup from single one
-//            let backupPassword = try EThree.derivePasswords(from: password).backupPassword
-//
-//            try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
-//
-//            sleep(2)
-//
-//            let fakePassword = UUID().uuidString
-//
-//            do {
-//                try self.initUser(backupPassword: fakePassword).startSync().get()
-//                XCTFail()
-//            } catch EThreeError.wrongPassword { }
-//        } catch {
-//            print(error.localizedDescription)
-//            XCTFail()
-//        }
-//    }
-//
-//    func test04__initUser__with_wrong_backup__should_rotate() {
-//        do {
-//            self.ethree = try self.setUpDevice()
-//
-//            let password = UUID().uuidString
-//            // Derive separate passwords for login and backup from single one
-//            let backupPassword = try EThree.derivePasswords(from: password).backupPassword
-//
-//            try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
-//
-//            try self.ethree.cleanUp()
-//            try self.ethree.rotatePrivateKey().startSync().get()
-//
-//            let selfCard = try self.ethree.findUser(with: self.ethree.identity).startSync().get()
-//
-//            sleep(2)
-//
-//            try self.initUser(backupPassword: backupPassword).startSync().get()
-//
-//            let newSelfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
-//
-//            XCTAssert(newSelfCard.previousCardId == selfCard.identifier)
-//        } catch {
-//            print(error.localizedDescription)
-//            XCTFail()
-//        }
-//    }
-//
-//    func test05__register__with_existent_backup__should_backup_latest() {
-//        do {
-//            self.ethree = try self.setUpDevice()
-//
-//            let password = UUID().uuidString
-//            // Derive separate passwords for login and backup from single one
-//            let backupPassword = try EThree.derivePasswords(from: password).backupPassword
-//
-//            try self.ethree.backupPrivateKey(password: backupPassword).startSync().get()
-//
-//            let params = try KeychainStorageParams.makeKeychainStorageParams()
-//            let keychain = KeychainStorage(storageParams: params)
-//
-//            let entry1 = try keychain.retrieveEntry(withName: self.ethree.identity)
-//            let keyPair1 = try self.crypto.importPrivateKey(from: entry1.data)
-//
-//            try self.ethree.unregister().startSync().get()
-//
-//            sleep(2)
-//
-//            try self.initUser(backupPassword: backupPassword).startSync().get()
-//
-//            try self.ethree.cleanUp()
-//
-//            sleep(2)
-//
-//            try self.ethree.restorePrivateKey(password: backupPassword).startSync().get()
-//
-//            let entry2 = try keychain.retrieveEntry(withName: self.ethree.identity)
-//            let keyPair2 = try self.crypto.importPrivateKey(from: entry2.data)
-//
-//            XCTAssert(keyPair2.identifier != keyPair1.identifier)
-//        } catch {
-//            print(error.localizedDescription)
-//            XCTFail()
-//        }
-//    }
+    func test03__wrong_password__should_throw_error() {
+        do {
+            try self.initUser()
+
+            sleep(2)
+
+            let fakePassword = UUID().uuidString
+
+            do {
+                try self.initUser(password: fakePassword)
+                XCTFail()
+            } catch EThreeError.wrongPassword { }
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test04__initUser__with_wrong_backup__should_update_backup() {
+        do {
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+            try self.ethree.rotatePrivateKey().startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            let selfCard = try self.ethree.findUser(with: self.ethree.identity, forceReload: true).startSync().get()
+
+            try self.ethree.cleanUp()
+
+            let backupPassword = try EThree.derivePasswords(from: self.password).backupPassword
+            try self.ethree.restorePrivateKey(password: backupPassword).startSync().get()
+
+            let keyPair = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair.identifier == selfCard.publicKey.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test05__register__with_existent_backup__should_backup_latest() {
+        do {
+            try self.initUser()
+
+            let keyPair1 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            try self.ethree.unregister().startSync().get()
+
+            sleep(2)
+
+            try self.initUser()
+
+            try self.ethree.cleanUp()
+
+            sleep(2)
+
+            let backupPassword = try EThree.derivePasswords(from: self.password).backupPassword
+            try self.ethree.restorePrivateKey(password: backupPassword).startSync().get()
+
+            let keyPair2 = try self.ethree.localKeyStorage.retrieveKeyPair()
+
+            XCTAssert(keyPair2.identifier != keyPair1.identifier)
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 

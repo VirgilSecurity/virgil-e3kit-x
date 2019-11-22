@@ -153,6 +153,8 @@ extension EThree {
             if keyPair.identifier != selfCard.publicKey.identifier {
                 let keyPair = try self.localKeyStorage.retrieveKeyPair()
 
+                try self.resetPrivateKeyBackup().startSync().get()
+
                 try self.cloudKeyManager.store(key: keyPair.privateKey, password: password)
             }
         }
