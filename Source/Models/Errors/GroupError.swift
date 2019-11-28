@@ -39,12 +39,12 @@ import Foundation
 /// Declares error types and codes for Group
 ///
 /// - missingCachedGroup: Group with provided id not found locally. Try to call loadGroup first
-/// - groupPermissionDenied: Group with provided id not found locally. Try to call loadGroup first
-/// - groupWasNotFound: Only group initiator can do changed on group
-/// - invalidGroup: Group with provided id was not found
-/// - invalidChangeParticipants: Group is invalid
-/// - invalidParticipantsCount: Invalid change of group participants.
-///                             e.g. Add smb who is already in group or remove smb who is not
+/// - groupPermissionDenied: Only group initiator can do changed on group
+/// - groupWasNotFound: Group with provided id was not found
+/// - invalidGroup: Group is invalid
+/// - invalidChangeParticipants: Invalid change of group participants.
+///                              e.g. Add smb who is already in group or remove smb who is not
+/// - invalidParticipantsCount: Please check valid participants count range in Group.ValidParticipantsCountRange
 /// - verificationFailed: Verification of message failed. This may be caused by rotating sender key. Try finding new one
 /// - shortGroupId: Group Id length should be > 10
 /// - messageNotFromThisGroup: Message was encrypted in group with different identifier
@@ -77,7 +77,7 @@ import Foundation
         case .invalidChangeParticipants:
             return "Invalid change of group participants. e.g. Add smb who is already in group or remove smb who is not"
         case .invalidParticipantsCount:
-            return "Please check valid participants count range in Group.ValidParticipatnsCountRange"
+            return "Please check valid participants count range in Group.ValidParticipantsCountRange"
         case .verificationFailed:
             return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         case .shortGroupId:
