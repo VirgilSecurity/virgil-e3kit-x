@@ -191,7 +191,7 @@ extension EThree {
     ///   - error: corresponding error
     @objc(createGroupWithDataId:findResult:completion:)
     open func createGroup(id identifier: Data,
-                          with findResult: FindUsersResult? = nil,
+                          with findResult: FindUsersResult = [:],
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)

@@ -45,12 +45,11 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: Data, with users: FindUsersResult? = nil) -> GenericOperation<Group> {
+    open func createGroup(id identifier: Data, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
 
-                let users = users ?? FindUsersResult()
                 let participants = Set(users.keys + [self.identity])
 
                 try Group.validateParticipantsCount(participants.count)
@@ -118,38 +117,6 @@ extension EThree {
     }
 }
 
-extension EThree {
-    /// Loads group from cloud, saves locally
-    ///
-    /// - Parameters:
-    ///   - identifier: identifier of group
-    ///   - initiator: initiator
-    /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
-        return CallbackOperation { _, completion in
-            do {
-                let card = try self.findUser(with: initiator).startSync().get()
-
-                self.loadGroup(id: identifier, initiator: card, completion: completion)
-            } catch {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /// Loads group from cloud, saves locally
-    ///
-    /// - Parameters:
-    ///   - identifier: identifier of group
-    ///   - card: Card of group initiator
-    /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: String, initiator: String) -> GenericOperation<Group> {
-        let identifier = identifier.data(using: .utf8)!
-
-        return self.loadGroup(id: identifier, initiator: initiator)
-    }
-}
-
 // MARK: - Extension with group operations with string identifier
 extension EThree {
     // swiftlint:disable force_unwrapping
@@ -161,7 +128,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: String, with users: FindUsersResult? = nil) -> GenericOperation<Group> {
+    open func createGroup(id identifier: String, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
@@ -201,4 +168,70 @@ extension EThree {
     }
 
     // swiftlint:enable force_unwrapping
+}
+
+extension EThree {
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    /// - Returns: CallbackOperation<Group>
+    open func createGroup(id identifier: Data, with users: [String] = []) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let users = try users.isEmpty ? FindUsersResult() : self.findUsers(with: users)
+                    .startSync()
+                    .get()
+
+                self.createGroup(id: identifier, with: users, completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    /// - Returns: CallbackOperation<Group>
+    open func createGroup(id identifier: String, with users: [String] = []) -> GenericOperation<Group> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.createGroup(id: identifier, with: users)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - initiator: initiator
+    /// - Returns: CallbackOperation<Group>
+    open func loadGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.findUser(with: initiator).startSync().get()
+
+                self.loadGroup(id: identifier, initiator: card, completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    /// - Returns: CallbackOperation<Group>
+    open func loadGroup(id identifier: String, initiator: String) -> GenericOperation<Group> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.loadGroup(id: identifier, initiator: initiator)
+    }
 }

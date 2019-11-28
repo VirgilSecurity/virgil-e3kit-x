@@ -124,34 +124,7 @@ extension Group {
     /// - Parameter participants: Cards of users to remove. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
     open func remove(participants: FindUsersResult) -> GenericOperation<Void> {
-        return CallbackOperation { _, completion in
-            do {
-                try self.checkPermissions()
-
-                let oldSet = self.participants
-                let newSet = oldSet.subtracting(participants.keys)
-
-                try Group.validateParticipantsCount(newSet.count)
-
-                guard newSet != oldSet else {
-                    throw GroupError.invalidChangeParticipants
-                }
-
-                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet),
-                                                                      forceReload: false,
-                                                                      checkResult: true)
-
-                try self.addNewTicket(for: newSetLookup)
-
-                let removedSet = oldSet.subtracting(newSet)
-
-                try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
-
-                completion((), nil)
-            } catch {
-                completion(nil, error)
-            }
-        }
+        return self.remove(participants: Array(participants.keys))
     }
 
     /// Adds new participant to group
@@ -193,5 +166,99 @@ extension Group {
         try self.session.addEpoch(message: ticket.groupMessage)
 
         self.participants = newSet.union([self.initiator])
+    }
+}
+
+extension Group {
+    /// Adds new participants to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameter participants: Identities of users to add
+    /// - Returns: CallbackOperation<Void>
+    open func add(participants: [String]) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let result = try self.lookupManager.lookupCards(of: participants,
+                                                                forceReload: false,
+                                                                checkResult: true)
+
+                try self.add(participants: result).startSync().get()
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Share group access and history on new Card of existing participant
+    ///
+    /// - Parameter participant: participant
+    /// - Returns: CallbackOperation<Void>
+    open func reAdd(participant: String) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.lookupManager.lookupCard(of: participant)
+
+                try self.reAdd(participant: card).startSync().get()
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Removes participants from group
+    ///
+    /// - Note: Removed participant will not be able to decrypt previous history again after group update
+    /// - Parameter participants: Users to remove
+    /// - Returns: CallbackOperation<Void>
+    open func remove(participants: [String]) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            do {
+                try self.checkPermissions()
+
+                let oldSet = self.participants
+                let newSet = oldSet.subtracting(participants)
+
+                try Group.validateParticipantsCount(newSet.count)
+
+                guard newSet != oldSet else {
+                    throw GroupError.invalidChangeParticipants
+                }
+
+                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet),
+                                                                      forceReload: false,
+                                                                      checkResult: true)
+
+                try self.addNewTicket(for: newSetLookup)
+
+                let removedSet = oldSet.subtracting(newSet)
+
+                try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
+
+                completion((), nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Adds new participant to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameter card: User to add
+    /// - Returns: CallbackOperation<Void>
+    open func add(participant: String) -> GenericOperation<Void> {
+        return self.add(participants: [participant])
+    }
+
+    /// Removes participant from group
+    ///
+    /// - Parameter card: User to remove
+    /// - Returns: CallbackOperation<Void>
+    open func remove(participant: String) -> GenericOperation<Void> {
+        return self.remove(participants: [participant])
     }
 }
