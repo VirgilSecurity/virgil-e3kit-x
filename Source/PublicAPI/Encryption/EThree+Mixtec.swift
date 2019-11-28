@@ -118,6 +118,38 @@ extension EThree {
     }
 }
 
+extension EThree {
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - initiator: initiator
+    /// - Returns: CallbackOperation<Group>
+    open func loadGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.findUser(with: initiator).startSync().get()
+
+                self.loadGroup(id: identifier, initiator: card, completion: completion)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    /// - Returns: CallbackOperation<Group>
+    open func loadGroup(id identifier: String, initiator: String) -> GenericOperation<Group> {
+        let identifier = identifier.data(using: .utf8)!
+
+        return self.loadGroup(id: identifier, initiator: initiator)
+    }
+}
+
 // MARK: - Extension with group operations with string identifier
 extension EThree {
     // swiftlint:disable force_unwrapping
