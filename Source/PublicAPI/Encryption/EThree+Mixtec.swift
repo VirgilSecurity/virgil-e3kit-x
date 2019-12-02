@@ -178,7 +178,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: participants
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: Data, with users: [String] = []) -> GenericOperation<Group> {
+    open func createGroup(id identifier: Data, with users: [String]) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let users = try users.isEmpty ? FindUsersResult() : self.findUsers(with: users)
@@ -199,7 +199,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: participants
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: String, with users: [String] = []) -> GenericOperation<Group> {
+    open func createGroup(id identifier: String, with users: [String]) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
