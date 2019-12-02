@@ -151,8 +151,7 @@ extension Group {
 
         try self.groupManager.addAccess(to: cards, newSet: newSet, sessionId: sessionId)
 
-        let newParticipants = cards.map { $0.identity }
-        self.participants = self.participants.union(newParticipants)
+        self.participants = newSet
     }
 
     private func addNewTicket(for participants: FindUsersResult) throws {
