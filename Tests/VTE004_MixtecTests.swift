@@ -714,5 +714,27 @@ class VTE004_MixtecTests: XCTestCase {
             XCTFail()
         }
     }
+
+    func test021_STE_86__add_participants__should_update_local_group() {
+        do {
+            let ethree1 = self.setUpDevice()
+            let ethree2 = self.setUpDevice()
+
+            let identifier = UUID().uuidString
+
+            let group = try ethree1.createGroup(id: identifier).startSync().get()
+
+            let card2 = try ethree1.findUser(with: ethree2.identity).startSync().get()
+
+            try group.add(participant: card2).startSync().get()
+
+            let cachedGroup = try ethree1.getGroup(id: identifier)!
+
+            XCTAssert(cachedGroup.participants == Set([ethree1.identity, ethree2.identity]))
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
 }
 
