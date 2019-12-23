@@ -90,7 +90,7 @@ extension Group {
                     return card
                 }
 
-                try self.shareTickets(for: addedCards)
+                try self.shareTickets(for: addedCards, newSet: newSet)
 
                 completion((), nil)
             } catch {
@@ -173,13 +173,12 @@ extension Group {
 }
 
 extension Group {
-    private func shareTickets(for cards: [Card]) throws {
+    private func shareTickets(for cards: [Card], newSet: Set<String>) throws {
         let sessionId = self.session.getSessionId()
 
-        try self.groupManager.addAccess(to: cards, sessionId: sessionId)
+        try self.groupManager.addAccess(to: cards, newSet: newSet, sessionId: sessionId)
 
-        let newParticipants = cards.map { $0.identity }
-        self.participants = self.participants.union(newParticipants)
+        self.participants = newSet
     }
 
     private func addNewTicket(for participants: FindUsersResult) throws {

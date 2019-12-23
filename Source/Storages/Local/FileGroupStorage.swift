@@ -100,6 +100,20 @@ internal class FileGroupStorage {
         return Set(epochs)
     }
 
+    internal func setParticipants(to newParticipants: Set<String>, sessionId: Data) throws {
+        let tickets = try self.retrieveLastTickets(count: 1, sessionId: sessionId)
+
+        guard let lastTicket = tickets.first else {
+            throw GroupError.invalidGroup
+        }
+
+        let newTicket = Ticket(groupMessage: lastTicket.groupMessage, participants: newParticipants)
+
+        let subdir = sessionId.hexEncodedString()
+
+        try self.store(ticket: newTicket, subdir: subdir)
+    }
+
     internal func retrieve(sessionId: Data, lastTicketsCount count: Int) throws -> RawGroup {
         let tickets = try self.retrieveLastTickets(count: count, sessionId: sessionId)
 

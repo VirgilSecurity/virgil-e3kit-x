@@ -107,8 +107,10 @@ internal class GroupManager {
         return group
     }
 
-    internal func addAccess(to cards: [Card], sessionId: Data) throws {
+    internal func addAccess(to cards: [Card], newSet: Set<String>, sessionId: Data) throws {
         try self.cloudTicketStorage.addRecipients(cards, sessionId: sessionId)
+
+        try self.localGroupStorage.setParticipants(to: newSet, sessionId: sessionId)
     }
 
     internal func reAddAccess(to card: Card, sessionId: Data) throws {
