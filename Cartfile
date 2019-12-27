@@ -1,4 +1,2 @@
 github "VirgilSecurity/virgil-pythia-x" "develop-pqc"
 github "VirgilSecurity/virgil-ratchet-x" "develop-pqc"
-github "VirgilSecurity/virgil-crypto-x" "develop-pqc"
-github "VirgilSecurity/virgil-sdk-x" "develop-pqc"
