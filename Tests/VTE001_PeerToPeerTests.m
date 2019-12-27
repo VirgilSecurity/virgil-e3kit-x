@@ -67,6 +67,7 @@
                                                     }
                                               changedKeyDelegate:nil
                                                    storageParams:self.keychainStorage.storageParams
+                                                     keyPairType:VSMKeyPairTypeEd25519
                                                    enableRatchet:false
                                              keyRotationInterval:3600
                                                            error:&err];
@@ -240,6 +241,7 @@
                                                    }
                                               changedKeyDelegate:nil
                                                    storageParams:self.keychainStorage.storageParams
+                                                     keyPairType:VSMKeyPairTypeEd25519
                                                    enableRatchet:false
                                              keyRotationInterval:3600
                                                            error:&err];
@@ -385,6 +387,7 @@
                                                     }
                                               changedKeyDelegate:nil
                                                    storageParams:self.keychainStorage.storageParams
+                                                     keyPairType:VSMKeyPairTypeEd25519
                                                    enableRatchet:false
                                              keyRotationInterval:3600
                                                            error:&err];

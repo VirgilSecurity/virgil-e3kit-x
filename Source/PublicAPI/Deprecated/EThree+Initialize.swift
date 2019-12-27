@@ -59,14 +59,13 @@ public extension EThree {
                 }
 
                 let token = try getTokenOperation.startSync().get()
+                
+                let params = EThreeParams(identity: token.identity(), tokenCallback: tokenCallback)
+                
+                params.changedKeyDelegate = changedKeyDelegate
+                params.storageParams = storageParams
 
-                let ethree = try EThree(identity: token.identity(),
-                                        accessTokenProvider: accessTokenProvider,
-                                        changedKeyDelegate: changedKeyDelegate,
-                                        storageParams: storageParams,
-                                        keyPairType: Defaults.keyPairType,
-                                        enableRatchet: Defaults.enableRatchet,
-                                        keyRotationInterval: Defaults.keyRotationInterval)
+                let ethree = try EThree(params: params)
 
                 completion(ethree, nil)
             } catch {

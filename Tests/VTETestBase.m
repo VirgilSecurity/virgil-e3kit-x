@@ -65,6 +65,7 @@
                                         }
                                    changedKeyDelegate:nil
                                         storageParams:params
+                                          keyPairType:VSMKeyPairTypeEd25519
                                         enableRatchet:false
                                   keyRotationInterval:3600
                                                 error:&error];

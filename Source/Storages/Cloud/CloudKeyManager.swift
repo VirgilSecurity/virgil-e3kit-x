@@ -46,7 +46,10 @@ internal class CloudKeyManager {
 
     internal let accessTokenProvider: AccessTokenProvider
 
-    internal init(identity: String, crypto: VirgilCrypto, accessTokenProvider: AccessTokenProvider) throws {
+    internal init(identity: String, crypto: VirgilCrypto,
+                  accessTokenProvider: AccessTokenProvider,
+                  keyknoxServiceUrl: URL,
+                  pythiaServiceUrl: URL) throws {
         self.identity = identity
         self.crypto = crypto
         self.accessTokenProvider = accessTokenProvider
@@ -54,14 +57,14 @@ internal class CloudKeyManager {
         let connection = EThree.getConnection()
 
         let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                          serviceUrl: KeyknoxClient.defaultURL,
+                                          serviceUrl: keyknoxServiceUrl,
                                           connection: connection,
                                           retryConfig: ExpBackoffRetry.Config())
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
 
         let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,
-                                        serviceUrl: PythiaClient.defaultURL,
+                                        serviceUrl: pythiaServiceUrl,
                                         connection: connection,
                                         retryConfig: ExpBackoffRetry.Config())
 

@@ -35,6 +35,8 @@
 //
 
 import VirgilSDK
+import VirgilSDKPythia
+import VirgilSDKRatchet
 import VirgilCrypto
 
 /// Contains parameters for initializing EThree
@@ -54,6 +56,15 @@ import VirgilCrypto
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
+    
+    public var serviceUrls: ServiceUrls
+    
+    public struct ServiceUrls {
+        public var cardServiceUrl: URL
+        public var pythiaServiceUrl: URL
+        public var keyknoxServiceUrl: URL
+        public var ratchetServiceUrl: URL
+    }
 
     private struct Config: Decodable {
         var keyPairType: KeyPairType = Defaults.keyPairType
@@ -135,6 +146,10 @@ import VirgilCrypto
                       tokenCallback: @escaping EThree.RenewJwtCallback) {
         self.identity = identity
         self.tokenCallback = tokenCallback
+        self.serviceUrls = ServiceUrls(cardServiceUrl: CardClient.defaultURL,
+                                       pythiaServiceUrl: PythiaClient.defaultURL,
+                                       keyknoxServiceUrl: KeyknoxClient.defaultURL,
+                                       ratchetServiceUrl: RatchetClient.defaultURL)
 
         super.init()
     }
