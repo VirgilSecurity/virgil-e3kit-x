@@ -64,6 +64,7 @@ public extension EThree {
                                         accessTokenProvider: accessTokenProvider,
                                         changedKeyDelegate: changedKeyDelegate,
                                         storageParams: storageParams,
+                                        keyPairType: Defaults.keyPairType,
                                         enableRatchet: Defaults.enableRatchet,
                                         keyRotationInterval: Defaults.keyRotationInterval)
 

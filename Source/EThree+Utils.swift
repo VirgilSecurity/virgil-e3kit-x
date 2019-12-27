@@ -86,7 +86,7 @@ extension EThree {
     }
 
     internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
-        let keyPair = try keyPair ?? self.crypto.generateKeyPair()
+        let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
         let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
@@ -108,6 +108,7 @@ extension EThree {
                                                          accessTokenProvider: self.accessTokenProvider,
                                                          localKeyStorage: self.localKeyStorage,
                                                          lookupManager: self.lookupManager,
+                                                         keyPairType: self.keyPairType,
                                                          keyPair: keyPair)
     }
 

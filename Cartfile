@@ -1,2 +1,4 @@
-github "VirgilSecurity/virgil-pythia-x" ~> 0.7.1
-github "VirgilSecurity/virgil-ratchet-x" ~> 0.3.1
+github "VirgilSecurity/virgil-pythia-x" "develop-pqc"
+github "VirgilSecurity/virgil-ratchet-x" "develop-pqc"
+github "VirgilSecurity/virgil-crypto-x" "develop-pqc"
+github "VirgilSecurity/virgil-sdk-x" "develop-pqc"

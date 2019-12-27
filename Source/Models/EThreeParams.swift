@@ -35,6 +35,7 @@
 //
 
 import VirgilSDK
+import VirgilCrypto
 
 /// Contains parameters for initializing EThree
 /// - Tag: EThreeParams
@@ -47,30 +48,45 @@ import VirgilSDK
     @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
     /// `KeychainStorageParams` with specific parameters
     @objc public var storageParams: KeychainStorageParams? = nil
+    /// Default key pair type
+    @objc public var keyPairType: KeyPairType = Defaults.keyPairType
     /// Enables ratchet operations
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
     private struct Config: Decodable {
+        var keyPairType: KeyPairType = Defaults.keyPairType
         var enableRatchet: Bool = Defaults.enableRatchet
         var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
         enum CodingKeys: String, CodingKey {
+            case keyPairType
             case enableRatchet
             case keyRotationInterval
         }
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            if let enableRatchet = try? container.decode(Bool.self, forKey: .enableRatchet) {
-                self.enableRatchet = enableRatchet
+            
+            do {
+                let keyPairTypeStr = try container.decode(String.self, forKey: .keyPairType)
+                self.keyPairType = try KeyPairType(from: keyPairTypeStr)
             }
+            catch DecodingError.keyNotFound(_, _) { }
+            catch DecodingError.valueNotFound(_, _) { }
 
-            if let keyRotationInterval = try? container.decode(TimeInterval.self, forKey: .keyRotationInterval) {
-                self.keyRotationInterval = keyRotationInterval
+            do {
+                self.enableRatchet = try container.decode(Bool.self, forKey: .enableRatchet)
             }
+            catch DecodingError.keyNotFound(_, _) { }
+            catch DecodingError.valueNotFound(_, _) { }
+
+            do {
+                self.keyRotationInterval = try container.decode(TimeInterval.self, forKey: .keyRotationInterval)
+            }
+            catch DecodingError.keyNotFound(_, _) { }
+            catch DecodingError.valueNotFound(_, _) { }
         }
 
         static func deserialize(from url: URL) throws -> Config {
@@ -105,6 +121,7 @@ import VirgilSDK
 
         self.init(identity: identity, tokenCallback: tokenCallback)
 
+        self.keyPairType = config.keyPairType
         self.enableRatchet = config.enableRatchet
         self.keyRotationInterval = config.keyRotationInterval
     }

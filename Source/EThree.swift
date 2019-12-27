@@ -66,6 +66,7 @@ import VirgilSDKRatchet
         return self.lookupManager.changedKeyDelegate
     }
 
+    internal let keyPairType: KeyPairType
     internal let enableRatchet: Bool
     internal let keyRotationInterval: TimeInterval
 
@@ -87,6 +88,7 @@ import VirgilSDKRatchet
                       tokenCallback: params.tokenCallback,
                       changedKeyDelegate: params.changedKeyDelegate,
                       storageParams: params.storageParams,
+                      keyPairType: params.keyPairType,
                       enableRatchet: params.enableRatchet,
                       keyRotationInterval: params.keyRotationInterval)
     }
@@ -104,6 +106,7 @@ import VirgilSDKRatchet
                                   tokenCallback: @escaping RenewJwtCallback,
                                   changedKeyDelegate: ChangedKeyDelegate? = nil,
                                   storageParams: KeychainStorageParams? = nil,
+                                  keyPairType: KeyPairType = Defaults.keyPairType,
                                   enableRatchet: Bool = Defaults.enableRatchet,
                                   keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
         let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
@@ -112,6 +115,7 @@ import VirgilSDKRatchet
                       accessTokenProvider: accessTokenProvider,
                       changedKeyDelegate: changedKeyDelegate,
                       storageParams: storageParams,
+                      keyPairType: keyPairType,
                       enableRatchet: enableRatchet,
                       keyRotationInterval: keyRotationInterval)
     }
@@ -120,6 +124,7 @@ import VirgilSDKRatchet
                               accessTokenProvider: AccessTokenProvider,
                               changedKeyDelegate: ChangedKeyDelegate?,
                               storageParams: KeychainStorageParams?,
+                              keyPairType: KeyPairType,
                               enableRatchet: Bool,
                               keyRotationInterval: TimeInterval) throws {
         let crypto = try VirgilCrypto()
@@ -167,6 +172,7 @@ import VirgilSDKRatchet
                       cloudKeyManager: cloudKeyManager,
                       lookupManager: lookupManager,
                       cloudRatchetStorage: cloudRatchetStorage,
+                      keyPairType: keyPairType,
                       enableRatchet: enableRatchet,
                       keyRotationInterval: keyRotationInterval)
     }
@@ -178,6 +184,7 @@ import VirgilSDKRatchet
                   cloudKeyManager: CloudKeyManager,
                   lookupManager: LookupManager,
                   cloudRatchetStorage: CloudRatchetStorage,
+                  keyPairType: KeyPairType,
                   enableRatchet: Bool,
                   keyRotationInterval: TimeInterval) throws {
         self.identity = identity
@@ -187,6 +194,7 @@ import VirgilSDKRatchet
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
         self.cloudRatchetStorage = cloudRatchetStorage
+        self.keyPairType = keyPairType
         self.enableRatchet = enableRatchet
         self.keyRotationInterval = keyRotationInterval
 

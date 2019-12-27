@@ -141,7 +141,7 @@
             XCTAssert(card != nil && error == nil);
 
             NSError *err;
-            NSData *encryptedData = [self.crypto encrypt:plainData for:@[card.publicKey] error:&err];
+            NSData *encryptedData = [self.crypto encrypt:plainData for:@[card.publicKey] enablePadding:NO error:&err];
             XCTAssert(err == nil);
 
             NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
