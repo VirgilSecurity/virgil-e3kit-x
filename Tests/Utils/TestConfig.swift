@@ -41,6 +41,7 @@ import Foundation
     @objc public let ApiPrivateKey: String
     @objc public let AppId: String
     @objc public let ServiceURL: String
+    @objc public let ServicePublicKey: String?
 
     public let Group: GroupConfig
     public let TemporaryChannel: TemporaryConfig

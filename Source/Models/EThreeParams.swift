@@ -56,15 +56,42 @@ import VirgilCrypto
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
-
-    public var serviceUrls: ServiceUrls
-
-    public struct ServiceUrls {
-        public var cardServiceUrl: URL
-        public var pythiaServiceUrl: URL
-        public var keyknoxServiceUrl: URL
-        public var ratchetServiceUrl: URL
+    /// Service urls
+    @objc public var serviceUrls: ServiceUrls
+    
+    /// Service urls
+    @objc(VTEServiceUrls) public class ServiceUrls: NSObject {
+        /// Card service URL
+        @objc public var cardServiceUrl: URL
+        
+        /// Pythia service URL
+        @objc public var pythiaServiceUrl: URL
+        
+        /// Keyknox service URL
+        @objc public var keyknoxServiceUrl: URL
+        
+        /// Ratchet service URL
+        @objc public var ratchetServiceUrl: URL
+        
+        /// Init
+        /// - Parameters:
+        ///   - cardServiceUrl: Card service URL
+        ///   - pythiaServiceUrl: Pythia service URL
+        ///   - keyknoxServiceUrl: Keyknox service URL
+        ///   - ratchetServiceUrl: Ratchet service URL
+        @objc public init(cardServiceUrl: URL,
+                          pythiaServiceUrl: URL,
+                          keyknoxServiceUrl: URL,
+                          ratchetServiceUrl: URL) {
+            self.cardServiceUrl = cardServiceUrl
+            self.pythiaServiceUrl = pythiaServiceUrl
+            self.keyknoxServiceUrl = keyknoxServiceUrl
+            self.ratchetServiceUrl = ratchetServiceUrl
+        }
     }
+    
+    /// NOTE: Use this only while working with environments other than Virgil production
+    @objc public var overrideVirgilPublicKey: String? = nil
 
     private struct Config: Decodable {
         var keyPairType: KeyPairType = Defaults.keyPairType

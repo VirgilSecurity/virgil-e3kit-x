@@ -59,18 +59,28 @@
 
         NSError *err;
         NSString *identity = [[NSUUID alloc] init].UUIDString;
+        
+        VTEEThreeParams *params = [[VTEEThreeParams alloc] initWithIdentity:identity
+                                                              tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+            NSString *token = [self.utils getTokenStringWithIdentity:identity];
+            completionHandler(token, nil);
+        }];
+        
+        params.storageParams = self.keychainStorage.storageParams;
+        params.keyPairType = VSMKeyPairTypeEd25519;
+        params.overrideVirgilPublicKey = self.consts.ServicePublicKey;
+        
+        NSURL *serviceUrl = [[NSURL alloc] initWithString:self.consts.ServiceURL];
+        
+        VTEServiceUrls *serviceUrls = [[VTEServiceUrls alloc] initWithCardServiceUrl:serviceUrl
+                                                                    pythiaServiceUrl:serviceUrl
+                                                                   keyknoxServiceUrl:serviceUrl
+                                                                   ratchetServiceUrl:serviceUrl];
+        
+        params.serviceUrls = serviceUrls;
+        
+        VTEEThree *eThree2 = [[VTEEThree alloc] initWithParams:params error:&err];
 
-        VTEEThree *eThree2 = [[VTEEThree alloc] initWithIdentity:identity
-                                                   tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                                        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                                        completionHandler(token, nil);
-                                                    }
-                                              changedKeyDelegate:nil
-                                                   storageParams:self.keychainStorage.storageParams
-                                                     keyPairType:VSMKeyPairTypeEd25519
-                                                   enableRatchet:false
-                                             keyRotationInterval:3600
-                                                           error:&err];
         XCTAssert(eThree2 != nil && err == nil);
 
         [eThree2 registerWithCompletion:^(NSError *error) {

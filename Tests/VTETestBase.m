@@ -57,18 +57,27 @@
 
     NSError *error;
     NSString *identity = [[NSUUID alloc] init].UUIDString;
-
-    self.eThree = [[VTEEThree alloc] initWithIdentity:identity
-                                        tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                            NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                            completionHandler(token, nil);
-                                        }
-                                   changedKeyDelegate:nil
-                                        storageParams:params
-                                          keyPairType:VSMKeyPairTypeEd25519
-                                        enableRatchet:false
-                                  keyRotationInterval:3600
-                                                error:&error];
+    
+    VTEEThreeParams *e3Params = [[VTEEThreeParams alloc] initWithIdentity:identity
+                                                          tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
+        NSString *token = [self.utils getTokenStringWithIdentity:identity];
+        completionHandler(token, nil);
+    }];
+    
+    e3Params.keyPairType = VSMKeyPairTypeCurve25519Round5Ed25519Falcon;
+    e3Params.storageParams = params;
+    
+    NSURL *serviceUrl = [[NSURL alloc] initWithString:self.consts.ServiceURL];
+    
+    VTEServiceUrls *serviceUrls = [[VTEServiceUrls alloc] initWithCardServiceUrl:serviceUrl
+                                                                pythiaServiceUrl:serviceUrl
+                                                               keyknoxServiceUrl:serviceUrl
+                                                               ratchetServiceUrl:serviceUrl];
+    
+    e3Params.serviceUrls = serviceUrls;
+    e3Params.overrideVirgilPublicKey = self.consts.ServicePublicKey;
+    
+    self.eThree = [[VTEEThree alloc] initWithParams:e3Params error:&error];
     XCTAssert(self.eThree != nil && error == nil);
 }
 
