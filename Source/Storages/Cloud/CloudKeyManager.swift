@@ -46,7 +46,8 @@ internal class CloudKeyManager {
 
     internal let accessTokenProvider: AccessTokenProvider
 
-    internal init(identity: String, crypto: VirgilCrypto,
+    internal init(identity: String,
+                  crypto: VirgilCrypto,
                   accessTokenProvider: AccessTokenProvider,
                   keyknoxServiceUrl: URL,
                   pythiaServiceUrl: URL) throws {

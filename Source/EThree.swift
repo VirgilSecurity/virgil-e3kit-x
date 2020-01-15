@@ -73,6 +73,8 @@ import VirgilSDKRatchet
     internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let cloudRatchetStorage: CloudRatchetStorage
+    internal let cloudTicketStorage: CloudTicketStorage
+    internal let cloudTempKeysStorage: CloudTempKeysStorage
 
     internal let lookupManager: LookupManager
 
@@ -184,6 +186,15 @@ import VirgilSDKRatchet
                                                           localKeyStorage: localKeyStorage,
                                                           keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)
 
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: accessTokenProvider,
+                                                        localKeyStorage: localKeyStorage,
+                                                        keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)
+
+        let cloudTempKeysStorage = CloudTempKeysStorage(identity: params.identity,
+                                                        accessTokenProvider: accessTokenProvider,
+                                                        crypto: crypto,
+                                                        keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)
+
         try self.init(identity: params.identity,
                       cardManager: cardManager,
                       accessTokenProvider: accessTokenProvider,
@@ -191,6 +202,8 @@ import VirgilSDKRatchet
                       cloudKeyManager: cloudKeyManager,
                       lookupManager: lookupManager,
                       cloudRatchetStorage: cloudRatchetStorage,
+                      cloudTicketStorage: cloudTicketStorage,
+                      cloudTempKeysStorage: cloudTempKeysStorage,
                       keyPairType: params.keyPairType,
                       enableRatchet: params.enableRatchet,
                       keyRotationInterval: params.keyRotationInterval)
@@ -203,6 +216,8 @@ import VirgilSDKRatchet
                   cloudKeyManager: CloudKeyManager,
                   lookupManager: LookupManager,
                   cloudRatchetStorage: CloudRatchetStorage,
+                  cloudTicketStorage: CloudTicketStorage,
+                  cloudTempKeysStorage: CloudTempKeysStorage,
                   keyPairType: KeyPairType,
                   enableRatchet: Bool,
                   keyRotationInterval: TimeInterval) throws {
@@ -213,6 +228,8 @@ import VirgilSDKRatchet
         self.cloudKeyManager = cloudKeyManager
         self.lookupManager = lookupManager
         self.cloudRatchetStorage = cloudRatchetStorage
+        self.cloudTicketStorage = cloudTicketStorage
+        self.cloudTempKeysStorage = cloudTempKeysStorage
         self.keyPairType = keyPairType
         self.enableRatchet = enableRatchet
         self.keyRotationInterval = keyRotationInterval

@@ -40,24 +40,8 @@ import VirgilE3Kit
 class VTE006_LookupTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice(identity: String? = nil) -> EThree {
-        let identity = identity ?? UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
-
-        try! ethree.register().startSync().get()
-
-        return ethree
-    }
-
     func test01_STE_1() {
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         let card1 = self.utils.publishCard()
         let card2 = self.utils.publishCard()
@@ -72,7 +56,7 @@ class VTE006_LookupTests: XCTestCase {
     }
 
     func test02_STE_2() {
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         do {
             _ = try ethree.findUsers(with: []).startSync().get()
@@ -83,7 +67,7 @@ class VTE006_LookupTests: XCTestCase {
     }
 
     func test03_STE_23() {
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         let card1 = self.utils.publishCard()
 
@@ -108,7 +92,7 @@ class VTE006_LookupTests: XCTestCase {
     }
 
     func test04_STE_24() {
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         let card1 = self.utils.publishCard()
         _ = self.utils.publishCard(identity: card1.identity)
@@ -140,7 +124,7 @@ class VTE006_LookupTests: XCTestCase {
 
         let delegate = dummyClass(identity: card.identity)
 
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         _ = try! ethree.findUser(with: card.identity).startSync().get()
 
@@ -165,7 +149,7 @@ class VTE006_LookupTests: XCTestCase {
     }
 
     func test06_STE_47__checkResult() {
-        let ethree = self.setUpDevice()
+        let ethree = try! self.utils.setupDevice()
 
         let card = self.utils.publishCard()
         let dummyIdentity = UUID().uuidString
@@ -185,8 +169,8 @@ class VTE006_LookupTests: XCTestCase {
     }
 
     func test07_STE_48__updateCachedCards() {
-        let ethree1 = self.setUpDevice()
-        let ethree2 = self.setUpDevice()
+        let ethree1 = try! self.utils.setupDevice()
+        let ethree2 = try! self.utils.setupDevice()
 
         let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync().get()
 

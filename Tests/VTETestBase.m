@@ -46,39 +46,12 @@
     self.consts = self.utils.config;
     self.crypto = self.utils.crypto;
 
-    VSSKeychainStorageParams *params;
-#if TARGET_OS_IOS || TARGET_OS_TV
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#elif TARGET_OS_OSX
-    params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
-#endif
+    VSSKeychainStorageParams *params = [VSSKeychainStorageParams makeKeychainStorageParamsWithAppName:@"test" error:nil];
+
     self.keychainStorage = [[VSSKeychainStorage alloc] initWithStorageParams:params];
     [self.keychainStorage deleteAllEntriesWithQueryOptions:nil error:nil];
 
-    NSError *error;
-    NSString *identity = [[NSUUID alloc] init].UUIDString;
-    
-    VTEEThreeParams *e3Params = [[VTEEThreeParams alloc] initWithIdentity:identity
-                                                          tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-        completionHandler(token, nil);
-    }];
-    
-    e3Params.keyPairType = VSMKeyPairTypeEd25519;
-    e3Params.storageParams = params;
-    
-    NSURL *serviceUrl = [[NSURL alloc] initWithString:self.consts.ServiceURL];
-    
-    VTEServiceUrls *serviceUrls = [[VTEServiceUrls alloc] initWithCardServiceUrl:serviceUrl
-                                                                pythiaServiceUrl:serviceUrl
-                                                               keyknoxServiceUrl:serviceUrl
-                                                               ratchetServiceUrl:serviceUrl];
-    
-    e3Params.serviceUrls = serviceUrls;
-    e3Params.overrideVirgilPublicKey = self.consts.ServicePublicKey;
-    
-    self.eThree = [[VTEEThree alloc] initWithParams:e3Params error:&error];
-    XCTAssert(self.eThree != nil && error == nil);
+    self.eThree = [self.utils setupEThreeWithStorageParams:params];
 }
 
 @end

@@ -42,22 +42,6 @@ import VirgilCrypto
 class VTE010_TempChannelTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> EThree {
-        let identity = identity ?? UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
-
-        try ethree.register(with: keyPair).startSync().get()
-
-        return ethree
-    }
-
     func encryptDecrypt100Times(chat1: TemporaryChannel, chat2: TemporaryChannel) throws {
         for _ in 0..<100 {
             try autoreleasepool {
@@ -85,7 +69,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test01_STE_74__encrypt_decrypt__should_succeed() {
         do {
-            let ethree1 = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
 
             let identity2 = UUID().uuidString
             let chat1 = try ethree1.createTemporaryChannel(with: identity2).startSync().get()
@@ -93,7 +77,7 @@ class VTE010_TempChannelTests: XCTestCase {
             let message = UUID().uuidString
             let encrypted = try chat1.encrypt(text: message)
 
-            let ethree2 = try self.setUpDevice(identity: identity2)
+            let ethree2 = try self.utils.setupDevice(identity: identity2)
             let chat2 = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
@@ -113,7 +97,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test02_STE_75__create__existent_chat__should_throw_error() {
         do {
-            let ethree = try self.setUpDevice()
+            let ethree = try self.utils.setupDevice()
 
             let identity = UUID().uuidString
             _ = try ethree.createTemporaryChannel(with: identity).startSync().get()
@@ -130,7 +114,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test03_STE_76__create__with_self__should_throw_error() {
         do {
-            let ethree = try self.setUpDevice()
+            let ethree = try self.utils.setupDevice()
 
             do {
                 _ = try ethree.createTemporaryChannel(with: ethree.identity).startSync().get()
@@ -144,8 +128,8 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test04_STE_77__create__with_registered__should_throw_error() {
         do {
-            let ethree1 = try self.setUpDevice()
-            let ethree2 = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
+            let ethree2 = try self.utils.setupDevice()
 
             do {
                 _ = try ethree1.createTemporaryChannel(with: ethree2.identity).startSync().get()
@@ -159,7 +143,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test05_STE_78__get__should_suceed() {
         do {
-            let ethree1 = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
 
             let identity2 = UUID().uuidString
             XCTAssert(try ethree1.getTemporaryChannel(with: identity2) == nil)
@@ -167,7 +151,7 @@ class VTE010_TempChannelTests: XCTestCase {
             _ = try ethree1.createTemporaryChannel(with: identity2).startSync().get()
             XCTAssert(try ethree1.getTemporaryChannel(with: identity2) != nil)
 
-            let ethree2 = try self.setUpDevice(identity: identity2)
+            let ethree2 = try self.utils.setupDevice(identity: identity2)
             XCTAssert(try ethree2.getTemporaryChannel(with: ethree1.identity) == nil)
 
             _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
@@ -183,7 +167,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test06_STE_79__load__with_self__should_throw_error() {
         do {
-            let ethree = try self.setUpDevice()
+            let ethree = try self.utils.setupDevice()
 
             do {
                 _ = try ethree.loadTemporaryChannel(asCreator: true, with: ethree.identity).startSync().get()
@@ -197,7 +181,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test07_STE_80__load__unexistent_chat__should_throw_error() {
         do {
-            let ethree = try self.setUpDevice()
+            let ethree = try self.utils.setupDevice()
 
             let identity = UUID().uuidString
             do {
@@ -212,7 +196,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test08_STE_81__load__after_delete__should_throw_error() {
         do {
-            let ethree1 = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
 
             let identity2 = UUID().uuidString
 
@@ -224,7 +208,7 @@ class VTE010_TempChannelTests: XCTestCase {
                 XCTFail()
             } catch TemporaryChannelError.channelNotFound {}
 
-            let ethree2 = try self.setUpDevice(identity: identity2)
+            let ethree2 = try self.utils.setupDevice(identity: identity2)
 
             do {
                 _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
@@ -238,7 +222,7 @@ class VTE010_TempChannelTests: XCTestCase {
 
     func test09_STE_82__delete__unexistent_chat__should_succeed() {
         do {
-            let ethree = try self.setUpDevice()
+            let ethree = try self.utils.setupDevice()
 
             let fakeIdentity = UUID().uuidString
 
@@ -283,7 +267,7 @@ class VTE010_TempChannelTests: XCTestCase {
     func test11_STE_84__cleanup__should_reset_local_storage() {
         do {
             let keyPair = try self.utils.crypto.generateKeyPair()
-            let ethree = try self.setUpDevice(keyPair: keyPair)
+            let ethree = try self.utils.setupDevice(keyPair: keyPair)
 
             let localTemporaryStorage = try FileTempKeysStorage(identity: ethree.identity,
                                                                 crypto: self.utils.crypto,

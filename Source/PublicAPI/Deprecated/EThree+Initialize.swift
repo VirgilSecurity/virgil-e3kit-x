@@ -44,10 +44,14 @@ public extension EThree {
     ///   - tokenCallback: callback to get Virgil access token
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify about changes of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - overrideVirgilPublicKey: Use this only while working with environments other than Virgil production
+    ///   - serviceUrls: Service urls
     @available(*, deprecated, message: "Use constructor instead")
     static func initialize(tokenCallback: @escaping RenewJwtCallback,
                            changedKeyDelegate: ChangedKeyDelegate? = nil,
-                           storageParams: KeychainStorageParams? = nil) -> GenericOperation<EThree> {
+                           storageParams: KeychainStorageParams? = nil,
+                           overrideVirgilPublicKey: String? = nil,
+                           serviceUrls: EThreeParams.ServiceUrls? = nil) -> GenericOperation<EThree> {
         return CallbackOperation { _, completion in
             do {
                 let accessTokenProvider = CachingJwtProvider { tokenCallback($1) }
@@ -64,6 +68,11 @@ public extension EThree {
 
                 params.changedKeyDelegate = changedKeyDelegate
                 params.storageParams = storageParams
+                params.overrideVirgilPublicKey = overrideVirgilPublicKey
+
+                if let serviceUrls = serviceUrls {
+                    params.serviceUrls = serviceUrls
+                }
 
                 let ethree = try EThree(params: params)
 
@@ -80,6 +89,8 @@ public extension EThree {
     ///   - tokenCallback: callback to get Virgil access token
     ///   - changedKeyDelegate: `ChangedKeyDelegate` to notify changing of User's keys
     ///   - storageParams: `KeychainStorageParams` with specific parameters
+    ///   - overrideVirgilPublicKey: Use this only while working with environments other than Virgil production
+    ///   - serviceUrls: Service urls
     ///   - completion: completion handler
     ///   - ethree: initialized EThree instance
     ///   - error: corresponding error
@@ -87,10 +98,14 @@ public extension EThree {
     @objc static func initialize(tokenCallback: @escaping RenewJwtCallback,
                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
                                  storageParams: KeychainStorageParams? = nil,
+                                 overrideVirgilPublicKey: String? = nil,
+                                 serviceUrls: EThreeParams.ServiceUrls? = nil,
                                  completion: @escaping (_ ethree: EThree?, _ error: Error?) -> Void) {
         EThree.initialize(tokenCallback: tokenCallback,
                           changedKeyDelegate: changedKeyDelegate,
-                          storageParams: storageParams)
+                          storageParams: storageParams,
+                          overrideVirgilPublicKey: overrideVirgilPublicKey,
+                          serviceUrls: serviceUrls)
             .start(completion: completion)
     }
 }

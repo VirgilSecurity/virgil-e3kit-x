@@ -107,6 +107,7 @@ extension EThree {
         self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
                                                          accessTokenProvider: self.accessTokenProvider,
                                                          localKeyStorage: self.localKeyStorage,
+                                                         cloudTempKeysStorage: self.cloudTempKeysStorage,
                                                          lookupManager: self.lookupManager,
                                                          keyPairType: self.keyPairType,
                                                          keyPair: keyPair)
@@ -116,10 +117,9 @@ extension EThree {
          let localGroupStorage = try FileGroupStorage(identity: self.identity,
                                                       crypto: self.crypto,
                                                       identityKeyPair: keyPair)
-         let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                         localKeyStorage: self.localKeyStorage)
+
          self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                          cloudTicketStorage: cloudTicketStorage,
+                                          cloudTicketStorage: self.cloudTicketStorage,
                                           localKeyStorage: self.localKeyStorage,
                                           lookupManager: self.lookupManager,
                                           crypto: self.crypto)

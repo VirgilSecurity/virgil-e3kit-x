@@ -49,14 +49,16 @@ internal class CloudTicketStorage {
         return self.localKeyStorage.identity
     }
 
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage) throws {
+    internal init(accessTokenProvider: AccessTokenProvider,
+                  localKeyStorage: LocalKeyStorage,
+                  keyknoxServiceUrl: URL) throws {
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
 
         let connection = EThree.getConnection()
 
         let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                          serviceUrl: KeyknoxClient.defaultURL,
+                                          serviceUrl: keyknoxServiceUrl,
                                           connection: connection,
                                           retryConfig: ExpBackoffRetry.Config())
 

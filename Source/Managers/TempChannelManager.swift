@@ -53,6 +53,7 @@ internal class TempChannelManager {
     internal init(crypto: VirgilCrypto,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
+                  cloudTempKeysStorage: CloudTempKeysStorage,
                   lookupManager: LookupManager,
                   keyPairType: KeyPairType,
                   keyPair: VirgilKeyPair) throws {
@@ -60,12 +61,9 @@ internal class TempChannelManager {
         self.keyPairType = keyPairType
         self.localKeyStorage = localKeyStorage
         self.lookupManager = lookupManager
+        self.cloudStorage = cloudTempKeysStorage
 
         let identity = localKeyStorage.identity
-
-        self.cloudStorage = CloudTempKeysStorage(identity: identity,
-                                                 accessTokenProvider: accessTokenProvider,
-                                                 crypto: crypto)
 
         self.localStorage = try FileTempKeysStorage(identity: identity,
                                                     crypto: crypto,
