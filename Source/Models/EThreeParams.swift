@@ -58,21 +58,21 @@ import VirgilCrypto
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     /// Service urls
     @objc public var serviceUrls: ServiceUrls
-    
+
     /// Service urls
     @objc(VTEServiceUrls) public class ServiceUrls: NSObject {
         /// Card service URL
         @objc public var cardServiceUrl: URL
-        
+
         /// Pythia service URL
         @objc public var pythiaServiceUrl: URL
-        
+
         /// Keyknox service URL
         @objc public var keyknoxServiceUrl: URL
-        
+
         /// Ratchet service URL
         @objc public var ratchetServiceUrl: URL
-        
+
         /// Init
         /// - Parameters:
         ///   - cardServiceUrl: Card service URL
@@ -89,7 +89,7 @@ import VirgilCrypto
             self.ratchetServiceUrl = ratchetServiceUrl
         }
     }
-    
+
     /// NOTE: Use this only while working with environments other than Virgil production
     @objc public var overrideVirgilPublicKey: String? = nil
 

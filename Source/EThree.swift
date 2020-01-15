@@ -111,7 +111,7 @@ import VirgilSDKRatchet
 
         try self.init(params: params)
     }
-    
+
     /// Init
     /// - Parameter params: params
     @objc public convenience init(params: EThreeParams) throws {
@@ -120,27 +120,27 @@ import VirgilSDKRatchet
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed
         }
-        
+
         if let virgilPublicKeyStr = params.overrideVirgilPublicKey {
             guard let virgilPublicKeyData = Data(base64Encoded: virgilPublicKeyStr) else {
                 throw EThreeError.verifierInitFailed
             }
-            
+
             let virgilPublicKey: VirgilPublicKey
-            
+
             do {
                 virgilPublicKey = try crypto.importPublicKey(from: virgilPublicKeyData)
             }
             catch {
                 throw EThreeError.verifierInitFailed
             }
-            
+
             verifier.verifyVirgilSignature = false
-            
+
             let credentials = VerifierCredentials(signer: VirgilCardVerifier.virgilSignerIdentifier,
                                                   publicKey: virgilPublicKey)
             let whitelist = try Whitelist(verifiersCredentials: [credentials])
-            
+
             verifier.whitelists = [whitelist]
         }
 
