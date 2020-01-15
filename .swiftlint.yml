@@ -1,4 +1,5 @@
 disabled_rules:
+  - implicit_return
   - redundant_optional_initialization
   - statement_position
   - nesting
@@ -69,7 +70,6 @@ opt_in_rules:
   - identical_operands
   - identifier_name
   - implicit_getter
-  - implicit_return
   - inert_defer
   - is_disjoint
   - large_tuple
