@@ -64,7 +64,7 @@
         completionHandler(token, nil);
     }];
     
-    e3Params.keyPairType = VSMKeyPairTypeCurve25519Round5Ed25519Falcon;
+    e3Params.keyPairType = VSMKeyPairTypeEd25519;
     e3Params.storageParams = params;
     
     NSURL *serviceUrl = [[NSURL alloc] initWithString:self.consts.ServiceURL];
