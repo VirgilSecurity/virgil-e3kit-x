@@ -108,7 +108,7 @@ import VirgilSDKRatchet
 
         try self.init(params: params)
     }
-    
+
     @objc public convenience init(params: EThreeParams) throws {
         let crypto = try VirgilCrypto()
 
@@ -116,7 +116,7 @@ import VirgilSDKRatchet
         guard let verifier = VirgilCardVerifier(crypto: crypto) else {
             throw EThreeError.verifierInitFailed
         }
-        
+
         let accessTokenProvider = CachingJwtProvider { params.tokenCallback($1) }
 
         let cardManagerParams = CardManagerParams(crypto: crypto,
@@ -131,7 +131,7 @@ import VirgilSDKRatchet
         cardManagerParams.cardClient = cardClient
 
         let cardManager = CardManager(params: cardManagerParams)
-        
+
         let storageParams = try params.storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
@@ -145,11 +145,14 @@ import VirgilSDKRatchet
                                                   keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
                                                   pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl)
 
-        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: params.identity, crypto: crypto, verifier: verifier)
+        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: params.identity,
+                                                      crypto: crypto,
+                                                      verifier: verifier)
+
         let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
                                           cardManager: cardManager,
                                           changedKeyDelegate: params.changedKeyDelegate)
-        
+
         let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
                                                           localKeyStorage: localKeyStorage,
                                                           keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)

@@ -49,7 +49,9 @@ internal class CloudRatchetStorage {
         return self.localKeyStorage.identity
     }
 
-    internal init(accessTokenProvider: AccessTokenProvider, localKeyStorage: LocalKeyStorage, keyknoxServiceUrl: URL) throws {
+    internal init(accessTokenProvider: AccessTokenProvider,
+                  localKeyStorage: LocalKeyStorage,
+                  keyknoxServiceUrl: URL) throws {
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
 

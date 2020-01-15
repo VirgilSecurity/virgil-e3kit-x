@@ -59,9 +59,9 @@ public extension EThree {
                 }
 
                 let token = try getTokenOperation.startSync().get()
-                
+
                 let params = EThreeParams(identity: token.identity(), tokenCallback: tokenCallback)
-                
+
                 params.changedKeyDelegate = changedKeyDelegate
                 params.storageParams = storageParams
 

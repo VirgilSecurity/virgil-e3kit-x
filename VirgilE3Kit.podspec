@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                       	= "VirgilE3Kit"
-  s.version                   	= "0.8.0-beta5"
+  s.version                   	= "0.8.0"
   s.swift_version               = "5.1"
   s.license      		= { :type => "BSD", :file => "LICENSE" }
   s.summary      		= "Vigil E3Kit for Apple devices and languages"
@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target   = "2.0"
   s.source       		= { :git => "https://github.com/VirgilSecurity/virgil-e3kit-x.git", :tag => s.version }
   s.source_files  		= 'Source/**/*.{swift}'
-  s.dependency "VirgilSDKPythia", "~> 0.7.1"
-  s.dependency "VirgilSDKRatchet", "~> 0.3.1"
+  s.dependency "VirgilSDKPythia", "~> 0.8.0"
+  s.dependency "VirgilSDKRatchet", "~> 0.4.0"
 end

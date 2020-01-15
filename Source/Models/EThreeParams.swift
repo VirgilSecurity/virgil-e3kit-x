@@ -56,9 +56,9 @@ import VirgilCrypto
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
-    
+
     public var serviceUrls: ServiceUrls
-    
+
     public struct ServiceUrls {
         public var cardServiceUrl: URL
         public var pythiaServiceUrl: URL
@@ -79,7 +79,7 @@ import VirgilCrypto
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             do {
                 let keyPairTypeStr = try container.decode(String.self, forKey: .keyPairType)
                 self.keyPairType = try KeyPairType(from: keyPairTypeStr)
