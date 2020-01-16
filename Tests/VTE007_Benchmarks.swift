@@ -72,30 +72,14 @@ class VTE007_Benchmarks: XCTestCase {
         }
     }
 
-    private func setUpDevice(with keyPair: VirgilKeyPair? = nil) throws -> EThree {
-        let identity = UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
-
-        try ethree.register(with: keyPair).startSync().get()
-
-        return ethree
-    }
-
     func test01_findUser_encrypt() {
         do {
             for keyType: KeyPairType in [.ed25519, .secp256r1] {
                 let aliceKeyPair = try self.utils.crypto.generateKeyPair(ofType: keyType)
                 let bobKeyPair = try self.utils.crypto.generateKeyPair(ofType: keyType)
 
-                let alice = try self.setUpDevice(with: aliceKeyPair)
-                let bob = try self.setUpDevice(with: bobKeyPair)
+                let alice = try self.utils.setupDevice(keyPair: aliceKeyPair)
+                let bob = try self.utils.setupDevice(keyPair: bobKeyPair)
 
                 _ = try alice.findUser(with: bob.identity).startSync().get()
 
@@ -118,8 +102,8 @@ class VTE007_Benchmarks: XCTestCase {
                 let aliceKeyPair = try self.utils.crypto.generateKeyPair(ofType: keyType)
                 let bobKeyPair = try self.utils.crypto.generateKeyPair(ofType: keyType)
 
-                let alice = try self.setUpDevice(with: aliceKeyPair)
-                let bob = try self.setUpDevice(with: bobKeyPair)
+                let alice = try self.utils.setupDevice(keyPair: aliceKeyPair)
+                let bob = try self.utils.setupDevice(keyPair: bobKeyPair)
 
                 let bobCard = try alice.findUser(with: bob.identity).startSync().get()
                 let encrypted = try alice.authEncrypt(data: self.toEncrypt, for: bobCard)
@@ -141,9 +125,9 @@ class VTE007_Benchmarks: XCTestCase {
 
     func test03__group_update() {
         do {
-            let ethree1 = try self.setUpDevice()
-            let ethree2 = try self.setUpDevice()
-            let ethree3 = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
+            let ethree2 = try self.utils.setupDevice()
+            let ethree3 = try self.utils.setupDevice()
 
             let identifier = UUID().uuidString
 

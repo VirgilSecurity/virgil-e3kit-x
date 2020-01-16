@@ -610,13 +610,9 @@ class VTE004_MixtecTests: XCTestCase {
             let privateKeyData = Data(base64Encoded: config.PrivateKey)!
             _ = try keychainStorage.store(data: privateKeyData, withName: config.Identity, meta: nil)
 
-            let tokenCallback: EThree.RenewJwtCallback = { completion in
-                let token = self.utils.getTokenString(identity: config.Identity)
-
-                completion(token, nil)
-            }
-
-            let ethree = try EThree(identity: config.Identity, tokenCallback: tokenCallback)
+            let ethree = try self.utils.setupEThree(identity: config.Identity,
+                                                    enableRatchet: false,
+                                                    keyRotationInterval: 0)
 
             // Load Group
             let initiatorCard = try ethree.findUser(with: config.Initiator).startSync().get()

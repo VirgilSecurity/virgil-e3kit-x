@@ -107,7 +107,7 @@ extension EThree {
         self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
                                                          accessTokenProvider: self.accessTokenProvider,
                                                          localKeyStorage: self.localKeyStorage,
-                                                         cloudTempKeysStorage: self.cloudTempKeysStorage,
+                                                         keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
                                                          lookupManager: self.lookupManager,
                                                          keyPairType: self.keyPairType,
                                                          keyPair: keyPair)
@@ -118,8 +118,12 @@ extension EThree {
                                                       crypto: self.crypto,
                                                       identityKeyPair: keyPair)
 
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage,
+                                                        keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl)
+
          self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                          cloudTicketStorage: self.cloudTicketStorage,
+                                          cloudTicketStorage: cloudTicketStorage,
                                           localKeyStorage: self.localKeyStorage,
                                           lookupManager: self.lookupManager,
                                           crypto: self.crypto)
@@ -180,6 +184,11 @@ extension EThree {
         let context = SecureChatContext(identityCard: card,
                                         identityPrivateKey: keyPair.privateKey,
                                         accessTokenProvider: self.accessTokenProvider)
+
+        context.client = RatchetClient(accessTokenProvider: self.accessTokenProvider,
+                                       serviceUrl: self.serviceUrls.ratchetServiceUrl,
+                                       connection: EThree.getConnection(),
+                                       retryConfig: ExpBackoffRetry.Config())
 
         let chat = try SecureChat(context: context)
         self.secureChat = chat

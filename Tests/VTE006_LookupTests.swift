@@ -131,13 +131,9 @@ class VTE006_LookupTests: XCTestCase {
         let newCard = self.utils.publishCard(identity: card.identity,
                                              previousCardId: card.identifier)
 
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: ethree.identity)
-
-            completion(token, nil)
-        }
-
-        let newEThree = try! EThree(identity: ethree.identity, tokenCallback: tokenCallback, changedKeyDelegate: delegate)
+        let newEThree = try! self.utils.setupEThree(identity: ethree.identity,
+                                                    enableRatchet: false,
+                                                    changedKeyDelegate: delegate)
 
         sleep(3)
 
@@ -158,7 +154,8 @@ class VTE006_LookupTests: XCTestCase {
 
         do {
             _ = try ethree.findUsers(with: identities).startSync().get()
-        } catch FindUsersError.cardWasNotFound {} catch {
+        }
+        catch FindUsersError.cardWasNotFound {} catch {
             XCTFail()
         }
 

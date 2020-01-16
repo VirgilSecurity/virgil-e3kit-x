@@ -237,15 +237,7 @@ class VTE010_TempChannelTests: XCTestCase {
         do {
             let config = self.utils.config.TemporaryChannel
 
-            let identity = config.Identity
-
-            let tokenCallback: EThree.RenewJwtCallback = { completion in
-                let token = self.utils.getTokenString(identity: identity)
-
-                completion(token, nil)
-            }
-
-            let ethree = try EThree(identity: identity, tokenCallback: tokenCallback)
+            let ethree = try self.utils.setupEThree(identity: config.Identity, enableRatchet: false)
 
             if try !ethree.hasLocalPrivateKey() {
                 let privateKeyData = Data(base64Encoded: config.PrivateKey)!

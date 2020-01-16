@@ -77,7 +77,8 @@ import VirgilSDKPythia
     public func setupEThree(identity: String,
                             storageParams: KeychainStorageParams? = nil,
                             enableRatchet: Bool,
-                            keyRotationInterval: TimeInterval) throws -> EThree {
+                            keyRotationInterval: TimeInterval = Defaults.keyRotationInterval,
+                            changedKeyDelegate: ChangedKeyDelegate? = nil) throws -> EThree {
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let token = self.getTokenString(identity: identity)
 
@@ -89,6 +90,8 @@ import VirgilSDKPythia
         params.storageParams = storageParams
         params.enableRatchet = enableRatchet
         params.keyRotationInterval = keyRotationInterval
+        params.changedKeyDelegate = changedKeyDelegate
+        
         // FIXME
         params.keyPairType = .ed25519
         params.serviceUrls = self.config.ServiceUrls.get()
