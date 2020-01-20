@@ -86,7 +86,7 @@ extension EThree {
     }
 
     internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
-        let keyPair = try keyPair ?? self.crypto.generateKeyPair()
+        let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
         let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
@@ -107,7 +107,9 @@ extension EThree {
         self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
                                                          accessTokenProvider: self.accessTokenProvider,
                                                          localKeyStorage: self.localKeyStorage,
+                                                         keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
                                                          lookupManager: self.lookupManager,
+                                                         keyPairType: self.keyPairType,
                                                          keyPair: keyPair)
     }
 
@@ -115,8 +117,11 @@ extension EThree {
          let localGroupStorage = try FileGroupStorage(identity: self.identity,
                                                       crypto: self.crypto,
                                                       identityKeyPair: keyPair)
-         let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                         localKeyStorage: self.localKeyStorage)
+
+        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
+                                                        localKeyStorage: self.localKeyStorage,
+                                                        keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl)
+
          self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
                                           cloudTicketStorage: cloudTicketStorage,
                                           localKeyStorage: self.localKeyStorage,
@@ -179,6 +184,11 @@ extension EThree {
         let context = SecureChatContext(identityCard: card,
                                         identityPrivateKey: keyPair.privateKey,
                                         accessTokenProvider: self.accessTokenProvider)
+
+        context.client = RatchetClient(accessTokenProvider: self.accessTokenProvider,
+                                       serviceUrl: self.serviceUrls.ratchetServiceUrl,
+                                       connection: EThree.getConnection(),
+                                       retryConfig: ExpBackoffRetry.Config())
 
         let chat = try SecureChat(context: context)
         self.secureChat = chat

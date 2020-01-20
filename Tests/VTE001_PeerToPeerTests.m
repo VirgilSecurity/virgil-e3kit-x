@@ -57,20 +57,8 @@
         XCTAssert(error == nil);
         VTEEThree *eThree1 = self.eThree;
 
-        NSError *err;
-        NSString *identity = [[NSUUID alloc] init].UUIDString;
-
-        VTEEThree *eThree2 = [[VTEEThree alloc] initWithIdentity:identity
-                                                   tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                                        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                                        completionHandler(token, nil);
-                                                    }
-                                              changedKeyDelegate:nil
-                                                   storageParams:self.keychainStorage.storageParams
-                                                   enableRatchet:false
-                                             keyRotationInterval:3600
-                                                           error:&err];
-        XCTAssert(eThree2 != nil && err == nil);
+        VTEEThree *eThree2 = [self.utils setupEThreeWithStorageParams:self.keychainStorage.storageParams];
+        XCTAssert(eThree2 != nil);
 
         [eThree2 registerWithCompletion:^(NSError *error) {
             XCTAssert(error == nil);
@@ -141,7 +129,7 @@
             XCTAssert(card != nil && error == nil);
 
             NSError *err;
-            NSData *encryptedData = [self.crypto encrypt:plainData for:@[card.publicKey] error:&err];
+            NSData *encryptedData = [self.crypto encrypt:plainData for:@[card.publicKey] enablePadding:NO error:&err];
             XCTAssert(err == nil);
 
             NSString *encryptedString = [encryptedData base64EncodedStringWithOptions:0];
@@ -230,20 +218,8 @@
         XCTAssert(error == nil);
         VTEEThree *eThree1 = self.eThree;
 
-        NSError *err;
-        NSString *identity = [[NSUUID alloc] init].UUIDString;
-
-        VTEEThree *eThree2 = [[VTEEThree alloc] initWithIdentity:identity
-                                                   tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                                       NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                                       completionHandler(token, nil);
-                                                   }
-                                              changedKeyDelegate:nil
-                                                   storageParams:self.keychainStorage.storageParams
-                                                   enableRatchet:false
-                                             keyRotationInterval:3600
-                                                           error:&err];
-        XCTAssert(eThree2 != nil && err == nil);
+        VTEEThree *eThree2 = [self.utils setupEThreeWithStorageParams:self.keychainStorage.storageParams];
+        XCTAssert(eThree2 != nil);
 
         [eThree2 registerWithCompletion:^(NSError *error) {
             XCTAssert(error == nil);
@@ -326,37 +302,33 @@
         XCTAssert(error == nil);
         VTEEThree *eThree1 = self.eThree;
 
-        NSString *identity = [[NSUUID alloc] init].UUIDString;
-        [VTEEThree initializeWithTokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-            NSString *token = [self.utils getTokenStringWithIdentity:identity];
 
-            completionHandler(token, nil);
-        } changedKeyDelegate:nil storageParams:self.keychainStorage.storageParams completion:^(VTEEThree *eThree2, NSError *error) {
-            XCTAssert(eThree2 != nil && error == nil);
+        NSError *err;
+        VTEEThree *eThree2 = [self.utils deprecatedSetupEThreeWithStorageParams:self.keychainStorage.storageParams error:&err];
+        XCTAssert(eThree2 != nil && err == nil);
 
-            [eThree2 registerWithCompletion:^(NSError *error) {
+        [eThree2 registerWithCompletion:^(NSError *error) {
+            XCTAssert(error == nil);
+
+            [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
                 XCTAssert(error == nil);
+                XCTAssert(lookup.count > 0);
 
-                [eThree1 lookupPublicKeysOf:@[eThree2.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
+                NSString *plainText = [[NSUUID alloc] init].UUIDString;
+                NSError *err;
+                NSString *encrypted = [eThree1 encryptWithText:plainText for:lookup error:&err];
+                XCTAssert(err == nil);
+
+                [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
                     XCTAssert(error == nil);
                     XCTAssert(lookup.count > 0);
 
-                    NSString *plainText = [[NSUUID alloc] init].UUIDString;
                     NSError *err;
-                    NSString *encrypted = [eThree1 encryptWithText:plainText for:lookup error:&err];
+                    NSString *decrypted = [eThree2 decryptWithText:encrypted from:lookup[eThree1.identity] error:&err];
                     XCTAssert(err == nil);
+                    XCTAssert([decrypted isEqualToString:plainText]);
 
-                    [eThree2 lookupPublicKeysOf:@[eThree1.identity] completion:^(NSDictionary<NSString *, VSMVirgilPublicKey *> *lookup, NSError *error) {
-                        XCTAssert(error == nil);
-                        XCTAssert(lookup.count > 0);
-
-                        NSError *err;
-                        NSString *decrypted = [eThree2 decryptWithText:encrypted from:lookup[eThree1.identity] error:&err];
-                        XCTAssert(err == nil);
-                        XCTAssert([decrypted isEqualToString:plainText]);
-
-                        [ex fulfill];
-                    }];
+                    [ex fulfill];
                 }];
             }];
         }];
@@ -375,20 +347,8 @@
         XCTAssert(error == nil);
         VTEEThree *eThree1 = self.eThree;
 
-        NSError *err;
-        NSString *identity = [[NSUUID alloc] init].UUIDString;
-
-        VTEEThree *eThree2 = [[VTEEThree alloc] initWithIdentity:identity
-                                                   tokenCallback:^(void (^completionHandler)(NSString *, NSError *)) {
-                                                        NSString *token = [self.utils getTokenStringWithIdentity:identity];
-                                                        completionHandler(token, nil);
-                                                    }
-                                              changedKeyDelegate:nil
-                                                   storageParams:self.keychainStorage.storageParams
-                                                   enableRatchet:false
-                                             keyRotationInterval:3600
-                                                           error:&err];
-        XCTAssert(eThree2 != nil && err == nil);
+        VTEEThree *eThree2 = [self.utils setupEThreeWithStorageParams:self.keychainStorage.storageParams];
+        XCTAssert(eThree2 != nil);
 
         [eThree2 registerWithCompletion:^(NSError *error) {
             XCTAssert(error == nil);

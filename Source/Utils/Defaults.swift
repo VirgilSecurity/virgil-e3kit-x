@@ -35,9 +35,12 @@
 //
 
 import Foundation
+import VirgilCrypto
 
 /// Class containing all default values
 @objc(VTEDefaults) public class Defaults: NSObject {
+    /// Default key pair type
+    @objc public static let keyPairType: KeyPairType = .ed25519
     /// Enables ratchet operations
     @objc public static let enableRatchet: Bool = false
     /// TimeInterval of automatic rotate keys for double ratchet

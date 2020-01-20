@@ -47,7 +47,10 @@ internal class CloudTempKeysStorage {
     private let crypto: VirgilCrypto
     private let keyknoxClient: KeyknoxClient
 
-    internal init(identity: String, accessTokenProvider: AccessTokenProvider, crypto: VirgilCrypto) {
+    internal init(identity: String,
+                  accessTokenProvider: AccessTokenProvider,
+                  crypto: VirgilCrypto,
+                  keyknoxServiceUrl: URL) {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.crypto = crypto
@@ -55,7 +58,7 @@ internal class CloudTempKeysStorage {
         let connection = EThree.getConnection()
 
         self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                           serviceUrl: KeyknoxClient.defaultURL,
+                                           serviceUrl: keyknoxServiceUrl,
                                            connection: connection,
                                            retryConfig: ExpBackoffRetry.Config())
     }
