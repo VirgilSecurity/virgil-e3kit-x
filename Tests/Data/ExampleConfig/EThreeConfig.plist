@@ -6,5 +6,7 @@
 	<false/>
 	<key>keyRotationInterval</key>
 	<integer>3600</integer>
+	<key>keyPairType</key>
+	<string>curve25519Round5Ed25519Falcon</string>
 </dict>
 </plist>
