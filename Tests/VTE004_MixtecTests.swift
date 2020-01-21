@@ -46,25 +46,9 @@ class VTE004_MixtecTests: XCTestCase {
         return self.utils.crypto
     }
 
-    private func setUpDevice() -> EThree {
-        let identity = UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try! EThree(identity: identity, tokenCallback: tokenCallback)
-
-        try! ethree.register().startSync().get()
-
-        return ethree
-    }
-
     func test001_STE_26__create_with_invalid_participants_count__should_throw_error() {
         do {
-            let ethree = self.setUpDevice()
+            let ethree = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -96,8 +80,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test002_STE_27__create__should_add_self() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId1 = try self.crypto.generateRandomData(ofSize: 100)
             let groupId2 = try self.crypto.generateRandomData(ofSize: 100)
@@ -117,8 +101,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test003_STE_28__groupId__should_not_be_short() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 5)
 
@@ -136,8 +120,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test004_STE_29__get_group() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -159,8 +143,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test005_STE_30__load_group() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -182,9 +166,9 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test006_STE_31__load_alien_or_unexistent_group__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -211,8 +195,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test007_STE_32__actions_on_deleted_group__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -252,7 +236,7 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test008_STE_33__add_more_than_max__should_throw_error() {
         do {
-            let ethree = self.setUpDevice()
+            let ethree = try self.utils.setupDevice(keyPairType: .ed25519)
 
             var participants: Set<String> = Set()
 
@@ -285,7 +269,7 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test009_STE_72__remove_last_participant__should_throw_error() {
         do {
-            let ethree = self.setUpDevice()
+            let ethree = try self.utils.setupDevice(keyPairType: .ed25519)
             let card = try ethree.findUser(with: ethree.identity).startSync().get()
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
@@ -304,9 +288,9 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test010_STE_35__remove() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -345,9 +329,9 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test011_STE_37__add() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -379,10 +363,10 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test012_STE_36__change_group_by_noninitiator__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
-            let ethree4 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree4 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let identities = [ethree2.identity, ethree3.identity]
 
@@ -412,8 +396,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test013_STE_38__decrypt_with_old_card__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -443,9 +427,9 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test014_STE_39__integration_encryption() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let identities = [ethree2.identity]
 
@@ -533,9 +517,9 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test015_STE_42__decrypt_with_old_group__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
-            let ethree3 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree3 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -562,8 +546,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test016_STE_43__decrypt_with_old_group__should_throw_error() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let groupId = try self.crypto.generateRandomData(ofSize: 100)
 
@@ -626,13 +610,9 @@ class VTE004_MixtecTests: XCTestCase {
             let privateKeyData = Data(base64Encoded: config.PrivateKey)!
             _ = try keychainStorage.store(data: privateKeyData, withName: config.Identity, meta: nil)
 
-            let tokenCallback: EThree.RenewJwtCallback = { completion in
-                let token = self.utils.getTokenString(identity: config.Identity)
-
-                completion(token, nil)
-            }
-
-            let ethree = try EThree(identity: config.Identity, tokenCallback: tokenCallback)
+            let ethree = try self.utils.setupEThree(identity: config.Identity,
+                                                    enableRatchet: false,
+                                                    keyRotationInterval: 0)
 
             // Load Group
             let initiatorCard = try ethree.findUser(with: config.Initiator).startSync().get()
@@ -654,8 +634,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test018_STE_46__string_identifier() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let identifier = UUID().uuidString
 
@@ -677,8 +657,8 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test019_STE_73__added_participant__should_decrypt_history() {
         do {
-            let ethree1 = self.setUpDevice()
-            let ethree2 = self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let identifier = UUID().uuidString
 
@@ -704,11 +684,33 @@ class VTE004_MixtecTests: XCTestCase {
 
     func test020_STE_85__delete__unexistent_channel__should_succeed() {
         do {
-            let ethree = self.setUpDevice()
+            let ethree = try self.utils.setupDevice(keyPairType: .ed25519)
 
             let fakeId = UUID().uuidString
 
             try ethree.deleteGroup(id: fakeId).startSync().get()
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
+    }
+
+    func test021_STE_86__add_participants__should_update_local_group() {
+        do {
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let ethree2 = try self.utils.setupDevice(keyPairType: .ed25519)
+
+            let identifier = UUID().uuidString
+
+            let group = try ethree1.createGroup(id: identifier).startSync().get()
+
+            let card2 = try ethree1.findUser(with: ethree2.identity).startSync().get()
+
+            try group.add(participant: card2).startSync().get()
+
+            let cachedGroup = try ethree1.getGroup(id: identifier)!
+
+            XCTAssert(cachedGroup.participants == Set([ethree1.identity, ethree2.identity]))
         } catch {
             print(error.localizedDescription)
             XCTFail()

@@ -35,15 +35,17 @@
 //
 
 import Foundation
+import VirgilE3Kit
 
 @objc(VTETestConfig) public class TestConfig: NSObject, Decodable {
     @objc public let ApiKeyId: String
     @objc public let ApiPrivateKey: String
     @objc public let AppId: String
-    @objc public let ServiceURL: String
+    @objc public let ServicePublicKey: String?
 
     public let Group: GroupConfig
     public let TemporaryChannel: TemporaryConfig
+    @objc public let ServiceUrls: ServiceUrls
 
     public struct GroupConfig: Decodable {
         public let GroupId: String
@@ -61,6 +63,25 @@ import Foundation
         public let PrivateKey: String
         public let OriginText: String
         public let EncryptedText: String
+    }
+
+    @objc public class ServiceUrls: NSObject, Decodable {
+        public let Card: String
+        public let Pythia: String
+        public let Keyknox: String
+        public let Ratchet: String
+
+        @objc public func get() -> EThreeParams.ServiceUrls {
+            let cardServiceUrl = URL(string: self.Card)!
+            let pythiaServiceUrl = URL(string: self.Pythia)!
+            let keyknoxServiceUrl = URL(string: self.Keyknox)!
+            let ratchetServiceUrl = URL(string: self.Ratchet)!
+
+            return EThreeParams.ServiceUrls(cardServiceUrl: cardServiceUrl,
+                                            pythiaServiceUrl: pythiaServiceUrl,
+                                            keyknoxServiceUrl: keyknoxServiceUrl,
+                                            ratchetServiceUrl: ratchetServiceUrl)
+        }
     }
 
     @objc public static func readFromBundle() -> TestConfig {

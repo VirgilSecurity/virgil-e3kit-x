@@ -62,6 +62,7 @@ class VTE008_AdditionalTests: XCTestCase {
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 1_600)
+        XCTAssert(params.keyPairType == .curve25519Round5Ed25519Falcon)
     }
 
     func test03_STE_50__init_ethreeParams__invalid_config__should_throw_error() {
