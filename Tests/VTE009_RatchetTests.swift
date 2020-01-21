@@ -97,7 +97,7 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test003_STE_53__create__with_disabled_ratchet_user__should_throw_error() {
         do {
-            let ethree1 = try self.utils.setupDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
             let (ethree2, _) = try self.utils.setupRatchetDevice()
 
             let card1 = try ethree2.findUser(with: ethree1.identity).startSync().get()

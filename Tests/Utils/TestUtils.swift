@@ -50,10 +50,15 @@ import VirgilSDKPythia
         super.init()
     }
 
-    public func setupDevice(identity: String? = nil, keyPair: VirgilKeyPair? = nil) throws -> EThree {
+    public func setupDevice(identity: String? = nil,
+                            keyPair: VirgilKeyPair? = nil,
+                            keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon) throws -> EThree {
         let identity = identity ?? UUID().uuidString
 
-        let ethree = try self.setupEThree(identity: identity, enableRatchet: false, keyRotationInterval: 0)
+        let ethree = try self.setupEThree(identity: identity,
+                                          enableRatchet: false,
+                                          keyPairType: keyPairType,
+                                          keyRotationInterval: 0)
 
         try ethree.register(with: keyPair).startSync().get()
 
@@ -65,6 +70,7 @@ import VirgilSDKPythia
 
         let ethree = try self.setupEThree(identity: identity,
                                           enableRatchet: true,
+                                          keyPairType: .ed25519,
                                           keyRotationInterval: keyRotationInterval)
 
         try ethree.register().startSync().get()
@@ -77,6 +83,7 @@ import VirgilSDKPythia
     public func setupEThree(identity: String,
                             storageParams: KeychainStorageParams? = nil,
                             enableRatchet: Bool,
+                            keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
                             keyRotationInterval: TimeInterval = Defaults.keyRotationInterval,
                             changedKeyDelegate: ChangedKeyDelegate? = nil) throws -> EThree {
         let tokenCallback: EThree.RenewJwtCallback = { completion in
@@ -91,9 +98,8 @@ import VirgilSDKPythia
         params.enableRatchet = enableRatchet
         params.keyRotationInterval = keyRotationInterval
         params.changedKeyDelegate = changedKeyDelegate
+        params.keyPairType = keyPairType
         
-        // FIXME
-        params.keyPairType = .ed25519
         params.serviceUrls = self.config.ServiceUrls.get()
         params.overrideVirgilPublicKey = self.config.ServicePublicKey
 
