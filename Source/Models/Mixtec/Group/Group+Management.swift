@@ -168,6 +168,7 @@ extension Group {
     }
 }
 
+// MARK: - Extension with group management operations with string participants parameter
 extension Group {
     /// Adds new participants to group
     ///
@@ -190,9 +191,18 @@ extension Group {
         }
     }
 
+    /// Adds new participant to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameter card: User to add
+    /// - Returns: CallbackOperation<Void>
+    open func add(participant: String) -> GenericOperation<Void> {
+        return self.add(participants: [participant])
+    }
+
     /// Share group access and history on new Card of existing participant
     ///
-    /// - Parameter participant: participant
+    /// - Parameter participant: participant to re add
     /// - Returns: CallbackOperation<Void>
     open func reAdd(participant: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
@@ -244,18 +254,9 @@ extension Group {
         }
     }
 
-    /// Adds new participant to group
-    ///
-    /// - Note: New participant will be able to decrypt all history
-    /// - Parameter card: User to add
-    /// - Returns: CallbackOperation<Void>
-    open func add(participant: String) -> GenericOperation<Void> {
-        return self.add(participants: [participant])
-    }
-
     /// Removes participant from group
     ///
-    /// - Parameter card: User to remove
+    /// - Parameter participant: User to remove
     /// - Returns: CallbackOperation<Void>
     open func remove(participant: String) -> GenericOperation<Void> {
         return self.remove(participants: [participant])

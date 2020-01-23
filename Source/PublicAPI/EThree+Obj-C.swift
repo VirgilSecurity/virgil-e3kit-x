@@ -280,6 +280,69 @@ extension EThree {
             completion(error)
         }
     }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    @objc(createGroupWithDataId:users:completion:)
+    open func createGroup(id identifier: Data,
+                          with users: [String],
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: users).start(completion: completion)
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    open func createGroup(id identifier: String,
+                          with users: [String],
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: users).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - initiator: initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    open func loadGroup(id identifier: Data,
+                        initiator: String,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: initiator).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    open func loadGroup(id identifier: String,
+                        initiator: String,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: initiator).start(completion: completion)
+    }
 }
 
 // MARK: - Extension with Objective-C compatible Ratchet operations

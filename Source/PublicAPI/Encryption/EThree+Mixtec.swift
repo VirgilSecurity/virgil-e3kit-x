@@ -170,6 +170,7 @@ extension EThree {
     // swiftlint:enable force_unwrapping
 }
 
+// MARK: - Extension with group operations with string users parameter
 extension EThree {
     /// Creates group, saves in cloud and locally
     ///
