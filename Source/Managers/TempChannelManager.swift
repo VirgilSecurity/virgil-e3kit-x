@@ -41,6 +41,7 @@ internal class TempChannelManager {
     internal let localStorage: FileTempKeysStorage
 
     private let crypto: VirgilCrypto
+    private let keyPairType: KeyPairType
     private let cloudStorage: CloudTempKeysStorage
     private let localKeyStorage: LocalKeyStorage
     private let lookupManager: LookupManager
@@ -52,21 +53,25 @@ internal class TempChannelManager {
     internal init(crypto: VirgilCrypto,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
+                  keyknoxServiceUrl: URL,
                   lookupManager: LookupManager,
+                  keyPairType: KeyPairType,
                   keyPair: VirgilKeyPair) throws {
         self.crypto = crypto
+        self.keyPairType = keyPairType
         self.localKeyStorage = localKeyStorage
         self.lookupManager = lookupManager
 
         let identity = localKeyStorage.identity
 
-        self.cloudStorage = CloudTempKeysStorage(identity: identity,
-                                                 accessTokenProvider: accessTokenProvider,
-                                                 crypto: crypto)
-
         self.localStorage = try FileTempKeysStorage(identity: identity,
                                                     crypto: crypto,
                                                     identityKeyPair: keyPair)
+
+        self.cloudStorage = CloudTempKeysStorage(identity: identity,
+                                                 accessTokenProvider: accessTokenProvider,
+                                                 crypto: crypto,
+                                                 keyknoxServiceUrl: keyknoxServiceUrl)
     }
 }
 
@@ -74,7 +79,7 @@ extension TempChannelManager {
     internal func create(with identity: String) throws -> TemporaryChannel {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let tempKeyPair = try self.crypto.generateKeyPair()
+        let tempKeyPair = try self.crypto.generateKeyPair(ofType: self.keyPairType)
 
         do {
             try self.cloudStorage.store(tempKeyPair.privateKey, for: identity)

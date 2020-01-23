@@ -51,7 +51,7 @@ To integrate Virgil E3Kit into your Xcode project using CocoaPods, specify it in
 target '<Your Target Name>' do
     use_frameworks!
 
-    pod 'VirgilE3Kit', '~> 0.8.0-beta4'
+    pod 'VirgilE3Kit', '~> 0.8.0'
 end
 ```
 
@@ -75,7 +75,7 @@ $ brew install carthage
 To integrate VirgilE3Kit into your Xcode project using Carthage, create an empty file with name *Cartfile* in your project's root folder and add following lines to your *Cartfile*
 
 ```
-github "VirgilSecurity/virgil-e3kit-x" ~> 0.8.0-beta4
+github "VirgilSecurity/virgil-e3kit-x" ~> 0.8.0
 ```
 
 #### Linking against prebuilt binaries
@@ -296,7 +296,7 @@ let loginPassword = derivedPasswords.loginPassword
     
     let ethree = try! EThree(params: params)
 ```
-The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0-beta4/Tests/Data/ExampleConfig).
+The example of config file is [here](https://github.com/VirgilSecurity/virgil-e3kit-x/tree/0.8.0/Tests/Data/ExampleConfig).
 
 ## Enable Group Channel
 In this section, you'll find out how to build a group channel using the Virgil E3Kit.

@@ -41,28 +41,6 @@ import VirgilSDK
 class VTE009_RatchetTests: XCTestCase {
     let utils = TestUtils()
 
-    private func setUpDevice(enableRatchet: Bool = true,
-                             keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws -> (EThree, Card) {
-        let identity = UUID().uuidString
-
-        let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let token = self.utils.getTokenString(identity: identity)
-
-            completion(token, nil)
-        }
-
-        let ethree = try EThree(identity: identity,
-                                tokenCallback: tokenCallback,
-                                enableRatchet: enableRatchet,
-                                keyRotationInterval: keyRotationInterval)
-
-        try ethree.register().startSync().get()
-
-        let card = try ethree.findUser(with: identity).startSync().get()
-
-        return (ethree, card)
-    }
-
     func encryptDecrypt100Times(chat1: RatchetChannel, chat2: RatchetChannel) throws {
         for _ in 0..<100 {
             try autoreleasepool {
@@ -90,8 +68,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test001_STE_51__encrypt_decrypt__should_succeed() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
             let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
@@ -105,7 +83,7 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test002_STE_52__create__with_self__should_throw_error() {
         do {
-            let (ethree, card) = try self.setUpDevice()
+            let (ethree, card) = try self.utils.setupRatchetDevice()
 
             do {
                 _ = try ethree.createRatchetChannel(with: card).startSync().get()
@@ -119,8 +97,10 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test003_STE_53__create__with_disabled_ratchet_user__should_throw_error() {
         do {
-            let (_, card1) = try self.setUpDevice(enableRatchet: false)
-            let (ethree2, _) = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice(keyPairType: .ed25519)
+            let (ethree2, _) = try self.utils.setupRatchetDevice()
+
+            let card1 = try ethree2.findUser(with: ethree1.identity).startSync().get()
 
             do {
                 _ = try ethree2.createRatchetChannel(with: card1).startSync().get()
@@ -134,8 +114,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test004_STE_54__create__which_exists__should_throw_error() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
-            let (_, card2) = try self.setUpDevice()
+            let (ethree1, _) = try self.utils.setupRatchetDevice()
+            let (_, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -160,8 +140,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test005_STE_55__create__after_delete__should_succeed() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
             _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
@@ -181,7 +161,7 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test006_STE_56__join__with_self__should_throw_error() {
         do {
-            let (ethree, card) = try self.setUpDevice()
+            let (ethree, card) = try self.utils.setupRatchetDevice()
 
             do {
                 _ = try ethree.joinRatchetChannel(with: card).startSync().get()
@@ -195,8 +175,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test007_STE_57__join__which_exists__should_throw_error() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
             _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
@@ -213,8 +193,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test008_STE_58__join__without_invitation__should_throw_error() {
         do {
-            let (_, card1) = try self.setUpDevice()
-            let (ethree2, _) = try self.setUpDevice()
+            let (_, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, _) = try self.utils.setupRatchetDevice()
 
             do {
                 _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
@@ -228,8 +208,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test009_STE_59__join__after_delete__should_throw_error() {
        do {
-           let (ethree1, card1) = try self.setUpDevice()
-           let (ethree2, card2) = try self.setUpDevice()
+           let (ethree1, card1) = try self.utils.setupRatchetDevice()
+           let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -248,8 +228,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test010_STE_60__join__after_rotate__should_throw_error() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -268,8 +248,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test011_STE_61__join__after_unregister__should_succeed() {
          do {
-             let (ethree1, card1) = try self.setUpDevice()
-             let (ethree2, card2) = try self.setUpDevice()
+             let (ethree1, card1) = try self.utils.setupRatchetDevice()
+             let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
              let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -290,8 +270,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test012_STE_62__getRatchetChannel__should_succeed() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             XCTAssert(try ethree1.getRatchetChannel(with: card2) == nil)
             XCTAssert(try ethree2.getRatchetChannel(with: card1) == nil)
@@ -315,8 +295,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test013_STE_63__delete__nonexistent_chat__should_succeed() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
-            let (_, card2) = try self.setUpDevice()
+            let (ethree1, _) = try self.utils.setupRatchetDevice()
+            let (_, card2) = try self.utils.setupRatchetDevice()
 
             try ethree1.deleteRatchetChannel(with: card2).startSync().get()
         } catch {
@@ -327,8 +307,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test014_STE_64__enableRatchet() {
         do {
-            let (ethree1, _) = try self.setUpDevice(enableRatchet: false)
-            let (_, card2) = try self.setUpDevice()
+            let ethree1 = try self.utils.setupDevice()
+            let (_, card2) = try self.utils.setupRatchetDevice()
 
             do {
                 _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
@@ -357,8 +337,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test015_STE_65__auto_keys_rotation() {
         do {
-            let (ethree2, card2) = try self.setUpDevice()
-            let (ethree1, card1) = try self.setUpDevice(keyRotationInterval: 5)
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice(keyRotationInterval: 5)
 
             _ = try ethree2.createRatchetChannel(with: card1).startSync().get()
 
@@ -394,8 +374,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test016_STE_66__multiple_encrypt_decrypt__should_succeed() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -421,8 +401,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test017_STE_67__decrypt_messages__after_rotate_identity_key__should_succeed() {
         do {
-            let (ethree1, _) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, _) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
@@ -443,8 +423,8 @@ class VTE009_RatchetTests: XCTestCase {
 
     func test018_STE_68__chats__with_different_names() {
         do {
-            let (ethree1, card1) = try self.setUpDevice()
-            let (ethree2, card2) = try self.setUpDevice()
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             let name1 = UUID().uuidString
             let chat11 = try ethree1.createRatchetChannel(with: card2, name: name1).startSync().get()

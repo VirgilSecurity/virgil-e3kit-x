@@ -50,6 +50,86 @@ import VirgilSDKPythia
         super.init()
     }
 
+    public func setupDevice(identity: String? = nil,
+                            keyPair: VirgilKeyPair? = nil,
+                            keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon) throws -> EThree {
+        let identity = identity ?? UUID().uuidString
+
+        let ethree = try self.setupEThree(identity: identity,
+                                          enableRatchet: false,
+                                          keyPairType: keyPairType,
+                                          keyRotationInterval: 0)
+
+        try ethree.register(with: keyPair).startSync().get()
+
+        return ethree
+    }
+
+    public func setupRatchetDevice(keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws -> (EThree, Card) {
+        let identity = UUID().uuidString
+
+        let ethree = try self.setupEThree(identity: identity,
+                                          enableRatchet: true,
+                                          keyPairType: .ed25519,
+                                          keyRotationInterval: keyRotationInterval)
+
+        try ethree.register().startSync().get()
+
+        let card = try ethree.findUser(with: identity).startSync().get()
+
+        return (ethree, card)
+    }
+
+    public func setupEThree(identity: String,
+                            storageParams: KeychainStorageParams? = nil,
+                            enableRatchet: Bool,
+                            keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+                            keyRotationInterval: TimeInterval = Defaults.keyRotationInterval,
+                            changedKeyDelegate: ChangedKeyDelegate? = nil) throws -> EThree {
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        let params = EThreeParams(identity: identity, tokenCallback: tokenCallback)
+
+        params.storageParams = storageParams
+        params.enableRatchet = enableRatchet
+        params.keyRotationInterval = keyRotationInterval
+        params.changedKeyDelegate = changedKeyDelegate
+        params.keyPairType = keyPairType
+        
+        params.serviceUrls = self.config.ServiceUrls.get()
+        params.overrideVirgilPublicKey = self.config.ServicePublicKey
+
+        return try EThree(params: params)
+    }
+
+    @objc public func setupEThree(storageParams: KeychainStorageParams? = nil) -> EThree {
+        let identity = UUID().uuidString
+
+        return try! self.setupEThree(identity: identity,
+                                     storageParams: storageParams,
+                                     enableRatchet: false,
+                                     keyRotationInterval: 0)
+    }
+
+    @objc public func deprecatedSetupEThree(storageParams: KeychainStorageParams) throws -> EThree {
+        let identity = UUID().uuidString
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            let token = self.getTokenString(identity: identity)
+
+            completion(token, nil)
+        }
+
+        return try EThree.initialize(tokenCallback: tokenCallback,
+                                     storageParams: storageParams,
+                                     overrideVirgilPublicKey: self.config.ServicePublicKey,
+                                     serviceUrls: self.config.ServiceUrls.get()).startSync().get()
+        }
+
     @objc public func getTokenString(identity: String) -> String {
         let jwt = self.getToken(identity: identity, ttl: 1000)
 
@@ -87,7 +167,7 @@ import VirgilSDKPythia
 
         let token = self.getToken(identity: identity)
 
-        let serviceUrl = URL(string: self.config.ServiceURL)!
+        let serviceUrl = URL(string: self.config.ServiceUrls.Card)!
 
         let provider = ConstAccessTokenProvider(accessToken: token)
 
@@ -116,15 +196,31 @@ import VirgilSDKPythia
             completion(token, nil);
         })
 
-        let context = try! BrainKeyContext.makeContext(accessTokenProvider: provider)
-        let brainKey = BrainKey(context: context)
+        let serviceUrls = self.config.ServiceUrls.get()
+        let connection = HttpConnection()
+        let retryConfig = ExpBackoffRetry.Config()
+        let pythiaClient = PythiaClient(accessTokenProvider: provider,
+                                        serviceUrl: serviceUrls.pythiaServiceUrl,
+                                        connection: connection,
+                                        retryConfig: retryConfig)
+
+        let brainKeyContext = try! BrainKeyContext(client: pythiaClient)
+        let brainKey = BrainKey(context: brainKeyContext)
 
         brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
-            let cloudKeyStorage = try! CloudKeyStorage(accessTokenProvider: provider,
-                                                       crypto: self.crypto,
-                                                       publicKeys: [keyPair!.publicKey],
-                                                       privateKey: keyPair!.privateKey)
-            let syncKeyStorage = SyncKeyStorage(identity: identity, keychainStorage: keychainStorage, cloudKeyStorage: cloudKeyStorage)
+            let keyknoxClient = KeyknoxClient(accessTokenProvider: provider,
+                                              serviceUrl: serviceUrls.keyknoxServiceUrl,
+                                              connection: connection,
+                                              retryConfig: retryConfig)
+
+            let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
+
+            let cloudKeyStorage = CloudKeyStorage(keyknoxManager: keyknoxManager,
+                                                  publicKeys: [keyPair!.publicKey],
+                                                  privateKey: keyPair!.privateKey)
+            let syncKeyStorage = SyncKeyStorage(identity: identity,
+                                                keychainStorage: keychainStorage,
+                                                cloudKeyStorage: cloudKeyStorage)
 
             syncKeyStorage.sync { completion(syncKeyStorage, $0) }
         }
