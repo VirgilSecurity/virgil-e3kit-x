@@ -186,8 +186,9 @@ extension EThree {
                     .startSync()
                     .get()
 
-                self.createGroup(id: identifier, with: users, completion: completion)
-            } catch {
+                self.createGroup(id: identifier, with: users).start(completion: completion)
+            }
+            catch {
                 completion(nil, error)
             }
         }
@@ -217,8 +218,9 @@ extension EThree {
             do {
                 let card = try self.findUser(with: initiator).startSync().get()
 
-                self.loadGroup(id: identifier, initiator: card, completion: completion)
-            } catch {
+                self.loadGroup(id: identifier, initiator: card).start(completion: completion)
+            }
+            catch {
                 completion(nil, error)
             }
         }

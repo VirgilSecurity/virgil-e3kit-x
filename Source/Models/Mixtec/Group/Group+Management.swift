@@ -182,10 +182,9 @@ extension Group {
                                                                 forceReload: false,
                                                                 checkResult: true)
 
-                try self.add(participants: result).startSync().get()
-
-                completion((), nil)
-            } catch {
+                self.add(participants: result).start(completion: completion)
+            }
+            catch {
                 completion(nil, error)
             }
         }
@@ -209,10 +208,9 @@ extension Group {
             do {
                 let card = try self.lookupManager.lookupCard(of: participant)
 
-                try self.reAdd(participant: card).startSync().get()
-
-                completion((), nil)
-            } catch {
+                self.reAdd(participant: card).start(completion: completion)
+            }
+            catch {
                 completion(nil, error)
             }
         }
@@ -248,7 +246,8 @@ extension Group {
                 try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
 
                 completion((), nil)
-            } catch {
+            }
+            catch {
                 completion(nil, error)
             }
         }

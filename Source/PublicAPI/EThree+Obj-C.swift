@@ -398,6 +398,58 @@ extension EThree {
             completion(error)
         }
     }
+
+    /// Creates double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - identity: participant identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - channel: created `RatchetChannel` intance
+    ///   - error: corresponding error
+    open func createRatchetChannel(with identity: String,
+                                   name: String? = nil,
+                                   completion: @escaping (_ channel: RatchetChannel?,
+                                                          _ error: Error?) -> Void) {
+        self.createRatchetChannel(with: identity, name: name).start(completion: completion)
+    }
+
+    /// Joins double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - initiator: initiator identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - channel: `RatchetChannel` intance
+    ///   - error: corresponding error
+    open func joinRatchetChannel(with initiator: String,
+                                 name: String? = nil,
+                                 completion: @escaping (_ channel: RatchetChannel?,
+                                                        _ error: Error?) -> Void) {
+        self.joinRatchetChannel(with: initiator, name: name).start(completion: completion)
+    }
+
+    /// Retrieves double ratchet channel from local storage
+    /// - Parameters:
+    ///   - participant: participant identity
+    ///   - name: name of channel
+    @available(swift, obsoleted: 1.0)
+    @objc(getRatchetChannelWithParticipant:name:)
+    open func getRatchetChannelObjc(with participant: String, name: String? = nil) -> RatchetChannel? {
+        try? self.getRatchetChannel(with: participant, name: name)
+    }
+
+    /// Deletes double ratchet channel from cloud (if user is creator) and local storage
+    /// - Parameters:
+    ///   - participant: participant identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func deleteRatchetChannel(with participant: String,
+                                   name: String? = nil,
+                                   completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteRatchetChannel(with: participant, name: name).start { _, error in
+            completion(error)
+        }
+    }
 }
 
 // MARK: - Extension with Objective-C compatible Temporary Channel operations

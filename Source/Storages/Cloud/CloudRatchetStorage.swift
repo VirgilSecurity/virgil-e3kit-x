@@ -111,9 +111,9 @@ extension CloudRatchetStorage {
         return try RatchetMessage.deserialize(input: response.value)
     }
 
-    internal func delete(card: Card, name: String?) throws {
+    internal func delete(identity: String, name: String?) throws {
         let params = KeyknoxResetParams(root: CloudRatchetStorage.root,
-                                        path: card.identity,
+                                        path: identity,
                                         key: name ?? CloudRatchetStorage.defaultKey)
 
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
