@@ -38,5 +38,5 @@ import Foundation
 
 internal enum ProductInfo {
     internal static let name: String = "e3kit"
-    internal static let version: String = "0.8.0"
+    internal static let version: String = "2.0.0"
 }
