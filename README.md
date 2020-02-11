@@ -149,7 +149,7 @@ Click the “Destination” drop-down menu and select “Products Directory”. 
 
 - [Developer Documentation](https://developer.virgilsecurity.com/docs/e3kit/) - start integrating E3Kit into your project with our detailed guides.
 - [Quickstart Demo](https://developer.virgilsecurity.com/docs/e3kit/get-started/quickstart/) - will help you to get started with the Virgil E3Kit quickly, and to learn some common ways to build end-to-end encryption between two fictional characters Alice and Bob.
-- [E3Kit Kotlin API Reference](https://virgilsecurity.github.io/virgil-e3kit-kotlin/) - E3Kit API reference for the language of your choice.
+- [E3Kit Objective-C/Swift API Reference](https://virgilsecurity.github.io/virgil-e3kit-x/) - E3Kit API reference for the language of your choice.
 
 
 ## Samples
