@@ -160,7 +160,7 @@ You can find the code samples for Objective-C/Swift here:
 |----------| 
 | [`iOS Demo`](https://github.com/VirgilSecurity/demo-e3kit-ios) | 
 
-You can run the samples to see how to initialize the SDK, register users and encrypt messages using E3Kit.
+You can run the demo to see how to initialize the SDK, register users and encrypt messages using E3Kit.
 
 ## License
 
