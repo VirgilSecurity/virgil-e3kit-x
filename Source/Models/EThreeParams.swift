@@ -58,6 +58,8 @@ import VirgilCrypto
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     /// Service urls
     @objc public var serviceUrls: ServiceUrls
+    /// Initial Jwt
+    @objc public var initialJwt: Jwt? = nil
 
     /// Service urls
     @objc(VTEServiceUrls) public class ServiceUrls: NSObject {
@@ -144,6 +146,23 @@ import VirgilCrypto
             return try PropertyListDecoder().decode(Config.self, from: data)
         }
     }
+    
+    @objc public convenience init(initialJwt: Jwt,
+                                  tokenCallback: @escaping EThree.RenewJwtCallback,
+                                  configUrl: URL) throws {
+         try self.init(identity: initialJwt.identity(),
+                       tokenCallback: tokenCallback,
+                       configUrl: configUrl)
+         
+         self.initialJwt = initialJwt
+     }
+     
+     @objc public convenience init(initialJwt: Jwt,
+                                   tokenCallback: @escaping EThree.RenewJwtCallback) {
+         self.init(identity: initialJwt.identity(), tokenCallback: tokenCallback)
+         
+         self.initialJwt = initialJwt
+     }
 
     /// Initializer with parameters from config plist file
     ///

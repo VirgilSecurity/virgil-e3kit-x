@@ -146,7 +146,8 @@ import VirgilSDKRatchet
             verifier.whitelists = [whitelist]
         }
 
-        let accessTokenProvider = CachingJwtProvider { params.tokenCallback($1) }
+        let accessTokenProvider = CachingJwtProvider(initialJwt: params.initialJwt,
+                                                     renewTokenCallback: { params.tokenCallback($1) })
 
         let cardManagerParams = CardManagerParams(crypto: crypto,
                                                   accessTokenProvider: accessTokenProvider,
