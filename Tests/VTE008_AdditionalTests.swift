@@ -101,4 +101,22 @@ class VTE008_AdditionalTests: XCTestCase {
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 3_600)
     }
+    
+    func test05_STE_87__init_ethree__with_initial_jwt__should_succeed() {
+        let utils = TestUtils()
+        
+        let identity = UUID().uuidString
+        let initialJwt = utils.getToken(identity: identity)
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            XCTFail()
+        }
+
+        let params = EThreeParams(initialJwt: initialJwt,
+                                  tokenCallback: tokenCallback)
+                                       
+        let ethree = try! EThree(params: params)
+        
+        _ = ethree.findUser(with: ethree.identity, forceReload: true)
+    }
 }
