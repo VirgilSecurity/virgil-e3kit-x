@@ -119,33 +119,4 @@ class VTE008_AdditionalTests: XCTestCase {
         
         _ = ethree.findUser(with: ethree.identity, forceReload: true)
     }
-    
-    func test06_STE_88__decrypt_stream__encrypted_as_data__should_succeed() {
-        do {
-            let utils = TestUtils()
-            
-            let ethree1 = try utils.setupDevice()
-            let ethree2 = try utils.setupDevice()
-            
-            let data = try utils.crypto.generateRandomData(ofSize: 10)
-            
-            let card1 = try ethree1.findUser(with: ethree1.identity).startSync().get()
-            let card2 = try ethree1.findUser(with: ethree2.identity).startSync().get()
-            
-            let encrypted = try ethree1.authEncrypt(data: data, for: card2)
-            
-            let inputStream = InputStream(data: encrypted)
-            let outputStream = OutputStream.toMemory()
-            
-            try ethree2.authDecrypt(inputStream, to: outputStream, from: card1)
-            
-            let decryptedData = outputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
-            
-            XCTAssert(data == decryptedData)
-        }
-        catch {
-            print(error.localizedDescription)
-            XCTFail()
-        }
-    }
 }
