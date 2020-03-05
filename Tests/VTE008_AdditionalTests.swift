@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2019 Virgil Security Inc.
+// Copyright (C) 2015-2020 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -100,5 +100,52 @@ class VTE008_AdditionalTests: XCTestCase {
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 3_600)
+    }
+    
+    func test05_STE_87__init_ethree__with_initial_jwt__should_succeed() {
+        let utils = TestUtils()
+        
+        let identity = UUID().uuidString
+        let initialJwt = utils.getToken(identity: identity)
+
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
+            XCTFail()
+        }
+
+        let params = EThreeParams(initialJwt: initialJwt,
+                                  tokenCallback: tokenCallback)
+                                       
+        let ethree = try! EThree(params: params)
+        
+        _ = ethree.findUser(with: ethree.identity, forceReload: true)
+    }
+    
+    func test06_STE_88__decrypt_stream__encrypted_as_data__should_succeed() {
+        do {
+            let utils = TestUtils()
+            
+            let ethree1 = try utils.setupDevice()
+            let ethree2 = try utils.setupDevice()
+            
+            let data = try utils.crypto.generateRandomData(ofSize: 10)
+            
+            let card1 = try ethree1.findUser(with: ethree1.identity).startSync().get()
+            let card2 = try ethree1.findUser(with: ethree2.identity).startSync().get()
+            
+            let encrypted = try ethree1.authEncrypt(data: data, for: card2)
+            
+            let inputStream = InputStream(data: encrypted)
+            let outputStream = OutputStream.toMemory()
+            
+            try ethree2.authDecrypt(inputStream, to: outputStream, from: card1)
+            
+            let decryptedData = outputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            
+            XCTAssert(data == decryptedData)
+        }
+        catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
     }
 }

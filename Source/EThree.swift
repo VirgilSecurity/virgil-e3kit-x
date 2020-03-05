@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2019 Virgil Security Inc.
+// Copyright (C) 2015-2020 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -146,7 +146,8 @@ import VirgilSDKRatchet
             verifier.whitelists = [whitelist]
         }
 
-        let accessTokenProvider = CachingJwtProvider { params.tokenCallback($1) }
+        let accessTokenProvider = CachingJwtProvider(initialJwt: params.initialJwt,
+                                                     renewTokenCallback: { params.tokenCallback($1) })
 
         let cardManagerParams = CardManagerParams(crypto: crypto,
                                                   accessTokenProvider: accessTokenProvider,
