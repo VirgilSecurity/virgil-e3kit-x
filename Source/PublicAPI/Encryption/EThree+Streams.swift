@@ -84,7 +84,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
     @objc open func authDecrypt(_ stream: InputStream, to outputStream: OutputStream, from user: Card? = nil) throws {
-        try self.decryptInternal(stream, to: outputStream, from: nil)
+        try self.decryptInternal(stream, to: outputStream, from: user?.publicKey)
     }
 
     /// Decrypts stream and signature and verifies signature of sender
