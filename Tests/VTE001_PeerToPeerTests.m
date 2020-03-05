@@ -341,7 +341,7 @@
 }
 
 - (void)test08_STE_71 {
-    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated methods should success"];
+    XCTestExpectation *ex = [self expectationWithDescription:@"Simple encrypt decrypt with deprecated methods should succeed"];
 
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
@@ -374,6 +374,54 @@
                     NSString *decrypted = [eThree2 decryptText:encrypted fromUser:card error:&err];
                     XCTAssert(err == nil);
                     XCTAssert([decrypted isEqualToString:plainText]);
+
+                    [ex fulfill];
+                }];
+            }];
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:timeout handler:^(NSError *error) {
+        if (error != nil)
+            XCTFail(@"Expectation failed: %@", error);
+    }];
+}
+
+- (void)test09_STE_88 {
+    XCTestExpectation *ex = [self expectationWithDescription:@"Decrypt stream, encrypted and signed as data should succeed"];
+
+    [self.eThree registerWithCompletion:^(NSError *error) {
+        XCTAssert(error == nil);
+        VTEEThree *eThree1 = self.eThree;
+
+        VTEEThree *eThree2 = [self.utils setupEThreeWithStorageParams:self.keychainStorage.storageParams];
+        XCTAssert(eThree2 != nil);
+
+        [eThree2 registerWithCompletion:^(NSError *error) {
+            XCTAssert(error == nil);
+            
+            [eThree1 findUserWith:eThree1.identity forceReload:false completion:^(VSSCard *card1, NSError *error) {
+                XCTAssert(card1 != nil && error == nil);
+
+                [eThree1 findUserWith:eThree2.identity forceReload:false completion:^(VSSCard *card2, NSError *error) {
+                    XCTAssert(card2 != nil && error == nil);
+            
+                    NSError *err;
+                    NSData *data = [self.utils.crypto generateRandomDataOfSize:10 error:&err];
+                    XCTAssert(data != nil && err == nil);
+
+                    NSData *encrypted = [eThree1 authEncryptData:data forUser:card2 error:&err];
+                    XCTAssert(encrypted != nil && err == nil);
+                    
+                    NSInputStream *inputStream = [[NSInputStream alloc] initWithData:encrypted];
+                    NSOutputStream *outputStream = [[NSOutputStream alloc] initToMemory];
+
+                    [eThree2 authDecrypt:inputStream to:outputStream from:card1 error:&err];
+                    XCTAssert(err == nil);
+        
+                    NSData *decryptedData = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+
+                    XCTAssert([data isEqualToData:decryptedData]);
 
                     [ex fulfill];
                 }];
