@@ -136,7 +136,7 @@ import VirgilSDKPythia
         return jwt.stringRepresentation()
     }
 
-    @objc public func getToken(identity: String, ttl: TimeInterval = 1000) -> AccessToken {
+    @objc public func getToken(identity: String, ttl: TimeInterval = 1000) -> Jwt {
         let privateKeyData = Data(base64Encoded: self.config.ApiPrivateKey)
         let keyPair = try! self.crypto.importPrivateKey(from: privateKeyData!)
 
