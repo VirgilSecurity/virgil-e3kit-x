@@ -60,7 +60,7 @@ import VirgilSDKRatchet
 
     // LocalKeyStorage
     @objc public let localKeyStorage: LocalKeyStorage
-    
+
     /// VirgilCrypto instance
     @objc public var crypto: VirgilCrypto {
         return self.cardManager.crypto

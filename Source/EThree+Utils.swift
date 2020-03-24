@@ -91,16 +91,16 @@ extension EThree {
         let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
         let card: Card
-        
+
         if let publishCardCallback = publishCardCallback {
             let modelSigner = ModelSigner(crypto: self.crypto)
-            
+
             let rawCard = try CardManager.generateRawCard(crypto: self.crypto,
                                                           modelSigner: modelSigner,
                                                           privateKey: keyPair.privateKey,
                                                           publicKey: keyPair.publicKey,
                                                           identity: self.identity)
-            
+
             card = try publishCardCallback(rawCard)
         }
         else {

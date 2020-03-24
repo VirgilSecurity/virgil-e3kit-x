@@ -46,7 +46,7 @@ import VirgilSDK
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
-        
+
         super.init()
     }
 
