@@ -85,15 +85,32 @@ extension EThree {
         return HttpConnection(adapters: [virgilAdapter])
     }
 
-    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
+    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil,
+                                           publishCardCallback: PublishCardCallback? = nil,
+                                           previousCardId: String? = nil) throws {
         let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
-        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+        let card: Card
+        
+        if let publishCardCallback = publishCardCallback {
+            let modelSigner = ModelSigner(crypto: self.crypto)
+            
+            let rawCard = try CardManager.generateRawCard(crypto: self.crypto,
+                                                          modelSigner: modelSigner,
+                                                          privateKey: keyPair.privateKey,
+                                                          publicKey: keyPair.publicKey,
+                                                          identity: self.identity)
+            
+            card = try publishCardCallback(rawCard)
+        }
+        else {
+            card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
                                                     identity: self.identity,
                                                     previousCardId: previousCardId)
             .startSync()
             .get()
+        }
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 

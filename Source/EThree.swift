@@ -46,6 +46,8 @@ import VirgilSDKRatchet
     public typealias JwtStringCallback = (String?, Error?) -> Void
     /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
+    /// Typealias for callback used below
+    public typealias PublishCardCallback = (RawSignedModel) throws -> Card
 
     /// Identity of user
     @objc public let identity: String
