@@ -80,7 +80,8 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    try self.publishCardThenSaveLocal(keyPair: keyPair)
+                    try self.publishCardThenSaveLocal(keyPair: keyPair,
+                                                      publishCardCallback: publishCardCallback)
 
                     completion((), nil)
                 }
