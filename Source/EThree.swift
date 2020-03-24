@@ -46,6 +46,8 @@ import VirgilSDKRatchet
     public typealias JwtStringCallback = (String?, Error?) -> Void
     /// Typealias for callback used below
     public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
+    /// Typealias for callback used below
+    public typealias PublishCardCallback = (RawSignedModel) throws -> Card
 
     /// Identity of user
     @objc public let identity: String
@@ -56,6 +58,9 @@ import VirgilSDKRatchet
     /// AccessTokenProvider
     @objc public let accessTokenProvider: AccessTokenProvider
 
+    // LocalKeyStorage
+    @objc public let localKeyStorage: LocalKeyStorage
+    
     /// VirgilCrypto instance
     @objc public var crypto: VirgilCrypto {
         return self.cardManager.crypto
@@ -70,7 +75,6 @@ import VirgilSDKRatchet
     internal let enableRatchet: Bool
     internal let keyRotationInterval: TimeInterval
 
-    internal let localKeyStorage: LocalKeyStorage
     internal let cloudKeyManager: CloudKeyManager
     internal let cloudRatchetStorage: CloudRatchetStorage
 
