@@ -179,7 +179,23 @@ import VirgilSDKRatchet
                                                   keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
                                                   pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl)
 
-        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: params.identity,
+        // FIXME: Move to a separate function
+        let supportDirectory: URL
+        if let appGroup = params.securityApplicationGroupIdentifier {
+            guard let sharedContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+                throw EThreeParamsError.invalidSecurityApplicationGroupIdentifier
+            }
+            supportDirectory = sharedContainerDirectory
+        }
+        else {
+            supportDirectory = try FileManager.default.url(for: .applicationSupportDirectory,
+                                                           in: .userDomainMask,
+                                                           appropriateFor: nil,
+                                                           create: true)
+        }
+
+        let sqliteCardStorage = try SQLiteCardStorage(at: supportDirectory,
+                                                      userIdentifier: params.identity,
                                                       crypto: crypto,
                                                       verifier: verifier)
 

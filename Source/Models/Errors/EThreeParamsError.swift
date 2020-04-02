@@ -43,6 +43,7 @@ import Foundation
 @objc(VTEEThreeParamsError) public enum EThreeParamsError: Int, LocalizedError {
     case invalidPlistFile = 1
     case unknownKeyInConfig = 2
+    case invalidSecurityApplicationGroupIdentifier = 3
 
     /// Human-readable localized description
     public var errorDescription: String? {
@@ -51,6 +52,8 @@ import Foundation
             return "Invalid config file structure"
         case .unknownKeyInConfig:
             return "Config file contains unknown key"
+        case .invalidSecurityApplicationGroupIdentifier:
+            return "Can not obtain resorces from the given Security application group ID"
         }
     }
 }

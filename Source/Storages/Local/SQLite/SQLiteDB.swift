@@ -81,13 +81,12 @@ internal class SQLiteDB {
 
     internal let path: String
 
-    internal init(prefix: String,
+    internal init(at location: URL,
+                  prefix: String,
                   userIdentifier: String,
                   name: String) throws {
-        var url = try FileManager.default.url(for: .applicationSupportDirectory,
-                                              in: .userDomainMask,
-                                              appropriateFor: nil,
-                                              create: false)
+
+        var url = location
 
         url.appendPathComponent(prefix)
         url.appendPathComponent(userIdentifier)

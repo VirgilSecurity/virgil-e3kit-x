@@ -48,19 +48,26 @@ class VTE005_SQLiteTests: XCTestCase {
     private let cCardId1 = "b2e6c8bee5cfa40fa2ac2bc8961057600bced26bc5b29aab04014c5141a91bd4"
     private let cCardId2 = "9ff917a7a1aa0891b875d4a9e43972a0fb694879bf8987790c1615dd864a38a4"
     private let cCardId3 = "e66465a08232beb55e33b4ce5e8772d748911c9b830797336e1ce342c78829a2"
+
+    private func getLocalUrl() throws -> URL {
+        let localUrl = try FileManager.default.url(for: .applicationSupportDirectory,
+                                                   in: .userDomainMask,
+                                                   appropriateFor: nil,
+                                                   create: false)
+        return localUrl
+    }
     
     private func copyPredefinedBase(identity: String) throws {
         let bundle = Bundle(for: VTE005_SQLiteTests.self)
         let dbUrl = bundle.url(forResource: "cards", withExtension: "sqlite")!
         
-        var localUrl = try FileManager.default.url(for: .applicationSupportDirectory,
-                                                   in: .userDomainMask,
-                                                   appropriateFor: nil,
-                                                   create: false)
-        
+
+        var localUrl = try getLocalUrl()
+
         localUrl.appendPathComponent("VIRGIL_SQLITE")
+
         localUrl.appendPathComponent(identity)
-        
+
         try FileManager.default.createDirectory(at: localUrl,
                                                 withIntermediateDirectories: true,
                                                 attributes: nil)
@@ -102,8 +109,11 @@ class VTE005_SQLiteTests: XCTestCase {
         let crypto = try! VirgilCrypto()
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
-        
-        let storage = try! SQLiteCardStorage(userIdentifier: identity,
+
+        let localUrl = try! getLocalUrl()
+
+        let storage = try! SQLiteCardStorage(at: localUrl,
+                                             userIdentifier: identity,
                                              crypto: crypto,
                                              verifier: verifier)
         
@@ -139,7 +149,10 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage = try! SQLiteCardStorage(userIdentifier: identity,
+        let localUrl = try! getLocalUrl()
+
+        let storage = try! SQLiteCardStorage(at: localUrl,
+                                             userIdentifier: identity,
                                              crypto: crypto,
                                              verifier: verifier)
 
@@ -156,11 +169,15 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let localUrl = try! getLocalUrl()
+
+        let storage1 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+
+        let storage2 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         
@@ -184,11 +201,15 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let localUrl = try! getLocalUrl()
+
+        let storage1 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+
+        let storage2 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         
@@ -220,14 +241,18 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let localUrl = try! getLocalUrl()
+
+        let storage1 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+
+        let storage2 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
-        
+
         
         let cards = try! storage2.searchCards(identities: [self.cIdentity1, self.cIdentity2 ])
         
@@ -252,14 +277,18 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let localUrl = try! getLocalUrl()
+
+        let storage1 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
-        
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+
+        let storage2 = try! SQLiteCardStorage(at: localUrl,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
-        
+
         
         let cards = try! storage2.searchCards(identities: [self.cIdentity1, self.cIdentity2 ])
         

@@ -60,6 +60,8 @@ import VirgilCrypto
     @objc public var serviceUrls: ServiceUrls
     /// Initial Jwt
     @objc public var initialJwt: Jwt? = nil
+    /// Security application group ID, if defined then resources will be located in the container directory associated with it
+    @objc public var securityApplicationGroupIdentifier: String? = nil
 
     /// Service urls
     @objc(VTEServiceUrls) public class ServiceUrls: NSObject {
