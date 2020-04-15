@@ -48,12 +48,16 @@ import VirgilCrypto
     @objc public let tokenCallback: EThree.RenewJwtCallback
     /// [ChangedKeyDelegate](x-source-tag://ChangedKeyDelegate) to notify changing of User's keys
     @objc public weak var changedKeyDelegate: ChangedKeyDelegate? = nil
+    /// AppGroup
+    @objc public var appGroup: String? = nil
     /// `KeychainStorageParams` with specific parameters
     @objc public var storageParams: KeychainStorageParams? = nil
     /// Default key pair type
     @objc public var keyPairType: KeyPairType = Defaults.keyPairType
     /// Enables ratchet operations
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
+    /// Enables ratchet pqc
+    @objc public var enableRatchetPqc: Bool = Defaults.enableRatchetPqc
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     /// Service urls
@@ -98,11 +102,13 @@ import VirgilCrypto
     private struct Config: Decodable {
         var keyPairType: KeyPairType = Defaults.keyPairType
         var enableRatchet: Bool = Defaults.enableRatchet
+        var enableRatchetPqc: Bool = Defaults.enableRatchetPqc
         var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
         enum CodingKeys: String, CodingKey {
             case keyPairType
             case enableRatchet
+            case enableRatchetPqc
             case keyRotationInterval
         }
 
@@ -118,6 +124,12 @@ import VirgilCrypto
 
             do {
                 self.enableRatchet = try container.decode(Bool.self, forKey: .enableRatchet)
+            }
+            catch DecodingError.keyNotFound(_, _) { }
+            catch DecodingError.valueNotFound(_, _) { }
+            
+            do {
+                self.enableRatchetPqc = try container.decode(Bool.self, forKey: .enableRatchetPqc)
             }
             catch DecodingError.keyNotFound(_, _) { }
             catch DecodingError.valueNotFound(_, _) { }
@@ -180,6 +192,7 @@ import VirgilCrypto
 
         self.keyPairType = config.keyPairType
         self.enableRatchet = config.enableRatchet
+        self.enableRatchetPqc = config.enableRatchetPqc
         self.keyRotationInterval = config.keyRotationInterval
     }
 

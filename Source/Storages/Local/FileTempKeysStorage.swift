@@ -56,12 +56,13 @@ internal class FileTempKeysStorage {
         case `public`
     }
 
-    internal init(identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
+    internal init(appGroup: String?, identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
         self.identity = identity
         self.crypto = crypto
         self.identityKeyPair = identityKeyPair
 
-        self.fileSystem = FileSystem(prefix: "VIRGIL-E3KIT",
+        self.fileSystem = FileSystem(appGroup: appGroup,
+                                     prefix: "VIRGIL-E3KIT",
                                      userIdentifier: identity,
                                      pathComponents: ["UNSAFE-KEYS"])
     }

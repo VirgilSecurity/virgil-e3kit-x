@@ -73,7 +73,10 @@ import VirgilSDKRatchet
 
     internal let keyPairType: KeyPairType
     internal let enableRatchet: Bool
+    internal let enableRatchetPqc: Bool
     internal let keyRotationInterval: TimeInterval
+    internal let appGroup: String?
+    internal let appName: String?
 
     internal let cloudKeyManager: CloudKeyManager
     internal let cloudRatchetStorage: CloudRatchetStorage
@@ -107,12 +110,14 @@ import VirgilSDKRatchet
                                   storageParams: KeychainStorageParams? = nil,
                                   keyPairType: KeyPairType = Defaults.keyPairType,
                                   enableRatchet: Bool = Defaults.enableRatchet,
+                                  enableRatchetPqc: Bool = Defaults.enableRatchetPqc,
                                   keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
         let params = EThreeParams(identity: identity, tokenCallback: tokenCallback)
         params.changedKeyDelegate = changedKeyDelegate
         params.storageParams = storageParams
         params.keyPairType = keyPairType
         params.enableRatchet = enableRatchet
+        params.enableRatchetPqc = enableRatchetPqc
         params.keyRotationInterval = keyRotationInterval
 
         try self.init(params: params)
@@ -179,7 +184,8 @@ import VirgilSDKRatchet
                                                   keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
                                                   pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl)
 
-        let sqliteCardStorage = try SQLiteCardStorage(userIdentifier: params.identity,
+        let sqliteCardStorage = try SQLiteCardStorage(appGroup: params.appGroup,
+                                                      userIdentifier: params.identity,
                                                       crypto: crypto,
                                                       verifier: verifier)
 
@@ -201,6 +207,9 @@ import VirgilSDKRatchet
                       serviceUrls: params.serviceUrls,
                       keyPairType: params.keyPairType,
                       enableRatchet: params.enableRatchet,
+                      enableRatchetPqc: params.enableRatchetPqc,
+                      appGroup: params.appGroup,
+                      appName: params.storageParams?.appName,
                       keyRotationInterval: params.keyRotationInterval)
     }
 
@@ -214,6 +223,9 @@ import VirgilSDKRatchet
                   serviceUrls: EThreeParams.ServiceUrls,
                   keyPairType: KeyPairType,
                   enableRatchet: Bool,
+                  enableRatchetPqc: Bool,
+                  appGroup: String?,
+                  appName: String?,
                   keyRotationInterval: TimeInterval) throws {
         self.identity = identity
         self.cardManager = cardManager
@@ -225,6 +237,9 @@ import VirgilSDKRatchet
         self.serviceUrls = serviceUrls
         self.keyPairType = keyPairType
         self.enableRatchet = enableRatchet
+        self.enableRatchetPqc = enableRatchetPqc
+        self.appGroup = appGroup
+        self.appName = appName
         self.keyRotationInterval = keyRotationInterval
 
         super.init()

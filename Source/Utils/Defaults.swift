@@ -43,6 +43,8 @@ import VirgilCrypto
     @objc public static let keyPairType: KeyPairType = .ed25519
     /// Enables ratchet operations
     @objc public static let enableRatchet: Bool = false
+    /// Enables ratchet pqc
+    @objc public static let enableRatchetPqc: Bool = false
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public static let keyRotationInterval: TimeInterval = 3_600
 }

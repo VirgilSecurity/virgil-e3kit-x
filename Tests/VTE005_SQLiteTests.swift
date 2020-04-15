@@ -103,7 +103,8 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage = try! SQLiteCardStorage(userIdentifier: identity,
+        let storage = try! SQLiteCardStorage(appGroup: nil,
+                                             userIdentifier: identity,
                                              crypto: crypto,
                                              verifier: verifier)
         
@@ -139,7 +140,8 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage = try! SQLiteCardStorage(userIdentifier: identity,
+        let storage = try! SQLiteCardStorage(appGroup: nil,
+                                             userIdentifier: identity,
                                              crypto: crypto,
                                              verifier: verifier)
 
@@ -156,11 +158,13 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let storage1 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
         
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+        let storage2 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         
@@ -184,11 +188,13 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let storage1 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
         
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+        let storage2 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         
@@ -220,11 +226,13 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let storage1 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
         
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+        let storage2 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         
@@ -252,11 +260,13 @@ class VTE005_SQLiteTests: XCTestCase {
         
         let verifier = VirgilCardVerifier(crypto: crypto)!
         
-        let storage1 = try! SQLiteCardStorage(userIdentifier: identity1,
+        let storage1 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity1,
                                               crypto: crypto,
                                               verifier: verifier)
         
-        let storage2 = try! SQLiteCardStorage(userIdentifier: identity2,
+        let storage2 = try! SQLiteCardStorage(appGroup: nil,
+                                              userIdentifier: identity2,
                                               crypto: crypto,
                                               verifier: verifier)
         

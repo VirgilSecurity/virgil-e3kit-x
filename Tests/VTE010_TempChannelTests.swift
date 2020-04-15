@@ -261,7 +261,8 @@ class VTE010_TempChannelTests: XCTestCase {
             let keyPair = try self.utils.crypto.generateKeyPair()
             let ethree = try self.utils.setupDevice(keyPair: keyPair)
 
-            let localTemporaryStorage = try FileTempKeysStorage(identity: ethree.identity,
+            let localTemporaryStorage = try FileTempKeysStorage(appGroup: nil,
+                                                                identity: ethree.identity,
                                                                 crypto: self.utils.crypto,
                                                                 identityKeyPair: keyPair)
 
