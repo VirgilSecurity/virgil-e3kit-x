@@ -1,3 +1,1 @@
-github "VirgilSecurity/virgil-crypto-x" "develop"
-github "VirgilSecurity/virgil-pythia-x" "develop"
-github "VirgilSecurity/virgil-ratchet-x" "develop"
+github "VirgilSecurity/virgil-ratchet-x" ~> 0.6.0
