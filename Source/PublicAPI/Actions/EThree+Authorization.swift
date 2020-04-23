@@ -67,6 +67,31 @@ extension EThree {
         }
     }
 
+    /// Generates Key Pair, calls publishCardCallback and saves Private Key in local storage
+    ///
+    /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
+    /// - Returns: CallbackOperation<Void>
+    open func register(with keyPair: VirgilKeyPair? = nil,
+                       publishCardCallback: @escaping PublishCardCallback) -> GenericOperation<Void> {
+        return CallbackOperation { _, completion in
+            self.queue.async {
+                do {
+                    guard try !self.localKeyStorage.exists() else {
+                        throw EThreeError.privateKeyExists
+                    }
+
+                    try self.publishCardThenSaveLocal(keyPair: keyPair,
+                                                      publishCardCallback: publishCardCallback)
+
+                    completion((), nil)
+                }
+                catch {
+                    completion(nil, error)
+                }
+            }
+        }
+    }
+
     /// Generates new Private Key, publishes new Card to replace the current one on Virgil Cards Service
     /// and saves new Private Key in local storage
     ///

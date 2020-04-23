@@ -96,7 +96,7 @@ extension EThree {
 
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
 
-                let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket)
+                let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket, enablePostQuantum: self.enableRatchetPqc)
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
 
@@ -114,9 +114,61 @@ extension EThree {
     ///   - card: Card of participant
     ///   - name: name of channel
     open func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
+        return try self.getRatchetChannel(with: card.identity, name: name)
+    }
+
+    /// Deletes double ratchet channel from cloud (if user is creator) and local storage
+    /// - Parameters:
+    ///   - card: Card of participant
+    ///   - name: name of channel
+    open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+        return self.deleteRatchetChannel(with: card.identity, name: name)
+    }
+}
+
+extension EThree {
+    /// Creates double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - identity: participant identity
+    ///   - name: name of channel
+    open func createRatchetChannel(with identity: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.findUser(with: identity).startSync().get()
+
+                self.createRatchetChannel(with: card, name: name).start(completion: completion)
+            }
+            catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Joins double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - initiator: initiator identity
+    ///   - name: name of channel
+    open func joinRatchetChannel(with initiator: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
+        return CallbackOperation { _, completion in
+            do {
+                let card = try self.findUser(with: initiator).startSync().get()
+
+                self.joinRatchetChannel(with: card, name: name).start(completion: completion)
+            }
+            catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /// Retrieves double ratchet channel from local storage
+    /// - Parameters:
+    ///   - participant: participant identity
+    ///   - name: name of channel
+    open func getRatchetChannel(with participant: String, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
-        guard let session = secureChat.existingSession(withParticipantIdentity: card.identity, name: name) else {
+        guard let session = secureChat.existingSession(withParticipantIdentity: participant, name: name) else {
             return nil
         }
 
@@ -125,21 +177,22 @@ extension EThree {
 
     /// Deletes double ratchet channel from cloud (if user is creator) and local storage
     /// - Parameters:
-    ///   - card: Card of participant
+    ///   - participant: participant identity
     ///   - name: name of channel
-    open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+    open func deleteRatchetChannel(with participant: String, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
-                try self.cloudRatchetStorage.delete(card: card, name: name)
+                try self.cloudRatchetStorage.delete(identity: participant, name: name)
 
                 do {
-                    try secureChat.deleteSession(withParticipantIdentity: card.identity, name: name)
+                    try secureChat.deleteSession(withParticipantIdentity: participant, name: name)
                 } catch CocoaError.fileNoSuchFile { }
 
                 completion((), nil)
-            } catch {
+            }
+            catch {
                 completion(nil, error)
             }
         }

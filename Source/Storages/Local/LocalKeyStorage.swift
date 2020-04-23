@@ -37,7 +37,7 @@
 import VirgilCrypto
 import VirgilSDK
 
-internal class LocalKeyStorage {
+@objc public class LocalKeyStorage: NSObject {
     internal let identity: String
     internal let crypto: VirgilCrypto
     private let keychainStorage: KeychainStorage
@@ -46,9 +46,11 @@ internal class LocalKeyStorage {
         self.identity = identity
         self.crypto = crypto
         self.keychainStorage = keychainStorage
+
+        super.init()
     }
 
-    internal func retrieveKeyPair() throws -> VirgilKeyPair {
+    @objc public func retrieveKeyPair() throws -> VirgilKeyPair {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
             let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
                 throw EThreeError.missingPrivateKey
@@ -57,15 +59,15 @@ internal class LocalKeyStorage {
         return keyPair
     }
 
-    internal func store(data: Data) throws {
+    @objc public func store(data: Data) throws {
         _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
     }
 
-    internal func exists() throws -> Bool {
-        return try self.keychainStorage.existsEntry(withName: self.identity)
+    public func exists() throws -> Bool {
+        try self.keychainStorage.existsEntry(withName: self.identity)
     }
 
-    internal func delete() throws {
+    @objc public func delete() throws {
         try self.keychainStorage.deleteEntry(withName: self.identity)
     }
 }

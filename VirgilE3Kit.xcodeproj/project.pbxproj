@@ -353,33 +353,13 @@
 		16F9EA1D2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+AuthEncrypt.swift */; };
 		16F9EA1E2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+AuthEncrypt.swift */; };
 		16F9EA1F2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F9EA1B2178AED60021FD9A /* EThree+AuthEncrypt.swift */; };
-		420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
-		420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
-		420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
-		420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */; };
-		420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
-		420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
-		420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
-		420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */; };
-		4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
-		4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
-		4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
-		4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */; };
 		4203280522F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
 		4203280622F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
 		4203280722F1E6C200872D9C /* cards.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4203280422F1E6C200872D9C /* cards.sqlite */; };
-		4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
-		4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
-		4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
-		4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280822F2FBB500872D9C /* SQLiteStatement.swift */; };
-		4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
-		4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
-		4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
-		4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203280D22F2FBD900872D9C /* SQLiteBindings.swift */; };
-		42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
-		42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
-		42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
-		42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB022F078510012D103 /* SQLiteDB.swift */; };
+		42B23A1D2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */; };
+		42B23A1E2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */; };
+		42B23A1F2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */; };
+		42B23A202447639A006C68F3 /* SQLiteCardStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */; };
 		42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
 		42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
 		42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */; };
@@ -648,13 +628,8 @@
 		16ED974022D772F800B90EC8 /* VTE004_MixtecTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE004_MixtecTests.swift; sourceTree = "<group>"; };
 		16F9EA12217890550021FD9A /* EThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EThree.swift; sourceTree = "<group>"; };
 		16F9EA1B2178AED60021FD9A /* EThree+AuthEncrypt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EThree+AuthEncrypt.swift"; sourceTree = "<group>"; };
-		420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
-		420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTypesSQLiteExtension.swift; sourceTree = "<group>"; };
-		420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SQLiteDB+GenericExtension.swift"; sourceTree = "<group>"; };
 		4203280422F1E6C200872D9C /* cards.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = cards.sqlite; sourceTree = "<group>"; };
-		4203280822F2FBB500872D9C /* SQLiteStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStatement.swift; sourceTree = "<group>"; };
-		4203280D22F2FBD900872D9C /* SQLiteBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteBindings.swift; sourceTree = "<group>"; };
-		42D84AB022F078510012D103 /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
+		42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
 		42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE005_SQLiteTests.swift; sourceTree = "<group>"; };
 		42D84AB922F082510012D103 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -944,7 +919,7 @@
 		1665EE2222E7220B00774788 /* Local */ = {
 			isa = PBXGroup;
 			children = (
-				42D84AAF22F078420012D103 /* SQLite */,
+				42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */,
 				167E1DE3217CF0B100F8AA13 /* LocalKeyStorage.swift */,
 				16AD62D422E87C6A00CDF90A /* FileGroupStorage.swift */,
 				16509F74236C47E0005DA8AE /* FileTempKeysStorage.swift */,
@@ -1111,19 +1086,6 @@
 				16B1F8CC2327A5020082ECE0 /* EThree+Utils.swift */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		42D84AAF22F078420012D103 /* SQLite */ = {
-			isa = PBXGroup;
-			children = (
-				42D84AB022F078510012D103 /* SQLiteDB.swift */,
-				4203280D22F2FBD900872D9C /* SQLiteBindings.swift */,
-				420327FF22F1CC8800872D9C /* SQLiteDB+GenericExtension.swift */,
-				420327FA22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift */,
-				420327F522F0EA6A00872D9C /* SQLiteCardStorage.swift */,
-				4203280822F2FBB500872D9C /* SQLiteStatement.swift */,
-			);
-			path = SQLite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1576,7 +1538,6 @@
 			files = (
 				16532985235F15EE00D2C071 /* EThree+Lookup.swift in Sources */,
 				16E33880234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
-				4203280022F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5622F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1616C0462357549200948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7712301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1585,7 +1546,6 @@
 				164795C2237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16E33877234E775200678624 /* RatchetChannel.swift in Sources */,
 				16AD62E522E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
-				4203280E22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				16509F58236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				160BE2472331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16B1F8B223279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
@@ -1594,7 +1554,6 @@
 				16565F3222A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685846F22E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16D4D2CA234E4C9300AFF80E /* EThree+Encryption.swift in Sources */,
-				420327FB22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE4217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9722DCDFB000950B48 /* Ticket.swift in Sources */,
 				16E3387C234E778400678624 /* EThree+Ratchet.swift in Sources */,
@@ -1608,22 +1567,20 @@
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				160C3D9D2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D1BCA2235872A8008E6E3D /* ServiceErrorCodes.swift in Sources */,
+				42B23A1D2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				16D501CD235487C800AFBC37 /* ProductInfo.swift in Sources */,
 				16509F5D236B0090005DA8AE /* UnsafeChannel.swift in Sources */,
 				167E1DE9217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
 				16D4D2C1234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7772301E96600BC435C /* GroupError.swift in Sources */,
-				4203280922F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16509F70236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				16B1F8DF2327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				160C3DA22369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16AD62DF22E9D34900CDF90A /* GroupInfo.swift in Sources */,
-				42D84AB122F078510012D103 /* SQLiteDB.swift in Sources */,
 				16509F75236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				16B1F8B723279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76B23018DD900BC435C /* Group+Objc-C.swift in Sources */,
-				420327F622F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA13217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
@@ -1637,12 +1594,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
-				4203280322F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				16E3387A234E775200678624 /* RatchetChannel.swift in Sources */,
-				4203281122F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				16E33883234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
 				160C3DA02369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				1685845E22DE2D23008EAC34 /* Group.swift in Sources */,
@@ -1651,7 +1606,6 @@
 				16509F78236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
 				1685847222E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16509F60236B0090005DA8AE /* UnsafeChannel.swift in Sources */,
-				420327FE22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				16D4D2C4234E448D00AFF80E /* Defaults.swift in Sources */,
 				1622A8C2235DE83F0066CDD8 /* DerivedPasswords.swift in Sources */,
 				1632AE9A22DCDFB000950B48 /* Ticket.swift in Sources */,
@@ -1661,6 +1615,7 @@
 				16D4D2C8234E464600AFF80E /* EThreeParams.swift in Sources */,
 				1622A8C7235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				164795C5237984550028D1DD /* EThree+Reset.swift in Sources */,
+				42B23A202447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16D63E55229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				16D1BCA5235872AE008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				16E33888234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
@@ -1669,14 +1624,11 @@
 				16AD62D822E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
 				160C3DA52369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				167E1DEC217CF71600F8AA13 /* CloudKeyManager.swift in Sources */,
-				4203280C22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				16B1F8BA23279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				16D4D2CD234E4C9300AFF80E /* EThree+Encryption.swift in Sources */,
 				16F9EA16217890550021FD9A /* EThree.swift in Sources */,
 				16AD62E222E9D34900CDF90A /* GroupInfo.swift in Sources */,
-				42D84AB422F078510012D103 /* SQLiteDB.swift in Sources */,
 				16E3387E234E778500678624 /* EThree+Ratchet.swift in Sources */,
-				420327F922F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16509F5B236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16509F73236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
 				162F30B7230300900074E09A /* ChangedKeyDelegate.swift in Sources */,
@@ -1698,7 +1650,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16E33881234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
-				4203280122F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5722F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1616C0472357549200948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7722301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1707,7 +1658,6 @@
 				16E33878234E775200678624 /* RatchetChannel.swift in Sources */,
 				164795C3237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E622E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
-				4203280F22F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16509F59236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16B1F8B323279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
@@ -1717,7 +1667,6 @@
 				16565F3322A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847022E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16D4D2CB234E4C9300AFF80E /* EThree+Encryption.swift in Sources */,
-				420327FC22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE5217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9822DCDFB000950B48 /* Ticket.swift in Sources */,
 				16E3387B234E778400678624 /* EThree+Ratchet.swift in Sources */,
@@ -1731,6 +1680,7 @@
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				160C3D9E2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				42B23A1E2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16D1BCA3235872AC008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846B22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16509F5E236B0090005DA8AE /* UnsafeChannel.swift in Sources */,
@@ -1739,15 +1689,12 @@
 				16D4D2C2234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7782301E96600BC435C /* GroupError.swift in Sources */,
 				16509F71236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
-				4203280A22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				160C3DA32369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E02327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E022E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				16509F76236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
-				42D84AB222F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B823279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76C23018DD900BC435C /* Group+Objc-C.swift in Sources */,
-				420327F722F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
@@ -1760,7 +1707,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16E33882234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
-				4203280222F1CC8800872D9C /* SQLiteDB+GenericExtension.swift in Sources */,
 				16BB9B5822F448C30057D6B2 /* ChangedKeyDelegate.swift in Sources */,
 				1616C04B2357558B00948C3B /* EThreeParamsError.swift in Sources */,
 				1661D7732301ADCD00BC435C /* FindUsersError.swift in Sources */,
@@ -1769,7 +1715,6 @@
 				16E33879234E775200678624 /* RatchetChannel.swift in Sources */,
 				164795C4237984550028D1DD /* EThree+Reset.swift in Sources */,
 				16AD62E722E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
-				4203281022F2FBD900872D9C /* SQLiteBindings.swift in Sources */,
 				160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				16509F5A236AF754005DA8AE /* TempChannelManager.swift in Sources */,
 				16B1F8B423279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
@@ -1779,7 +1724,6 @@
 				16565F3422A113840095D887 /* EThree+Obj-C.swift in Sources */,
 				1685847122E091E0008EAC34 /* Group+Management.swift in Sources */,
 				16D4D2CC234E4C9300AFF80E /* EThree+Encryption.swift in Sources */,
-				420327FD22F1C81000872D9C /* BuiltInTypesSQLiteExtension.swift in Sources */,
 				167E1DE6217CF0B100F8AA13 /* LocalKeyStorage.swift in Sources */,
 				1632AE9922DCDFB000950B48 /* Ticket.swift in Sources */,
 				16E3387D234E778500678624 /* EThree+Ratchet.swift in Sources */,
@@ -1793,6 +1737,7 @@
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				160C3D9F2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
+				42B23A1F2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16D1BCA4235872AD008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				1685846C22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				16509F5F236B0090005DA8AE /* UnsafeChannel.swift in Sources */,
@@ -1801,15 +1746,12 @@
 				16D4D2C3234E448D00AFF80E /* Defaults.swift in Sources */,
 				1661D7792301E96600BC435C /* GroupError.swift in Sources */,
 				16509F72236B305E005DA8AE /* TemporaryChannelError.swift in Sources */,
-				4203280B22F2FBB500872D9C /* SQLiteStatement.swift in Sources */,
 				160C3DA42369C0550057D989 /* CloudTempKeysStorage.swift in Sources */,
 				16B1F8E12327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				16AD62E122E9D34900CDF90A /* GroupInfo.swift in Sources */,
 				16509F77236C47E0005DA8AE /* FileTempKeysStorage.swift in Sources */,
-				42D84AB322F078510012D103 /* SQLiteDB.swift in Sources */,
 				16B1F8B923279E2B0082ECE0 /* EThree+Search.swift in Sources */,
 				1661D76D23018DD900BC435C /* Group+Objc-C.swift in Sources */,
-				420327F822F0EA6A00872D9C /* SQLiteCardStorage.swift in Sources */,
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,

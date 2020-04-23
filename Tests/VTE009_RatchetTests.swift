@@ -344,22 +344,18 @@ class VTE009_RatchetTests: XCTestCase {
 
             let secureChat1 = try ethree1.getSecureChat()
 
-            try secureChat1.oneTimeKeysStorage.startInteraction()
             let keys1 = try secureChat1.oneTimeKeysStorage.retrieveAllKeys()
-            try secureChat1.oneTimeKeysStorage.stopInteraction()
 
             _ = try ethree1.joinRatchetChannel(with: card2).startSync().get()
 
             sleep(5)
 
-            try secureChat1.oneTimeKeysStorage.startInteraction()
             let keys2 = try secureChat1.oneTimeKeysStorage.retrieveAllKeys()
-            try secureChat1.oneTimeKeysStorage.stopInteraction()
 
             var keysRotated = false
 
             for key1 in keys1 {
-                if !keys2.contains { $0.identifier == key1.identifier } {
+                if !keys2.contains(where: { $0.identifier == key1.identifier }) {
                     keysRotated = true
                     break
                 }
