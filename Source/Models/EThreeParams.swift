@@ -58,6 +58,8 @@ import VirgilCrypto
     @objc public var enableRatchet: Bool = Defaults.enableRatchet
     /// Enables ratchet pqc
     @objc public var enableRatchetPqc: Bool = Defaults.enableRatchetPqc
+    /// Offline init
+    @objc public var offlineInit: Bool = false
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     /// Service urls
