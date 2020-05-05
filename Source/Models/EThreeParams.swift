@@ -59,7 +59,7 @@ import VirgilCrypto
     /// Enables ratchet pqc
     @objc public var enableRatchetPqc: Bool = Defaults.enableRatchetPqc
     /// Offline init
-    @objc public var offlineInit: Bool = false
+    @objc public var offlineInit: Bool = Defaults.offlineInit
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
     /// Service urls
@@ -105,12 +105,14 @@ import VirgilCrypto
         var keyPairType: KeyPairType = Defaults.keyPairType
         var enableRatchet: Bool = Defaults.enableRatchet
         var enableRatchetPqc: Bool = Defaults.enableRatchetPqc
+        var offlineInit: Bool = Defaults.offlineInit
         var keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
 
         enum CodingKeys: String, CodingKey {
             case keyPairType
             case enableRatchet
             case enableRatchetPqc
+            case offlineInit
             case keyRotationInterval
         }
 
@@ -136,6 +138,12 @@ import VirgilCrypto
             catch DecodingError.keyNotFound(_, _) { }
             catch DecodingError.valueNotFound(_, _) { }
 
+            do {
+                self.offlineInit = try container.decode(Bool.self, forKey: .offlineInit)
+            }
+            catch DecodingError.keyNotFound(_, _) { }
+            catch DecodingError.valueNotFound(_, _) { }
+            
             do {
                 self.keyRotationInterval = try container.decode(TimeInterval.self, forKey: .keyRotationInterval)
             }
@@ -195,6 +203,7 @@ import VirgilCrypto
         self.keyPairType = config.keyPairType
         self.enableRatchet = config.enableRatchet
         self.enableRatchetPqc = config.enableRatchetPqc
+        self.offlineInit = config.offlineInit
         self.keyRotationInterval = config.keyRotationInterval
     }
 
