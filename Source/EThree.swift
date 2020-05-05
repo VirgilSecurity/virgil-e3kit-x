@@ -58,8 +58,11 @@ import VirgilSDKRatchet
     /// AccessTokenProvider
     @objc public let accessTokenProvider: AccessTokenProvider
 
-    // LocalKeyStorage
+    /// LocalKeyStorage
     @objc public let localKeyStorage: LocalKeyStorage
+    
+    /// Offline init
+    @objc public let offlineInit: Bool
 
     /// VirgilCrypto instance
     @objc public var crypto: VirgilCrypto {
@@ -210,7 +213,8 @@ import VirgilSDKRatchet
                       enableRatchetPqc: params.enableRatchetPqc,
                       appGroup: params.appGroup,
                       appName: params.storageParams?.appName,
-                      keyRotationInterval: params.keyRotationInterval)
+                      keyRotationInterval: params.keyRotationInterval,
+                      offlineInit: params.offlineInit)
     }
 
     internal init(identity: String,
@@ -226,7 +230,8 @@ import VirgilSDKRatchet
                   enableRatchetPqc: Bool,
                   appGroup: String?,
                   appName: String?,
-                  keyRotationInterval: TimeInterval) throws {
+                  keyRotationInterval: TimeInterval,
+                  offlineInit: Bool) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider
@@ -241,6 +246,7 @@ import VirgilSDKRatchet
         self.appGroup = appGroup
         self.appName = appName
         self.keyRotationInterval = keyRotationInterval
+        self.offlineInit = offlineInit
 
         super.init()
 
@@ -248,6 +254,8 @@ import VirgilSDKRatchet
             try self.privateKeyChanged()
         }
 
-        lookupManager.startUpdateCachedCards()
+        if !offlineInit {
+            lookupManager.startUpdateCachedCards()
+        }
     }
 }

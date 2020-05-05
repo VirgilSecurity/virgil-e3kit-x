@@ -195,7 +195,7 @@ extension EThree {
 
             let chat = try self.setupSecureChat(keyPair: keyPair, card: card)
 
-            try self.scheduleKeysRotation(with: chat, startFromNow: true)
+            try self.scheduleKeysRotation(with: chat, startFromNow: !self.offlineInit)
         }
     }
 
