@@ -50,8 +50,10 @@ extension RatchetChannel {
     }
 
     /// Decrypts data
-    /// - Parameter data: encrypted Data
-    @objc open func decrypt(data: Data) throws -> Data {
+    /// - Parameters:
+    ///   - data: encrypted Data
+    ///   - updateSession: update session state in storage
+    @objc open func decrypt(data: Data, updateSession: Bool = true) throws -> Data {
         let message = try RatchetMessage.deserialize(input: data)
 
         let decrypted = try session.decryptData(from: message)
@@ -72,13 +74,15 @@ extension RatchetChannel {
     }
 
     /// Decrypts string
-    /// - Parameter text: encrypted String
-    @objc open func decrypt(text: String) throws -> String {
+    /// - Parameters:
+    ///   - data: encrypted Data
+    ///   - updateSession: update session state in storage
+    @objc open func decrypt(text: String, updateSession: Bool = true) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
 
-        let decryptedData = try self.decrypt(data: data)
+        let decryptedData = try self.decrypt(data: data, updateSession: updateSession)
 
         guard let decryptedString = String(data: decryptedData, encoding: .utf8) else {
             throw EThreeError.strFromDataFailed
