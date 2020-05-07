@@ -58,7 +58,9 @@ extension RatchetChannel {
 
         let decrypted = try session.decryptData(from: message)
 
-        try self.sessionStorage.storeSession(self.session)
+        if updateSession {
+            try self.sessionStorage.storeSession(self.session)
+        }
 
         return decrypted
     }
