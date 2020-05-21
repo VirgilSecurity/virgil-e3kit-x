@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target   = "2.0"
   s.source       		= { :git => "https://github.com/VirgilSecurity/virgil-e3kit-x.git", :tag => s.version }
   s.source_files  		= 'Source/**/*.{swift}'
-  s.dependency "VirgilSDKPythia", "~> 0.8.0"
-  s.dependency "VirgilSDKRatchet", "~> 0.5.0"
+  s.dependency "VirgilSDKPythia", "~> 0.9.1"
+  s.dependency "VirgilSDKRatchet", "~> 0.7.0"
 end
