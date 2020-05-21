@@ -28,9 +28,6 @@
 		160BE2482331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE2492331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
 		160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BE2462331087900DD3999 /* EThreeRatchetError.swift */; };
-		160BE967235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
-		160BE968235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
-		160BE969235BD081008B9D54 /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		160C3D9D2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
 		160C3D9E2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
 		160C3D9F2369A6FD0057D989 /* EThree+Temporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */; };
@@ -366,6 +363,12 @@
 		42D84ABA22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
 		42D84ABB22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
 		42D84ABC22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
+		9759DFF224768E7000C31E8F /* compatibility_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9759DFF124768E7000C31E8F /* compatibility_data.json */; };
+		9759DFF324768E7000C31E8F /* compatibility_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9759DFF124768E7000C31E8F /* compatibility_data.json */; };
+		9759DFF424768E7000C31E8F /* compatibility_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9759DFF124768E7000C31E8F /* compatibility_data.json */; };
+		9759DFF524768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
+		9759DFF624768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
+		9759DFF724768E9E00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -632,6 +635,7 @@
 		42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
 		42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE005_SQLiteTests.swift; sourceTree = "<group>"; };
 		42D84AB922F082510012D103 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
+		9759DFF124768E7000C31E8F /* compatibility_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = compatibility_data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -889,6 +893,7 @@
 				4203280422F1E6C200872D9C /* cards.sqlite */,
 				1616C04C235755C700948C3B /* EThreeValidConfig.plist */,
 				1616C0412357478900948C3B /* EThreeInvalidConfig.plist */,
+				9759DFF124768E7000C31E8F /* compatibility_data.json */,
 				42D84AB922F082510012D103 /* TestConfig.plist */,
 			);
 			path = Data;
@@ -1374,9 +1379,10 @@
 			files = (
 				1616C0422357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABA22F082510012D103 /* TestConfig.plist in Resources */,
+				9759DFF224768E7000C31E8F /* compatibility_data.json in Resources */,
+				9759DFF524768E9D00C31E8F /* EThreeConfig.plist in Resources */,
 				4203280522F1E6C200872D9C /* cards.sqlite in Resources */,
 				1616C04D235755C700948C3B /* EThreeValidConfig.plist in Resources */,
-				160BE967235BD081008B9D54 /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1386,9 +1392,10 @@
 			files = (
 				1616C0432357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABB22F082510012D103 /* TestConfig.plist in Resources */,
+				9759DFF324768E7000C31E8F /* compatibility_data.json in Resources */,
+				9759DFF624768E9D00C31E8F /* EThreeConfig.plist in Resources */,
 				4203280622F1E6C200872D9C /* cards.sqlite in Resources */,
 				1616C04E235755C700948C3B /* EThreeValidConfig.plist in Resources */,
-				160BE968235BD081008B9D54 /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1398,9 +1405,10 @@
 			files = (
 				1616C0442357478900948C3B /* EThreeInvalidConfig.plist in Resources */,
 				42D84ABC22F082510012D103 /* TestConfig.plist in Resources */,
+				9759DFF424768E7000C31E8F /* compatibility_data.json in Resources */,
+				9759DFF724768E9E00C31E8F /* EThreeConfig.plist in Resources */,
 				4203280722F1E6C200872D9C /* cards.sqlite in Resources */,
 				1616C04F235755C700948C3B /* EThreeValidConfig.plist in Resources */,
-				160BE969235BD081008B9D54 /* EThreeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
