@@ -183,7 +183,8 @@ extension EThree {
     private func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws -> SecureChat {
         let context = SecureChatContext(identityCard: card,
                                         identityPrivateKey: keyPair.privateKey,
-                                        accessTokenProvider: self.accessTokenProvider)
+                                        accessTokenProvider: self.accessTokenProvider,
+                                        enablePostQuantum: false)
 
         context.client = RatchetClient(accessTokenProvider: self.accessTokenProvider,
                                        serviceUrl: self.serviceUrls.ratchetServiceUrl,
@@ -228,7 +229,7 @@ extension EThree {
                                               receiverCard card: Card,
                                               name: String?) throws -> SecureSession {
         do {
-            return try secureChat.startNewSessionAsSender(receiverCard: card, name: name)
+            return try secureChat.startNewSessionAsSender(receiverCard: card, name: name, enablePostQuantum: false)
                 .startSync()
                 .get()
         }
