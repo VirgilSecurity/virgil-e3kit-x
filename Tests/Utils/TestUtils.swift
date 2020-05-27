@@ -43,6 +43,16 @@ import VirgilSDKPythia
     @objc public let crypto: VirgilCrypto
     @objc public let config: TestConfig
 
+    @objc public lazy private(set) var streamsCompatibilityDict: [String: String] = {
+        let bundle = Bundle(for: TestUtils.self)
+        let fileUrl = bundle.url(forResource: "compatibility_data", withExtension: "json")!
+        let data = try! Data(contentsOf: fileUrl)
+
+        let dict = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+
+        return dict["authEncryptFile"] as! [String: String]
+    }()
+
     @objc public override init() {
         self.crypto = try! VirgilCrypto()
         self.config = TestConfig.readFromBundle()
@@ -50,9 +60,10 @@ import VirgilSDKPythia
         super.init()
     }
 
-    public func setupDevice(identity: String? = nil,
-                            keyPair: VirgilKeyPair? = nil,
-                            keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon) throws -> EThree {
+    @objc public func setupDevice(identity: String? = nil,
+                                  keyPair: VirgilKeyPair? = nil,
+                                  keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+                                  register: Bool = true) throws -> EThree {
         let identity = identity ?? UUID().uuidString
 
         let ethree = try self.setupEThree(identity: identity,
@@ -60,7 +71,16 @@ import VirgilSDKPythia
                                           keyPairType: keyPairType,
                                           keyRotationInterval: 0)
 
-        try ethree.register(with: keyPair).startSync().get()
+        if register {
+            try ethree.register(with: keyPair).startSync().get()
+        }
+        else if let keyPair = keyPair {
+            let storageParams = try KeychainStorageParams.makeKeychainStorageParams()
+            let keychainStorage = KeychainStorage(storageParams: storageParams)
+
+            let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
+            _ = try keychainStorage.store(data: data, withName: identity, meta: nil)
+        }
 
         return ethree
     }

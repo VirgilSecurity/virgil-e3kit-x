@@ -146,21 +146,21 @@ import VirgilCrypto
             return try PropertyListDecoder().decode(Config.self, from: data)
         }
     }
-    
+
     @objc public convenience init(initialJwt: Jwt,
                                   tokenCallback: @escaping EThree.RenewJwtCallback,
                                   configUrl: URL) throws {
          try self.init(identity: initialJwt.identity(),
                        tokenCallback: tokenCallback,
                        configUrl: configUrl)
-         
+
          self.initialJwt = initialJwt
      }
-     
+
      @objc public convenience init(initialJwt: Jwt,
                                    tokenCallback: @escaping EThree.RenewJwtCallback) {
          self.init(identity: initialJwt.identity(), tokenCallback: tokenCallback)
-         
+
          self.initialJwt = initialJwt
      }
 
