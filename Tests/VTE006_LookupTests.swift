@@ -108,7 +108,7 @@ class VTE006_LookupTests: XCTestCase {
     func test05_STE_25() {
         let card = self.utils.publishCard()
 
-        class dummyClass: ChangedKeyDelegate {
+        class DummyClass: ChangedKeyDelegate {
             var called = false
             let identity: String
 
@@ -122,7 +122,7 @@ class VTE006_LookupTests: XCTestCase {
             }
         }
 
-        let delegate = dummyClass(identity: card.identity)
+        let delegate = DummyClass(identity: card.identity)
 
         let ethree = try! self.utils.setupDevice()
 
@@ -135,7 +135,7 @@ class VTE006_LookupTests: XCTestCase {
                                                     enableRatchet: false,
                                                     changedKeyDelegate: delegate)
 
-        sleep(3)
+        sleep(5)
 
         XCTAssert(delegate.called)
 
