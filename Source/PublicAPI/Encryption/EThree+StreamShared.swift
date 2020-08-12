@@ -37,7 +37,6 @@
 import VirgilSDK
 import VirgilCrypto
 
-
 // MARK: - Extension with encrypt/decrypt file stream operations
 extension EThree {
     /// Encrypts file stream with a new private key.

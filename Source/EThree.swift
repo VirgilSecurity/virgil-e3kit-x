@@ -60,7 +60,7 @@ import VirgilSDKRatchet
 
     /// LocalKeyStorage
     @objc public let localKeyStorage: LocalKeyStorage
-    
+
     /// Offline init
     @objc public let offlineInit: Bool
 

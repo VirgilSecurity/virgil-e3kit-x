@@ -131,7 +131,7 @@ import VirgilCrypto
             }
             catch DecodingError.keyNotFound(_, _) { }
             catch DecodingError.valueNotFound(_, _) { }
-            
+
             do {
                 self.enableRatchetPqc = try container.decode(Bool.self, forKey: .enableRatchetPqc)
             }
@@ -143,7 +143,7 @@ import VirgilCrypto
             }
             catch DecodingError.keyNotFound(_, _) { }
             catch DecodingError.valueNotFound(_, _) { }
-            
+
             do {
                 self.keyRotationInterval = try container.decode(TimeInterval.self, forKey: .keyRotationInterval)
             }
