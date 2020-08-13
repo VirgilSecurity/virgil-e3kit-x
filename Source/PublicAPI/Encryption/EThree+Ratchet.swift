@@ -96,7 +96,9 @@ extension EThree {
 
                 let ticket = try self.cloudRatchetStorage.retrieve(from: card, name: name)
 
-                let session = try secureChat.startNewSessionAsReceiver(senderCard: card, ratchetMessage: ticket, enablePostQuantum: self.enableRatchetPqc)
+                let session = try secureChat.startNewSessionAsReceiver(senderCard: card,
+                                                                       ratchetMessage: ticket,
+                                                                       enablePostQuantum: self.enableRatchetPqc)
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
 

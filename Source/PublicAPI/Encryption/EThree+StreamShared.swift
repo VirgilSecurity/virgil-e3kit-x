@@ -53,17 +53,17 @@ extension EThree {
     /// - Important: Requires private key in local storage to sign stream
     @objc(encryptSharedStream:withSize:toStream:error:)
     open func encryptShared(_ stream: InputStream,
-                          streamSize: Int,
-                          to outputStream: OutputStream) throws -> Data {
+                            streamSize: Int,
+                            to outputStream: OutputStream) throws -> Data {
 
         let sharedKeyPair = try self.crypto.generateKeyPair()
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         try self.crypto.authEncrypt(stream,
-                    streamSize: streamSize,
-                    to: outputStream,
-                    with: selfKeyPair.privateKey,
-                    for: [sharedKeyPair.publicKey])
+                                    streamSize: streamSize,
+                                    to: outputStream,
+                                    with: selfKeyPair.privateKey,
+                                    for: [sharedKeyPair.publicKey])
 
         return try self.crypto.exportPrivateKey(sharedKeyPair.privateKey)
     }
@@ -78,9 +78,9 @@ extension EThree {
     /// - Throws: corresponding error
     @objc(decryptSharedStream:toStream:with:verifyWithSenderCard:error:)
     open func decryptShared(_ stream: InputStream,
-                                to outputStream: OutputStream,
-                                with privateKeyData: Data,
-                                verifyWith senderCard: Card) throws {
+                            to outputStream: OutputStream,
+                            with privateKeyData: Data,
+                            verifyWith senderCard: Card) throws {
 
         return try self.decryptShared(stream, to: outputStream, with: privateKeyData, verifyWith: senderCard.publicKey)
     }
@@ -96,9 +96,9 @@ extension EThree {
     /// - Important: Requires private key in local storage, if senderPublicKey is not given
     @objc(decryptSharedStream:toStream:with:verifyWithSenderPublicKey:error:)
     open func decryptShared(_ stream: InputStream,
-                                to outputStream: OutputStream,
-                                with privateKeyData: Data,
-                                verifyWith senderPublicKey: VirgilPublicKey? = nil) throws {
+                            to outputStream: OutputStream,
+                            with privateKeyData: Data,
+                            verifyWith senderPublicKey: VirgilPublicKey? = nil) throws {
 
         let keyPair = try self.crypto.importPrivateKey(from: privateKeyData)
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
