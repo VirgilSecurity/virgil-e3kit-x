@@ -369,6 +369,13 @@
 		9759DFF524768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF624768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF724768E9E00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
+		F470425A24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift */; };
+		F470425B24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift */; };
+		F470425C24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift */; };
+		F470425E24E408E700ECC104 /* EThree+StreamShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425D24E408E700ECC104 /* EThree+StreamShared.swift */; };
+		F470425F24E408E700ECC104 /* EThree+StreamShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425D24E408E700ECC104 /* EThree+StreamShared.swift */; };
+		F470426024E408E700ECC104 /* EThree+StreamShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425D24E408E700ECC104 /* EThree+StreamShared.swift */; };
+		F470426124E408E700ECC104 /* EThree+StreamShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425D24E408E700ECC104 /* EThree+StreamShared.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -636,6 +643,8 @@
 		42D84AB522F081650012D103 /* VTE005_SQLiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE005_SQLiteTests.swift; sourceTree = "<group>"; };
 		42D84AB922F082510012D103 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
 		9759DFF124768E7000C31E8F /* compatibility_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = compatibility_data.json; sourceTree = "<group>"; };
+		F470425924E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VTE011_EncryptSharedFileTests.swift; path = Data/VTE011_EncryptSharedFileTests.swift; sourceTree = "<group>"; };
+		F470425D24E408E700ECC104 /* EThree+StreamShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EThree+StreamShared.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -880,6 +889,7 @@
 				164F4D6023509D31007612F8 /* VTE008_AdditionalTests.swift */,
 				16B1F8D62327A9760082ECE0 /* VTE009_RatchetTests.swift */,
 				16509F61236B17C7005DA8AE /* VTE010_TempChannelTests.swift */,
+				F470425924E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift */,
 				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
 				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
 			);
@@ -1018,6 +1028,7 @@
 				1629F5D322D62A8300DB5ECE /* EThree+Mixtec.swift */,
 				16B1F8D12327A8930082ECE0 /* EThree+Ratchet.swift */,
 				160C3D9C2369A6FD0057D989 /* EThree+Temporary.swift */,
+				F470425D24E408E700ECC104 /* EThree+StreamShared.swift */,
 			);
 			path = Encryption;
 			sourceTree = "<group>";
@@ -1473,6 +1484,7 @@
 				1657AA5823267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB622F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A121EFF81E00887DF2 /* TestUtils.swift in Sources */,
+				F470425A24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */,
 				1661886621B046E2003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056222301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388B234F4E5E00678624 /* VTE009_RatchetTests.swift in Sources */,
@@ -1493,6 +1505,7 @@
 				1657AA5923267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB722F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A221EFF81E00887DF2 /* TestUtils.swift in Sources */,
+				F470425B24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */,
 				1661886721B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056322301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388A234F4D4200678624 /* VTE009_RatchetTests.swift in Sources */,
@@ -1513,6 +1526,7 @@
 				1657AA5A23267534006A39BF /* VTE007_Benchmarks.swift in Sources */,
 				42D84AB822F081650012D103 /* VTE005_SQLiteTests.swift in Sources */,
 				16BC03A321EFF81E00887DF2 /* TestUtils.swift in Sources */,
+				F470425C24E3E7B300ECC104 /* VTE011_EncryptSharedFileTests.swift in Sources */,
 				1661886821B046E3003EC512 /* VTE002_AuthenticationTests.m in Sources */,
 				1658056422301711003BC8A6 /* TestConfig.swift in Sources */,
 				16E3388C234F4E5F00678624 /* VTE009_RatchetTests.swift in Sources */,
@@ -1574,6 +1588,7 @@
 				16D63E52229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				1685846A22E0875D008EAC34 /* CloudTicketStorage.swift in Sources */,
 				160C3D9D2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
+				F470425E24E408E700ECC104 /* EThree+StreamShared.swift in Sources */,
 				16D1BCA2235872A8008E6E3D /* ServiceErrorCodes.swift in Sources */,
 				42B23A1D2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16AD62D522E87C6A00CDF90A /* FileGroupStorage.swift in Sources */,
@@ -1650,6 +1665,7 @@
 				16B1F8B523279E000082ECE0 /* EThree+KeyBackup.swift in Sources */,
 				16B1F8E22327C4F90082ECE0 /* RepeatingTimer.swift in Sources */,
 				1653298B235F15F300D2C071 /* EThree+Initialize.swift in Sources */,
+				F470426124E408E700ECC104 /* EThree+StreamShared.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1687,6 +1703,7 @@
 				1622A8C5235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33886234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				160C3D9E2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
+				F470425F24E408E700ECC104 /* EThree+StreamShared.swift in Sources */,
 				16D63E53229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				42B23A1E2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16D1BCA3235872AC008E6E3D /* ServiceErrorCodes.swift in Sources */,
@@ -1744,6 +1761,7 @@
 				1622A8C6235E068E0066CDD8 /* EThree+Streams.swift in Sources */,
 				16E33887234F3E3C00678624 /* CloudRatchetStorage.swift in Sources */,
 				160C3D9F2369A6FD0057D989 /* EThree+Temporary.swift in Sources */,
+				F470426024E408E700ECC104 /* EThree+StreamShared.swift in Sources */,
 				16D63E54229FFBF7004C53AD /* EThreeError.swift in Sources */,
 				42B23A1F2447639A006C68F3 /* SQLiteCardStorage.swift in Sources */,
 				16D1BCA4235872AD008E6E3D /* ServiceErrorCodes.swift in Sources */,

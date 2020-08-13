@@ -44,7 +44,7 @@ class VTE007_Benchmarks: XCTestCase {
     private let toEncrypt = "this string will be encrypted".data(using: .utf8)!
 
     private func measure(title: String,
-                         maxTime: Int?,
+                         maxTime: UInt64?,
                          invocationCount: UInt64 = 1000,
                          block: () throws -> Void) throws {
         var sum: UInt64 = 0
@@ -68,7 +68,7 @@ class VTE007_Benchmarks: XCTestCase {
         print()
 
         if let maxTime = maxTime {
-            XCTAssert(maxTime > average)
+            XCTAssertGreaterThan(maxTime, average)
         }
     }
 
@@ -147,7 +147,7 @@ class VTE007_Benchmarks: XCTestCase {
                     try group2.update().startSync().get()
                 }
 
-                try self.measure(title: "Update group with \(i) tickets", maxTime: 1_000_000_000, invocationCount: 1, block: block)
+                try self.measure(title: "Update group with \(i) tickets", maxTime: 1_500_000_000, invocationCount: 1, block: block)
             }
         } catch {
             print(error.localizedDescription)
