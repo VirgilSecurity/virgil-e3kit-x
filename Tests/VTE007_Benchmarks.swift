@@ -44,7 +44,7 @@ class VTE007_Benchmarks: XCTestCase {
     private let toEncrypt = "this string will be encrypted".data(using: .utf8)!
 
     private func measure(title: String,
-                         maxTime: Int?,
+                         maxTime: UInt64?,
                          invocationCount: UInt64 = 1000,
                          block: () throws -> Void) throws {
         var sum: UInt64 = 0
