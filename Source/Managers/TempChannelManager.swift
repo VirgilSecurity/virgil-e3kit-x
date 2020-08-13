@@ -50,7 +50,8 @@ internal class TempChannelManager {
         return self.localKeyStorage.identity
     }
 
-    internal init(crypto: VirgilCrypto,
+    internal init(appGroup: String?,
+                  crypto: VirgilCrypto,
                   accessTokenProvider: AccessTokenProvider,
                   localKeyStorage: LocalKeyStorage,
                   keyknoxServiceUrl: URL,
@@ -64,7 +65,8 @@ internal class TempChannelManager {
 
         let identity = localKeyStorage.identity
 
-        self.localStorage = try FileTempKeysStorage(identity: identity,
+        self.localStorage = try FileTempKeysStorage(appGroup: appGroup,
+                                                    identity: identity,
                                                     crypto: crypto,
                                                     identityKeyPair: keyPair)
 

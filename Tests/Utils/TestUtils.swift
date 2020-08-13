@@ -53,6 +53,16 @@ import VirgilSDKPythia
         return dict["authEncryptFile"] as! [String: String]
     }()
 
+    @objc public lazy private(set) var encryptSharedCompatibilityDict: [String: String] = {
+        let bundle = Bundle(for: TestUtils.self)
+        let fileUrl = bundle.url(forResource: "compatibility_data", withExtension: "json")!
+        let data = try! Data(contentsOf: fileUrl)
+
+        let dict = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+
+        return dict["encryptSharedFile"] as! [String: String]
+    }()
+
     @objc public override init() {
         self.crypto = try! VirgilCrypto()
         self.config = TestConfig.readFromBundle()
@@ -119,7 +129,7 @@ import VirgilSDKPythia
         params.keyRotationInterval = keyRotationInterval
         params.changedKeyDelegate = changedKeyDelegate
         params.keyPairType = keyPairType
-        
+
         params.serviceUrls = self.config.ServiceUrls.get()
         params.overrideVirgilPublicKey = self.config.ServicePublicKey
 

@@ -191,7 +191,7 @@ extension EThree {
     ///   - error: corresponding error
     @objc(createGroupWithDataId:findResult:completion:)
     open func createGroup(id identifier: Data,
-                          with findResult: FindUsersResult? = nil,
+                          with findResult: FindUsersResult = [:],
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
         self.createGroup(id: identifier, with: findResult).start(completion: completion)
@@ -280,6 +280,69 @@ extension EThree {
             completion(error)
         }
     }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    @objc(createGroupWithDataId:users:completion:)
+    open func createGroup(id identifier: Data,
+                          with users: [String],
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: users).start(completion: completion)
+    }
+
+    /// Creates group, saves in cloud and locally
+    ///
+    /// - Note: identifier length should be > 10
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - users: participants
+    ///   - completion: completion handler
+    ///   - group: created `Group`
+    ///   - error: corresponding error
+    open func createGroup(id identifier: String,
+                          with users: [String],
+                          completion: @escaping (_ group: Group?,
+                                                 _ error: Error?) -> Void) {
+        self.createGroup(id: identifier, with: users).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - initiator: initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    open func loadGroup(id identifier: Data,
+                        initiator: String,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: initiator).start(completion: completion)
+    }
+
+    /// Loads group from cloud, saves locally
+    ///
+    /// - Parameters:
+    ///   - identifier: identifier of group
+    ///   - card: Card of group initiator
+    ///   - completion: completion handler
+    ///   - group: loaded `Group`
+    ///   - error: corresponding error
+    open func loadGroup(id identifier: String,
+                        initiator: String,
+                        completion: @escaping (_ group: Group?,
+                                               _ error: Error?) -> Void) {
+        self.loadGroup(id: identifier, initiator: initiator).start(completion: completion)
+    }
 }
 
 // MARK: - Extension with Objective-C compatible Ratchet operations
@@ -332,6 +395,58 @@ extension EThree {
                                          name: String? = nil,
                                          completion: @escaping (_ error: Error?) -> Void) {
         self.deleteRatchetChannel(with: card, name: name).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Creates double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - identity: participant identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - channel: created `RatchetChannel` intance
+    ///   - error: corresponding error
+    open func createRatchetChannel(with identity: String,
+                                   name: String? = nil,
+                                   completion: @escaping (_ channel: RatchetChannel?,
+                                                          _ error: Error?) -> Void) {
+        self.createRatchetChannel(with: identity, name: name).start(completion: completion)
+    }
+
+    /// Joins double ratchet channel with user, saves it locally
+    /// - Parameters:
+    ///   - initiator: initiator identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - channel: `RatchetChannel` intance
+    ///   - error: corresponding error
+    open func joinRatchetChannel(with initiator: String,
+                                 name: String? = nil,
+                                 completion: @escaping (_ channel: RatchetChannel?,
+                                                        _ error: Error?) -> Void) {
+        self.joinRatchetChannel(with: initiator, name: name).start(completion: completion)
+    }
+
+    /// Retrieves double ratchet channel from local storage
+    /// - Parameters:
+    ///   - participant: participant identity
+    ///   - name: name of channel
+    @available(swift, obsoleted: 1.0)
+    @objc(getRatchetChannelWithParticipant:name:)
+    open func getRatchetChannelObjc(with participant: String, name: String? = nil) -> RatchetChannel? {
+        try? self.getRatchetChannel(with: participant, name: name)
+    }
+
+    /// Deletes double ratchet channel from cloud (if user is creator) and local storage
+    /// - Parameters:
+    ///   - participant: participant identity
+    ///   - name: name of channel
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func deleteRatchetChannel(with participant: String,
+                                   name: String? = nil,
+                                   completion: @escaping (_ error: Error?) -> Void) {
+        self.deleteRatchetChannel(with: participant, name: name).start { _, error in
             completion(error)
         }
     }

@@ -85,15 +85,32 @@ extension EThree {
         return HttpConnection(adapters: [virgilAdapter])
     }
 
-    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil, previousCardId: String? = nil) throws {
+    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil,
+                                           publishCardCallback: PublishCardCallback? = nil,
+                                           previousCardId: String? = nil) throws {
         let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
-        let card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
+        let card: Card
+
+        if let publishCardCallback = publishCardCallback {
+            let modelSigner = ModelSigner(crypto: self.crypto)
+
+            let rawCard = try CardManager.generateRawCard(crypto: self.crypto,
+                                                          modelSigner: modelSigner,
+                                                          privateKey: keyPair.privateKey,
+                                                          publicKey: keyPair.publicKey,
+                                                          identity: self.identity)
+
+            card = try publishCardCallback(rawCard)
+        }
+        else {
+            card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
                                                     publicKey: keyPair.publicKey,
                                                     identity: self.identity,
                                                     previousCardId: previousCardId)
             .startSync()
             .get()
+        }
 
         let data = try self.crypto.exportPrivateKey(keyPair.privateKey)
 
@@ -104,7 +121,8 @@ extension EThree {
     }
 
     private func setupTempChannelManager(keyPair: VirgilKeyPair) throws {
-        self.tempChannelManager = try TempChannelManager(crypto: self.crypto,
+        self.tempChannelManager = try TempChannelManager(appGroup: self.appGroup,
+                                                         crypto: self.crypto,
                                                          accessTokenProvider: self.accessTokenProvider,
                                                          localKeyStorage: self.localKeyStorage,
                                                          keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
@@ -114,9 +132,10 @@ extension EThree {
     }
 
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {
-         let localGroupStorage = try FileGroupStorage(identity: self.identity,
-                                                      crypto: self.crypto,
-                                                      identityKeyPair: keyPair)
+        let localGroupStorage = try FileGroupStorage(appGroup: self.appGroup,
+                                                     identity: self.identity,
+                                                     crypto: self.crypto,
+                                                     identityKeyPair: keyPair)
 
         let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
                                                         localKeyStorage: self.localKeyStorage,
@@ -176,7 +195,7 @@ extension EThree {
 
             let chat = try self.setupSecureChat(keyPair: keyPair, card: card)
 
-            try self.scheduleKeysRotation(with: chat, startFromNow: true)
+            try self.scheduleKeysRotation(with: chat, startFromNow: !self.offlineInit)
         }
     }
 
@@ -185,6 +204,9 @@ extension EThree {
                                         identityPrivateKey: keyPair.privateKey,
                                         accessTokenProvider: self.accessTokenProvider,
                                         enablePostQuantum: Defaults.enableRatchetPqc)
+
+        context.appName = self.appName
+        context.appGroup = self.appGroup
 
         context.client = RatchetClient(accessTokenProvider: self.accessTokenProvider,
                                        serviceUrl: self.serviceUrls.ratchetServiceUrl,
@@ -229,7 +251,9 @@ extension EThree {
                                               receiverCard card: Card,
                                               name: String?) throws -> SecureSession {
         do {
-            return try secureChat.startNewSessionAsSender(receiverCard: card, name: name, enablePostQuantum: Defaults.enableRatchetPqc)
+            return try secureChat.startNewSessionAsSender(receiverCard: card,
+                                                          name: name,
+                                                          enablePostQuantum: Defaults.enableRatchetPqc)
                 .startSync()
                 .get()
         }

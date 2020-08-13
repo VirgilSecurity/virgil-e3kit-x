@@ -63,6 +63,20 @@ extension Group {
         }
     }
 
+    /// Adds new participants to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameters:
+    ///   - participants: Identities of users to add
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func add(participants: [String],
+                  completion: @escaping (_ error: Error?) -> Void) {
+        self.add(participants: participants).start { _, error in
+            completion(error)
+        }
+    }
+
     /// Adds new participant to group
     ///
     /// - Note: New participant will be able to decrypt all history
@@ -77,6 +91,20 @@ extension Group {
         }
     }
 
+    /// Adds new participant to group
+    ///
+    /// - Note: New participant will be able to decrypt all history
+    /// - Parameters:
+    ///   - participant: New participant will be able to decrypt all history
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func add(participant: String,
+                  completion: @escaping (_ error: Error?) -> Void) {
+        self.add(participant: participant).start { _, error in
+            completion(error)
+        }
+    }
+
     /// Share group access and history on new Card of existing participant
     ///
     /// - Parameters:
@@ -84,6 +112,18 @@ extension Group {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func reAdd(participant: Card, completion: @escaping (_ error: Error?) -> Void) {
+        self.reAdd(participant: participant).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Share group access and history on new Card of existing participant
+    ///
+    /// - Parameters:
+    ///   - participant: participant to re add
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func reAdd(participant: String, completion: @escaping (_ error: Error?) -> Void) {
         self.reAdd(participant: participant).start { _, error in
             completion(error)
         }
@@ -103,6 +143,20 @@ extension Group {
         }
     }
 
+    /// Removes participants from group
+    ///
+    /// - Note: Removed participant will not be able to decrypt previous history again after group update
+    /// - Parameters:
+    ///   - participants: Users to remove
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func remove(participants: [String],
+                     completion: @escaping (_ error: Error?) -> Void) {
+        self.remove(participants: participants).start { _, error in
+            completion(error)
+        }
+    }
+
     /// Removes participant from group
     ///
     /// - Parameters:
@@ -111,6 +165,19 @@ extension Group {
     ///   - error: corresponding error
     @objc open func remove(participant: Card,
                            completion: @escaping (_ error: Error?) -> Void) {
+        self.remove(participant: participant).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Removes participant from group
+    ///
+    /// - Parameters:
+    ///   - participant: User to remove
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    open func remove(participant: String,
+                     completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participant: participant).start { _, error in
             completion(error)
         }

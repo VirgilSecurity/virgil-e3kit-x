@@ -102,10 +102,13 @@ internal class SQLiteCardStorage {
         return self.db.path
     }
 
-    internal init(userIdentifier: String, crypto: VirgilCrypto, verifier: CardVerifier) throws {
+    internal init(appGroup: String?, userIdentifier: String, crypto: VirgilCrypto, verifier: CardVerifier) throws {
         self.crypto = crypto
         self.verifier = verifier
-        self.db = try SQLiteDB(prefix: "VIRGIL_SQLITE", userIdentifier: userIdentifier, name: "cards.sqlite")
+        self.db = try SQLiteDB(appGroup: appGroup,
+                               prefix: "VIRGIL_SQLITE",
+                               userIdentifier: userIdentifier,
+                               name: "cards.sqlite")
 
         try self.db.executeNoResult(statement: CardsStatement.createTable.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexId.rawValue)
