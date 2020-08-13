@@ -68,7 +68,7 @@ class VTE007_Benchmarks: XCTestCase {
         print()
 
         if let maxTime = maxTime {
-            XCTAssert(maxTime > average)
+            XCTAssertGreaterThan(maxTime, average)
         }
     }
 
