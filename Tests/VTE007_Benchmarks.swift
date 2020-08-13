@@ -147,7 +147,7 @@ class VTE007_Benchmarks: XCTestCase {
                     try group2.update().startSync().get()
                 }
 
-                try self.measure(title: "Update group with \(i) tickets", maxTime: 1_000_000_000, invocationCount: 1, block: block)
+                try self.measure(title: "Update group with \(i) tickets", maxTime: 1_500_000_000, invocationCount: 1, block: block)
             }
         } catch {
             print(error.localizedDescription)
