@@ -1,2 +1,2 @@
-github "VirgilSecurity/virgil-ratchet-x" "develop"
-github "VirgilSecurity/virgil-pythia-x" "develop"
+github "VirgilSecurity/virgil-ratchet-x" "0.8.0"
+github "VirgilSecurity/virgil-pythia-x" "0.10.0"
