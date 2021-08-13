@@ -64,12 +64,12 @@ extension EThree {
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    open func backupPrivateKey(password: String) -> GenericOperation<Void> {
+    open func backupPrivateKey(keyName: String? = nil, password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password)
+                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, keyName: keyName, usingPassword: password)
 
                 completion((), nil)
             } catch {
@@ -83,7 +83,7 @@ extension EThree {
     ///
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
-    open func restorePrivateKey(password: String) -> GenericOperation<Void> {
+    open func restorePrivateKey(keyName: String? = nil, password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
@@ -108,7 +108,7 @@ extension EThree {
     ///   - oldOne: old password
     ///   - newOne: new password
     /// - Returns: CallbackOperation<Void>
-    open func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
+    open func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.cloudKeyManager.changePassword(from: oldOne, to: newOne)
@@ -121,10 +121,10 @@ extension EThree {
     }
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
-    open func resetPrivateKeyBackup() -> GenericOperation<Void> {
+    open func resetPrivateKeyBackup(keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.cloudKeyManager.deleteAll()
+                try self.cloudKeyManager.delete(keyName: keyName)
 
                 completion((), nil)
             } catch {
