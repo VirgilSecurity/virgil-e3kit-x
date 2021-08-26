@@ -64,7 +64,7 @@ extension EThree {
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    open func backupPrivateKey(keyName: String? = nil, password: String) -> GenericOperation<Void> {
+    open func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -85,7 +85,7 @@ extension EThree {
     ///
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
-    open func restorePrivateKey(keyName: String? = nil, password: String) -> GenericOperation<Void> {
+    open func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password, keyName: keyName)
