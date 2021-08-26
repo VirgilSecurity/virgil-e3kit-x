@@ -111,7 +111,7 @@ extension EThree {
     open func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.cloudKeyManager.changePassword(from: oldOne, to: newOne)
+                try self.cloudKeyManager.changePassword(from: oldOne, to: newOne, keyName: keyName)
 
                 completion((), nil)
             } catch {
