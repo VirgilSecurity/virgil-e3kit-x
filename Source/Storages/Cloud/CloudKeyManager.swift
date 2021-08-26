@@ -172,8 +172,8 @@ extension CloudKeyManager {
 
 // MARK: Main Key
 
-extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, usingPassword password: String) throws {
+private extension CloudKeyManager {
+    func store(key: VirgilPrivateKey, usingPassword password: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
@@ -181,24 +181,24 @@ extension CloudKeyManager {
         _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().get()
     }
 
-    internal func retrieve(usingPassword password: String) throws -> CloudEntry {
+    func retrieve(usingPassword password: String) throws -> CloudEntry {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         return try cloudKeyStorage.retrieveEntry(withName: self.identity)
     }
 
-    internal func delete(password: String) throws {
+    func delete(password: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         try cloudKeyStorage.deleteEntry(withName: self.identity).startSync().get()
     }
 
-    internal func deleteAll() throws {
+    func deleteAll() throws {
         _ = try self.keyknoxManager.resetValue().startSync().get()
     }
 
-    internal func changePassword(from oldPassword: String,
-                                 to newPassword: String) throws {
+    func changePassword(from oldPassword: String,
+                        to newPassword: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: oldPassword)
 
         sleep(2)
@@ -218,8 +218,8 @@ extension CloudKeyManager {
 
 // MARK: Named Keys
 
-extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, keyName: String, usingPassword password: String) throws {
+private extension CloudKeyManager {
+    func store(key: VirgilPrivateKey, keyName: String, usingPassword password: String) throws {
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
@@ -242,7 +242,7 @@ extension CloudKeyManager {
         try self.pushKeyValue(named: keyName, data: data, hash: keyknoxValue.keyknoxHash, brainKeyPair: brainKeyPair)
     }
 
-    internal func retrieve(usingPassword password: String, keyName: String) throws -> CloudEntry {
+    func retrieve(usingPassword password: String, keyName: String) throws -> CloudEntry {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
         do {
@@ -255,14 +255,14 @@ extension CloudKeyManager {
         }
     }
 
-    internal func delete(keyName: String) throws {
+    private func delete(keyName: String) throws {
         let params = KeyknoxResetParams(root: self.namedKeysRoot, path: namedKeysPath, key: keyName)
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }
 
-    internal func changePassword(from oldPassword: String,
-                                 to newPassword: String,
-                                 keyName: String) throws {
+    func changePassword(from oldPassword: String,
+                        to newPassword: String,
+                        keyName: String) throws {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: oldPassword).startSync().get()
 
         let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)

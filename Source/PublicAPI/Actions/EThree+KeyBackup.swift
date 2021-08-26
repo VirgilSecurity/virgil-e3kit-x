@@ -88,7 +88,7 @@ extension EThree {
     open func restorePrivateKey(keyName: String? = nil, password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
+                let entry = try self.cloudKeyManager.retrieve(usingPassword: password, keyName: keyName)
 
                 let card = try self.lookupManager.lookupCard(of: self.identity)
 
