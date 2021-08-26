@@ -189,6 +189,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
+    ///   - keyName: name of the key. Can be used to create additional key backup
     ///   - completion: completion handler
     ///   - error: corresponding error
     /// - Important: Requires private key in local storage
@@ -205,6 +206,7 @@ extension EThree {
     ///
     /// - Parameters:
     ///   - password: String with password
+    ///   - keyName: name of the key
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func restorePrivateKey(password: String,
@@ -220,6 +222,7 @@ extension EThree {
     /// - Parameters:
     ///   - oldOne: old password
     ///   - newOne: new password
+    ///   - keyName: name of the key
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func changePassword(from oldOne: String,
@@ -234,6 +237,7 @@ extension EThree {
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     ///
     /// - Parameters:
+    ///   - keyName: name of the key
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func resetPrivateKeyBackup(keyName: String, completion: @escaping (_ error: Error?) -> Void) {
