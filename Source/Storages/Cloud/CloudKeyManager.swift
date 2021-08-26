@@ -46,7 +46,7 @@ internal class CloudKeyManager {
 
     internal let accessTokenProvider: AccessTokenProvider
 
-    private var namedKeysRoot: String  { "e3kit" }
+    private var namedKeysRoot: String { "e3kit" }
     private var namedKeysPath: String { "backup" }
 
     internal init(identity: String,
@@ -160,7 +160,6 @@ extension CloudKeyManager {
             try self.changePassword(from: oldPassword, to: newPassword)
         }
     }
-
 
     internal func delete(keyName: String?) throws {
         if let keyName = keyName {
@@ -276,6 +275,9 @@ extension CloudKeyManager {
 
         let newBrainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
 
-        try self.pushKeyValue(named: keyName, data: keyknoxValue.value, hash: keyknoxValue.keyknoxHash, brainKeyPair: newBrainKeyPair)
+        try self.pushKeyValue(named: keyName,
+                              data: keyknoxValue.value,
+                              hash: keyknoxValue.keyknoxHash,
+                              brainKeyPair: newBrainKeyPair)
     }
 }

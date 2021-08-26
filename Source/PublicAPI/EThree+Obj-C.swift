@@ -192,7 +192,9 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func backupPrivateKey(keyName: String, password: String, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func backupPrivateKey(keyName: String,
+                                     password: String,
+                                     completion: @escaping (_ error: Error?) -> Void) {
         self.backupPrivateKey(keyName: keyName, password: password).start { _, error in
             completion(error)
         }
@@ -205,7 +207,9 @@ extension EThree {
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func restorePrivateKey(keyName: String, password: String, completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func restorePrivateKey(keyName: String,
+                                      password: String,
+                                      completion: @escaping (_ error: Error?) -> Void) {
         self.restorePrivateKey(keyName: keyName, password: password).start { _, error in
             completion(error)
         }
