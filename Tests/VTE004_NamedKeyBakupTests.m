@@ -57,7 +57,7 @@
 - (void)test01_STE_15 {
     XCTestExpectation *ex = [self expectationWithDescription:@"BackupPrivateKey tests"];
 
-    [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+    [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
         XCTAssert(error.code == VTEEThreeErrorMissingPrivateKey);
 
         sleep(2);
@@ -72,12 +72,12 @@
                                                                 error:&err];
         XCTAssert(entry != nil && err == nil);
 
-        [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+        [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
             XCTAssert(error == nil);
 
             sleep(2);
 
-            [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+            [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                 XCTAssert(error != nil);
 
                 [ex fulfill];
@@ -97,7 +97,7 @@
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+        [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
             XCTAssert(error == nil);
 
             sleep(2);
@@ -106,10 +106,10 @@
             [self.eThree cleanUpAndReturnError:&err];
             XCTAssert(err == nil);
 
-            [self.eThree restorePrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+            [self.eThree restorePrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
-                [self.eThree restorePrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+                [self.eThree restorePrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                     XCTAssert(error.code == VTEEThreeErrorPrivateKeyExists);
 
                     [ex fulfill];
@@ -135,14 +135,14 @@
 
             sleep(2);
 
-            [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+            [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                 XCTAssert(error == nil);
 
                 NSError *err;
                 [self.eThree cleanUpAndReturnError:&err];
                 XCTAssert(err == nil);
 
-                [self.eThree restorePrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+                [self.eThree restorePrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                     XCTAssert(error == nil);
 
                     NSError *err;
@@ -171,7 +171,7 @@
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+        [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
             XCTAssert(error == nil);
 
             sleep(2);
@@ -191,12 +191,12 @@
                     [self.eThree cleanUpAndReturnError:&err];
                     XCTAssert(err == nil);
 
-                    [self.eThree restorePrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+                    [self.eThree restorePrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                         XCTAssert(error.code == VTEEThreeErrorWrongPassword);
 
                         sleep(2);
 
-                        [self.eThree restorePrivateKeyWithKeyName:self.keyName password:newPassword completion:^(NSError *error) {
+                        [self.eThree restorePrivateKeyWithPassword:newPassword keyName:self.keyName completion:^(NSError *error) {
                             XCTAssert(error == nil);
 
                             [ex fulfill];
@@ -219,7 +219,7 @@
     [self.eThree registerWithCompletion:^(NSError *error) {
         XCTAssert(error == nil);
 
-        [self.eThree backupPrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+        [self.eThree backupPrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
             XCTAssert(error == nil);
 
             [self.eThree resetPrivateKeyBackupWithKeyName:self.keyName completion:^(NSError *error) {
@@ -231,7 +231,7 @@
 
                 sleep(2);
 
-                [self.eThree restorePrivateKeyWithKeyName:self.keyName password:self.password completion:^(NSError *error) {
+                [self.eThree restorePrivateKeyWithPassword:self.password keyName:self.keyName completion:^(NSError *error) {
                     XCTAssert(error != nil);
 
                     [ex fulfill];
