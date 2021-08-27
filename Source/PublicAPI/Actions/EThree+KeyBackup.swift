@@ -92,6 +92,10 @@ extension EThree {
     open func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
+                guard try !self.localKeyStorage.exists() else {
+                    throw EThreeError.privateKeyExists
+                }
+
                 let entry = try self.cloudKeyManager.retrieve(usingPassword: password, keyName: keyName)
 
                 let card = try self.lookupManager.lookupCard(of: self.identity)
