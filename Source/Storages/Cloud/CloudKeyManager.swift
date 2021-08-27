@@ -99,14 +99,18 @@ internal class CloudKeyManager {
                                            path: self.namedKeysPath,
                                            key: keyName)
 
-        let keyknoxValue = try self.keyknoxManager
-            .pullValue(params: pullParams,
-                       publicKeys: [brainKeyPair.publicKey],
-                       privateKey: brainKeyPair.privateKey)
-            .startSync()
-            .get()
+        do {
+            let keyknoxValue = try self.keyknoxManager
+                .pullValue(params: pullParams,
+                           publicKeys: [brainKeyPair.publicKey],
+                           privateKey: brainKeyPair.privateKey)
+                .startSync()
+                .get()
 
-        return keyknoxValue
+            return keyknoxValue
+        } catch KeyknoxCryptoError.decryptionFailed {
+            throw EThreeError.wrongPassword
+        }
     }
 
     private func pushKeyValue(named keyName: String, data: Data, hash: Data?, brainKeyPair: VirgilKeyPair) throws {
@@ -267,8 +271,8 @@ private extension CloudKeyManager {
 
         let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
 
-        guard keyknoxValue.value.isEmpty || keyknoxValue.meta.isEmpty else {
-            throw CloudKeyStorageError.entryAlreadyExists
+        guard !keyknoxValue.value.isEmpty, !keyknoxValue.meta.isEmpty else {
+            return
         }
 
         sleep(2)
