@@ -61,15 +61,19 @@ extension EThree {
     /// private key to Virgil's cloud. This enables users to log in from other devices
     /// and have access to their private key to decrypt data.
     ///
-    /// - Parameter password: String with password
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - keyName: optional name of the key. Can be used to create additional key backup
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    open func backupPrivateKey(password: String) -> GenericOperation<Void> {
+    open func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-                try self.cloudKeyManager.store(key: identityKeyPair.privateKey, usingPassword: password)
+                try self.cloudKeyManager.store(key: identityKeyPair.privateKey,
+                                               keyName: keyName,
+                                               usingPassword: password)
 
                 completion((), nil)
             } catch {
@@ -81,12 +85,18 @@ extension EThree {
     /// Restores encrypted private key from Virgil's cloud, decrypts it using
     /// user's password and saves it in local storage
     ///
-    /// - Parameter password: String with password
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    open func restorePrivateKey(password: String) -> GenericOperation<Void> {
+    open func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let entry = try self.cloudKeyManager.retrieve(usingPassword: password)
+                guard try !self.localKeyStorage.exists() else {
+                    throw EThreeError.privateKeyExists
+                }
+
+                let entry = try self.cloudKeyManager.retrieve(usingPassword: password, keyName: keyName)
 
                 let card = try self.lookupManager.lookupCard(of: self.identity)
 
@@ -107,11 +117,12 @@ extension EThree {
     /// - Parameters:
     ///   - oldOne: old password
     ///   - newOne: new password
+    ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    open func changePassword(from oldOne: String, to newOne: String) -> GenericOperation<Void> {
+    open func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.cloudKeyManager.changePassword(from: oldOne, to: newOne)
+                try self.cloudKeyManager.changePassword(from: oldOne, to: newOne, keyName: keyName)
 
                 completion((), nil)
             } catch {
@@ -121,10 +132,11 @@ extension EThree {
     }
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
-    open func resetPrivateKeyBackup() -> GenericOperation<Void> {
+    /// - Parameter keyName: optional name of the key
+    open func resetPrivateKeyBackup(keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.cloudKeyManager.deleteAll()
+                try self.cloudKeyManager.delete(keyName: keyName)
 
                 completion((), nil)
             } catch {
