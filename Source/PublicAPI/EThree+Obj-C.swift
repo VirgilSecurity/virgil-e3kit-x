@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2020 Virgil Security Inc.
+// Copyright (C) 2015-2021 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -38,6 +38,7 @@ import VirgilSDK
 import VirgilCrypto
 
 // MARK: - Extension with Objective-C compatible operations
+
 extension EThree {
     /// Generates new Private Key, publishes Card on Virgil Cards Service and saves Private Key in local storage
     ///
@@ -179,7 +180,75 @@ extension EThree {
     }
 }
 
-// MARK: - Extension with Objective-C compatible Group operations
+// MARK: Named Backup
+
+extension EThree {
+    /// Encrypts user's private key using password and backs up the encrypted
+    /// private key to Virgil's cloud. This enables users to log in from other devices
+    /// and have access to their private key to decrypt data.
+    ///
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - keyName: name of the key. Can be used to create additional key backup
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    /// - Important: Requires private key in local storage
+    @objc open func backupPrivateKey(password: String,
+                                     keyName: String,
+                                     completion: @escaping (_ error: Error?) -> Void) {
+        self.backupPrivateKey(password: password, keyName: keyName).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Restores encrypted private key from Virgil's cloud, decrypts it using
+    /// user's password and saves it in local storage
+    ///
+    /// - Parameters:
+    ///   - password: String with password
+    ///   - keyName: name of the key
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc open func restorePrivateKey(password: String,
+                                      keyName: String,
+                                      completion: @escaping (_ error: Error?) -> Void) {
+        self.restorePrivateKey(password: password, keyName: keyName).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Changes the password on a backed-up private key.
+    ///
+    /// - Parameters:
+    ///   - oldOne: old password
+    ///   - newOne: new password
+    ///   - keyName: name of the key
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc open func changePassword(from oldOne: String,
+                                   to newOne: String,
+                                   keyName: String,
+                                   completion: @escaping (_ error: Error?) -> Void) {
+        self.changePassword(from: oldOne, to: newOne, keyName: keyName).start { _, error in
+            completion(error)
+        }
+    }
+
+    /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
+    ///
+    /// - Parameters:
+    ///   - keyName: name of the key
+    ///   - completion: completion handler
+    ///   - error: corresponding error
+    @objc open func resetPrivateKeyBackup(keyName: String, completion: @escaping (_ error: Error?) -> Void) {
+        self.resetPrivateKeyBackup(keyName: keyName).start { _, error in
+            completion(error)
+        }
+    }
+}
+
+// MARK: Group operations
+
 extension EThree {
     /// Creates group, saves in cloud and locally
     ///
@@ -345,7 +414,8 @@ extension EThree {
     }
 }
 
-// MARK: - Extension with Objective-C compatible Ratchet operations
+// MARK: Ratchet operations
+
 extension EThree {
     /// Creates double ratchet channel with user, saves it locally
     /// - Parameters:
@@ -452,7 +522,8 @@ extension EThree {
     }
 }
 
-// MARK: - Extension with Objective-C compatible Temporary Channel operations
+// MARK: Temporary Channel operations
+
 extension EThree {
     /// Creates channel with unregistered user
     ///

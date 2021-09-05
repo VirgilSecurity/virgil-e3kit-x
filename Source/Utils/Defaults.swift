@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2020 Virgil Security Inc.
+// Copyright (C) 2015-2021 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -42,11 +42,11 @@ import VirgilCrypto
     /// Default key pair type
     @objc public static let keyPairType: KeyPairType = .ed25519
     /// Enables ratchet operations
-    @objc public static let enableRatchet: Bool = false
+    @objc public static let enableRatchet = false
     /// Enables ratchet pqc
-    @objc public static let enableRatchetPqc: Bool = false
+    @objc public static let enableRatchetPqc = false
     /// Offline init
-    @objc public static let offlineInit: Bool = false
+    @objc public static let offlineInit = false
     /// TimeInterval of automatic rotate keys for double ratchet
     @objc public static let keyRotationInterval: TimeInterval = 3_600
 }

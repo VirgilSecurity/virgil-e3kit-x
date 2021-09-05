@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2020 Virgil Security Inc.
+// Copyright (C) 2015-2021 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -59,7 +59,7 @@ extension EThree {
     open func resetPrivateKeyBackup(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                try self.cloudKeyManager.delete(password: password)
+                try self.cloudKeyManager.delete(keyName: nil, password: password)
 
                 completion((), nil)
             } catch {

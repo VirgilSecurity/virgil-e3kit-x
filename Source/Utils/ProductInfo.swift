@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2020 Virgil Security Inc.
+// Copyright (C) 2015-2021 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -38,5 +38,5 @@ import Foundation
 
 internal enum ProductInfo {
     internal static let name: String = "e3kit"
-    internal static let version: String = "2.2.0"
+    internal static let version: String = "3.0.0"
 }
