@@ -15,8 +15,8 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", branch: "develop"),
-        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", branch: "develop")
+        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", branch: "develop-spm-test"),
+        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", branch: "develop-spm")
     ],
 
     targets: [
@@ -27,6 +27,17 @@ let package = Package(
                 .product(name: "VirgilSDKPythia", package: "virgil-pythia-x"),
             ],
             path: "Source"
+        ),
+        .testTarget(
+            name: "VirgilE3KitTests",
+            dependencies: ["VirgilE3Kit"],
+            path: "Tests/Swift",
+            resources: [
+                .process("Data")
+            ],
+            swiftSettings: [
+                .define("SPM_BUILD")
+            ]
         )
     ]
 )

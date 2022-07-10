@@ -286,6 +286,9 @@
 		42D84ABA22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
 		42D84ABB22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
 		42D84ABC22F082510012D103 /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D84AB922F082510012D103 /* TestConfig.plist */; };
+		973E09A8287B26FD00F11F3F /* Bundle+SPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */; };
+		973E09A9287B26FD00F11F3F /* Bundle+SPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */; };
+		973E09AA287B26FD00F11F3F /* Bundle+SPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */; };
 		97532D2726C6BEB200057289 /* VTE004_NamedKeyBakupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */; };
 		97532D2826C6BEB200057289 /* VTE004_NamedKeyBakupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */; };
 		97532D2926C6BEB200057289 /* VTE004_NamedKeyBakupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */; };
@@ -601,6 +604,7 @@
 		42B23A1C2447639A006C68F3 /* SQLiteCardStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteCardStorage.swift; sourceTree = "<group>"; };
 		42D84AB522F081650012D103 /* VTE006_SQLiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE006_SQLiteTests.swift; sourceTree = "<group>"; };
 		42D84AB922F082510012D103 /* TestConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestConfig.plist; sourceTree = "<group>"; };
+		973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+SPM.swift"; sourceTree = "<group>"; };
 		97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE004_NamedKeyBakupTests.m; sourceTree = "<group>"; };
 		9759DFF124768E7000C31E8F /* compatibility_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = compatibility_data.json; sourceTree = "<group>"; };
 		979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilSDK.xcframework; path = Carthage/Build/VirgilSDK.xcframework; sourceTree = "<group>"; };
@@ -614,7 +618,7 @@
 		979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCryptoPythia.xcframework; path = Carthage/Build/VirgilCryptoPythia.xcframework; sourceTree = "<group>"; };
 		979DA66326AA256D00641A06 /* VSCFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VSCFoundation.xcframework; path = Carthage/Build/VSCFoundation.xcframework; sourceTree = "<group>"; };
 		979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCrypto.xcframework; path = Carthage/Build/VirgilCrypto.xcframework; sourceTree = "<group>"; };
-		F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VTE012_EncryptSharedFileTests.swift; path = Data/VTE012_EncryptSharedFileTests.swift; sourceTree = "<group>"; };
+		F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE012_EncryptSharedFileTests.swift; sourceTree = "<group>"; };
 		F470425D24E408E700ECC104 /* EThree+StreamShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EThree+StreamShared.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -815,22 +819,8 @@
 		165B67E72179013B00DDE1F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				165B68222179088D00DDE1F7 /* Data */,
-				166ED6A121F0B7AA00A9B51F /* Utils */,
-				165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */,
-				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
-				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
-				97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */,
-				16ED974022D772F800B90EC8 /* VTE005_MixtecTests.swift */,
-				42D84AB522F081650012D103 /* VTE006_SQLiteTests.swift */,
-				16BB9B5122F341150057D6B2 /* VTE007_LookupTests.swift */,
-				1657AA5723267534006A39BF /* VTE008_Benchmarks.swift */,
-				164F4D6023509D31007612F8 /* VTE009_AdditionalTests.swift */,
-				16B1F8D62327A9760082ECE0 /* VTE010_RatchetTests.swift */,
-				16509F61236B17C7005DA8AE /* VTE011_TempChannelTests.swift */,
-				F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */,
-				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
-				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
+				973E09AC287B37F500F11F3F /* ObjC */,
+				973E09AB287B37F000F11F3F /* Swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -886,6 +876,7 @@
 			children = (
 				1658056122301711003BC8A6 /* TestConfig.swift */,
 				16BC03A021EFF81E00887DF2 /* TestUtils.swift */,
+				973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1041,6 +1032,36 @@
 				16B1F8CC2327A5020082ECE0 /* EThree+Utils.swift */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		973E09AB287B37F000F11F3F /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				165B68222179088D00DDE1F7 /* Data */,
+				166ED6A121F0B7AA00A9B51F /* Utils */,
+				16ED974022D772F800B90EC8 /* VTE005_MixtecTests.swift */,
+				42D84AB522F081650012D103 /* VTE006_SQLiteTests.swift */,
+				16BB9B5122F341150057D6B2 /* VTE007_LookupTests.swift */,
+				1657AA5723267534006A39BF /* VTE008_Benchmarks.swift */,
+				164F4D6023509D31007612F8 /* VTE009_AdditionalTests.swift */,
+				16B1F8D62327A9760082ECE0 /* VTE010_RatchetTests.swift */,
+				16509F61236B17C7005DA8AE /* VTE011_TempChannelTests.swift */,
+				F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */,
+			);
+			path = Swift;
+			sourceTree = "<group>";
+		};
+		973E09AC287B37F500F11F3F /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				166ED69C21F0B5E800A9B51F /* VTETestBase.h */,
+				166ED69D21F0B66F00A9B51F /* VTETestBase.m */,
+				165B686C2179D0F600DDE1F7 /* VTE001_PeerToPeerTests.m */,
+				165B6922217A627100DDE1F7 /* VTE002_AuthenticationTests.m */,
+				167E1DAD217CE29B00F8AA13 /* VTE003_KeyBackupTests.m */,
+				97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */,
+			);
+			path = ObjC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1416,6 +1437,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				973E09A8287B26FD00F11F3F /* Bundle+SPM.swift in Sources */,
 				166ED69E21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886921B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974722D7732A00B90EC8 /* VTE005_MixtecTests.swift in Sources */,
@@ -1438,6 +1460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				973E09A9287B26FD00F11F3F /* Bundle+SPM.swift in Sources */,
 				166ED69F21F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886A21B14C03003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974622D7732900B90EC8 /* VTE005_MixtecTests.swift in Sources */,
@@ -1460,6 +1483,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				973E09AA287B26FD00F11F3F /* Bundle+SPM.swift in Sources */,
 				166ED6A021F0B66F00A9B51F /* VTETestBase.m in Sources */,
 				1661886B21B14C04003EC512 /* VTE003_KeyBackupTests.m in Sources */,
 				16ED974522D7732800B90EC8 /* VTE005_MixtecTests.swift in Sources */,

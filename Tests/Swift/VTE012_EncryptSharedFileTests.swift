@@ -34,6 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import Foundation
 import XCTest
 @testable import VirgilE3Kit
 

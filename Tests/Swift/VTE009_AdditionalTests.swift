@@ -34,17 +34,21 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import Foundation
 import XCTest
 @testable import VirgilE3Kit
 
 class VTE008_AdditionalTests: XCTestCase {
+
+    // Note: For now there is no way to access Info.plist of lib from SPM build (https://forums.swift.org/t/add-info-plist-on-spm-bundle/40274/6)
+#if !SPM_BUILD
     func test01__product_info_version__should_be_same_as_bundle() {
-        let bundle = Bundle(identifier: "com.virgilsecurity.VirgilE3Kit")!
-        let info = bundle.infoDictionary!
+        let info = Bundle.module.infoDictionary!
         let version = info["CFBundleShortVersionString"] as! String
 
         XCTAssert(VirgilE3Kit.ProductInfo.version == version)
     }
+#endif
 
     func test02_STE_49__init_ethreeParams__from_valid_config__should_succeed() {
         let identity = UUID().uuidString
@@ -53,8 +57,7 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let bundle = Bundle(for: TestConfig.self)
-        let configFileUrl = bundle.url(forResource: "EThreeValidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(forResource: "EThreeValidConfig", withExtension: "plist")!
 
         let params = try! EThreeParams(identity: identity,
                                        tokenCallback: tokenCallback,
@@ -73,8 +76,7 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let bundle = Bundle(for: TestConfig.self)
-        let configFileUrl = bundle.url(forResource: "EThreeInvalidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(forResource: "EThreeInvalidConfig", withExtension: "plist")!
 
         do {
             _ = try EThreeParams(identity: identity,
@@ -92,8 +94,7 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let bundle = Bundle(for: TestConfig.self)
-        let configFileUrl = bundle.url(forResource: "EThreeConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(forResource: "EThreeConfig", withExtension: "plist")!
 
         let params = try! EThreeParams(identity: identity,
                                        tokenCallback: tokenCallback,

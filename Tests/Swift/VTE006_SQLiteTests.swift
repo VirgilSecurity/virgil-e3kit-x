@@ -50,8 +50,7 @@ class VTE005_SQLiteTests: XCTestCase {
     private let cCardId3 = "e66465a08232beb55e33b4ce5e8772d748911c9b830797336e1ce342c78829a2"
     
     private func copyPredefinedBase(identity: String) throws {
-        let bundle = Bundle(for: VTE005_SQLiteTests.self)
-        let dbUrl = bundle.url(forResource: "cards", withExtension: "sqlite")!
+        let dbUrl = Bundle.module.url(forResource: "cards", withExtension: "sqlite")!
         
         var localUrl = try FileManager.default.url(for: .applicationSupportDirectory,
                                                    in: .userDomainMask,
