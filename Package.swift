@@ -15,8 +15,8 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", branch: "develop-spm-test"),
-        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", branch: "develop-spm")
+        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", exact: .init(0, 11, 0)),
+        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 9, 0))
     ],
 
     targets: [
