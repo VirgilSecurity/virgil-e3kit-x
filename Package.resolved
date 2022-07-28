@@ -1,0 +1,50 @@
+{
+  "pins" : [
+    {
+      "identity" : "virgil-crypto-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-crypto-x.git",
+      "state" : {
+        "revision" : "eee53f493c6dcdefe49378d2967b7fe750ad18e0",
+        "version" : "6.0.1"
+      }
+    },
+    {
+      "identity" : "virgil-cryptowrapper-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-cryptowrapper-x.git",
+      "state" : {
+        "revision" : "957bf2113ea570f1b934ffab5bbfbc8e12c7e6a3",
+        "version" : "0.16.1"
+      }
+    },
+    {
+      "identity" : "virgil-pythia-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-pythia-x.git",
+      "state" : {
+        "revision" : "4a259dd70fa3ae27ad65054d54c617a870de53e5",
+        "version" : "0.11.0"
+      }
+    },
+    {
+      "identity" : "virgil-ratchet-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-ratchet-x.git",
+      "state" : {
+        "revision" : "16f7669ea056b411cc11a13118b4354d0bef18fe",
+        "version" : "0.9.0"
+      }
+    },
+    {
+      "identity" : "virgil-sdk-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-sdk-x.git",
+      "state" : {
+        "revision" : "4ea08d9ad458c9197961d88dbc163ee1a608fa84",
+        "version" : "8.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}

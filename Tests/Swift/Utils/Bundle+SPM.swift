@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015-2021 Virgil Security Inc.
+// Copyright (C) 2015-2022 Virgil Security Inc.
 //
 // All rights reserved.
 //
@@ -35,40 +35,18 @@
 //
 
 import Foundation
-import VirgilCrypto
-import VirgilSDK
 
-@objc public class LocalKeyStorage: NSObject {
-    internal let identity: String
-    internal let crypto: VirgilCrypto
-    private let keychainStorage: KeychainStorage
+// Note: SPM can access resources only by it's extended Bundle.module, which is not accessable from xcodeproj.
+// Added this trick in order to not transfer whole project & targets from xcodeproj to module structure
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
-        self.crypto = crypto
-        self.keychainStorage = keychainStorage
+#if !SPM_BUILD
 
-        super.init()
-    }
+class BundleToken { }
 
-    @objc public func retrieveKeyPair() throws -> VirgilKeyPair {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                throw EThreeError.missingPrivateKey
-        }
-
-        return keyPair
-    }
-
-    @objc public func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-    }
-
-    public func exists() throws -> Bool {
-        try self.keychainStorage.existsEntry(withName: self.identity)
-    }
-
-    @objc public func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
-    }
+extension Foundation.Bundle {
+    static var module: Bundle = {
+        Bundle(for: BundleToken.self)
+    }()
 }
+
+#endif

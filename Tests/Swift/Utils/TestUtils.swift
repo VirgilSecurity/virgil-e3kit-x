@@ -34,6 +34,7 @@
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 //
 
+import Foundation
 import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
@@ -44,8 +45,7 @@ import VirgilSDKPythia
     @objc public let config: TestConfig
 
     @objc public lazy private(set) var streamsCompatibilityDict: [String: String] = {
-        let bundle = Bundle(for: TestUtils.self)
-        let fileUrl = bundle.url(forResource: "compatibility_data", withExtension: "json")!
+        let fileUrl = Bundle.module.url(forResource: "compatibility_data", withExtension: "json")!
         let data = try! Data(contentsOf: fileUrl)
 
         let dict = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
@@ -54,8 +54,7 @@ import VirgilSDKPythia
     }()
 
     @objc public lazy private(set) var encryptSharedCompatibilityDict: [String: String] = {
-        let bundle = Bundle(for: TestUtils.self)
-        let fileUrl = bundle.url(forResource: "compatibility_data", withExtension: "json")!
+        let fileUrl = Bundle.module.url(forResource: "compatibility_data", withExtension: "json")!
         let data = try! Data(contentsOf: fileUrl)
 
         let dict = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
