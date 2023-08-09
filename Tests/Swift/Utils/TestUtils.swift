@@ -248,33 +248,31 @@ import VirgilSDK
         let serviceUrls = self.config.ServiceUrls.get()
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
+        let brainKey = BrainKey(crypto: self.crypto)
+        let keyPair = try! brainKey.generateKeyPair(password: password, brainKeyId: nil).startSync().get()
 
-        let brainKeyContext = try! BrainKeyContext()
-        let brainKey = BrainKey(context: brainKeyContext)
+        let keyknoxClient = KeyknoxClient(
+            accessTokenProvider: provider,
+            serviceUrl: serviceUrls.keyknoxServiceUrl,
+            connection: connection,
+            retryConfig: retryConfig
+        )
 
-        brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
-            let keyknoxClient = KeyknoxClient(
-                accessTokenProvider: provider,
-                serviceUrl: serviceUrls.keyknoxServiceUrl,
-                connection: connection,
-                retryConfig: retryConfig
-            )
+        let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
 
-            let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
+        let cloudKeyStorage = CloudKeyStorage(
+            keyknoxManager: keyknoxManager,
+            publicKeys: [keyPair.publicKey],
+            privateKey: keyPair.privateKey
+        )
 
-            let cloudKeyStorage = CloudKeyStorage(
-                keyknoxManager: keyknoxManager,
-                publicKeys: [keyPair!.publicKey],
-                privateKey: keyPair!.privateKey
-            )
-            let syncKeyStorage = SyncKeyStorage(
-                identity: identity,
-                keychainStorage: keychainStorage,
-                cloudKeyStorage: cloudKeyStorage
-            )
+        let syncKeyStorage = SyncKeyStorage(
+            identity: identity,
+            keychainStorage: keychainStorage,
+            cloudKeyStorage: cloudKeyStorage
+        )
 
-            syncKeyStorage.sync { completion(syncKeyStorage, $0) }
-        }
+        syncKeyStorage.sync { completion(syncKeyStorage, $0) }
     }
 }
 
