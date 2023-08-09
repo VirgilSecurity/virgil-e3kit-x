@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 // MARK: - Extension with peer-to-pear encrypt and decrypt operations
 extension EThree {
@@ -203,7 +203,8 @@ extension EThree {
             pubKeys += publicKeys
         }
 
-        let encryptedData = try self.crypto.authEncrypt(data, with: selfKeyPair.privateKey, for: pubKeys)
+        let encryptedData = try self.crypto.authEncrypt(
+            data, with: selfKeyPair.privateKey, for: pubKeys)
 
         return encryptedData
     }
@@ -214,9 +215,10 @@ extension EThree {
         let publicKey = publicKey ?? selfKeyPair.publicKey
 
         do {
-            return try self.crypto.authDecrypt(data,
-                                               with: selfKeyPair.privateKey,
-                                               usingOneOf: [publicKey])
+            return try self.crypto.authDecrypt(
+                data,
+                with: selfKeyPair.privateKey,
+                usingOneOf: [publicKey])
         } catch VirgilCryptoError.signatureNotVerified {
             throw EThreeError.verificationFailed
         }

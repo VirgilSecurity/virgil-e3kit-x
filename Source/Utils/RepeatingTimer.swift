@@ -51,8 +51,9 @@ internal class RepeatingTimer {
 
         let startAfter = startFromNow ? 0 : interval
 
-        timer.schedule(deadline: .now() + startAfter,
-                       repeating: interval)
+        timer.schedule(
+            deadline: .now() + startAfter,
+            repeating: interval)
 
         timer.setEventHandler(handler: handler)
 

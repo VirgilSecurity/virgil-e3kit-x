@@ -38,22 +38,22 @@ import Foundation
 import VirgilSDK
 
 // MARK: - Extension with deprecated lookup methods
-public extension EThree {
+extension EThree {
     /// Retrieves users public keys from the Virgil Cloud
     ///
     /// - Parameter identities: array of identities to find
     /// - Returns: CallbackOperation<LookupResult>
     @available(*, deprecated, message: "Use findUsers instead.")
-    func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
+    public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.findUsers(with: identities, forceReload: true).startSync().get()
+                let cards = try self.findUsers(with: identities, forceReload: true).startSync()
+                    .get()
 
                 let result = cards.mapValues { $0.publicKey }
 
                 completion(result, nil)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
 
@@ -68,9 +68,13 @@ public extension EThree {
     ///   - lookupResult: dictionary with idenities as keys and found keys as values
     ///   - error: corresponding error
     @available(*, deprecated, message: "Use findUsers instead.")
-    @objc func lookupPublicKeys(of identities: [String],
-                                completion: @escaping (_ lookupResult: LookupResult?,
-                                                       _ error: Error?) -> Void) {
+    @objc public func lookupPublicKeys(
+        of identities: [String],
+        completion: @escaping (
+            _ lookupResult: LookupResult?,
+            _ error: Error?
+        ) -> Void
+    ) {
         self.lookupPublicKeys(of: identities).start(completion: completion)
     }
 }

@@ -6,17 +6,20 @@ import PackageDescription
 let package = Package(
     name: "VirgilE3Kit",
     platforms: [
-        .macOS(.v10_12), .iOS(.v11), .tvOS(.v11), .watchOS(.v4)
+        .macOS(.v10_12), .iOS(.v11), .tvOS(.v11), .watchOS(.v4),
     ],
     products: [
         .library(
             name: "VirgilE3Kit",
-            targets: ["VirgilE3Kit"]),
+            targets: ["VirgilE3Kit"])
     ],
 
     dependencies: [
-        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", exact: .init(0, 12, 0, prereleaseIdentifiers: ["dev", "1"])),
-        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 10, 0))
+        .package(
+            url: "https://github.com/VirgilSecurity/virgil-pythia-x.git",
+            exact: .init(0, 12, 0, prereleaseIdentifiers: ["dev", "1"])),
+        .package(
+            url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 10, 0)),
     ],
 
     targets: [
@@ -38,6 +41,6 @@ let package = Package(
             swiftSettings: [
                 .define("SPM_BUILD")
             ]
-        )
+        ),
     ]
 )

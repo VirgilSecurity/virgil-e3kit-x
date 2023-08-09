@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilCryptoFoundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 
 internal class Ticket: Codable {
     internal let groupMessage: GroupSessionMessage
@@ -81,7 +81,9 @@ internal class Ticket: Codable {
         self.participants = participants
     }
 
-    internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: Set<String>) throws {
+    internal convenience init(crypto: VirgilCrypto, sessionId: Data, participants: Set<String>)
+        throws
+    {
         let ticket = GroupSessionTicket()
         ticket.setRng(rng: crypto.rng)
 

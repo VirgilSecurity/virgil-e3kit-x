@@ -35,19 +35,21 @@
 //
 
 import Foundation
-import XCTest
-import VirgilE3Kit
 import VirgilCrypto
+import VirgilE3Kit
+import XCTest
 
 class VTE007_Benchmarks: XCTestCase {
     let utils = TestUtils()
 
     private let toEncrypt = "this string will be encrypted".data(using: .utf8)!
 
-    private func measure(title: String,
-                         maxTime: UInt64?,
-                         invocationCount: UInt64 = 1000,
-                         block: () throws -> Void) throws {
+    private func measure(
+        title: String,
+        maxTime: UInt64?,
+        invocationCount: UInt64 = 1000,
+        block: () throws -> Void
+    ) throws {
         var sum: UInt64 = 0
 
         print()
@@ -90,7 +92,9 @@ class VTE007_Benchmarks: XCTestCase {
                     _ = try alice.authEncrypt(data: self.toEncrypt, for: bobCard)
                 }
 
-                try self.measure(title: "encryption with \(keyType.rawStrValue)", maxTime: 100_000_000, block: block)
+                try self.measure(
+                    title: "encryption with \(keyType.rawStrValue)", maxTime: 100_000_000,
+                    block: block)
             }
         } catch {
             print("Test faield with error: \(error.localizedDescription)")
@@ -117,7 +121,9 @@ class VTE007_Benchmarks: XCTestCase {
                     _ = try bob.authDecrypt(data: encrypted, from: aliceCard)
                 }
 
-                try self.measure(title: "decryption with \(keyType.rawStrValue)", maxTime: 100_000_000, block: block)
+                try self.measure(
+                    title: "decryption with \(keyType.rawStrValue)", maxTime: 100_000_000,
+                    block: block)
             }
         } catch {
             print("Test faield with error: \(error.localizedDescription)")
@@ -132,7 +138,9 @@ class VTE007_Benchmarks: XCTestCase {
 
             let identifier = UUID().uuidString
 
-            let result = try ethree1.findUsers(with: [ethree2.identity, ethree3.identity]).startSync().get()
+            let result = try ethree1.findUsers(with: [ethree2.identity, ethree3.identity])
+                .startSync()
+                .get()
             let group1 = try ethree1.createGroup(id: identifier, with: result).startSync().get()
 
             let card1 = try ethree2.findUser(with: ethree1.identity).startSync().get()
@@ -148,7 +156,10 @@ class VTE007_Benchmarks: XCTestCase {
                     try group2.update().startSync().get()
                 }
 
-                try self.measure(title: "Update group with \(i) tickets", maxTime: 2_000_000_000, invocationCount: 1, block: block)
+                try self.measure(
+                    title: "Update group with \(i) tickets", maxTime: 2_000_000_000,
+                    invocationCount: 1,
+                    block: block)
             }
         } catch {
             print(error.localizedDescription)
@@ -157,8 +168,8 @@ class VTE007_Benchmarks: XCTestCase {
     }
 }
 
-private extension KeyPairType {
-    var rawStrValue: String {
+extension KeyPairType {
+    fileprivate var rawStrValue: String {
         switch self {
         case .ed25519:
             return "ed25519"
@@ -173,4 +184,3 @@ private extension KeyPairType {
         }
     }
 }
-

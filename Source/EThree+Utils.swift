@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 import VirgilSDKRatchet
 
 extension EThree {
@@ -80,15 +80,18 @@ extension EThree {
     }
 
     internal static func getConnection() -> HttpConnection {
-        let virgilAdapter = VirgilAgentAdapter(product: ProductInfo.name,
-                                               version: ProductInfo.version)
+        let virgilAdapter = VirgilAgentAdapter(
+            product: ProductInfo.name,
+            version: ProductInfo.version)
 
         return HttpConnection(adapters: [virgilAdapter])
     }
 
-    internal func publishCardThenSaveLocal(keyPair: VirgilKeyPair? = nil,
-                                           publishCardCallback: PublishCardCallback? = nil,
-                                           previousCardId: String? = nil) throws {
+    internal func publishCardThenSaveLocal(
+        keyPair: VirgilKeyPair? = nil,
+        publishCardCallback: PublishCardCallback? = nil,
+        previousCardId: String? = nil
+    ) throws {
         let keyPair = try keyPair ?? self.crypto.generateKeyPair(ofType: self.keyPairType)
 
         let card: Card
@@ -96,19 +99,21 @@ extension EThree {
         if let publishCardCallback = publishCardCallback {
             let modelSigner = ModelSigner(crypto: self.crypto)
 
-            let rawCard = try CardManager.generateRawCard(crypto: self.crypto,
-                                                          modelSigner: modelSigner,
-                                                          privateKey: keyPair.privateKey,
-                                                          publicKey: keyPair.publicKey,
-                                                          identity: self.identity)
+            let rawCard = try CardManager.generateRawCard(
+                crypto: self.crypto,
+                modelSigner: modelSigner,
+                privateKey: keyPair.privateKey,
+                publicKey: keyPair.publicKey,
+                identity: self.identity)
 
             card = try publishCardCallback(rawCard)
-        }
-        else {
-            card = try self.cardManager.publishCard(privateKey: keyPair.privateKey,
-                                                    publicKey: keyPair.publicKey,
-                                                    identity: self.identity,
-                                                    previousCardId: previousCardId)
+        } else {
+            card = try self.cardManager.publishCard(
+                privateKey: keyPair.privateKey,
+                publicKey: keyPair.publicKey,
+                identity: self.identity,
+                previousCardId: previousCardId
+            )
             .startSync()
             .get()
         }
@@ -122,32 +127,36 @@ extension EThree {
     }
 
     private func setupTempChannelManager(keyPair: VirgilKeyPair) throws {
-        self.tempChannelManager = try TempChannelManager(appGroup: self.appGroup,
-                                                         crypto: self.crypto,
-                                                         accessTokenProvider: self.accessTokenProvider,
-                                                         localKeyStorage: self.localKeyStorage,
-                                                         keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
-                                                         lookupManager: self.lookupManager,
-                                                         keyPairType: self.keyPairType,
-                                                         keyPair: keyPair)
+        self.tempChannelManager = try TempChannelManager(
+            appGroup: self.appGroup,
+            crypto: self.crypto,
+            accessTokenProvider: self.accessTokenProvider,
+            localKeyStorage: self.localKeyStorage,
+            keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
+            lookupManager: self.lookupManager,
+            keyPairType: self.keyPairType,
+            keyPair: keyPair)
     }
 
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {
-        let localGroupStorage = try FileGroupStorage(appGroup: self.appGroup,
-                                                     identity: self.identity,
-                                                     crypto: self.crypto,
-                                                     identityKeyPair: keyPair)
+        let localGroupStorage = try FileGroupStorage(
+            appGroup: self.appGroup,
+            identity: self.identity,
+            crypto: self.crypto,
+            identityKeyPair: keyPair)
 
-        let cloudTicketStorage = try CloudTicketStorage(accessTokenProvider: self.accessTokenProvider,
-                                                        localKeyStorage: self.localKeyStorage,
-                                                        keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl)
+        let cloudTicketStorage = try CloudTicketStorage(
+            accessTokenProvider: self.accessTokenProvider,
+            localKeyStorage: self.localKeyStorage,
+            keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl)
 
-         self.groupManager = GroupManager(localGroupStorage: localGroupStorage,
-                                          cloudTicketStorage: cloudTicketStorage,
-                                          localKeyStorage: self.localKeyStorage,
-                                          lookupManager: self.lookupManager,
-                                          crypto: self.crypto)
-     }
+        self.groupManager = GroupManager(
+            localGroupStorage: localGroupStorage,
+            cloudTicketStorage: cloudTicketStorage,
+            localKeyStorage: self.localKeyStorage,
+            lookupManager: self.lookupManager,
+            crypto: self.crypto)
+    }
 
     internal func getGroupManager() throws -> GroupManager {
         guard let manager = self.groupManager else {
@@ -167,7 +176,8 @@ extension EThree {
 }
 
 extension EThree {
-    private func setupRatchet(params: PrivateKeyChangedParams? = nil, keyPair: VirgilKeyPair) throws {
+    private func setupRatchet(params: PrivateKeyChangedParams? = nil, keyPair: VirgilKeyPair) throws
+    {
         guard self.enableRatchet else {
             throw EThreeRatchetError.ratchetIsDisabled
         }
@@ -178,8 +188,10 @@ extension EThree {
             if params.isNew {
                 do {
                     try chat.reset().startSync().get()
-                } // When there's no keys on cloud. Should be fixed on server side.
-                catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {}
+                }  // When there's no keys on cloud. Should be fixed on server side.
+                catch let error as ServiceError
+                    where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue
+                {}
 
                 try self.cloudRatchetStorage.reset()
             }
@@ -201,18 +213,20 @@ extension EThree {
     }
 
     private func setupSecureChat(keyPair: VirgilKeyPair, card: Card) throws -> SecureChat {
-        let context = SecureChatContext(identityCard: card,
-                                        identityPrivateKey: keyPair.privateKey,
-                                        accessTokenProvider: self.accessTokenProvider,
-                                        enablePostQuantum: Defaults.enableRatchetPqc)
+        let context = SecureChatContext(
+            identityCard: card,
+            identityPrivateKey: keyPair.privateKey,
+            accessTokenProvider: self.accessTokenProvider,
+            enablePostQuantum: Defaults.enableRatchetPqc)
 
         context.appName = self.appName
         context.appGroup = self.appGroup
 
-        context.client = RatchetClient(accessTokenProvider: self.accessTokenProvider,
-                                       serviceUrl: self.serviceUrls.ratchetServiceUrl,
-                                       connection: EThree.getConnection(),
-                                       retryConfig: ExpBackoffRetry.Config())
+        context.client = RatchetClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: self.serviceUrls.ratchetServiceUrl,
+            connection: EThree.getConnection(),
+            retryConfig: ExpBackoffRetry.Config())
 
         let chat = try SecureChat(context: context)
         self.secureChat = chat
@@ -223,7 +237,8 @@ extension EThree {
     private func scheduleKeysRotation(with chat: SecureChat, startFromNow: Bool) throws {
         let chat = try self.getSecureChat()
 
-        self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow) {
+        self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow)
+        {
             Log.debug("Key rotation started")
             do {
                 let logs = try chat.rotateKeys().startSync().get()
@@ -248,17 +263,22 @@ extension EThree {
         return secureChat
     }
 
-    internal func startRatchetSessionAsSender(secureChat: SecureChat,
-                                              receiverCard card: Card,
-                                              name: String?) throws -> SecureSession {
+    internal func startRatchetSessionAsSender(
+        secureChat: SecureChat,
+        receiverCard card: Card,
+        name: String?
+    ) throws -> SecureSession {
         do {
-            return try secureChat.startNewSessionAsSender(receiverCard: card,
-                                                          name: name,
-                                                          enablePostQuantum: Defaults.enableRatchetPqc)
-                .startSync()
-                .get()
-        }
-        catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
+            return try secureChat.startNewSessionAsSender(
+                receiverCard: card,
+                name: name,
+                enablePostQuantum: Defaults.enableRatchetPqc
+            )
+            .startSync()
+            .get()
+        } catch let error as ServiceError
+            where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue
+        {
             throw EThreeRatchetError.userIsNotUsingRatchet
         }
     }

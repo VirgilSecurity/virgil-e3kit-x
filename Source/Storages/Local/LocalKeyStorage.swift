@@ -53,8 +53,9 @@ import VirgilSDK
 
     @objc public func retrieveKeyPair() throws -> VirgilKeyPair {
         guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data) else {
-                throw EThreeError.missingPrivateKey
+            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data)
+        else {
+            throw EThreeError.missingPrivateKey
         }
 
         return keyPair

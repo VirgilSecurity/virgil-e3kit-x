@@ -77,10 +77,11 @@ import VirgilE3Kit
             let keyknoxServiceUrl = URL(string: self.Keyknox)!
             let ratchetServiceUrl = URL(string: self.Ratchet)!
 
-            return EThreeParams.ServiceUrls(cardServiceUrl: cardServiceUrl,
-                                            pythiaServiceUrl: pythiaServiceUrl,
-                                            keyknoxServiceUrl: keyknoxServiceUrl,
-                                            ratchetServiceUrl: ratchetServiceUrl)
+            return EThreeParams.ServiceUrls(
+                cardServiceUrl: cardServiceUrl,
+                pythiaServiceUrl: pythiaServiceUrl,
+                keyknoxServiceUrl: keyknoxServiceUrl,
+                ratchetServiceUrl: ratchetServiceUrl)
         }
     }
 

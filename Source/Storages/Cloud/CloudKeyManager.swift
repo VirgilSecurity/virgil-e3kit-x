@@ -50,28 +50,32 @@ internal class CloudKeyManager {
     private var namedKeysRoot: String { "e3kit" }
     private var namedKeysPath: String { "backup" }
 
-    internal init(identity: String,
-                  crypto: VirgilCrypto,
-                  accessTokenProvider: AccessTokenProvider,
-                  keyknoxServiceUrl: URL,
-                  pythiaServiceUrl: URL) throws {
+    internal init(
+        identity: String,
+        crypto: VirgilCrypto,
+        accessTokenProvider: AccessTokenProvider,
+        keyknoxServiceUrl: URL,
+        pythiaServiceUrl: URL
+    ) throws {
         self.identity = identity
         self.crypto = crypto
         self.accessTokenProvider = accessTokenProvider
 
         let connection = EThree.getConnection()
 
-        let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                          serviceUrl: keyknoxServiceUrl,
-                                          connection: connection,
-                                          retryConfig: ExpBackoffRetry.Config())
+        let keyknoxClient = KeyknoxClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: keyknoxServiceUrl,
+            connection: connection,
+            retryConfig: ExpBackoffRetry.Config())
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
 
-        let pythiaClient = PythiaClient(accessTokenProvider: self.accessTokenProvider,
-                                        serviceUrl: pythiaServiceUrl,
-                                        connection: connection,
-                                        retryConfig: ExpBackoffRetry.Config())
+        let pythiaClient = PythiaClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: pythiaServiceUrl,
+            connection: connection,
+            retryConfig: ExpBackoffRetry.Config())
 
         let brainKeyContext = try BrainKeyContext(client: pythiaClient)
 
@@ -81,9 +85,10 @@ internal class CloudKeyManager {
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
-        let cloudKeyStorage = CloudKeyStorage(keyknoxManager: self.keyknoxManager,
-                                              publicKeys: [brainKeyPair.publicKey],
-                                              privateKey: brainKeyPair.privateKey)
+        let cloudKeyStorage = CloudKeyStorage(
+            keyknoxManager: self.keyknoxManager,
+            publicKeys: [brainKeyPair.publicKey],
+            privateKey: brainKeyPair.privateKey)
 
         do {
             try cloudKeyStorage.retrieveCloudEntries().startSync().get()
@@ -94,17 +99,22 @@ internal class CloudKeyManager {
         return cloudKeyStorage
     }
 
-    private func pullKeyValue(named keyName: String, brainKeyPair: VirgilKeyPair) throws -> KeyknoxValue {
-        let pullParams = KeyknoxPullParams(identity: self.identity,
-                                           root: self.namedKeysRoot,
-                                           path: self.namedKeysPath,
-                                           key: keyName)
+    private func pullKeyValue(named keyName: String, brainKeyPair: VirgilKeyPair) throws
+        -> KeyknoxValue
+    {
+        let pullParams = KeyknoxPullParams(
+            identity: self.identity,
+            root: self.namedKeysRoot,
+            path: self.namedKeysPath,
+            key: keyName)
 
         do {
             let keyknoxValue = try self.keyknoxManager
-                .pullValue(params: pullParams,
-                           publicKeys: [brainKeyPair.publicKey],
-                           privateKey: brainKeyPair.privateKey)
+                .pullValue(
+                    params: pullParams,
+                    publicKeys: [brainKeyPair.publicKey],
+                    privateKey: brainKeyPair.privateKey
+                )
                 .startSync()
                 .get()
 
@@ -114,25 +124,32 @@ internal class CloudKeyManager {
         }
     }
 
-    private func pushKeyValue(named keyName: String, data: Data, hash: Data?, brainKeyPair: VirgilKeyPair) throws {
-        let pushParams = KeyknoxPushParams(identities: [self.identity],
-                                           root: self.namedKeysRoot,
-                                           path: self.namedKeysPath,
-                                           key: keyName)
+    private func pushKeyValue(
+        named keyName: String, data: Data, hash: Data?, brainKeyPair: VirgilKeyPair
+    ) throws {
+        let pushParams = KeyknoxPushParams(
+            identities: [self.identity],
+            root: self.namedKeysRoot,
+            path: self.namedKeysPath,
+            key: keyName)
 
         _ = try self.keyknoxManager
-            .pushValue(params: pushParams,
-                       data: data,
-                       previousHash: hash,
-                       publicKeys: [brainKeyPair.publicKey],
-                       privateKey: brainKeyPair.privateKey)
+            .pushValue(
+                params: pushParams,
+                data: data,
+                previousHash: hash,
+                publicKeys: [brainKeyPair.publicKey],
+                privateKey: brainKeyPair.privateKey
+            )
             .startSync()
             .get()
     }
 }
 
 extension CloudKeyManager {
-    internal func store(key: VirgilPrivateKey, keyName: String?, usingPassword password: String) throws {
+    internal func store(key: VirgilPrivateKey, keyName: String?, usingPassword password: String)
+        throws
+    {
         if let keyName = keyName {
             try self.store(key: key, keyName: keyName, usingPassword: password)
         } else {
@@ -156,9 +173,11 @@ extension CloudKeyManager {
         }
     }
 
-    internal func changePassword(from oldPassword: String,
-                                 to newPassword: String,
-                                 keyName: String?) throws {
+    internal func changePassword(
+        from oldPassword: String,
+        to newPassword: String,
+        keyName: String?
+    ) throws {
         if let keyName = keyName {
             try self.changePassword(from: oldPassword, to: newPassword, keyName: keyName)
         } else {
@@ -177,44 +196,50 @@ extension CloudKeyManager {
 
 // MARK: Main Key
 
-private extension CloudKeyManager {
-    func store(key: VirgilPrivateKey, usingPassword password: String) throws {
+extension CloudKeyManager {
+    fileprivate func store(key: VirgilPrivateKey, usingPassword password: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-        _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey).startSync().get()
+        _ = try cloudKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey)
+            .startSync().get()
     }
 
-    func retrieve(usingPassword password: String) throws -> CloudEntry {
+    fileprivate func retrieve(usingPassword password: String) throws -> CloudEntry {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         return try cloudKeyStorage.retrieveEntry(withName: self.identity)
     }
 
-    func delete(password: String) throws {
+    fileprivate func delete(password: String) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: password)
 
         try cloudKeyStorage.deleteEntry(withName: self.identity).startSync().get()
     }
 
-    func deleteAll() throws {
+    fileprivate func deleteAll() throws {
         _ = try self.keyknoxManager.resetValue().startSync().get()
     }
 
-    func changePassword(from oldPassword: String,
-                        to newPassword: String) throws {
+    fileprivate func changePassword(
+        from oldPassword: String,
+        to newPassword: String
+    ) throws {
         let cloudKeyStorage = try self.setUpCloudKeyStorage(password: oldPassword)
 
         sleep(2)
 
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync()
+            .get()
 
         do {
-            try cloudKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey],
-                                                 newPrivateKey: brainKeyPair.privateKey)
-                .startSync()
-                .get()
+            try cloudKeyStorage.updateRecipients(
+                newPublicKeys: [brainKeyPair.publicKey],
+                newPrivateKey: brainKeyPair.privateKey
+            )
+            .startSync()
+            .get()
         } catch KeyknoxCryptoError.decryptionFailed {
             throw EThreeError.wrongPassword
         }
@@ -223,8 +248,10 @@ private extension CloudKeyManager {
 
 // MARK: Named Keys
 
-private extension CloudKeyManager {
-    func store(key: VirgilPrivateKey, keyName: String, usingPassword password: String) throws {
+extension CloudKeyManager {
+    fileprivate func store(key: VirgilPrivateKey, keyName: String, usingPassword password: String)
+        throws
+    {
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
@@ -236,26 +263,28 @@ private extension CloudKeyManager {
         }
 
         let now = Date()
-        let cloudEntry = CloudEntry(name: self.identity,
-                                    data: exportedIdentityKey,
-                                    creationDate: now,
-                                    modificationDate: now,
-                                    meta: nil)
+        let cloudEntry = CloudEntry(
+            name: self.identity,
+            data: exportedIdentityKey,
+            creationDate: now,
+            modificationDate: now,
+            meta: nil)
 
         let data = try JSONEncoder().encode(cloudEntry)
 
-        try self.pushKeyValue(named: keyName, data: data, hash: keyknoxValue.keyknoxHash, brainKeyPair: brainKeyPair)
+        try self.pushKeyValue(
+            named: keyName, data: data, hash: keyknoxValue.keyknoxHash, brainKeyPair: brainKeyPair)
     }
 
-    func retrieve(usingPassword password: String, keyName: String) throws -> CloudEntry {
+    fileprivate func retrieve(usingPassword password: String, keyName: String) throws -> CloudEntry
+    {
         let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
 
         do {
             let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
 
             return try JSONDecoder().decode(CloudEntry.self, from: keyknoxValue.value)
-        }
-        catch KeyknoxCryptoError.decryptionFailed {
+        } catch KeyknoxCryptoError.decryptionFailed {
             throw EThreeError.wrongPassword
         }
     }
@@ -265,10 +294,13 @@ private extension CloudKeyManager {
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }
 
-    func changePassword(from oldPassword: String,
-                        to newPassword: String,
-                        keyName: String) throws {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: oldPassword).startSync().get()
+    fileprivate func changePassword(
+        from oldPassword: String,
+        to newPassword: String,
+        keyName: String
+    ) throws {
+        let brainKeyPair = try self.brainKey.generateKeyPair(password: oldPassword).startSync()
+            .get()
 
         let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
 
@@ -278,11 +310,13 @@ private extension CloudKeyManager {
 
         sleep(2)
 
-        let newBrainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
+        let newBrainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync()
+            .get()
 
-        try self.pushKeyValue(named: keyName,
-                              data: keyknoxValue.value,
-                              hash: keyknoxValue.keyknoxHash,
-                              brainKeyPair: newBrainKeyPair)
+        try self.pushKeyValue(
+            named: keyName,
+            data: keyknoxValue.value,
+            hash: keyknoxValue.keyknoxHash,
+            brainKeyPair: newBrainKeyPair)
     }
 }

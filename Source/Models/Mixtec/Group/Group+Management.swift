@@ -109,8 +109,9 @@ extension Group {
             do {
                 try self.checkPermissions()
 
-                try self.groupManager.reAddAccess(to: participant,
-                                                  sessionId: self.session.getSessionId())
+                try self.groupManager.reAddAccess(
+                    to: participant,
+                    sessionId: self.session.getSessionId())
 
                 completion((), nil)
             } catch {
@@ -179,13 +180,13 @@ extension Group {
     public func add(participants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let result = try self.lookupManager.lookupCards(of: participants,
-                                                                forceReload: false,
-                                                                checkResult: true)
+                let result = try self.lookupManager.lookupCards(
+                    of: participants,
+                    forceReload: false,
+                    checkResult: true)
 
                 self.add(participants: result).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -210,8 +211,7 @@ extension Group {
                 let card = try self.lookupManager.lookupCard(of: participant)
 
                 self.reAdd(participant: card).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -236,19 +236,20 @@ extension Group {
                     throw GroupError.invalidChangeParticipants
                 }
 
-                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet),
-                                                                      forceReload: false,
-                                                                      checkResult: true)
+                let newSetLookup = try self.lookupManager.lookupCards(
+                    of: Array(newSet),
+                    forceReload: false,
+                    checkResult: true)
 
                 try self.addNewTicket(for: newSetLookup)
 
                 let removedSet = oldSet.subtracting(newSet)
 
-                try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
+                try self.groupManager.removeAccess(
+                    identities: removedSet, to: self.session.getSessionId())
 
                 completion((), nil)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }

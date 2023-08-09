@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 // MARK: - Extension with find users operations
 extension EThree {
@@ -47,8 +47,10 @@ extension EThree {
     ///   - checkResult: checks that cards for all identities were found if true
     /// - Returns: `FindUsersResult`
     /// - Throws: corresponding error
-    @objc open func findCachedUsers(with identities: [String],
-                                    checkResult: Bool = true) throws -> FindUsersResult {
+    @objc open func findCachedUsers(
+        with identities: [String],
+        checkResult: Bool = true
+    ) throws -> FindUsersResult {
         return try self.lookupManager.lookupCachedCards(of: identities, checkResult: checkResult)
     }
 
@@ -57,7 +59,7 @@ extension EThree {
     /// - Parameter identity: identity
     /// - Returns: Card if it exists, nil otherwise
     @objc open func findCachedUser(with identity: String) -> Card? {
-        return  try? self.lookupManager.lookupCachedCard(of: identity)
+        return try? self.lookupManager.lookupCachedCard(of: identity)
     }
 
     /// Retrieves users Cards from the Virgil Cloud or local storage if exists
@@ -67,14 +69,17 @@ extension EThree {
     ///   - forceReload: will not use local cached cards if true
     ///   - checkResult: checks that cards for all identities were found if true
     /// - Returns: CallbackOperation<FindUsersResult>
-    public func findUsers(with identities: [String],
-                        forceReload: Bool = false,
-                        checkResult: Bool = true) -> GenericOperation<FindUsersResult> {
+    public func findUsers(
+        with identities: [String],
+        forceReload: Bool = false,
+        checkResult: Bool = true
+    ) -> GenericOperation<FindUsersResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.lookupManager.lookupCards(of: identities,
-                                                               forceReload: forceReload,
-                                                               checkResult: checkResult)
+                let cards = try self.lookupManager.lookupCards(
+                    of: identities,
+                    forceReload: forceReload,
+                    checkResult: checkResult)
 
                 completion(cards, nil)
             } catch {
@@ -89,7 +94,8 @@ extension EThree {
     ///   - identity: identity to find
     ///   - forceReload: will not use local cached card if true
     /// - Returns: CallbackOperation<Card>
-    public func findUser(with identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
+    public func findUser(with identity: String, forceReload: Bool = false) -> GenericOperation<Card>
+    {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.lookupManager.lookupCard(of: identity, forceReload: forceReload)

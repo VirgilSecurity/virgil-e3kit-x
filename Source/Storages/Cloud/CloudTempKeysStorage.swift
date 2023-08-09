@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 internal class CloudTempKeysStorage {
     private static let root = "unsafe-keys"
@@ -48,47 +48,53 @@ internal class CloudTempKeysStorage {
     private let crypto: VirgilCrypto
     private let keyknoxClient: KeyknoxClient
 
-    internal init(identity: String,
-                  accessTokenProvider: AccessTokenProvider,
-                  crypto: VirgilCrypto,
-                  keyknoxServiceUrl: URL) {
+    internal init(
+        identity: String,
+        accessTokenProvider: AccessTokenProvider,
+        crypto: VirgilCrypto,
+        keyknoxServiceUrl: URL
+    ) {
         self.identity = identity
         self.accessTokenProvider = accessTokenProvider
         self.crypto = crypto
 
         let connection = EThree.getConnection()
 
-        self.keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                           serviceUrl: keyknoxServiceUrl,
-                                           connection: connection,
-                                           retryConfig: ExpBackoffRetry.Config())
+        self.keyknoxClient = KeyknoxClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: keyknoxServiceUrl,
+            connection: connection,
+            retryConfig: ExpBackoffRetry.Config())
     }
 }
 
 extension CloudTempKeysStorage {
     // swiftlint:disable force_unwrapping
     internal func store(_ tempKey: VirgilPrivateKey, for identity: String) throws {
-        let pushParams = KeyknoxPushParams(identities: [identity, self.identity],
-                                           root: CloudTempKeysStorage.root,
-                                           path: identity,
-                                           key: CloudTempKeysStorage.defaultKey)
+        let pushParams = KeyknoxPushParams(
+            identities: [identity, self.identity],
+            root: CloudTempKeysStorage.root,
+            path: identity,
+            key: CloudTempKeysStorage.defaultKey)
 
         let data = try self.crypto.exportPrivateKey(tempKey)
 
         let meta = CloudTempKeysStorage.meta.data(using: .utf8)!
 
-        _ = try self.keyknoxClient.pushValue(params: pushParams,
-                                             meta: meta,
-                                             value: data,
-                                             previousHash: nil)
+        _ = try self.keyknoxClient.pushValue(
+            params: pushParams,
+            meta: meta,
+            value: data,
+            previousHash: nil)
     }
     // swiftlint:enable force_unwrapping
 
     internal func retrieve(from identity: String, path: String) throws -> VirgilKeyPair {
-        let params = KeyknoxPullParams(identity: identity,
-                                       root: CloudTempKeysStorage.root,
-                                       path: path,
-                                       key: CloudTempKeysStorage.defaultKey)
+        let params = KeyknoxPullParams(
+            identity: identity,
+            root: CloudTempKeysStorage.root,
+            path: path,
+            key: CloudTempKeysStorage.defaultKey)
 
         let response = try self.keyknoxClient.pullValue(params: params)
 
@@ -100,9 +106,10 @@ extension CloudTempKeysStorage {
     }
 
     internal func delete(with identity: String) throws {
-        let params = KeyknoxResetParams(root: CloudTempKeysStorage.root,
-                                        path: identity,
-                                        key: CloudTempKeysStorage.defaultKey)
+        let params = KeyknoxResetParams(
+            root: CloudTempKeysStorage.root,
+            path: identity,
+            key: CloudTempKeysStorage.defaultKey)
 
         _ = try self.keyknoxClient.resetValue(params: params)
     }

@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCryptoRatchet
+import VirgilSDK
 
 internal class CloudRatchetStorage {
     private static let root = "ratchet-peer-to-peer"
@@ -50,18 +50,21 @@ internal class CloudRatchetStorage {
         return self.localKeyStorage.identity
     }
 
-    internal init(accessTokenProvider: AccessTokenProvider,
-                  localKeyStorage: LocalKeyStorage,
-                  keyknoxServiceUrl: URL) throws {
+    internal init(
+        accessTokenProvider: AccessTokenProvider,
+        localKeyStorage: LocalKeyStorage,
+        keyknoxServiceUrl: URL
+    ) throws {
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
 
         let connection = EThree.getConnection()
 
-        let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                          serviceUrl: keyknoxServiceUrl,
-                                          connection: connection,
-                                          retryConfig: ExpBackoffRetry.Config())
+        let keyknoxClient = KeyknoxClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: keyknoxServiceUrl,
+            connection: connection,
+            retryConfig: ExpBackoffRetry.Config())
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
     }
@@ -72,21 +75,25 @@ extension CloudRatchetStorage {
         do {
             let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-            let pushParams = KeyknoxPushParams(identities: [card.identity, self.identity],
-                                               root: CloudRatchetStorage.root,
-                                               path: card.identity,
-                                               key: name ?? CloudRatchetStorage.defaultKey)
+            let pushParams = KeyknoxPushParams(
+                identities: [card.identity, self.identity],
+                root: CloudRatchetStorage.root,
+                path: card.identity,
+                key: name ?? CloudRatchetStorage.defaultKey)
 
             _ = try self.keyknoxManager
-                .pushValue(params: pushParams,
-                           data: ticket.serialize(),
-                           previousHash: nil,
-                           publicKeys: [card.publicKey, selfKeyPair.publicKey],
-                           privateKey: selfKeyPair.privateKey)
+                .pushValue(
+                    params: pushParams,
+                    data: ticket.serialize(),
+                    previousHash: nil,
+                    publicKeys: [card.publicKey, selfKeyPair.publicKey],
+                    privateKey: selfKeyPair.privateKey
+                )
                 .startSync()
                 .get()
-        }
-        catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
+        } catch let error as ServiceError
+            where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue
+        {
             throw EThreeRatchetError.channelAlreadyExists
         }
     }
@@ -94,14 +101,17 @@ extension CloudRatchetStorage {
     internal func retrieve(from card: Card, name: String?) throws -> RatchetMessage {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let params = KeyknoxPullParams(identity: card.identity,
-                                       root: CloudRatchetStorage.root,
-                                       path: self.identity,
-                                       key: name ?? CloudRatchetStorage.defaultKey)
+        let params = KeyknoxPullParams(
+            identity: card.identity,
+            root: CloudRatchetStorage.root,
+            path: self.identity,
+            key: name ?? CloudRatchetStorage.defaultKey)
         let response = try self.keyknoxManager
-            .pullValue(params: params,
-                       publicKeys: [card.publicKey],
-                       privateKey: selfKeyPair.privateKey)
+            .pullValue(
+                params: params,
+                publicKeys: [card.publicKey],
+                privateKey: selfKeyPair.privateKey
+            )
             .startSync()
             .get()
 
@@ -113,9 +123,10 @@ extension CloudRatchetStorage {
     }
 
     internal func delete(identity: String, name: String?) throws {
-        let params = KeyknoxResetParams(root: CloudRatchetStorage.root,
-                                        path: identity,
-                                        key: name ?? CloudRatchetStorage.defaultKey)
+        let params = KeyknoxResetParams(
+            root: CloudRatchetStorage.root,
+            path: identity,
+            key: name ?? CloudRatchetStorage.defaultKey)
 
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }

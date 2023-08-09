@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import XCTest
 import VirgilE3Kit
+import XCTest
 
 class VTE006_LookupTests: XCTestCase {
     let utils = TestUtils()
@@ -46,14 +46,16 @@ class VTE006_LookupTests: XCTestCase {
 
         let card1 = self.utils.publishCard()
         let card2 = self.utils.publishCard()
-        let card3 = self.utils.publishCard(identity: card2.identity,
-                                           previousCardId: card2.identifier)
+        let card3 = self.utils.publishCard(
+            identity: card2.identity,
+            previousCardId: card2.identifier)
 
-        let lookup = try! ethree.findUsers(with: [card1.identity, card2.identity, card3.identity]).startSync().get()
+        let lookup = try! ethree.findUsers(with: [card1.identity, card2.identity, card3.identity])
+            .startSync().get()
 
         XCTAssert(lookup.count == 2)
-        XCTAssert(lookup.contains(where: { $0.value.identifier == card1.identifier } ))
-        XCTAssert(lookup.contains(where: { $0.value.identifier == card3.identifier } ))
+        XCTAssert(lookup.contains(where: { $0.value.identifier == card1.identifier }))
+        XCTAssert(lookup.contains(where: { $0.value.identifier == card3.identifier }))
     }
 
     func test02_STE_2() {
@@ -76,14 +78,16 @@ class VTE006_LookupTests: XCTestCase {
 
         XCTAssert(foundCard1.identifier == card1.identifier)
 
-        let card2 = self.utils.publishCard(identity: card1.identity,
-                                           previousCardId: card1.identifier)
+        let card2 = self.utils.publishCard(
+            identity: card1.identity,
+            previousCardId: card1.identifier)
 
         let foundCard2 = try! ethree.findUser(with: card1.identity).startSync().get()
 
         XCTAssert(foundCard2.identifier == foundCard1.identifier)
 
-        let foundCard3 = try! ethree.findUser(with: card1.identity, forceReload: true).startSync().get()
+        let foundCard3 = try! ethree.findUser(with: card1.identity, forceReload: true).startSync()
+            .get()
 
         XCTAssert(foundCard3.identifier == card2.identifier)
 
@@ -129,12 +133,14 @@ class VTE006_LookupTests: XCTestCase {
 
         _ = try! ethree.findUser(with: card.identity).startSync().get()
 
-        let newCard = self.utils.publishCard(identity: card.identity,
-                                             previousCardId: card.identifier)
+        let newCard = self.utils.publishCard(
+            identity: card.identity,
+            previousCardId: card.identifier)
 
-        let newEThree = try! self.utils.setupEThree(identity: ethree.identity,
-                                                    enableRatchet: false,
-                                                    changedKeyDelegate: delegate)
+        let newEThree = try! self.utils.setupEThree(
+            identity: ethree.identity,
+            enableRatchet: false,
+            changedKeyDelegate: delegate)
 
         sleep(5)
 
@@ -155,8 +161,7 @@ class VTE006_LookupTests: XCTestCase {
 
         do {
             _ = try ethree.findUsers(with: identities).startSync().get()
-        }
-        catch FindUsersError.cardWasNotFound {} catch {
+        } catch FindUsersError.cardWasNotFound {} catch {
             XCTFail()
         }
 
@@ -170,14 +175,16 @@ class VTE006_LookupTests: XCTestCase {
         let ethree1 = try! self.utils.setupDevice()
         let ethree2 = try! self.utils.setupDevice()
 
-        let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync().get()
+        let card2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync()
+            .get()
 
         try! ethree2.cleanUp()
         try! ethree2.rotatePrivateKey().startSync().get()
 
         try! ethree1.updateCachedUsers().startSync().get()
 
-        let newCard2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync().get()
+        let newCard2 = try! ethree1.findUser(with: ethree2.identity, forceReload: false).startSync()
+            .get()
 
         XCTAssert(newCard2.previousCard?.identifier == card2.identifier)
     }

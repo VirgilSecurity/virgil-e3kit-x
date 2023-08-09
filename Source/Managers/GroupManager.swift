@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 internal class GroupManager {
     internal let identity: String
@@ -49,11 +49,13 @@ internal class GroupManager {
 
     internal static let maxTicketsInGroup: Int = 50
 
-    internal init(localGroupStorage: FileGroupStorage,
-                  cloudTicketStorage: CloudTicketStorage,
-                  localKeyStorage: LocalKeyStorage,
-                  lookupManager: LookupManager,
-                  crypto: VirgilCrypto) {
+    internal init(
+        localGroupStorage: FileGroupStorage,
+        cloudTicketStorage: CloudTicketStorage,
+        localKeyStorage: LocalKeyStorage,
+        lookupManager: LookupManager,
+        crypto: VirgilCrypto
+    ) {
         self.identity = localGroupStorage.identity
         self.localGroupStorage = localGroupStorage
         self.cloudTicketStorage = cloudTicketStorage
@@ -63,10 +65,11 @@ internal class GroupManager {
     }
 
     private func parse(_ rawGroup: RawGroup) throws -> Group {
-        return try Group(rawGroup: rawGroup,
-                         localKeyStorage: self.localKeyStorage,
-                         groupManager: self,
-                         lookupManager: self.lookupManager)
+        return try Group(
+            rawGroup: rawGroup,
+            localKeyStorage: self.localKeyStorage,
+            groupManager: self,
+            lookupManager: self.lookupManager)
     }
 
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> Group {
@@ -81,7 +84,8 @@ internal class GroupManager {
     }
 
     internal func pull(sessionId: Data, from card: Card) throws -> Group {
-        let cloudEpochs = try self.cloudTicketStorage.getEpochs(sessionId: sessionId, identity: card.identity)
+        let cloudEpochs = try self.cloudTicketStorage.getEpochs(
+            sessionId: sessionId, identity: card.identity)
         let localEpochs = try self.localGroupStorage.getEpochs(sessionId: sessionId)
 
         guard let anyEpoch = cloudEpochs.first else {
@@ -92,10 +96,11 @@ internal class GroupManager {
         var epochs: Set<String> = cloudEpochs.subtracting(localEpochs)
         epochs.insert(anyEpoch)
 
-        let tickets = try self.cloudTicketStorage.retrieve(sessionId: sessionId,
-                                                           identity: card.identity,
-                                                           identityPublicKey: card.publicKey,
-                                                           epochs: epochs)
+        let tickets = try self.cloudTicketStorage.retrieve(
+            sessionId: sessionId,
+            identity: card.identity,
+            identityPublicKey: card.publicKey,
+            epochs: epochs)
 
         let info = GroupInfo(initiator: card.identity)
         let rawGroup = try RawGroup(info: info, tickets: tickets)
@@ -121,8 +126,11 @@ internal class GroupManager {
     internal func retrieve(sessionId: Data) -> Group? {
         let ticketsCount = GroupManager.maxTicketsInGroup
 
-        guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId,
-                                                                  lastTicketsCount: ticketsCount) else {
+        guard
+            let rawGroup = try? self.localGroupStorage.retrieve(
+                sessionId: sessionId,
+                lastTicketsCount: ticketsCount)
+        else {
             return nil
         }
 
@@ -130,7 +138,9 @@ internal class GroupManager {
     }
 
     internal func retrieve(sessionId: Data, epoch: UInt32) -> Group? {
-        guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
+        guard
+            let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch)
+        else {
             return nil
         }
 
@@ -148,6 +158,6 @@ internal class GroupManager {
 
         do {
             try self.localGroupStorage.delete(sessionId: sessionId)
-        } catch CocoaError.fileNoSuchFile { }
+        } catch CocoaError.fileNoSuchFile {}
     }
 }

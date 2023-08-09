@@ -75,11 +75,14 @@ import Foundation
         case .invalidGroup:
             return "Group is invalid"
         case .invalidChangeParticipants:
-            return "Invalid change of group participants. e.g. Add smb who is already in group or remove smb who is not"
+            return
+                "Invalid change of group participants. e.g. Add smb who is already in group or remove smb who is not"
         case .invalidParticipantsCount:
-            return "Please check valid participants count range in Group.ValidParticipantsCountRange"
+            return
+                "Please check valid participants count range in Group.ValidParticipantsCountRange"
         case .verificationFailed:
-            return "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
+            return
+                "Verification of message failed. This may be caused by rotating sender key. Try finding new one"
         case .shortGroupId:
             return "Group Id length should be > 10"
         case .messageNotFromThisGroup:

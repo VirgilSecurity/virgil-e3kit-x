@@ -57,8 +57,10 @@ extension Group {
     ///   - participants: Cards of users to add. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func add(participants: FindUsersResult,
-                        completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func add(
+        participants: FindUsersResult,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.add(participants: participants).start { _, error in
             completion(error)
         }
@@ -71,8 +73,10 @@ extension Group {
     ///   - participants: Identities of users to add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    public func add(participants: [String],
-                  completion: @escaping (_ error: Error?) -> Void) {
+    public func add(
+        participants: [String],
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.add(participants: participants).start { _, error in
             completion(error)
         }
@@ -85,8 +89,10 @@ extension Group {
     ///   - participant: Card of user to add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func add(participant: Card,
-                        completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func add(
+        participant: Card,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.add(participant: participant).start { _, error in
             completion(error)
         }
@@ -99,8 +105,10 @@ extension Group {
     ///   - participant: New participant will be able to decrypt all history
     ///   - completion: completion handler
     ///   - error: corresponding error
-    public func add(participant: String,
-                  completion: @escaping (_ error: Error?) -> Void) {
+    public func add(
+        participant: String,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.add(participant: participant).start { _, error in
             completion(error)
         }
@@ -137,8 +145,10 @@ extension Group {
     ///   - participants: Cards of users to remove. Result of findUsers call
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func remove(participants: FindUsersResult,
-                           completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func remove(
+        participants: FindUsersResult,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.remove(participants: participants).start { _, error in
             completion(error)
         }
@@ -151,8 +161,10 @@ extension Group {
     ///   - participants: Users to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    public func remove(participants: [String],
-                     completion: @escaping (_ error: Error?) -> Void) {
+    public func remove(
+        participants: [String],
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.remove(participants: participants).start { _, error in
             completion(error)
         }
@@ -164,8 +176,10 @@ extension Group {
     ///   - participant: Card of user to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func remove(participant: Card,
-                           completion: @escaping (_ error: Error?) -> Void) {
+    @objc open func remove(
+        participant: Card,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.remove(participant: participant).start { _, error in
             completion(error)
         }
@@ -177,8 +191,10 @@ extension Group {
     ///   - participant: User to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    public func remove(participant: String,
-                     completion: @escaping (_ error: Error?) -> Void) {
+    public func remove(
+        participant: String,
+        completion: @escaping (_ error: Error?) -> Void
+    ) {
         self.remove(participant: participant).start { _, error in
             completion(error)
         }

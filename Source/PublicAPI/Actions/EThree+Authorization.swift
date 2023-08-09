@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 // MARK: - Extension with authorization operations
 extension EThree {
@@ -52,7 +52,9 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity])
+                        .startSync()
+                        .get()
 
                     guard cards.isEmpty else {
                         throw EThreeError.userIsAlreadyRegistered
@@ -72,8 +74,10 @@ extension EThree {
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
     /// - Returns: CallbackOperation<Void>
-    public func register(with keyPair: VirgilKeyPair? = nil,
-                       publishCardCallback: @escaping PublishCardCallback) -> GenericOperation<Void> {
+    public func register(
+        with keyPair: VirgilKeyPair? = nil,
+        publishCardCallback: @escaping PublishCardCallback
+    ) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
@@ -81,12 +85,12 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    try self.publishCardThenSaveLocal(keyPair: keyPair,
-                                                      publishCardCallback: publishCardCallback)
+                    try self.publishCardThenSaveLocal(
+                        keyPair: keyPair,
+                        publishCardCallback: publishCardCallback)
 
                     completion((), nil)
-                }
-                catch {
+                } catch {
                     completion(nil, error)
                 }
             }
@@ -105,7 +109,9 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity])
+                        .startSync()
+                        .get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered
@@ -128,7 +134,9 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity])
+                        .startSync()
+                        .get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered

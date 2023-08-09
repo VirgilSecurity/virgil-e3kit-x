@@ -35,10 +35,11 @@
 //
 
 import Foundation
-import XCTest
-@testable import VirgilE3Kit
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
+import XCTest
+
+@testable import VirgilE3Kit
 
 class VTE010_TempChannelTests: XCTestCase {
     let utils = TestUtils()
@@ -52,8 +53,7 @@ class VTE010_TempChannelTests: XCTestCase {
                 if Bool.random() {
                     sender = chat1
                     receiver = chat2
-                }
-                else {
+                } else {
                     sender = chat2
                     receiver = chat1
                 }
@@ -79,14 +79,17 @@ class VTE010_TempChannelTests: XCTestCase {
             let encrypted = try chat1.encrypt(text: message)
 
             let ethree2 = try self.utils.setupDevice(identity: identity2)
-            let chat2 = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
+            let chat2 = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity)
+                .startSync().get()
             let decrypted = try chat2.decrypt(text: encrypted)
 
             XCTAssert(decrypted == message)
 
             try self.encryptDecrypt100Times(chat1: chat1, chat2: chat2)
 
-            let newChat1 = try ethree1.loadTemporaryChannel(asCreator: true, with: identity2).startSync().get()
+            let newChat1 = try ethree1.loadTemporaryChannel(asCreator: true, with: identity2)
+                .startSync()
+                .get()
             let newChat2 = try ethree2.getTemporaryChannel(with: ethree1.identity)!
 
             try self.encryptDecrypt100Times(chat1: newChat1, chat2: newChat2)
@@ -155,7 +158,9 @@ class VTE010_TempChannelTests: XCTestCase {
             let ethree2 = try self.utils.setupDevice(identity: identity2)
             XCTAssert(try ethree2.getTemporaryChannel(with: ethree1.identity) == nil)
 
-            _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
+            _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity)
+                .startSync()
+                .get()
             XCTAssert(try ethree2.getTemporaryChannel(with: ethree1.identity) != nil)
 
             try ethree1.deleteTemporaryChannel(with: identity2).startSync().get()
@@ -171,7 +176,9 @@ class VTE010_TempChannelTests: XCTestCase {
             let ethree = try self.utils.setupDevice()
 
             do {
-                _ = try ethree.loadTemporaryChannel(asCreator: true, with: ethree.identity).startSync().get()
+                _ = try ethree.loadTemporaryChannel(asCreator: true, with: ethree.identity)
+                    .startSync()
+                    .get()
                 XCTFail()
             } catch TemporaryChannelError.selfChannelIsForbidden {}
         } catch {
@@ -186,7 +193,8 @@ class VTE010_TempChannelTests: XCTestCase {
 
             let identity = UUID().uuidString
             do {
-                _ = try ethree.loadTemporaryChannel(asCreator: true, with: identity).startSync().get()
+                _ = try ethree.loadTemporaryChannel(asCreator: true, with: identity).startSync()
+                    .get()
                 XCTFail()
             } catch TemporaryChannelError.channelNotFound {}
         } catch {
@@ -205,14 +213,17 @@ class VTE010_TempChannelTests: XCTestCase {
             try ethree1.deleteTemporaryChannel(with: identity2).startSync().get()
 
             do {
-                _ = try ethree1.loadTemporaryChannel(asCreator: true, with: identity2).startSync().get()
+                _ = try ethree1.loadTemporaryChannel(asCreator: true, with: identity2).startSync()
+                    .get()
                 XCTFail()
             } catch TemporaryChannelError.channelNotFound {}
 
             let ethree2 = try self.utils.setupDevice(identity: identity2)
 
             do {
-                _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity).startSync().get()
+                _ = try ethree2.loadTemporaryChannel(asCreator: false, with: ethree1.identity)
+                    .startSync()
+                    .get()
                 XCTFail()
             } catch TemporaryChannelError.channelNotFound {}
         } catch {
@@ -246,7 +257,8 @@ class VTE010_TempChannelTests: XCTestCase {
                 try ethree.privateKeyChanged()
             }
 
-            let chat = try ethree.loadTemporaryChannel(asCreator: false, with: config.Initiator).startSync().get()
+            let chat = try ethree.loadTemporaryChannel(asCreator: false, with: config.Initiator)
+                .startSync().get()
 
             let decrypted = try chat.decrypt(text: config.EncryptedText)
 
@@ -262,10 +274,11 @@ class VTE010_TempChannelTests: XCTestCase {
             let keyPair = try self.utils.crypto.generateKeyPair()
             let ethree = try self.utils.setupDevice(keyPair: keyPair)
 
-            let localTemporaryStorage = try FileTempKeysStorage(appGroup: nil,
-                                                                identity: ethree.identity,
-                                                                crypto: self.utils.crypto,
-                                                                identityKeyPair: keyPair)
+            let localTemporaryStorage = try FileTempKeysStorage(
+                appGroup: nil,
+                identity: ethree.identity,
+                crypto: self.utils.crypto,
+                identityKeyPair: keyPair)
 
             let identity = UUID().uuidString
 

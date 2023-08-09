@@ -36,19 +36,20 @@
 
 import Foundation
 import XCTest
+
 @testable import VirgilE3Kit
 
 class VTE008_AdditionalTests: XCTestCase {
 
     // Note: For now there is no way to access Info.plist of lib from SPM build (https://forums.swift.org/t/add-info-plist-on-spm-bundle/40274/6)
-#if !SPM_BUILD
-    func test01__product_info_version__should_be_same_as_bundle() {
-        let info = Bundle.module.infoDictionary!
-        let version = info["CFBundleShortVersionString"] as! String
+    #if !SPM_BUILD
+        func test01__product_info_version__should_be_same_as_bundle() {
+            let info = Bundle.module.infoDictionary!
+            let version = info["CFBundleShortVersionString"] as! String
 
-        XCTAssert(VirgilE3Kit.ProductInfo.version == version)
-    }
-#endif
+            XCTAssert(VirgilE3Kit.ProductInfo.version == version)
+        }
+    #endif
 
     func test02_STE_49__init_ethreeParams__from_valid_config__should_succeed() {
         let identity = UUID().uuidString
@@ -57,11 +58,13 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let configFileUrl = Bundle.module.url(forResource: "EThreeValidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(
+            forResource: "EThreeValidConfig", withExtension: "plist")!
 
-        let params = try! EThreeParams(identity: identity,
-                                       tokenCallback: tokenCallback,
-                                       configUrl: configFileUrl)
+        let params = try! EThreeParams(
+            identity: identity,
+            tokenCallback: tokenCallback,
+            configUrl: configFileUrl)
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 1_600)
@@ -76,12 +79,14 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let configFileUrl = Bundle.module.url(forResource: "EThreeInvalidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(
+            forResource: "EThreeInvalidConfig", withExtension: "plist")!
 
         do {
-            _ = try EThreeParams(identity: identity,
-                                 tokenCallback: tokenCallback,
-                                 configUrl: configFileUrl)
+            _ = try EThreeParams(
+                identity: identity,
+                tokenCallback: tokenCallback,
+                configUrl: configFileUrl)
         } catch EThreeParamsError.unknownKeyInConfig {} catch {
             XCTFail()
         }
@@ -96,17 +101,18 @@ class VTE008_AdditionalTests: XCTestCase {
 
         let configFileUrl = Bundle.module.url(forResource: "EThreeConfig", withExtension: "plist")!
 
-        let params = try! EThreeParams(identity: identity,
-                                       tokenCallback: tokenCallback,
-                                       configUrl: configFileUrl)
+        let params = try! EThreeParams(
+            identity: identity,
+            tokenCallback: tokenCallback,
+            configUrl: configFileUrl)
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 3_600)
     }
-    
+
     func test05_STE_87__init_ethree__with_initial_jwt__should_succeed() {
         let utils = TestUtils()
-        
+
         let identity = UUID().uuidString
         let initialJwt = utils.getToken(identity: identity)
 
@@ -114,11 +120,12 @@ class VTE008_AdditionalTests: XCTestCase {
             XCTFail()
         }
 
-        let params = EThreeParams(initialJwt: initialJwt,
-                                  tokenCallback: tokenCallback)
-                                       
+        let params = EThreeParams(
+            initialJwt: initialJwt,
+            tokenCallback: tokenCallback)
+
         let ethree = try! EThree(params: params)
-        
+
         _ = ethree.findUser(with: ethree.identity, forceReload: true)
     }
 }
