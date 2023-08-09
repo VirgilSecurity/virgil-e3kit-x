@@ -37,7 +37,6 @@
 import Foundation
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
 import VirgilSDKRatchet
 
 /// Contains parameters for initializing EThree
@@ -73,9 +72,6 @@ import VirgilSDKRatchet
         /// Card service URL
         @objc public var cardServiceUrl: URL
 
-        /// Pythia service URL
-        @objc public var pythiaServiceUrl: URL
-
         /// Keyknox service URL
         @objc public var keyknoxServiceUrl: URL
 
@@ -85,17 +81,14 @@ import VirgilSDKRatchet
         /// Init
         /// - Parameters:
         ///   - cardServiceUrl: Card service URL
-        ///   - pythiaServiceUrl: Pythia service URL
         ///   - keyknoxServiceUrl: Keyknox service URL
         ///   - ratchetServiceUrl: Ratchet service URL
         @objc public init(
             cardServiceUrl: URL,
-            pythiaServiceUrl: URL,
             keyknoxServiceUrl: URL,
             ratchetServiceUrl: URL
         ) {
             self.cardServiceUrl = cardServiceUrl
-            self.pythiaServiceUrl = pythiaServiceUrl
             self.keyknoxServiceUrl = keyknoxServiceUrl
             self.ratchetServiceUrl = ratchetServiceUrl
         }
@@ -222,7 +215,6 @@ import VirgilSDKRatchet
         self.tokenCallback = tokenCallback
         self.serviceUrls = ServiceUrls(
             cardServiceUrl: CardClient.defaultURL,
-            pythiaServiceUrl: PythiaClient.defaultURL,
             keyknoxServiceUrl: KeyknoxClient.defaultURL,
             ratchetServiceUrl: RatchetClient.defaultURL
         )

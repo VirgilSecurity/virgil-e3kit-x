@@ -38,7 +38,6 @@ import Foundation
 import VirgilCrypto
 import VirgilE3Kit
 import VirgilSDK
-import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
     @objc public let crypto: VirgilCrypto
@@ -249,14 +248,8 @@ import VirgilSDKPythia
         let serviceUrls = self.config.ServiceUrls.get()
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
-        let pythiaClient = PythiaClient(
-            accessTokenProvider: provider,
-            serviceUrl: serviceUrls.pythiaServiceUrl,
-            connection: connection,
-            retryConfig: retryConfig
-        )
 
-        let brainKeyContext = try! BrainKeyContext(client: pythiaClient)
+        let brainKeyContext = try! BrainKeyContext()
         let brainKey = BrainKey(context: brainKeyContext)
 
         brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in

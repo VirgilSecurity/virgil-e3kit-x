@@ -37,7 +37,6 @@
 import Foundation
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
 
 internal class CloudKeyManager {
     private let identity: String
@@ -54,8 +53,7 @@ internal class CloudKeyManager {
         identity: String,
         crypto: VirgilCrypto,
         accessTokenProvider: AccessTokenProvider,
-        keyknoxServiceUrl: URL,
-        pythiaServiceUrl: URL
+        keyknoxServiceUrl: URL
     ) throws {
         self.identity = identity
         self.crypto = crypto
@@ -72,16 +70,7 @@ internal class CloudKeyManager {
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
 
-        let pythiaClient = PythiaClient(
-            accessTokenProvider: self.accessTokenProvider,
-            serviceUrl: pythiaServiceUrl,
-            connection: connection,
-            retryConfig: ExpBackoffRetry.Config()
-        )
-
-        let brainKeyContext = try BrainKeyContext(client: pythiaClient)
-
-        self.brainKey = BrainKey(context: brainKeyContext)
+        self.brainKey = BrainKey(crypto: self.crypto)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
