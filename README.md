@@ -1,9 +1,9 @@
 # Virgil E3Kit Objective-C/Swift
 
 [![Build Status](https://api.travis-ci.com/VirgilSecurity/virgil-e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/virgil-e3kit-x)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://cocoapods.org/pods/VirgilE3Kit)
 [![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
+[![SPM compatible](https://img.shields.io/badge/Swift_Package_Manager-compatible-green.svg?style=flat)](https://www.swift.org/package-manager)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 [![API Reference](https://img.shields.io/badge/API%20reference-e3kit--x-green)](https://virgilsecurity.github.io/virgil-e3kit-x/)
 

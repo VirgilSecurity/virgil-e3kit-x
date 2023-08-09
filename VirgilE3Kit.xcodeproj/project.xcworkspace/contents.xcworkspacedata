@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/eugenpivovarov/Documents/Projects/e3kit-x/VirgilE3Kit.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
