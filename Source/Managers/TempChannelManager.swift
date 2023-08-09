@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 internal class TempChannelManager {
     internal let localStorage: FileTempKeysStorage
@@ -51,14 +51,16 @@ internal class TempChannelManager {
         return self.localKeyStorage.identity
     }
 
-    internal init(appGroup: String?,
-                  crypto: VirgilCrypto,
-                  accessTokenProvider: AccessTokenProvider,
-                  localKeyStorage: LocalKeyStorage,
-                  keyknoxServiceUrl: URL,
-                  lookupManager: LookupManager,
-                  keyPairType: KeyPairType,
-                  keyPair: VirgilKeyPair) throws {
+    internal init(
+        appGroup: String?,
+        crypto: VirgilCrypto,
+        accessTokenProvider: AccessTokenProvider,
+        localKeyStorage: LocalKeyStorage,
+        keyknoxServiceUrl: URL,
+        lookupManager: LookupManager,
+        keyPairType: KeyPairType,
+        keyPair: VirgilKeyPair
+    ) throws {
         self.crypto = crypto
         self.keyPairType = keyPairType
         self.localKeyStorage = localKeyStorage
@@ -66,15 +68,19 @@ internal class TempChannelManager {
 
         let identity = localKeyStorage.identity
 
-        self.localStorage = try FileTempKeysStorage(appGroup: appGroup,
-                                                    identity: identity,
-                                                    crypto: crypto,
-                                                    identityKeyPair: keyPair)
+        self.localStorage = try FileTempKeysStorage(
+            appGroup: appGroup,
+            identity: identity,
+            crypto: crypto,
+            identityKeyPair: keyPair
+        )
 
-        self.cloudStorage = CloudTempKeysStorage(identity: identity,
-                                                 accessTokenProvider: accessTokenProvider,
-                                                 crypto: crypto,
-                                                 keyknoxServiceUrl: keyknoxServiceUrl)
+        self.cloudStorage = CloudTempKeysStorage(
+            identity: identity,
+            accessTokenProvider: accessTokenProvider,
+            crypto: crypto,
+            keyknoxServiceUrl: keyknoxServiceUrl
+        )
     }
 }
 
@@ -90,10 +96,12 @@ extension TempChannelManager {
             throw TemporaryChannelError.channelAlreadyExists
         }
 
-        let tempChannel = TemporaryChannel(participant: identity,
-                                           participantPublicKey: tempKeyPair.publicKey,
-                                           selfPrivateKey: selfKeyPair.privateKey,
-                                           crypto: self.crypto)
+        let tempChannel = TemporaryChannel(
+            participant: identity,
+            participantPublicKey: tempKeyPair.publicKey,
+            selfPrivateKey: selfKeyPair.privateKey,
+            crypto: self.crypto
+        )
 
         try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
 
@@ -122,10 +130,12 @@ extension TempChannelManager {
             privateKey = tempKeyPair.privateKey
         }
 
-        return TemporaryChannel(participant: identity,
-                                participantPublicKey: publicKey,
-                                selfPrivateKey: privateKey,
-                                crypto: self.crypto)
+        return TemporaryChannel(
+            participant: identity,
+            participantPublicKey: publicKey,
+            selfPrivateKey: privateKey,
+            crypto: self.crypto
+        )
     }
 
     internal func getLocalChannel(with identity: String) throws -> TemporaryChannel? {
@@ -137,18 +147,20 @@ extension TempChannelManager {
         let publicKey: VirgilPublicKey
 
         switch tempKey.type {
-        case .private:              // User is participant
+        case .private:  // User is participant
             privateKey = try self.crypto.importPrivateKey(from: tempKey.key).privateKey
             publicKey = try self.lookupManager.lookupCachedCard(of: identity).publicKey
-        case .public:               // User is creator of channel
+        case .public:  // User is creator of channel
             privateKey = try self.localKeyStorage.retrieveKeyPair().privateKey
             publicKey = try self.crypto.importPublicKey(from: tempKey.key)
         }
 
-        return TemporaryChannel(participant: identity,
-                                participantPublicKey: publicKey,
-                                selfPrivateKey: privateKey,
-                                crypto: self.crypto)
+        return TemporaryChannel(
+            participant: identity,
+            participantPublicKey: publicKey,
+            selfPrivateKey: privateKey,
+            crypto: self.crypto
+        )
     }
 
     internal func delete(with identity: String) throws {
@@ -156,6 +168,6 @@ extension TempChannelManager {
 
         do {
             try self.localStorage.delete(identity: identity)
-        } catch CocoaError.fileNoSuchFile { }
+        } catch CocoaError.fileNoSuchFile {}
     }
 }

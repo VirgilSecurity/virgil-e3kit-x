@@ -35,19 +35,21 @@
 //
 
 import Foundation
-import XCTest
-import VirgilE3Kit
 import VirgilCrypto
+import VirgilE3Kit
+import XCTest
 
 class VTE007_Benchmarks: XCTestCase {
     let utils = TestUtils()
 
     private let toEncrypt = "this string will be encrypted".data(using: .utf8)!
 
-    private func measure(title: String,
-                         maxTime: UInt64?,
-                         invocationCount: UInt64 = 1000,
-                         block: () throws -> Void) throws {
+    private func measure(
+        title: String,
+        maxTime: UInt64?,
+        invocationCount: UInt64 = 1000,
+        block: () throws -> Void
+    ) throws {
         var sum: UInt64 = 0
 
         print()
@@ -148,7 +150,12 @@ class VTE007_Benchmarks: XCTestCase {
                     try group2.update().startSync().get()
                 }
 
-                try self.measure(title: "Update group with \(i) tickets", maxTime: 2_000_000_000, invocationCount: 1, block: block)
+                try self.measure(
+                    title: "Update group with \(i) tickets",
+                    maxTime: 2_000_000_000,
+                    invocationCount: 1,
+                    block: block
+                )
             }
         } catch {
             print(error.localizedDescription)
@@ -157,8 +164,8 @@ class VTE007_Benchmarks: XCTestCase {
     }
 }
 
-private extension KeyPairType {
-    var rawStrValue: String {
+extension KeyPairType {
+    fileprivate var rawStrValue: String {
         switch self {
         case .ed25519:
             return "ed25519"
@@ -173,4 +180,3 @@ private extension KeyPairType {
         }
     }
 }
-

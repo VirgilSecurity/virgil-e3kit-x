@@ -35,10 +35,11 @@
 //
 
 import Foundation
-import XCTest
-@testable import VirgilE3Kit
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
+import XCTest
+
+@testable import VirgilE3Kit
 
 class VTE010_TempChannelTests: XCTestCase {
     let utils = TestUtils()
@@ -52,8 +53,7 @@ class VTE010_TempChannelTests: XCTestCase {
                 if Bool.random() {
                     sender = chat1
                     receiver = chat2
-                }
-                else {
+                } else {
                     sender = chat2
                     receiver = chat1
                 }
@@ -262,10 +262,12 @@ class VTE010_TempChannelTests: XCTestCase {
             let keyPair = try self.utils.crypto.generateKeyPair()
             let ethree = try self.utils.setupDevice(keyPair: keyPair)
 
-            let localTemporaryStorage = try FileTempKeysStorage(appGroup: nil,
-                                                                identity: ethree.identity,
-                                                                crypto: self.utils.crypto,
-                                                                identityKeyPair: keyPair)
+            let localTemporaryStorage = try FileTempKeysStorage(
+                appGroup: nil,
+                identity: ethree.identity,
+                crypto: self.utils.crypto,
+                identityKeyPair: keyPair
+            )
 
             let identity = UUID().uuidString
 

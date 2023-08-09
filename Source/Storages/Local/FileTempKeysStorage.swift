@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 internal class FileTempKeysStorage {
     internal let identity: String
@@ -62,19 +62,23 @@ internal class FileTempKeysStorage {
         self.crypto = crypto
         self.identityKeyPair = identityKeyPair
 
-        self.fileSystem = FileSystem(appGroup: appGroup,
-                                     prefix: "VIRGIL-E3KIT",
-                                     userIdentifier: identity,
-                                     pathComponents: ["UNSAFE-KEYS"])
+        self.fileSystem = FileSystem(
+            appGroup: appGroup,
+            prefix: "VIRGIL-E3KIT",
+            userIdentifier: identity,
+            pathComponents: ["UNSAFE-KEYS"]
+        )
     }
 
     private func encode(key: Data, type: KeyType) throws -> Data {
         var data = key
 
         if type == .private {
-            data = try self.crypto.authEncrypt(data,
-                                               with: self.identityKeyPair.privateKey,
-                                               for: [self.identityKeyPair.publicKey])
+            data = try self.crypto.authEncrypt(
+                data,
+                with: self.identityKeyPair.privateKey,
+                for: [self.identityKeyPair.publicKey]
+            )
         }
 
         let temporaryKey = TempKey(key: data, type: type)
@@ -86,9 +90,11 @@ internal class FileTempKeysStorage {
         var tempKey = try JSONDecoder().decode(TempKey.self, from: data)
 
         if tempKey.type == .private {
-            tempKey.key = try self.crypto.authDecrypt(tempKey.key,
-                                                      with: self.identityKeyPair.privateKey,
-                                                      usingOneOf: [self.identityKeyPair.publicKey])
+            tempKey.key = try self.crypto.authDecrypt(
+                tempKey.key,
+                with: self.identityKeyPair.privateKey,
+                usingOneOf: [self.identityKeyPair.publicKey]
+            )
         }
 
         return tempKey

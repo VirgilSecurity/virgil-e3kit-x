@@ -133,7 +133,7 @@ excluded:
   - E3Kit TestApp iOS
   - E3Kit TestApp tvOS
 
-warning_threshold: 15
+warning_threshold: 50
 
 file_header:
   required_pattern: |

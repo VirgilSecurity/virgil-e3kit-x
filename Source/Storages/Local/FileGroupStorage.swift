@@ -70,11 +70,13 @@ internal class FileGroupStorage {
         self.identity = identity
 
         let credentials = FileSystemCredentials(crypto: crypto, keyPair: identityKeyPair)
-        self.fileSystem = FileSystem(appGroup: appGroup,
-                                     prefix: "VIRGIL-E3KIT",
-                                     userIdentifier: identity,
-                                     pathComponents: ["GROUPS"],
-                                     credentials: credentials)
+        self.fileSystem = FileSystem(
+            appGroup: appGroup,
+            prefix: "VIRGIL-E3KIT",
+            userIdentifier: identity,
+            pathComponents: ["GROUPS"],
+            credentials: credentials
+        )
 
     }
 

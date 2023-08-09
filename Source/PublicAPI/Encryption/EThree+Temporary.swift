@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 // MARK: - Extension with Unregistered User Encryption operations
 extension EThree {
@@ -45,7 +45,7 @@ extension EThree {
     /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
     /// - Parameter identity: identity of unregistered user
-    open func createTemporaryChannel(with identity: String) -> GenericOperation<TemporaryChannel> {
+    public func createTemporaryChannel(with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
@@ -71,7 +71,7 @@ extension EThree {
     /// - Parameters:
     ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
-    open func loadTemporaryChannel(asCreator: Bool, with identity: String) -> GenericOperation<TemporaryChannel> {
+    public func loadTemporaryChannel(asCreator: Bool, with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
@@ -91,7 +91,7 @@ extension EThree {
 
     /// Returns cached temporary channel
     /// - Parameter identity: identity of participant
-    open func getTemporaryChannel(with identity: String) throws -> TemporaryChannel? {
+    public func getTemporaryChannel(with identity: String) throws -> TemporaryChannel? {
         let manager = try self.getTempChannelManager()
 
         return try manager.getLocalChannel(with: identity)
@@ -99,7 +99,7 @@ extension EThree {
 
     /// Deletes temporary channel from cloud (if user is creator) and local storage
     /// - Parameter identity: identity of participant
-    open func deleteTemporaryChannel(with identity: String) -> GenericOperation<Void> {
+    public func deleteTemporaryChannel(with identity: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.getTempChannelManager().delete(with: identity)

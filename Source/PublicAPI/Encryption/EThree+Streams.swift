@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 
 // MARK: - Extension with streams encrypt and decrypt operations
 extension EThree {
@@ -50,10 +50,12 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(authEncryptStream:withSize:toStream:forUser:error:)
-    open func authEncrypt(_ stream: InputStream,
-                          streamSize: Int,
-                          to outputStream: OutputStream,
-                          for user: Card) throws {
+    public func authEncrypt(
+        _ stream: InputStream,
+        streamSize: Int,
+        to outputStream: OutputStream,
+        for user: Card
+    ) throws {
         try self.authEncrypt(stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
     }
 
@@ -69,10 +71,12 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(authEncryptStream:withSize:toStream:forUsers:error:)
-    open func authEncrypt(_ stream: InputStream,
-                          streamSize: Int,
-                          to outputStream: OutputStream,
-                          for users: FindUsersResult? = nil) throws {
+    public func authEncrypt(
+        _ stream: InputStream,
+        streamSize: Int,
+        to outputStream: OutputStream,
+        for users: FindUsersResult? = nil
+    ) throws {
         try self.encryptInternal(stream, streamSize: streamSize, to: outputStream, for: users?.map { $1.publicKey })
     }
 
@@ -97,10 +101,12 @@ extension EThree {
     ///   - date: date of encryption to use proper card version
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func authDecrypt(_ stream: InputStream,
-                                to outputStream: OutputStream,
-                                from user: Card,
-                                date: Date) throws {
+    @objc open func authDecrypt(
+        _ stream: InputStream,
+        to outputStream: OutputStream,
+        from user: Card,
+        date: Date
+    ) throws {
         var card = user
 
         while let previousCard = card.previousCard {
@@ -116,10 +122,12 @@ extension EThree {
 }
 
 extension EThree {
-    internal func encryptInternal(_ stream: InputStream,
-                                  streamSize: Int,
-                                  to outputStream: OutputStream,
-                                  for publicKeys: [VirgilPublicKey]?) throws {
+    internal func encryptInternal(
+        _ stream: InputStream,
+        streamSize: Int,
+        to outputStream: OutputStream,
+        for publicKeys: [VirgilPublicKey]?
+    ) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
@@ -132,23 +140,29 @@ extension EThree {
             pubKeys += publicKeys
         }
 
-        try self.crypto.authEncrypt(stream,
-                                    streamSize: streamSize,
-                                    to: outputStream,
-                                    with: selfKeyPair.privateKey,
-                                    for: pubKeys)
+        try self.crypto.authEncrypt(
+            stream,
+            streamSize: streamSize,
+            to: outputStream,
+            with: selfKeyPair.privateKey,
+            for: pubKeys
+        )
     }
 
-    internal func decryptInternal(_ stream: InputStream,
-                                  to outputStream: OutputStream,
-                                  from publicKey: VirgilPublicKey?) throws {
+    internal func decryptInternal(
+        _ stream: InputStream,
+        to outputStream: OutputStream,
+        from publicKey: VirgilPublicKey?
+    ) throws {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let publicKey = publicKey ?? selfKeyPair.publicKey
 
-        try self.crypto.authDecrypt(stream,
-                                    to: outputStream,
-                                    with: selfKeyPair.privateKey,
-                                    usingOneOf: [publicKey])
+        try self.crypto.authDecrypt(
+            stream,
+            to: outputStream,
+            with: selfKeyPair.privateKey,
+            usingOneOf: [publicKey]
+        )
     }
 }

@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilCryptoFoundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 
 internal class Ticket: Codable {
     internal let groupMessage: GroupSessionMessage

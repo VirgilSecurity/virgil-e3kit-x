@@ -46,7 +46,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: Data, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -55,9 +55,11 @@ extension EThree {
 
                 try Group.validateParticipantsCount(participants.count)
 
-                let ticket = try Ticket(crypto: self.crypto,
-                                        sessionId: sessionId,
-                                        participants: participants)
+                let ticket = try Ticket(
+                    crypto: self.crypto,
+                    sessionId: sessionId,
+                    participants: participants
+                )
 
                 let group = try self.getGroupManager().store(ticket, sharedWith: Array(users.values))
 
@@ -73,7 +75,7 @@ extension EThree {
     /// - Parameter identifier: identifier of group
     /// - Returns: Group if exists, nil otherwise
     /// - Throws: corresponding error
-    open func getGroup(id identifier: Data) throws -> Group? {
+    public func getGroup(id identifier: Data) throws -> Group? {
         let sessionId = try self.computeSessionId(from: identifier)
 
         return try self.getGroupManager().retrieve(sessionId: sessionId)
@@ -85,7 +87,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
+    public func loadGroup(id identifier: Data, initiator card: Card) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -103,7 +105,7 @@ extension EThree {
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
-    open func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
+    public func deleteGroup(id identifier: Data) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = try self.computeSessionId(from: identifier)
@@ -129,7 +131,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: Cards of participants. Result of findUsers call
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: String, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
+    public func createGroup(id identifier: String, with users: FindUsersResult = [:]) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
@@ -140,7 +142,7 @@ extension EThree {
     /// - Parameter identifier: identifier of group
     /// - Returns: Group if exists, nil otherwise
     /// - Throws: corresponding error
-    open func getGroup(id identifier: String) throws -> Group? {
+    public func getGroup(id identifier: String) throws -> Group? {
         let identifier = identifier.data(using: .utf8)!
 
         return try self.getGroup(id: identifier)
@@ -152,7 +154,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
+    public func loadGroup(id identifier: String, initiator card: Card) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.loadGroup(id: identifier, initiator: card)
@@ -162,7 +164,7 @@ extension EThree {
     ///
     /// - Parameter identifier: identifier of group
     /// - Returns: CallbackOperation
-    open func deleteGroup(id identifier: String) -> GenericOperation<Void> {
+    public func deleteGroup(id identifier: String) -> GenericOperation<Void> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.deleteGroup(id: identifier)
@@ -180,16 +182,18 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: participants
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: Data, with users: [String]) -> GenericOperation<Group> {
+    public func createGroup(id identifier: Data, with users: [String]) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
-                let users = try users.isEmpty ? FindUsersResult() : self.findUsers(with: users)
-                    .startSync()
-                    .get()
+                let users =
+                    try users.isEmpty
+                    ? FindUsersResult()
+                    : self.findUsers(with: users)
+                        .startSync()
+                        .get()
 
                 self.createGroup(id: identifier, with: users).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -202,7 +206,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - users: participants
     /// - Returns: CallbackOperation<Group>
-    open func createGroup(id identifier: String, with users: [String]) -> GenericOperation<Group> {
+    public func createGroup(id identifier: String, with users: [String]) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.createGroup(id: identifier, with: users)
@@ -214,14 +218,13 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - initiator: initiator
     /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
+    public func loadGroup(id identifier: Data, initiator: String) -> GenericOperation<Group> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.findUser(with: initiator).startSync().get()
 
                 self.loadGroup(id: identifier, initiator: card).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -233,7 +236,7 @@ extension EThree {
     ///   - identifier: identifier of group
     ///   - card: Card of group initiator
     /// - Returns: CallbackOperation<Group>
-    open func loadGroup(id identifier: String, initiator: String) -> GenericOperation<Group> {
+    public func loadGroup(id identifier: String, initiator: String) -> GenericOperation<Group> {
         let identifier = identifier.data(using: .utf8)!
 
         return self.loadGroup(id: identifier, initiator: initiator)

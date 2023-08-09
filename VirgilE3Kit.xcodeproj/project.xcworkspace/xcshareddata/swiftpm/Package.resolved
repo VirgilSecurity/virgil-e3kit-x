@@ -21,7 +21,7 @@
     {
       "identity" : "virgil-ratchet-x",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/VirgilSecurity/virgil-ratchet-x.git",
+      "location" : "https://github.com/VirgilSecurity/virgil-ratchet-x",
       "state" : {
         "revision" : "19e28149a973aba2f70ba1c0cf176fa15e84e278",
         "version" : "0.10.0"

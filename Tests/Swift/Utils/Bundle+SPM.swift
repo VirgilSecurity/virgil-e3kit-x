@@ -41,12 +41,12 @@ import Foundation
 
 #if !SPM_BUILD
 
-class BundleToken { }
+    class BundleToken {}
 
-extension Foundation.Bundle {
-    static var module: Bundle = {
-        Bundle(for: BundleToken.self)
-    }()
-}
+    extension Foundation.Bundle {
+        static var module: Bundle = {
+            Bundle(for: BundleToken.self)
+        }()
+    }
 
 #endif

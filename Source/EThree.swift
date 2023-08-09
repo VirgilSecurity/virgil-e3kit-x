@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDK
 import VirgilCrypto
+import VirgilSDK
 import VirgilSDKRatchet
 
 /// Main class containing all features of E3Kit
@@ -108,14 +108,16 @@ import VirgilSDKRatchet
     ///   - keyRotationInverval: key rotation interval for ratchet
     /// - Throws: corresponding error
     /// - Important: identity should be the same as in JWT generated at server side
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping RenewJwtCallback,
-                                  changedKeyDelegate: ChangedKeyDelegate? = nil,
-                                  storageParams: KeychainStorageParams? = nil,
-                                  keyPairType: KeyPairType = Defaults.keyPairType,
-                                  enableRatchet: Bool = Defaults.enableRatchet,
-                                  enableRatchetPqc: Bool = Defaults.enableRatchetPqc,
-                                  keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws {
+    @objc public convenience init(
+        identity: String,
+        tokenCallback: @escaping RenewJwtCallback,
+        changedKeyDelegate: ChangedKeyDelegate? = nil,
+        storageParams: KeychainStorageParams? = nil,
+        keyPairType: KeyPairType = Defaults.keyPairType,
+        enableRatchet: Bool = Defaults.enableRatchet,
+        enableRatchetPqc: Bool = Defaults.enableRatchetPqc,
+        keyRotationInterval: TimeInterval = Defaults.keyRotationInterval
+    ) throws {
         let params = EThreeParams(identity: identity, tokenCallback: tokenCallback)
         params.changedKeyDelegate = changedKeyDelegate
         params.storageParams = storageParams
@@ -145,15 +147,16 @@ import VirgilSDKRatchet
 
             do {
                 virgilPublicKey = try crypto.importPublicKey(from: virgilPublicKeyData)
-            }
-            catch {
+            } catch {
                 throw EThreeError.verifierInitFailed
             }
 
             verifier.verifyVirgilSignature = false
 
-            let credentials = VerifierCredentials(signer: VirgilCardVerifier.virgilSignerIdentifier,
-                                                  publicKey: virgilPublicKey)
+            let credentials = VerifierCredentials(
+                signer: VirgilCardVerifier.virgilSignerIdentifier,
+                publicKey: virgilPublicKey
+            )
             let whitelist = try Whitelist(verifiersCredentials: [credentials])
 
             verifier.whitelists = [whitelist]
@@ -163,14 +166,18 @@ import VirgilSDKRatchet
             params.tokenCallback($1)
         }
 
-        let cardManagerParams = CardManagerParams(crypto: crypto,
-                                                  accessTokenProvider: accessTokenProvider,
-                                                  cardVerifier: verifier)
+        let cardManagerParams = CardManagerParams(
+            crypto: crypto,
+            accessTokenProvider: accessTokenProvider,
+            cardVerifier: verifier
+        )
 
-        let cardClient = CardClient(accessTokenProvider: accessTokenProvider,
-                                    serviceUrl: params.serviceUrls.cardServiceUrl,
-                                    connection: EThree.getConnection(),
-                                    retryConfig: ExpBackoffRetry.Config())
+        let cardClient = CardClient(
+            accessTokenProvider: accessTokenProvider,
+            serviceUrl: params.serviceUrls.cardServiceUrl,
+            connection: EThree.getConnection(),
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         cardManagerParams.cardClient = cardClient
 
@@ -179,61 +186,74 @@ import VirgilSDKRatchet
         let storageParams = try params.storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
-        let localKeyStorage = LocalKeyStorage(identity: params.identity,
-                                              crypto: crypto,
-                                              keychainStorage: keychainStorage)
+        let localKeyStorage = LocalKeyStorage(
+            identity: params.identity,
+            crypto: crypto,
+            keychainStorage: keychainStorage
+        )
 
-        let cloudKeyManager = try CloudKeyManager(identity: params.identity,
-                                                  crypto: crypto,
-                                                  accessTokenProvider: accessTokenProvider,
-                                                  keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
-                                                  pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl)
+        let cloudKeyManager = try CloudKeyManager(
+            identity: params.identity,
+            crypto: crypto,
+            accessTokenProvider: accessTokenProvider,
+            keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl
+        )
 
-        let sqliteCardStorage = try SQLiteCardStorage(appGroup: params.appGroup,
-                                                      userIdentifier: params.identity,
-                                                      crypto: crypto,
-                                                      verifier: verifier)
+        let sqliteCardStorage = try SQLiteCardStorage(
+            appGroup: params.appGroup,
+            userIdentifier: params.identity,
+            crypto: crypto,
+            verifier: verifier
+        )
 
-        let lookupManager = LookupManager(cardStorage: sqliteCardStorage,
-                                          cardManager: cardManager,
-                                          changedKeyDelegate: params.changedKeyDelegate)
+        let lookupManager = LookupManager(
+            cardStorage: sqliteCardStorage,
+            cardManager: cardManager,
+            changedKeyDelegate: params.changedKeyDelegate
+        )
 
-        let cloudRatchetStorage = try CloudRatchetStorage(accessTokenProvider: accessTokenProvider,
-                                                          localKeyStorage: localKeyStorage,
-                                                          keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)
+        let cloudRatchetStorage = try CloudRatchetStorage(
+            accessTokenProvider: accessTokenProvider,
+            localKeyStorage: localKeyStorage,
+            keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl
+        )
 
-        try self.init(identity: params.identity,
-                      cardManager: cardManager,
-                      accessTokenProvider: accessTokenProvider,
-                      localKeyStorage: localKeyStorage,
-                      cloudKeyManager: cloudKeyManager,
-                      lookupManager: lookupManager,
-                      cloudRatchetStorage: cloudRatchetStorage,
-                      serviceUrls: params.serviceUrls,
-                      keyPairType: params.keyPairType,
-                      enableRatchet: params.enableRatchet,
-                      enableRatchetPqc: params.enableRatchetPqc,
-                      appGroup: params.appGroup,
-                      appName: params.storageParams?.appName,
-                      keyRotationInterval: params.keyRotationInterval,
-                      offlineInit: params.offlineInit)
+        try self.init(
+            identity: params.identity,
+            cardManager: cardManager,
+            accessTokenProvider: accessTokenProvider,
+            localKeyStorage: localKeyStorage,
+            cloudKeyManager: cloudKeyManager,
+            lookupManager: lookupManager,
+            cloudRatchetStorage: cloudRatchetStorage,
+            serviceUrls: params.serviceUrls,
+            keyPairType: params.keyPairType,
+            enableRatchet: params.enableRatchet,
+            enableRatchetPqc: params.enableRatchetPqc,
+            appGroup: params.appGroup,
+            appName: params.storageParams?.appName,
+            keyRotationInterval: params.keyRotationInterval,
+            offlineInit: params.offlineInit
+        )
     }
 
-    internal init(identity: String,
-                  cardManager: CardManager,
-                  accessTokenProvider: AccessTokenProvider,
-                  localKeyStorage: LocalKeyStorage,
-                  cloudKeyManager: CloudKeyManager,
-                  lookupManager: LookupManager,
-                  cloudRatchetStorage: CloudRatchetStorage,
-                  serviceUrls: EThreeParams.ServiceUrls,
-                  keyPairType: KeyPairType,
-                  enableRatchet: Bool,
-                  enableRatchetPqc: Bool,
-                  appGroup: String?,
-                  appName: String?,
-                  keyRotationInterval: TimeInterval,
-                  offlineInit: Bool) throws {
+    internal init(
+        identity: String,
+        cardManager: CardManager,
+        accessTokenProvider: AccessTokenProvider,
+        localKeyStorage: LocalKeyStorage,
+        cloudKeyManager: CloudKeyManager,
+        lookupManager: LookupManager,
+        cloudRatchetStorage: CloudRatchetStorage,
+        serviceUrls: EThreeParams.ServiceUrls,
+        keyPairType: KeyPairType,
+        enableRatchet: Bool,
+        enableRatchetPqc: Bool,
+        appGroup: String?,
+        appName: String?,
+        keyRotationInterval: TimeInterval,
+        offlineInit: Bool
+    ) throws {
         self.identity = identity
         self.cardManager = cardManager
         self.accessTokenProvider = accessTokenProvider

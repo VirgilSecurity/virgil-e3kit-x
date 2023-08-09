@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilSDKRatchet
 import VirgilCryptoRatchet
+import VirgilSDKRatchet
 
 // MARK: - Extension with double ratchet encrypt and decrypt operations
 extension RatchetChannel {

@@ -36,40 +36,38 @@
 
 import Foundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 import VirgilSDK
 
-@objc public class LocalKeyStorage: NSObject {
-    internal let identity: String
-    internal let crypto: VirgilCrypto
-    private let keychainStorage: KeychainStorage
+/// Class for HashBased BrainKey
+@objc(VSYBrainKey) open class BrainKey: NSObject {
+    /// Underlying crypto
+    @objc public let crypto: VirgilCrypto
 
-    internal init(identity: String, crypto: VirgilCrypto, keychainStorage: KeychainStorage) {
-        self.identity = identity
+    /// Initializer
+    ///
+    /// - Parameter context: BrainKey context
+    @objc public init(crypto: VirgilCrypto) {
         self.crypto = crypto
-        self.keychainStorage = keychainStorage
-
-        super.init()
     }
 
-    @objc public func retrieveKeyPair() throws -> VirgilKeyPair {
-        guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
-            let keyPair = try? self.crypto.importPrivateKey(from: keyEntry.data)
-        else {
-            throw EThreeError.missingPrivateKey
+    /// Generates key pair based on given password and brainkeyId
+    ///
+    /// - Parameters:
+    ///   - password: password from which key pair will be generated
+    ///   - brainKeyId: optional brainKey identifier (in case one wants to generate several key pairs from 1 password)
+    /// - Returns: GenericOperation with VirgilKeyPair
+    open func generateKeyPair(password: String, brainKeyId: String? = nil) -> GenericOperation<VirgilKeyPair> {
+        CallbackOperation { _, completion in
+            do {
+                let passphrase = [password, brainKeyId].compactMap { $0 }.joined()
+                let seed = self.crypto.computeHash(for: passphrase.data(using: .utf8)!, using: .sha512)
+                let keyPair = try self.crypto.generateKeyPair(usingSeed: seed)
+                completion(keyPair, nil)
+            } catch {
+                completion(nil, error)
+                return
+            }
         }
-
-        return keyPair
-    }
-
-    @objc public func store(data: Data) throws {
-        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-    }
-
-    public func exists() throws -> Bool {
-        try self.keychainStorage.existsEntry(withName: self.identity)
-    }
-
-    @objc public func delete() throws {
-        try self.keychainStorage.deleteEntry(withName: self.identity)
     }
 }

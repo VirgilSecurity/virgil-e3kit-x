@@ -298,83 +298,14 @@
 		9759DFF524768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF624768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF724768E9E00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
-		979DA66526AA256D00641A06 /* VirgilSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; };
-		979DA66726AA256D00641A06 /* VirgilSDKRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; };
-		979DA66926AA256D00641A06 /* VirgilSDKPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; };
-		979DA66B26AA256D00641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; };
-		979DA66D26AA256D00641A06 /* VSCCommon.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; };
-		979DA66F26AA256D00641A06 /* VSCPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; };
-		979DA67126AA256E00641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; };
-		979DA67326AA256E00641A06 /* VSCRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; };
-		979DA67526AA256E00641A06 /* VirgilCryptoPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; };
-		979DA67726AA256E00641A06 /* VSCFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; };
-		979DA67926AA256E00641A06 /* VirgilCrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; };
-		979DA67C26AA259600641A06 /* VirgilCrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; };
-		979DA67E26AA259600641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; };
-		979DA68026AA259600641A06 /* VirgilCryptoPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; };
-		979DA68226AA259600641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; };
-		979DA68426AA259600641A06 /* VirgilSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; };
-		979DA68626AA259600641A06 /* VirgilSDKPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; };
-		979DA68826AA259600641A06 /* VirgilSDKRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; };
-		979DA68A26AA259600641A06 /* VSCCommon.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; };
-		979DA68C26AA259600641A06 /* VSCFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; };
-		979DA68E26AA259600641A06 /* VSCPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; };
-		979DA69026AA259600641A06 /* VSCRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; };
-		979DA69326AA25B200641A06 /* VirgilCrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; };
-		979DA69526AA25B200641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; };
-		979DA69726AA25B200641A06 /* VirgilCryptoPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; };
-		979DA69926AA25B200641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; };
-		979DA69B26AA25B200641A06 /* VirgilSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; };
-		979DA69D26AA25B200641A06 /* VirgilSDKPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; };
-		979DA69F26AA25B200641A06 /* VirgilSDKRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; };
-		979DA6A126AA25B200641A06 /* VSCCommon.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; };
-		979DA6A326AA25B200641A06 /* VSCFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; };
-		979DA6A526AA25B300641A06 /* VSCPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; };
-		979DA6A726AA25B300641A06 /* VSCRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; };
-		979DA6AA26AA25D000641A06 /* VirgilCrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; };
-		979DA6AC26AA25D000641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; };
-		979DA6AE26AA25D000641A06 /* VirgilCryptoPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; };
-		979DA6B026AA25D000641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; };
-		979DA6B226AA25D000641A06 /* VirgilSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; };
-		979DA6B426AA25D000641A06 /* VirgilSDKPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; };
-		979DA6B626AA25D000641A06 /* VirgilSDKRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; };
-		979DA6B826AA25D000641A06 /* VSCCommon.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; };
-		979DA6BA26AA25D000641A06 /* VSCFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; };
-		979DA6BC26AA25D000641A06 /* VSCPythia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; };
-		979DA6BE26AA25D100641A06 /* VSCRatchet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; };
-		979DA6C126AA25F700641A06 /* VirgilCrypto.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C226AA25F700641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C326AA25F700641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C426AA25F700641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C526AA25F700641A06 /* VirgilSDK.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C626AA25F700641A06 /* VirgilSDKPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C726AA25F700641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C826AA25F700641A06 /* VSCCommon.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6C926AA25F700641A06 /* VSCFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CA26AA25F700641A06 /* VSCPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CB26AA25F700641A06 /* VSCRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CC26AA260E00641A06 /* VirgilCrypto.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CD26AA260E00641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CE26AA260E00641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6CF26AA260E00641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D026AA260E00641A06 /* VirgilSDK.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D126AA260E00641A06 /* VirgilSDKPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D226AA260E00641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D326AA260E00641A06 /* VSCCommon.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D426AA260E00641A06 /* VSCFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D526AA260E00641A06 /* VSCPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D626AA260E00641A06 /* VSCRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D726AA261300641A06 /* VirgilCrypto.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D826AA261300641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6D926AA261300641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DA26AA261300641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DB26AA261300641A06 /* VirgilSDK.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DC26AA261300641A06 /* VirgilSDKPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DD26AA261300641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DE26AA261300641A06 /* VSCCommon.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65E26AA256D00641A06 /* VSCCommon.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6DF26AA261300641A06 /* VSCFoundation.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66326AA256D00641A06 /* VSCFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6E026AA261400641A06 /* VSCPythia.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA65F26AA256D00641A06 /* VSCPythia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		979DA6E126AA261400641A06 /* VSCRatchet.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 979DA66126AA256D00641A06 /* VSCRatchet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F4037E032A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
+		F4037E042A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
+		F4037E052A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
+		F4037E062A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
+		F43238DD2A833FD50064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */; };
+		F43238E12A833FE10064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */; };
+		F43238E52A833FE60064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */; };
+		F43238E92A833FEF0064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */; };
 		F470425A24E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */; };
 		F470425B24E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */; };
 		F470425C24E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */; };
@@ -457,17 +388,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				979DA6C126AA25F700641A06 /* VirgilCrypto.xcframework in CopyFiles */,
-				979DA6C226AA25F700641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */,
-				979DA6C326AA25F700641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */,
-				979DA6C426AA25F700641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */,
-				979DA6C526AA25F700641A06 /* VirgilSDK.xcframework in CopyFiles */,
-				979DA6C626AA25F700641A06 /* VirgilSDKPythia.xcframework in CopyFiles */,
-				979DA6C726AA25F700641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */,
-				979DA6C826AA25F700641A06 /* VSCCommon.xcframework in CopyFiles */,
-				979DA6C926AA25F700641A06 /* VSCFoundation.xcframework in CopyFiles */,
-				979DA6CA26AA25F700641A06 /* VSCPythia.xcframework in CopyFiles */,
-				979DA6CB26AA25F700641A06 /* VSCRatchet.xcframework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,17 +397,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				979DA6CC26AA260E00641A06 /* VirgilCrypto.xcframework in CopyFiles */,
-				979DA6CD26AA260E00641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */,
-				979DA6CE26AA260E00641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */,
-				979DA6CF26AA260E00641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */,
-				979DA6D026AA260E00641A06 /* VirgilSDK.xcframework in CopyFiles */,
-				979DA6D126AA260E00641A06 /* VirgilSDKPythia.xcframework in CopyFiles */,
-				979DA6D226AA260E00641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */,
-				979DA6D326AA260E00641A06 /* VSCCommon.xcframework in CopyFiles */,
-				979DA6D426AA260E00641A06 /* VSCFoundation.xcframework in CopyFiles */,
-				979DA6D526AA260E00641A06 /* VSCPythia.xcframework in CopyFiles */,
-				979DA6D626AA260E00641A06 /* VSCRatchet.xcframework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,17 +406,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				979DA6D726AA261300641A06 /* VirgilCrypto.xcframework in CopyFiles */,
-				979DA6D826AA261300641A06 /* VirgilCryptoFoundation.xcframework in CopyFiles */,
-				979DA6D926AA261300641A06 /* VirgilCryptoPythia.xcframework in CopyFiles */,
-				979DA6DA26AA261300641A06 /* VirgilCryptoRatchet.xcframework in CopyFiles */,
-				979DA6DB26AA261300641A06 /* VirgilSDK.xcframework in CopyFiles */,
-				979DA6DC26AA261300641A06 /* VirgilSDKPythia.xcframework in CopyFiles */,
-				979DA6DD26AA261300641A06 /* VirgilSDKRatchet.xcframework in CopyFiles */,
-				979DA6DE26AA261300641A06 /* VSCCommon.xcframework in CopyFiles */,
-				979DA6DF26AA261300641A06 /* VSCFoundation.xcframework in CopyFiles */,
-				979DA6E026AA261400641A06 /* VSCPythia.xcframework in CopyFiles */,
-				979DA6E126AA261400641A06 /* VSCRatchet.xcframework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,13 +456,11 @@
 		167E1E23217D253F00F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		167E1E25217D254100F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		167E1E28217D254100F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		167E1E2A217D254100F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		167E1E76217D27A500F8AA13 /* E3Kit TestApp tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E3Kit TestApp tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		167E1E78217D27A500F8AA13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		167E1E7A217D27A500F8AA13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167E1E7D217D27A500F8AA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		167E1E7F217D27A600F8AA13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		167E1E81217D27A600F8AA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1685845A22DE2D23008EAC34 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		1685846922E0875D008EAC34 /* CloudTicketStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTicketStorage.swift; sourceTree = "<group>"; };
 		1685846E22E091E0008EAC34 /* Group+Management.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+Management.swift"; sourceTree = "<group>"; };
@@ -593,7 +489,6 @@
 		16E3387F234E7F1E00678624 /* RatchetChannel+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RatchetChannel+Encryption.swift"; sourceTree = "<group>"; };
 		16E33884234F3E3C00678624 /* CloudRatchetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRatchetStorage.swift; sourceTree = "<group>"; };
 		16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		16EC3732217793BC009D7F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16EC37582177A972009D7F00 /* VirgilE3Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VirgilE3Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -607,17 +502,7 @@
 		973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+SPM.swift"; sourceTree = "<group>"; };
 		97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE004_NamedKeyBakupTests.m; sourceTree = "<group>"; };
 		9759DFF124768E7000C31E8F /* compatibility_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = compatibility_data.json; sourceTree = "<group>"; };
-		979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilSDK.xcframework; path = Carthage/Build/VirgilSDK.xcframework; sourceTree = "<group>"; };
-		979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilSDKRatchet.xcframework; path = Carthage/Build/VirgilSDKRatchet.xcframework; sourceTree = "<group>"; };
-		979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilSDKPythia.xcframework; path = Carthage/Build/VirgilSDKPythia.xcframework; sourceTree = "<group>"; };
-		979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCryptoFoundation.xcframework; path = Carthage/Build/VirgilCryptoFoundation.xcframework; sourceTree = "<group>"; };
-		979DA65E26AA256D00641A06 /* VSCCommon.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VSCCommon.xcframework; path = Carthage/Build/VSCCommon.xcframework; sourceTree = "<group>"; };
-		979DA65F26AA256D00641A06 /* VSCPythia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VSCPythia.xcframework; path = Carthage/Build/VSCPythia.xcframework; sourceTree = "<group>"; };
-		979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCryptoRatchet.xcframework; path = Carthage/Build/VirgilCryptoRatchet.xcframework; sourceTree = "<group>"; };
-		979DA66126AA256D00641A06 /* VSCRatchet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VSCRatchet.xcframework; path = Carthage/Build/VSCRatchet.xcframework; sourceTree = "<group>"; };
-		979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCryptoPythia.xcframework; path = Carthage/Build/VirgilCryptoPythia.xcframework; sourceTree = "<group>"; };
-		979DA66326AA256D00641A06 /* VSCFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VSCFoundation.xcframework; path = Carthage/Build/VSCFoundation.xcframework; sourceTree = "<group>"; };
-		979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VirgilCrypto.xcframework; path = Carthage/Build/VirgilCrypto.xcframework; sourceTree = "<group>"; };
+		F4037E022A841A620013A0CD /* BrainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrainKey.swift; sourceTree = "<group>"; };
 		F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE012_EncryptSharedFileTests.swift; sourceTree = "<group>"; };
 		F470425D24E408E700ECC104 /* EThree+StreamShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EThree+StreamShared.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -665,17 +550,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				979DA66D26AA256D00641A06 /* VSCCommon.xcframework in Frameworks */,
-				979DA67726AA256E00641A06 /* VSCFoundation.xcframework in Frameworks */,
-				979DA66B26AA256D00641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */,
-				979DA66926AA256D00641A06 /* VirgilSDKPythia.xcframework in Frameworks */,
-				979DA67126AA256E00641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */,
-				979DA67526AA256E00641A06 /* VirgilCryptoPythia.xcframework in Frameworks */,
-				979DA67326AA256E00641A06 /* VSCRatchet.xcframework in Frameworks */,
-				979DA66726AA256D00641A06 /* VirgilSDKRatchet.xcframework in Frameworks */,
-				979DA67926AA256E00641A06 /* VirgilCrypto.xcframework in Frameworks */,
-				979DA66F26AA256D00641A06 /* VSCPythia.xcframework in Frameworks */,
-				979DA66526AA256D00641A06 /* VirgilSDK.xcframework in Frameworks */,
+				F43238DD2A833FD50064F1C1 /* VirgilSDKRatchet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,17 +558,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				979DA6BE26AA25D100641A06 /* VSCRatchet.xcframework in Frameworks */,
-				979DA6B426AA25D000641A06 /* VirgilSDKPythia.xcframework in Frameworks */,
-				979DA6B826AA25D000641A06 /* VSCCommon.xcframework in Frameworks */,
-				979DA6AC26AA25D000641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */,
-				979DA6AE26AA25D000641A06 /* VirgilCryptoPythia.xcframework in Frameworks */,
-				979DA6B626AA25D000641A06 /* VirgilSDKRatchet.xcframework in Frameworks */,
-				979DA6BC26AA25D000641A06 /* VSCPythia.xcframework in Frameworks */,
-				979DA6AA26AA25D000641A06 /* VirgilCrypto.xcframework in Frameworks */,
-				979DA6B026AA25D000641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */,
-				979DA6B226AA25D000641A06 /* VirgilSDK.xcframework in Frameworks */,
-				979DA6BA26AA25D000641A06 /* VSCFoundation.xcframework in Frameworks */,
+				F43238E92A833FEF0064F1C1 /* VirgilSDKRatchet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,17 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				979DA69026AA259600641A06 /* VSCRatchet.xcframework in Frameworks */,
-				979DA68626AA259600641A06 /* VirgilSDKPythia.xcframework in Frameworks */,
-				979DA68A26AA259600641A06 /* VSCCommon.xcframework in Frameworks */,
-				979DA67E26AA259600641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */,
-				979DA68026AA259600641A06 /* VirgilCryptoPythia.xcframework in Frameworks */,
-				979DA68826AA259600641A06 /* VirgilSDKRatchet.xcframework in Frameworks */,
-				979DA68E26AA259600641A06 /* VSCPythia.xcframework in Frameworks */,
-				979DA67C26AA259600641A06 /* VirgilCrypto.xcframework in Frameworks */,
-				979DA68226AA259600641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */,
-				979DA68426AA259600641A06 /* VirgilSDK.xcframework in Frameworks */,
-				979DA68C26AA259600641A06 /* VSCFoundation.xcframework in Frameworks */,
+				F43238E12A833FE10064F1C1 /* VirgilSDKRatchet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,17 +574,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				979DA6A726AA25B300641A06 /* VSCRatchet.xcframework in Frameworks */,
-				979DA69D26AA25B200641A06 /* VirgilSDKPythia.xcframework in Frameworks */,
-				979DA6A126AA25B200641A06 /* VSCCommon.xcframework in Frameworks */,
-				979DA69526AA25B200641A06 /* VirgilCryptoFoundation.xcframework in Frameworks */,
-				979DA69726AA25B200641A06 /* VirgilCryptoPythia.xcframework in Frameworks */,
-				979DA69F26AA25B200641A06 /* VirgilSDKRatchet.xcframework in Frameworks */,
-				979DA6A526AA25B300641A06 /* VSCPythia.xcframework in Frameworks */,
-				979DA69326AA25B200641A06 /* VirgilCrypto.xcframework in Frameworks */,
-				979DA69926AA25B200641A06 /* VirgilCryptoRatchet.xcframework in Frameworks */,
-				979DA69B26AA25B200641A06 /* VirgilSDK.xcframework in Frameworks */,
-				979DA6A326AA25B200641A06 /* VSCFoundation.xcframework in Frameworks */,
+				F43238E52A833FE60064F1C1 /* VirgilSDKRatchet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -771,17 +616,6 @@
 		16261CCB21787517003D7CDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				979DA66426AA256D00641A06 /* VirgilCrypto.xcframework */,
-				979DA65D26AA256D00641A06 /* VirgilCryptoFoundation.xcframework */,
-				979DA66226AA256D00641A06 /* VirgilCryptoPythia.xcframework */,
-				979DA66026AA256D00641A06 /* VirgilCryptoRatchet.xcframework */,
-				979DA65A26AA256D00641A06 /* VirgilSDK.xcframework */,
-				979DA65C26AA256D00641A06 /* VirgilSDKPythia.xcframework */,
-				979DA65B26AA256D00641A06 /* VirgilSDKRatchet.xcframework */,
-				979DA65E26AA256D00641A06 /* VSCCommon.xcframework */,
-				979DA66326AA256D00641A06 /* VSCFoundation.xcframework */,
-				979DA65F26AA256D00641A06 /* VSCPythia.xcframework */,
-				979DA66126AA256D00641A06 /* VSCRatchet.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -898,7 +732,6 @@
 				167E1E22217D253F00F8AA13 /* Main.storyboard */,
 				167E1E25217D254100F8AA13 /* Assets.xcassets */,
 				167E1E27217D254100F8AA13 /* LaunchScreen.storyboard */,
-				167E1E2A217D254100F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp iOS";
 			sourceTree = "<group>";
@@ -910,7 +743,6 @@
 				167E1E7A217D27A500F8AA13 /* ViewController.swift */,
 				167E1E7C217D27A500F8AA13 /* Main.storyboard */,
 				167E1E7F217D27A600F8AA13 /* Assets.xcassets */,
-				167E1E81217D27A600F8AA13 /* Info.plist */,
 			);
 			path = "E3Kit TestApp tvOS";
 			sourceTree = "<group>";
@@ -975,7 +807,6 @@
 		16EC37222177938A009D7F00 = {
 			isa = PBXGroup;
 			children = (
-				16EC373721779462009D7F00 /* VirgilE3Kit */,
 				16F9E9E5217889770021FD9A /* Source */,
 				165B67E72179013B00DDE1F7 /* Tests */,
 				167E1E1D217D253F00F8AA13 /* E3Kit TestApp iOS */,
@@ -1001,14 +832,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		16EC373721779462009D7F00 /* VirgilE3Kit */ = {
-			isa = PBXGroup;
-			children = (
-				16EC3732217793BC009D7F00 /* Info.plist */,
-			);
-			path = VirgilE3Kit;
-			sourceTree = "<group>";
-		};
 		16EE4FBA234E73AE005CA2D5 /* Mixtec */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,6 +839,7 @@
 				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
 				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
+				F4037E022A841A620013A0CD /* BrainKey.swift */,
 			);
 			path = Mixtec;
 			sourceTree = "<group>";
@@ -1205,6 +1029,9 @@
 			dependencies = (
 			);
 			name = "VirgilE3Kit iOS";
+			packageProductDependencies = (
+				F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */,
+			);
 			productName = "E3Kit iOS";
 			productReference = 16EC372E217793BC009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1223,6 +1050,9 @@
 			dependencies = (
 			);
 			name = "VirgilE3Kit watchOS";
+			packageProductDependencies = (
+				F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */,
+			);
 			productName = "E3Kit watchOS";
 			productReference = 16EC373E2177A7D7009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1241,6 +1071,9 @@
 			dependencies = (
 			);
 			name = "VirgilE3Kit macOS";
+			packageProductDependencies = (
+				F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */,
+			);
 			productName = "E3Kit macOS";
 			productReference = 16EC374B2177A88D009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1259,6 +1092,9 @@
 			dependencies = (
 			);
 			name = "VirgilE3Kit tvOS";
+			packageProductDependencies = (
+				F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */,
+			);
 			productName = "E3Kit tvOS";
 			productReference = 16EC37582177A972009D7F00 /* VirgilE3Kit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1325,6 +1161,9 @@
 				Base,
 			);
 			mainGroup = 16EC37222177938A009D7F00;
+			packageReferences = (
+				F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */,
+			);
 			productRefGroup = 16EC372F217793BC009D7F00 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1574,6 +1413,7 @@
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
 				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
+				F4037E032A841A620013A0CD /* BrainKey.swift in Sources */,
 				16532983235F15A500D2C071 /* EThree+Initialize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1585,6 +1425,7 @@
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
+				F4037E062A841A620013A0CD /* BrainKey.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				16E3387A234E775200678624 /* RatchetChannel.swift in Sources */,
 				16E33883234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
@@ -1689,6 +1530,7 @@
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
+				F4037E042A841A620013A0CD /* BrainKey.swift in Sources */,
 				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1747,6 +1589,7 @@
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
+				F4037E052A841A620013A0CD /* BrainKey.swift in Sources */,
 				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1835,7 +1678,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1849,12 +1691,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1864,14 +1704,14 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
@@ -1892,7 +1732,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1906,24 +1745,22 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
@@ -1945,7 +1782,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1960,12 +1796,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1975,13 +1809,14 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
@@ -2000,7 +1835,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2015,19 +1849,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
@@ -2046,7 +1882,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2059,12 +1894,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2074,13 +1907,13 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
@@ -2092,7 +1925,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -2102,7 +1935,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2115,23 +1947,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
@@ -2143,7 +1973,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E3Kit TestApp tvOS.app/E3Kit TestApp tvOS";
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2153,7 +1983,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2167,6 +1996,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2178,12 +2008,13 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
@@ -2201,7 +2032,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2215,18 +2045,20 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "E3Kit TestApp iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
@@ -2246,7 +2078,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2259,6 +2090,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2270,11 +2102,12 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
@@ -2284,7 +2117,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -2294,7 +2127,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2307,17 +2139,19 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "E3Kit TestApp tvOS/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
@@ -2327,7 +2161,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2344,7 +2178,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
@@ -2362,8 +2195,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
@@ -2380,7 +2211,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
@@ -2397,8 +2227,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -2408,7 +2236,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2426,7 +2253,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2439,7 +2265,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2448,7 +2274,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2463,14 +2288,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2493,7 +2319,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2511,7 +2336,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2524,7 +2348,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2533,7 +2357,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2542,14 +2365,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2572,7 +2396,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2590,7 +2413,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2603,7 +2425,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2612,7 +2434,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2627,13 +2448,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2648,7 +2470,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -2657,7 +2479,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2675,7 +2496,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2688,7 +2508,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2697,7 +2517,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2706,13 +2525,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2727,7 +2547,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -2736,7 +2556,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2754,7 +2573,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2768,7 +2586,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2777,7 +2595,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2793,14 +2610,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2822,7 +2640,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2840,7 +2657,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2854,7 +2670,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2863,7 +2679,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2873,14 +2688,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2901,7 +2717,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2919,7 +2734,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -2932,7 +2746,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2941,7 +2755,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2956,13 +2769,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2975,7 +2789,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2986,7 +2800,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -3004,7 +2817,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -3017,7 +2829,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4.0.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -3026,7 +2838,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -3035,13 +2846,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = VirgilE3Kit/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -3053,7 +2865,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -3183,6 +2995,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/VirgilSecurity/virgil-ratchet-x";
+			requirement = {
+				kind = exactVersion;
+				version = 0.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
+			productName = VirgilSDKRatchet;
+		};
+		F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
+			productName = VirgilSDKRatchet;
+		};
+		F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
+			productName = VirgilSDKRatchet;
+		};
+		F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
+			productName = VirgilSDKRatchet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 16EC37232177938A009D7F00 /* Project object */;
 }

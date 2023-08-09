@@ -51,9 +51,11 @@ internal class LookupManager {
     private let maxSearchCount = 50
     private let maxGetOutdatedCount = 1_000
 
-    internal init(cardStorage: SQLiteCardStorage,
-                  cardManager: CardManager,
-                  changedKeyDelegate: ChangedKeyDelegate?) {
+    internal init(
+        cardStorage: SQLiteCardStorage,
+        cardManager: CardManager,
+        changedKeyDelegate: ChangedKeyDelegate?
+    ) {
         self.cardStorage = cardStorage
         self.cardManager = cardManager
         self.changedKeyDelegate = changedKeyDelegate
@@ -73,7 +75,7 @@ internal class LookupManager {
                 for cardIds in cardIdsChunked {
                     let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
 
-                    for outdatedId in  outdatedIds {
+                    for outdatedId in outdatedIds {
                         Log.debug("Cached card with id: \(outdatedId) expired")
 
                         guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
@@ -141,9 +143,11 @@ extension LookupManager {
         return card
     }
 
-    internal func lookupCards(of identities: [String],
-                              forceReload: Bool,
-                              checkResult: Bool) throws -> FindUsersResult {
+    internal func lookupCards(
+        of identities: [String],
+        forceReload: Bool,
+        checkResult: Bool
+    ) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }

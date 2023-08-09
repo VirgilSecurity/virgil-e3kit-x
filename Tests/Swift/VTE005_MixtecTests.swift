@@ -35,10 +35,11 @@
 //
 
 import Foundation
-import XCTest
-@testable import VirgilE3Kit
 import VirgilCrypto
 import VirgilSDK
+import XCTest
+
+@testable import VirgilE3Kit
 
 class VTE004_MixtecTests: XCTestCase {
     let utils = TestUtils()
@@ -90,7 +91,8 @@ class VTE004_MixtecTests: XCTestCase {
             let lookup = try ethree1.findUsers(with: [ethree1.identity, ethree2.identity]).startSync().get()
 
             let group1 = try ethree1.createGroup(id: groupId1, with: lookup).startSync().get()
-            let group2 = try ethree1.createGroup(id: groupId2, with: [ethree2.identity: lookup[ethree2.identity]!]).startSync().get()
+            let group2 = try ethree1.createGroup(id: groupId2, with: [ethree2.identity: lookup[ethree2.identity]!])
+                .startSync().get()
 
             XCTAssert(group2.participants.contains(ethree1.identity))
             XCTAssert(group1.participants == group2.participants)
@@ -251,10 +253,12 @@ class VTE004_MixtecTests: XCTestCase {
             let ticket = try Ticket(crypto: self.crypto, sessionId: sessionId, participants: participants)
             let rawGroup = try RawGroup(info: GroupInfo(initiator: ethree.identity), tickets: [ticket])
 
-            let group = try Group(rawGroup: rawGroup,
-                                  localKeyStorage: ethree.localKeyStorage,
-                                  groupManager: try ethree.getGroupManager(),
-                                  lookupManager: ethree.lookupManager)
+            let group = try Group(
+                rawGroup: rawGroup,
+                localKeyStorage: ethree.localKeyStorage,
+                groupManager: try ethree.getGroupManager(),
+                lookupManager: ethree.lookupManager
+            )
 
             let card = self.utils.publishCard()
 
@@ -611,9 +615,11 @@ class VTE004_MixtecTests: XCTestCase {
             let privateKeyData = Data(base64Encoded: config.PrivateKey)!
             _ = try keychainStorage.store(data: privateKeyData, withName: config.Identity, meta: nil)
 
-            let ethree = try self.utils.setupEThree(identity: config.Identity,
-                                                    enableRatchet: false,
-                                                    keyRotationInterval: 0)
+            let ethree = try self.utils.setupEThree(
+                identity: config.Identity,
+                enableRatchet: false,
+                keyRotationInterval: 0
+            )
 
             // Load Group
             let initiatorCard = try ethree.findUser(with: config.Initiator).startSync().get()
@@ -718,4 +724,3 @@ class VTE004_MixtecTests: XCTestCase {
         }
     }
 }
-

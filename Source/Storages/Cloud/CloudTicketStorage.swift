@@ -36,8 +36,8 @@
 
 import Foundation
 import VirgilCrypto
-import VirgilSDK
 import VirgilCryptoFoundation
+import VirgilSDK
 
 internal class CloudTicketStorage {
     private static let groupSessionsRoot = "group-sessions"
@@ -50,18 +50,22 @@ internal class CloudTicketStorage {
         return self.localKeyStorage.identity
     }
 
-    internal init(accessTokenProvider: AccessTokenProvider,
-                  localKeyStorage: LocalKeyStorage,
-                  keyknoxServiceUrl: URL) throws {
+    internal init(
+        accessTokenProvider: AccessTokenProvider,
+        localKeyStorage: LocalKeyStorage,
+        keyknoxServiceUrl: URL
+    ) throws {
         self.accessTokenProvider = accessTokenProvider
         self.localKeyStorage = localKeyStorage
 
         let connection = EThree.getConnection()
 
-        let keyknoxClient = KeyknoxClient(accessTokenProvider: self.accessTokenProvider,
-                                          serviceUrl: keyknoxServiceUrl,
-                                          connection: connection,
-                                          retryConfig: ExpBackoffRetry.Config())
+        let keyknoxClient = KeyknoxClient(
+            accessTokenProvider: self.accessTokenProvider,
+            serviceUrl: keyknoxServiceUrl,
+            connection: connection,
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
     }
@@ -80,17 +84,21 @@ extension CloudTicketStorage {
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
-        let params = KeyknoxPushParams(identities: identities + [self.identity],
-                                       root: CloudTicketStorage.groupSessionsRoot,
-                                       path: sessionId,
-                                       key: "\(epoch)")
+        let params = KeyknoxPushParams(
+            identities: identities + [self.identity],
+            root: CloudTicketStorage.groupSessionsRoot,
+            path: sessionId,
+            key: "\(epoch)"
+        )
 
         _ = try self.keyknoxManager
-            .pushValue(params: params,
-                       data: ticketData,
-                       previousHash: nil,
-                       publicKeys: publicKeys + [selfKeyPair.publicKey],
-                       privateKey: selfKeyPair.privateKey)
+            .pushValue(
+                params: params,
+                data: ticketData,
+                previousHash: nil,
+                publicKeys: publicKeys + [selfKeyPair.publicKey],
+                privateKey: selfKeyPair.privateKey
+            )
             .startSync()
             .get()
     }
@@ -98,33 +106,41 @@ extension CloudTicketStorage {
     internal func getEpochs(sessionId: Data, identity: String) throws -> Set<String> {
         let sessionId = sessionId.hexEncodedString()
 
-        let params = KeyknoxGetKeysParams(identity: identity,
-                                          root: CloudTicketStorage.groupSessionsRoot,
-                                          path: sessionId)
+        let params = KeyknoxGetKeysParams(
+            identity: identity,
+            root: CloudTicketStorage.groupSessionsRoot,
+            path: sessionId
+        )
 
         return try self.keyknoxManager.getKeys(params: params)
             .startSync()
             .get()
     }
 
-    internal func retrieve(sessionId: Data,
-                           identity: String,
-                           identityPublicKey: VirgilPublicKey,
-                           epochs: Set<String>) throws -> [Ticket] {
+    internal func retrieve(
+        sessionId: Data,
+        identity: String,
+        identityPublicKey: VirgilPublicKey,
+        epochs: Set<String>
+    ) throws -> [Ticket] {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         let sessionId = sessionId.hexEncodedString()
 
         var tickets: [Ticket] = []
         for epoch in epochs {
-            let params = KeyknoxPullParams(identity: identity,
-                                           root: CloudTicketStorage.groupSessionsRoot,
-                                           path: sessionId,
-                                           key: epoch)
+            let params = KeyknoxPullParams(
+                identity: identity,
+                root: CloudTicketStorage.groupSessionsRoot,
+                path: sessionId,
+                key: epoch
+            )
             let response = try self.keyknoxManager
-                .pullValue(params: params,
-                           publicKeys: [identityPublicKey],
-                           privateKey: selfKeyPair.privateKey)
+                .pullValue(
+                    params: params,
+                    publicKeys: [identityPublicKey],
+                    privateKey: selfKeyPair.privateKey
+                )
                 .startSync()
                 .get()
 
@@ -146,39 +162,49 @@ extension CloudTicketStorage {
         let identities = cards.map { $0.identity }
         let publicKeys = cards.map { $0.publicKey }
 
-        let params = KeyknoxGetKeysParams(identity: self.identity,
-                                          root: CloudTicketStorage.groupSessionsRoot,
-                                          path: sessionId)
+        let params = KeyknoxGetKeysParams(
+            identity: self.identity,
+            root: CloudTicketStorage.groupSessionsRoot,
+            path: sessionId
+        )
 
         let epochs = try self.keyknoxManager.getKeys(params: params)
             .startSync()
             .get()
 
         for epoch in epochs {
-            let pullParams = KeyknoxPullParams(identity: self.identity,
-                                               root: CloudTicketStorage.groupSessionsRoot,
-                                               path: sessionId,
-                                               key: epoch)
+            let pullParams = KeyknoxPullParams(
+                identity: self.identity,
+                root: CloudTicketStorage.groupSessionsRoot,
+                path: sessionId,
+                key: epoch
+            )
             let response = try self.keyknoxManager
-                .pullValue(params: pullParams,
-                           publicKeys: [selfKeyPair.publicKey],
-                           privateKey: selfKeyPair.privateKey)
+                .pullValue(
+                    params: pullParams,
+                    publicKeys: [selfKeyPair.publicKey],
+                    privateKey: selfKeyPair.privateKey
+                )
                 .startSync()
                 .get()
 
-            let pushParams = KeyknoxPushParams(identities: identities,
-                                               root: CloudTicketStorage.groupSessionsRoot,
-                                               path: sessionId,
-                                               key: epoch)
+            let pushParams = KeyknoxPushParams(
+                identities: identities,
+                root: CloudTicketStorage.groupSessionsRoot,
+                path: sessionId,
+                key: epoch
+            )
 
-            _ = try self.keyknoxManager.pushValue(params: pushParams,
-                                                  data: response.value,
-                                                  previousHash: response.keyknoxHash,
-                                                  publicKeys: publicKeys + [selfKeyPair.publicKey],
-                                                  privateKey: selfKeyPair.privateKey)
+            _ = try self.keyknoxManager.pushValue(
+                params: pushParams,
+                data: response.value,
+                previousHash: response.keyknoxHash,
+                publicKeys: publicKeys + [selfKeyPair.publicKey],
+                privateKey: selfKeyPair.privateKey
+            )
 
-                .startSync()
-                .get()
+            .startSync()
+            .get()
         }
     }
 
@@ -187,50 +213,62 @@ extension CloudTicketStorage {
 
         let path = sessionId.hexEncodedString()
 
-        let params = KeyknoxGetKeysParams(identity: self.identity,
-                                          root: CloudTicketStorage.groupSessionsRoot,
-                                          path: path)
+        let params = KeyknoxGetKeysParams(
+            identity: self.identity,
+            root: CloudTicketStorage.groupSessionsRoot,
+            path: path
+        )
 
         let epochs = try self.keyknoxManager.getKeys(params: params)
             .startSync()
             .get()
 
         for epoch in epochs {
-            let pullParams = KeyknoxPullParams(identity: self.identity,
-                                               root: CloudTicketStorage.groupSessionsRoot,
-                                               path: path,
-                                               key: epoch)
+            let pullParams = KeyknoxPullParams(
+                identity: self.identity,
+                root: CloudTicketStorage.groupSessionsRoot,
+                path: path,
+                key: epoch
+            )
             let response = try self.keyknoxManager
-                .pullValue(params: pullParams,
-                           publicKeys: [selfKeyPair.publicKey],
-                           privateKey: selfKeyPair.privateKey)
+                .pullValue(
+                    params: pullParams,
+                    publicKeys: [selfKeyPair.publicKey],
+                    privateKey: selfKeyPair.privateKey
+                )
                 .startSync()
                 .get()
 
             try self.removeRecipient(identity: card.identity, sessionId: sessionId, epoch: epoch)
 
-            let pushParams = KeyknoxPushParams(identities: [card.identity],
-                                               root: CloudTicketStorage.groupSessionsRoot,
-                                               path: path,
-                                               key: epoch)
+            let pushParams = KeyknoxPushParams(
+                identities: [card.identity],
+                root: CloudTicketStorage.groupSessionsRoot,
+                path: path,
+                key: epoch
+            )
 
-            _ = try self.keyknoxManager.pushValue(params: pushParams,
-                                                  data: response.value,
-                                                  previousHash: response.keyknoxHash,
-                                                  publicKeys: [card.publicKey, selfKeyPair.publicKey],
-                                                  privateKey: selfKeyPair.privateKey)
-                .startSync()
-                .get()
+            _ = try self.keyknoxManager.pushValue(
+                params: pushParams,
+                data: response.value,
+                previousHash: response.keyknoxHash,
+                publicKeys: [card.publicKey, selfKeyPair.publicKey],
+                privateKey: selfKeyPair.privateKey
+            )
+            .startSync()
+            .get()
         }
     }
 
     internal func removeRecipient(identity: String, sessionId: Data, epoch: String? = nil) throws {
         let sessionId = sessionId.hexEncodedString()
 
-        let params = KeyknoxDeleteRecipientParams(identity: identity,
-                                                  root: CloudTicketStorage.groupSessionsRoot,
-                                                  path: sessionId,
-                                                  key: epoch)
+        let params = KeyknoxDeleteRecipientParams(
+            identity: identity,
+            root: CloudTicketStorage.groupSessionsRoot,
+            path: sessionId,
+            key: epoch
+        )
 
         _ = try self.keyknoxManager.deleteRecipient(params: params)
             .startSync()

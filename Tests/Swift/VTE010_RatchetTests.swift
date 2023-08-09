@@ -35,9 +35,10 @@
 //
 
 import Foundation
-import XCTest
-@testable import VirgilE3Kit
 import VirgilSDK
+import XCTest
+
+@testable import VirgilE3Kit
 
 class VTE009_RatchetTests: XCTestCase {
     let utils = TestUtils()
@@ -51,8 +52,7 @@ class VTE009_RatchetTests: XCTestCase {
                 if Bool.random() {
                     sender = chat1
                     receiver = chat2
-                }
-                else {
+                } else {
                     sender = chat2
                     receiver = chat1
                 }
@@ -122,8 +122,7 @@ class VTE009_RatchetTests: XCTestCase {
 
             do {
                 _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
-            }
-            catch EThreeRatchetError.channelAlreadyExists {}
+            } catch EThreeRatchetError.channelAlreadyExists {}
 
             let secureChat1 = try ethree1.getSecureChat()
             try secureChat1.deleteSession(withParticipantIdentity: card2.identity)
@@ -131,8 +130,7 @@ class VTE009_RatchetTests: XCTestCase {
             do {
                 _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
                 XCTFail()
-            }
-            catch EThreeRatchetError.channelAlreadyExists {}
+            } catch EThreeRatchetError.channelAlreadyExists {}
         } catch {
             print(error.localizedDescription)
             XCTFail()
@@ -208,23 +206,22 @@ class VTE009_RatchetTests: XCTestCase {
     }
 
     func test009_STE_59__join__after_delete__should_throw_error() {
-       do {
-           let (ethree1, card1) = try self.utils.setupRatchetDevice()
-           let (ethree2, card2) = try self.utils.setupRatchetDevice()
+        do {
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             _ = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
             try ethree1.deleteRatchetChannel(with: card2).startSync().get()
 
-           do {
+            do {
                 _ = try ethree2.joinRatchetChannel(with: card1).startSync().get()
                 XCTFail()
-           }
-           catch EThreeRatchetError.noInvite {}
-       } catch {
-           print(error.localizedDescription)
-           XCTFail()
-       }
+            } catch EThreeRatchetError.noInvite {}
+        } catch {
+            print(error.localizedDescription)
+            XCTFail()
+        }
     }
 
     func test010_STE_60__join__after_rotate__should_throw_error() {
@@ -244,29 +241,29 @@ class VTE009_RatchetTests: XCTestCase {
         } catch {
             print(error.localizedDescription)
             XCTFail()
-            }
+        }
     }
 
     func test011_STE_61__join__after_unregister__should_succeed() {
-         do {
-             let (ethree1, card1) = try self.utils.setupRatchetDevice()
-             let (ethree2, card2) = try self.utils.setupRatchetDevice()
+        do {
+            let (ethree1, card1) = try self.utils.setupRatchetDevice()
+            let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
-             let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
+            let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
 
-             let message = UUID().uuidString
-             let encrypted = try chat1.encrypt(text: message)
+            let message = UUID().uuidString
+            let encrypted = try chat1.encrypt(text: message)
 
-             try ethree1.unregister().startSync().get()
+            try ethree1.unregister().startSync().get()
 
-             let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
-             let decrypted = try chat2.decrypt(text: encrypted)
+            let chat2 = try ethree2.joinRatchetChannel(with: card1).startSync().get()
+            let decrypted = try chat2.decrypt(text: encrypted)
 
-             XCTAssert(decrypted == message)
-         } catch {
+            XCTAssert(decrypted == message)
+        } catch {
             print(error.localizedDescription)
             XCTFail()
-         }
+        }
     }
 
     func test012_STE_62__getRatchetChannel__should_succeed() {
@@ -440,4 +437,3 @@ class VTE009_RatchetTests: XCTestCase {
         }
     }
 }
-

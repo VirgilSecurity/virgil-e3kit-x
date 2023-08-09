@@ -35,8 +35,8 @@
 //
 
 import Foundation
-import VirgilCryptoFoundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 
 /// Class representing Group
 @objc(VTEGroup) open class Group: NSObject {
@@ -61,10 +61,12 @@ import VirgilCrypto
     private let selfIdentity: String
     private let crypto: VirgilCrypto
 
-    internal init(rawGroup: RawGroup,
-                  localKeyStorage: LocalKeyStorage,
-                  groupManager: GroupManager,
-                  lookupManager: LookupManager) throws {
+    internal init(
+        rawGroup: RawGroup,
+        localKeyStorage: LocalKeyStorage,
+        groupManager: GroupManager,
+        lookupManager: LookupManager
+    ) throws {
         let tickets = rawGroup.tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {

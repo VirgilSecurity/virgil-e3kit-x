@@ -43,7 +43,7 @@ extension Group {
     /// Updates group
     ///
     /// - Returns: CallbackOperation<Void>
-    open func update() -> GenericOperation<Void> {
+    public func update() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let sessionId = self.session.getSessionId()
@@ -67,7 +67,7 @@ extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter participants: Cards of users to add. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    open func add(participants: FindUsersResult) -> GenericOperation<Void> {
+    public func add(participants: FindUsersResult) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
@@ -104,13 +104,15 @@ extension Group {
     ///
     /// - Parameter participant: participant Card
     /// - Returns: CallbackOperation<Void>
-    open func reAdd(participant: Card) -> GenericOperation<Void> {
+    public func reAdd(participant: Card) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
 
-                try self.groupManager.reAddAccess(to: participant,
-                                                  sessionId: self.session.getSessionId())
+                try self.groupManager.reAddAccess(
+                    to: participant,
+                    sessionId: self.session.getSessionId()
+                )
 
                 completion((), nil)
             } catch {
@@ -124,7 +126,7 @@ extension Group {
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
     /// - Parameter participants: Cards of users to remove. Result of findUsers call
     /// - Returns: CallbackOperation<Void>
-    open func remove(participants: FindUsersResult) -> GenericOperation<Void> {
+    public func remove(participants: FindUsersResult) -> GenericOperation<Void> {
         return self.remove(participants: Array(participants.keys))
     }
 
@@ -133,7 +135,7 @@ extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter card: Card of user to add
     /// - Returns: CallbackOperation<Void>
-    open func add(participant card: Card) -> GenericOperation<Void> {
+    public func add(participant card: Card) -> GenericOperation<Void> {
         return self.add(participants: [card.identity: card])
     }
 
@@ -141,7 +143,7 @@ extension Group {
     ///
     /// - Parameter card: Card of user to remove
     /// - Returns: CallbackOperation<Void>
-    open func remove(participant card: Card) -> GenericOperation<Void> {
+    public func remove(participant card: Card) -> GenericOperation<Void> {
         return self.remove(participants: [card.identity: card])
     }
 }
@@ -176,16 +178,17 @@ extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter participants: Identities of users to add
     /// - Returns: CallbackOperation<Void>
-    open func add(participants: [String]) -> GenericOperation<Void> {
+    public func add(participants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
-                let result = try self.lookupManager.lookupCards(of: participants,
-                                                                forceReload: false,
-                                                                checkResult: true)
+                let result = try self.lookupManager.lookupCards(
+                    of: participants,
+                    forceReload: false,
+                    checkResult: true
+                )
 
                 self.add(participants: result).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -196,7 +199,7 @@ extension Group {
     /// - Note: New participant will be able to decrypt all history
     /// - Parameter card: User to add
     /// - Returns: CallbackOperation<Void>
-    open func add(participant: String) -> GenericOperation<Void> {
+    public func add(participant: String) -> GenericOperation<Void> {
         return self.add(participants: [participant])
     }
 
@@ -204,14 +207,13 @@ extension Group {
     ///
     /// - Parameter participant: participant to re add
     /// - Returns: CallbackOperation<Void>
-    open func reAdd(participant: String) -> GenericOperation<Void> {
+    public func reAdd(participant: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.lookupManager.lookupCard(of: participant)
 
                 self.reAdd(participant: card).start(completion: completion)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -222,7 +224,7 @@ extension Group {
     /// - Note: Removed participant will not be able to decrypt previous history again after group update
     /// - Parameter participants: Users to remove
     /// - Returns: CallbackOperation<Void>
-    open func remove(participants: [String]) -> GenericOperation<Void> {
+    public func remove(participants: [String]) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.checkPermissions()
@@ -236,9 +238,11 @@ extension Group {
                     throw GroupError.invalidChangeParticipants
                 }
 
-                let newSetLookup = try self.lookupManager.lookupCards(of: Array(newSet),
-                                                                      forceReload: false,
-                                                                      checkResult: true)
+                let newSetLookup = try self.lookupManager.lookupCards(
+                    of: Array(newSet),
+                    forceReload: false,
+                    checkResult: true
+                )
 
                 try self.addNewTicket(for: newSetLookup)
 
@@ -247,8 +251,7 @@ extension Group {
                 try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
 
                 completion((), nil)
-            }
-            catch {
+            } catch {
                 completion(nil, error)
             }
         }
@@ -258,7 +261,7 @@ extension Group {
     ///
     /// - Parameter participant: User to remove
     /// - Returns: CallbackOperation<Void>
-    open func remove(participant: String) -> GenericOperation<Void> {
+    public func remove(participant: String) -> GenericOperation<Void> {
         return self.remove(participants: [participant])
     }
 }

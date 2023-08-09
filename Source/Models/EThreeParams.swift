@@ -35,10 +35,9 @@
 //
 
 import Foundation
-import VirgilSDK
-import VirgilSDKPythia
-import VirgilSDKRatchet
 import VirgilCrypto
+import VirgilSDK
+import VirgilSDKRatchet
 
 /// Contains parameters for initializing EThree
 /// - Tag: EThreeParams
@@ -73,9 +72,6 @@ import VirgilCrypto
         /// Card service URL
         @objc public var cardServiceUrl: URL
 
-        /// Pythia service URL
-        @objc public var pythiaServiceUrl: URL
-
         /// Keyknox service URL
         @objc public var keyknoxServiceUrl: URL
 
@@ -85,15 +81,14 @@ import VirgilCrypto
         /// Init
         /// - Parameters:
         ///   - cardServiceUrl: Card service URL
-        ///   - pythiaServiceUrl: Pythia service URL
         ///   - keyknoxServiceUrl: Keyknox service URL
         ///   - ratchetServiceUrl: Ratchet service URL
-        @objc public init(cardServiceUrl: URL,
-                          pythiaServiceUrl: URL,
-                          keyknoxServiceUrl: URL,
-                          ratchetServiceUrl: URL) {
+        @objc public init(
+            cardServiceUrl: URL,
+            keyknoxServiceUrl: URL,
+            ratchetServiceUrl: URL
+        ) {
             self.cardServiceUrl = cardServiceUrl
-            self.pythiaServiceUrl = pythiaServiceUrl
             self.keyknoxServiceUrl = keyknoxServiceUrl
             self.ratchetServiceUrl = ratchetServiceUrl
         }
@@ -123,39 +118,30 @@ import VirgilCrypto
             do {
                 let keyPairTypeStr = try container.decode(String.self, forKey: .keyPairType)
                 self.keyPairType = try KeyPairType(from: keyPairTypeStr)
-            }
-            catch DecodingError.keyNotFound(_, _) { }
-            catch DecodingError.valueNotFound(_, _) { }
+            } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
 
             do {
                 self.enableRatchet = try container.decode(Bool.self, forKey: .enableRatchet)
-            }
-            catch DecodingError.keyNotFound(_, _) { }
-            catch DecodingError.valueNotFound(_, _) { }
+            } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
 
             do {
                 self.enableRatchetPqc = try container.decode(Bool.self, forKey: .enableRatchetPqc)
-            }
-            catch DecodingError.keyNotFound(_, _) { }
-            catch DecodingError.valueNotFound(_, _) { }
+            } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
 
             do {
                 self.offlineInit = try container.decode(Bool.self, forKey: .offlineInit)
-            }
-            catch DecodingError.keyNotFound(_, _) { }
-            catch DecodingError.valueNotFound(_, _) { }
+            } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
 
             do {
                 self.keyRotationInterval = try container.decode(TimeInterval.self, forKey: .keyRotationInterval)
-            }
-            catch DecodingError.keyNotFound(_, _) { }
-            catch DecodingError.valueNotFound(_, _) { }
+            } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
         }
 
         static func deserialize(from url: URL) throws -> Config {
             guard let dictionary = NSDictionary(contentsOf: url),
-                let keys = dictionary.allKeys as? [String]  else {
-                    throw EThreeParamsError.invalidPlistFile
+                let keys = dictionary.allKeys as? [String]
+            else {
+                throw EThreeParamsError.invalidPlistFile
             }
 
             try keys.forEach {
@@ -170,22 +156,28 @@ import VirgilCrypto
         }
     }
 
-    @objc public convenience init(initialJwt: Jwt,
-                                  tokenCallback: @escaping EThree.RenewJwtCallback,
-                                  configUrl: URL) throws {
-         try self.init(identity: initialJwt.identity(),
-                       tokenCallback: tokenCallback,
-                       configUrl: configUrl)
+    @objc public convenience init(
+        initialJwt: Jwt,
+        tokenCallback: @escaping EThree.RenewJwtCallback,
+        configUrl: URL
+    ) throws {
+        try self.init(
+            identity: initialJwt.identity(),
+            tokenCallback: tokenCallback,
+            configUrl: configUrl
+        )
 
-         self.initialJwt = initialJwt
-     }
+        self.initialJwt = initialJwt
+    }
 
-     @objc public convenience init(initialJwt: Jwt,
-                                   tokenCallback: @escaping EThree.RenewJwtCallback) {
-         self.init(identity: initialJwt.identity(), tokenCallback: tokenCallback)
+    @objc public convenience init(
+        initialJwt: Jwt,
+        tokenCallback: @escaping EThree.RenewJwtCallback
+    ) {
+        self.init(identity: initialJwt.identity(), tokenCallback: tokenCallback)
 
-         self.initialJwt = initialJwt
-     }
+        self.initialJwt = initialJwt
+    }
 
     /// Initializer with parameters from config plist file
     ///
@@ -194,9 +186,11 @@ import VirgilCrypto
     ///   - tokenCallback: Callback to get Virgil access token
     ///   - configUrl: URL of config file
     /// - Throws: corresponding error
-    @objc public convenience init(identity: String,
-                                  tokenCallback: @escaping EThree.RenewJwtCallback,
-                                  configUrl: URL) throws {
+    @objc public convenience init(
+        identity: String,
+        tokenCallback: @escaping EThree.RenewJwtCallback,
+        configUrl: URL
+    ) throws {
         let config = try Config.deserialize(from: configUrl)
 
         self.init(identity: identity, tokenCallback: tokenCallback)
@@ -213,14 +207,17 @@ import VirgilCrypto
     /// - Parameters:
     ///   - identity: Identity of user
     ///   - tokenCallback: Callback to get Virgil access token
-    @objc public init(identity: String,
-                      tokenCallback: @escaping EThree.RenewJwtCallback) {
+    @objc public init(
+        identity: String,
+        tokenCallback: @escaping EThree.RenewJwtCallback
+    ) {
         self.identity = identity
         self.tokenCallback = tokenCallback
-        self.serviceUrls = ServiceUrls(cardServiceUrl: CardClient.defaultURL,
-                                       pythiaServiceUrl: PythiaClient.defaultURL,
-                                       keyknoxServiceUrl: KeyknoxClient.defaultURL,
-                                       ratchetServiceUrl: RatchetClient.defaultURL)
+        self.serviceUrls = ServiceUrls(
+            cardServiceUrl: CardClient.defaultURL,
+            keyknoxServiceUrl: KeyknoxClient.defaultURL,
+            ratchetServiceUrl: RatchetClient.defaultURL
+        )
 
         super.init()
     }

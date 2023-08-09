@@ -58,9 +58,9 @@ import Foundation
             return "Temporary channel with self is forbidden. Use regular encryption for this purpose."
         case .userIsRegistered:
             return """
-                User with provided identity is registered.
-                Creation of temporary channels with registered users is forbidden.
-            """
+                    User with provided identity is registered.
+                    Creation of temporary channels with registered users is forbidden.
+                """
         case .channelNotFound:
             return "Channel was not found"
         }
