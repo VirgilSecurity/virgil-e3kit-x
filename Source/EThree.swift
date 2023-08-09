@@ -155,7 +155,8 @@ import VirgilSDKRatchet
 
             let credentials = VerifierCredentials(
                 signer: VirgilCardVerifier.virgilSignerIdentifier,
-                publicKey: virgilPublicKey)
+                publicKey: virgilPublicKey
+            )
             let whitelist = try Whitelist(verifiersCredentials: [credentials])
 
             verifier.whitelists = [whitelist]
@@ -168,49 +169,55 @@ import VirgilSDKRatchet
         let cardManagerParams = CardManagerParams(
             crypto: crypto,
             accessTokenProvider: accessTokenProvider,
-            cardVerifier: verifier)
+            cardVerifier: verifier
+        )
 
         let cardClient = CardClient(
             accessTokenProvider: accessTokenProvider,
             serviceUrl: params.serviceUrls.cardServiceUrl,
             connection: EThree.getConnection(),
-            retryConfig: ExpBackoffRetry.Config())
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         cardManagerParams.cardClient = cardClient
 
         let cardManager = CardManager(params: cardManagerParams)
 
-        let storageParams =
-            try params.storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        let storageParams = try params.storageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         let keychainStorage = KeychainStorage(storageParams: storageParams)
 
         let localKeyStorage = LocalKeyStorage(
             identity: params.identity,
             crypto: crypto,
-            keychainStorage: keychainStorage)
+            keychainStorage: keychainStorage
+        )
 
         let cloudKeyManager = try CloudKeyManager(
             identity: params.identity,
             crypto: crypto,
             accessTokenProvider: accessTokenProvider,
             keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
-            pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl)
+            pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl
+        )
 
         let sqliteCardStorage = try SQLiteCardStorage(
             appGroup: params.appGroup,
             userIdentifier: params.identity,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let lookupManager = LookupManager(
             cardStorage: sqliteCardStorage,
             cardManager: cardManager,
-            changedKeyDelegate: params.changedKeyDelegate)
+            changedKeyDelegate: params.changedKeyDelegate
+        )
 
         let cloudRatchetStorage = try CloudRatchetStorage(
             accessTokenProvider: accessTokenProvider,
             localKeyStorage: localKeyStorage,
-            keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl)
+            keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl
+        )
 
         try self.init(
             identity: params.identity,
@@ -227,7 +234,8 @@ import VirgilSDKRatchet
             appGroup: params.appGroup,
             appName: params.storageParams?.appName,
             keyRotationInterval: params.keyRotationInterval,
-            offlineInit: params.offlineInit)
+            offlineInit: params.offlineInit
+        )
     }
 
     internal init(

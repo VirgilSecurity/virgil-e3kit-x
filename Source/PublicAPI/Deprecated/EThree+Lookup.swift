@@ -47,8 +47,7 @@ extension EThree {
     public func lookupPublicKeys(of identities: [String]) -> GenericOperation<LookupResult> {
         return CallbackOperation { _, completion in
             do {
-                let cards = try self.findUsers(with: identities, forceReload: true).startSync()
-                    .get()
+                let cards = try self.findUsers(with: identities, forceReload: true).startSync().get()
 
                 let result = cards.mapValues { $0.publicKey }
 

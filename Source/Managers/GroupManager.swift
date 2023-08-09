@@ -69,7 +69,8 @@ internal class GroupManager {
             rawGroup: rawGroup,
             localKeyStorage: self.localKeyStorage,
             groupManager: self,
-            lookupManager: self.lookupManager)
+            lookupManager: self.lookupManager
+        )
     }
 
     internal func store(_ ticket: Ticket, sharedWith cards: [Card]) throws -> Group {
@@ -84,8 +85,7 @@ internal class GroupManager {
     }
 
     internal func pull(sessionId: Data, from card: Card) throws -> Group {
-        let cloudEpochs = try self.cloudTicketStorage.getEpochs(
-            sessionId: sessionId, identity: card.identity)
+        let cloudEpochs = try self.cloudTicketStorage.getEpochs(sessionId: sessionId, identity: card.identity)
         let localEpochs = try self.localGroupStorage.getEpochs(sessionId: sessionId)
 
         guard let anyEpoch = cloudEpochs.first else {
@@ -100,7 +100,8 @@ internal class GroupManager {
             sessionId: sessionId,
             identity: card.identity,
             identityPublicKey: card.publicKey,
-            epochs: epochs)
+            epochs: epochs
+        )
 
         let info = GroupInfo(initiator: card.identity)
         let rawGroup = try RawGroup(info: info, tickets: tickets)
@@ -129,7 +130,8 @@ internal class GroupManager {
         guard
             let rawGroup = try? self.localGroupStorage.retrieve(
                 sessionId: sessionId,
-                lastTicketsCount: ticketsCount)
+                lastTicketsCount: ticketsCount
+            )
         else {
             return nil
         }
@@ -138,9 +140,7 @@ internal class GroupManager {
     }
 
     internal func retrieve(sessionId: Data, epoch: UInt32) -> Group? {
-        guard
-            let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch)
-        else {
+        guard let rawGroup = try? self.localGroupStorage.retrieve(sessionId: sessionId, epoch: epoch) else {
             return nil
         }
 

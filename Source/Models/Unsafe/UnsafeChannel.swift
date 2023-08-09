@@ -65,15 +65,13 @@ extension TemporaryChannel {
     /// Encrypts data
     /// - Parameter data: Data to encrypt
     @objc open func encrypt(data: Data) throws -> Data {
-        try self.crypto.authEncrypt(
-            data, with: self.selfPrivateKey, for: [self.participantPublicKey])
+        try self.crypto.authEncrypt(data, with: self.selfPrivateKey, for: [self.participantPublicKey])
     }
 
     /// Decrypts data
     /// - Parameter data: encrypted Data
     @objc open func decrypt(data: Data) throws -> Data {
-        try self.crypto.authDecrypt(
-            data, with: self.selfPrivateKey, usingOneOf: [self.participantPublicKey])
+        try self.crypto.authDecrypt(data, with: self.selfPrivateKey, usingOneOf: [self.participantPublicKey])
     }
 
     /// Encrypts string

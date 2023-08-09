@@ -140,8 +140,7 @@ import VirgilSDKRatchet
             } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
 
             do {
-                self.keyRotationInterval = try container.decode(
-                    TimeInterval.self, forKey: .keyRotationInterval)
+                self.keyRotationInterval = try container.decode(TimeInterval.self, forKey: .keyRotationInterval)
             } catch DecodingError.keyNotFound(_, _) {} catch DecodingError.valueNotFound(_, _) {}
         }
 
@@ -172,7 +171,8 @@ import VirgilSDKRatchet
         try self.init(
             identity: initialJwt.identity(),
             tokenCallback: tokenCallback,
-            configUrl: configUrl)
+            configUrl: configUrl
+        )
 
         self.initialJwt = initialJwt
     }
@@ -224,7 +224,8 @@ import VirgilSDKRatchet
             cardServiceUrl: CardClient.defaultURL,
             pythiaServiceUrl: PythiaClient.defaultURL,
             keyknoxServiceUrl: KeyknoxClient.defaultURL,
-            ratchetServiceUrl: RatchetClient.defaultURL)
+            ratchetServiceUrl: RatchetClient.defaultURL
+        )
 
         super.init()
     }

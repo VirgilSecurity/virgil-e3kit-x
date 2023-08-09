@@ -49,8 +49,7 @@ extension Group {
     @objc open func encrypt(data: Data) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
-        let encrypted = try self.session.encrypt(
-            plainText: data, privateKey: selfKeyPair.privateKey.key)
+        let encrypted = try self.session.encrypt(plainText: data, privateKey: selfKeyPair.privateKey.key)
 
         return encrypted.serialize()
     }
@@ -95,10 +94,7 @@ extension Group {
                 let sessionId = encrypted.getSessionId()
                 let messageEpoch = encrypted.getEpoch()
 
-                guard
-                    let tempGroup = self.groupManager.retrieve(
-                        sessionId: sessionId, epoch: messageEpoch)
-                else {
+                guard let tempGroup = self.groupManager.retrieve(sessionId: sessionId, epoch: messageEpoch) else {
                     throw GroupError.missingCachedGroup
                 }
 
@@ -131,8 +127,7 @@ extension Group {
     ///   - date: date of message. Use it to prevent verifying new messages with old card
     /// - Returns: decrypted String
     /// - Throws: corresponding error
-    @objc open func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String
-    {
+    @objc open func decrypt(text: String, from senderCard: Card, date: Date? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }

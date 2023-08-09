@@ -403,9 +403,7 @@ class VTE009_RatchetTests: XCTestCase {
             try ethree1.cleanUp()
             try ethree1.rotatePrivateKey().startSync().get()
 
-            let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true)
-                .startSync()
-                .get()
+            let newCard1 = try ethree2.findUser(with: ethree1.identity, forceReload: true).startSync().get()
 
             let chat1 = try ethree1.createRatchetChannel(with: card2).startSync().get()
             let chat2 = try ethree2.joinRatchetChannel(with: newCard1).startSync().get()
@@ -423,12 +421,10 @@ class VTE009_RatchetTests: XCTestCase {
             let (ethree2, card2) = try self.utils.setupRatchetDevice()
 
             let name1 = UUID().uuidString
-            let chat11 = try ethree1.createRatchetChannel(with: card2, name: name1).startSync()
-                .get()
+            let chat11 = try ethree1.createRatchetChannel(with: card2, name: name1).startSync().get()
 
             let name2 = UUID().uuidString
-            let chat22 = try ethree2.createRatchetChannel(with: card1, name: name2).startSync()
-                .get()
+            let chat22 = try ethree2.createRatchetChannel(with: card1, name: name2).startSync().get()
 
             let chat12 = try ethree1.joinRatchetChannel(with: card2, name: name2).startSync().get()
             let chat21 = try ethree2.joinRatchetChannel(with: card1, name: name1).startSync().get()

@@ -50,8 +50,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc(encryptStream:toStream:forUser:error:)
-    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws
-    {
+    public func encrypt(_ stream: InputStream, to outputStream: OutputStream, for user: Card) throws {
         try self.encrypt(stream, to: outputStream, for: [user.identity: user])
     }
 
@@ -251,8 +250,7 @@ extension EThree {
     /// - Note: Avoid key duplication
     @available(*, deprecated, message: "Use authEncrypt method instead.")
     @objc public func encrypt(data: Data, for recipientKeys: LookupResult) throws -> Data {
-        return try self.oldEncryptInternal(
-            data: data, for: self.lookupResultToPublicKeys(recipientKeys))
+        return try self.oldEncryptInternal(data: data, for: self.lookupResultToPublicKeys(recipientKeys))
     }
 
     /// Decrypts and verifies data from users
@@ -283,8 +281,7 @@ extension EThree {
         to outputStream: OutputStream,
         for recipientKeys: LookupResult
     ) throws {
-        try self.oldEncryptInternal(
-            stream, to: outputStream, for: self.lookupResultToPublicKeys(recipientKeys))
+        try self.oldEncryptInternal(stream, to: outputStream, for: self.lookupResultToPublicKeys(recipientKeys))
     }
 
     /// Signs then encrypts string for group of users
@@ -317,8 +314,7 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
     @available(*, deprecated, message: "Use authDecrypt method instead.")
-    @objc public func decrypt(text: String, from senderPublicKey: VirgilPublicKey) throws -> String
-    {
+    @objc public func decrypt(text: String, from senderPublicKey: VirgilPublicKey) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -364,8 +360,7 @@ extension EThree {
     }
 
     @available(*, deprecated)
-    internal func oldEncryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data
-    {
+    internal func oldEncryptInternal(data: Data, for publicKeys: [VirgilPublicKey]?) throws -> Data {
         let selfKeyPair = try self.localKeyStorage.retrieveKeyPair()
 
         var pubKeys = [selfKeyPair.publicKey]
@@ -378,8 +373,7 @@ extension EThree {
             pubKeys += publicKeys
         }
 
-        let encryptedData = try self.crypto.signAndEncrypt(
-            data, with: selfKeyPair.privateKey, for: pubKeys)
+        let encryptedData = try self.crypto.signAndEncrypt(data, with: selfKeyPair.privateKey, for: pubKeys)
 
         return encryptedData
     }
@@ -394,7 +388,8 @@ extension EThree {
             return try self.crypto.decryptAndVerify(
                 data,
                 with: selfKeyPair.privateKey,
-                using: publicKey)
+                using: publicKey
+            )
         } catch VirgilCryptoError.signatureNotVerified {
             throw EThreeError.verificationFailed
         }

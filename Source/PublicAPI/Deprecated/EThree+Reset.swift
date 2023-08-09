@@ -46,9 +46,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @available(*, deprecated, message: "Use resetPrivateKeyBackup without password instead")
-    @objc open func resetPrivateKeyBackup(
-        password: String, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func resetPrivateKeyBackup(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.resetPrivateKeyBackup(password: password).start { _, error in
             completion(error)
         }

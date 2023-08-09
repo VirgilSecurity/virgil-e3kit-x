@@ -45,16 +45,14 @@ extension EThree {
     /// - Important: Temporary key for unregistered user is stored unencrypted on Cloud.
     ///
     /// - Parameter identity: identity of unregistered user
-    public func createTemporaryChannel(with identity: String) -> GenericOperation<TemporaryChannel>
-    {
+    public func createTemporaryChannel(with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
                     throw TemporaryChannelError.selfChannelIsForbidden
                 }
 
-                let result = try self.findUsers(with: [identity], checkResult: false).startSync()
-                    .get()
+                let result = try self.findUsers(with: [identity], checkResult: false).startSync().get()
 
                 guard result.isEmpty else {
                     throw TemporaryChannelError.userIsRegistered
@@ -73,9 +71,7 @@ extension EThree {
     /// - Parameters:
     ///   - asCreator: Bool to specify wether caller is creator of channel or not
     ///   - identity: identity of participant
-    public func loadTemporaryChannel(asCreator: Bool, with identity: String) -> GenericOperation<
-        TemporaryChannel
-    > {
+    public func loadTemporaryChannel(asCreator: Bool, with identity: String) -> GenericOperation<TemporaryChannel> {
         return CallbackOperation { _, completion in
             do {
                 guard identity != self.identity else {
@@ -84,8 +80,7 @@ extension EThree {
 
                 let manager = try self.getTempChannelManager()
 
-                let temporaryChannel = try manager.loadFromCloud(
-                    asCreator: asCreator, with: identity)
+                let temporaryChannel = try manager.loadFromCloud(asCreator: asCreator, with: identity)
 
                 completion(temporaryChannel, nil)
             } catch {

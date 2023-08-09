@@ -67,9 +67,7 @@ import VirgilCryptoFoundation
         groupManager: GroupManager,
         lookupManager: LookupManager
     ) throws {
-        let tickets = rawGroup.tickets.sorted {
-            $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch()
-        }
+        let tickets = rawGroup.tickets.sorted { $0.groupMessage.getEpoch() < $1.groupMessage.getEpoch() }
 
         guard let lastTicket = tickets.last else {
             throw GroupError.invalidGroup
@@ -95,9 +93,7 @@ import VirgilCryptoFoundation
         }
     }
 
-    private static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws
-        -> GroupSession
-    {
+    private static func generateSession(from tickets: [Ticket], crypto: VirgilCrypto) throws -> GroupSession {
         let session = GroupSession()
         session.setRng(rng: crypto.rng)
 

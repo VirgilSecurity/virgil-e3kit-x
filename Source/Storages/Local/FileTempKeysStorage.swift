@@ -57,9 +57,7 @@ internal class FileTempKeysStorage {
         case `public`
     }
 
-    internal init(
-        appGroup: String?, identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair
-    ) throws {
+    internal init(appGroup: String?, identity: String, crypto: VirgilCrypto, identityKeyPair: VirgilKeyPair) throws {
         self.identity = identity
         self.crypto = crypto
         self.identityKeyPair = identityKeyPair
@@ -68,7 +66,8 @@ internal class FileTempKeysStorage {
             appGroup: appGroup,
             prefix: "VIRGIL-E3KIT",
             userIdentifier: identity,
-            pathComponents: ["UNSAFE-KEYS"])
+            pathComponents: ["UNSAFE-KEYS"]
+        )
     }
 
     private func encode(key: Data, type: KeyType) throws -> Data {
@@ -78,7 +77,8 @@ internal class FileTempKeysStorage {
             data = try self.crypto.authEncrypt(
                 data,
                 with: self.identityKeyPair.privateKey,
-                for: [self.identityKeyPair.publicKey])
+                for: [self.identityKeyPair.publicKey]
+            )
         }
 
         let temporaryKey = TempKey(key: data, type: type)
@@ -93,7 +93,8 @@ internal class FileTempKeysStorage {
             tempKey.key = try self.crypto.authDecrypt(
                 tempKey.key,
                 with: self.identityKeyPair.privateKey,
-                usingOneOf: [self.identityKeyPair.publicKey])
+                usingOneOf: [self.identityKeyPair.publicKey]
+            )
         }
 
         return tempKey

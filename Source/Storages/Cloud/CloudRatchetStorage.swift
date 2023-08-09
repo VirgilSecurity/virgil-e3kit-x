@@ -64,7 +64,8 @@ internal class CloudRatchetStorage {
             accessTokenProvider: self.accessTokenProvider,
             serviceUrl: keyknoxServiceUrl,
             connection: connection,
-            retryConfig: ExpBackoffRetry.Config())
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
     }
@@ -79,7 +80,8 @@ extension CloudRatchetStorage {
                 identities: [card.identity, self.identity],
                 root: CloudRatchetStorage.root,
                 path: card.identity,
-                key: name ?? CloudRatchetStorage.defaultKey)
+                key: name ?? CloudRatchetStorage.defaultKey
+            )
 
             _ = try self.keyknoxManager
                 .pushValue(
@@ -91,9 +93,7 @@ extension CloudRatchetStorage {
                 )
                 .startSync()
                 .get()
-        } catch let error as ServiceError
-            where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue
-        {
+        } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
             throw EThreeRatchetError.channelAlreadyExists
         }
     }
@@ -105,7 +105,8 @@ extension CloudRatchetStorage {
             identity: card.identity,
             root: CloudRatchetStorage.root,
             path: self.identity,
-            key: name ?? CloudRatchetStorage.defaultKey)
+            key: name ?? CloudRatchetStorage.defaultKey
+        )
         let response = try self.keyknoxManager
             .pullValue(
                 params: params,
@@ -126,7 +127,8 @@ extension CloudRatchetStorage {
         let params = KeyknoxResetParams(
             root: CloudRatchetStorage.root,
             path: identity,
-            key: name ?? CloudRatchetStorage.defaultKey)
+            key: name ?? CloudRatchetStorage.defaultKey
+        )
 
         _ = try self.keyknoxManager.resetValue(params: params).startSync().get()
     }

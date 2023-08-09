@@ -67,7 +67,8 @@ extension EThree {
             streamSize: streamSize,
             to: outputStream,
             with: selfKeyPair.privateKey,
-            for: [sharedKeyPair.publicKey])
+            for: [sharedKeyPair.publicKey]
+        )
 
         return try self.crypto.exportPrivateKey(sharedKeyPair.privateKey)
     }
@@ -88,8 +89,7 @@ extension EThree {
         verifyWith senderCard: Card
     ) throws {
 
-        return try self.decryptShared(
-            stream, to: outputStream, with: privateKeyData, verifyWith: senderCard.publicKey)
+        return try self.decryptShared(stream, to: outputStream, with: privateKeyData, verifyWith: senderCard.publicKey)
     }
 
     /// Decrypts file stream.
@@ -114,7 +114,6 @@ extension EThree {
 
         let publicKey = senderPublicKey ?? selfKeyPair.publicKey
 
-        try self.crypto.authDecrypt(
-            stream, to: outputStream, with: keyPair.privateKey, usingOneOf: [publicKey])
+        try self.crypto.authDecrypt(stream, to: outputStream, with: keyPair.privateKey, usingOneOf: [publicKey])
     }
 }

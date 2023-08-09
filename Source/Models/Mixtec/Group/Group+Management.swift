@@ -111,7 +111,8 @@ extension Group {
 
                 try self.groupManager.reAddAccess(
                     to: participant,
-                    sessionId: self.session.getSessionId())
+                    sessionId: self.session.getSessionId()
+                )
 
                 completion((), nil)
             } catch {
@@ -183,7 +184,8 @@ extension Group {
                 let result = try self.lookupManager.lookupCards(
                     of: participants,
                     forceReload: false,
-                    checkResult: true)
+                    checkResult: true
+                )
 
                 self.add(participants: result).start(completion: completion)
             } catch {
@@ -239,14 +241,14 @@ extension Group {
                 let newSetLookup = try self.lookupManager.lookupCards(
                     of: Array(newSet),
                     forceReload: false,
-                    checkResult: true)
+                    checkResult: true
+                )
 
                 try self.addNewTicket(for: newSetLookup)
 
                 let removedSet = oldSet.subtracting(newSet)
 
-                try self.groupManager.removeAccess(
-                    identities: removedSet, to: self.session.getSessionId())
+                try self.groupManager.removeAccess(identities: removedSet, to: self.session.getSessionId())
 
                 completion((), nil)
             } catch {

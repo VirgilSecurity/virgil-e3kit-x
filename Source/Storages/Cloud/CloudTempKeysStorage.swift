@@ -64,7 +64,8 @@ internal class CloudTempKeysStorage {
             accessTokenProvider: self.accessTokenProvider,
             serviceUrl: keyknoxServiceUrl,
             connection: connection,
-            retryConfig: ExpBackoffRetry.Config())
+            retryConfig: ExpBackoffRetry.Config()
+        )
     }
 }
 
@@ -75,7 +76,8 @@ extension CloudTempKeysStorage {
             identities: [identity, self.identity],
             root: CloudTempKeysStorage.root,
             path: identity,
-            key: CloudTempKeysStorage.defaultKey)
+            key: CloudTempKeysStorage.defaultKey
+        )
 
         let data = try self.crypto.exportPrivateKey(tempKey)
 
@@ -85,7 +87,8 @@ extension CloudTempKeysStorage {
             params: pushParams,
             meta: meta,
             value: data,
-            previousHash: nil)
+            previousHash: nil
+        )
     }
     // swiftlint:enable force_unwrapping
 
@@ -94,7 +97,8 @@ extension CloudTempKeysStorage {
             identity: identity,
             root: CloudTempKeysStorage.root,
             path: path,
-            key: CloudTempKeysStorage.defaultKey)
+            key: CloudTempKeysStorage.defaultKey
+        )
 
         let response = try self.keyknoxClient.pullValue(params: params)
 
@@ -109,7 +113,8 @@ extension CloudTempKeysStorage {
         let params = KeyknoxResetParams(
             root: CloudTempKeysStorage.root,
             path: identity,
-            key: CloudTempKeysStorage.defaultKey)
+            key: CloudTempKeysStorage.defaultKey
+        )
 
         _ = try self.keyknoxClient.resetValue(params: params)
     }

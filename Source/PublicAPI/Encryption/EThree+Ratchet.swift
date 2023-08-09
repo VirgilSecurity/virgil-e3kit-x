@@ -45,17 +45,12 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
-    public func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<
-        RatchetChannel
-    > {
+    public func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
-                guard
-                    secureChat.existingSession(withParticipantIdentity: card.identity, name: name)
-                        == nil
-                else {
+                guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
                     throw EThreeRatchetError.channelAlreadyExists
                 }
 
@@ -66,7 +61,8 @@ extension EThree {
                 let session = try self.startRatchetSessionAsSender(
                     secureChat: secureChat,
                     receiverCard: card,
-                    name: name)
+                    name: name
+                )
 
                 let ticket = try session.encrypt(string: UUID().uuidString)
 
@@ -76,7 +72,8 @@ extension EThree {
 
                 let ratchetChannel = RatchetChannel(
                     session: session,
-                    sessionStorage: secureChat.sessionStorage)
+                    sessionStorage: secureChat.sessionStorage
+                )
 
                 completion(ratchetChannel, nil)
             } catch {
@@ -89,17 +86,12 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of initiator
     ///   - name: name of channel
-    public func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<
-        RatchetChannel
-    > {
+    public func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
 
-                guard
-                    secureChat.existingSession(withParticipantIdentity: card.identity, name: name)
-                        == nil
-                else {
+                guard secureChat.existingSession(withParticipantIdentity: card.identity, name: name) == nil else {
                     throw EThreeRatchetError.channelAlreadyExists
                 }
 
@@ -112,12 +104,12 @@ extension EThree {
                 let session = try secureChat.startNewSessionAsReceiver(
                     senderCard: card,
                     ratchetMessage: ticket,
-                    enablePostQuantum: Defaults.enableRatchetPqc)
+                    enablePostQuantum: Defaults.enableRatchetPqc
+                )
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
 
-                let ratchetChannel = RatchetChannel(
-                    session: session, sessionStorage: secureChat.sessionStorage)
+                let ratchetChannel = RatchetChannel(session: session, sessionStorage: secureChat.sessionStorage)
 
                 completion(ratchetChannel, nil)
             } catch {
@@ -138,8 +130,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
-    public func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void>
-    {
+    public func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return self.deleteRatchetChannel(with: card.identity, name: name)
     }
 }
@@ -149,11 +140,7 @@ extension EThree {
     /// - Parameters:
     ///   - identity: participant identity
     ///   - name: name of channel
-    public func createRatchetChannel(with identity: String, name: String? = nil)
-        -> GenericOperation<
-            RatchetChannel
-        >
-    {
+    public func createRatchetChannel(with identity: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.findUser(with: identity).startSync().get()
@@ -169,9 +156,7 @@ extension EThree {
     /// - Parameters:
     ///   - initiator: initiator identity
     ///   - name: name of channel
-    public func joinRatchetChannel(with initiator: String, name: String? = nil) -> GenericOperation<
-        RatchetChannel
-    > {
+    public func joinRatchetChannel(with initiator: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.findUser(with: initiator).startSync().get()
@@ -187,15 +172,10 @@ extension EThree {
     /// - Parameters:
     ///   - participant: participant identity
     ///   - name: name of channel
-    public func getRatchetChannel(with participant: String, name: String? = nil) throws
-        -> RatchetChannel?
-    {
+    public func getRatchetChannel(with participant: String, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
-        guard
-            let session = secureChat.existingSession(
-                withParticipantIdentity: participant, name: name)
-        else {
+        guard let session = secureChat.existingSession(withParticipantIdentity: participant, name: name) else {
             return nil
         }
 
@@ -206,9 +186,7 @@ extension EThree {
     /// - Parameters:
     ///   - participant: participant identity
     ///   - name: name of channel
-    public func deleteRatchetChannel(with participant: String, name: String? = nil)
-        -> GenericOperation<Void>
-    {
+    public func deleteRatchetChannel(with participant: String, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()

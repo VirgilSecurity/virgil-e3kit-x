@@ -52,9 +52,7 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identities: [self.identity])
-                        .startSync()
-                        .get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard cards.isEmpty else {
                         throw EThreeError.userIsAlreadyRegistered
@@ -87,7 +85,8 @@ extension EThree {
 
                     try self.publishCardThenSaveLocal(
                         keyPair: keyPair,
-                        publishCardCallback: publishCardCallback)
+                        publishCardCallback: publishCardCallback
+                    )
 
                     completion((), nil)
                 } catch {
@@ -109,9 +108,7 @@ extension EThree {
                         throw EThreeError.privateKeyExists
                     }
 
-                    let cards = try self.cardManager.searchCards(identities: [self.identity])
-                        .startSync()
-                        .get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered
@@ -134,9 +131,7 @@ extension EThree {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
-                    let cards = try self.cardManager.searchCards(identities: [self.identity])
-                        .startSync()
-                        .get()
+                    let cards = try self.cardManager.searchCards(identities: [self.identity]).startSync().get()
 
                     guard let card = cards.first else {
                         throw EThreeError.userIsNotRegistered

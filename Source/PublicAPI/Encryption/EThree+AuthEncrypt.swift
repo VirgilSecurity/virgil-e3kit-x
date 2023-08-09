@@ -203,8 +203,7 @@ extension EThree {
             pubKeys += publicKeys
         }
 
-        let encryptedData = try self.crypto.authEncrypt(
-            data, with: selfKeyPair.privateKey, for: pubKeys)
+        let encryptedData = try self.crypto.authEncrypt(data, with: selfKeyPair.privateKey, for: pubKeys)
 
         return encryptedData
     }
@@ -218,7 +217,8 @@ extension EThree {
             return try self.crypto.authDecrypt(
                 data,
                 with: selfKeyPair.privateKey,
-                usingOneOf: [publicKey])
+                usingOneOf: [publicKey]
+            )
         } catch VirgilCryptoError.signatureNotVerified {
             throw EThreeError.verificationFailed
         }

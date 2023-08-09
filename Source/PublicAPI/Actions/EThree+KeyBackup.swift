@@ -67,8 +67,7 @@ extension EThree {
     ///   - keyName: optional name of the key. Can be used to create additional key backup
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    public func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void>
-    {
+    public func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -76,7 +75,8 @@ extension EThree {
                 try self.cloudKeyManager.store(
                     key: identityKeyPair.privateKey,
                     keyName: keyName,
-                    usingPassword: password)
+                    usingPassword: password
+                )
 
                 completion((), nil)
             } catch {
@@ -92,17 +92,14 @@ extension EThree {
     ///   - password: String with password
     ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    public func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<
-        Void
-    > {
+    public func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 guard try !self.localKeyStorage.exists() else {
                     throw EThreeError.privateKeyExists
                 }
 
-                let entry = try self.cloudKeyManager.retrieve(
-                    usingPassword: password, keyName: keyName)
+                let entry = try self.cloudKeyManager.retrieve(usingPassword: password, keyName: keyName)
 
                 let card = try self.lookupManager.lookupCard(of: self.identity)
 
@@ -125,8 +122,7 @@ extension EThree {
     ///   - newOne: new password
     ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    public func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil)
-        -> GenericOperation<Void>
+    public func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void>
     {
         return CallbackOperation { _, completion in
             do {

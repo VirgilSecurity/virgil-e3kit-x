@@ -53,7 +53,8 @@ internal class RepeatingTimer {
 
         timer.schedule(
             deadline: .now() + startAfter,
-            repeating: interval)
+            repeating: interval
+        )
 
         timer.setEventHandler(handler: handler)
 

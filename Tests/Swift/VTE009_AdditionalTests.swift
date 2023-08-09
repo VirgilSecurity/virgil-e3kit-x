@@ -58,13 +58,13 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let configFileUrl = Bundle.module.url(
-            forResource: "EThreeValidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(forResource: "EThreeValidConfig", withExtension: "plist")!
 
         let params = try! EThreeParams(
             identity: identity,
             tokenCallback: tokenCallback,
-            configUrl: configFileUrl)
+            configUrl: configFileUrl
+        )
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 1_600)
@@ -79,14 +79,14 @@ class VTE008_AdditionalTests: XCTestCase {
             completion("token", nil)
         }
 
-        let configFileUrl = Bundle.module.url(
-            forResource: "EThreeInvalidConfig", withExtension: "plist")!
+        let configFileUrl = Bundle.module.url(forResource: "EThreeInvalidConfig", withExtension: "plist")!
 
         do {
             _ = try EThreeParams(
                 identity: identity,
                 tokenCallback: tokenCallback,
-                configUrl: configFileUrl)
+                configUrl: configFileUrl
+            )
         } catch EThreeParamsError.unknownKeyInConfig {} catch {
             XCTFail()
         }
@@ -104,7 +104,8 @@ class VTE008_AdditionalTests: XCTestCase {
         let params = try! EThreeParams(
             identity: identity,
             tokenCallback: tokenCallback,
-            configUrl: configFileUrl)
+            configUrl: configFileUrl
+        )
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 3_600)
@@ -122,7 +123,8 @@ class VTE008_AdditionalTests: XCTestCase {
 
         let params = EThreeParams(
             initialJwt: initialJwt,
-            tokenCallback: tokenCallback)
+            tokenCallback: tokenCallback
+        )
 
         let ethree = try! EThree(params: params)
 

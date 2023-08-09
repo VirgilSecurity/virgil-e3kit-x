@@ -90,11 +90,9 @@ internal class SQLiteCardStorage {
     }
 
     private func adaptSelectCardByIdentities(identitiesCount: Int) -> String {
-        let replacementStr = [String].init(repeating: "?", count: identitiesCount).joined(
-            separator: ",")
+        let replacementStr = [String].init(repeating: "?", count: identitiesCount).joined(separator: ",")
 
-        return CardsStatement.selectCardByIdentities.rawValue.replacingOccurrences(
-            of: "?", with: replacementStr)
+        return CardsStatement.selectCardByIdentities.rawValue.replacingOccurrences(of: "?", with: replacementStr)
     }
 
     private let crypto: VirgilCrypto
@@ -105,16 +103,15 @@ internal class SQLiteCardStorage {
         return self.db.path
     }
 
-    internal init(
-        appGroup: String?, userIdentifier: String, crypto: VirgilCrypto, verifier: CardVerifier
-    ) throws {
+    internal init(appGroup: String?, userIdentifier: String, crypto: VirgilCrypto, verifier: CardVerifier) throws {
         self.crypto = crypto
         self.verifier = verifier
         self.db = try SQLiteDB(
             appGroup: appGroup,
             prefix: "VIRGIL_SQLITE",
             userIdentifier: userIdentifier,
-            name: "cards.sqlite")
+            name: "cards.sqlite"
+        )
 
         try self.db.executeNoResult(statement: CardsStatement.createTable.rawValue)
         try self.db.executeNoResult(statement: CardsStatement.createIndexId.rawValue)
@@ -136,7 +133,8 @@ internal class SQLiteCardStorage {
                     value1: c.identifier,
                     value2: c.identity,
                     value3: c.isOutdated,
-                    value4: data)
+                    value4: data
+                )
 
                 try self.db.executeNoResult(statement: stmt)
 
@@ -144,8 +142,7 @@ internal class SQLiteCardStorage {
                 currentCard = c.previousCard
                 continue
             } else if let c = previousCard, let previousCardId = c.previousCardId {
-                let stmt = try self.db.generateStmt(
-                    statement: CardsStatement.markOutdatedById.rawValue)
+                let stmt = try self.db.generateStmt(statement: CardsStatement.markOutdatedById.rawValue)
 
                 try self.db.bindIn(stmt: stmt, value1: true, value2: previousCardId)
 
@@ -178,7 +175,8 @@ internal class SQLiteCardStorage {
         let card = try CardManager.importCard(
             fromData: cardData,
             crypto: self.crypto,
-            cardVerifier: self.verifier)
+            cardVerifier: self.verifier
+        )
 
         card.isOutdated = outdated
 
@@ -221,7 +219,8 @@ internal class SQLiteCardStorage {
             let card = try CardManager.importCard(
                 fromData: cardData,
                 crypto: self.crypto,
-                cardVerifier: self.verifier)
+                cardVerifier: self.verifier
+            )
 
             cards.append(card)
         }

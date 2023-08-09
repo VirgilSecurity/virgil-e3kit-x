@@ -55,9 +55,7 @@ extension EThree {
     /// Uses provided Private Key to publish Card to Virgil Cards Service. Saves Private Key in local storage
     ///
     /// - Parameter keyPair: Key Pair to publish Card with
-    @objc open func register(
-        with keyPair: VirgilKeyPair, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func register(with keyPair: VirgilKeyPair, completion: @escaping (_ error: Error?) -> Void) {
         self.register(with: keyPair).start { _, error in
             completion(error)
         }
@@ -93,9 +91,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func backupPrivateKey(
-        password: String, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func backupPrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.backupPrivateKey(password: password).start { _, error in
             completion(error)
         }
@@ -108,9 +104,7 @@ extension EThree {
     ///   - password: String with password
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func restorePrivateKey(
-        password: String, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func restorePrivateKey(password: String, completion: @escaping (_ error: Error?) -> Void) {
         self.restorePrivateKey(password: password).start { _, error in
             completion(error)
         }
@@ -124,7 +118,8 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc open func changePassword(
-        from oldOne: String, to newOne: String,
+        from oldOne: String,
+        to newOne: String,
         completion: @escaping (_ error: Error?) -> Void
     ) {
         self.changePassword(from: oldOne, to: newOne).start { _, error in
@@ -265,9 +260,7 @@ extension EThree {
     ///   - keyName: name of the key
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func resetPrivateKeyBackup(
-        keyName: String, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func resetPrivateKeyBackup(keyName: String, completion: @escaping (_ error: Error?) -> Void) {
         self.resetPrivateKeyBackup(keyName: keyName).start { _, error in
             completion(error)
         }
@@ -387,8 +380,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc(deleteGroupWithStringId:completion:)
-    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void)
-    {
+    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }
@@ -581,9 +573,7 @@ extension EThree {
     ///   - name: name of channel
     @available(swift, obsoleted: 1.0)
     @objc(getRatchetChannelWithParticipant:name:)
-    public func getRatchetChannelObjc(with participant: String, name: String? = nil)
-        -> RatchetChannel?
-    {
+    public func getRatchetChannelObjc(with participant: String, name: String? = nil) -> RatchetChannel? {
         try? self.getRatchetChannel(with: participant, name: name)
     }
 
@@ -641,8 +631,7 @@ extension EThree {
             _ error: Error?
         ) -> Void
     ) {
-        self.loadTemporaryChannel(asCreator: asCreator, with: identity).start(
-            completion: completion)
+        self.loadTemporaryChannel(asCreator: asCreator, with: identity).start(completion: completion)
     }
 
     /// Returns cached temporary channel
@@ -658,9 +647,7 @@ extension EThree {
     ///   - identity: identity of participant
     ///   - completion: completion handler
     ///   - error: corresponding error
-    @objc open func deleteTemporaryChannel(
-        with identity: String, completion: @escaping (_ error: Error?) -> Void
-    ) {
+    @objc open func deleteTemporaryChannel(with identity: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteTemporaryChannel(with: identity).start { _, error in
             completion(error)
         }

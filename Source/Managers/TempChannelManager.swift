@@ -72,13 +72,15 @@ internal class TempChannelManager {
             appGroup: appGroup,
             identity: identity,
             crypto: crypto,
-            identityKeyPair: keyPair)
+            identityKeyPair: keyPair
+        )
 
         self.cloudStorage = CloudTempKeysStorage(
             identity: identity,
             accessTokenProvider: accessTokenProvider,
             crypto: crypto,
-            keyknoxServiceUrl: keyknoxServiceUrl)
+            keyknoxServiceUrl: keyknoxServiceUrl
+        )
     }
 }
 
@@ -90,9 +92,7 @@ extension TempChannelManager {
 
         do {
             try self.cloudStorage.store(tempKeyPair.privateKey, for: identity)
-        } catch let error as ServiceError
-            where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue
-        {
+        } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.invalidPreviousHash.rawValue {
             throw TemporaryChannelError.channelAlreadyExists
         }
 
@@ -100,7 +100,8 @@ extension TempChannelManager {
             participant: identity,
             participantPublicKey: tempKeyPair.publicKey,
             selfPrivateKey: selfKeyPair.privateKey,
-            crypto: self.crypto)
+            crypto: self.crypto
+        )
 
         try self.localStorage.store(tempKeyPair.publicKey, identity: identity)
 
@@ -133,7 +134,8 @@ extension TempChannelManager {
             participant: identity,
             participantPublicKey: publicKey,
             selfPrivateKey: privateKey,
-            crypto: self.crypto)
+            crypto: self.crypto
+        )
     }
 
     internal func getLocalChannel(with identity: String) throws -> TemporaryChannel? {
@@ -157,7 +159,8 @@ extension TempChannelManager {
             participant: identity,
             participantPublicKey: publicKey,
             selfPrivateKey: privateKey,
-            crypto: self.crypto)
+            crypto: self.crypto
+        )
     }
 
     internal func delete(with identity: String) throws {

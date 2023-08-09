@@ -81,7 +81,8 @@ import VirgilSDKPythia
             identity: identity,
             enableRatchet: false,
             keyPairType: keyPairType,
-            keyRotationInterval: 0)
+            keyRotationInterval: 0
+        )
 
         if register {
             try ethree.register(with: keyPair).startSync().get()
@@ -96,16 +97,17 @@ import VirgilSDKPythia
         return ethree
     }
 
-    public func setupRatchetDevice(keyRotationInterval: TimeInterval = Defaults.keyRotationInterval)
-        throws -> (EThree, Card)
-    {
+    public func setupRatchetDevice(keyRotationInterval: TimeInterval = Defaults.keyRotationInterval) throws -> (
+        EThree, Card
+    ) {
         let identity = UUID().uuidString
 
         let ethree = try self.setupEThree(
             identity: identity,
             enableRatchet: true,
             keyPairType: .ed25519,
-            keyRotationInterval: keyRotationInterval)
+            keyRotationInterval: keyRotationInterval
+        )
 
         try ethree.register().startSync().get()
 
@@ -149,7 +151,8 @@ import VirgilSDKPythia
             identity: identity,
             storageParams: storageParams,
             enableRatchet: false,
-            keyRotationInterval: 0)
+            keyRotationInterval: 0
+        )
     }
 
     @objc public func deprecatedSetupEThree(storageParams: KeychainStorageParams) throws -> EThree {
@@ -184,7 +187,8 @@ import VirgilSDKPythia
             apiPublicKeyIdentifier: self.config.ApiKeyId,
             crypto: self.crypto,
             appId: self.config.AppId,
-            ttl: ttl)
+            ttl: ttl
+        )
 
         let jwt = try! generator.generateToken(identity: identity)
 
@@ -201,7 +205,8 @@ import VirgilSDKPythia
             identity: identity,
             publicKey: exportedPublicKey,
             previousCardId: previousCardId,
-            createdAt: Date())
+            createdAt: Date()
+        )
         let snapshot = try! content.snapshot()
 
         let rawCard = RawSignedModel(contentSnapshot: snapshot)
@@ -216,7 +221,8 @@ import VirgilSDKPythia
             accessTokenProvider: provider,
             serviceUrl: serviceUrl,
             connection: nil,
-            retryConfig: ExpBackoffRetry.Config())
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         let signer = ModelSigner(crypto: self.crypto)
 
@@ -247,7 +253,8 @@ import VirgilSDKPythia
             accessTokenProvider: provider,
             serviceUrl: serviceUrls.pythiaServiceUrl,
             connection: connection,
-            retryConfig: retryConfig)
+            retryConfig: retryConfig
+        )
 
         let brainKeyContext = try! BrainKeyContext(client: pythiaClient)
         let brainKey = BrainKey(context: brainKeyContext)
@@ -257,18 +264,21 @@ import VirgilSDKPythia
                 accessTokenProvider: provider,
                 serviceUrl: serviceUrls.keyknoxServiceUrl,
                 connection: connection,
-                retryConfig: retryConfig)
+                retryConfig: retryConfig
+            )
 
             let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
 
             let cloudKeyStorage = CloudKeyStorage(
                 keyknoxManager: keyknoxManager,
                 publicKeys: [keyPair!.publicKey],
-                privateKey: keyPair!.privateKey)
+                privateKey: keyPair!.privateKey
+            )
             let syncKeyStorage = SyncKeyStorage(
                 identity: identity,
                 keychainStorage: keychainStorage,
-                cloudKeyStorage: cloudKeyStorage)
+                cloudKeyStorage: cloudKeyStorage
+            )
 
             syncKeyStorage.sync { completion(syncKeyStorage, $0) }
         }
@@ -289,15 +299,14 @@ extension TestUtils {
         let selfSignature2 = card2.signatures.first { $0.signer == "self" }
 
         return card1.identifier == card2.identifier && card1.identity == card2.identity
-            && card1.version == card2.version && card1.isOutdated == card2.isOutdated
-            && card1.createdAt == card2.createdAt && card1.previousCardId == card2.previousCardId
+            && card1.version == card2.version
+            && card1.isOutdated == card2.isOutdated && card1.createdAt == card2.createdAt
+            && card1.previousCardId == card2.previousCardId
             && self.isCardsEqual(card1: card1.previousCard, card2: card2.previousCard)
             && self.isCardSignaturesEqual(signature1: selfSignature1, signature2: selfSignature2)
     }
 
-    @objc public func isCardSignaturesEqual(signature1: CardSignature?, signature2: CardSignature?)
-        -> Bool
-    {
+    @objc public func isCardSignaturesEqual(signature1: CardSignature?, signature2: CardSignature?) -> Bool {
         if signature1 == signature2 {
             return true
         }
@@ -306,8 +315,7 @@ extension TestUtils {
             return false
         }
 
-        return signature1.signer == signature2.signer
-            && signature1.signature == signature2.signature
+        return signature1.signer == signature2.signer && signature1.signature == signature2.signature
             && signature1.snapshot == signature2.snapshot
             && signature1.extraFields == signature2.extraFields
     }

@@ -56,8 +56,7 @@ extension EThree {
         to outputStream: OutputStream,
         for user: Card
     ) throws {
-        try self.authEncrypt(
-            stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
+        try self.authEncrypt(stream, streamSize: streamSize, to: outputStream, for: [user.identity: user])
     }
 
     /// Signs then encrypts stream and signature for users
@@ -78,8 +77,7 @@ extension EThree {
         to outputStream: OutputStream,
         for users: FindUsersResult? = nil
     ) throws {
-        try self.encryptInternal(
-            stream, streamSize: streamSize, to: outputStream, for: users?.map { $1.publicKey })
+        try self.encryptInternal(stream, streamSize: streamSize, to: outputStream, for: users?.map { $1.publicKey })
     }
 
     /// Decrypts stream and signature and verifies signature of sender
@@ -90,9 +88,7 @@ extension EThree {
     ///   - user: sender Card with Public Key to verify with. Use nil to decrypt and verify from self.
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage
-    @objc open func authDecrypt(
-        _ stream: InputStream, to outputStream: OutputStream, from user: Card? = nil
-    ) throws {
+    @objc open func authDecrypt(_ stream: InputStream, to outputStream: OutputStream, from user: Card? = nil) throws {
         try self.decryptInternal(stream, to: outputStream, from: user?.publicKey)
     }
 
@@ -149,7 +145,8 @@ extension EThree {
             streamSize: streamSize,
             to: outputStream,
             with: selfKeyPair.privateKey,
-            for: pubKeys)
+            for: pubKeys
+        )
     }
 
     internal func decryptInternal(
@@ -165,6 +162,7 @@ extension EThree {
             stream,
             to: outputStream,
             with: selfKeyPair.privateKey,
-            usingOneOf: [publicKey])
+            usingOneOf: [publicKey]
+        )
     }
 }

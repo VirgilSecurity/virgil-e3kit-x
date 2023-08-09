@@ -79,7 +79,8 @@ extension EThree {
                 let cards = try self.lookupManager.lookupCards(
                     of: identities,
                     forceReload: forceReload,
-                    checkResult: checkResult)
+                    checkResult: checkResult
+                )
 
                 completion(cards, nil)
             } catch {
@@ -94,8 +95,7 @@ extension EThree {
     ///   - identity: identity to find
     ///   - forceReload: will not use local cached card if true
     /// - Returns: CallbackOperation<Card>
-    public func findUser(with identity: String, forceReload: Bool = false) -> GenericOperation<Card>
-    {
+    public func findUser(with identity: String, forceReload: Bool = false) -> GenericOperation<Card> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.lookupManager.lookupCard(of: identity, forceReload: forceReload)

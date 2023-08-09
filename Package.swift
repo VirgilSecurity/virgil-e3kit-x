@@ -11,15 +11,16 @@ let package = Package(
     products: [
         .library(
             name: "VirgilE3Kit",
-            targets: ["VirgilE3Kit"])
+            targets: ["VirgilE3Kit"]
+        )
     ],
 
     dependencies: [
         .package(
             url: "https://github.com/VirgilSecurity/virgil-pythia-x.git",
-            exact: .init(0, 12, 0, prereleaseIdentifiers: ["dev", "1"])),
-        .package(
-            url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 10, 0)),
+            exact: .init(0, 12, 0, prereleaseIdentifiers: ["dev", "1"])
+        ),
+        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 10, 0)),
     ],
 
     targets: [

@@ -57,7 +57,8 @@ class VTE005_SQLiteTests: XCTestCase {
             for: .applicationSupportDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
-            create: false)
+            create: false
+        )
 
         localUrl.appendPathComponent("VIRGIL_SQLITE")
         localUrl.appendPathComponent(identity)
@@ -65,7 +66,8 @@ class VTE005_SQLiteTests: XCTestCase {
         try FileManager.default.createDirectory(
             at: localUrl,
             withIntermediateDirectories: true,
-            attributes: nil)
+            attributes: nil
+        )
 
         localUrl.appendPathComponent("cards.sqlite")
 
@@ -109,7 +111,8 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         self.checkCardsById(storage: storage)
     }
@@ -147,7 +150,8 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         self.checkCardsByIdentity(storage: storage)
     }
@@ -166,13 +170,15 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity1,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let storage2 = try! SQLiteCardStorage(
             appGroup: nil,
             userIdentifier: identity2,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let cards = try! storage2.searchCards(identities: [self.cIdentity1, self.cIdentity2])
 
@@ -197,13 +203,15 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity1,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let storage2 = try! SQLiteCardStorage(
             appGroup: nil,
             userIdentifier: identity2,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let card1 = try! storage2.getCard(cardId: self.cCardId1)!
 
@@ -236,13 +244,15 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity1,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let storage2 = try! SQLiteCardStorage(
             appGroup: nil,
             userIdentifier: identity2,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let cards = try! storage2.searchCards(identities: [self.cIdentity1, self.cIdentity2])
 
@@ -271,13 +281,15 @@ class VTE005_SQLiteTests: XCTestCase {
             appGroup: nil,
             userIdentifier: identity1,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let storage2 = try! SQLiteCardStorage(
             appGroup: nil,
             userIdentifier: identity2,
             crypto: crypto,
-            verifier: verifier)
+            verifier: verifier
+        )
 
         let cards = try! storage2.searchCards(identities: [self.cIdentity1, self.cIdentity2])
 

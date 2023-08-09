@@ -52,18 +52,18 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
         let ciphertextOutputStream = OutputStream.toMemory()
 
         let fileKeyData = try! ethree.encryptShared(
-            plaintextInputStream, streamSize: plaintextData.count, to: ciphertextOutputStream)
-        let ciphertextData =
-            ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            plaintextInputStream,
+            streamSize: plaintextData.count,
+            to: ciphertextOutputStream
+        )
+        let ciphertextData = ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
 
         // Decrypt.
         let ciphertextInputStream = InputStream(data: ciphertextData)
         let plaintextOutputStream = OutputStream.toMemory()
 
-        try! ethree.decryptShared(
-            ciphertextInputStream, to: plaintextOutputStream, with: fileKeyData)
-        let decryptedPlaintextData =
-            plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+        try! ethree.decryptShared(ciphertextInputStream, to: plaintextOutputStream, with: fileKeyData)
+        let decryptedPlaintextData = plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
         let decryptedPlaintext = String(bytes: decryptedPlaintextData, encoding: .utf8)!
 
         // Check.
@@ -80,9 +80,11 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
         let ciphertextOutputStream = OutputStream.toMemory()
 
         let fileKeyData = try! ethree.encryptShared(
-            plaintextInputStream, streamSize: plaintextData.count, to: ciphertextOutputStream)
-        let ciphertextData =
-            ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            plaintextInputStream,
+            streamSize: plaintextData.count,
+            to: ciphertextOutputStream
+        )
+        let ciphertextData = ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
 
         // Decrypt.
         let ciphertextInputStream = InputStream(data: ciphertextData)
@@ -90,10 +92,12 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
         let selfKeyPair = try! ethree.localKeyStorage.retrieveKeyPair()
 
         try! ethree.decryptShared(
-            ciphertextInputStream, to: plaintextOutputStream, with: fileKeyData,
-            verifyWith: selfKeyPair.publicKey)
-        let decryptedPlaintextData =
-            plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            ciphertextInputStream,
+            to: plaintextOutputStream,
+            with: fileKeyData,
+            verifyWith: selfKeyPair.publicKey
+        )
+        let decryptedPlaintextData = plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
         let decryptedPlaintext = String(bytes: decryptedPlaintextData, encoding: .utf8)!
 
         // Check.
@@ -102,8 +106,7 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
 
     func test03__encrypt_shared__then_decrypt_with_card_verify__should_be_equal() {
         let ethree = try! self.utils.setupDevice()
-        let cards = try! ethree.cardManager.searchCards(identities: [ethree.identity]).startSync()
-            .get()
+        let cards = try! ethree.cardManager.searchCards(identities: [ethree.identity]).startSync().get()
 
         // Encrypt.
         let plaintext = UUID().uuidString
@@ -112,19 +115,23 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
         let ciphertextOutputStream = OutputStream.toMemory()
 
         let fileKeyData = try! ethree.encryptShared(
-            plaintextInputStream, streamSize: plaintextData.count, to: ciphertextOutputStream)
-        let ciphertextData =
-            ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            plaintextInputStream,
+            streamSize: plaintextData.count,
+            to: ciphertextOutputStream
+        )
+        let ciphertextData = ciphertextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
 
         // Decrypt.
         let ciphertextInputStream = InputStream(data: ciphertextData)
         let plaintextOutputStream = OutputStream.toMemory()
 
         try! ethree.decryptShared(
-            ciphertextInputStream, to: plaintextOutputStream, with: fileKeyData,
-            verifyWith: cards.first!)
-        let decryptedPlaintextData =
-            plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            ciphertextInputStream,
+            to: plaintextOutputStream,
+            with: fileKeyData,
+            verifyWith: cards.first!
+        )
+        let decryptedPlaintextData = plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
         let decryptedPlaintext = String(bytes: decryptedPlaintextData, encoding: .utf8)!
 
         // Check.
@@ -147,10 +154,12 @@ class VTE011_EncryptSharedFileTests: XCTestCase {
         let plaintextOutputStream = OutputStream.toMemory()
 
         try! ethree.decryptShared(
-            ciphertextInputStream, to: plaintextOutputStream, with: fileKeyData,
-            verifyWith: senderPublicKey)
-        let decryptedData =
-            plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
+            ciphertextInputStream,
+            to: plaintextOutputStream,
+            with: fileKeyData,
+            verifyWith: senderPublicKey
+        )
+        let decryptedData = plaintextOutputStream.property(forKey: .dataWrittenToMemoryStreamKey) as! Data
         let decryptedPlaintext = String(bytes: decryptedData, encoding: .utf8)!
 
         // Check.

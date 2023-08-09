@@ -73,14 +73,12 @@ internal class LookupManager {
                 let cardIdsChunked = cardIds.chunked(into: self.maxGetOutdatedCount)
 
                 for cardIds in cardIdsChunked {
-                    let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync()
-                        .get()
+                    let outdatedIds = try self.cardManager.getOutdated(cardIds: cardIds).startSync().get()
 
                     for outdatedId in outdatedIds {
                         Log.debug("Cached card with id: \(outdatedId) expired")
 
-                        guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId)
-                        else {
+                        guard let outdatedCard = try self.cardStorage.getCard(cardId: outdatedId) else {
                             throw FindUsersError.missingCachedCard
                         }
 
@@ -88,14 +86,11 @@ internal class LookupManager {
                             changedKeyDelegate.keyChanged(identity: outdatedCard.identity)
                         }
 
-                        let newCard = try self.lookupCard(
-                            of: outdatedCard.identity, forceReload: true)
+                        let newCard = try self.lookupCard(of: outdatedCard.identity, forceReload: true)
 
                         try self.cardStorage.storeCard(newCard)
 
-                        Log.debug(
-                            "Cached card with id: \(outdatedId) updated to card with id \(newCard.identifier)"
-                        )
+                        Log.debug("Cached card with id: \(outdatedId) updated to card with id \(newCard.identifier)")
                     }
                 }
 
@@ -112,9 +107,7 @@ internal class LookupManager {
 }
 
 extension LookupManager {
-    internal func lookupCachedCards(of identities: [String], checkResult: Bool) throws
-        -> FindUsersResult
-    {
+    internal func lookupCachedCards(of identities: [String], checkResult: Bool) throws -> FindUsersResult {
         guard !identities.isEmpty else {
             throw EThreeError.missingIdentities
         }
@@ -176,8 +169,7 @@ extension LookupManager {
             let identitiesChunks = Array(identitiesSet).chunked(into: self.maxSearchCount)
 
             for identities in identitiesChunks {
-                let cards = try self.cardManager.searchCards(identities: identities).startSync()
-                    .get()
+                let cards = try self.cardManager.searchCards(identities: identities).startSync().get()
 
                 for card in cards {
                     guard result[card.identity] == nil else {
@@ -201,8 +193,7 @@ extension LookupManager {
     }
 
     internal func lookupCard(of identity: String, forceReload: Bool = false) throws -> Card {
-        let cards = try self.lookupCards(
-            of: [identity], forceReload: forceReload, checkResult: true)
+        let cards = try self.lookupCards(of: [identity], forceReload: forceReload, checkResult: true)
 
         guard let card = cards[identity] else {
             throw FindUsersError.cardWasNotFound

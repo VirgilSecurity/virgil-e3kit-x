@@ -55,8 +55,7 @@ import Foundation
         case .channelAlreadyExists:
             return "Temporary channel with provided identity already exists."
         case .selfChannelIsForbidden:
-            return
-                "Temporary channel with self is forbidden. Use regular encryption for this purpose."
+            return "Temporary channel with self is forbidden. Use regular encryption for this purpose."
         case .userIsRegistered:
             return """
                     User with provided identity is registered.

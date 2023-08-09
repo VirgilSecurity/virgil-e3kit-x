@@ -82,7 +82,8 @@ extension EThree {
     internal static func getConnection() -> HttpConnection {
         let virgilAdapter = VirgilAgentAdapter(
             product: ProductInfo.name,
-            version: ProductInfo.version)
+            version: ProductInfo.version
+        )
 
         return HttpConnection(adapters: [virgilAdapter])
     }
@@ -104,7 +105,8 @@ extension EThree {
                 modelSigner: modelSigner,
                 privateKey: keyPair.privateKey,
                 publicKey: keyPair.publicKey,
-                identity: self.identity)
+                identity: self.identity
+            )
 
             card = try publishCardCallback(rawCard)
         } else {
@@ -135,7 +137,8 @@ extension EThree {
             keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl,
             lookupManager: self.lookupManager,
             keyPairType: self.keyPairType,
-            keyPair: keyPair)
+            keyPair: keyPair
+        )
     }
 
     private func setupGroupManager(keyPair: VirgilKeyPair) throws {
@@ -143,19 +146,22 @@ extension EThree {
             appGroup: self.appGroup,
             identity: self.identity,
             crypto: self.crypto,
-            identityKeyPair: keyPair)
+            identityKeyPair: keyPair
+        )
 
         let cloudTicketStorage = try CloudTicketStorage(
             accessTokenProvider: self.accessTokenProvider,
             localKeyStorage: self.localKeyStorage,
-            keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl)
+            keyknoxServiceUrl: self.serviceUrls.keyknoxServiceUrl
+        )
 
         self.groupManager = GroupManager(
             localGroupStorage: localGroupStorage,
             cloudTicketStorage: cloudTicketStorage,
             localKeyStorage: self.localKeyStorage,
             lookupManager: self.lookupManager,
-            crypto: self.crypto)
+            crypto: self.crypto
+        )
     }
 
     internal func getGroupManager() throws -> GroupManager {
@@ -176,8 +182,7 @@ extension EThree {
 }
 
 extension EThree {
-    private func setupRatchet(params: PrivateKeyChangedParams? = nil, keyPair: VirgilKeyPair) throws
-    {
+    private func setupRatchet(params: PrivateKeyChangedParams? = nil, keyPair: VirgilKeyPair) throws {
         guard self.enableRatchet else {
             throw EThreeRatchetError.ratchetIsDisabled
         }
@@ -189,9 +194,7 @@ extension EThree {
                 do {
                     try chat.reset().startSync().get()
                 }  // When there's no keys on cloud. Should be fixed on server side.
-                catch let error as ServiceError
-                    where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue
-                {}
+                catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {}
 
                 try self.cloudRatchetStorage.reset()
             }
@@ -217,7 +220,8 @@ extension EThree {
             identityCard: card,
             identityPrivateKey: keyPair.privateKey,
             accessTokenProvider: self.accessTokenProvider,
-            enablePostQuantum: Defaults.enableRatchetPqc)
+            enablePostQuantum: Defaults.enableRatchetPqc
+        )
 
         context.appName = self.appName
         context.appGroup = self.appGroup
@@ -226,7 +230,8 @@ extension EThree {
             accessTokenProvider: self.accessTokenProvider,
             serviceUrl: self.serviceUrls.ratchetServiceUrl,
             connection: EThree.getConnection(),
-            retryConfig: ExpBackoffRetry.Config())
+            retryConfig: ExpBackoffRetry.Config()
+        )
 
         let chat = try SecureChat(context: context)
         self.secureChat = chat
@@ -237,8 +242,7 @@ extension EThree {
     private func scheduleKeysRotation(with chat: SecureChat, startFromNow: Bool) throws {
         let chat = try self.getSecureChat()
 
-        self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow)
-        {
+        self.timer = RepeatingTimer(interval: self.keyRotationInterval, startFromNow: startFromNow) {
             Log.debug("Key rotation started")
             do {
                 let logs = try chat.rotateKeys().startSync().get()
@@ -276,9 +280,7 @@ extension EThree {
             )
             .startSync()
             .get()
-        } catch let error as ServiceError
-            where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue
-        {
+        } catch let error as ServiceError where error.errorCode == ServiceErrorCodes.noKeyDataForUser.rawValue {
             throw EThreeRatchetError.userIsNotUsingRatchet
         }
     }

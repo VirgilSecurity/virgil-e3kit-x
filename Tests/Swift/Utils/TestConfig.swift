@@ -81,7 +81,8 @@ import VirgilE3Kit
                 cardServiceUrl: cardServiceUrl,
                 pythiaServiceUrl: pythiaServiceUrl,
                 keyknoxServiceUrl: keyknoxServiceUrl,
-                ratchetServiceUrl: ratchetServiceUrl)
+                ratchetServiceUrl: ratchetServiceUrl
+            )
         }
     }
 
