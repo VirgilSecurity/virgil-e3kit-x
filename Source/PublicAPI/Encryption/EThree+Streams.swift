@@ -50,7 +50,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(authEncryptStream:withSize:toStream:forUser:error:)
-    open func authEncrypt(_ stream: InputStream,
+    public func authEncrypt(_ stream: InputStream,
                           streamSize: Int,
                           to outputStream: OutputStream,
                           for user: Card) throws {
@@ -69,7 +69,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(authEncryptStream:withSize:toStream:forUsers:error:)
-    open func authEncrypt(_ stream: InputStream,
+    public func authEncrypt(_ stream: InputStream,
                           streamSize: Int,
                           to outputStream: OutputStream,
                           for users: FindUsersResult? = nil) throws {

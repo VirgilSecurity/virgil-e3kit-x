@@ -53,7 +53,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage to sign stream
     @objc(encryptSharedStream:withSize:toStream:error:)
-    open func encryptShared(_ stream: InputStream,
+    public func encryptShared(_ stream: InputStream,
                             streamSize: Int,
                             to outputStream: OutputStream) throws -> Data {
 
@@ -78,7 +78,7 @@ extension EThree {
     ///   - senderCard: sender Card with Public Key to verify with
     /// - Throws: corresponding error
     @objc(decryptSharedStream:toStream:with:verifyWithSenderCard:error:)
-    open func decryptShared(_ stream: InputStream,
+    public func decryptShared(_ stream: InputStream,
                             to outputStream: OutputStream,
                             with privateKeyData: Data,
                             verifyWith senderCard: Card) throws {
@@ -96,7 +96,7 @@ extension EThree {
     /// - Throws: corresponding error
     /// - Important: Requires private key in local storage, if senderPublicKey is not given
     @objc(decryptSharedStream:toStream:with:verifyWithSenderPublicKey:error:)
-    open func decryptShared(_ stream: InputStream,
+    public func decryptShared(_ stream: InputStream,
                             to outputStream: OutputStream,
                             with privateKeyData: Data,
                             verifyWith senderPublicKey: VirgilPublicKey? = nil) throws {

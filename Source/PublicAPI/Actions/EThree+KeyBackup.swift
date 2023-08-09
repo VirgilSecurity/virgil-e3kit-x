@@ -67,7 +67,7 @@ extension EThree {
     ///   - keyName: optional name of the key. Can be used to create additional key backup
     /// - Returns: CallbackOperation<Void>
     /// - Important: Requires private key in local storage
-    open func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
+    public func backupPrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let identityKeyPair = try self.localKeyStorage.retrieveKeyPair()
@@ -90,7 +90,7 @@ extension EThree {
     ///   - password: String with password
     ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    open func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
+    public func restorePrivateKey(password: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 guard try !self.localKeyStorage.exists() else {
@@ -120,7 +120,7 @@ extension EThree {
     ///   - newOne: new password
     ///   - keyName: optional name of the key
     /// - Returns: CallbackOperation<Void>
-    open func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void> {
+    public func changePassword(from oldOne: String, to newOne: String, keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.cloudKeyManager.changePassword(from: oldOne, to: newOne, keyName: keyName)
@@ -134,7 +134,7 @@ extension EThree {
 
     /// Deletes Private Key stored on Virgil's cloud. This will disable user to log in from other devices.
     /// - Parameter keyName: optional name of the key
-    open func resetPrivateKeyBackup(keyName: String? = nil) -> GenericOperation<Void> {
+    public func resetPrivateKeyBackup(keyName: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.cloudKeyManager.delete(keyName: keyName)

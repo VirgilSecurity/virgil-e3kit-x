@@ -57,7 +57,7 @@ extension EThree {
     /// - Parameter password: String with password
     /// - Returns: CallbackOperation<Void>
     @available(*, deprecated, message: "Use resetPrivateKeyBackup without password instead")
-    open func resetPrivateKeyBackup(password: String) -> GenericOperation<Void> {
+    public func resetPrivateKeyBackup(password: String) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 try self.cloudKeyManager.delete(keyName: nil, password: password)

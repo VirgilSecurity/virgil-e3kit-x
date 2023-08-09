@@ -51,7 +51,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(authEncryptData:forUser:error:)
-    open func authEncrypt(data: Data, for user: Card) throws -> Data {
+    public func authEncrypt(data: Data, for user: Card) throws -> Data {
         return try self.authEncrypt(data: data, for: [user.identity: user])
     }
 
@@ -66,7 +66,7 @@ extension EThree {
     /// - Important: Automatically includes self key to recipientsKeys.
     /// - Important: Requires private key in local storage
     @objc(authEncryptText:forUser:error:)
-    open func authEncrypt(text: String, for user: Card) throws -> String {
+    public func authEncrypt(text: String, for user: Card) throws -> String {
         return try self.authEncrypt(text: text, for: [user.identity: user])
     }
 
@@ -78,7 +78,7 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
     @objc(authDecryptData:fromUsers:error:)
-    open func authDecrypt(data: Data, from user: Card? = nil) throws -> Data {
+    public func authDecrypt(data: Data, from user: Card? = nil) throws -> Data {
         return try self.decryptInternal(data: data, from: user?.publicKey)
     }
 
@@ -91,7 +91,7 @@ extension EThree {
     /// - Returns: decrypted Data
     /// - Important: Requires private key in local storage
     @objc(authDecryptData:fromUsers:date:error:)
-    open func authDecrypt(data: Data, from user: Card, date: Date) throws -> Data {
+    public func authDecrypt(data: Data, from user: Card, date: Date) throws -> Data {
         var card = user
 
         while let previousCard = card.previousCard {
@@ -113,7 +113,7 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
     @objc(authDecryptText:fromUser:error:)
-    open func authDecrypt(text: String, from user: Card? = nil) throws -> String {
+    public func authDecrypt(text: String, from user: Card? = nil) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -136,7 +136,7 @@ extension EThree {
     /// - Returns: decrypted String
     /// - Important: Requires private key in local storage
     @objc(authDecryptText:fromUser:date:error:)
-    open func authDecrypt(text: String, from user: Card, date: Date) throws -> String {
+    public func authDecrypt(text: String, from user: Card, date: Date) throws -> String {
         guard let data = Data(base64Encoded: text) else {
             throw EThreeError.strToDataFailed
         }
@@ -163,7 +163,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(authEncryptText:forUsers:error:)
-    open func authEncrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
+    public func authEncrypt(text: String, for users: FindUsersResult? = nil) throws -> String {
         guard let data = text.data(using: .utf8) else {
             throw EThreeError.strToDataFailed
         }
@@ -184,7 +184,7 @@ extension EThree {
     /// - Important: Requires private key in local storage
     /// - Note: Avoid key duplication
     @objc(authEncryptData:forUsers:error:)
-    open func authEncrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
+    public func authEncrypt(data: Data, for users: FindUsersResult? = nil) throws -> Data {
         return try self.encryptInternal(data: data, for: users?.map { $1.publicKey })
     }
 }

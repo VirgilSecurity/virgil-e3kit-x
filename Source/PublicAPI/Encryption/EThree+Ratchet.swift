@@ -45,7 +45,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
-    open func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
+    public func createRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -82,7 +82,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of initiator
     ///   - name: name of channel
-    open func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
+    public func joinRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()
@@ -116,7 +116,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
-    open func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
+    public func getRatchetChannel(with card: Card, name: String? = nil) throws -> RatchetChannel? {
         return try self.getRatchetChannel(with: card.identity, name: name)
     }
 
@@ -124,7 +124,7 @@ extension EThree {
     /// - Parameters:
     ///   - card: Card of participant
     ///   - name: name of channel
-    open func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
+    public func deleteRatchetChannel(with card: Card, name: String? = nil) -> GenericOperation<Void> {
         return self.deleteRatchetChannel(with: card.identity, name: name)
     }
 }
@@ -134,7 +134,7 @@ extension EThree {
     /// - Parameters:
     ///   - identity: participant identity
     ///   - name: name of channel
-    open func createRatchetChannel(with identity: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
+    public func createRatchetChannel(with identity: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.findUser(with: identity).startSync().get()
@@ -151,7 +151,7 @@ extension EThree {
     /// - Parameters:
     ///   - initiator: initiator identity
     ///   - name: name of channel
-    open func joinRatchetChannel(with initiator: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
+    public func joinRatchetChannel(with initiator: String, name: String? = nil) -> GenericOperation<RatchetChannel> {
         return CallbackOperation { _, completion in
             do {
                 let card = try self.findUser(with: initiator).startSync().get()
@@ -168,7 +168,7 @@ extension EThree {
     /// - Parameters:
     ///   - participant: participant identity
     ///   - name: name of channel
-    open func getRatchetChannel(with participant: String, name: String? = nil) throws -> RatchetChannel? {
+    public func getRatchetChannel(with participant: String, name: String? = nil) throws -> RatchetChannel? {
         let secureChat = try self.getSecureChat()
 
         guard let session = secureChat.existingSession(withParticipantIdentity: participant, name: name) else {
@@ -182,7 +182,7 @@ extension EThree {
     /// - Parameters:
     ///   - participant: participant identity
     ///   - name: name of channel
-    open func deleteRatchetChannel(with participant: String, name: String? = nil) -> GenericOperation<Void> {
+    public func deleteRatchetChannel(with participant: String, name: String? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             do {
                 let secureChat = try self.getSecureChat()

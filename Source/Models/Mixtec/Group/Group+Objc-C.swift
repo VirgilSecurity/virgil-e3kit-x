@@ -71,7 +71,7 @@ extension Group {
     ///   - participants: Identities of users to add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func add(participants: [String],
+    public func add(participants: [String],
                   completion: @escaping (_ error: Error?) -> Void) {
         self.add(participants: participants).start { _, error in
             completion(error)
@@ -99,7 +99,7 @@ extension Group {
     ///   - participant: New participant will be able to decrypt all history
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func add(participant: String,
+    public func add(participant: String,
                   completion: @escaping (_ error: Error?) -> Void) {
         self.add(participant: participant).start { _, error in
             completion(error)
@@ -124,7 +124,7 @@ extension Group {
     ///   - participant: participant to re add
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func reAdd(participant: String, completion: @escaping (_ error: Error?) -> Void) {
+    public func reAdd(participant: String, completion: @escaping (_ error: Error?) -> Void) {
         self.reAdd(participant: participant).start { _, error in
             completion(error)
         }
@@ -151,7 +151,7 @@ extension Group {
     ///   - participants: Users to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func remove(participants: [String],
+    public func remove(participants: [String],
                      completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participants: participants).start { _, error in
             completion(error)
@@ -177,7 +177,7 @@ extension Group {
     ///   - participant: User to remove
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func remove(participant: String,
+    public func remove(participant: String,
                      completion: @escaping (_ error: Error?) -> Void) {
         self.remove(participant: participant).start { _, error in
             completion(error)

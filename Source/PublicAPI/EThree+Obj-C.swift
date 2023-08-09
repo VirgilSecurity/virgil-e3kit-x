@@ -260,7 +260,7 @@ extension EThree {
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc(createGroupWithDataId:findResult:completion:)
-    open func createGroup(id identifier: Data,
+    public func createGroup(id identifier: Data,
                           with findResult: FindUsersResult = [:],
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
@@ -276,7 +276,7 @@ extension EThree {
     ///   - group: loaded `Group`
     ///   - error: corresponding error
     @objc(loadGroupWithDataId:initiator:completion:)
-    open func loadGroup(id identifier: Data,
+    public func loadGroup(id identifier: Data,
                         initiator card: Card,
                         completion: @escaping (_ group: Group?,
                                                _ error: Error?) -> Void) {
@@ -290,7 +290,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc(deleteGroupWithDataId:completion:)
-    open func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
+    public func deleteGroup(id identifier: Data, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }
@@ -305,7 +305,7 @@ extension EThree {
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc(createGroupWithStringId:findResult:completion:)
-    open func createGroup(id identifier: String,
+    public func createGroup(id identifier: String,
                           with findResult: FindUsersResult,
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
@@ -318,7 +318,7 @@ extension EThree {
     /// - Returns: Group if exists, nil otherwise
     @available(swift, obsoleted: 1.0)
     @objc(getGroupWithId:)
-    open func getGroupObjc(id identifier: Data) -> Group? {
+    public func getGroupObjc(id identifier: Data) -> Group? {
         try? self.getGroup(id: identifier)
     }
 
@@ -331,7 +331,7 @@ extension EThree {
     ///   - group: loaded `Group`
     ///   - error: corresponding error
     @objc(loadGroupWithStringId:initiator:completion:)
-    open func loadGroup(id identifier: String,
+    public func loadGroup(id identifier: String,
                         initiator card: Card,
                         completion: @escaping (_ group: Group?,
                                                _ error: Error?) -> Void) {
@@ -345,7 +345,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - error: corresponding error
     @objc(deleteGroupWithStringId:completion:)
-    open func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
+    public func deleteGroup(id identifier: String, completion: @escaping (_ error: Error?) -> Void) {
         self.deleteGroup(id: identifier).start { _, error in
             completion(error)
         }
@@ -361,7 +361,7 @@ extension EThree {
     ///   - group: created `Group`
     ///   - error: corresponding error
     @objc(createGroupWithDataId:users:completion:)
-    open func createGroup(id identifier: Data,
+    public func createGroup(id identifier: Data,
                           with users: [String],
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
@@ -377,7 +377,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: created `Group`
     ///   - error: corresponding error
-    open func createGroup(id identifier: String,
+    public func createGroup(id identifier: String,
                           with users: [String],
                           completion: @escaping (_ group: Group?,
                                                  _ error: Error?) -> Void) {
@@ -392,7 +392,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: loaded `Group`
     ///   - error: corresponding error
-    open func loadGroup(id identifier: Data,
+    public func loadGroup(id identifier: Data,
                         initiator: String,
                         completion: @escaping (_ group: Group?,
                                                _ error: Error?) -> Void) {
@@ -407,7 +407,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - group: loaded `Group`
     ///   - error: corresponding error
-    open func loadGroup(id identifier: String,
+    public func loadGroup(id identifier: String,
                         initiator: String,
                         completion: @escaping (_ group: Group?,
                                                _ error: Error?) -> Void) {
@@ -452,7 +452,7 @@ extension EThree {
     ///   - name: name of channel
     @available(swift, obsoleted: 1.0)
     @objc(getRatchetChannelWith:name:)
-    open func getRatchetChannelObjc(with card: Card, name: String? = nil) -> RatchetChannel? {
+    public func getRatchetChannelObjc(with card: Card, name: String? = nil) -> RatchetChannel? {
         try? self.getRatchetChannel(with: card, name: name)
     }
 
@@ -477,7 +477,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - channel: created `RatchetChannel` intance
     ///   - error: corresponding error
-    open func createRatchetChannel(with identity: String,
+    public func createRatchetChannel(with identity: String,
                                    name: String? = nil,
                                    completion: @escaping (_ channel: RatchetChannel?,
                                                           _ error: Error?) -> Void) {
@@ -491,7 +491,7 @@ extension EThree {
     ///   - completion: completion handler
     ///   - channel: `RatchetChannel` intance
     ///   - error: corresponding error
-    open func joinRatchetChannel(with initiator: String,
+    public func joinRatchetChannel(with initiator: String,
                                  name: String? = nil,
                                  completion: @escaping (_ channel: RatchetChannel?,
                                                         _ error: Error?) -> Void) {
@@ -504,7 +504,7 @@ extension EThree {
     ///   - name: name of channel
     @available(swift, obsoleted: 1.0)
     @objc(getRatchetChannelWithParticipant:name:)
-    open func getRatchetChannelObjc(with participant: String, name: String? = nil) -> RatchetChannel? {
+    public func getRatchetChannelObjc(with participant: String, name: String? = nil) -> RatchetChannel? {
         try? self.getRatchetChannel(with: participant, name: name)
     }
 
@@ -514,7 +514,7 @@ extension EThree {
     ///   - name: name of channel
     ///   - completion: completion handler
     ///   - error: corresponding error
-    open func deleteRatchetChannel(with participant: String,
+    public func deleteRatchetChannel(with participant: String,
                                    name: String? = nil,
                                    completion: @escaping (_ error: Error?) -> Void) {
         self.deleteRatchetChannel(with: participant, name: name).start { _, error in
@@ -559,7 +559,7 @@ extension EThree {
     /// - Parameter identity: identity of participant
     @available(swift, obsoleted: 1.0)
     @objc(getTemporaryChannelWith:)
-    open func getTemporaryChannelObjc(with identity: String) -> TemporaryChannel? {
+    public func getTemporaryChannelObjc(with identity: String) -> TemporaryChannel? {
         try? self.getTemporaryChannel(with: identity)
     }
 

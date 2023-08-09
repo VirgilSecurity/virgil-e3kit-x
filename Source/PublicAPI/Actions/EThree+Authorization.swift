@@ -44,7 +44,7 @@ extension EThree {
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
     /// - Returns: CallbackOperation<Void>
-    open func register(with keyPair: VirgilKeyPair? = nil) -> GenericOperation<Void> {
+    public func register(with keyPair: VirgilKeyPair? = nil) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
@@ -72,7 +72,7 @@ extension EThree {
     ///
     /// - Parameter keyPair: `VirgilKeyPair` to publish Card with. Will generate if not specified
     /// - Returns: CallbackOperation<Void>
-    open func register(with keyPair: VirgilKeyPair? = nil,
+    public func register(with keyPair: VirgilKeyPair? = nil,
                        publishCardCallback: @escaping PublishCardCallback) -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
@@ -97,7 +97,7 @@ extension EThree {
     /// and saves new Private Key in local storage
     ///
     /// - Returns: CallbackOperation<Void>
-    open func rotatePrivateKey() -> GenericOperation<Void> {
+    public func rotatePrivateKey() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
@@ -124,7 +124,7 @@ extension EThree {
     /// Revokes Card from Virgil Cards Service, deletes Private Key from local storage
     ///
     /// - Returns: CallbackOperation<Void>
-    open func unregister() -> GenericOperation<Void> {
+    public func unregister() -> GenericOperation<Void> {
         return CallbackOperation { _, completion in
             self.queue.async {
                 do {
@@ -152,7 +152,7 @@ extension EThree {
     ///
     /// - Returns: true if private key exists in keychain storage
     /// - Throws: KeychainStorageError
-    open func hasLocalPrivateKey() throws -> Bool {
+    public func hasLocalPrivateKey() throws -> Bool {
         return try self.localKeyStorage.exists()
     }
 
