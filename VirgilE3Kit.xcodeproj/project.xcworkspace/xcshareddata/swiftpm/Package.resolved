@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "virgil-pythia-x",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/VirgilSecurity/virgil-pythia-x",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "5b8eb3a4a8e891826d8a2c0d00e13a4b246aa596"
+      }
+    },
+    {
       "identity" : "virgil-ratchet-x",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/VirgilSecurity/virgil-ratchet-x",

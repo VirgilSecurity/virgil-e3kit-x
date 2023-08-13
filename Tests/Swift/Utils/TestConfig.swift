@@ -67,16 +67,19 @@ import VirgilE3Kit
 
     @objc public class ServiceUrls: NSObject, Decodable {
         public let Card: String
+        public let Pythia: String
         public let Keyknox: String
         public let Ratchet: String
 
         @objc public func get() -> EThreeParams.ServiceUrls {
             let cardServiceUrl = URL(string: self.Card)!
+            let pythiaServiceUrl = URL(string: self.Pythia)!
             let keyknoxServiceUrl = URL(string: self.Keyknox)!
             let ratchetServiceUrl = URL(string: self.Ratchet)!
 
             return EThreeParams.ServiceUrls(
                 cardServiceUrl: cardServiceUrl,
+                pythiaServiceUrl: pythiaServiceUrl,
                 keyknoxServiceUrl: keyknoxServiceUrl,
                 ratchetServiceUrl: ratchetServiceUrl
             )
