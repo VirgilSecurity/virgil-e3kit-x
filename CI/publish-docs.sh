@@ -44,7 +44,7 @@ git clone -b gh-pages "${REPO_PATH}" --single-branch ${DOCS_DIR}
 INFOPLIST_FILE_PATH="${GITHUB_WORKSPACE}/VirgilE3Kit/Info.plist"
 
 # Define SDK versions
-VIRGIL_SDK_VERSION="v4.0.0"
+VIRGIL_SDK_VERSION="v4.0.1"
 CURRENT_VERSION_DIR="${DOCS_DIR}/${VIRGIL_SDK_VERSION}"
 
 # Generate the HTML documentation.

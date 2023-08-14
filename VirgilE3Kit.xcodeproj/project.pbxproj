@@ -298,13 +298,13 @@
 		9759DFF524768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF624768E9D00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
 		9759DFF724768E9E00C31E8F /* EThreeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 160BE966235BD081008B9D54 /* EThreeConfig.plist */; };
-		F4037E032A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
-		F4037E042A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
-		F4037E052A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
-		F4037E062A841A620013A0CD /* BrainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4037E022A841A620013A0CD /* BrainKey.swift */; };
+		F43238DA2A833F820064F1C1 /* VirgilSDKPythia in Frameworks */ = {isa = PBXBuildFile; productRef = F43238D92A833F820064F1C1 /* VirgilSDKPythia */; };
 		F43238DD2A833FD50064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */; };
+		F43238DF2A833FE10064F1C1 /* VirgilSDKPythia in Frameworks */ = {isa = PBXBuildFile; productRef = F43238DE2A833FE10064F1C1 /* VirgilSDKPythia */; };
 		F43238E12A833FE10064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */; };
+		F43238E32A833FE60064F1C1 /* VirgilSDKPythia in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E22A833FE60064F1C1 /* VirgilSDKPythia */; };
 		F43238E52A833FE60064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */; };
+		F43238E72A833FEF0064F1C1 /* VirgilSDKPythia in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E62A833FEF0064F1C1 /* VirgilSDKPythia */; };
 		F43238E92A833FEF0064F1C1 /* VirgilSDKRatchet in Frameworks */ = {isa = PBXBuildFile; productRef = F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */; };
 		F470425A24E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */; };
 		F470425B24E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */; };
@@ -502,7 +502,6 @@
 		973E09A7287B26FD00F11F3F /* Bundle+SPM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+SPM.swift"; sourceTree = "<group>"; };
 		97532D2626C6BEB200057289 /* VTE004_NamedKeyBakupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTE004_NamedKeyBakupTests.m; sourceTree = "<group>"; };
 		9759DFF124768E7000C31E8F /* compatibility_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = compatibility_data.json; sourceTree = "<group>"; };
-		F4037E022A841A620013A0CD /* BrainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrainKey.swift; sourceTree = "<group>"; };
 		F470425924E3E7B300ECC104 /* VTE012_EncryptSharedFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTE012_EncryptSharedFileTests.swift; sourceTree = "<group>"; };
 		F470425D24E408E700ECC104 /* EThree+StreamShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EThree+StreamShared.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -551,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F43238DD2A833FD50064F1C1 /* VirgilSDKRatchet in Frameworks */,
+				F43238DA2A833F820064F1C1 /* VirgilSDKPythia in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F43238E92A833FEF0064F1C1 /* VirgilSDKRatchet in Frameworks */,
+				F43238E72A833FEF0064F1C1 /* VirgilSDKPythia in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F43238E12A833FE10064F1C1 /* VirgilSDKRatchet in Frameworks */,
+				F43238DF2A833FE10064F1C1 /* VirgilSDKPythia in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +577,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F43238E52A833FE60064F1C1 /* VirgilSDKRatchet in Frameworks */,
+				F43238E32A833FE60064F1C1 /* VirgilSDKPythia in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,7 +842,6 @@
 				16AD62CF22E87A9200CDF90A /* RawGroup.swift */,
 				16AD62DE22E9D34900CDF90A /* GroupInfo.swift */,
 				1632AE9622DCDFB000950B48 /* Ticket.swift */,
-				F4037E022A841A620013A0CD /* BrainKey.swift */,
 			);
 			path = Mixtec;
 			sourceTree = "<group>";
@@ -1030,6 +1032,7 @@
 			);
 			name = "VirgilE3Kit iOS";
 			packageProductDependencies = (
+				F43238D92A833F820064F1C1 /* VirgilSDKPythia */,
 				F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */,
 			);
 			productName = "E3Kit iOS";
@@ -1051,6 +1054,7 @@
 			);
 			name = "VirgilE3Kit watchOS";
 			packageProductDependencies = (
+				F43238E62A833FEF0064F1C1 /* VirgilSDKPythia */,
 				F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */,
 			);
 			productName = "E3Kit watchOS";
@@ -1072,6 +1076,7 @@
 			);
 			name = "VirgilE3Kit macOS";
 			packageProductDependencies = (
+				F43238DE2A833FE10064F1C1 /* VirgilSDKPythia */,
 				F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */,
 			);
 			productName = "E3Kit macOS";
@@ -1093,6 +1098,7 @@
 			);
 			name = "VirgilE3Kit tvOS";
 			packageProductDependencies = (
+				F43238E22A833FE60064F1C1 /* VirgilSDKPythia */,
 				F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */,
 			);
 			productName = "E3Kit tvOS";
@@ -1162,6 +1168,7 @@
 			);
 			mainGroup = 16EC37222177938A009D7F00;
 			packageReferences = (
+				F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */,
 				F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */,
 			);
 			productRefGroup = 16EC372F217793BC009D7F00 /* Products */;
@@ -1413,7 +1420,6 @@
 				16AD62D022E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1C2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
 				1665EE1D22E720A500774788 /* LookupManager.swift in Sources */,
-				F4037E032A841A620013A0CD /* BrainKey.swift in Sources */,
 				16532983235F15A500D2C071 /* EThree+Initialize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1425,7 +1431,6 @@
 				1661D7742301ADCD00BC435C /* FindUsersError.swift in Sources */,
 				160BE24A2331087900DD3999 /* EThreeRatchetError.swift in Sources */,
 				1629F5D722D62A8300DB5ECE /* EThree+Mixtec.swift in Sources */,
-				F4037E062A841A620013A0CD /* BrainKey.swift in Sources */,
 				16AD62E822E9FD5400CDF90A /* Array+Chunks.swift in Sources */,
 				16E3387A234E775200678624 /* RatchetChannel.swift in Sources */,
 				16E33883234E7F1E00678624 /* RatchetChannel+Encryption.swift in Sources */,
@@ -1530,7 +1535,6 @@
 				16F9EA14217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D122E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1D2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
-				F4037E042A841A620013A0CD /* BrainKey.swift in Sources */,
 				1665EE1E22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1589,7 +1593,6 @@
 				16F9EA15217890550021FD9A /* EThree.swift in Sources */,
 				16AD62D222E87A9200CDF90A /* RawGroup.swift in Sources */,
 				16F9EA1E2178AED60021FD9A /* EThree+AuthEncrypt.swift in Sources */,
-				F4037E052A841A620013A0CD /* BrainKey.swift in Sources */,
 				1665EE1F22E720A500774788 /* LookupManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1691,7 +1694,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1711,7 +1714,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
@@ -1745,7 +1748,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1760,7 +1763,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-iOS-Tests";
@@ -1796,7 +1799,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1816,7 +1819,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
@@ -1849,7 +1852,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1863,7 +1866,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-macOS-Tests";
@@ -1894,7 +1897,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1913,7 +1916,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
@@ -1947,7 +1950,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1961,7 +1964,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.VirgilE3Kit-tvOS-Tests";
@@ -1996,7 +1999,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2014,7 +2017,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
@@ -2045,7 +2048,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2058,7 +2061,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-iOS";
@@ -2090,7 +2093,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2107,7 +2110,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
@@ -2139,7 +2142,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2151,7 +2154,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.virgilsecurity.E3Kit-TestApp-tvOS";
@@ -2265,7 +2268,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2296,7 +2299,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2348,7 +2351,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2373,7 +2376,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2425,7 +2428,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2455,7 +2458,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2508,7 +2511,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2532,7 +2535,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2586,7 +2589,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2618,7 +2621,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2670,7 +2673,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2696,7 +2699,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2746,7 +2749,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2776,7 +2779,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2829,7 +2832,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.0.0;
+				CURRENT_PROJECT_VERSION = 4.0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2853,7 +2856,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.virgilsecurity.VirgilE3Kit;
@@ -2997,31 +3000,59 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/VirgilSecurity/virgil-pythia-x";
+			requirement = {
+				kind = exactVersion;
+				version = 0.12.1;
+			};
+		};
 		F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/VirgilSecurity/virgil-ratchet-x";
 			requirement = {
 				kind = exactVersion;
-				version = 0.10.0;
+				version = 0.10.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F43238D92A833F820064F1C1 /* VirgilSDKPythia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */;
+			productName = VirgilSDKPythia;
+		};
 		F43238DC2A833FD50064F1C1 /* VirgilSDKRatchet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
 			productName = VirgilSDKRatchet;
+		};
+		F43238DE2A833FE10064F1C1 /* VirgilSDKPythia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */;
+			productName = VirgilSDKPythia;
 		};
 		F43238E02A833FE10064F1C1 /* VirgilSDKRatchet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
 			productName = VirgilSDKRatchet;
 		};
+		F43238E22A833FE60064F1C1 /* VirgilSDKPythia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */;
+			productName = VirgilSDKPythia;
+		};
 		F43238E42A833FE60064F1C1 /* VirgilSDKRatchet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F43238DB2A833FD50064F1C1 /* XCRemoteSwiftPackageReference "virgil-ratchet-x" */;
 			productName = VirgilSDKRatchet;
+		};
+		F43238E62A833FEF0064F1C1 /* VirgilSDKPythia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F43238D82A833F820064F1C1 /* XCRemoteSwiftPackageReference "virgil-pythia-x" */;
+			productName = VirgilSDKPythia;
 		};
 		F43238E82A833FEF0064F1C1 /* VirgilSDKRatchet */ = {
 			isa = XCSwiftPackageProductDependency;
