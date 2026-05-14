@@ -36,7 +36,6 @@
 
 import Foundation
 import VirgilCrypto
-import VirgilCryptoFoundation
 import VirgilE3Kit
 import VirgilSDK
 
@@ -250,45 +249,10 @@ import VirgilSDK
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
 
-        // Mirror the brainkey protocol used by CloudKeyManager:
-        // blind → harden via service → deblind → seed → key pair
-        let passwordData = Data(password.utf8)
-        let bkClient = BrainkeyClient()
-        try! bkClient.setupDefaults()
-        let blindResult = try! bkClient.blind(password: passwordData)
-
-        let brainkeyHttpClient = BaseClient(
-            accessTokenProvider: provider,
-            serviceUrl: serviceUrls.brainkeyServiceUrl
-        )
-        guard let brainkeyUrl = URL(string: "brainkey", relativeTo: serviceUrls.brainkeyServiceUrl) else {
-            completion(nil, NSError(domain: "VirgilE3Kit", code: -1,
-                                   userInfo: [NSLocalizedDescriptionKey: "brainkey URL construction failed"]))
-            return
-        }
-        let brainkeyParams: [String: Any] = ["blinded_point": blindResult.blindedPoint.base64EncodedString()]
-        let brainkeyRequest = try! ServiceRequest(url: brainkeyUrl, method: .post, params: brainkeyParams)
-        let tokenContext = TokenContext(service: "brainkey", operation: "harden")
-        let brainkeyResponse = try! brainkeyHttpClient
-            .sendWithRetry(brainkeyRequest, retry: ExpBackoffRetry(config: retryConfig), tokenContext: tokenContext)
-            .startSync()
-            .get()
-        guard 200..<300 ~= brainkeyResponse.statusCode,
-              let bodyData = brainkeyResponse.body,
-              let hardenedPointB64 = (try? JSONSerialization.jsonObject(with: bodyData) as? [String: String])?["hardened_point"],
-              let hardenedPoint = Data(base64Encoded: hardenedPointB64) else {
-            completion(nil, NSError(domain: "VirgilE3Kit", code: -1,
-                                   userInfo: [NSLocalizedDescriptionKey: "brainkey service harden failed"]))
-            return
-        }
-
-        let seed = try! bkClient.deblind(
-            password: passwordData,
-            hardenedPoint: hardenedPoint,
-            deblindFactor: blindResult.deblindFactor,
-            keyName: Data("mainkey".utf8)
-        )
-        let keyPair = try! self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
+        // Mirror CloudKeyManager.deriveKeyPair: SHA-256 of domain-separated password+identity.
+        let material = Data(("e3kit-backup\0\(identity)\0\(password)").utf8)
+        let seed = self.crypto.computeHash(for: material, using: .sha256)
+        let keyPair = try! self.crypto.generateKeyPair(ofType: .ed25519, usingSeed: seed)
 
         let keyknoxClient = KeyknoxClient(
             accessTokenProvider: provider,
