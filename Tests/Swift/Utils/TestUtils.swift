@@ -71,7 +71,7 @@ import VirgilSDK
     @objc public func setupDevice(
         identity: String? = nil,
         keyPair: VirgilKeyPair? = nil,
-        keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+        keyPairType: KeyPairType = .curve25519MlKem768Ed25519Falcon,
         register: Bool = true
     ) throws -> EThree {
         let identity = identity ?? UUID().uuidString
@@ -119,7 +119,7 @@ import VirgilSDK
         identity: String,
         storageParams: KeychainStorageParams? = nil,
         enableRatchet: Bool,
-        keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+        keyPairType: KeyPairType = .curve25519MlKem768Ed25519Falcon,
         keyRotationInterval: TimeInterval = Defaults.keyRotationInterval,
         changedKeyDelegate: ChangedKeyDelegate? = nil
     ) throws -> EThree {
