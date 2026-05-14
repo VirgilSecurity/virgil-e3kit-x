@@ -67,21 +67,22 @@ import VirgilE3Kit
 
     @objc public class ServiceUrls: NSObject, Decodable {
         public let Card: String
-        public let Pythia: String
         public let Keyknox: String
         public let Ratchet: String
+        public let Brainkey: String?
 
         @objc public func get() -> EThreeParams.ServiceUrls {
             let cardServiceUrl = URL(string: self.Card)!
-            let pythiaServiceUrl = URL(string: self.Pythia)!
             let keyknoxServiceUrl = URL(string: self.Keyknox)!
             let ratchetServiceUrl = URL(string: self.Ratchet)!
+            let brainkeyServiceUrl = self.Brainkey.flatMap { URL(string: $0) }
+                ?? URL(string: "https://api.virgilsecurity.com")!
 
             return EThreeParams.ServiceUrls(
                 cardServiceUrl: cardServiceUrl,
-                pythiaServiceUrl: pythiaServiceUrl,
                 keyknoxServiceUrl: keyknoxServiceUrl,
-                ratchetServiceUrl: ratchetServiceUrl
+                ratchetServiceUrl: ratchetServiceUrl,
+                brainkeyServiceUrl: brainkeyServiceUrl
             )
         }
     }

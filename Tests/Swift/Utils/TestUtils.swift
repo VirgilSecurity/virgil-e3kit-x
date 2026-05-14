@@ -36,9 +36,9 @@
 
 import Foundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 import VirgilE3Kit
 import VirgilSDK
-import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
     @objc public let crypto: VirgilCrypto
@@ -72,7 +72,7 @@ import VirgilSDKPythia
     @objc public func setupDevice(
         identity: String? = nil,
         keyPair: VirgilKeyPair? = nil,
-        keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+        keyPairType: KeyPairType = .ed25519,
         register: Bool = true
     ) throws -> EThree {
         let identity = identity ?? UUID().uuidString
@@ -120,7 +120,7 @@ import VirgilSDKPythia
         identity: String,
         storageParams: KeychainStorageParams? = nil,
         enableRatchet: Bool,
-        keyPairType: KeyPairType = .curve25519Round5Ed25519Falcon,
+        keyPairType: KeyPairType = .ed25519,
         keyRotationInterval: TimeInterval = Defaults.keyRotationInterval,
         changedKeyDelegate: ChangedKeyDelegate? = nil
     ) throws -> EThree {
@@ -249,39 +249,68 @@ import VirgilSDKPythia
         let serviceUrls = self.config.ServiceUrls.get()
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
-        let pythiaClient = PythiaClient(
+
+        // Mirror the brainkey protocol used by CloudKeyManager:
+        // blind → harden via service → deblind → seed → key pair
+        let passwordData = Data(password.utf8)
+        let bkClient = BrainkeyClient()
+        try! bkClient.setupDefaults()
+        let blindResult = try! bkClient.blind(password: passwordData)
+
+        let brainkeyHttpClient = BaseClient(
             accessTokenProvider: provider,
-            serviceUrl: serviceUrls.pythiaServiceUrl,
+            serviceUrl: serviceUrls.brainkeyServiceUrl
+        )
+        guard let brainkeyUrl = URL(string: "brainkey", relativeTo: serviceUrls.brainkeyServiceUrl) else {
+            completion(nil, NSError(domain: "VirgilE3Kit", code: -1,
+                                   userInfo: [NSLocalizedDescriptionKey: "brainkey URL construction failed"]))
+            return
+        }
+        let brainkeyParams: [String: Any] = ["blinded_point": blindResult.blindedPoint.base64EncodedString()]
+        let brainkeyRequest = try! ServiceRequest(url: brainkeyUrl, method: .post, params: brainkeyParams)
+        let tokenContext = TokenContext(service: "brainkey", operation: "harden")
+        let brainkeyResponse = try! brainkeyHttpClient
+            .sendWithRetry(brainkeyRequest, retry: ExpBackoffRetry(config: retryConfig), tokenContext: tokenContext)
+            .startSync()
+            .get()
+        guard 200..<300 ~= brainkeyResponse.statusCode,
+              let bodyData = brainkeyResponse.body,
+              let hardenedPointB64 = (try? JSONSerialization.jsonObject(with: bodyData) as? [String: String])?["hardened_point"],
+              let hardenedPoint = Data(base64Encoded: hardenedPointB64) else {
+            completion(nil, NSError(domain: "VirgilE3Kit", code: -1,
+                                   userInfo: [NSLocalizedDescriptionKey: "brainkey service harden failed"]))
+            return
+        }
+
+        let seed = try! bkClient.deblind(
+            password: passwordData,
+            hardenedPoint: hardenedPoint,
+            deblindFactor: blindResult.deblindFactor,
+            keyName: Data("mainkey".utf8)
+        )
+        let keyPair = try! self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
+
+        let keyknoxClient = KeyknoxClient(
+            accessTokenProvider: provider,
+            serviceUrl: serviceUrls.keyknoxServiceUrl,
             connection: connection,
             retryConfig: retryConfig
         )
 
-        let brainKeyContext = try! BrainKeyContext(client: pythiaClient)
-        let brainKey = BrainKey(context: brainKeyContext)
+        let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
 
-        brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
-            let keyknoxClient = KeyknoxClient(
-                accessTokenProvider: provider,
-                serviceUrl: serviceUrls.keyknoxServiceUrl,
-                connection: connection,
-                retryConfig: retryConfig
-            )
+        let cloudKeyStorage = CloudKeyStorage(
+            keyknoxManager: keyknoxManager,
+            publicKeys: [keyPair.publicKey],
+            privateKey: keyPair.privateKey
+        )
+        let syncKeyStorage = SyncKeyStorage(
+            identity: identity,
+            keychainStorage: keychainStorage,
+            cloudKeyStorage: cloudKeyStorage
+        )
 
-            let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
-
-            let cloudKeyStorage = CloudKeyStorage(
-                keyknoxManager: keyknoxManager,
-                publicKeys: [keyPair!.publicKey],
-                privateKey: keyPair!.privateKey
-            )
-            let syncKeyStorage = SyncKeyStorage(
-                identity: identity,
-                keychainStorage: keychainStorage,
-                cloudKeyStorage: cloudKeyStorage
-            )
-
-            syncKeyStorage.sync { completion(syncKeyStorage, $0) }
-        }
+        syncKeyStorage.sync { completion(syncKeyStorage, $0) }
     }
 }
 

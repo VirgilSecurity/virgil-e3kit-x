@@ -219,12 +219,12 @@ extension EThree {
         let context = SecureChatContext(
             identityCard: card,
             identityPrivateKey: keyPair.privateKey,
-            accessTokenProvider: self.accessTokenProvider,
-            enablePostQuantum: Defaults.enableRatchetPqc
+            accessTokenProvider: self.accessTokenProvider
         )
 
         context.appName = self.appName
         context.appGroup = self.appGroup
+        context.keyPairType = self.enableRatchetPqc ? .curve25519MlKem768 : .curve25519
 
         context.client = RatchetClient(
             accessTokenProvider: self.accessTokenProvider,
@@ -275,8 +275,7 @@ extension EThree {
         do {
             return try secureChat.startNewSessionAsSender(
                 receiverCard: card,
-                name: name,
-                enablePostQuantum: Defaults.enableRatchetPqc
+                name: name
             )
             .startSync()
             .get()

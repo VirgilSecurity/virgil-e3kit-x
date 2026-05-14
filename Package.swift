@@ -16,8 +16,7 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/VirgilSecurity/virgil-pythia-x.git", exact: .init(0, 12, 1)),
-        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 10, 1)),
+        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 11, 2)),
     ],
 
     targets: [
@@ -25,7 +24,6 @@ let package = Package(
             name: "VirgilE3Kit",
             dependencies: [
                 .product(name: "VirgilSDKRatchet", package: "virgil-ratchet-x"),
-                .product(name: "VirgilSDKPythia", package: "virgil-pythia-x"),
             ],
             path: "Source"
         ),

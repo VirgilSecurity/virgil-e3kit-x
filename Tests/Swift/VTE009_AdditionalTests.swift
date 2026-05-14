@@ -68,7 +68,7 @@ class VTE008_AdditionalTests: XCTestCase {
 
         XCTAssert(params.enableRatchet == false)
         XCTAssert(params.keyRotationInterval == 1_600)
-        XCTAssert(params.keyPairType == .curve25519Round5Ed25519Falcon)
+        XCTAssert(params.keyPairType == .curve25519MlKem768Ed25519Falcon)
         XCTAssert(params.offlineInit == true)
     }
 

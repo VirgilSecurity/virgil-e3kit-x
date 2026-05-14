@@ -197,7 +197,7 @@ import VirgilSDKRatchet
             crypto: crypto,
             accessTokenProvider: accessTokenProvider,
             keyknoxServiceUrl: params.serviceUrls.keyknoxServiceUrl,
-            pythiaServiceUrl: params.serviceUrls.pythiaServiceUrl
+            brainkeyServiceUrl: params.serviceUrls.brainkeyServiceUrl
         )
 
         let sqliteCardStorage = try SQLiteCardStorage(
