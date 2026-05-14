@@ -38,7 +38,6 @@ import Foundation
 import VirgilCrypto
 import VirgilE3Kit
 import VirgilSDK
-import VirgilSDKPythia
 
 @objc(VTETestUtils) public class TestUtils: NSObject {
     @objc public let crypto: VirgilCrypto
@@ -249,39 +248,32 @@ import VirgilSDKPythia
         let serviceUrls = self.config.ServiceUrls.get()
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
-        let pythiaClient = PythiaClient(
+
+        let material = Data(("e3kit-backup\0\(identity)\0\(password)").utf8)
+        let seed = self.crypto.computeHash(for: material, using: .sha512)
+        let keyPair = try! self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
+
+        let keyknoxClient = KeyknoxClient(
             accessTokenProvider: provider,
-            serviceUrl: serviceUrls.pythiaServiceUrl,
+            serviceUrl: serviceUrls.keyknoxServiceUrl,
             connection: connection,
             retryConfig: retryConfig
         )
 
-        let brainKeyContext = try! BrainKeyContext(client: pythiaClient)
-        let brainKey = BrainKey(context: brainKeyContext)
+        let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
 
-        brainKey.generateKeyPair(password: password, brainKeyId: nil) { keyPair, error in
-            let keyknoxClient = KeyknoxClient(
-                accessTokenProvider: provider,
-                serviceUrl: serviceUrls.keyknoxServiceUrl,
-                connection: connection,
-                retryConfig: retryConfig
-            )
+        let cloudKeyStorage = CloudKeyStorage(
+            keyknoxManager: keyknoxManager,
+            publicKeys: [keyPair.publicKey],
+            privateKey: keyPair.privateKey
+        )
+        let syncKeyStorage = SyncKeyStorage(
+            identity: identity,
+            keychainStorage: keychainStorage,
+            cloudKeyStorage: cloudKeyStorage
+        )
 
-            let keyknoxManager = try! KeyknoxManager(keyknoxClient: keyknoxClient)
-
-            let cloudKeyStorage = CloudKeyStorage(
-                keyknoxManager: keyknoxManager,
-                publicKeys: [keyPair!.publicKey],
-                privateKey: keyPair!.privateKey
-            )
-            let syncKeyStorage = SyncKeyStorage(
-                identity: identity,
-                keychainStorage: keychainStorage,
-                cloudKeyStorage: cloudKeyStorage
-            )
-
-            syncKeyStorage.sync { completion(syncKeyStorage, $0) }
-        }
+        syncKeyStorage.sync { completion(syncKeyStorage, $0) }
     }
 }
 

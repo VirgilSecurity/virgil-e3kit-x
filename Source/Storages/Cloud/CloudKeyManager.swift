@@ -37,12 +37,10 @@
 import Foundation
 import VirgilCrypto
 import VirgilSDK
-import VirgilSDKPythia
 
 internal class CloudKeyManager {
     private let identity: String
     private let crypto: VirgilCrypto
-    private let brainKey: BrainKey
     private let keyknoxManager: KeyknoxManager
 
     internal let accessTokenProvider: AccessTokenProvider
@@ -54,8 +52,7 @@ internal class CloudKeyManager {
         identity: String,
         crypto: VirgilCrypto,
         accessTokenProvider: AccessTokenProvider,
-        keyknoxServiceUrl: URL,
-        pythiaServiceUrl: URL
+        keyknoxServiceUrl: URL
     ) throws {
         self.identity = identity
         self.crypto = crypto
@@ -71,21 +68,18 @@ internal class CloudKeyManager {
         )
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
+    }
 
-        let pythiaClient = PythiaClient(
-            accessTokenProvider: self.accessTokenProvider,
-            serviceUrl: pythiaServiceUrl,
-            connection: connection,
-            retryConfig: ExpBackoffRetry.Config()
-        )
-
-        let brainKeyContext = try BrainKeyContext(client: pythiaClient)
-
-        self.brainKey = BrainKey(context: brainKeyContext)
+    // Derives a deterministic key pair from the user's password using SHA-512.
+    // Domain-separated by identity to prevent cross-user key reuse.
+    private func deriveKeyPair(fromPassword password: String) throws -> VirgilKeyPair {
+        let material = Data(("e3kit-backup\0\(self.identity)\0\(password)").utf8)
+        let seed = self.crypto.computeHash(for: material, using: .sha512)
+        return try self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
+        let brainKeyPair = try self.deriveKeyPair(fromPassword: password)
 
         let cloudKeyStorage = CloudKeyStorage(
             keyknoxManager: self.keyknoxManager,
@@ -228,7 +222,7 @@ extension CloudKeyManager {
 
         sleep(2)
 
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
+        let brainKeyPair = try self.deriveKeyPair(fromPassword: newPassword)
 
         do {
             try cloudKeyStorage.updateRecipients(
@@ -249,7 +243,7 @@ extension CloudKeyManager {
     fileprivate func store(key: VirgilPrivateKey, keyName: String, usingPassword password: String) throws {
         let exportedIdentityKey = try self.crypto.exportPrivateKey(key)
 
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
+        let brainKeyPair = try self.deriveKeyPair(fromPassword: password)
 
         let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
 
@@ -272,7 +266,7 @@ extension CloudKeyManager {
     }
 
     fileprivate func retrieve(usingPassword password: String, keyName: String) throws -> CloudEntry {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: password).startSync().get()
+        let brainKeyPair = try self.deriveKeyPair(fromPassword: password)
 
         do {
             let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
@@ -293,7 +287,7 @@ extension CloudKeyManager {
         to newPassword: String,
         keyName: String
     ) throws {
-        let brainKeyPair = try self.brainKey.generateKeyPair(password: oldPassword).startSync().get()
+        let brainKeyPair = try self.deriveKeyPair(fromPassword: oldPassword)
 
         let keyknoxValue = try self.pullKeyValue(named: keyName, brainKeyPair: brainKeyPair)
 
@@ -303,7 +297,7 @@ extension CloudKeyManager {
 
         sleep(2)
 
-        let newBrainKeyPair = try self.brainKey.generateKeyPair(password: newPassword).startSync().get()
+        let newBrainKeyPair = try self.deriveKeyPair(fromPassword: newPassword)
 
         try self.pushKeyValue(
             named: keyName,

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/VirgilSecurity/virgil-crypto-c.git",
       "state" : {
-        "revision" : "40ae5231264c8f2d79354922fac15d96021aa8b5",
-        "version" : "0.17.1"
+        "revision" : "f6a271fd63f63d7e5993ad65ff7b5aad02540cde",
+        "version" : "0.19.0-rc.14"
       }
     },
     {
@@ -14,17 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/VirgilSecurity/virgil-crypto-x.git",
       "state" : {
-        "revision" : "6334a21c49dafb305666aafc34819314960412de",
-        "version" : "7.0.1"
-      }
-    },
-    {
-      "identity" : "virgil-pythia-x",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/VirgilSecurity/virgil-pythia-x.git",
-      "state" : {
-        "revision" : "6b85da7b8c3bf523df498e66c5bdb63c117be351",
-        "version" : "0.12.1"
+        "revision" : "eb9ff065ee8d32a583f3c1789e95365871248c96",
+        "version" : "7.2.2"
       }
     },
     {
@@ -32,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/VirgilSecurity/virgil-ratchet-x.git",
       "state" : {
-        "revision" : "f5be34003eb9a78743e24479fc85b407a665d9c0",
-        "version" : "0.10.1"
+        "revision" : "4efb725821c795a3677d0687be9c148cd28a51df",
+        "version" : "0.11.1"
       }
     },
     {
@@ -41,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/VirgilSecurity/virgil-sdk-x.git",
       "state" : {
-        "revision" : "53e32c076211a7623f113df49e6f48c8974c9024",
-        "version" : "9.0.1"
+        "revision" : "59b472a3d32ab71aa53af4374c7bd3897a0d14b8",
+        "version" : "9.2.2"
       }
     }
   ],

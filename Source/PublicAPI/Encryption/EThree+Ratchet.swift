@@ -103,8 +103,7 @@ extension EThree {
 
                 let session = try secureChat.startNewSessionAsReceiver(
                     senderCard: card,
-                    ratchetMessage: ticket,
-                    enablePostQuantum: Defaults.enableRatchetPqc
+                    ratchetMessage: ticket
                 )
                 _ = try session.decryptData(from: ticket)
                 try secureChat.storeSession(session)
