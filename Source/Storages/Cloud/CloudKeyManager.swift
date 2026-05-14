@@ -36,12 +36,14 @@
 
 import Foundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 import VirgilSDK
 
 internal class CloudKeyManager {
     private let identity: String
     private let crypto: VirgilCrypto
     private let keyknoxManager: KeyknoxManager
+    private let brainkeyClient: BrainkeyHttpClient
 
     internal let accessTokenProvider: AccessTokenProvider
 
@@ -52,7 +54,8 @@ internal class CloudKeyManager {
         identity: String,
         crypto: VirgilCrypto,
         accessTokenProvider: AccessTokenProvider,
-        keyknoxServiceUrl: URL
+        keyknoxServiceUrl: URL,
+        brainkeyServiceUrl: URL
     ) throws {
         self.identity = identity
         self.crypto = crypto
@@ -68,13 +71,36 @@ internal class CloudKeyManager {
         )
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
+
+        self.brainkeyClient = BrainkeyHttpClient(
+            accessTokenProvider: accessTokenProvider,
+            serviceUrl: brainkeyServiceUrl
+        )
     }
 
-    // Derives a deterministic key pair from the user's password using SHA-512.
-    // Domain-separated by identity to prevent cross-user key reuse.
+    // Derives a key pair from the user's password via the virgil-services-brainkey v2 protocol:
+    // client blinds the password locally, server hardens with a per-identity secret,
+    // client deblinds to obtain a 32-byte seed, then generates a curve25519 key pair from that seed.
+    // v3 brainkey will add DLEQ proof verification of the server response
+    // but will not change the value of the hardened_point.
     private func deriveKeyPair(fromPassword password: String) throws -> VirgilKeyPair {
-        let material = Data(("e3kit-backup\0\(self.identity)\0\(password)").utf8)
-        let seed = self.crypto.computeHash(for: material, using: .sha512)
+        let passwordData = Data(password.utf8)
+
+        let bkClient = BrainkeyClient()
+        try bkClient.setupDefaults()
+
+        let blindResult = try bkClient.blind(password: passwordData)
+
+        let hardenedPoint = try self.brainkeyClient.harden(blindedPoint: blindResult.blindedPoint)
+
+        let keyName = Data("mainkey".utf8)
+        let seed = try bkClient.deblind(
+            password: passwordData,
+            hardenedPoint: hardenedPoint,
+            deblindFactor: blindResult.deblindFactor,
+            keyName: keyName
+        )
+
         return try self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
     }
 

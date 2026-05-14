@@ -78,19 +78,27 @@ import VirgilSDKRatchet
         /// Ratchet service URL
         @objc public var ratchetServiceUrl: URL
 
+        /// Brainkey service URL (virgil-services-brainkey v2)
+        @objc public var brainkeyServiceUrl: URL
+
         /// Init
         /// - Parameters:
         ///   - cardServiceUrl: Card service URL
         ///   - keyknoxServiceUrl: Keyknox service URL
         ///   - ratchetServiceUrl: Ratchet service URL
+        ///   - brainkeyServiceUrl: Brainkey service URL
+        // swiftlint:disable force_unwrapping
         @objc public init(
             cardServiceUrl: URL,
             keyknoxServiceUrl: URL,
-            ratchetServiceUrl: URL
+            ratchetServiceUrl: URL,
+            brainkeyServiceUrl: URL = URL(string: "https://api.virgilsecurity.com")!
         ) {
+        // swiftlint:enable force_unwrapping
             self.cardServiceUrl = cardServiceUrl
             self.keyknoxServiceUrl = keyknoxServiceUrl
             self.ratchetServiceUrl = ratchetServiceUrl
+            self.brainkeyServiceUrl = brainkeyServiceUrl
         }
     }
 
@@ -216,7 +224,8 @@ import VirgilSDKRatchet
         self.serviceUrls = ServiceUrls(
             cardServiceUrl: CardClient.defaultURL,
             keyknoxServiceUrl: KeyknoxClient.defaultURL,
-            ratchetServiceUrl: RatchetClient.defaultURL
+            ratchetServiceUrl: RatchetClient.defaultURL,
+            brainkeyServiceUrl: BrainkeyHttpClient.defaultURL
         )
 
         super.init()
