@@ -76,16 +76,24 @@ The ObjC `test04_STE_18` ("reset with password") tested the deprecated
 covers the same deprecated path; `test04_STE_18` covers the modern
 `resetPrivateKeyBackup()` which uses `keyknoxManager.resetValue()`.
 
-## Brainkey integration coverage
+## Key derivation: SHA-512 (local)
 
-Before this migration, `BrainkeyHttpClient.harden` was only covered by ObjC tests
-that were excluded from SPM/CI. After this migration, every CI run exercises the
-full brainkey v2 round-trip:
+`CloudKeyManager.deriveKeyPair` currently uses a local SHA-512 hash of
+`"e3kit-backup\0<identity>\0<password>"` as the key seed. This is the approach
+used before pythia was removed from `virgil-crypto-c 0.19.x`.
 
+The `virgil-services-brainkey` v2 service (OPRF-based hardening) exists and
+`BrainkeyHttpClient` is implemented, but the service is not yet deployed on the
+API gateway — `POST https://api.virgilsecurity.com/brainkey` returns HTTP 404.
+Until it is deployed and the config updated, the SHA-512 local derivation is used.
+
+Every CI run exercises the full backup/restore lifecycle:
 ```
-BrainkeyClient.blind(password)
-  → POST api.virgilsecurity.com/brainkey
-  → BrainkeyClient.deblind(...)
+crypto.computeHash("e3kit-backup\0<identity>\0<password>", sha512)
   → crypto.generateKeyPair(ofType: .curve25519, usingSeed:)
   → Keyknox store/retrieve
 ```
+
+When the brainkey service is deployed, re-enable `BrainkeyHttpClient.harden`
+in `CloudKeyManager.deriveKeyPair` and update `TestUtils.setUpSyncKeyStorage`
+to match.
