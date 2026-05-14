@@ -224,6 +224,7 @@ extension EThree {
 
         context.appName = self.appName
         context.appGroup = self.appGroup
+        context.keyPairType = self.enableRatchetPqc ? .curve25519MlKem768 : .curve25519
 
         context.client = RatchetClient(
             accessTokenProvider: self.accessTokenProvider,
