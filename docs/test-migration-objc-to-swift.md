@@ -78,9 +78,11 @@ covers the same deprecated path; `test04_STE_18` covers the modern
 
 ## Key derivation: SHA-512 (local)
 
-`CloudKeyManager.deriveKeyPair` currently uses a local SHA-512 hash of
-`"e3kit-backup\0<identity>\0<password>"` as the key seed. This is the approach
-used before pythia was removed from `virgil-crypto-c 0.19.x`.
+`CloudKeyManager.deriveKeyPair` currently uses a local SHA-256 hash of
+`"e3kit-backup\0<identity>\0<password>"` as the key seed, generating an `ed25519`
+key pair. `ed25519` is required because `KeyknoxCrypto.encrypt` signs data with
+the private key; `curve25519` (X25519) is key-agreement-only and triggers
+`vscf_key_signer_is_implemented` assertion failure when used for signing.
 
 The `virgil-services-brainkey` v2 service (OPRF-based hardening) exists and
 `BrainkeyHttpClient` is implemented, but the service is not yet deployed on the
@@ -89,9 +91,9 @@ Until it is deployed and the config updated, the SHA-512 local derivation is use
 
 Every CI run exercises the full backup/restore lifecycle:
 ```
-crypto.computeHash("e3kit-backup\0<identity>\0<password>", sha512)
-  → crypto.generateKeyPair(ofType: .curve25519, usingSeed:)
-  → Keyknox store/retrieve
+crypto.computeHash("e3kit-backup\0<identity>\0<password>", sha256)
+  → crypto.generateKeyPair(ofType: .ed25519, usingSeed:)
+  → Keyknox sign-and-encrypt / decrypt-and-verify
 ```
 
 When the brainkey service is deployed, re-enable `BrainkeyHttpClient.harden`

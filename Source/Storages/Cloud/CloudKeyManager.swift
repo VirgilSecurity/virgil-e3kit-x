@@ -70,14 +70,16 @@ internal class CloudKeyManager {
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
     }
 
-    // Derives a deterministic curve25519 key pair from the user's password using SHA-512.
+    // Derives a deterministic ed25519 key pair from the user's password using SHA-256.
+    // ed25519 is required because KeyknoxCrypto.encrypt signs data with the private key
+    // (curve25519/X25519 is key-agreement only and cannot sign).
     // Domain-separated by identity to prevent cross-user key reuse.
     // NOTE: replace with the virgil-services-brainkey v2 network protocol once that service
     // is deployed — the OPRF-based approach prevents offline brute-force attacks on backups.
     private func deriveKeyPair(fromPassword password: String) throws -> VirgilKeyPair {
         let material = Data(("e3kit-backup\0\(self.identity)\0\(password)").utf8)
-        let seed = self.crypto.computeHash(for: material, using: .sha512)
-        return try self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
+        let seed = self.crypto.computeHash(for: material, using: .sha256)
+        return try self.crypto.generateKeyPair(ofType: .ed25519, usingSeed: seed)
     }
 
     internal func setUpCloudKeyStorage(password: String) throws -> CloudKeyStorage {

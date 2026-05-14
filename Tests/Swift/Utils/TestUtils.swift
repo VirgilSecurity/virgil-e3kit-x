@@ -249,10 +249,10 @@ import VirgilSDK
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
 
-        // Mirror CloudKeyManager.deriveKeyPair: SHA-512 of domain-separated password+identity.
+        // Mirror CloudKeyManager.deriveKeyPair: SHA-256 of domain-separated password+identity.
         let material = Data(("e3kit-backup\0\(identity)\0\(password)").utf8)
-        let seed = self.crypto.computeHash(for: material, using: .sha512)
-        let keyPair = try! self.crypto.generateKeyPair(ofType: .curve25519, usingSeed: seed)
+        let seed = self.crypto.computeHash(for: material, using: .sha256)
+        let keyPair = try! self.crypto.generateKeyPair(ofType: .ed25519, usingSeed: seed)
 
         let keyknoxClient = KeyknoxClient(
             accessTokenProvider: provider,
