@@ -1,8 +1,6 @@
 # Virgil E3Kit Objective-C/Swift
 
-[![Build Status](https://api.travis-ci.com/VirgilSecurity/virgil-e3kit-x.svg?branch=master)](https://travis-ci.com/VirgilSecurity/virgil-e3kit-x)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/VirgilE3Kit.svg)](https://cocoapods.org/pods/VirgilE3Kit)
-[![Platform](https://img.shields.io/cocoapods/p/VirgilE3Kit.svg?style=flat)](https://cocoapods.org/pods/VirgilE3Kit)
+[![Build Status](https://github.com/VirgilSecurity/virgil-e3kit-x/actions/workflows/tests.yml/badge.svg)](https://github.com/VirgilSecurity/virgil-e3kit-x/actions/workflows/tests.yml)
 [![SPM compatible](https://img.shields.io/badge/Swift_Package_Manager-compatible-green.svg?style=flat)](https://www.swift.org/package-manager)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 [![API Reference](https://img.shields.io/badge/API%20reference-e3kit--x-green)](https://virgilsecurity.github.io/virgil-e3kit-x/)
@@ -30,7 +28,7 @@
 - Access to encrypted data from multiple user devices
 - Perfect forward secrecy with the Double Ratchet algorithm
 - Encryption for unregistered users
-- Post-quantum algorithms support: [Round5](https://round5.org/) (encryption), [Falcon](https://falcon-sign.info/) (signature)
+- Post-quantum algorithms support: ML-KEM-768 (encryption), [Falcon](https://falcon-sign.info/) (signature)
 
 
 ## Installation
@@ -53,6 +51,22 @@ You can find the code samples for Objective-C/Swift here:
 | [`iOS Demo`](https://github.com/VirgilSecurity/demo-e3kit-ios) | 
 
 You can run the demo to see how to initialize the SDK, register users and encrypt messages using E3Kit.
+
+## Upgrading from v4.x
+
+**Cloud key backup (password-protected private key) is not compatible between v4.x and v5.0.**
+
+v5.0 switches the backup key derivation from the legacy Pythia protocol to the OPRF brainkey v3 protocol with DLEQ proof verification. These protocols produce different encryption keys, so a backup created by v4.x cannot be restored by v5.0 and vice versa.
+
+**Migration steps for your users:**
+
+1. Upgrade the SDK to v5.0.
+2. After login, call `backupPrivateKey(password:)` to create a new backup under the new protocol.
+3. The old v4.x backup entry on Keyknox will remain but is no longer accessible — it can be cleaned up by calling `resetPrivateKeyBackup()` before step 2.
+
+Users who cannot re-backup (e.g. lost access to their device) must re-register with a new key pair.
+
+> **Note:** CocoaPods support was dropped in this release. Swift Package Manager is the only supported distribution method. See the [Installation](#installation) section.
 
 ## License
 
