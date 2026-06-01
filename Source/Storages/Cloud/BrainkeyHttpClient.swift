@@ -35,6 +35,7 @@
 //
 
 import Foundation
+import VirgilCryptoFoundation
 import VirgilSDK
 
 internal enum BrainkeyHttpClientError: Int, LocalizedError {
@@ -48,24 +49,27 @@ internal enum BrainkeyHttpClientError: Int, LocalizedError {
     }
 }
 
-// Client for the virgil-services-brainkey v2 /brainkey endpoint.
-// POST {"blinded_point": <base64>} → {"hardened_point": <base64>}
-// v3 will add DLEQ proof verification but will not change the hardened_point value.
 internal class BrainkeyHttpClient: BaseClient {
     // swiftlint:disable force_unwrapping
     internal static let defaultURL = URL(string: "https://api.virgilsecurity.com")!
     // swiftlint:enable force_unwrapping
 
-    private struct HardenResponse: Decodable {
+    internal struct HardenV3Response: Decodable {
         private enum CodingKeys: String, CodingKey {
             case hardenedPoint = "hardened_point"
+            case serverPublicKey = "server_public_key"
+            case proofValueC = "proof_value_c"
+            case proofValueS = "proof_value_s"
         }
 
         let hardenedPoint: Data
+        let serverPublicKey: Data
+        let proofValueC: Data
+        let proofValueS: Data
     }
 
-    internal func harden(blindedPoint: Data) throws -> Data {
-        guard let url = URL(string: "brainkey", relativeTo: self.serviceUrl) else {
+    internal func harden(blindedPoint: Data) throws -> HardenV3Response {
+        guard let url = URL(string: "brainkey/v3/harden", relativeTo: self.serviceUrl) else {
             throw BrainkeyHttpClientError.constructingUrl
         }
 
@@ -85,8 +89,6 @@ internal class BrainkeyHttpClient: BaseClient {
         .startSync()
         .get()
 
-        let hardenResponse: HardenResponse = try self.processResponse(response)
-
-        return hardenResponse.hardenedPoint
+        return try self.processResponse(response)
     }
 }

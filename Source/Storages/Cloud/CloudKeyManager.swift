@@ -36,12 +36,14 @@
 
 import Foundation
 import VirgilCrypto
+import VirgilCryptoFoundation
 import VirgilSDK
 
 internal class CloudKeyManager {
     private let identity: String
     private let crypto: VirgilCrypto
     private let keyknoxManager: KeyknoxManager
+    private let brainkeyHttpClient: BrainkeyHttpClient
 
     internal let accessTokenProvider: AccessTokenProvider
 
@@ -52,7 +54,8 @@ internal class CloudKeyManager {
         identity: String,
         crypto: VirgilCrypto,
         accessTokenProvider: AccessTokenProvider,
-        keyknoxServiceUrl: URL
+        keyknoxServiceUrl: URL,
+        brainkeyServiceUrl: URL
     ) throws {
         self.identity = identity
         self.crypto = crypto
@@ -68,17 +71,38 @@ internal class CloudKeyManager {
         )
 
         self.keyknoxManager = try KeyknoxManager(keyknoxClient: keyknoxClient)
+
+        self.brainkeyHttpClient = BrainkeyHttpClient(
+            accessTokenProvider: accessTokenProvider,
+            serviceUrl: brainkeyServiceUrl,
+            connection: connection
+        )
     }
 
-    // Derives a deterministic ed25519 key pair from the user's password using SHA-256.
-    // ed25519 is required because KeyknoxCrypto.encrypt signs data with the private key
-    // (curve25519/X25519 is key-agreement only and cannot sign).
-    // Domain-separated by identity to prevent cross-user key reuse.
-    // NOTE: replace with the virgil-services-brainkey v2 network protocol once that service
-    // is deployed — the OPRF-based approach prevents offline brute-force attacks on backups.
     private func deriveKeyPair(fromPassword password: String) throws -> VirgilKeyPair {
-        let material = Data(("e3kit-backup\0\(self.identity)\0\(password)").utf8)
-        let seed = self.crypto.computeHash(for: material, using: .sha256)
+        let brainkeyClient = BrainkeyClient()
+        try brainkeyClient.setupDefaults()
+
+        let blindResult = try brainkeyClient.blind(password: Data(password.utf8))
+
+        let resp = try self.brainkeyHttpClient.harden(blindedPoint: blindResult.blindedPoint)
+
+        let valid = try brainkeyClient.verify(
+            blindedPoint: blindResult.blindedPoint,
+            hardenedPoint: resp.hardenedPoint,
+            serverPublicKey: resp.serverPublicKey,
+            proofValueC: resp.proofValueC,
+            proofValueS: resp.proofValueS
+        )
+        guard valid else { throw EThreeError.wrongPassword }
+
+        let seed = try brainkeyClient.deblind(
+            password: Data(password.utf8),
+            hardenedPoint: resp.hardenedPoint,
+            deblindFactor: blindResult.deblindFactor,
+            keyName: Data("e3kit-backup".utf8)
+        )
+
         return try self.crypto.generateKeyPair(ofType: .ed25519, usingSeed: seed)
     }
 
