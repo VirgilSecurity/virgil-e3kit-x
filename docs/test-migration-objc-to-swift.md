@@ -76,26 +76,33 @@ The ObjC `test04_STE_18` ("reset with password") tested the deprecated
 covers the same deprecated path; `test04_STE_18` covers the modern
 `resetPrivateKeyBackup()` which uses `keyknoxManager.resetValue()`.
 
-## Key derivation: SHA-512 (local)
+## Key derivation: OPRF brainkey protocol with DLEQ
 
-`CloudKeyManager.deriveKeyPair` currently uses a local SHA-256 hash of
-`"e3kit-backup\0<identity>\0<password>"` as the key seed, generating an `ed25519`
-key pair. `ed25519` is required because `KeyknoxCrypto.encrypt` signs data with
-the private key; `curve25519` (X25519) is key-agreement-only and triggers
-`vscf_key_signer_is_implemented` assertion failure when used for signing.
+`CloudKeyManager.deriveKeyPair` uses the full OPRF brainkey v3 protocol:
 
-The `virgil-services-brainkey` v2 service (OPRF-based hardening) exists and
-`BrainkeyHttpClient` is implemented, but the service is not yet deployed on the
-API gateway — `POST https://api.virgilsecurity.com/brainkey` returns HTTP 404.
-Until it is deployed and the config updated, the SHA-512 local derivation is used.
+1. `BrainkeyClient.blind(password:)` — blinds the password locally, producing
+   `(deblindFactor, blindedPoint)`
+2. `BrainkeyHttpClient.harden(blindedPoint:)` — POSTs to `POST /brainkey`, receives
+   `(hardenedPoint, serverPublicKey, proofValueC, proofValueS)`
+3. `BrainkeyClient.verify(...)` — verifies the DLEQ proof inside `BrainkeyHttpClient.harden`
+   before returning; throws `dleqVerificationFailed` if proof is invalid
+4. `BrainkeyClient.deblind(password:hardenedPoint:deblindFactor:keyName:)` — produces
+   the 32-byte seed, domain-separated by `"e3kit-backup"`
+5. `VirgilCrypto.generateKeyPair(ofType: .ed25519, usingSeed:)` — produces the
+   Keyknox encryption/signing key pair
 
-Every CI run exercises the full backup/restore lifecycle:
-```
-crypto.computeHash("e3kit-backup\0<identity>\0<password>", sha256)
-  → crypto.generateKeyPair(ofType: .ed25519, usingSeed:)
-  → Keyknox sign-and-encrypt / decrypt-and-verify
-```
+`ed25519` is required because `KeyknoxCrypto.encrypt` signs data with the private key;
+`curve25519` (X25519) is key-agreement-only and triggers `vscf_key_signer_is_implemented`
+assertion failure when used for signing.
 
-When the brainkey service is deployed, re-enable `BrainkeyHttpClient.harden`
-in `CloudKeyManager.deriveKeyPair` and update `TestUtils.setUpSyncKeyStorage`
-to match.
+The DLEQ proof authenticates that the server applied the same identity secret `x` to
+produce both `serverPublicKey = x·G` and `hardenedPoint = x·blindedPoint`. This prevents
+server impersonation and ensures offline brute-force of stolen Keyknox backups requires a
+server roundtrip per guess.
+
+The `virgil-services-brainkey` Go service has been updated to generate DLEQ proofs
+(`ComputePublicKey` + `Prove` from `foundation.BrainkeyServer`) and must be deployed and
+registered at the Virgil API gateway for CI to pass.
+
+`TestUtils.setUpSyncKeyStorage` retains local SHA-256 derivation — it is an ObjC
+compatibility helper that is not called by the Swift test suite.

@@ -249,7 +249,8 @@ import VirgilSDK
         let connection = HttpConnection()
         let retryConfig = ExpBackoffRetry.Config()
 
-        // Mirror CloudKeyManager.deriveKeyPair: SHA-256 of domain-separated password+identity.
+        // SHA-256 derivation kept for this ObjC-compatibility helper; it is not called by the
+        // Swift test suite (which uses the high-level EThree API backed by the OPRF protocol).
         let material = Data(("e3kit-backup\0\(identity)\0\(password)").utf8)
         let seed = self.crypto.computeHash(for: material, using: .sha256)
         let keyPair = try! self.crypto.generateKeyPair(ofType: .ed25519, usingSeed: seed)
