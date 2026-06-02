@@ -16,7 +16,7 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 11, 2)),
+        .package(url: "https://github.com/VirgilSecurity/virgil-ratchet-x.git", exact: .init(0, 11, 3)),
     ],
 
     targets: [
